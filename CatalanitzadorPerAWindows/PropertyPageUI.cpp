@@ -105,16 +105,7 @@ void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, LPWSTR pTitle)
 	m_page.lParam = (LPARAM) this;
 	m_page.pfnCallback = NULL;
 	m_page.pcRefParent  = NULL;
-	
-	/*if (nID)
-	{
-		m_page.dwFlags = m_page.dwFlags | PSP_USETITLE;
-		m_page.pszTitle = pSS->getValue(nID);
-	}	
-	else
-		m_page.pszTitle = NULL;
-		*/
-    
+
 	m_hdle = CreatePropertySheetPage(&m_page);	
 	
 }

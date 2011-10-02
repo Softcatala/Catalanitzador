@@ -44,7 +44,7 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 	
 	switch(msg) 
 	{			
-	    case WM_SYSCOMMAND:  
+		case WM_SYSCOMMAND:  
 		{
 			// Support the closing button
 			if (wParam==SC_CLOSE)
@@ -60,7 +60,7 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 					return 0;							
 				}			
 			}	            		
-            break;
+			break;
 		}
 			
 		
@@ -177,16 +177,16 @@ int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption
 	m_psh.hInstance = hInstance;
 	m_psh.hIcon  = NULL;
 	m_psh.pszIcon  = NULL;	
-    m_psh.nPages = m_vecPages.size();
+	m_psh.nPages = m_vecPages.size();
     m_psh.nStartPage = 0;
-    m_psh.ppsp = (LPCPROPSHEETPAGE) m_pages;
-    m_psh.pfnCallback = m_pCallback;    
+	m_psh.ppsp = (LPCPROPSHEETPAGE) m_pages;
+	m_psh.pfnCallback = m_pCallback;    
     
-    if (m_pCallback)
-     	m_psh.dwFlags |= PSH_USECALLBACK;    	
+	if (m_pCallback)
+		m_psh.dwFlags |= PSH_USECALLBACK;    	
     
-    if (!m_bApplyButton)
-    	m_psh.dwFlags |= PSH_NOAPPLYNOW;
+	if (!m_bApplyButton)
+		m_psh.dwFlags |= PSH_NOAPPLYNOW;
     
 	m_psh.pszCaption = pCaption;
 	m_psh.dwFlags |= PSH_MODELESS;	
