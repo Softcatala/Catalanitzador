@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,24 +16,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
-
+ 
 #pragma once
 
-#include <windows.h>
+#include <WinInet.h>
 
-class Action
+class InternetAccess 
 {
 public:
-		virtual wchar_t* GetName() = 0;
-		virtual wchar_t* GetDescription() = 0;
-		virtual bool Download() {return false;}
-		virtual bool IsNeed() = 0;
-		virtual void Execute() = 0;
-		virtual void Result() = 0;
+		InternetAccess ();
+		~InternetAccess ();
 
-protected:
-		wchar_t* GetStringFromResourceIDName(int nID, wchar_t* string);
+		bool GetFile (wchar_t* URL, wchar_t* file);
 
-		TCHAR szName[MAX_LOADSTRING];
+private:
+		HINTERNET hInternet;
 };
-

@@ -40,6 +40,9 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	for (unsigned int i = 0; i < m_actions.size (); i++)
 	{
 		Action* action = m_actions.at(i);
+
+		if (action->IsNeed () == false)
+			continue;
 		
 		item.iItem=i;
 		item.pszText= action->GetName ();

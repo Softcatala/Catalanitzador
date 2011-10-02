@@ -19,7 +19,15 @@
 
 #include "stdafx.h"
 #include "WindowsLPIAction.h"
+#include "InternetAccess.h"
 
+#include <string.h>
+#include <stdio.h>
+
+WindowsLPIAction::WindowsLPIAction ()
+{
+	m_installed = false;
+}
 
 wchar_t* WindowsLPIAction::GetName()
 {
@@ -29,6 +37,35 @@ wchar_t* WindowsLPIAction::GetName()
 wchar_t* WindowsLPIAction::GetDescription()
 {
 	return NULL;
+}
+
+BOOL CALLBACK WindowsLPIAction::EnumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam)
+{
+	if (wcsstr (lpUILanguageString, L"ca-ES") != NULL)
+	{
+		WindowsLPIAction* instance = (WindowsLPIAction *) lParam; 
+		instance->m_installed = true;
+		return FALSE;
+	}
+	return TRUE;
+}
+
+bool WindowsLPIAction::IsNeed()
+{
+	EnumUILanguages(EnumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);
+	return true;
+	//return m_installed;
+}
+
+bool WindowsLPIAction::Download()
+{
+	InternetAccess inetacccess;
+
+	inetacccess.GetFile (
+		L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/LIPsetup.msi&id=3468&mirall=softcatala2&versio=2.0&so=win32",
+		L"LIPsetup.msi");
+
+	return true;
 }
 
 void WindowsLPIAction::Execute()

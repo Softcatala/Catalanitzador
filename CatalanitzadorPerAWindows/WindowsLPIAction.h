@@ -24,10 +24,19 @@
 class WindowsLPIAction : public Action
 {
 public:
+		WindowsLPIAction ();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
+		virtual bool Download();
+		virtual bool IsNeed();
 		virtual void Execute();
 		virtual void Result();
+
+private:
+		static BOOL CALLBACK WindowsLPIAction::EnumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
+
+		bool m_installed;
+
 };
 

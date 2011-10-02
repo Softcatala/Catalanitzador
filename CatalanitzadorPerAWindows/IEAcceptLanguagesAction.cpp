@@ -32,8 +32,40 @@ wchar_t* IEAcceptedLanguagesAction::GetDescription()
 	return NULL;
 }
 
+bool getRegistryValue(HKEY hKey,
+					  LPCTSTR sName,
+					  LPBYTE pBuffer,
+					  int dwLength)
+{
+	DWORD dwType;
+	DWORD dwLen = dwLength;
+	LONG lResult = RegQueryValueEx(hKey,sName,0,&dwType,(BYTE*)pBuffer,&dwLen);
+	return RegQueryValueEx(hKey,sName,0,&dwType,(BYTE*)pBuffer,&dwLen) == ERROR_SUCCESS && dwType == REG_SZ;
+}
+
+bool IEAcceptedLanguagesAction::IsNeed()
+{
+	HKEY hKey;	
+	TCHAR value[255];
+	bool hasCatalan = false;
+	 
+	if(RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International",0,KEY_READ, &hKey) == ERROR_SUCCESS)
+	{
+		if(getRegistryValue(hKey,L"AcceptLanguage", (LPBYTE) value,  sizeof (value)) != 0)
+		{
+			if (strstr ((char *) value, "ca-ES") != NULL)
+				hasCatalan = true;
+		}
+
+		RegCloseKey(hKey);
+	}	
+	return hasCatalan == false;
+}
+
+
 void IEAcceptedLanguagesAction::Execute()
 {
+
 }
 
 void IEAcceptedLanguagesAction::Result()
