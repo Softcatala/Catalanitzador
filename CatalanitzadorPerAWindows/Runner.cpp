@@ -16,24 +16,29 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
 
-#include "PropertyPageUI.h"
-#include "Action.h"
-#include <vector>
-using namespace std;
+#include "stdafx.h"
+#include "Runner.h"
 
-class ApplicationsPropertyPageUI: public PropertyPageUI
+bool Runner::Execute (wchar_t* program, wchar_t* params)
 {
-public:	
-		
-		virtual void _onInitDialog();
-		virtual void _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
 
-		vector <Action *> GetSelectedActions () { return m_selectedActions;}
-		void SetSelectedActions (vector <Action *> value) {  m_selectedActions =  value;}
-private:
-		vector <Action *> m_actions;
-		vector <Action *> m_selectedActions;
-};
+	ZeroMemory (&si, sizeof (si));
+	si.cb = sizeof(si);
+	ZeroMemory (&pi, sizeof (pi));
+
+	// Start the child process
+	if (!CreateProcess (program, params,         
+		NULL,  NULL,  FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
+	{
+		int error = GetLastError();
+		return false;
+	}
+	
+	// Wait until child process exits
+    WaitForSingleObject (pi.hProcess, INFINITE);
+	return true;
+}
+

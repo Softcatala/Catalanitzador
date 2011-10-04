@@ -34,9 +34,9 @@ public:
 		virtual void Result();
 
 private:
-		static BOOL CALLBACK WindowsLPIAction::EnumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
+		static BOOL CALLBACK WindowsLPIAction::_enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
+		wchar_t* _getPackageName ();
 
 		bool m_installed;
-
 };
 

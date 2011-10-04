@@ -37,19 +37,25 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 	Actions actions;
 	m_actions = actions.GetActions ();
+
+	if (m_actions.size () == 0)
+		return;
+
 	for (unsigned int i = 0; i < m_actions.size (); i++)
 	{
 		Action* action = m_actions.at(i);
 
 		if (action->IsNeed () == false)
 			continue;
-		
+
 		item.iItem=i;
 		item.pszText= action->GetName ();
 		item.lParam =  (LPARAM) action;		
 		ListView_InsertItem(hList, &item);
 		ListView_SetCheckState (hList, 0, true);
 	}
+
+	ListView_SetItemState (hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
 }
 
 void ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
@@ -68,5 +74,5 @@ void ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
 
 	SendDlgItemMessage (getHandle(), IDC_APPLICATION_DESCRIPTION,
 		WM_SETTEXT, (WPARAM) 0, 
-		(LPARAM) action->GetName());
+		(LPARAM) action->GetDescription());
 }

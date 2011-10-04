@@ -19,21 +19,26 @@
  
 #pragma once
 
-#include "PropertyPageUI.h"
-#include "Action.h"
-#include <vector>
-using namespace std;
-
-class ApplicationsPropertyPageUI: public PropertyPageUI
+enum OperatingVersion
 {
-public:	
-		
-		virtual void _onInitDialog();
-		virtual void _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
+	UnKnownOS,
+	WindowsXP,
+	WindowsVista,
+	Windows2000,
+	Windows2008,
+	Windows7,
+	Windows2008R2
+};
 
-		vector <Action *> GetSelectedActions () { return m_selectedActions;}
-		void SetSelectedActions (vector <Action *> value) {  m_selectedActions =  value;}
+class OSVersion 
+{
+public:
+		static OperatingVersion GetVersion ();
+
 private:
-		vector <Action *> m_actions;
-		vector <Action *> m_selectedActions;
+
+		static OperatingVersion _processVistaAnd7 (OSVERSIONINFOEX osvi);
+		static OperatingVersion _processXPAnd2000 (OSVERSIONINFOEX osvi);		
+
+		static OperatingVersion m_version;
 };

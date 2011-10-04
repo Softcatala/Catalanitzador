@@ -35,5 +35,6 @@ protected:
 		wchar_t* GetStringFromResourceIDName(int nID, wchar_t* string);
 
 		TCHAR szName[MAX_LOADSTRING];
+		TCHAR szDescription[MAX_LOADSTRING];
 };
 

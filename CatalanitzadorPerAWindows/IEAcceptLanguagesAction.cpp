@@ -29,7 +29,7 @@ wchar_t* IEAcceptedLanguagesAction::GetName()
 
 wchar_t* IEAcceptedLanguagesAction::GetDescription()
 {
-	return NULL;
+	return GetStringFromResourceIDName (IDS_IEACCEPTEDLANGUAGESACTION_DESCRIPTION, szDescription);	
 }
 
 bool getRegistryValue(HKEY hKey,

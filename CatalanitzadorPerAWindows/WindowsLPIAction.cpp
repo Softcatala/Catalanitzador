@@ -18,11 +18,13 @@
  */
 
 #include "stdafx.h"
-#include "WindowsLPIAction.h"
-#include "InternetAccess.h"
-
 #include <string.h>
 #include <stdio.h>
+
+#include "WindowsLPIAction.h"
+#include "InternetAccess.h"
+#include "OSVersion.h"
+#include "Runner.h"
 
 WindowsLPIAction::WindowsLPIAction ()
 {
@@ -36,10 +38,10 @@ wchar_t* WindowsLPIAction::GetName()
 
 wchar_t* WindowsLPIAction::GetDescription()
 {
-	return NULL;
+	return GetStringFromResourceIDName (IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
 }
 
-BOOL CALLBACK WindowsLPIAction::EnumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam)
+BOOL CALLBACK WindowsLPIAction::_enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam)
 {
 	if (wcsstr (lpUILanguageString, L"ca-ES") != NULL)
 	{
@@ -50,26 +52,59 @@ BOOL CALLBACK WindowsLPIAction::EnumUILanguagesProc(LPTSTR lpUILanguageString, L
 	return TRUE;
 }
 
+wchar_t* WindowsLPIAction::_getPackageName ()
+{
+	OperatingVersion version = OSVersion::GetVersion ();
+
+	switch (version)
+	{
+		case WindowsXP:
+			return L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/LIPsetup.msi&id=3468&mirall=softcatala2&versio=2.0&so=win32";
+		case WindowsVista:		
+			return L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/lip_ca-es.mlc&id=3511&mirall=softcatala2&versio=1.0&so=win32";
+		default:
+			break;
+	}
+	return NULL;
+}
+
+
 bool WindowsLPIAction::IsNeed()
 {
-	EnumUILanguages(EnumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);
-	return true;
-	//return m_installed;
+	if (_getPackageName () == NULL)
+		return false;
+
+	// TODO:
+	//	Does not work with 64-bits Windows
+	//	Only works if you have Windows Spanish or French
+
+	EnumUILanguages(_enumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);
+	return m_installed == false;
 }
+
+static wchar_t filename[MAX_PATH];
 
 bool WindowsLPIAction::Download()
 {
 	InternetAccess inetacccess;
 
-	inetacccess.GetFile (
-		L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/LIPsetup.msi&id=3468&mirall=softcatala2&versio=2.0&so=win32",
-		L"LIPsetup.msi");
+	GetTempPath (MAX_PATH, filename);
+	wcscat_s (filename, L"lip_ca-es.mlc");
 
-	return true;
+	return inetacccess.GetFile (_getPackageName (), filename);
 }
 
 void WindowsLPIAction::Execute()
 {
+	wchar_t szParams[MAX_PATH];
+	Runner runner;
+	
+	// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
+	wcscpy_s (szParams, L" /i ca-ES /r /s /p ");
+	wcscat_s (szParams, filename);
+
+	runner.Execute (L"c:\\windows\\system32\\lpksetup.exe",
+		szParams);
 }
 
 void WindowsLPIAction::Result()

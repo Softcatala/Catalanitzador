@@ -24,7 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
     <None Include="small.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -72,6 +71,15 @@
     <ClInclude Include="InternetAccess.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="OSVersion.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Runner.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InstallPropertyPageUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -103,6 +111,15 @@
     </ClCompile>
     <ClCompile Include="InternetAccess.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="OSVersion.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Runner.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="InstallPropertyPageUI.cpp">
+      <Filter>User Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

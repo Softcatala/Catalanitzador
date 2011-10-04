@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,24 +16,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
 
-#include "PropertyPageUI.h"
+#include "stdafx.h"
+#include "InstallPropertyPageUI.h"
+#include "Actions.h"
 #include "Action.h"
+
 #include <vector>
 using namespace std;
 
-class ApplicationsPropertyPageUI: public PropertyPageUI
+void InstallPropertyPageUI::_onInitDialog()
 {
-public:	
 		
-		virtual void _onInitDialog();
-		virtual void _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
-
-		vector <Action *> GetSelectedActions () { return m_selectedActions;}
-		void SetSelectedActions (vector <Action *> value) {  m_selectedActions =  value;}
-private:
-		vector <Action *> m_actions;
-		vector <Action *> m_selectedActions;
-};
+}

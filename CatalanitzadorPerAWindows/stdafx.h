@@ -20,5 +20,5 @@
 #include <memory.h>
 #include <tchar.h>
 
-#define MAX_LOADSTRING 255
+#define MAX_LOADSTRING 1024
 
