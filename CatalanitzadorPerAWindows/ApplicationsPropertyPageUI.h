@@ -30,10 +30,12 @@ public:
 		
 		virtual void _onInitDialog();
 		virtual void _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
+		virtual	void _onNext();
 
-		vector <Action *> GetSelectedActions () { return m_selectedActions;}
-		void SetSelectedActions (vector <Action *> value) {  m_selectedActions =  value;}
+		vector <Action *> * GetSelectedActions () { return m_selectedActions;}
+		void SetSelectedActions (vector <Action *> * value) {  m_selectedActions =  value;}
 private:
+		HWND hList;
 		vector <Action *> m_actions;
-		vector <Action *> m_selectedActions;
+		vector <Action *> * m_selectedActions;
 };

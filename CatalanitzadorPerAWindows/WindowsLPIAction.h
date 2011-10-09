@@ -31,12 +31,20 @@ public:
 		virtual bool Download();
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual void Result();
+		virtual ActionResult Result();
 
 private:
-		static BOOL CALLBACK WindowsLPIAction::_enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
+		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
+
+		bool DirectoryExists(LPCTSTR szPath);
 		wchar_t* _getPackageName ();
+		void UpdateIsInstalled ();
+		void SetDefaultLanguage ();
+		bool WasLIPInstalled ();
 
 		bool m_installed;
+		wchar_t filename[MAX_PATH];
+		ActionResult result;
+		Runner runner;
 };
 

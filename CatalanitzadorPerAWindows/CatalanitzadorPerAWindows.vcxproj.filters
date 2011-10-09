@@ -80,6 +80,12 @@
     <ClInclude Include="InstallPropertyPageUI.h">
       <Filter>User Interface</Filter>
     </ClInclude>
+    <ClInclude Include="FinishPropertyPageUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Registry.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -120,6 +126,12 @@
     </ClCompile>
     <ClCompile Include="InstallPropertyPageUI.cpp">
       <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="FinishPropertyPageUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Registry.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

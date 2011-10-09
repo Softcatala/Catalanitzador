@@ -28,9 +28,14 @@ class InstallPropertyPageUI: public PropertyPageUI
 {
 public:		
 		virtual void _onInitDialog();
+		virtual	void _onShowWindow();
+		virtual	void _onTimer();
 
-		vector <Action *> GetSelectedActions () { return m_selectedActions;}
-		void SetSelectedActions (vector <Action *> value) {  m_selectedActions =  value;}
+		vector <Action *> * GetSelectedActions () { return m_selectedActions;}
+		void SetSelectedActions (vector <Action *> * value) {  m_selectedActions =  value;}		
+
 private:
-		vector <Action *> m_selectedActions;
+		vector <Action *> * m_selectedActions;
+		HWND hProgressBar;
+		HWND hDescription;
 };

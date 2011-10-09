@@ -22,8 +22,7 @@
 
 bool Runner::Execute (wchar_t* program, wchar_t* params)
 {
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
+	STARTUPINFO si;	
 
 	ZeroMemory (&si, sizeof (si));
 	si.cb = sizeof(si);
@@ -37,8 +36,13 @@ bool Runner::Execute (wchar_t* program, wchar_t* params)
 		return false;
 	}
 	
-	// Wait until child process exits
-    WaitForSingleObject (pi.hProcess, INFINITE);
 	return true;
 }
 
+bool Runner::IsRunning ()
+{
+	DWORD dwStatus;
+
+	GetExitCodeProcess(pi.hProcess, &dwStatus);
+	return dwStatus == STILL_ACTIVE;
+}

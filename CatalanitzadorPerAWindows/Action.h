@@ -21,6 +21,14 @@
 
 #include <windows.h>
 
+enum ActionResult
+{
+	NotStarted,
+	InProgress,
+	Successfull,
+	FinishedWithError
+};
+
 class Action
 {
 public:
@@ -29,7 +37,8 @@ public:
 		virtual bool Download() {return false;}
 		virtual bool IsNeed() = 0;
 		virtual void Execute() = 0;
-		virtual void Result() = 0;
+		virtual ActionResult Result() = 0;
+		// TODO: This action requiere reboot
 
 protected:
 		wchar_t* GetStringFromResourceIDName(int nID, wchar_t* string);

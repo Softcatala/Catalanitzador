@@ -21,6 +21,7 @@
 #include "CatalanitzadorPerAWindows.h"
 #include "PropertyPageUI.h"
 #include "InstallPropertyPageUI.h"
+#include "FinishPropertyPageUI.h"
 #include "PropertySheetUI.h"
 #include "ApplicationsPropertyPageUI.h"
 
@@ -42,20 +43,29 @@ void CreateWizard (HINSTANCE hInstance)
 	PropertyPageUI welcome;
 	ApplicationsPropertyPageUI applications;
 	InstallPropertyPageUI install;
-	PropertyPageUI finish;	
+	FinishPropertyPageUI finish;	
 	vector <Action *> selectedActions;
 	
+	welcome.setParent (&sheet);
+	welcome.setPageButtons (NextButton);
 	welcome.createPage(hInstance, IDD_WELCOME, NULL);
 	sheet.addPage(&welcome);
 
 	applications.createPage(hInstance, IDD_APPLICATIONS, NULL);
-	applications.SetSelectedActions (selectedActions);
+	applications.setParent (&sheet);
+	applications.setPageButtons (NextBackButtons);
+	applications.SetSelectedActions (&selectedActions);
 	sheet.addPage(&applications);
 
+	install.setParent (&sheet);
+	install.setParent (&sheet);
+	install.setPageButtons (NextButton);
+	install.SetSelectedActions (&selectedActions);
 	install.createPage(hInstance, IDD_INSTALL, NULL);
-	install.SetSelectedActions (selectedActions);
 	sheet.addPage(&install);
 
+	finish.setParent (&sheet);
+	finish.setPageButtons (FinishButton);
 	finish.createPage(hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
 

@@ -29,6 +29,6 @@ public:
 		virtual wchar_t* GetDescription();
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual void Result();
+		virtual ActionResult Result();
 };
 

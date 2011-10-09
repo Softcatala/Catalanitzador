@@ -56,6 +56,27 @@ OperatingVersion OSVersion::GetVersion ()
 	return m_version;
 }
 
+bool OSVersion::IsWindows64Bits ()
+{
+	BOOL bIsWow64 = FALSE;
+
+	typedef BOOL (APIENTRY *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
+
+	LPFN_ISWOW64PROCESS fnIsWow64Process;
+
+	HMODULE module = GetModuleHandle(_T("kernel32"));
+	const char funcName[] = "IsWow64Process";
+	fnIsWow64Process = (LPFN_ISWOW64PROCESS) GetProcAddress(module, funcName);
+
+	if(fnIsWow64Process != NULL)
+	{
+		if (!fnIsWow64Process(GetCurrentProcess(),
+                          &bIsWow64))
+		return FALSE;
+	}
+	return bIsWow64 != FALSE;
+}
+
 OperatingVersion OSVersion::_processXPAnd2000 (OSVERSIONINFOEX osvi)
 {
 	if (osvi.dwMinorVersion == 0)
@@ -85,7 +106,7 @@ OperatingVersion OSVersion::_processVistaAnd7 (OSVERSIONINFOEX osvi)
 		if (osvi.wProductType == VER_NT_WORKSTATION)
 			return Windows7;
 		else
-		return Windows2008R2;                
+			return Windows2008R2;                
 	}
 	return UnKnownOS;
 }

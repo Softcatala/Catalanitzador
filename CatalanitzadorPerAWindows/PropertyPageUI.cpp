@@ -19,12 +19,13 @@
 
 #include "stdafx.h"
 #include "PropertyPageUI.h"
+#include "PropertySheetUI.h"
 
 PropertyPageUI::PropertyPageUI()
 {
-	m_pfnDlgProc = s_pageWndProc;	
-	m_pParent = NULL;
+	m_pfnDlgProc = s_pageWndProc;
 	m_hdle = NULL;
+	m_PageButtons = DefaultButtons;
 }
 
 PropertyPageUI::~PropertyPageUI()
@@ -45,12 +46,34 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 	
 	switch(msg) 
 	{
+		case WM_TIMER:
+		{
+			PropertyPageUI* pThis  = (PropertyPageUI *) GetWindowLong (hWnd, DWL_USER);
+			if (pThis != NULL)
+			{			
+				pThis->_onTimer();
+			}
+			break;
+
+		}
+
+		case WM_SHOWWINDOW:
+		{			
+			PropertyPageUI* pThis  = (PropertyPageUI *) GetWindowLong (hWnd, DWL_USER);
+			if (pThis != NULL)
+			{			
+				pThis->_onShowWindow();
+			}
+			break;
+		}
+
 		case WM_INITDIALOG:
 		{	
 			PROPSHEETPAGE*	pStruct = (PROPSHEETPAGE*)lParam;  		
 			PropertyPageUI *pThis = (PropertyPageUI *)pStruct->lParam;
-			SetWindowLong(hWnd,DWL_USER,pStruct->lParam);
+			SetWindowLong(hWnd,DWL_USER, pStruct->lParam);
 			pThis->m_hWnd = hWnd;
+			pThis->_sendSetButtonsMessage();
 			pThis->_onInitDialog();
 			return 0;
 		}		
@@ -67,7 +90,13 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 			{
 				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
 				pThis->_onKillActive();
+			} else if (pNMHDR->code==PSN_WIZNEXT) {				
+				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
+				pThis->_onNext();
+			} else if (pNMHDR->code==PSN_SETACTIVE) {
+				pThis->_sendSetButtonsMessage();
 			}
+			
 			break;
 		}		
 		
@@ -106,6 +135,33 @@ void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, LPWSTR pTitle)
 	m_page.pfnCallback = NULL;
 	m_page.pcRefParent  = NULL;
 
-	m_hdle = CreatePropertySheetPage(&m_page);	
-	
+	m_hdle = CreatePropertySheetPage(&m_page);
+}
+
+void PropertyPageUI::_sendSetButtonsMessage()
+{
+	if (m_PageButtons == DefaultButtons)
+		return;
+
+	int buttons = 0;
+
+	switch (m_PageButtons)
+	{
+		case NextButton:
+			buttons = PSWIZB_NEXT;
+			break;
+		case BackButton:
+			buttons = PSWIZB_BACK;
+			break;
+		case NextBackButtons:
+			buttons = PSWIZB_NEXT | PSWIZB_BACK;
+			break;
+		case FinishButton:
+			buttons |= PSWIZB_FINISH;
+			break;
+		case CancelButton:
+			break;			
+	}
+
+	SendMessage (getParent()->getHandle (), PSM_SETWIZBUTTONS, 0, buttons);
 }

@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +19,19 @@
  
 #pragma once
 
-class Runner
+#include <windows.h>
+
+class Registry
 {
 public:
-		bool Execute(wchar_t* program, wchar_t* params);
-		bool IsRunning ();
+		Registry();
+		~Registry();
 
+		bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess);
+		bool SetString(wchar_t* string, wchar_t* value);
+		bool GetRegistryString(wchar_t* sName, LPBYTE pBuffer, DWORD dwLength);
+		bool Close();
 private:
-		PROCESS_INFORMATION pi;
+
+		HKEY hKey;
 };

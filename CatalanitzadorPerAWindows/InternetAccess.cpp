@@ -22,6 +22,7 @@
 
 InternetAccess::InternetAccess ()
 {
+	// TODO: Consider add support for proxy
 	hInternet = InternetOpen (0, INTERNET_OPEN_TYPE_DIRECT, 0, 0, 0);
 }
 
@@ -36,7 +37,9 @@ bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file)
 	HANDLE hWrite;
 	DWORD dwRead, dwWritten;
 	
-	hFile = InternetOpenUrl(hInternet, URL, NULL, 0, 0, 0);
+	hFile = InternetOpenUrl(hInternet, URL, NULL, 0,		
+		INTERNET_FLAG_RELOAD, // TODO: Debug only, prevents local caching
+		0);
 
 	if (hFile == 0)
 		return false;

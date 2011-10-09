@@ -86,12 +86,14 @@
     <ClInclude Include="Actions.h" />
     <ClInclude Include="ApplicationsPropertyPageUI.h" />
     <ClInclude Include="CatalanitzadorPerAWindows.h" />
+    <ClInclude Include="FinishPropertyPageUI.h" />
     <ClInclude Include="IEAcceptLanguagesAction.h" />
     <ClInclude Include="InstallPropertyPageUI.h" />
     <ClInclude Include="InternetAccess.h" />
     <ClInclude Include="OSVersion.h" />
     <ClInclude Include="PropertyPageUI.h" />
     <ClInclude Include="PropertySheetUI.h" />
+    <ClInclude Include="Registry.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Runner.h" />
     <ClInclude Include="stdafx.h" />
@@ -103,12 +105,14 @@
     <ClCompile Include="Actions.cpp" />
     <ClCompile Include="ApplicationsPropertyPageUI.cpp" />
     <ClCompile Include="CatalanitzadorPerAWindows.cpp" />
+    <ClCompile Include="FinishPropertyPageUI.cpp" />
     <ClCompile Include="IEAcceptLanguagesAction.cpp" />
     <ClCompile Include="InstallPropertyPageUI.cpp" />
     <ClCompile Include="InternetAccess.cpp" />
     <ClCompile Include="OSVersion.cpp" />
     <ClCompile Include="PropertyPageUI.cpp" />
     <ClCompile Include="PropertySheetUI.cpp" />
+    <ClCompile Include="Registry.cpp" />
     <ClCompile Include="Runner.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

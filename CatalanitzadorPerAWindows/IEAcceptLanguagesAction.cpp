@@ -68,8 +68,8 @@ void IEAcceptedLanguagesAction::Execute()
 
 }
 
-void IEAcceptedLanguagesAction::Result()
+ActionResult IEAcceptedLanguagesAction::Result()
 {
-
+	return Successfull;
 }
 

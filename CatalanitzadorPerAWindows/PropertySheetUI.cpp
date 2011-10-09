@@ -43,7 +43,7 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 	PropertySheetUI *pThis = (PropertySheetUI*)GetWindowLong(hWnd, GWL_USERDATA);			
 	
 	switch(msg) 
-	{			
+	{
 		case WM_SYSCOMMAND:  
 		{
 			// Support the closing button
@@ -190,8 +190,12 @@ int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption
     
 	m_psh.pszCaption = pCaption;
 	m_psh.dwFlags |= PSH_MODELESS;	
-	m_hWnd = (HWND)::PropertySheet(&m_psh);	
+	m_hWnd = (HWND)::PropertySheet(&m_psh);
 	EnableWindow(m_psh.hwndParent, FALSE);
+
+	// Set buttons for first page after creation
+	PropertyPageUI* pPage = m_vecPages.at(0);
+	pPage->_sendSetButtonsMessage();
 
 	/* Subclassing */
 	m_lpfnDefSheet = (WHICHPROC)GetWindowLong(m_hWnd, GWL_WNDPROC);

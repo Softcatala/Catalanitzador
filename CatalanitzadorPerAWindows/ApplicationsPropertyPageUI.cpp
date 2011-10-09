@@ -27,7 +27,7 @@ using namespace std;
 
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
-	HWND hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
+	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
 
 	ListView_SetExtendedListViewStyle (hList, LVS_EX_CHECKBOXES);
 
@@ -50,8 +50,8 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 		item.iItem=i;
 		item.pszText= action->GetName ();
-		item.lParam =  (LPARAM) action;		
-		ListView_InsertItem(hList, &item);
+		item.lParam = (LPARAM) action;		
+		ListView_InsertItem (hList, &item);
 		ListView_SetCheckState (hList, 0, true);
 	}
 
@@ -68,11 +68,28 @@ void ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
 	if(pListView->hdr.code != LVN_ITEMCHANGED)
 		return;
 
-	HWND hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
-	
 	Action* action = (Action *)  pListView->lParam;
 
 	SendDlgItemMessage (getHandle(), IDC_APPLICATION_DESCRIPTION,
 		WM_SETTEXT, (WPARAM) 0, 
 		(LPARAM) action->GetDescription());
+}
+
+void ApplicationsPropertyPageUI::_onNext()
+{
+	int items = ListView_GetItemCount (hList);
+
+	for (int i = 0; i < items; ++i)
+	{
+		LVITEM item;
+
+		item.iSubItem = 0;
+		item.iItem = i;
+		item.mask = LVIF_PARAM;
+		item.pszText = 0;
+		item.cchTextMax = 0;
+
+		ListView_GetItem(hList, &item);
+		m_selectedActions->push_back((Action *) item.lParam);
+	}	
 }

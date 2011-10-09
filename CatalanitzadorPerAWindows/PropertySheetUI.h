@@ -34,7 +34,7 @@ using namespace std;
 #define WHICHPROC	FARPROC
 #endif
 
-class  PropertySheetUI
+class PropertySheetUI
 {
 public:
 	PropertySheetUI();		
@@ -48,8 +48,8 @@ public:
 	virtual	void				_onInitDialog(HWND /*hwnd*/){};	
 	virtual void 				destroy(void);
 	virtual void 				cleanup(void);
-	HWND						getHandle(){return m_hWnd;}
-
+ 	HWND						getHandle(){return m_hWnd;}
+	
 	void						setCallBack(PFNPROPSHEETCALLBACK pCallback) {m_pCallback=pCallback;};
 	void						setDialogProc(DLGPROC pfnDlgProc){m_pfnDlgProc=pfnDlgProc;};		
 	void						setApplyButton(bool b){m_bApplyButton=b;};	
@@ -64,7 +64,7 @@ public:
 	int							m_nRslt;
 private:	
 	
-	HWND						m_hWnd;
+	HWND						m_hWnd;	
 	vector <PropertyPageUI *>	m_vecPages;
 	PROPSHEETHEADER				m_psh;	
 	PFNPROPSHEETCALLBACK		m_pCallback;

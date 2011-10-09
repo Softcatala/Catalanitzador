@@ -25,10 +25,12 @@
 #include "InternetAccess.h"
 #include "OSVersion.h"
 #include "Runner.h"
+#include "Registry.h"
 
 WindowsLPIAction::WindowsLPIAction ()
 {
 	m_installed = false;
+	result = NotStarted;
 }
 
 wchar_t* WindowsLPIAction::GetName()
@@ -68,26 +70,34 @@ wchar_t* WindowsLPIAction::_getPackageName ()
 	return NULL;
 }
 
+void WindowsLPIAction::UpdateIsInstalled()
+{
+	m_installed = false;
+
+	// Checks if the Catalan language pack is already installed
+	// This information is also available by checking: SYSTEM\\ControlSet001\\Control\\MUI\\UILanguages\\CA-ES
+	// However, using Windows API is more standard
+
+	EnumUILanguages(_enumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);	
+}
 
 bool WindowsLPIAction::IsNeed()
-{
+{	
 	if (_getPackageName () == NULL)
 		return false;
 
 	// TODO:
 	//	Does not work with 64-bits Windows
-	//	Only works if you have Windows Spanish or French
-
-	EnumUILanguages(_enumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);
+	//	Only works if you have Windows Spanish or French	
+	
+	UpdateIsInstalled();
 	return m_installed == false;
 }
-
-static wchar_t filename[MAX_PATH];
 
 bool WindowsLPIAction::Download()
 {
 	InternetAccess inetacccess;
-
+	
 	GetTempPath (MAX_PATH, filename);
 	wcscat_s (filename, L"lip_ca-es.mlc");
 
@@ -97,18 +107,64 @@ bool WindowsLPIAction::Download()
 void WindowsLPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH];
-	Runner runner;
+	wchar_t lpkapp[MAX_PATH];	
 	
 	// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
 	wcscpy_s (szParams, L" /i ca-ES /r /s /p ");
 	wcscat_s (szParams, filename);
+	
+	GetSystemDirectory(lpkapp, MAX_PATH);
+	wcscat_s (lpkapp, L"\\lpksetup.exe");
 
-	runner.Execute (L"c:\\windows\\system32\\lpksetup.exe",
-		szParams);
+	result = InProgress;
+	runner.Execute (lpkapp,szParams);
 }
 
-void WindowsLPIAction::Result()
+bool WindowsLPIAction::DirectoryExists(LPCTSTR szPath)
 {
+	DWORD dwAttrib = GetFileAttributes(szPath);
 
+	return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+}
+
+// Once the LIP is installed the EnumUILanguages will not signal that the langpack is install until you reboot
+// Additionally there are no system registry keys that indicate if the pack was installed
+// The only proof at this point is checking if the directory was created
+bool WindowsLPIAction::WasLIPInstalled ()
+{
+	wchar_t langpackDir[MAX_PATH];
+	
+	GetWindowsDirectory(langpackDir, MAX_PATH);
+	wcscat_s (langpackDir, L"\\ca-ES");
+		
+	return DirectoryExists (langpackDir);
+}
+
+// After the language package is installed we need to set Catalan as default language
+// The key PreferredUILanguagesPending did not work as expected
+void WindowsLPIAction::SetDefaultLanguage ()
+{	
+	Registry registry;
+	registry.OpenKey (HKEY_CURRENT_USER, L"Control Panel\\Desktop", true);		
+	registry.SetString (L"PreferredUILanguages", L"ca-ES");
+	registry.Close ();
+}
+
+ActionResult WindowsLPIAction::Result()
+{
+	if (result == InProgress)
+	{
+		if (runner.IsRunning())
+			return InProgress;
+			
+		if (WasLIPInstalled ()) {			
+			result = Successfull;
+			SetDefaultLanguage ();
+		}
+		else {	
+			result = FinishedWithError;			
+		}
+	}
+	return result;
 }
 

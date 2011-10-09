@@ -34,6 +34,7 @@ class OSVersion
 {
 public:
 		static OperatingVersion GetVersion ();
+		static bool IsWindows64Bits ();
 
 private:
 
