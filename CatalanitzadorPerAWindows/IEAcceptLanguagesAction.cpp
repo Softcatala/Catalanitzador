@@ -19,8 +19,8 @@
 
 #include "stdafx.h"
 #include "IEAcceptLanguagesAction.h"
-
-// See: HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\International
+#include "Registry.h"
+#include "wchar.h"
 
 wchar_t* IEAcceptedLanguagesAction::GetName()
 {
@@ -44,28 +44,35 @@ bool getRegistryValue(HKEY hKey,
 }
 
 bool IEAcceptedLanguagesAction::IsNeed()
-{
-	HKEY hKey;	
-	TCHAR value[255];
+{	
+	wchar_t szValue[1024];
 	bool hasCatalan = false;
-	 
-	if(RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International",0,KEY_READ, &hKey) == ERROR_SUCCESS)
-	{
-		if(getRegistryValue(hKey,L"AcceptLanguage", (LPBYTE) value,  sizeof (value)) != 0)
-		{
-			if (strstr ((char *) value, "ca-ES") != NULL)
-				hasCatalan = true;
-		}
 
-		RegCloseKey(hKey);
-	}	
+	Registry registry;
+	registry.OpenKey (HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", false);		
+	if (registry.GetString (L"AcceptLanguage", szValue, sizeof (szValue)))
+	{
+		if (wcsstr (szValue, L"ca-ES") != NULL)
+			hasCatalan = true;
+	}
+	registry.Close ();
 	return hasCatalan == false;
 }
 
 
-void IEAcceptedLanguagesAction::Execute()
+void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
 {
+	wchar_t szValue[1024], szNew[1024];
+	Registry registry;
 
+	registry.OpenKey (HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", true);		
+	if (registry.GetString (L"AcceptLanguage", szValue, sizeof (szValue)))
+	{
+			wcscpy_s (szNew, L"ca-ES,");
+			wcscat_s (szNew, szValue);
+			registry.SetString (L"AcceptLanguage", szNew);
+	}
+	registry.Close ();
 }
 
 ActionResult IEAcceptedLanguagesAction::Result()

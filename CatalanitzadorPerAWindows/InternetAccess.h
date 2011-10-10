@@ -20,15 +20,17 @@
 #pragma once
 
 #include <WinInet.h>
+#include "ProgressStatus.h"
 
 class InternetAccess 
 {
 public:
-		InternetAccess ();
-		~InternetAccess ();
-
-		bool GetFile (wchar_t* URL, wchar_t* file);
-
+		InternetAccess();
+		~InternetAccess();
+		
+		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);
 private:
+		int GetFileSize(HINTERNET hRemoteFile);
+
 		HINTERNET hInternet;
 };

@@ -52,7 +52,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		item.pszText= action->GetName ();
 		item.lParam = (LPARAM) action;		
 		ListView_InsertItem (hList, &item);
-		ListView_SetCheckState (hList, 0, true);
+		ListView_SetCheckState (hList, i, true);
 	}
 
 	ListView_SetItemState (hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
@@ -81,6 +81,9 @@ void ApplicationsPropertyPageUI::_onNext()
 
 	for (int i = 0; i < items; ++i)
 	{
+		if (ListView_GetCheckState(hList, i) == FALSE)
+			continue;
+
 		LVITEM item;
 
 		item.iSubItem = 0;

@@ -24,23 +24,43 @@
 #include "FinishPropertyPageUI.h"
 #include "PropertySheetUI.h"
 #include "ApplicationsPropertyPageUI.h"
+#include "WelcomePropertyPageUI.h"
+#include "OSVersion.h"
 
-void CreateWizard (HINSTANCE hInstance);
+void CreateWizard(HINSTANCE hInstance);
+bool SupportedOS();
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPTSTR    lpCmdLine,
                      int       nCmdShow)
 {
-	CreateWizard (hInstance);
-	
+	if (SupportedOS() == true)
+	{
+		CreateWizard (hInstance);
+	}
 	return TRUE;
 }
 
-void CreateWizard (HINSTANCE hInstance)
+bool SupportedOS()
+{
+	if (OSVersion::GetVersion() == Windows2000)
+	{
+		wchar_t szMessage [MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];
+
+		LoadString(GetModuleHandle(NULL), IDS_NOTSUPPORTEDOS, szMessage, MAX_LOADSTRING);
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+		MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
+		return false;
+	}
+	return true;
+}
+
+void CreateWizard(HINSTANCE hInstance)
 {
 	PropertySheetUI sheet;
-	PropertyPageUI welcome;
+	WelcomePropertyPageUI welcome;
 	ApplicationsPropertyPageUI applications;
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;	
@@ -57,7 +77,6 @@ void CreateWizard (HINSTANCE hInstance)
 	applications.SetSelectedActions (&selectedActions);
 	sheet.addPage(&applications);
 
-	install.setParent (&sheet);
 	install.setParent (&sheet);
 	install.setPageButtons (NextButton);
 	install.SetSelectedActions (&selectedActions);

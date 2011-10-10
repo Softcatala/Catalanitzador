@@ -27,10 +27,28 @@
 #include "Runner.h"
 #include "Registry.h"
 
+// There are hacks, and there are ugly hacks.
+// When using a Call the timer does not allow passing an object
+// we need to work statically. It is not to bad since only once instance per application
+// of this property page can be run.
+static ProgressStatus _progress;
+static int nTotal = 3 * 60;
+static int nCurrent;
+static void *_data;
+#define TIMER_ID 2014
+
 WindowsLPIAction::WindowsLPIAction ()
 {
 	m_installed = false;
 	result = NotStarted;
+}
+
+WindowsLPIAction::~WindowsLPIAction ()
+{
+	if (GetFileAttributes (filename) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile (filename);
+	}	
 }
 
 wchar_t* WindowsLPIAction::GetName()
@@ -82,7 +100,7 @@ void WindowsLPIAction::UpdateIsInstalled()
 }
 
 bool WindowsLPIAction::IsNeed()
-{	
+{
 	if (_getPackageName () == NULL)
 		return false;
 
@@ -94,17 +112,31 @@ bool WindowsLPIAction::IsNeed()
 	return m_installed == false;
 }
 
-bool WindowsLPIAction::Download()
+bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
 	InternetAccess inetacccess;
 	
 	GetTempPath (MAX_PATH, filename);
 	wcscat_s (filename, L"lip_ca-es.mlc");
 
-	return inetacccess.GetFile (_getPackageName (), filename);
+	return inetacccess.GetFile (_getPackageName (), filename, progress, data);
 }
 
-void WindowsLPIAction::Execute()
+// We do not really know how much time is this going to take just start by the estimation
+// of nTotal and increase it when we reach the end
+VOID CALLBACK WindowsLPIAction::TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+	nCurrent++;
+
+	// Let's manage user expectations by increasing total by 30%
+	if (nCurrent > nTotal)
+		nTotal = (int) ((double) nCurrent * 1.30);
+
+	_progress (nTotal, nCurrent, _data);
+}
+
+
+void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
 {
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];	
@@ -117,6 +149,10 @@ void WindowsLPIAction::Execute()
 	wcscat_s (lpkapp, L"\\lpksetup.exe");
 
 	result = InProgress;
+	_data = data;
+	_progress = progress;
+	SetTimer(NULL, TIMER_ID, 1000, TimerProc);
+
 	runner.Execute (lpkapp,szParams);
 }
 
@@ -156,14 +192,16 @@ ActionResult WindowsLPIAction::Result()
 	{
 		if (runner.IsRunning())
 			return InProgress;
-			
+		
+		KillTimer (NULL, TIMER_ID);
 		if (WasLIPInstalled ()) {			
-			result = Successfull;
-			SetDefaultLanguage ();
+			result = Successfull;			
 		}
-		else {	
+		else {
 			result = FinishedWithError;			
 		}
+		// TODO: Move under WasLIPInstalled
+		SetDefaultLanguage ();
 	}
 	return result;
 }

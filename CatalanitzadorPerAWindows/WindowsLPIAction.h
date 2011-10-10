@@ -20,21 +20,24 @@
 #pragma once
 
 #include "Action.h"
+#include "Runner.h"
 
 class WindowsLPIAction : public Action
 {
 public:
 		WindowsLPIAction ();
+		~WindowsLPIAction ();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual bool Download();
+		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
-		virtual void Execute();
+		virtual void Execute(ProgressStatus progress, void *data);
 		virtual ActionResult Result();
 
 private:
 		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
+		static VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
 
 		bool DirectoryExists(LPCTSTR szPath);
 		wchar_t* _getPackageName ();

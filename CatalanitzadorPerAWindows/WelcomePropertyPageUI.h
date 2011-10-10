@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,30 +20,17 @@
 #pragma once
 
 #include "PropertyPageUI.h"
-#include "Action.h"
-#include <vector>
-using namespace std;
 
-class InstallPropertyPageUI: public PropertyPageUI
+class WelcomePropertyPageUI: public PropertyPageUI
 {
-public:		
-		virtual void _onInitDialog();
-		virtual	void _onShowWindow();
-		virtual	void _onTimer();
+public:
+		WelcomePropertyPageUI();
+		~WelcomePropertyPageUI();
 
-		vector <Action *> * GetSelectedActions() { return m_selectedActions;}
-		void SetSelectedActions(vector <Action *> * value) { m_selectedActions =  value;}		
+		virtual void _onInitDialog();
 
 private:
-		static void DownloadStatus(int total, int current, void *data);
+		void CreateBoldFont(HWND hWnd);
 
-		void Execute (Action* action);
-		void Download (Action* action);
-		void Completed ();
-
-		vector <Action *> * m_selectedActions;
-		HWND hTotalProgressBar;
-		HWND hTaskProgressBar;
-		HWND hDescription;
-		BOOL ShowWindowOnce;
+		HFONT		m_hFont;
 };

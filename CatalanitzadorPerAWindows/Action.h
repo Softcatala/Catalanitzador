@@ -20,6 +20,8 @@
 #pragma once
 
 #include <windows.h>
+#include "InternetAccess.h"
+#include "ProgressStatus.h"
 
 enum ActionResult
 {
@@ -34,11 +36,10 @@ class Action
 public:
 		virtual wchar_t* GetName() = 0;
 		virtual wchar_t* GetDescription() = 0;
-		virtual bool Download() {return false;}
+		virtual bool Download(ProgressStatus, void *data) {return false;}
 		virtual bool IsNeed() = 0;
-		virtual void Execute() = 0;
+		virtual void Execute(ProgressStatus progress, void *data) = 0;
 		virtual ActionResult Result() = 0;
-		// TODO: This action requiere reboot
 
 protected:
 		wchar_t* GetStringFromResourceIDName(int nID, wchar_t* string);

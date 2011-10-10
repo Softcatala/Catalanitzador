@@ -58,8 +58,7 @@ public:
 
 	virtual int					_onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/){return 1;};
 	virtual	void				_onOK(){}; 
-	virtual	void				_onApply(){}; 
-	virtual	void				_onCancel(){}; 
+	virtual	void				_onApply(){};
 	
 	int							m_nRslt;
 private:	

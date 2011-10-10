@@ -19,31 +19,8 @@
  
 #pragma once
 
-#include "PropertyPageUI.h"
-#include "Action.h"
-#include <vector>
-using namespace std;
-
-class InstallPropertyPageUI: public PropertyPageUI
+class Window
 {
-public:		
-		virtual void _onInitDialog();
-		virtual	void _onShowWindow();
-		virtual	void _onTimer();
-
-		vector <Action *> * GetSelectedActions() { return m_selectedActions;}
-		void SetSelectedActions(vector <Action *> * value) { m_selectedActions =  value;}		
-
-private:
-		static void DownloadStatus(int total, int current, void *data);
-
-		void Execute (Action* action);
-		void Download (Action* action);
-		void Completed ();
-
-		vector <Action *> * m_selectedActions;
-		HWND hTotalProgressBar;
-		HWND hTaskProgressBar;
-		HWND hDescription;
-		BOOL ShowWindowOnce;
+public:
+		static void ProcessMessages();
 };

@@ -19,8 +19,6 @@
  
 #pragma once
 
-#include <windows.h>
-
 class Registry
 {
 public:
@@ -29,7 +27,7 @@ public:
 
 		bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess);
 		bool SetString(wchar_t* string, wchar_t* value);
-		bool GetRegistryString(wchar_t* sName, LPBYTE pBuffer, DWORD dwLength);
+		bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength);
 		bool Close();
 private:
 

@@ -41,7 +41,7 @@ bool Registry::SetString(wchar_t* string, wchar_t* value)
 	return RegSetValueEx(hKey,string,0, REG_SZ,( BYTE*)value, (wcslen (value) +1) * sizeof (wchar_t)) == ERROR_SUCCESS;
 }
 
-bool Registry::GetRegistryString(wchar_t* sName, LPBYTE pBuffer, DWORD dwLength)
+bool Registry::GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength)
 {
 	DWORD dwType;
 	DWORD dwLen = dwLength;

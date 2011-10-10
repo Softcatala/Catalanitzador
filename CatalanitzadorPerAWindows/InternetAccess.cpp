@@ -18,7 +18,9 @@
  */
  
 #include "stdafx.h"
+#include <wchar.h>
 #include "InternetAccess.h"
+#include "Window.h"
 
 InternetAccess::InternetAccess ()
 {
@@ -31,35 +33,66 @@ InternetAccess::~InternetAccess ()
 	InternetCloseHandle(hInternet);
 }
 
-bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file)
+int InternetAccess::GetFileSize (HINTERNET hRemoteFile)
 {
-	HINTERNET hFile;
+	const int nEstimatedSize = 20000000;
+	wchar_t szSizeBuffer[64];
+	DWORD dwLengthSizeBuffer = sizeof(szSizeBuffer);
+	
+	if (HttpQueryInfo(hRemoteFile, HTTP_QUERY_CONTENT_LENGTH, szSizeBuffer, &dwLengthSizeBuffer, NULL))
+	{
+		return _wtol(szSizeBuffer);
+	}	
+	return nEstimatedSize;
+}
+
+bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
+{
+	HINTERNET hRemoteFile;
 	HANDLE hWrite;
 	DWORD dwRead, dwWritten;
+	int nTotal, nCurrent;
 	
-	hFile = InternetOpenUrl(hInternet, URL, NULL, 0,		
+	hRemoteFile = InternetOpenUrl(hInternet, URL, NULL, 0,		
 		INTERNET_FLAG_RELOAD, // TODO: Debug only, prevents local caching
 		0);
 
-	if (hFile == 0)
+	if (hRemoteFile == 0)
 		return false;
 
 	hWrite = CreateFile (file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hWrite == INVALID_HANDLE_VALUE)
-		return false;  
+		return false;
 		
-	CHAR buffer[1024];
-	
-	while (InternetReadFile(hFile, buffer, 1023, &dwRead))
+	BYTE buffer[32768];
+
+	nTotal = GetFileSize (hRemoteFile);
+	nCurrent = 0;
+
+	while (InternetReadFile(hRemoteFile, buffer, sizeof (buffer) - 1, &dwRead))
 	{
 		if (dwRead == 0)
 			break;
 
+		nCurrent+= dwRead;
+
+		// In the case that the size was estimated, let's manage user expectations by increasing total by 30%
+		if (nCurrent > nTotal)
+			nTotal = (int) ((double) nCurrent * 1.30);
+
+		
+		if (progress != NULL)
+		{
+			progress (nTotal, nCurrent, data);
+		}
+
+		Window::ProcessMessages();
+
 		WriteFile (hWrite, buffer, dwRead, &dwWritten, NULL);
 	}
 	CloseHandle (hWrite);
-	InternetCloseHandle(hFile);
+	InternetCloseHandle(hRemoteFile);
 	return true;	
 }
 

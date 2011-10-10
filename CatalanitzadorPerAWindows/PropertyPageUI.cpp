@@ -30,8 +30,6 @@ PropertyPageUI::PropertyPageUI()
 
 PropertyPageUI::~PropertyPageUI()
 {
-	if (m_hdle)
-		DestroyPropertySheetPage(m_hdle);	
 }
 
 void PropertyPageUI::setChanged (bool bChanged)
@@ -54,7 +52,6 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 				pThis->_onTimer();
 			}
 			break;
-
 		}
 
 		case WM_SHOWWINDOW:
@@ -90,9 +87,12 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 			{
 				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
 				pThis->_onKillActive();
-			} else if (pNMHDR->code==PSN_WIZNEXT) {				
+			} else if (pNMHDR->code==PSN_WIZNEXT) {
 				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
 				pThis->_onNext();
+			} else if (pNMHDR->code==PSN_WIZFINISH) {
+				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
+				pThis->getParent ()->destroy ();
 			} else if (pNMHDR->code==PSN_SETACTIVE) {
 				pThis->_sendSetButtonsMessage();
 			}

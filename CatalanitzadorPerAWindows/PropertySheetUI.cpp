@@ -120,10 +120,21 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 				
 			if (LOWORD(wParam)==IDCANCEL)
 			{				
-				pThis->_onCancel();
-				pThis->m_nRslt=IDCANCEL;
-				pThis->destroy();
-				return 0;
+				bool result;
+				wchar_t szMessage [MAX_LOADSTRING];
+				wchar_t szCaption [MAX_LOADSTRING];
+
+				LoadString(GetModuleHandle(NULL), IDS_DOYOUWANTOCANCEL, szMessage, MAX_LOADSTRING);
+				LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+				result = (MessageBox(hWnd, szMessage, szCaption,
+					MB_YESNOCANCEL | MB_ICONQUESTION) == IDYES);
+
+				if (result)
+				{
+					pThis->m_nRslt=IDCANCEL;
+					pThis->destroy();
+				}
 			}			
 
 			break;

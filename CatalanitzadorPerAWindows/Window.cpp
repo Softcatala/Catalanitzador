@@ -16,34 +16,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
 
-#include "PropertyPageUI.h"
-#include "Action.h"
-#include <vector>
-using namespace std;
+#include "stdafx.h"
+#include "Window.h"
 
-class InstallPropertyPageUI: public PropertyPageUI
+void Window::ProcessMessages()
 {
-public:		
-		virtual void _onInitDialog();
-		virtual	void _onShowWindow();
-		virtual	void _onTimer();
+	MSG msg;
+	
+	while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+	{
+		if (msg.message == WM_QUIT)
+			return;
 
-		vector <Action *> * GetSelectedActions() { return m_selectedActions;}
-		void SetSelectedActions(vector <Action *> * value) { m_selectedActions =  value;}		
-
-private:
-		static void DownloadStatus(int total, int current, void *data);
-
-		void Execute (Action* action);
-		void Download (Action* action);
-		void Completed ();
-
-		vector <Action *> * m_selectedActions;
-		HWND hTotalProgressBar;
-		HWND hTaskProgressBar;
-		HWND hDescription;
-		BOOL ShowWindowOnce;
-};
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+}

@@ -86,6 +86,15 @@
     <ClInclude Include="Registry.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressStatus.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="WelcomePropertyPageUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -132,6 +141,12 @@
     </ClCompile>
     <ClCompile Include="Registry.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="WelcomePropertyPageUI.cpp">
+      <Filter>User Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
