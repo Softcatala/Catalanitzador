@@ -28,8 +28,8 @@
 #include "Registry.h"
 
 // There are hacks, and there are ugly hacks.
-// When using a Call the timer does not allow passing an object
-// we need to work statically. It is not to bad since only once instance per application
+// Ising a callback with timer does not allow passing an object
+// we need to work statically. It is not too bad since only once instance per application
 // of this property page can be run.
 static ProgressStatus _progress;
 static int nTotal = 3 * 60;
