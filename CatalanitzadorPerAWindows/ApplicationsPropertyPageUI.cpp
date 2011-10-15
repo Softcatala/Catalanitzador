@@ -194,11 +194,9 @@ void ApplicationsPropertyPageUI::_onNext()
 
 		LVITEM item;
 
-		item.iSubItem = 0;
+		memset(&item,0,sizeof(item));
 		item.iItem = i;
 		item.mask = LVIF_PARAM;
-		item.pszText = 0;
-		item.cchTextMax = 0;
 
 		ListView_GetItem(hList, &item);
 		m_selectedActions->push_back((Action *) item.lParam);

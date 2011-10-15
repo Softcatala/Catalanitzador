@@ -82,6 +82,8 @@ wchar_t* WindowsLPIAction::_getPackageName ()
 			return L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/LIPsetup.msi&id=3468&mirall=softcatala2&versio=2.0&so=win32";
 		case WindowsVista:		
 			return L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/lip_ca-es.mlc&id=3511&mirall=softcatala2&versio=1.0&so=win32";
+		case Windows7:
+			return L"http://download.microsoft.com/download/5/A/D/5ADAA4B6-C92C-43F1-8508-DB705E0E9675/LIP_ca-ES-32bit.mlc";
 		default:
 			break;
 	}
@@ -98,19 +100,23 @@ void WindowsLPIAction::UpdateIsInstalled()
 	EnumUILanguages(_enumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);	
 }
 
+	
+
+// TODO:
+//	Does not work with 64-bits Windows
+//	Only works if you have Windows Spanish or French
 bool WindowsLPIAction::IsNeed()
 {
-	if (_getPackageName () == NULL)
-		return false;
+	bool bNeed = false;
 
-	// TODO:
-	//	Does not work with 64-bits Windows
-	//	Only works if you have Windows Spanish or French	
-	
-	UpdateIsInstalled();
+	if (_getPackageName () != NULL)
+	{
+		UpdateIsInstalled();
+		bNeed = (m_installed == false);
+	}	
 
-	g_log.Log (L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) (m_installed == false));
-	return m_installed == false;	
+	g_log.Log (L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
+	return bNeed;	
 }
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
@@ -121,14 +127,13 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 
 	OperatingVersion version = OSVersion::GetVersion ();
 
-	if (version == WindowsVista)
-	{	
-		wcscat_s (filename, L"lip_ca-es.mlc");
-	}
-
 	if (version == WindowsXP)
 	{
 		wcscat_s (filename, L"lip_ca-es.msi");
+	} 
+	else // Windows Vista & Windows 7
+	{
+		wcscat_s (filename, L"lip_ca-es.mlc");
 	}
 
 	g_log.Log (L"WindowsLPIAction::Download '%s' to '%s'", _getPackageName (), filename);

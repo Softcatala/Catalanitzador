@@ -78,7 +78,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="CatalanitzadorPerAWindows.ico" />
-    <None Include="small.ico" />
     <None Include="vertical-logo.bmp" />
   </ItemGroup>
   <ItemGroup>

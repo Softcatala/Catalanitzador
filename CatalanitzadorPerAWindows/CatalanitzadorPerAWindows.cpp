@@ -58,7 +58,7 @@ void InitLog ()
 
 bool SupportedOS()
 {
-	if (OSVersion::GetVersion() == Windows2000)
+	if (OSVersion::GetVersion() == Windows2000 || OSVersion::IsWindows64Bits ())
 	{
 		wchar_t szMessage [MAX_LOADSTRING];
 		wchar_t szCaption [MAX_LOADSTRING];
