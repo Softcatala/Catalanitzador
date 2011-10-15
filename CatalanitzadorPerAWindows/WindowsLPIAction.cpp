@@ -95,7 +95,6 @@ void WindowsLPIAction::UpdateIsInstalled()
 	// Checks if the Catalan language pack is already installed
 	// This information is also available by checking: SYSTEM\\ControlSet001\\Control\\MUI\\UILanguages\\CA-ES
 	// However, using Windows API is more standard
-
 	EnumUILanguages(_enumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);	
 }
 
@@ -109,7 +108,9 @@ bool WindowsLPIAction::IsNeed()
 	//	Only works if you have Windows Spanish or French	
 	
 	UpdateIsInstalled();
-	return m_installed == false;
+
+	g_log.Log (L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) (m_installed == false));
+	return m_installed == false;	
 }
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
@@ -117,8 +118,20 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 	InternetAccess inetacccess;
 	
 	GetTempPath (MAX_PATH, filename);
-	wcscat_s (filename, L"lip_ca-es.mlc");
 
+	OperatingVersion version = OSVersion::GetVersion ();
+
+	if (version == WindowsVista)
+	{	
+		wcscat_s (filename, L"lip_ca-es.mlc");
+	}
+
+	if (version == WindowsXP)
+	{
+		wcscat_s (filename, L"lip_ca-es.msi");
+	}
+
+	g_log.Log (L"WindowsLPIAction::Download '%s' to '%s'", _getPackageName (), filename);
 	return inetacccess.GetFile (_getPackageName (), filename, progress, data);
 }
 
@@ -135,25 +148,41 @@ VOID CALLBACK WindowsLPIAction::TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent
 	_progress (nTotal, nCurrent, _data);
 }
 
-
 void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
 {
 	wchar_t szParams[MAX_PATH];
-	wchar_t lpkapp[MAX_PATH];	
+	wchar_t lpkapp[MAX_PATH];
+
+	OperatingVersion version = OSVersion::GetVersion ();
+
+	if (version == WindowsXP)
+	{
+		GetSystemDirectory(lpkapp, MAX_PATH);
+		wcscat_s (lpkapp, L"\\msiexec.exe ");
+
+		wcscpy_s (szParams, L" /i "); // full path to 'lip_ca-es.msi'
+		wcscat_s (szParams, filename); // full path to 'lip_ca-es.msi'
+		wcscat_s (szParams, L" /qn /norestart");		
+	}
+	else //(version == WindowsVista) or 7
+	{	
+		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
+		wcscpy_s (szParams, L" /i ca-ES /r /s /p ");
+		wcscat_s (szParams, filename);
 	
-	// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
-	wcscpy_s (szParams, L" /i ca-ES /r /s /p ");
-	wcscat_s (szParams, filename);
-	
-	GetSystemDirectory(lpkapp, MAX_PATH);
-	wcscat_s (lpkapp, L"\\lpksetup.exe");
+		GetSystemDirectory(lpkapp, MAX_PATH);
+		wcscat_s (lpkapp, L"\\lpksetup.exe");
+	}	
 
 	result = InProgress;
 	_data = data;
 	_progress = progress;
-	SetTimer(NULL, TIMER_ID, 1000, TimerProc);
 
-	runner.Execute (lpkapp,szParams);
+	// Timer trigger every second to update progress bar
+	hTimerID = SetTimer(NULL, TIMER_ID, 1000, TimerProc);
+
+	g_log.Log (L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
+	runner.Execute (lpkapp, szParams);
 }
 
 bool WindowsLPIAction::DirectoryExists(LPCTSTR szPath)
@@ -169,21 +198,37 @@ bool WindowsLPIAction::DirectoryExists(LPCTSTR szPath)
 bool WindowsLPIAction::WasLIPInstalled ()
 {
 	wchar_t langpackDir[MAX_PATH];
-	
-	GetWindowsDirectory(langpackDir, MAX_PATH);
-	wcscat_s (langpackDir, L"\\ca-ES");
+	bool bExists;
+
+	OperatingVersion version = OSVersion::GetVersion ();
+
+	if (version == WindowsXP)
+	{	
+		GetSystemDirectory(langpackDir, MAX_PATH);
+		wcscat_s (langpackDir, L"\\mui\\0403");
+	}
+	else  //(version == WindowsVista) or 7
+	{
+		GetWindowsDirectory(langpackDir, MAX_PATH);
+		wcscat_s (langpackDir, L"\\ca-ES");
+	}
 		
-	return DirectoryExists (langpackDir);
+	bExists = DirectoryExists (langpackDir);
+	g_log.Log (L"WindowsLPIAction::WasLIPInstalled checking '%s' is %u", langpackDir, (wchar_t*) bExists);
+	return bExists;
 }
 
 // After the language package is installed we need to set Catalan as default language
 // The key PreferredUILanguagesPending did not work as expected
 void WindowsLPIAction::SetDefaultLanguage ()
-{	
+{
 	Registry registry;
-	registry.OpenKey (HKEY_CURRENT_USER, L"Control Panel\\Desktop", true);		
-	registry.SetString (L"PreferredUILanguages", L"ca-ES");
-	registry.Close ();
+	if (registry.OpenKey (HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
+	{
+		registry.SetString (L"PreferredUILanguages", L"ca-ES");
+		registry.Close ();
+		g_log.Log (L"WindowsLPIAction::SetDefaultLanguage done");
+	}
 }
 
 ActionResult WindowsLPIAction::Result()
@@ -192,14 +237,16 @@ ActionResult WindowsLPIAction::Result()
 	{
 		if (runner.IsRunning())
 			return InProgress;
-		
-		KillTimer (NULL, TIMER_ID);
+
+		KillTimer (NULL, hTimerID);
+
 		if (WasLIPInstalled ()) {			
-			result = Successfull;			
+			result = Successful;			
 		}
 		else {
 			result = FinishedWithError;			
 		}
+		g_log.Log (L"WindowsLPIAction::Result is '%s'", result == Successful ? L"Successful" : L"FinishedWithError");
 		// TODO: Move under WasLIPInstalled
 		SetDefaultLanguage ();
 	}

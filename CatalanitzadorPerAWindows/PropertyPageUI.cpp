@@ -79,9 +79,6 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 		{
 			PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
 
-			if (pThis)
-				pThis->_onNotify((LPNMHDR) lParam, wParam); 
-			
 			pNMHDR = (NMHDR*)lParam;					
 			if (pNMHDR->code==PSN_KILLACTIVE)
 			{
@@ -96,7 +93,19 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 			} else if (pNMHDR->code==PSN_SETACTIVE) {
 				pThis->_sendSetButtonsMessage();
 			}
-			
+
+			if (pThis) {
+
+				switch (pThis->_onNotify((LPNMHDR) lParam, wParam))
+				{
+					case ReturnTrue:						
+						return TRUE;
+					case ReturnFalse:
+						return FALSE;
+					case CallDefProc:
+						break;
+				}
+			}
 			break;
 		}		
 		

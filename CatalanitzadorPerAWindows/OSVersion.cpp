@@ -19,27 +19,28 @@
 
 #include "stdafx.h"
 #include "OSVersion.h"
+#include <stdio.h>
+
 
 OperatingVersion OSVersion::m_version = UnKnownOS;
 
 OperatingVersion OSVersion::GetVersion ()
 {
-	OSVERSIONINFOEX osvi;
-	SYSTEM_INFO si;
+	OSVERSIONINFOEX osvi;	
 	BOOL bOsVersionInfoEx;
 
 	if (m_version != UnKnownOS)
 		return m_version;
-
-	ZeroMemory(&si, sizeof(SYSTEM_INFO));
+	
 	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*) &osvi);
 
-	if (bOsVersionInfoEx == NULL || VER_PLATFORM_WIN32_NT != osvi.dwPlatformId)
+	if (bOsVersionInfoEx == FALSE || VER_PLATFORM_WIN32_NT != osvi.dwPlatformId)
 		return UnKnownOS;
 
+	// Documentation: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724832%28v=vs.85%29.aspx
 	switch (osvi.dwMajorVersion)
 	{
 		case 5:
@@ -77,16 +78,59 @@ bool OSVersion::IsWindows64Bits ()
 	return bIsWow64 != FALSE;
 }
 
+
+void OSVersion::GetLogInfo (wchar_t * szString, int size)
+{
+	OSVERSIONINFOEX osvi;	
+	
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	GetVersionEx((OSVERSIONINFO*) &osvi);
+		
+	swprintf_s (szString, size / sizeof (wchar_t), L"OS Info. OS version %u.%u, SP version %u.%u, 64 bit %s, enum %s",
+		osvi.dwMajorVersion, 
+		osvi.dwMinorVersion,
+		osvi.wServicePackMajor,
+		osvi.wServicePackMinor,
+		IsWindows64Bits() == true ? L"yes" : L"no",
+		GetVersionText (GetVersion ()));
+}
+
+wchar_t* OSVersion::GetVersionText (OperatingVersion version)
+{
+	switch (version)
+	{
+		case UnKnownOS:
+			return L"UnKnownOS";
+		case WindowsXP:
+			return L"WindowsXP";
+		case WindowsVista:
+			return L"WindowsVista";
+		case Windows2000:
+			return L"Windows2000";
+		case Windows2008:
+			return L"Windows2008";
+		case Windows7:
+			return L"Windows7";
+		case Windows2008R2:
+			return L"Windows2008R2";
+		default:
+			return L"Unknown enum";
+	}	
+}
+
+
 OperatingVersion OSVersion::_processXPAnd2000 (OSVERSIONINFOEX osvi)
 {
 	if (osvi.dwMinorVersion == 0)
 	{
-		return WindowsXP;
+		return Windows2000;
 	}
 
 	if (osvi.dwMinorVersion == 1)
 	{
-		return Windows2000;
+		return WindowsXP;
 	}
 	return UnKnownOS;
 }
@@ -95,7 +139,7 @@ OperatingVersion OSVersion::_processVistaAnd7 (OSVERSIONINFOEX osvi)
 {
 	if (osvi.dwMinorVersion == 0)
 	{
-		if (osvi.wProductType == VER_NT_WORKSTATION )
+		if (osvi.wProductType == VER_NT_WORKSTATION)
 			return WindowsVista;                
 		else 
 			return Windows2008;

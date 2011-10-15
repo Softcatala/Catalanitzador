@@ -22,20 +22,25 @@
 #include "PropertyPageUI.h"
 #include "Action.h"
 #include <vector>
+#include <map>
 using namespace std;
 
 class ApplicationsPropertyPageUI: public PropertyPageUI
 {
-public:	
-		
+public:		
 		virtual void _onInitDialog();
-		virtual void _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
+		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 		virtual	void _onNext();
 
 		vector <Action *> * GetSelectedActions () { return m_selectedActions;}
 		void SetSelectedActions (vector <Action *> * value) {  m_selectedActions =  value;}
 private:
+
+		static LRESULT ListViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 		HWND hList;
 		vector <Action *> m_actions;
 		vector <Action *> * m_selectedActions;
+		map <Action *, bool> m_disabledActions;
+		typedef pair <Action *, bool> ActionBool_Pair;
 };

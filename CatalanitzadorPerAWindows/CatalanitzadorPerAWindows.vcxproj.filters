@@ -95,6 +95,9 @@
     <ClInclude Include="WelcomePropertyPageUI.h">
       <Filter>User Interface</Filter>
     </ClInclude>
+    <ClInclude Include="LogFile.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -147,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="WelcomePropertyPageUI.cpp">
       <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="LogFile.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

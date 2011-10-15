@@ -7,7 +7,7 @@
 
 #include "targetver.h"
 #include "resource.h"
-
+#include "CatalanitzadorPerAWindows.h"
 
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers

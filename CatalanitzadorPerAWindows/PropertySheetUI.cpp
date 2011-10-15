@@ -120,7 +120,7 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 				
 			if (LOWORD(wParam)==IDCANCEL)
 			{				
-				bool result;
+				/*bool result;
 				wchar_t szMessage [MAX_LOADSTRING];
 				wchar_t szCaption [MAX_LOADSTRING];
 
@@ -134,7 +134,8 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 				{
 					pThis->m_nRslt=IDCANCEL;
 					pThis->destroy();
-				}
+				}*/
+				pThis->destroy();
 			}			
 
 			break;

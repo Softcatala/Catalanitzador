@@ -34,6 +34,13 @@ enum PropertyPageButton
 	CancelButton,
 };
 
+enum NotificationResult
+{
+	ReturnTrue,
+	ReturnFalse,
+	CallDefProc
+};
+
 class PropertyPageUI
 {
 public:
@@ -57,7 +64,7 @@ public:
 	virtual	void				_onShowWindow(){};
 	virtual	void				_onTimer(){};
 	virtual void				_onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/){};
-	virtual void				_onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/){};
+	virtual NotificationResult	_onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/){ return ReturnFalse;};
 	static int CALLBACK			s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam,LPARAM lParam);
 	void						setChanged (bool bChanged); // Unables or disables apply button
 	void						setPageButtons (PropertyPageButton buttons) { m_PageButtons = buttons; }

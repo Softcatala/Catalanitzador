@@ -29,17 +29,31 @@
 
 void CreateWizard(HINSTANCE hInstance);
 bool SupportedOS();
+void InitLog ();
+
+LogFile g_log;
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPTSTR    lpCmdLine,
                      int       nCmdShow)
 {
+	InitLog ();
 	if (SupportedOS() == true)
 	{
 		CreateWizard (hInstance);
 	}
+	g_log.Close ();
 	return TRUE;
+}
+
+void InitLog ()
+{	
+	g_log.CreateLog (L"CatalanitzadorPerAWindows.log");
+	
+	wchar_t szOSInfo [2048];
+	OSVersion::GetLogInfo (szOSInfo, sizeof (szOSInfo));
+	g_log.Log (szOSInfo);
 }
 
 bool SupportedOS()
@@ -49,6 +63,7 @@ bool SupportedOS()
 		wchar_t szMessage [MAX_LOADSTRING];
 		wchar_t szCaption [MAX_LOADSTRING];
 
+		g_log.Log (L"Show unsupported os dialog");
 		LoadString(GetModuleHandle(NULL), IDS_NOTSUPPORTEDOS, szMessage, MAX_LOADSTRING);
 		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 		MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);

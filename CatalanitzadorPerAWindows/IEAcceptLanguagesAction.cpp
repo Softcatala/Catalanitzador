@@ -45,26 +45,34 @@ bool IEAcceptedLanguagesAction::IsNeed()
 			hasCatalan = true;
 	}
 	registry.Close ();
-	return hasCatalan == false;
+	g_log.Log (L"IEAcceptedLanguagesAction::IsNeed returns %u", (wchar_t *) (hasCatalan == false));
+	return hasCatalan == false;	
 }
 
 void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
 {
 	wchar_t szValue[1024], szNew[1024];
 	Registry registry;
+	BOOL bSetKey = FALSE;
 
-	registry.OpenKey (HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", true);		
-	if (registry.GetString (L"AcceptLanguage", szValue, sizeof (szValue)))
+	if (registry.OpenKey (HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", true))
 	{
-		wcscpy_s (szNew, L"ca-ES,");
-		wcscat_s (szNew, szValue);
-		registry.SetString (L"AcceptLanguage", szNew);
+		if (registry.GetString (L"AcceptLanguage", szValue, sizeof (szValue)))
+		{
+			wcscpy_s (szNew, L"ca-ES,");
+			wcscat_s (szNew, szValue);
+			registry.SetString (L"AcceptLanguage", szNew);			
+		}
+		else
+			registry.SetString (L"AcceptLanguage", L"ca-ES");
+
+		bSetKey=TRUE;
+		registry.Close ();
 	}
-	registry.Close ();
+	g_log.Log (L"IEAcceptedLanguagesAction::Execute, set AcceptLanguage %u", (wchar_t *) bSetKey);
 }
 
 ActionResult IEAcceptedLanguagesAction::Result()
 {
-	return Successfull;
+	return Successful;
 }
-

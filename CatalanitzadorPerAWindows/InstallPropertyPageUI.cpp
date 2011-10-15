@@ -120,7 +120,7 @@ void InstallPropertyPageUI::_onTimer()
 		{
 			ActionResult result = action->Result();
 
-			if (result == Successfull || result == FinishedWithError)
+			if (result == Successful || result == FinishedWithError)
 				break;
 
 			Window::ProcessMessages();

@@ -27,7 +27,7 @@ enum ActionResult
 {
 	NotStarted,
 	InProgress,
-	Successfull,
+	Successful,
 	FinishedWithError
 };
 

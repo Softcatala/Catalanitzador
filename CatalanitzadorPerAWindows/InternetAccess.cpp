@@ -80,7 +80,6 @@ bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file, ProgressStatus progre
 		// In the case that the size was estimated, let's manage user expectations by increasing total by 30%
 		if (nCurrent > nTotal)
 			nTotal = (int) ((double) nCurrent * 1.30);
-
 		
 		if (progress != NULL)
 		{

@@ -49,5 +49,6 @@ private:
 		wchar_t filename[MAX_PATH];
 		ActionResult result;
 		Runner runner;
+		UINT hTimerID;
 };
 
