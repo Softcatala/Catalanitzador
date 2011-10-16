@@ -92,16 +92,13 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	memset(&item,0,sizeof(item));
 	item.mask=LVIF_TEXT | LVIF_PARAM;
 
-	Actions actions;
-	m_actions = actions.GetActions ();
-
-	if (m_actions.size () == 0)
+	if (m_availableActions->size () == 0)
 		return;
 
 	// Enabled items
-	for (unsigned int i = 0; i < m_actions.size (); i++)
+	for (unsigned int i = 0; i < m_availableActions->size (); i++)
 	{		
-		Action* action = m_actions.at(i);
+		Action* action = m_availableActions->at(i);
 		bool needed = action->IsNeed();
 
 		m_disabledActions.insert(ActionBool_Pair (action, needed));
@@ -118,9 +115,9 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	}
 
 	// Disabled items
-	for (unsigned int i = 0; i < m_actions.size (); i++)
+	for (unsigned int i = 0; i < m_availableActions->size (); i++)
 	{		
-		Action* action = m_actions.at(i);
+		Action* action = m_availableActions->at(i);
 		map <Action *, bool>::iterator disabled_item;
 
 		disabled_item = m_disabledActions.find((Action * const &)action);

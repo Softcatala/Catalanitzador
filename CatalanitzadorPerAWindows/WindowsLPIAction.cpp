@@ -41,11 +41,12 @@ WindowsLPIAction::WindowsLPIAction ()
 {
 	m_installed = false;
 	result = NotStarted;
+	filename[0] = NULL;
 }
 
 WindowsLPIAction::~WindowsLPIAction ()
 {
-	if (GetFileAttributes (filename) != INVALID_FILE_ATTRIBUTES)
+	if (filename[0] != NULL  && GetFileAttributes (filename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile (filename);
 	}	

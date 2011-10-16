@@ -26,6 +26,7 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "WelcomePropertyPageUI.h"
 #include "OSVersion.h"
+#include "Actions.h"
 
 void CreateWizard(HINSTANCE hInstance);
 bool SupportedOS();
@@ -63,7 +64,7 @@ bool SupportedOS()
 		wchar_t szMessage [MAX_LOADSTRING];
 		wchar_t szCaption [MAX_LOADSTRING];
 
-		g_log.Log (L"Show unsupported os dialog");
+		g_log.Log (L"Show unsupported OS dialog");
 		LoadString(GetModuleHandle(NULL), IDS_NOTSUPPORTEDOS, szMessage, MAX_LOADSTRING);
 		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 		MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
@@ -80,6 +81,7 @@ void CreateWizard(HINSTANCE hInstance)
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;	
 	vector <Action *> selectedActions;
+	Actions actions;
 	
 	welcome.setParent (&sheet);
 	welcome.setPageButtons (NextButton);
@@ -89,6 +91,8 @@ void CreateWizard(HINSTANCE hInstance)
 	applications.createPage(hInstance, IDD_APPLICATIONS, NULL);
 	applications.setParent (&sheet);
 	applications.setPageButtons (NextBackButtons);
+	vector <Action *> acts = actions.GetActions();
+	applications.SetAvailableActions (&acts);
 	applications.SetSelectedActions (&selectedActions);
 	sheet.addPage(&applications);
 

@@ -34,6 +34,7 @@ enum ActionResult
 class Action
 {
 public:
+		virtual ~Action(){};
 		virtual wchar_t* GetName() = 0;
 		virtual wchar_t* GetDescription() = 0;
 		virtual bool Download(ProgressStatus, void *data) {return false;}

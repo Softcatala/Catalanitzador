@@ -28,6 +28,16 @@ Actions::Actions ()
 	BuildListOfActions ();
 }
 
+Actions::~Actions ()
+{
+	for (unsigned int i = 0; i < m_actions.size (); i++)
+	{		
+		Action* action = m_actions.at(i);
+		delete action;
+	}
+	m_actions.clear();
+}
+
 void Actions::BuildListOfActions ()
 {
 	m_actions.push_back (new WindowsLPIAction ());

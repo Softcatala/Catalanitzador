@@ -28,6 +28,7 @@ class Actions
 {
     public:
 		Actions ();
+		~Actions ();
 		vector <Action *> GetActions ()  {return m_actions; }
 
 	private:
