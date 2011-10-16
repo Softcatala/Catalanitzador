@@ -20,7 +20,6 @@
 #include "stdafx.h"
 #include "IEAcceptLanguagesAction.h"
 #include "Registry.h"
-#include "wchar.h"
 
 wchar_t* IEAcceptedLanguagesAction::GetName()
 {

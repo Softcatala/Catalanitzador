@@ -77,7 +77,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="config_locale_winvista.bin" />
     <None Include="CatalanitzadorPerAWindows.ico" />
+    <None Include="config_locale_winxp.bin" />
     <None Include="vertical-logo.bmp" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +87,7 @@
     <ClInclude Include="Actions.h" />
     <ClInclude Include="ApplicationsPropertyPageUI.h" />
     <ClInclude Include="CatalanitzadorPerAWindows.h" />
+    <ClInclude Include="ConfigureLocaleAction.h" />
     <ClInclude Include="FinishPropertyPageUI.h" />
     <ClInclude Include="IEAcceptLanguagesAction.h" />
     <ClInclude Include="InstallPropertyPageUI.h" />
@@ -108,6 +111,7 @@
     <ClCompile Include="Actions.cpp" />
     <ClCompile Include="ApplicationsPropertyPageUI.cpp" />
     <ClCompile Include="CatalanitzadorPerAWindows.cpp" />
+    <ClCompile Include="ConfigureLocaleAction.cpp" />
     <ClCompile Include="FinishPropertyPageUI.cpp" />
     <ClCompile Include="IEAcceptLanguagesAction.cpp" />
     <ClCompile Include="InstallPropertyPageUI.cpp" />

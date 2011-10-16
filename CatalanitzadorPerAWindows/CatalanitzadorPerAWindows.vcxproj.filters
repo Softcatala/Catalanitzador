@@ -30,6 +30,12 @@
     <None Include="vertical-logo.bmp">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="config_locale_winxp.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="config_locale_winvista.bin">
+    	<Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -95,6 +101,9 @@
     <ClInclude Include="LogFile.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="ConfigureLocaleAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -150,6 +159,9 @@
     </ClCompile>
     <ClCompile Include="LogFile.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigureLocaleAction.cpp">
+      <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

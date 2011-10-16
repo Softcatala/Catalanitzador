@@ -42,7 +42,7 @@ void LogFile::Close ()
 bool LogFile::CreateLog(wchar_t* logFileName)
 {
 	GetTempPath(MAX_PATH, m_szFilename);
-	wcscat_s(m_szFilename, logFileName);	
+	wcscat_s(m_szFilename, logFileName);
 
 	m_hLog = CreateFile(m_szFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -72,6 +72,14 @@ void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2)
 	StringTime();
 
 	swprintf_s (m_szText, format, string1, string2);
+	WriteLine (m_szText);
+}
+
+void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* string3)
+{		
+	StringTime();
+
+	swprintf_s (m_szText, format, string1, string2, string3);
 	WriteLine (m_szText);
 }
 

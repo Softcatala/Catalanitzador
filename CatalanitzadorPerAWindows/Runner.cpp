@@ -33,6 +33,9 @@ bool Runner::Execute (wchar_t* program, wchar_t* params)
 		NULL,  NULL,  FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
 	{
 		int error = GetLastError();
+		g_log.Log (L"Runner::Execute. Error %u running '%s' with params '%s'", (wchar_t *)error,
+			program, params);
+
 		return false;
 	}
 	
@@ -45,4 +48,9 @@ bool Runner::IsRunning ()
 
 	GetExitCodeProcess(pi.hProcess, &dwStatus);
 	return dwStatus == STILL_ACTIVE;
+}
+
+void Runner::WaitUntilFinished ()
+{
+	WaitForSingleObject(pi.hProcess, INFINITE);
 }

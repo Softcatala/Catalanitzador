@@ -163,11 +163,11 @@ void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
 		GetSystemDirectory(lpkapp, MAX_PATH);
 		wcscat_s (lpkapp, L"\\msiexec.exe ");
 
-		wcscpy_s (szParams, L" /i "); // full path to 'lip_ca-es.msi'
+		wcscpy_s (szParams, L" /i ");
 		wcscat_s (szParams, filename); // full path to 'lip_ca-es.msi'
-		wcscat_s (szParams, L" /qn /norestart");		
+		wcscat_s (szParams, L" /qn /norestart");
 	}
-	else //(version == WindowsVista) or 7
+	else // Windows Vista and 7
 	{	
 		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
 		wcscpy_s (szParams, L" /i ca-ES /r /s /p ");

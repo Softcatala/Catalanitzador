@@ -68,8 +68,6 @@ LRESULT ApplicationsPropertyPageUI::ListViewSubclassProc(HWND hWnd, UINT uMsg, W
 		{
 			if (wParam == VK_SPACE)
 			{
-				LVITEM item;
-
 				int nItem = ListView_GetSelectionMark(hWnd);
 				if (pThis->IsActionNeeded (hWnd, nItem) == false)
 				{
@@ -208,5 +206,8 @@ void ApplicationsPropertyPageUI::_onNext()
 
 		ListView_GetItem(hList, &item);
 		m_selectedActions->push_back((Action *) item.lParam);
+
+		Action* action = (Action *) item.lParam;
+		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. User selected '%s'", action->GetName ());
 	}	
 }

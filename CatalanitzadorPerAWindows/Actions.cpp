@@ -21,6 +21,7 @@
 #include "Actions.h"
 #include "WindowsLPIAction.h"
 #include "IEAcceptLanguagesAction.h"
+#include "ConfigureLocaleAction.h"
 
 Actions::Actions ()
 {
@@ -30,7 +31,8 @@ Actions::Actions ()
 void Actions::BuildListOfActions ()
 {
 	m_actions.push_back (new WindowsLPIAction ());
-	m_actions.push_back (new IEAcceptedLanguagesAction ());	
+	m_actions.push_back (new IEAcceptedLanguagesAction ());
+	m_actions.push_back (new ConfigureLocaleAction ());
 }
 
 		

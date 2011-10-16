@@ -16,36 +16,28 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
 
-#include <windows.h>
+#include "Action.h"
+#include "Runner.h"
 
-#define BUFFER_SIZE 2048
-
-class LogFile 
+class ConfigureLocaleAction : public Action
 {
 public:
+		ConfigureLocaleAction ();
+		~ConfigureLocaleAction ();
 
-	LogFile();
-	~LogFile();
-	bool CreateLog(wchar_t* logFileName);
-	void Close ();
-
-	void Log(wchar_t* string);
-	void Log(wchar_t* format, wchar_t* string);
-	void Log(wchar_t* format, wchar_t* string1, wchar_t* string2);
-	void Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* string3);
-
+		virtual wchar_t* GetName();
+		virtual wchar_t* GetDescription();
+		virtual bool IsNeed();
+		virtual void Execute(ProgressStatus progress, void *data);
+		virtual ActionResult Result();
 private:
+		bool IsCatalanLocaleActive();
+		bool DumpResource(LPCWSTR resource, wchar_t* file);
 
-	void StringTime();
-	void Write(wchar_t* string);
-	void WriteLine(wchar_t* string);
-	void WriteCompileTime ();
-
-	wchar_t m_szFilename [MAX_PATH];
-	wchar_t m_szText [BUFFER_SIZE];
-	HANDLE m_hLog;	
-		
+		wchar_t szCfgFile[MAX_PATH];
+		Runner runner;
 };
+
