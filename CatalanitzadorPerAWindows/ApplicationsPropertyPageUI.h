@@ -34,6 +34,8 @@ public:
 
 		vector <Action *> * GetSelectedActions () { return m_selectedActions;}
 		void SetSelectedActions (vector <Action *> * value) {  m_selectedActions =  value;}
+		bool IsActionNeeded (HWND hWnd, int nItem);
+		
 private:
 
 		static LRESULT ListViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -41,6 +43,7 @@ private:
 		HWND hList;
 		vector <Action *> m_actions;
 		vector <Action *> * m_selectedActions;
-		map <Action *, bool> m_disabledActions;
 		typedef pair <Action *, bool> ActionBool_Pair;
+		map <Action *, bool> m_disabledActions;
+		WNDPROC PreviousProc;
 };

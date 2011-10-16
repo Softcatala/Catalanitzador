@@ -25,11 +25,28 @@
 #include <vector>
 using namespace std;
 
-static WNDPROC PreviousProc;
+bool ApplicationsPropertyPageUI::IsActionNeeded(HWND hWnd, int nItem)
+{	
+	LVITEM lvitem;
+	
+	memset(&lvitem,0,sizeof(lvitem));
+	lvitem.iItem = nItem;
+	lvitem.mask = LVIF_PARAM;
+	ListView_GetItem(hWnd, &lvitem);
+
+	Action* action = (Action *) lvitem.lParam;
+	map <Action *, bool>::iterator item;
+
+	item = m_disabledActions.find((Action * const &)action);
+	return item->second;
+}
 
 LRESULT ApplicationsPropertyPageUI::ListViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
-{
-	switch (uMsg) {		
+{	
+	ApplicationsPropertyPageUI *pThis = (ApplicationsPropertyPageUI *)GetWindowLong(hWnd,GWL_USERDATA);
+
+	switch (uMsg)
+	{
 		case WM_LBUTTONDBLCLK:
 		case WM_LBUTTONDOWN:
 		{
@@ -40,15 +57,8 @@ LRESULT ApplicationsPropertyPageUI::ListViewSubclassProc(HWND hWnd, UINT uMsg, W
 
 			if (lvHitTestInfo.flags & LVHT_ONITEMSTATEICON)
 			{
-				LVITEM item;
-
-				memset(&item,0,sizeof(item));
-				item.iItem = nItem;
-				item.mask = LVIF_PARAM;			
-				ListView_GetItem(hWnd, &item);
-				Action* action = (Action *) item.lParam;			
-				if (action->IsNeed () == false)
-				{					
+				if (pThis->IsActionNeeded (hWnd, nItem) == false)
+				{
 					return 0;
 				}
 			}
@@ -60,20 +70,16 @@ LRESULT ApplicationsPropertyPageUI::ListViewSubclassProc(HWND hWnd, UINT uMsg, W
 			{
 				LVITEM item;
 
-				memset(&item,0,sizeof(item));
-				item.iItem = ListView_GetSelectionMark(hWnd);
-				item.mask = LVIF_PARAM;			
-				ListView_GetItem(hWnd, &item);
-				Action* action = (Action *) item.lParam;			
-				if (action->IsNeed () == false)
-				{					
+				int nItem = ListView_GetSelectionMark(hWnd);
+				if (pThis->IsActionNeeded (hWnd, nItem) == false)
+				{
 					return 0;
 				}
 			}
 		}
 
 		default:
-			return CallWindowProc(PreviousProc, hWnd, uMsg, wParam, lParam); 
+			return CallWindowProc(pThis->PreviousProc, hWnd, uMsg, wParam, lParam);
 	}
 } 
 
@@ -131,6 +137,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	}
 
 	ListView_SetItemState (hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
+	SetWindowLongPtr(hList, GWL_USERDATA, (LONG) this);
 	PreviousProc = (WNDPROC)SetWindowLongPtr (hList, GWLP_WNDPROC, (LONG_PTR) ListViewSubclassProc);
 }
 
@@ -155,18 +162,17 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 			map <Action *, bool>::iterator item;
 
 			item = m_disabledActions.find((Action * const &)action);
-			bool enabled = item->second;
 
-			if (enabled == false)
+			if (item->second == false)
 			{
 				DWORD color = GetSysColor(COLOR_GRAYTEXT);
-				lpNMLVCD->clrText = color;				
+				lpNMLVCD->clrText = color;
 			}
 			SetWindowLong (getHandle (), DWLP_MSGRESULT, CDRF_DODEFAULT);
 			return ReturnTrue;
 		}
 		
-		return CallDefProc;		
+		return CallDefProc;
 	}
 
 	NMLISTVIEW *pListView = (NMLISTVIEW *)hdr;

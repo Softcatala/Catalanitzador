@@ -28,7 +28,7 @@
 #include "Registry.h"
 
 // There are hacks, and there are ugly hacks.
-// Ising a callback with timer does not allow passing an object
+// Using a callback with timer does not allow passing an object
 // we need to work statically. It is not too bad since only once instance per application
 // of this property page can be run.
 static ProgressStatus _progress;
@@ -99,8 +99,6 @@ void WindowsLPIAction::UpdateIsInstalled()
 	// However, using Windows API is more standard
 	EnumUILanguages(_enumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);	
 }
-
-	
 
 // TODO:
 //	Does not work with 64-bits Windows
