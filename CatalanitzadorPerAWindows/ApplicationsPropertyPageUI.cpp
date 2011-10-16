@@ -104,12 +104,13 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	for (unsigned int i = 0; i < m_actions.size (); i++)
 	{		
 		Action* action = m_actions.at(i);
-		bool needed = action->IsNeed();		
+		bool needed = action->IsNeed();
+
+		m_disabledActions.insert(ActionBool_Pair (action, needed));
 
 		if (needed == false)
 			continue;
 
-		m_disabledActions.insert(ActionBool_Pair (action, needed));
 		item.iItem=nItemId;
 		item.pszText= action->GetName ();
 		item.lParam = (LPARAM) action;		
@@ -122,12 +123,13 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	for (unsigned int i = 0; i < m_actions.size (); i++)
 	{		
 		Action* action = m_actions.at(i);
-		bool needed = action->IsNeed();		
+		map <Action *, bool>::iterator disabled_item;
 
-		if (needed == true)
+		disabled_item = m_disabledActions.find((Action * const &)action);
+
+		if (disabled_item->second == true)
 			continue;
-
-		m_disabledActions.insert(ActionBool_Pair (action, needed));
+		
 		item.iItem=nItemId;
 		item.pszText= action->GetName ();
 		item.lParam = (LPARAM) action;		
