@@ -22,6 +22,7 @@
 #include "WindowsLPIAction.h"
 #include "IEAcceptLanguagesAction.h"
 #include "ConfigureLocaleAction.h"
+#include "MSOfficeAction.h"
 
 Actions::Actions ()
 {
@@ -43,6 +44,7 @@ void Actions::BuildListOfActions ()
 	m_actions.push_back (new WindowsLPIAction ());
 	m_actions.push_back (new IEAcceptedLanguagesAction ());
 	m_actions.push_back (new ConfigureLocaleAction ());
+	m_actions.push_back (new MSOfficeAction ());
 }
 
 		

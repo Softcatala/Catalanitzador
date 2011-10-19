@@ -34,7 +34,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="config_locale_winvista.bin">
-    	<Filter>Resource Files</Filter>
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +104,9 @@
     <ClInclude Include="ConfigureLocaleAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="MSOfficeAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -161,6 +164,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ConfigureLocaleAction.cpp">
+      <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="MSOfficeAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>

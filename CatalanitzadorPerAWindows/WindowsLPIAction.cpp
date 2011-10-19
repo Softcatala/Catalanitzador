@@ -80,11 +80,11 @@ wchar_t* WindowsLPIAction::_getPackageName ()
 	switch (version)
 	{
 		case WindowsXP:
-			return L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/LIPsetup.msi&id=3468&mirall=softcatala2&versio=2.0&so=win32";
+			return L"http://www.softcatala.org/pub/beta/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi";
 		case WindowsVista:		
-			return L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/populars/noredist/lip_ca-es.mlc&id=3511&mirall=softcatala2&versio=1.0&so=win32";
+			return L"http://www.softcatala.org/pub/beta/catalanitzador/WindowsVista/lip_ca-es.mlc";
 		case Windows7:
-			return L"http://download.microsoft.com/download/5/A/D/5ADAA4B6-C92C-43F1-8508-DB705E0E9675/LIP_ca-ES-32bit.mlc";
+			return L"http://www.softcatala.org/pub/beta/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc";
 		default:
 			break;
 	}
@@ -115,7 +115,7 @@ bool WindowsLPIAction::IsNeed()
 	}	
 
 	g_log.Log (L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
-	return bNeed;	
+	return bNeed;
 }
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
