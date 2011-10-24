@@ -35,10 +35,15 @@ bool Registry::OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 	return RegOpenKeyEx(hBaseKey, sSubKey, 0,
 		bWriteAccess ? KEY_READ|KEY_WRITE:KEY_READ, &hKey) == ERROR_SUCCESS;
 }
+
+bool Registry::SetDWORD(wchar_t* string, DWORD value)
+{	
+	return RegSetValueEx(hKey,string,0, REG_DWORD, (BYTE*)&value, sizeof (DWORD)) == ERROR_SUCCESS;
+}
 	
 bool Registry::SetString(wchar_t* string, wchar_t* value)
 {
-	return RegSetValueEx(hKey,string,0, REG_SZ,( BYTE*)value, (wcslen (value) +1) * sizeof (wchar_t)) == ERROR_SUCCESS;
+	return RegSetValueEx(hKey,string,0, REG_SZ, (BYTE*)value, (wcslen (value) +1) * sizeof (wchar_t)) == ERROR_SUCCESS;
 }
 
 bool Registry::GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength)

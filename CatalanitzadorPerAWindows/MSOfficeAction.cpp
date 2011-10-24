@@ -46,6 +46,7 @@ MSOfficeAction::MSOfficeAction()
 	result = NotStarted;
 	filename[0] = NULL;	
 	_getVersionInstalledWithNoLangPack ();
+	GetTempPath(MAX_PATH, szTempPath);
 }
 
 MSOfficeAction::~MSOfficeAction()
@@ -53,7 +54,27 @@ MSOfficeAction::~MSOfficeAction()
 	if (filename[0] != NULL  && GetFileAttributes (filename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile (filename);
-	}	
+	}
+
+	// This deletes the contents of the extracted CAB file for MS Office 2003
+	if (m_MSVersion != MSOffice2003)
+	{
+		wchar_t szFile[MAX_PATH];
+		wchar_t* files[] = {L"DW20.ADM_1027", L"DWINTL20.DLL_0001_1027", L"LIP.MSI",
+			L"lip.xml", L"OSE.EXE", L"SETUP.CHM_1027", L"SETUP.EXE", L"SETUP.INI", L"lip1027.cab",
+			NULL};
+
+		for(int i = 0; files[i] != NULL; i++)
+		{
+			wcscpy_s(szFile, szTempPath);
+			wcscat_s(szFile, files[i]);
+
+			if (GetFileAttributes (szFile) != INVALID_FILE_ATTRIBUTES)
+			{
+				DeleteFile(szFile);
+			}
+		}
+	}
 }
 
 wchar_t* MSOfficeAction::GetName()
@@ -86,17 +107,15 @@ bool MSOfficeAction::_isVersionInstalled (wchar_t* version)
 	return Installed;
 }
 
-bool MSOfficeAction::_isLangPackForVersionInstalled(wchar_t* version)
+bool MSOfficeAction::_isLangPackForVersionInstalled(wchar_t* szKey)
 {
 	Registry registry;
-	wchar_t szValue[1024];
-	wchar_t szKey[1024];
+	wchar_t szValue[1024];	
 	bool Installed = false;
 
-	swprintf_s (szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\LanguageResources\\InstalledUIs", version);
-	if (registry.OpenKey (HKEY_LOCAL_MACHINE, szKey, false))
+	if (registry.OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
 	{
-		if (registry.GetString (L"1027", szValue, sizeof (szValue)))
+		if (registry.GetString(L"1027", szValue, sizeof (szValue)))
 		{
 			if (wcslen (szValue) > 0)
 				Installed = true;
@@ -123,7 +142,9 @@ void MSOfficeAction::_getVersionInstalledWithNoLangPack()
 	else if (_isVersionInstalledWithNoLangPack(OFFICE_2003_VERSION))
 		m_MSVersion =  MSOffice2003;
 	else
-		m_MSVersion = NoMSOffice;	
+		m_MSVersion = NoMSOffice;
+
+	g_log.Log(L"MSOfficeAction::_getVersionInstalledWithNoLangPack '%u'", (wchar_t *) m_MSVersion);
 }
 
 wchar_t* MSOfficeAction::_getPackageName()
@@ -132,8 +153,10 @@ wchar_t* MSOfficeAction::_getPackageName()
 	{
 		case MSOffice2010:
 			return L"http://www.softcatala.org/pub/beta/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe";
+		case MSOffice2007:
+			return L"http://www.softcatala.org/pub/beta/catalanitzador/office2007/office2007-lip.exe";
 		case MSOffice2003:
-			return L"http://www.softcatala.org/pub/beta/catalanitzador/office2003/office2003-lip.exe";
+			return L"http://www.softcatala.org/pub/beta/catalanitzador/office2003/office2003-lip.cab";
 		default:
 			break;
 	}
@@ -153,8 +176,22 @@ bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	InternetAccess inetacccess;
 	
-	GetTempPath(MAX_PATH, filename);
-	wcscat_s(filename, L"LanguageInterfacePack-x86-ca-es.exe");
+	wcscpy_s(filename, szTempPath);
+
+	switch (m_MSVersion)
+	{
+	case MSOffice2010:
+		wcscat_s(filename, L"LanguageInterfacePack-x86-ca-es.exe");
+		break;
+	case MSOffice2007:
+		wcscat_s(filename, L"office2007-lip.exe");
+		break;
+	case MSOffice2003:
+		wcscat_s(filename, L"office2003-lip.cab");
+		break;
+	default:
+		break;
+	}
 	g_log.Log(L"MSOfficeAction::Download '%s' to '%s'", _getPackageName (), filename);
 	return inetacccess.GetFile (_getPackageName (), filename, progress, data);
 }
@@ -172,6 +209,22 @@ VOID CALLBACK MSOfficeAction::TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, 
 	_progress (nTotal, nCurrent, _data);
 }
 
+bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
+{
+	Runner runnerCab;
+	wchar_t szParams[MAX_PATH];
+	wchar_t szApp[MAX_PATH];
+	
+	GetSystemDirectory(szApp, MAX_PATH);
+	wcscat_s(szApp, L"\\expand.exe ");
+
+	swprintf_s (szParams, L" %s %s -f:*", filename, path);
+	g_log.Log(L"MSOfficeAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
+	runnerCab.Execute (szApp, szParams);
+	runnerCab.WaitUntilFinished();
+	return true;
+}
+
 void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 {
 	wchar_t szParams[MAX_PATH];
@@ -179,16 +232,33 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 
 	switch (m_MSVersion)
 	{
-	case MSOffice2010:
+		case MSOffice2010:
 		{
-			wcscpy_s (szApp, L"office2003-lip.exe");
-			wcscpy_s (szParams, L" /passive /norestart /quiet");
+			wcscpy_s(szApp, L"office2003-lip.exe");
+			wcscpy_s(szParams, L" /passive /norestart /quiet");
 			break;
 		}
-	case MSOffice2003:
+		case MSOffice2007:
 		{
-			wcscpy_s (szApp, filename);
-			wcscpy_s (szParams, L" /q");			
+			wcscpy_s(szApp, L"office2007-lip.exe");
+			wcscpy_s(szParams, L" /quiet");
+			break;
+		}
+		case MSOffice2003:
+		{
+			wchar_t szMSI[MAX_PATH];
+		
+			_extractCabFile(filename, szTempPath);
+
+			GetSystemDirectory(szApp, MAX_PATH);
+			wcscat_s(szApp, L"\\msiexec.exe ");
+
+			wcscpy_s(szMSI, szTempPath);
+			wcscat_s(szMSI, L"lip.msi");
+
+			wcscpy_s(szParams, L" /i ");
+			wcscat_s(szParams, szMSI);
+			wcscat_s(szParams, L" /passive /norestart /quiet");			
 			break;
 		}
 	default:
@@ -202,7 +272,7 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 	// Timer trigger every second to update progress bar
 	hTimerID = SetTimer(NULL, TIMER_ID, 1000, TimerProc);
 
-	g_log.Log (L"MSOfficeAction::Execute '%s' with params '%s'", szApp, szParams);
+	g_log.Log(L"MSOfficeAction::Execute '%s' with params '%s'", szApp, szParams);
 	runner.Execute (szApp, szParams);	
 }
 
@@ -211,14 +281,42 @@ bool MSOfficeAction::_wasInstalledCorrectly()
 	switch (m_MSVersion)
 	{
 	case MSOffice2010:
-		return _isLangPackForVersionInstalled(OFFICE_2010_VERSION);
+		return _isLangPackForVersionInstalled(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs");
 	case MSOffice2007:
-		return _isLangPackForVersionInstalled(OFFICE_2007_VERSION);
+		return _isLangPackForVersionInstalled(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs");
 	case MSOffice2003:
-		return _isLangPackForVersionInstalled(OFFICE_2003_VERSION);
+		return _isLangPackForVersionInstalled(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources");
 	default:
 		return false;
 	}
+}
+
+void MSOfficeAction::_setDefaultLanguage()
+{
+	wchar_t szKeyName [1024];
+
+	switch (m_MSVersion)
+	{
+		case MSOffice2003:
+			wcscpy(szKeyName, L"Software\\Microsoft\\Office\\11.0\\Common\\LanguageResources");
+			break;
+		case MSOffice2007:
+			wcscpy(szKeyName, L"Software\\Microsoft\\Office\\12.0\\Common\\LanguageResources");
+			break;
+		case MSOffice2010: // Do nothing
+			return;
+	}
+
+	Registry registry;
+	BOOL bSetKey = FALSE;
+
+	if (registry.OpenKey(HKEY_CURRENT_USER, szKeyName, true))
+	{
+		registry.SetDWORD(L"UILanguage", 1027);
+		bSetKey = TRUE;
+		registry.Close();
+	}
+	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set AcceptLanguage %u", (wchar_t *) bSetKey);	
 }
 
 ActionResult MSOfficeAction::Result()
@@ -228,7 +326,7 @@ ActionResult MSOfficeAction::Result()
 		if (runner.IsRunning())
 			return InProgress;
 
-		KillTimer (NULL, hTimerID);
+		KillTimer(NULL, hTimerID);
 
 		if (_wasInstalledCorrectly()) {
 			result = Successful;
@@ -236,6 +334,7 @@ ActionResult MSOfficeAction::Result()
 		else {
 			result = FinishedWithError;
 		}
+		_setDefaultLanguage();
 		g_log.Log(L"MSOfficeAction::Result is '%s'", result == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return result;

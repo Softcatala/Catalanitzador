@@ -244,7 +244,7 @@ ActionResult WindowsLPIAction::Result()
 
 		KillTimer (NULL, hTimerID);
 
-		if (WasLIPInstalled ()) {			
+		if (WasLIPInstalled ()) {
 			result = Successful;			
 		}
 		else {
