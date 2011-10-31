@@ -32,7 +32,7 @@ public:
 		virtual wchar_t* GetDescription();
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionResult Result();
+		virtual ActionStatus Result();
 private:
 		bool IsCatalanLocaleActive();
 		bool DumpResource(LPCWSTR resource, wchar_t* file);

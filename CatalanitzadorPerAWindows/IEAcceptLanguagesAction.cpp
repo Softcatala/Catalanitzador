@@ -71,7 +71,7 @@ void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
 	g_log.Log (L"IEAcceptedLanguagesAction::Execute, set AcceptLanguage %u", (wchar_t *) bSetKey);
 }
 
-ActionResult IEAcceptedLanguagesAction::Result()
+ActionStatus IEAcceptedLanguagesAction::Result()
 {
 	return Successful;
 }

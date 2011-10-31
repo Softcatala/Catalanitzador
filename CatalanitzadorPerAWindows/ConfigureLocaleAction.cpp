@@ -151,9 +151,9 @@ void ConfigureLocaleAction::Execute(ProgressStatus progress, void *data)
 	runner.WaitUntilFinished ();
 }
 
-ActionResult ConfigureLocaleAction::Result()
+ActionStatus ConfigureLocaleAction::Result()
 {
-	ActionResult result;
+	ActionStatus result;
 
 	result = IsCatalanLocaleActive()? Successful : FinishedWithError;
 	g_log.Log (L"ConfigureLocaleAction::Result is '%s'", result == Successful ? L"Successful" : L"FinishedWithError");

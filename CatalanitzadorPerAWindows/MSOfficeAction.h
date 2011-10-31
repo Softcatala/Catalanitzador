@@ -42,7 +42,7 @@ public:
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionResult Result();
+		virtual ActionStatus Result();
 
 private:
 
@@ -62,8 +62,7 @@ private:
 		bool WasLIPInstalled();
 		
 		wchar_t filename[MAX_PATH];
-		wchar_t szTempPath[MAX_PATH];
-		ActionResult result;
+		wchar_t szTempPath[MAX_PATH];		
 		Runner runner;
 		UINT hTimerID;
 

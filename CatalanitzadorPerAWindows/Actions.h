@@ -24,15 +24,17 @@
 
 using namespace std;
 
-class Actions
+class Actions : Serializable
 {
     public:
 		Actions ();
 		~Actions ();
-		vector <Action *> GetActions ()  {return m_actions; }
+		vector <Action *> GetActions()  {return m_actions; }
+
+		virtual void Serialize(ostream* stream);
 
 	private:
-		void BuildListOfActions ();
+		void BuildListOfActions();
 
 		vector <Action *>	m_actions;
 };

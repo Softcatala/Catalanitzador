@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,32 +16,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
 
-#include "PropertyPageUI.h"
-#include "Action.h"
-#include <vector>
-#include <map>
+#include <ostream>
+
 using namespace std;
 
-class ApplicationsPropertyPageUI: public PropertyPageUI
+class Serializable
 {
-public:		
-		virtual void _onInitDialog();
-		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
-		virtual	void _onNext();
-
-		bool IsActionNeeded(HWND hWnd, int nItem);
-		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
-		
-private:
-
-		static LRESULT ListViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-		HWND hList;
-		vector <Action *> * m_availableActions;
-		typedef pair <Action *, bool> ActionBool_Pair;
-		map <Action *, bool> m_disabledActions;
-		WNDPROC PreviousProc;
+    public:
+		virtual void Serialize (ostream* stream) = 0;
 };

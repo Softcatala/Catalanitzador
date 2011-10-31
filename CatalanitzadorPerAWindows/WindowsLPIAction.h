@@ -33,7 +33,7 @@ public:
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionResult Result();
+		virtual ActionStatus Result();
 
 private:
 		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
@@ -46,8 +46,7 @@ private:
 		bool WasLIPInstalled ();
 
 		bool m_installed;
-		wchar_t filename[MAX_PATH];
-		ActionResult result;
+		wchar_t filename[MAX_PATH];		
 		Runner runner;
 		UINT hTimerID;
 };

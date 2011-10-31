@@ -37,9 +37,10 @@ public:
 private:
 		static void DownloadStatus(int total, int current, void *data);
 
-		void Execute (Action* action);
-		void Download (Action* action);
-		void Completed ();
+		void Execute(Action* action);
+		void Download(Action* action);
+		void Completed();
+		int _getSelectedActionsCount();
 
 		vector <Action *> * m_selectedActions;
 		HWND hTotalProgressBar;

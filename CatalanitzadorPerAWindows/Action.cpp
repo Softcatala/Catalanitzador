@@ -26,5 +26,3 @@ wchar_t* Action::GetStringFromResourceIDName(int nID, wchar_t* string)
 	LoadString(hInstance, nID, string, MAX_LOADSTRING);
 	return string;
 }
-
-

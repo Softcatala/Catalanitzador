@@ -27,6 +27,7 @@
 #include "WelcomePropertyPageUI.h"
 #include "OSVersion.h"
 #include "Actions.h"
+#include "Serializer.h"
 
 void CreateWizard(HINSTANCE hInstance);
 bool SupportedOS();
@@ -79,10 +80,16 @@ void CreateWizard(HINSTANCE hInstance)
 	WelcomePropertyPageUI welcome;
 	ApplicationsPropertyPageUI applications;
 	InstallPropertyPageUI install;
-	FinishPropertyPageUI finish;	
-	vector <Action *> selectedActions;
+	FinishPropertyPageUI finish;
 	Actions actions;
+	Serializer* serializer;
+	wchar_t szXML[MAX_PATH];
 	
+	GetTempPath (MAX_PATH, szXML);
+
+	wcscat_s (szXML, L"ouput.xml");
+	serializer = new Serializer(szXML);
+
 	welcome.setParent (&sheet);
 	welcome.setPageButtons (NextButton);
 	welcome.createPage(hInstance, IDD_WELCOME, NULL);
@@ -92,13 +99,12 @@ void CreateWizard(HINSTANCE hInstance)
 	applications.setParent (&sheet);
 	applications.setPageButtons (NextBackButtons);
 	vector <Action *> acts = actions.GetActions();
-	applications.SetAvailableActions (&acts);
-	applications.SetSelectedActions (&selectedActions);
+	applications.SetActions (&acts);	
 	sheet.addPage(&applications);
 
 	install.setParent (&sheet);
 	install.setPageButtons (NextButton);
-	install.SetSelectedActions (&selectedActions);
+	install.SetSelectedActions (&acts);
 	install.createPage(hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 

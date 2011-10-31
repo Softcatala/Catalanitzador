@@ -24,14 +24,14 @@
 #include "ConfigureLocaleAction.h"
 #include "MSOfficeAction.h"
 
-Actions::Actions ()
+Actions::Actions()
 {
-	BuildListOfActions ();
+	BuildListOfActions();
 }
 
-Actions::~Actions ()
+Actions::~Actions()
 {
-	for (unsigned int i = 0; i < m_actions.size (); i++)
+	for (unsigned int i = 0; i < m_actions.size(); i++)
 	{		
 		Action* action = m_actions.at(i);
 		delete action;
@@ -39,12 +39,20 @@ Actions::~Actions ()
 	m_actions.clear();
 }
 
-void Actions::BuildListOfActions ()
+void Actions::BuildListOfActions()
 {
-	m_actions.push_back (new WindowsLPIAction ());
-	m_actions.push_back (new IEAcceptedLanguagesAction ());
-	m_actions.push_back (new ConfigureLocaleAction ());
-	m_actions.push_back (new MSOfficeAction ());
+	m_actions.push_back(new WindowsLPIAction());
+	m_actions.push_back(new IEAcceptedLanguagesAction());
+	m_actions.push_back(new ConfigureLocaleAction());
+	m_actions.push_back(new MSOfficeAction());
 }
 
-		
+void Actions::Serialize(ostream* stream)
+{
+	for (unsigned int i = 0; i < m_actions.size(); i++)
+	{
+		Action* action = m_actions.at(i);
+		action->Serialize(stream);
+	}
+}
+	

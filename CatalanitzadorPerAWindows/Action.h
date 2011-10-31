@@ -22,16 +22,10 @@
 #include <windows.h>
 #include "InternetAccess.h"
 #include "ProgressStatus.h"
+#include "Serializable.h"
+#include "ActionStatus.h"
 
-enum ActionResult
-{
-	NotStarted,
-	InProgress,
-	Successful,
-	FinishedWithError
-};
-
-class Action
+class Action : Serializable
 {
 public:
 		virtual ~Action(){};
@@ -39,13 +33,16 @@ public:
 		virtual wchar_t* GetDescription() = 0;
 		virtual bool Download(ProgressStatus, void *data) {return false;}
 		virtual bool IsNeed() = 0;
-		virtual void Execute(ProgressStatus progress, void *data) = 0;
-		virtual ActionResult Result() = 0;
+		virtual ActionStatus GetStatus() { return status;}
+		virtual void SetStatus(ActionStatus value) { status = value; }
+		virtual void Execute(ProgressStatus progress, void *data) = 0;		
+		virtual void Serialize (ostream* stream) {};// TODO: To be removed
 
 protected:
 		wchar_t* GetStringFromResourceIDName(int nID, wchar_t* string);
 
 		TCHAR szName[MAX_LOADSTRING];
 		TCHAR szDescription[MAX_LOADSTRING];
+		ActionStatus status;
 };
 

@@ -99,28 +99,48 @@ void InstallPropertyPageUI::Completed ()
 	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szString);	
 }
 
-void InstallPropertyPageUI::_onTimer()
+int InstallPropertyPageUI::_getSelectedActionsCount()
 {
-	KillTimer(getHandle (), TIMER_ID);
-
-	int cnt = m_selectedActions->size();
 	Action* action;
-
-	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt * 2));
-	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L); 
 	
-	for (int i = 0; i < cnt; i++)
+	int cnt = 0;
+	for (unsigned int i = 0; i < m_selectedActions->size(); i++)
 	{
 		action = m_selectedActions->at(i);
+		if (action->GetStatus() == Selected)
+			cnt++;
+	}
+	return cnt;
+}
+
+void InstallPropertyPageUI::_onTimer()
+{
+	Action* action;
+
+	KillTimer(getHandle (), TIMER_ID);
+
+
+	int cnt_selected = _getSelectedActionsCount();
+	int cnt_total = m_selectedActions->size();
+
+	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt_selected * 2));
+	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L); 
+	
+	for (int i = 0; i < cnt_total; i++)
+	{
+		action = m_selectedActions->at(i);
+
+		if (action->GetStatus () != Selected)
+			continue;
 
 		Download (action);
 		Execute (action);
 
 		while (true)
 		{
-			ActionResult result = action->Result();
+			ActionStatus status = action->GetStatus();
 
-			if (result == Successful || result == FinishedWithError)
+			if (status == Successful || status == FinishedWithError)
 				break;
 
 			Window::ProcessMessages();

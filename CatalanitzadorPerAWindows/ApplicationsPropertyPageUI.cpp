@@ -192,19 +192,16 @@ void ApplicationsPropertyPageUI::_onNext()
 
 	for (int i = 0; i < items; ++i)
 	{
-		if (ListView_GetCheckState(hList, i) == FALSE)
-			continue;
+		bool selected = ListView_GetCheckState(hList, i) != FALSE;
 
 		LVITEM item;
-
 		memset(&item,0,sizeof(item));
 		item.iItem = i;
 		item.mask = LVIF_PARAM;
 
-		ListView_GetItem(hList, &item);
-		m_selectedActions->push_back((Action *) item.lParam);
-
-		Action* action = (Action *) item.lParam;
-		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. User selected '%s'", action->GetName ());
+		ListView_GetItem(hList, &item);		
+		Action* action = (Action *) item.lParam;		
+		action->SetStatus (selected ? Selected : NotSelected);
+		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)selected);
 	}	
 }

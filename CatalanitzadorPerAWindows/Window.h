@@ -21,6 +21,6 @@
 
 class Window
 {
-public:
-		static void ProcessMessages();
+	public:
+			static void ProcessMessages();
 };

@@ -39,8 +39,7 @@ static void *_data;
 
 WindowsLPIAction::WindowsLPIAction ()
 {
-	m_installed = false;
-	result = NotStarted;
+	m_installed = false;	
 	filename[0] = NULL;
 }
 
@@ -178,7 +177,7 @@ void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
 		wcscat_s (lpkapp, L"\\lpksetup.exe");
 	}	
 
-	result = InProgress;
+	status = InProgress;
 	_data = data;
 	_progress = progress;
 
@@ -235,9 +234,9 @@ void WindowsLPIAction::SetDefaultLanguage ()
 	}
 }
 
-ActionResult WindowsLPIAction::Result()
+ActionStatus WindowsLPIAction::Result()
 {
-	if (result == InProgress)
+	if (status == InProgress)
 	{
 		if (runner.IsRunning())
 			return InProgress;
@@ -245,15 +244,15 @@ ActionResult WindowsLPIAction::Result()
 		KillTimer (NULL, hTimerID);
 
 		if (WasLIPInstalled ()) {
-			result = Successful;			
+			status = Successful;			
 		}
 		else {
-			result = FinishedWithError;			
+			status = FinishedWithError;			
 		}
-		g_log.Log (L"WindowsLPIAction::Result is '%s'", result == Successful ? L"Successful" : L"FinishedWithError");
+		g_log.Log (L"WindowsLPIAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 		// TODO: Move under WasLIPInstalled
 		SetDefaultLanguage ();
 	}
-	return result;
+	return status;
 }
 

@@ -42,8 +42,7 @@ static void *_data;
 #define OFFICE_2010_VERSION L"14.0"
 
 MSOfficeAction::MSOfficeAction()
-{	
-	result = NotStarted;
+{
 	filename[0] = NULL;	
 	_getVersionInstalledWithNoLangPack ();
 	GetTempPath(MAX_PATH, szTempPath);
@@ -57,7 +56,7 @@ MSOfficeAction::~MSOfficeAction()
 	}
 
 	// This deletes the contents of the extracted CAB file for MS Office 2003
-	if (m_MSVersion != MSOffice2003)
+	if (m_MSVersion == MSOffice2003)
 	{
 		wchar_t szFile[MAX_PATH];
 		wchar_t* files[] = {L"DW20.ADM_1027", L"DWINTL20.DLL_0001_1027", L"LIP.MSI",
@@ -265,7 +264,7 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 		break;
 	}
 
-	result = InProgress;
+	status = InProgress;
 	_data = data;
 	_progress = progress;
 
@@ -298,10 +297,10 @@ void MSOfficeAction::_setDefaultLanguage()
 	switch (m_MSVersion)
 	{
 		case MSOffice2003:
-			wcscpy(szKeyName, L"Software\\Microsoft\\Office\\11.0\\Common\\LanguageResources");
+			wcscpy_s(szKeyName, L"Software\\Microsoft\\Office\\11.0\\Common\\LanguageResources");
 			break;
 		case MSOffice2007:
-			wcscpy(szKeyName, L"Software\\Microsoft\\Office\\12.0\\Common\\LanguageResources");
+			wcscpy_s(szKeyName, L"Software\\Microsoft\\Office\\12.0\\Common\\LanguageResources");
 			break;
 		case MSOffice2010: // Do nothing
 			return;
@@ -319,9 +318,9 @@ void MSOfficeAction::_setDefaultLanguage()
 	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set AcceptLanguage %u", (wchar_t *) bSetKey);	
 }
 
-ActionResult MSOfficeAction::Result()
+ActionStatus MSOfficeAction::Result()
 {
-	if (result == InProgress)
+	if (status == InProgress)
 	{
 		if (runner.IsRunning())
 			return InProgress;
@@ -329,13 +328,13 @@ ActionResult MSOfficeAction::Result()
 		KillTimer(NULL, hTimerID);
 
 		if (_wasInstalledCorrectly()) {
-			result = Successful;
+			status = Successful;
 		}
 		else {
-			result = FinishedWithError;
+			status = FinishedWithError;
 		}
 		_setDefaultLanguage();
-		g_log.Log(L"MSOfficeAction::Result is '%s'", result == Successful ? L"Successful" : L"FinishedWithError");
+		g_log.Log(L"MSOfficeAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
-	return result;
+	return status;
 }

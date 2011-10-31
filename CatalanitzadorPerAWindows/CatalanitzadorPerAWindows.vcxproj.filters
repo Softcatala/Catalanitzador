@@ -107,6 +107,15 @@
     <ClInclude Include="MSOfficeAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="Serializer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionStatus.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -168,6 +177,9 @@
     </ClCompile>
     <ClCompile Include="MSOfficeAction.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

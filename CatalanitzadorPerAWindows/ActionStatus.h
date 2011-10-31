@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,17 +17,12 @@
  * 02111-1307, USA.
  */
 
-#pragma once
-
-#include "Action.h"
-
-class IEAcceptedLanguagesAction : public Action
+enum ActionStatus
 {
-public:
-		virtual wchar_t* GetName();
-		virtual wchar_t* GetDescription();
-		virtual bool IsNeed();
-		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionStatus Result();
+	NotSelected,		// The user did not select the action
+	Selected,			// Selected but no started
+	DoesNotApply,		// The action cannot be applied (e.g. Windows ES needed US found)	
+	InProgress,			// Selected and in progress
+	Successful,			// End up OK
+	FinishedWithError	// End up with error
 };
-
