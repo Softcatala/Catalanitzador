@@ -25,8 +25,8 @@ Serializer::Serializer(wchar_t* file)
 {
 	stream = new ofstream (file);
 	
-	*stream << "<?xml version='1.0'?>\r\n";
-	*stream << "<execution>\r\n";
+	*stream << "<?xml version='1.0'?>\n";
+	*stream << "<execution>\n";
 
 	_application ();
 	OSVersion::Serialize(stream);
@@ -41,19 +41,19 @@ void Serializer::_application()
 {	
 	char szText [1024];
 
-	sprintf_s (szText, "\t<application MajorVersion='%u' MinorVersion='%u' Revision='%u' />\r\n", 
+	sprintf_s (szText, "\t<application MajorVersion='%u' MinorVersion='%u' Revision='%u' />\n", 
 		APP_MAJOR_VERSION, APP_MINOR_VERSION, APP_REVISION);
 	*stream << szText;
 }
 
 void Serializer::StartAction()
 {
-	*stream << "\t<actions>\r\n";
+	*stream << "\t<actions>\n";
 }
 
 void Serializer::EndAction()
 {
-	*stream << "\t</actions>\r\n";
+	*stream << "\t</actions>\n";
 }
 
 void Serializer::Serialize(Serializable* serializable)
@@ -65,7 +65,7 @@ void Serializer::Close()
 {
 	if (stream != NULL)
 	{
-		*stream << "</execution>\r\n";
+		*stream << "</execution>\n";
 		stream->close();
 		delete stream;
 		stream = NULL;
