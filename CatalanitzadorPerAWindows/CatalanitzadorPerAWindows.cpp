@@ -87,7 +87,7 @@ void CreateWizard(HINSTANCE hInstance)
 	
 	GetTempPath (MAX_PATH, szXML);
 
-	wcscat_s (szXML, L"ouput.xml");
+	wcscat_s (szXML, L"results.xml");
 	serializer = new Serializer(szXML);
 
 	welcome.setParent (&sheet);
@@ -105,6 +105,7 @@ void CreateWizard(HINSTANCE hInstance)
 	install.setParent (&sheet);
 	install.setPageButtons (NextButton);
 	install.SetSelectedActions (&acts);
+	install.SetSerializer(serializer);
 	install.createPage(hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 
@@ -114,5 +115,7 @@ void CreateWizard(HINSTANCE hInstance)
 	sheet.addPage(&finish);
 
 	sheet.runModal (hInstance, NULL, NULL);
+
+	delete serializer;
 }
 

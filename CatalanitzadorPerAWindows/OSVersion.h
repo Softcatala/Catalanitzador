@@ -19,6 +19,10 @@
  
 #pragma once
 
+#include <ostream>
+
+using namespace std;
+
 // Keep in sync with OSVersion::GetVersionText
 enum OperatingVersion
 {
@@ -40,6 +44,7 @@ public:
 
 		static bool IsWindows64Bits ();
 		static void GetLogInfo (wchar_t * szString, int size);
+		static void Serialize(ostream* stream);
 private:
 
 		static OperatingVersion _processVistaAnd7 (OSVERSIONINFOEX osvi);

@@ -21,6 +21,8 @@
 
 #include "PropertyPageUI.h"
 #include "Action.h"
+#include "Serializer.h"
+
 #include <vector>
 using namespace std;
 
@@ -30,9 +32,10 @@ public:
 		virtual void _onInitDialog();
 		virtual	void _onShowWindow();
 		virtual	void _onTimer();
+		void SetSerializer (Serializer* serializer) { m_serializer = serializer; } 
 
 		vector <Action *> * GetSelectedActions() { return m_selectedActions;}
-		void SetSelectedActions(vector <Action *> * value) { m_selectedActions =  value;}		
+		void SetSelectedActions(vector <Action *> * value) { m_selectedActions = value;}		
 
 private:
 		static void DownloadStatus(int total, int current, void *data);
@@ -47,4 +50,5 @@ private:
 		HWND hTaskProgressBar;
 		HWND hDescription;
 		BOOL ShowWindowOnce;
+		Serializer* m_serializer;
 };

@@ -30,9 +30,10 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
+		virtual int GetID() { return 4;};
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionStatus Result();
+		virtual ActionStatus GetStatus();
 private:
 		bool IsCatalanLocaleActive();
 		bool DumpResource(LPCWSTR resource, wchar_t* file);

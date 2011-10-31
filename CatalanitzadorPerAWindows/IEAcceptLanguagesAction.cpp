@@ -52,7 +52,6 @@ void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
 {
 	wchar_t szValue[1024], szNew[1024];
 	Registry registry;
-	BOOL bSetKey = FALSE;
 
 	if (registry.OpenKey (HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", true))
 	{
@@ -64,14 +63,9 @@ void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
 		}
 		else
 			registry.SetString (L"AcceptLanguage", L"ca-ES");
-
-		bSetKey=TRUE;
+		
+		status = Successful;
 		registry.Close ();
 	}
-	g_log.Log (L"IEAcceptedLanguagesAction::Execute, set AcceptLanguage %u", (wchar_t *) bSetKey);
-}
-
-ActionStatus IEAcceptedLanguagesAction::Result()
-{
-	return Successful;
+	g_log.Log (L"IEAcceptedLanguagesAction::Execute, set AcceptLanguage %u", (wchar_t *) (status == Successful));
 }

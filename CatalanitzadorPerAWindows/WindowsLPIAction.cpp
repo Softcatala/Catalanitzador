@@ -234,7 +234,7 @@ void WindowsLPIAction::SetDefaultLanguage ()
 	}
 }
 
-ActionStatus WindowsLPIAction::Result()
+ActionStatus WindowsLPIAction::GetStatus()
 {
 	if (status == InProgress)
 	{

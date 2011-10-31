@@ -30,10 +30,11 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
+		virtual int GetID() { return 1;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionStatus Result();
+		virtual ActionStatus GetStatus();
 
 private:
 		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);

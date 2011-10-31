@@ -26,8 +26,8 @@ class IEAcceptedLanguagesAction : public Action
 public:
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
+		virtual int GetID() { return 3;};
 		virtual bool IsNeed();
-		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionStatus Result();
+		virtual void Execute(ProgressStatus progress, void *data);		
 };
 

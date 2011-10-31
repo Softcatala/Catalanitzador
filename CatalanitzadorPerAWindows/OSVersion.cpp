@@ -78,6 +78,27 @@ bool OSVersion::IsWindows64Bits ()
 	return bIsWow64 != FALSE;
 }
 
+void OSVersion::Serialize(ostream* stream)
+{
+	char szText [1024];
+	OSVERSIONINFOEX osvi;	
+	
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	GetVersionEx((OSVERSIONINFO*) &osvi);
+
+	sprintf_s (szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' Bits='%u'/>\r\n",
+		osvi.dwMajorVersion, 
+		osvi.dwMinorVersion,
+		osvi.wServicePackMajor,
+		osvi.wServicePackMinor,
+		osvi.wSuiteMask,
+		IsWindows64Bits() == true ? 64 : 32);
+
+	*stream << szText;
+}
+
 
 void OSVersion::GetLogInfo (wchar_t * szString, int size)
 {

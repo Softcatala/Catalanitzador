@@ -33,6 +33,11 @@ class Serializer
 			void Serialize(Serializable* serializable);
 			void Close();
 
+			void StartAction();
+			void EndAction();
+
 	private:
+			void _application();			
+
 			ofstream* stream;
 };

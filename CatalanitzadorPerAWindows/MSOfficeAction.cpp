@@ -318,7 +318,7 @@ void MSOfficeAction::_setDefaultLanguage()
 	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set AcceptLanguage %u", (wchar_t *) bSetKey);	
 }
 
-ActionStatus MSOfficeAction::Result()
+ActionStatus MSOfficeAction::GetStatus()
 {
 	if (status == InProgress)
 	{

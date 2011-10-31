@@ -119,19 +119,22 @@ void InstallPropertyPageUI::_onTimer()
 
 	KillTimer(getHandle (), TIMER_ID);
 
-
 	int cnt_selected = _getSelectedActionsCount();
 	int cnt_total = m_selectedActions->size();
 
 	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt_selected * 2));
 	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L); 
 	
+	m_serializer->StartAction();
 	for (int i = 0; i < cnt_total; i++)
 	{
 		action = m_selectedActions->at(i);
 
 		if (action->GetStatus () != Selected)
+		{
+			m_serializer->Serialize(action);
 			continue;
+		}
 
 		Download (action);
 		Execute (action);
@@ -145,10 +148,11 @@ void InstallPropertyPageUI::_onTimer()
 
 			Window::ProcessMessages();
 			Sleep(500);
-			Window::ProcessMessages();
+			Window::ProcessMessages();			
 		}
+		m_serializer->Serialize(action);
 	}
-
+	m_serializer->EndAction();
 	Completed ();
 }
 

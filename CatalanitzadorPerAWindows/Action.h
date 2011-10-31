@@ -25,18 +25,20 @@
 #include "Serializable.h"
 #include "ActionStatus.h"
 
-class Action : Serializable
+class Action : public Serializable
 {
 public:
+		Action();
 		virtual ~Action(){};
 		virtual wchar_t* GetName() = 0;
 		virtual wchar_t* GetDescription() = 0;
+		virtual int GetID() = 0;
 		virtual bool Download(ProgressStatus, void *data) {return false;}
 		virtual bool IsNeed() = 0;
 		virtual ActionStatus GetStatus() { return status;}
 		virtual void SetStatus(ActionStatus value) { status = value; }
-		virtual void Execute(ProgressStatus progress, void *data) = 0;		
-		virtual void Serialize (ostream* stream) {};// TODO: To be removed
+		virtual void Execute(ProgressStatus progress, void *data) = 0;
+		virtual void Serialize(ostream* stream);		
 
 protected:
 		wchar_t* GetStringFromResourceIDName(int nID, wchar_t* string);

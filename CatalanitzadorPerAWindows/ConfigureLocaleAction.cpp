@@ -128,6 +128,7 @@ void ConfigureLocaleAction::Execute(ProgressStatus progress, void *data)
 
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s (szApp, L"\\control.exe ");
+	status = InProgress;
 
 	if (OSVersion::GetVersion () == WindowsXP)
 	{
@@ -151,11 +152,12 @@ void ConfigureLocaleAction::Execute(ProgressStatus progress, void *data)
 	runner.WaitUntilFinished ();
 }
 
-ActionStatus ConfigureLocaleAction::Result()
+ActionStatus ConfigureLocaleAction::GetStatus()
 {
-	ActionStatus result;
-
-	result = IsCatalanLocaleActive()? Successful : FinishedWithError;
-	g_log.Log (L"ConfigureLocaleAction::Result is '%s'", result == Successful ? L"Successful" : L"FinishedWithError");
-	return result;
+	if (status == InProgress)
+	{
+		status = IsCatalanLocaleActive() ? Successful : FinishedWithError;
+		g_log.Log (L"ConfigureLocaleAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
+	}
+	return status;
 }
