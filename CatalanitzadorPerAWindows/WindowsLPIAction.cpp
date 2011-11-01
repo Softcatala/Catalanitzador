@@ -256,3 +256,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 	return status;
 }
 
+bool WindowsLPIAction::IsRebootNeed()
+{
+	return status == Successful;
+}

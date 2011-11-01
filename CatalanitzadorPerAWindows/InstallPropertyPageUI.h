@@ -32,10 +32,8 @@ public:
 		virtual void _onInitDialog();
 		virtual	void _onShowWindow();
 		virtual	void _onTimer();
-		void SetSerializer (Serializer* serializer) { m_serializer = serializer; } 
-
-		vector <Action *> * GetSelectedActions() { return m_selectedActions;}
-		void SetSelectedActions(vector <Action *> * value) { m_selectedActions = value;}		
+		void SetSerializer (Serializer* serializer) { m_serializer = serializer; }		
+		void SetActions(vector <Action *> * value) { m_actions = value;}		
 
 private:
 		static void DownloadStatus(int total, int current, void *data);
@@ -45,7 +43,7 @@ private:
 		void Completed();
 		int _getSelectedActionsCount();
 
-		vector <Action *> * m_selectedActions;
+		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;
 		HWND hTaskProgressBar;
 		HWND hDescription;

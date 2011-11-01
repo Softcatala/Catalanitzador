@@ -92,6 +92,7 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 					return TRUE;
 				}
 			} else if (pNMHDR->code==PSN_WIZFINISH) {
+				pThis->_onFinish();
 				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
 				pThis->getParent ()->destroy ();
 			} else if (pNMHDR->code==PSN_SETACTIVE) {

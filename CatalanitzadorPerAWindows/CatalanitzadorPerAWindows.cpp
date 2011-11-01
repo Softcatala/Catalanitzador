@@ -103,13 +103,14 @@ void CreateWizard(HINSTANCE hInstance)
 	sheet.addPage(&applications);
 
 	install.setParent (&sheet);
-	install.setPageButtons (NextButton);
-	install.SetSelectedActions (&acts);
+	install.setPageButtons (CancelButton);
+	install.SetActions(&acts);
 	install.SetSerializer(serializer);
 	install.createPage(hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 
 	finish.setParent (&sheet);
+	finish.SetActions(&acts);
 	finish.setPageButtons (FinishButton);
 	finish.createPage(hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);

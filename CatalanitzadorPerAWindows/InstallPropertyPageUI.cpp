@@ -36,7 +36,7 @@ void InstallPropertyPageUI::_onInitDialog()
 	hTotalProgressBar = GetDlgItem (getHandle (), IDC_INSTALL_PROGRESS_TOTAL);
 	hTaskProgressBar = GetDlgItem (getHandle (), IDC_INSTALL_PROGRESS_TASK);
 	hDescription = GetDlgItem (getHandle (), IDC_INSTALL_DESCRIPTION);
-	ShowWindowOnce = FALSE;
+	ShowWindowOnce = FALSE;	
 }
 
 void InstallPropertyPageUI::_onShowWindow()
@@ -84,19 +84,22 @@ void InstallPropertyPageUI::Download(Action* action)
 	action->Download((ProgressStatus)DownloadStatus, this);
 }
 
-void InstallPropertyPageUI::Completed ()
+void InstallPropertyPageUI::Completed()
 {
 	wchar_t szString [MAX_LOADSTRING];
 	int nCompleted = 255;
 
 	SendMessage(hTaskProgressBar, PBM_SETRANGE32, 0, nCompleted);
-	SendMessage(hTaskProgressBar, PBM_SETPOS, nCompleted, 0);	
+	SendMessage(hTaskProgressBar, PBM_SETPOS, nCompleted, 0);
 
 	SendMessage(hTotalProgressBar, PBM_SETRANGE32, 0, nCompleted);
-	SendMessage(hTotalProgressBar, PBM_SETPOS, nCompleted, 0);	
+	SendMessage(hTotalProgressBar, PBM_SETPOS, nCompleted, 0);
 
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_COMPLETED, szString, MAX_LOADSTRING);
-	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szString);	
+	SendMessage(hDescription, WM_SETTEXT, 0, (LPARAM) szString);
+	
+	// Enable Wizard next button
+	SendMessage(getParent()->getHandle (), PSM_SETWIZBUTTONS, 0, PSWIZB_NEXT);
 }
 
 int InstallPropertyPageUI::_getSelectedActionsCount()
@@ -104,9 +107,9 @@ int InstallPropertyPageUI::_getSelectedActionsCount()
 	Action* action;
 	
 	int cnt = 0;
-	for (unsigned int i = 0; i < m_selectedActions->size(); i++)
+	for (unsigned int i = 0; i < m_actions->size(); i++)
 	{
-		action = m_selectedActions->at(i);
+		action = m_actions->at(i);
 		if (action->GetStatus() == Selected)
 			cnt++;
 	}
@@ -120,7 +123,7 @@ void InstallPropertyPageUI::_onTimer()
 	KillTimer(getHandle (), TIMER_ID);
 
 	int cnt_selected = _getSelectedActionsCount();
-	int cnt_total = m_selectedActions->size();
+	int cnt_total = m_actions->size();
 
 	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt_selected * 2));
 	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L); 
@@ -128,7 +131,7 @@ void InstallPropertyPageUI::_onTimer()
 	m_serializer->StartAction();
 	for (int i = 0; i < cnt_total; i++)
 	{
-		action = m_selectedActions->at(i);
+		action = m_actions->at(i);
 
 		if (action->GetStatus () != Selected)
 		{

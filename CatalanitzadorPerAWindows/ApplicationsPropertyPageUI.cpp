@@ -193,7 +193,7 @@ bool ApplicationsPropertyPageUI::_onNext()
 
 	for (int i = 0; i < items; ++i)
 	{
-		bool selected = ListView_GetCheckState(hList, i) != FALSE;	
+		bool selected = ListView_GetCheckState(hList, i) != FALSE;
 
 		LVITEM item;
 		memset(&item,0,sizeof(item));
@@ -205,7 +205,7 @@ bool ApplicationsPropertyPageUI::_onNext()
 		action->SetStatus (selected ? Selected : NotSelected);
 		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)selected);
 
-		if (selected == true && action->RequiereDownload ())
+		if (selected == true && action->IsDownloadNeed())
 			needInet = true;
 	}
 

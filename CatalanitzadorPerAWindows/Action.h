@@ -33,11 +33,13 @@ public:
 		virtual wchar_t* GetName() = 0;
 		virtual wchar_t* GetDescription() = 0;
 		virtual int GetID() = 0;
-		virtual bool RequiereDownload() {return true;}
-		virtual bool Download(ProgressStatus, void *data) {return false;}
+		virtual bool IsDownloadNeed() {return true;}
 		virtual bool IsNeed() = 0;
+		virtual bool IsRebootNeed() { return false;};
 		virtual ActionStatus GetStatus() { return status;}
 		virtual void SetStatus(ActionStatus value) { status = value; }
+
+		virtual bool Download(ProgressStatus, void *data) {return false;}
 		virtual void Execute(ProgressStatus progress, void *data) = 0;
 		virtual void Serialize(ostream* stream);		
 

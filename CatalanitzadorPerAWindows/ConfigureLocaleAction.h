@@ -31,7 +31,7 @@ public:
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
 		virtual int GetID() { return 4;};
-		virtual bool RequiereDownload() {return false;}
+		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
 		virtual ActionStatus GetStatus();

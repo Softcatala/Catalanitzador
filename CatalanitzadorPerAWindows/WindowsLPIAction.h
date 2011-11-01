@@ -33,6 +33,7 @@ public:
 		virtual int GetID() { return 1;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
+		virtual bool IsRebootNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
 		virtual ActionStatus GetStatus();
 

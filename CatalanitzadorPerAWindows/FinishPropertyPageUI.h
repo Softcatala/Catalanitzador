@@ -19,11 +19,21 @@
  
 #pragma once
 
+#include "Action.h"
 #include "PropertyPageUI.h"
+
+#include <vector>
+using namespace std;
 
 class FinishPropertyPageUI: public PropertyPageUI
 {
 public:		
+		void SetActions(vector <Action *> * value) { m_actions = value;}
+
+private:
 		virtual void _onInitDialog();
+		virtual	void _onFinish();
+		bool _isRebootNeed();
 		
+		vector <Action *> * m_actions;
 };

@@ -26,3 +26,40 @@ void FinishPropertyPageUI::_onInitDialog()
 	
 }
 
+bool FinishPropertyPageUI::_isRebootNeed()
+{	
+	Action* action;
+
+	for (int i = 0; i < m_actions->size(); i++)
+	{
+		action = m_actions->at(i);
+
+		if (action->IsRebootNeed())
+		{
+			return true;
+		}
+	}
+	return true;
+	//return false;
+}
+
+void FinishPropertyPageUI::_onFinish()
+{	
+	if (_isRebootNeed())
+	{
+		bool result;
+		wchar_t szMessage [MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];
+
+		LoadString(GetModuleHandle(NULL), IDS_REBOOTNEED, szMessage, MAX_LOADSTRING);
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+		result = (MessageBox(getHandle(), szMessage, szCaption,
+			MB_YESNOCANCEL | MB_ICONQUESTION) == IDYES);
+
+		if (result)
+		{
+			ExitWindowsEx(EWX_LOGOFF, SHTDN_REASON_MAJOR_APPLICATION);
+		}
+	}
+}
