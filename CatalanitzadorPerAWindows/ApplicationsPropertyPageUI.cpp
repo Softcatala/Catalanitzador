@@ -41,7 +41,7 @@ bool ApplicationsPropertyPageUI::_isActionNeeded(HWND hWnd, int nItem)
 	return item->second;
 }
 
-LRESULT ApplicationsPropertyPageUI::ListViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 {	
 	ApplicationsPropertyPageUI *pThis = (ApplicationsPropertyPageUI *)GetWindowLong(hWnd,GWL_USERDATA);
 
@@ -86,13 +86,13 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	int nItemId = 0;
 	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
 
-	ListView_SetExtendedListViewStyle (hList, LVS_EX_CHECKBOXES);
+	ListView_SetExtendedListViewStyle(hList, LVS_EX_CHECKBOXES);
 
 	LVITEM item;
 	memset(&item,0,sizeof(item));
 	item.mask=LVIF_TEXT | LVIF_PARAM;
 
-	if (m_availableActions->size () == 0)
+	if (m_availableActions->size() == 0)
 		return;
 
 	// Enabled items
@@ -101,7 +101,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		Action* action = m_availableActions->at(i);
 		bool needed = action->IsNeed();
 
-		m_disabledActions.insert(ActionBool_Pair (action, needed));
+		m_disabledActions.insert(ActionBool_Pair(action, needed));
 
 		if (needed == false)
 			continue;
@@ -126,16 +126,16 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 			continue;
 		
 		item.iItem=nItemId;
-		item.pszText= action->GetName ();
-		item.lParam = (LPARAM) action;		
+		item.pszText= action->GetName();
+		item.lParam = (LPARAM) action;
 		ListView_InsertItem (hList, &item);
-		ListView_SetCheckState (hList, nItemId, false);
+		ListView_SetCheckState(hList, nItemId, false);
 		nItemId++;
 	}
 
-	ListView_SetItemState (hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
+	ListView_SetItemState(hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
 	SetWindowLongPtr(hList, GWL_USERDATA, (LONG) this);
-	PreviousProc = (WNDPROC)SetWindowLongPtr (hList, GWLP_WNDPROC, (LONG_PTR) ListViewSubclassProc);
+	PreviousProc = (WNDPROC)SetWindowLongPtr(hList, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);
 }
 
 NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
@@ -149,7 +149,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_PREPAINT)
 		{
-			SetWindowLong (getHandle (), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
+			SetWindowLong (getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
 			return ReturnTrue;
 		}
 
@@ -165,7 +165,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 				DWORD color = GetSysColor(COLOR_GRAYTEXT);
 				lpNMLVCD->clrText = color;
 			}
-			SetWindowLong (getHandle (), DWLP_MSGRESULT, CDRF_DODEFAULT);
+			SetWindowLong (getHandle(), DWLP_MSGRESULT, CDRF_DODEFAULT);
 			return ReturnTrue;
 		}
 		
@@ -188,7 +188,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 
 bool ApplicationsPropertyPageUI::_onNext()
 {
-	int items = ListView_GetItemCount (hList);
+	int items = ListView_GetItemCount(hList);
 	bool needInet = false;
 
 	for (int i = 0; i < items; ++i)

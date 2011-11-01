@@ -43,15 +43,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	InitLog ();
 	if (SupportedOS() == true)
 	{
-		CreateWizard (hInstance);
+		CreateWizard(hInstance);
 	}
-	g_log.Close ();
+	g_log.Close();
 	return TRUE;
 }
 
-void InitLog ()
+void InitLog()
 {	
-	g_log.CreateLog (L"CatalanitzadorPerAWindows.log");
+	g_log.CreateLog(L"CatalanitzadorPerAWindows.log");
 	
 	wchar_t szOSInfo [2048];
 	OSVersion::GetLogInfo (szOSInfo, sizeof (szOSInfo));

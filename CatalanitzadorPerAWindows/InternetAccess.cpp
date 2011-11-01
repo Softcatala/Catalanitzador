@@ -22,18 +22,18 @@
 #include "InternetAccess.h"
 #include "Window.h"
 
-InternetAccess::InternetAccess ()
+InternetAccess::InternetAccess()
 {
 	// TODO: Consider add support for proxies
 	hInternet = InternetOpen(0, INTERNET_OPEN_TYPE_DIRECT, 0, 0, 0);
 }
 
-InternetAccess::~InternetAccess ()
+InternetAccess::~InternetAccess()
 {
 	InternetCloseHandle(hInternet);
 }
 
-int InternetAccess::_getFileSize (HINTERNET hRemoteFile)
+int InternetAccess::_getFileSize(HINTERNET hRemoteFile)
 {
 	const int nEstimatedSize = 20000000;
 	wchar_t szSizeBuffer[64];

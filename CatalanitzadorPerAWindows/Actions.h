@@ -31,7 +31,7 @@ class Actions
 		~Actions();
 		vector <Action *> GetActions() {return m_actions; }
 	private:
-		void BuildListOfActions();
+		void _buildListOfActions();
 
 		vector <Action *> m_actions;
 };

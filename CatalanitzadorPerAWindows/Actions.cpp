@@ -26,7 +26,7 @@
 
 Actions::Actions()
 {
-	BuildListOfActions();
+	_buildListOfActions();
 }
 
 Actions::~Actions()
@@ -39,7 +39,7 @@ Actions::~Actions()
 	m_actions.clear();
 }
 
-void Actions::BuildListOfActions()
+void Actions::_buildListOfActions()
 {
 	m_actions.push_back(new WindowsLPIAction());
 	m_actions.push_back(new IEAcceptedLanguagesAction());

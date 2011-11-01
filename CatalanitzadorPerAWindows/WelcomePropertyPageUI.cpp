@@ -54,7 +54,7 @@ void WelcomePropertyPageUI::_onInitDialog()
 
 	SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
-	SendMessage(GetDlgItem (getHandle (), IDC_WELCOME_ABOUTSECURITY),
+	SendMessage(GetDlgItem (getHandle(), IDC_WELCOME_ABOUTSECURITY),
 		WM_SETFONT, (WPARAM) m_hFont, TRUE);	
 }
 
