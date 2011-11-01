@@ -34,12 +34,12 @@ enum MSOfficeVersion
 class MSOfficeAction : public Action
 {
 public:
-		MSOfficeAction ();
-		~MSOfficeAction ();
+		MSOfficeAction();
+		~MSOfficeAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual int GetID() { return 2;};
+		virtual int GetID() { return MSOfficeLPI;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);

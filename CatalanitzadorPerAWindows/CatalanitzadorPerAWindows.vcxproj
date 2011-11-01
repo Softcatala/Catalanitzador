@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
+    <ClInclude Include="ActionID.h" />
     <ClInclude Include="ActionStatus.h" />
     <ClInclude Include="Actions.h" />
     <ClInclude Include="ApplicationsPropertyPageUI.h" />

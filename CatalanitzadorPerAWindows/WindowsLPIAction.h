@@ -30,7 +30,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual int GetID() { return 1;};
+		virtual int GetID() { return WindowsLPI;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual bool IsRebootNeed();

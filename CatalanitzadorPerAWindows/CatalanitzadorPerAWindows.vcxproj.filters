@@ -116,6 +116,9 @@
     <ClInclude Include="ActionStatus.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="ActionID.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

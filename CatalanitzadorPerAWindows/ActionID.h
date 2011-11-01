@@ -19,27 +19,12 @@
 
 #pragma once
 
-#include "Action.h"
-#include "Runner.h"
-
-class ConfigureLocaleAction : public Action
+enum ActionID
 {
-public:
-		ConfigureLocaleAction();
-		~ConfigureLocaleAction();
-
-		virtual wchar_t* GetName();
-		virtual wchar_t* GetDescription();
-		virtual int GetID() { return ConfigureLocale;};
-		virtual bool IsDownloadNeed() {return false;}
-		virtual bool IsNeed();
-		virtual void Execute(ProgressStatus progress, void *data);
-		virtual ActionStatus GetStatus();
-private:
-		bool _isCatalanLocaleActive();
-		bool _dumpResource(LPCWSTR resource, wchar_t* file);
-
-		wchar_t szCfgFile[MAX_PATH];
-		Runner runner;
+	// Do not modify these since they are used in the server side to identify 
+	// actions in a unique manner
+	WindowsLPI = 0,
+	MSOfficeLPI = 1,
+	ConfigureLocale = 2,
+	IEAcceptLanguage = 3
 };
-

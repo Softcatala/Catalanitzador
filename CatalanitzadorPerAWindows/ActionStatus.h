@@ -17,6 +17,8 @@
  * 02111-1307, USA.
  */
 
+#pragma once
+
 enum ActionStatus
 {
 	NotSelected,		// The user did not select the action
