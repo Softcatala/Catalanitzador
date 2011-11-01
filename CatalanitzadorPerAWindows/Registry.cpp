@@ -20,12 +20,12 @@
 #include "stdafx.h"
 #include "Registry.h"
 
-Registry::Registry ()
+Registry::Registry()
 {
 	hKey = NULL;
 }
 
-Registry::~Registry ()
+Registry::~Registry()
 {
 	Close ();
 }
@@ -54,11 +54,11 @@ bool Registry::GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength)
 	return RegQueryValueEx(hKey,sName,0,&dwType,(BYTE*)pBuffer,&dwLen) == ERROR_SUCCESS && dwType == REG_SZ;
 }
 
-bool Registry::Close ()
+bool Registry::Close()
 {
 	if (hKey != NULL)
 	{
-		if (RegCloseKey(hKey) == ERROR_SUCCESS) 
+		if (RegCloseKey(hKey) == ERROR_SUCCESS)
 		{
 			hKey = NULL;
 			return true;

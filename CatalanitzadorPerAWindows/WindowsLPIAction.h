@@ -39,13 +39,12 @@ public:
 
 private:
 		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
-		static VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
-
-		bool DirectoryExists(LPCTSTR szPath);
-		wchar_t* _getPackageName ();
-		void UpdateIsInstalled ();
-		void SetDefaultLanguage ();
-		bool WasLIPInstalled ();
+		static VOID CALLBACK _timerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
+		bool _directoryExists(LPCTSTR szPath);
+		wchar_t* _getPackageName();
+		void _updateIsInstalled();
+		void _setDefaultLanguage();
+		bool _wasLIPInstalled();
 
 		bool m_installed;
 		wchar_t filename[MAX_PATH];		

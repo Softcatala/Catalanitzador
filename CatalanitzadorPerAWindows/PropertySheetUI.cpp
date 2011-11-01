@@ -241,7 +241,6 @@ void PropertySheetUI::destroy(void)
 	}
 
 	cleanup ();	
-	
 }
 
 void PropertySheetUI::cleanup(void)

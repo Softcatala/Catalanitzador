@@ -25,8 +25,8 @@
 class ConfigureLocaleAction : public Action
 {
 public:
-		ConfigureLocaleAction ();
-		~ConfigureLocaleAction ();
+		ConfigureLocaleAction();
+		~ConfigureLocaleAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -36,8 +36,8 @@ public:
 		virtual void Execute(ProgressStatus progress, void *data);
 		virtual ActionStatus GetStatus();
 private:
-		bool IsCatalanLocaleActive();
-		bool DumpResource(LPCWSTR resource, wchar_t* file);
+		bool _isCatalanLocaleActive();
+		bool _dumpResource(LPCWSTR resource, wchar_t* file);
 
 		wchar_t szCfgFile[MAX_PATH];
 		Runner runner;

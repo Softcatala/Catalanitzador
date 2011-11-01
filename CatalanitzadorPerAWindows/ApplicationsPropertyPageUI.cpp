@@ -25,7 +25,7 @@
 #include <vector>
 using namespace std;
 
-bool ApplicationsPropertyPageUI::IsActionNeeded(HWND hWnd, int nItem)
+bool ApplicationsPropertyPageUI::_isActionNeeded(HWND hWnd, int nItem)
 {	
 	LVITEM lvitem;
 	
@@ -57,7 +57,7 @@ LRESULT ApplicationsPropertyPageUI::ListViewSubclassProc(HWND hWnd, UINT uMsg, W
 
 			if (lvHitTestInfo.flags & LVHT_ONITEMSTATEICON)
 			{
-				if (pThis->IsActionNeeded (hWnd, nItem) == false)
+				if (pThis->_isActionNeeded(hWnd, nItem) == false)
 				{
 					return 0;
 				}
@@ -69,7 +69,7 @@ LRESULT ApplicationsPropertyPageUI::ListViewSubclassProc(HWND hWnd, UINT uMsg, W
 			if (wParam == VK_SPACE)
 			{
 				int nItem = ListView_GetSelectionMark(hWnd);
-				if (pThis->IsActionNeeded (hWnd, nItem) == false)
+				if (pThis->_isActionNeeded(hWnd, nItem) == false)
 				{
 					return 0;
 				}

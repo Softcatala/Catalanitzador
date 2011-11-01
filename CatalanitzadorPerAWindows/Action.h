@@ -44,7 +44,7 @@ public:
 		virtual void Serialize(ostream* stream);		
 
 protected:
-		wchar_t* GetStringFromResourceIDName(int nID, wchar_t* string);
+		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);
 
 		TCHAR szName[MAX_LOADSTRING];
 		TCHAR szDescription[MAX_LOADSTRING];

@@ -39,10 +39,10 @@ public:
 
 private:
 
-	void StringTime();
-	void Write(wchar_t* string);
-	void WriteLine(wchar_t* string);
-	void WriteCompileTime ();
+	void _stringTime();
+	void _write(wchar_t* string);
+	void _writeLine(wchar_t* string);
+	void _writeCompileTime();
 
 	wchar_t m_szFilename [MAX_PATH];
 	wchar_t m_szText [BUFFER_SIZE];

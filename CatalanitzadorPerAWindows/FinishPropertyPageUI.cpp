@@ -30,7 +30,7 @@ bool FinishPropertyPageUI::_isRebootNeed()
 {	
 	Action* action;
 
-	for (int i = 0; i < m_actions->size(); i++)
+	for (unsigned int i = 0; i < m_actions->size(); i++)
 	{
 		action = m_actions->at(i);
 
@@ -38,9 +38,8 @@ bool FinishPropertyPageUI::_isRebootNeed()
 		{
 			return true;
 		}
-	}
-	return true;
-	//return false;
+	}	
+	return false;
 }
 
 void FinishPropertyPageUI::_onFinish()

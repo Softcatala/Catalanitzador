@@ -24,8 +24,8 @@
 
 InternetAccess::InternetAccess ()
 {
-	// TODO: Consider add support for proxy
-	hInternet = InternetOpen (0, INTERNET_OPEN_TYPE_DIRECT, 0, 0, 0);
+	// TODO: Consider add support for proxies
+	hInternet = InternetOpen(0, INTERNET_OPEN_TYPE_DIRECT, 0, 0, 0);
 }
 
 InternetAccess::~InternetAccess ()
@@ -33,7 +33,7 @@ InternetAccess::~InternetAccess ()
 	InternetCloseHandle(hInternet);
 }
 
-int InternetAccess::GetFileSize (HINTERNET hRemoteFile)
+int InternetAccess::_getFileSize (HINTERNET hRemoteFile)
 {
 	const int nEstimatedSize = 20000000;
 	wchar_t szSizeBuffer[64];
@@ -46,7 +46,7 @@ int InternetAccess::GetFileSize (HINTERNET hRemoteFile)
 	return nEstimatedSize;
 }
 
-bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
+bool InternetAccess::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
 {
 	HINTERNET hRemoteFile;
 	HANDLE hWrite;
@@ -60,14 +60,14 @@ bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file, ProgressStatus progre
 	if (hRemoteFile == 0)
 		return false;
 
-	hWrite = CreateFile (file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	hWrite = CreateFile(file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hWrite == INVALID_HANDLE_VALUE)
 		return false;
 		
 	BYTE buffer[32768];
 
-	nTotal = GetFileSize (hRemoteFile);
+	nTotal = _getFileSize(hRemoteFile);
 	nCurrent = 0;
 
 	while (InternetReadFile(hRemoteFile, buffer, sizeof (buffer) - 1, &dwRead))
@@ -88,9 +88,9 @@ bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file, ProgressStatus progre
 
 		Window::ProcessMessages();
 
-		WriteFile (hWrite, buffer, dwRead, &dwWritten, NULL);
+		WriteFile(hWrite, buffer, dwRead, &dwWritten, NULL);
 	}
-	CloseHandle (hWrite);
+	CloseHandle(hWrite);
 	InternetCloseHandle(hRemoteFile);
 	return true;	
 }

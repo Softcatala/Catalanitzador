@@ -33,9 +33,9 @@ using namespace std;
 
 void InstallPropertyPageUI::_onInitDialog()
 {
-	hTotalProgressBar = GetDlgItem (getHandle (), IDC_INSTALL_PROGRESS_TOTAL);
-	hTaskProgressBar = GetDlgItem (getHandle (), IDC_INSTALL_PROGRESS_TASK);
-	hDescription = GetDlgItem (getHandle (), IDC_INSTALL_DESCRIPTION);
+	hTotalProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TOTAL);
+	hTaskProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TASK);
+	hDescription = GetDlgItem (getHandle(), IDC_INSTALL_DESCRIPTION);
 	ShowWindowOnce = FALSE;	
 }
 
@@ -43,12 +43,12 @@ void InstallPropertyPageUI::_onShowWindow()
 {
 	if (ShowWindowOnce == FALSE)
 	{
-		SetTimer (getHandle (), TIMER_ID, 500, NULL);
+		SetTimer (getHandle(), TIMER_ID, 500, NULL);
 		ShowWindowOnce = TRUE;
 	}
 }
 
-void InstallPropertyPageUI::DownloadStatus(int total, int current, void *data)
+void InstallPropertyPageUI::_downloadStatus(int total, int current, void *data)
 {
 	InstallPropertyPageUI* pThis = (InstallPropertyPageUI*) data;
 
@@ -56,7 +56,7 @@ void InstallPropertyPageUI::DownloadStatus(int total, int current, void *data)
 	SendMessage(pThis->hTaskProgressBar, PBM_SETPOS, current, 0);	
 }
 
-void InstallPropertyPageUI::Execute(Action* action)
+void InstallPropertyPageUI::_execute(Action* action)
 {
 	wchar_t szString [MAX_LOADSTRING];
 	wchar_t szText [MAX_LOADSTRING];
@@ -67,10 +67,10 @@ void InstallPropertyPageUI::Execute(Action* action)
 	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
 	Window::ProcessMessages();
-	action->Execute((ProgressStatus)DownloadStatus, this);
+	action->Execute((ProgressStatus)_downloadStatus, this);
 }
 
-void InstallPropertyPageUI::Download(Action* action)
+void InstallPropertyPageUI::_download(Action* action)
 {
 	wchar_t szString [MAX_LOADSTRING];
 	wchar_t szText [MAX_LOADSTRING];
@@ -81,10 +81,10 @@ void InstallPropertyPageUI::Download(Action* action)
 	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
 	Window::ProcessMessages();
-	action->Download((ProgressStatus)DownloadStatus, this);
+	action->Download((ProgressStatus)_downloadStatus, this);
 }
 
-void InstallPropertyPageUI::Completed()
+void InstallPropertyPageUI::_completed()
 {
 	wchar_t szString [MAX_LOADSTRING];
 	int nCompleted = 255;
@@ -99,7 +99,7 @@ void InstallPropertyPageUI::Completed()
 	SendMessage(hDescription, WM_SETTEXT, 0, (LPARAM) szString);
 	
 	// Enable Wizard next button
-	SendMessage(getParent()->getHandle (), PSM_SETWIZBUTTONS, 0, PSWIZB_NEXT);
+	SendMessage(getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, PSWIZB_NEXT);
 }
 
 int InstallPropertyPageUI::_getSelectedActionsCount()
@@ -120,7 +120,7 @@ void InstallPropertyPageUI::_onTimer()
 {
 	Action* action;
 
-	KillTimer(getHandle (), TIMER_ID);
+	KillTimer(getHandle(), TIMER_ID);
 
 	int cnt_selected = _getSelectedActionsCount();
 	int cnt_total = m_actions->size();
@@ -133,14 +133,14 @@ void InstallPropertyPageUI::_onTimer()
 	{
 		action = m_actions->at(i);
 
-		if (action->GetStatus () != Selected)
+		if (action->GetStatus() != Selected)
 		{
 			m_serializer->Serialize(action);
 			continue;
 		}
 
-		Download (action);
-		Execute (action);
+		_download(action);
+		_execute(action);
 
 		while (true)
 		{
@@ -156,6 +156,6 @@ void InstallPropertyPageUI::_onTimer()
 		m_serializer->Serialize(action);
 	}
 	m_serializer->EndAction();
-	Completed ();
+	_completed();
 }
 

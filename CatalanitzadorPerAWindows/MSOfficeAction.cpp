@@ -68,7 +68,7 @@ MSOfficeAction::~MSOfficeAction()
 			wcscpy_s(szFile, szTempPath);
 			wcscat_s(szFile, files[i]);
 
-			if (GetFileAttributes (szFile) != INVALID_FILE_ATTRIBUTES)
+			if (GetFileAttributes(szFile) != INVALID_FILE_ATTRIBUTES)
 			{
 				DeleteFile(szFile);
 			}
@@ -78,30 +78,30 @@ MSOfficeAction::~MSOfficeAction()
 
 wchar_t* MSOfficeAction::GetName()
 {
-	return GetStringFromResourceIDName (IDS_MSOFFICEACTION_NAME, szName);
+	return _getStringFromResourceIDName(IDS_MSOFFICEACTION_NAME, szName);
 }
 
 wchar_t* MSOfficeAction::GetDescription()
 {
-	return GetStringFromResourceIDName (IDS_MSOFFICEACTION_DESCRIPTION, szDescription);
+	return _getStringFromResourceIDName(IDS_MSOFFICEACTION_DESCRIPTION, szDescription);
 }
 
-bool MSOfficeAction::_isVersionInstalled (wchar_t* version)
+bool MSOfficeAction::_isVersionInstalled(wchar_t* version)
 {
 	Registry registry;
 	wchar_t szValue[1024];
 	wchar_t szKey[1024];
 	bool Installed = false;
 
-	swprintf_s (szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", version);
-	if (registry.OpenKey (HKEY_LOCAL_MACHINE, szKey, false))
+	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", version);
+	if (registry.OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
 	{
-		if (registry.GetString (L"Path", szValue, sizeof (szValue)))
+		if (registry.GetString(L"Path", szValue, sizeof (szValue)))
 		{
-			if (wcslen (szValue) > 0)
+			if (wcslen(szValue) > 0)
 				Installed = true;
 		}
-		registry.Close ();
+		registry.Close();
 	}
 	return Installed;
 }
@@ -197,7 +197,7 @@ bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 
 // We do not really know how much time is this going to take just start by the estimation
 // of nTotal and increase it when we reach the end
-VOID CALLBACK MSOfficeAction::TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK MSOfficeAction::_timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	nCurrent++;
 
@@ -269,7 +269,7 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 	_progress = progress;
 
 	// Timer trigger every second to update progress bar
-	hTimerID = SetTimer(NULL, TIMER_ID, 1000, TimerProc);
+	hTimerID = SetTimer(NULL, TIMER_ID, 1000, _timerProc);
 
 	g_log.Log(L"MSOfficeAction::Execute '%s' with params '%s'", szApp, szParams);
 	runner.Execute (szApp, szParams);	

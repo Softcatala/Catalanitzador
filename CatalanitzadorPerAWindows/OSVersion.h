@@ -39,11 +39,11 @@ enum OperatingVersion
 class OSVersion 
 {
 public:
-		static OperatingVersion GetVersion ();
-		static wchar_t* GetVersionText (OperatingVersion version);
+		static OperatingVersion GetVersion();
+		static wchar_t* GetVersionText(OperatingVersion version);
 
-		static bool IsWindows64Bits ();
-		static void GetLogInfo (wchar_t * szString, int size);
+		static bool IsWindows64Bits();
+		static void GetLogInfo(wchar_t * szString, int size);
 		static void Serialize(ostream* stream);
 private:
 

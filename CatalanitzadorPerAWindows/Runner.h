@@ -24,7 +24,7 @@ class Runner
 public:
 		bool Execute(wchar_t* program, wchar_t* params);
 		bool IsRunning();
-		void WaitUntilFinished ();
+		void WaitUntilFinished();
 
 private:
 		PROCESS_INFORMATION pi;

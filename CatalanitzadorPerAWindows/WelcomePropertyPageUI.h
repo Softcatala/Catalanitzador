@@ -25,12 +25,11 @@ class WelcomePropertyPageUI: public PropertyPageUI
 {
 public:
 		WelcomePropertyPageUI();
-		~WelcomePropertyPageUI();
-
-		virtual void _onInitDialog();
+		~WelcomePropertyPageUI();	
 
 private:
-		void CreateBoldFont(HWND hWnd);
+		virtual void _onInitDialog();
+		void _createBoldFont(HWND hWnd);
 
 		HFONT		m_hFont;
 };

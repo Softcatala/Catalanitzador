@@ -20,7 +20,7 @@
 #include "stdafx.h"
 #include "Runner.h"
 
-bool Runner::Execute (wchar_t* program, wchar_t* params)
+bool Runner::Execute(wchar_t* program, wchar_t* params)
 {
 	STARTUPINFO si;	
 
@@ -29,7 +29,7 @@ bool Runner::Execute (wchar_t* program, wchar_t* params)
 	ZeroMemory (&pi, sizeof (pi));
 
 	// Start the child process
-	if (!CreateProcess (program, params,         
+	if (!CreateProcess(program, params,         
 		NULL,  NULL,  FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
 	{
 		int error = GetLastError();
@@ -42,7 +42,7 @@ bool Runner::Execute (wchar_t* program, wchar_t* params)
 	return true;
 }
 
-bool Runner::IsRunning ()
+bool Runner::IsRunning()
 {
 	DWORD dwStatus;
 
@@ -50,7 +50,7 @@ bool Runner::IsRunning ()
 	return dwStatus == STILL_ACTIVE;
 }
 
-void Runner::WaitUntilFinished ()
+void Runner::WaitUntilFinished()
 {
 	WaitForSingleObject(pi.hProcess, INFINITE);
 }

@@ -25,7 +25,7 @@ Action::Action()
 	status = NotSelected;
 }
 
-wchar_t* Action::GetStringFromResourceIDName(int nID, wchar_t* string)
+wchar_t* Action::_getStringFromResourceIDName(int nID, wchar_t* string)
 {
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 	LoadString(hInstance, nID, string, MAX_LOADSTRING);
@@ -34,9 +34,9 @@ wchar_t* Action::GetStringFromResourceIDName(int nID, wchar_t* string)
 
 void Action::Serialize(ostream* stream)
 {
-	char szText [1024];
+	char szText[1024];
 
-	sprintf_s (szText, "\t\t<action id='%u' version='%s' result='%u'/>\n", 
+	sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n",
 		GetID(), "", status);
 
 	*stream << szText;

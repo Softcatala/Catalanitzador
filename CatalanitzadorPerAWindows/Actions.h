@@ -27,11 +27,11 @@ using namespace std;
 class Actions
 {
     public:
-		Actions ();
-		~Actions ();
-		vector <Action *> GetActions()  {return m_actions; }
+		Actions();
+		~Actions();
+		vector <Action *> GetActions() {return m_actions; }
 	private:
 		void BuildListOfActions();
 
-		vector <Action *>	m_actions;
+		vector <Action *> m_actions;
 };

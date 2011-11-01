@@ -22,44 +22,44 @@
 #include "Registry.h"
 #include "OSVersion.h"
 
-ConfigureLocaleAction::ConfigureLocaleAction ()
+ConfigureLocaleAction::ConfigureLocaleAction()
 {
 	szCfgFile[0] = NULL;
 }
 
-ConfigureLocaleAction::~ConfigureLocaleAction ()
+ConfigureLocaleAction::~ConfigureLocaleAction()
 {
-	if (szCfgFile[0] != NULL && GetFileAttributes (szCfgFile) != INVALID_FILE_ATTRIBUTES)
+	if (szCfgFile[0] != NULL && GetFileAttributes(szCfgFile) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile (szCfgFile);
+		DeleteFile(szCfgFile);
 	}	
 }
 
 wchar_t* ConfigureLocaleAction::GetName()
 {
-	return GetStringFromResourceIDName (IDS_CONFIGURELOCALEACTION_NAME, szName);	
+	return _getStringFromResourceIDName(IDS_CONFIGURELOCALEACTION_NAME, szName);	
 }
 
 wchar_t* ConfigureLocaleAction::GetDescription()
 {
-	return GetStringFromResourceIDName (IDS_CONFIGURELOCALEACTION_DESCRIPTION, szDescription);
+	return _getStringFromResourceIDName(IDS_CONFIGURELOCALEACTION_DESCRIPTION, szDescription);
 }
 
-bool ConfigureLocaleAction::IsCatalanLocaleActive()
+bool ConfigureLocaleAction::_isCatalanLocaleActive()
 {
 	wchar_t szValue[1024];
 	bool bCatalanActive = false;
 
 	Registry registry;
-	if (registry.OpenKey (HKEY_CURRENT_USER, L"Control Panel\\International", false))
+	if (registry.OpenKey(HKEY_CURRENT_USER, L"Control Panel\\International", false))
 	{
-		if (registry.GetString (L"Locale", szValue, sizeof (szValue)))
+		if (registry.GetString(L"Locale", szValue, sizeof (szValue)))
 		{
 			// 0403 locale code for CA-ES
 			if (wcsstr (szValue, L"0403") != NULL)
 				bCatalanActive = true;
 		}
-		registry.Close ();
+		registry.Close();
 	}
 	return bCatalanActive;
 }
@@ -68,13 +68,13 @@ bool ConfigureLocaleAction::IsNeed()
 {	
 	bool bNeeded;
 
-	bNeeded = IsCatalanLocaleActive() == false;
+	bNeeded = _isCatalanLocaleActive() == false;
 
 	g_log.Log (L"ConfigureLocaleAction::IsNeed returns %u", (wchar_t *) bNeeded);
 	return bNeeded;
 }
 
-bool ConfigureLocaleAction::DumpResource(LPCWSTR resource, wchar_t* file)
+bool ConfigureLocaleAction::_dumpResource(LPCWSTR resource, wchar_t* file)
 {
 	HRSRC hRsrc = NULL;
 	HGLOBAL hGlbl = NULL;
@@ -113,7 +113,7 @@ bool ConfigureLocaleAction::DumpResource(LPCWSTR resource, wchar_t* file)
 	}
 
 	CloseHandle(hFile);
-	g_log.Log (L"ConfigureLocaleAction::DumpResource '%s'", file);	
+	g_log.Log (L"ConfigureLocaleAction::_dumpResource '%s'", file);	
 	return true;
 }
 
@@ -127,27 +127,27 @@ void ConfigureLocaleAction::Execute(ProgressStatus progress, void *data)
 	GetTempPath(MAX_PATH, szCfgFile);
 
 	GetSystemDirectory(szApp, MAX_PATH);
-	wcscat_s (szApp, L"\\control.exe ");
+	wcscat_s(szApp, L"\\control.exe ");
 	status = InProgress;
 
-	if (OSVersion::GetVersion () == WindowsXP)
+	if (OSVersion::GetVersion() == WindowsXP)
 	{
 		//Documentation: http://support.microsoft.com/default.aspx?scid=kb;en-us;289125
-		wcscpy_s (szConfigFileName, L"regopts.txt");
+		wcscpy_s(szConfigFileName, L"regopts.txt");
 		resource = (LPCWSTR)IDR_CONFIG_LOCALE_WINXP;
 	}
 	else // Windows Vista and 7
 	{
 		//Documentation: http://blogs.msdn.com/b/michkap/archive/2006/05/30/610505.aspx
-		wcscpy_s (szConfigFileName, L"regopts.xml");
+		wcscpy_s(szConfigFileName, L"regopts.xml");
 		resource = (LPCWSTR)IDR_CONFIG_LOCALE_WINVISTA;
 	}
-	wcscat_s (szCfgFile, szConfigFileName);
+	wcscat_s(szCfgFile, szConfigFileName);
 
-	DumpResource (resource, szCfgFile);	
-	swprintf_s (szParams, L" intl.cpl,,/f:\"%s\"", szCfgFile);
+	_dumpResource(resource, szCfgFile);	
+	swprintf_s(szParams, L" intl.cpl,,/f:\"%s\"", szCfgFile);
 
-	g_log.Log (L"ConfigureLocaleAction::Execute '%s' with params '%s'", szApp, szParams);
+	g_log.Log(L"ConfigureLocaleAction::Execute '%s' with params '%s'", szApp, szParams);
 	runner.Execute (szApp, szParams);
 	runner.WaitUntilFinished ();
 }
@@ -156,8 +156,8 @@ ActionStatus ConfigureLocaleAction::GetStatus()
 {
 	if (status == InProgress)
 	{
-		status = IsCatalanLocaleActive() ? Successful : FinishedWithError;
-		g_log.Log (L"ConfigureLocaleAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
+		status = _isCatalanLocaleActive() ? Successful : FinishedWithError;
+		g_log.Log(L"ConfigureLocaleAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
 }

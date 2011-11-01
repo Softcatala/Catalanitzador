@@ -35,7 +35,7 @@ void LogFile::Close ()
 {
 	if (m_hLog != NULL)
 	{
-		CloseHandle (m_hLog);
+		CloseHandle(m_hLog);
 		m_hLog = NULL;
 	}
 }
@@ -48,42 +48,42 @@ bool LogFile::CreateLog(wchar_t* logFileName)
 
 	if (!m_hLog) return false;
 
-	Write(L"\xFEFF"); // Unicode mark
-	WriteCompileTime ();
+	_write(L"\xFEFF"); // Unicode mark
+	_writeCompileTime();
 	return true;
 }
 
 void LogFile::Log(wchar_t* string)
 {		
-	StringTime();
-	WriteLine (string);
+	_stringTime();
+	_writeLine(string);
 }
 
 void LogFile::Log(wchar_t* format, wchar_t* string)
 {		
-	StringTime();
+	_stringTime();
 
-	swprintf_s (m_szText, format, string);
-	WriteLine (m_szText);
+	swprintf_s(m_szText, format, string);
+	_writeLine(m_szText);
 }
 
 void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2)
 {		
-	StringTime();
+	_stringTime();
 
-	swprintf_s (m_szText, format, string1, string2);
-	WriteLine (m_szText);
+	swprintf_s(m_szText, format, string1, string2);
+	_writeLine(m_szText);
 }
 
 void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* string3)
 {		
-	StringTime();
+	_stringTime();
 
-	swprintf_s (m_szText, format, string1, string2, string3);
-	WriteLine (m_szText);
+	swprintf_s(m_szText, format, string1, string2, string3);
+	_writeLine(m_szText);
 }
 
-void LogFile::WriteCompileTime ()
+void LogFile::_writeCompileTime ()
 {
 	wchar_t szDate [256];
 	wchar_t szTime [256];
@@ -97,31 +97,31 @@ void LogFile::WriteCompileTime ()
 	Log(L"Compiled on %s - %s", szDate, szTime);
 }
 
-void LogFile::StringTime()
+void LogFile::_stringTime()
 {
 	SYSTEMTIME systemTime;
 	wchar_t	szTime[128];
 
 	GetSystemTime(&systemTime);
 
-	swprintf_s (szTime, L"%02u:%02u:%02u.%04u - ", systemTime.wHour, systemTime.wMinute, systemTime.wSecond,
+	swprintf_s(szTime, L"%02u:%02u:%02u.%04u - ", systemTime.wHour, systemTime.wMinute, systemTime.wSecond,
 		systemTime.wMilliseconds);
 
-	Write (szTime);
+	_write(szTime);
 }
 
-void LogFile::Write (wchar_t* string)
+void LogFile::_write(wchar_t* string)
 {
 	DWORD dwWritten;
 	WriteFile (m_hLog, string, wcslen (string) * sizeof (wchar_t), &dwWritten, NULL);
 }
 
-void LogFile::WriteLine (wchar_t* string)
+void LogFile::_writeLine(wchar_t* string)
 {		
 	DWORD dwWritten;
 
-	wcscpy_s (m_szText, string);
-	wcscat_s (m_szText, L"\r\n");
+	wcscpy_s(m_szText, string);
+	wcscat_s(m_szText, L"\r\n");
 
-	WriteFile (m_hLog, m_szText, wcslen (m_szText) * sizeof (wchar_t), &dwWritten, NULL);
+	WriteFile(m_hLog, m_szText, wcslen (m_szText) * sizeof (wchar_t), &dwWritten, NULL);
 }

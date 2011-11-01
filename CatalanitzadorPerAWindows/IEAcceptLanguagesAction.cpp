@@ -23,12 +23,12 @@
 
 wchar_t* IEAcceptedLanguagesAction::GetName()
 {
-	return GetStringFromResourceIDName (IDS_IEACCEPTEDLANGUAGESACTION_NAME, szName);	
+	return _getStringFromResourceIDName (IDS_IEACCEPTEDLANGUAGESACTION_NAME, szName);
 }
 
 wchar_t* IEAcceptedLanguagesAction::GetDescription()
 {
-	return GetStringFromResourceIDName (IDS_IEACCEPTEDLANGUAGESACTION_DESCRIPTION, szDescription);	
+	return _getStringFromResourceIDName (IDS_IEACCEPTEDLANGUAGESACTION_DESCRIPTION, szDescription);	
 }
 
 bool IEAcceptedLanguagesAction::IsNeed()
@@ -37,13 +37,13 @@ bool IEAcceptedLanguagesAction::IsNeed()
 	bool hasCatalan = false;
 
 	Registry registry;
-	registry.OpenKey (HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", false);		
-	if (registry.GetString (L"AcceptLanguage", szValue, sizeof (szValue)))
+	registry.OpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", false);
+	if (registry.GetString(L"AcceptLanguage", szValue, sizeof (szValue)))
 	{
-		if (wcsstr (szValue, L"ca-ES") != NULL)
+		if (wcsstr(szValue, L"ca-ES") != NULL)
 			hasCatalan = true;
 	}
-	registry.Close ();
+	registry.Close();
 	g_log.Log (L"IEAcceptedLanguagesAction::IsNeed returns %u", (wchar_t *) (hasCatalan == false));
 	return hasCatalan == false;	
 }
@@ -53,19 +53,19 @@ void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
 	wchar_t szValue[1024], szNew[1024];
 	Registry registry;
 
-	if (registry.OpenKey (HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", true))
+	if (registry.OpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", true))
 	{
-		if (registry.GetString (L"AcceptLanguage", szValue, sizeof (szValue)))
+		if (registry.GetString(L"AcceptLanguage", szValue, sizeof (szValue)))
 		{
-			wcscpy_s (szNew, L"ca-ES,");
-			wcscat_s (szNew, szValue);
+			wcscpy_s(szNew, L"ca-ES,");
+			wcscat_s(szNew, szValue);
 			registry.SetString (L"AcceptLanguage", szNew);			
 		}
 		else
-			registry.SetString (L"AcceptLanguage", L"ca-ES");
+			registry.SetString(L"AcceptLanguage", L"ca-ES");
 		
 		status = Successful;
-		registry.Close ();
+		registry.Close();
 	}
-	g_log.Log (L"IEAcceptedLanguagesAction::Execute, set AcceptLanguage %u", (wchar_t *) (status == Successful));
+	g_log.Log(L"IEAcceptedLanguagesAction::Execute, set AcceptLanguage %u", (wchar_t *) (status == Successful));
 }

@@ -34,12 +34,12 @@ WelcomePropertyPageUI::~WelcomePropertyPageUI()
 	}
 }
 
-void WelcomePropertyPageUI::CreateBoldFont(HWND hWnd)
+void WelcomePropertyPageUI::_createBoldFont(HWND hWnd)
 {
 	HFONT hFont;
 	LOGFONT	logFont;
 
-	hFont = (HFONT) SendMessage (hWnd, WM_GETFONT, NULL, NULL);
+	hFont = (HFONT) SendMessage(hWnd, WM_GETFONT, NULL, NULL);
 	GetObject(hFont, sizeof(LOGFONT), &logFont);
 	logFont.lfWeight = FW_BOLD;
 	m_hFont = CreateFontIndirect(&logFont);
@@ -49,12 +49,12 @@ void WelcomePropertyPageUI::_onInitDialog()
 {
 	HWND hWnd;
 
-	hWnd = GetDlgItem (getHandle (), IDC_WELCOME_TOAPP);
-	CreateBoldFont (hWnd);
+	hWnd = GetDlgItem (getHandle(), IDC_WELCOME_TOAPP);
+	_createBoldFont (hWnd);
 
-	SendMessage (hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
+	SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
-	SendMessage (GetDlgItem (getHandle (), IDC_WELCOME_ABOUTSECURITY),
+	SendMessage(GetDlgItem (getHandle (), IDC_WELCOME_ABOUTSECURITY),
 		WM_SETFONT, (WPARAM) m_hFont, TRUE);	
 }
 

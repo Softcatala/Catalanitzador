@@ -24,7 +24,7 @@
 
 OperatingVersion OSVersion::m_version = UnKnownOS;
 
-OperatingVersion OSVersion::GetVersion ()
+OperatingVersion OSVersion::GetVersion()
 {
 	OSVERSIONINFOEX osvi;	
 	BOOL bOsVersionInfoEx;
@@ -57,7 +57,7 @@ OperatingVersion OSVersion::GetVersion ()
 	return m_version;
 }
 
-bool OSVersion::IsWindows64Bits ()
+bool OSVersion::IsWindows64Bits()
 {
 	BOOL bIsWow64 = FALSE;
 
@@ -99,8 +99,7 @@ void OSVersion::Serialize(ostream* stream)
 	*stream << szText;
 }
 
-
-void OSVersion::GetLogInfo (wchar_t * szString, int size)
+void OSVersion::GetLogInfo(wchar_t * szString, int size)
 {
 	OSVERSIONINFOEX osvi;	
 	
@@ -118,7 +117,7 @@ void OSVersion::GetLogInfo (wchar_t * szString, int size)
 		GetVersionText (GetVersion ()));
 }
 
-wchar_t* OSVersion::GetVersionText (OperatingVersion version)
+wchar_t* OSVersion::GetVersionText(OperatingVersion version)
 {
 	switch (version)
 	{
@@ -141,8 +140,7 @@ wchar_t* OSVersion::GetVersionText (OperatingVersion version)
 	}	
 }
 
-
-OperatingVersion OSVersion::_processXPAnd2000 (OSVERSIONINFOEX osvi)
+OperatingVersion OSVersion::_processXPAnd2000(OSVERSIONINFOEX osvi)
 {
 	if (osvi.dwMinorVersion == 0)
 	{
@@ -156,7 +154,7 @@ OperatingVersion OSVersion::_processXPAnd2000 (OSVERSIONINFOEX osvi)
 	return UnKnownOS;
 }
 
-OperatingVersion OSVersion::_processVistaAnd7 (OSVERSIONINFOEX osvi)
+OperatingVersion OSVersion::_processVistaAnd7(OSVERSIONINFOEX osvi)
 {
 	if (osvi.dwMinorVersion == 0)
 	{

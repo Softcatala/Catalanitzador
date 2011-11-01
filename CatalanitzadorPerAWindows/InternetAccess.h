@@ -31,7 +31,7 @@ public:
 		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);
 		static bool IsThereConnection();
 private:
-		int GetFileSize(HINTERNET hRemoteFile);
+		int _getFileSize(HINTERNET hRemoteFile);
 
 		HINTERNET hInternet;
 };

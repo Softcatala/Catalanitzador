@@ -27,16 +27,15 @@ using namespace std;
 
 class ApplicationsPropertyPageUI: public PropertyPageUI
 {
-public:		
-		virtual void _onInitDialog();
-		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
-		virtual	bool _onNext();
-
-		bool IsActionNeeded(HWND hWnd, int nItem);
+public:
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
 		
 private:
 
+		bool _isActionNeeded(HWND hWnd, int nItem);
+		virtual void _onInitDialog();
+		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
+		virtual	bool _onNext();
 		static LRESULT ListViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		HWND hList;

@@ -37,15 +37,15 @@ static int nCurrent;
 static void *_data;
 #define TIMER_ID 2014
 
-WindowsLPIAction::WindowsLPIAction ()
+WindowsLPIAction::WindowsLPIAction()
 {
 	m_installed = false;	
 	filename[0] = NULL;
 }
 
-WindowsLPIAction::~WindowsLPIAction ()
+WindowsLPIAction::~WindowsLPIAction()
 {
-	if (filename[0] != NULL  && GetFileAttributes (filename) != INVALID_FILE_ATTRIBUTES)
+	if (filename[0] != NULL  && GetFileAttributes(filename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile (filename);
 	}	
@@ -53,17 +53,17 @@ WindowsLPIAction::~WindowsLPIAction ()
 
 wchar_t* WindowsLPIAction::GetName()
 {
-	return GetStringFromResourceIDName (IDS_WINDOWSLPIACTION_NAME, szName);
+	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NAME, szName);
 }
 
 wchar_t* WindowsLPIAction::GetDescription()
 {
-	return GetStringFromResourceIDName (IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
+	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
 }
 
 BOOL CALLBACK WindowsLPIAction::_enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam)
 {
-	if (wcsstr (lpUILanguageString, L"ca-ES") != NULL)
+	if (wcsstr(lpUILanguageString, L"ca-ES") != NULL)
 	{
 		WindowsLPIAction* instance = (WindowsLPIAction *) lParam; 
 		instance->m_installed = true;
@@ -72,9 +72,9 @@ BOOL CALLBACK WindowsLPIAction::_enumUILanguagesProc(LPTSTR lpUILanguageString, 
 	return TRUE;
 }
 
-wchar_t* WindowsLPIAction::_getPackageName ()
+wchar_t* WindowsLPIAction::_getPackageName()
 {
-	OperatingVersion version = OSVersion::GetVersion ();
+	OperatingVersion version = OSVersion::GetVersion();
 
 	switch (version)
 	{
@@ -90,7 +90,7 @@ wchar_t* WindowsLPIAction::_getPackageName ()
 	return NULL;
 }
 
-void WindowsLPIAction::UpdateIsInstalled()
+void WindowsLPIAction::_updateIsInstalled()
 {
 	m_installed = false;
 
@@ -107,9 +107,9 @@ bool WindowsLPIAction::IsNeed()
 {
 	bool bNeed = false;
 
-	if (_getPackageName () != NULL)
+	if (_getPackageName() != NULL)
 	{
-		UpdateIsInstalled();
+		_updateIsInstalled();
 		bNeed = (m_installed == false);
 	}	
 
@@ -121,9 +121,9 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
 	InternetAccess inetacccess;
 	
-	GetTempPath (MAX_PATH, filename);
+	GetTempPath(MAX_PATH, filename);
 
-	OperatingVersion version = OSVersion::GetVersion ();
+	OperatingVersion version = OSVersion::GetVersion();
 
 	if (version == WindowsXP)
 	{
@@ -140,7 +140,7 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 
 // We do not really know how much time is this going to take just start by the estimation
 // of nTotal and increase it when we reach the end
-VOID CALLBACK WindowsLPIAction::TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK WindowsLPIAction::_timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	nCurrent++;
 
@@ -156,25 +156,25 @@ void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
 
-	OperatingVersion version = OSVersion::GetVersion ();
+	OperatingVersion version = OSVersion::GetVersion();
 
 	if (version == WindowsXP)
 	{
 		GetSystemDirectory(lpkapp, MAX_PATH);
-		wcscat_s (lpkapp, L"\\msiexec.exe ");
+		wcscat_s(lpkapp, L"\\msiexec.exe ");
 
-		wcscpy_s (szParams, L" /i ");
-		wcscat_s (szParams, filename); // full path to 'lip_ca-es.msi'
-		wcscat_s (szParams, L" /qn /norestart");
+		wcscpy_s(szParams, L" /i ");
+		wcscat_s(szParams, filename); // full path to 'lip_ca-es.msi'
+		wcscat_s(szParams, L" /qn /norestart");
 	}
 	else // Windows Vista and 7
 	{	
 		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
-		wcscpy_s (szParams, L" /i ca-ES /r /s /p ");
-		wcscat_s (szParams, filename);
+		wcscpy_s(szParams, L" /i ca-ES /r /s /p ");
+		wcscat_s(szParams, filename);
 	
 		GetSystemDirectory(lpkapp, MAX_PATH);
-		wcscat_s (lpkapp, L"\\lpksetup.exe");
+		wcscat_s(lpkapp, L"\\lpksetup.exe");
 	}	
 
 	status = InProgress;
@@ -182,13 +182,13 @@ void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
 	_progress = progress;
 
 	// Timer trigger every second to update progress bar
-	hTimerID = SetTimer(NULL, TIMER_ID, 1000, TimerProc);
+	hTimerID = SetTimer(NULL, TIMER_ID, 1000, _timerProc);
 
-	g_log.Log (L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
-	runner.Execute (lpkapp, szParams);
+	g_log.Log(L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
+	runner.Execute(lpkapp, szParams);
 }
 
-bool WindowsLPIAction::DirectoryExists(LPCTSTR szPath)
+bool WindowsLPIAction::_directoryExists(LPCTSTR szPath)
 {
 	DWORD dwAttrib = GetFileAttributes(szPath);
 
@@ -198,39 +198,39 @@ bool WindowsLPIAction::DirectoryExists(LPCTSTR szPath)
 // Once the LIP is installed the EnumUILanguages will not signal that the langpack is install until you reboot
 // Additionally there are no system registry keys that indicate if the pack was installed
 // The only proof at this point is checking if the directory was created
-bool WindowsLPIAction::WasLIPInstalled ()
+bool WindowsLPIAction::_wasLIPInstalled()
 {
 	wchar_t langpackDir[MAX_PATH];
 	bool bExists;
 
-	OperatingVersion version = OSVersion::GetVersion ();
+	OperatingVersion version = OSVersion::GetVersion();
 
 	if (version == WindowsXP)
 	{	
 		GetSystemDirectory(langpackDir, MAX_PATH);
-		wcscat_s (langpackDir, L"\\mui\\0403");
+		wcscat_s(langpackDir, L"\\mui\\0403");
 	}
 	else  //(version == WindowsVista) or 7
 	{
 		GetWindowsDirectory(langpackDir, MAX_PATH);
-		wcscat_s (langpackDir, L"\\ca-ES");
+		wcscat_s(langpackDir, L"\\ca-ES");
 	}
 		
-	bExists = DirectoryExists (langpackDir);
-	g_log.Log (L"WindowsLPIAction::WasLIPInstalled checking '%s' is %u", langpackDir, (wchar_t*) bExists);
+	bExists = _directoryExists(langpackDir);
+	g_log.Log (L"WindowsLPIAction::_wasLIPInstalled checking '%s' is %u", langpackDir, (wchar_t*) bExists);
 	return bExists;
 }
 
 // After the language package is installed we need to set Catalan as default language
 // The key PreferredUILanguagesPending did not work as expected
-void WindowsLPIAction::SetDefaultLanguage ()
+void WindowsLPIAction::_setDefaultLanguage()
 {
 	Registry registry;
-	if (registry.OpenKey (HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
+	if (registry.OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
-		registry.SetString (L"PreferredUILanguages", L"ca-ES");
-		registry.Close ();
-		g_log.Log (L"WindowsLPIAction::SetDefaultLanguage done");
+		registry.SetString(L"PreferredUILanguages", L"ca-ES");
+		registry.Close();
+		g_log.Log(L"WindowsLPIAction::_setDefaultLanguage done");
 	}
 }
 
@@ -243,7 +243,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 
 		KillTimer (NULL, hTimerID);
 
-		if (WasLIPInstalled ()) {
+		if (_wasLIPInstalled ()) {
 			status = Successful;			
 		}
 		else {
@@ -251,7 +251,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 		}
 		g_log.Log (L"WindowsLPIAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 		// TODO: Move under WasLIPInstalled
-		SetDefaultLanguage ();
+		_setDefaultLanguage ();
 	}
 	return status;
 }

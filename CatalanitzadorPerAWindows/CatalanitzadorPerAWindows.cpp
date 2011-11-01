@@ -90,8 +90,8 @@ void CreateWizard(HINSTANCE hInstance)
 	wcscat_s (szXML, L"results.xml");
 	serializer = new Serializer(szXML);
 
-	welcome.setParent (&sheet);
-	welcome.setPageButtons (NextButton);
+	welcome.setParent(&sheet);
+	welcome.setPageButtons(NextButton);
 	welcome.createPage(hInstance, IDD_WELCOME, NULL);
 	sheet.addPage(&welcome);
 
@@ -102,20 +102,20 @@ void CreateWizard(HINSTANCE hInstance)
 	applications.SetActions (&acts);	
 	sheet.addPage(&applications);
 
-	install.setParent (&sheet);
-	install.setPageButtons (CancelButton);
+	install.setParent(&sheet);
+	install.setPageButtons(CancelButton);
 	install.SetActions(&acts);
 	install.SetSerializer(serializer);
 	install.createPage(hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 
-	finish.setParent (&sheet);
+	finish.setParent(&sheet);
 	finish.SetActions(&acts);
 	finish.setPageButtons (FinishButton);
 	finish.createPage(hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
 
-	sheet.runModal (hInstance, NULL, NULL);
+	sheet.runModal(hInstance, NULL, NULL);
 
 	delete serializer;
 }
