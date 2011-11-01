@@ -95,3 +95,15 @@ bool InternetAccess::GetFile (wchar_t* URL, wchar_t* file, ProgressStatus progre
 	return true;	
 }
 
+bool InternetAccess::IsThereConnection()
+{
+    DWORD dwConnectionFlags = 0;
+
+    if (!InternetGetConnectedState(&dwConnectionFlags, 0))
+        return false;
+
+    if (InternetAttemptConnect(0) != ERROR_SUCCESS)
+        return false;
+
+    return true;
+}

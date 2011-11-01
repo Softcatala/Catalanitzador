@@ -33,6 +33,7 @@ public:
 		virtual wchar_t* GetName() = 0;
 		virtual wchar_t* GetDescription() = 0;
 		virtual int GetID() = 0;
+		virtual bool RequiereDownload() {return true;}
 		virtual bool Download(ProgressStatus, void *data) {return false;}
 		virtual bool IsNeed() = 0;
 		virtual ActionStatus GetStatus() { return status;}

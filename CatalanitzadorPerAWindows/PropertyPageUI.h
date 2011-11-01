@@ -60,7 +60,7 @@ public:
 	virtual	void				_onKillActive(){}; 	
 	virtual	void				_onOK(){}; 		
 	virtual	void				_onApply(){}; 
-	virtual	void				_onNext(){};
+	virtual	bool				_onNext(){return true;};
 	virtual	void				_onShowWindow(){};
 	virtual	void				_onTimer(){};
 	virtual void				_onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/){};

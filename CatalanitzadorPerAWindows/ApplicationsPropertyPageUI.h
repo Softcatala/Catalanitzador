@@ -30,7 +30,7 @@ class ApplicationsPropertyPageUI: public PropertyPageUI
 public:		
 		virtual void _onInitDialog();
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
-		virtual	void _onNext();
+		virtual	bool _onNext();
 
 		bool IsActionNeeded(HWND hWnd, int nItem);
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}

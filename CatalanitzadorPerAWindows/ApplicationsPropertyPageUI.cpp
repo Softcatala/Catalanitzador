@@ -186,22 +186,39 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 	return ReturnTrue;
 }
 
-void ApplicationsPropertyPageUI::_onNext()
+bool ApplicationsPropertyPageUI::_onNext()
 {
 	int items = ListView_GetItemCount (hList);
+	bool needInet = false;
 
 	for (int i = 0; i < items; ++i)
 	{
-		bool selected = ListView_GetCheckState(hList, i) != FALSE;
+		bool selected = ListView_GetCheckState(hList, i) != FALSE;	
 
 		LVITEM item;
 		memset(&item,0,sizeof(item));
 		item.iItem = i;
 		item.mask = LVIF_PARAM;
 
-		ListView_GetItem(hList, &item);		
-		Action* action = (Action *) item.lParam;		
+		ListView_GetItem(hList, &item);
+		Action* action = (Action *) item.lParam;
 		action->SetStatus (selected ? Selected : NotSelected);
 		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)selected);
-	}	
+
+		if (selected == true && action->RequiereDownload ())
+			needInet = true;
+	}
+
+	if (needInet && InternetAccess::IsThereConnection() == false)
+	{		
+		wchar_t szMessage [MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];
+
+		LoadString(GetModuleHandle(NULL), IDS_NOINETACCESS, szMessage, MAX_LOADSTRING);
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+		MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);
+		return FALSE;
+	}
+	return TRUE;
 }
