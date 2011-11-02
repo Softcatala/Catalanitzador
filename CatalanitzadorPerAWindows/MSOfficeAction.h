@@ -47,7 +47,7 @@ public:
 
 private:
 
-		void _getVersionInstalledWithNoLangPack ();
+		void _getVersionInstalledWithNoLangPack();
 		bool _isVersionInstalled(wchar_t* version);
 		bool _isLangPackForVersionInstalled(wchar_t* version);
 		bool _isVersionInstalledWithNoLangPack(wchar_t* version);
@@ -56,9 +56,11 @@ private:
 		void _setDefaultLanguage();
 		static VOID CALLBACK _timerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);		
 		wchar_t* _getPackageName();
+		void _removeOffice2003TempFiles();
 
-		wchar_t filename[MAX_PATH];
-		wchar_t szTempPath[MAX_PATH];		
+		wchar_t m_szFullFilename[MAX_PATH];
+		wchar_t m_szFilename[MAX_PATH];
+		wchar_t m_szTempPath[MAX_PATH];		
 		Runner runner;
 		UINT hTimerID;
 		MSOfficeVersion m_MSVersion;		

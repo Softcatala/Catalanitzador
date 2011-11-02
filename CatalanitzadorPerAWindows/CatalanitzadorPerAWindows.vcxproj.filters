@@ -119,6 +119,9 @@
     <ClInclude Include="ActionID.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="Url.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -182,6 +185,9 @@
       <Filter>Actions</Filter>
     </ClCompile>
     <ClCompile Include="Serializer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Url.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

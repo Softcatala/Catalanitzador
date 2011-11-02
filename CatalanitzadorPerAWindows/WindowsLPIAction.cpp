@@ -26,6 +26,7 @@
 #include "OSVersion.h"
 #include "Runner.h"
 #include "Registry.h"
+#include "Url.h"
 
 // There are hacks, and there are ugly hacks.
 // Using a callback with timer does not allow passing an object
@@ -113,29 +114,22 @@ bool WindowsLPIAction::IsNeed()
 		bNeed = (m_installed == false);
 	}	
 
-	g_log.Log (L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
-	return bNeed;
+	g_log.Log(L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
+	return bNeed;	
 }
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
 	InternetAccess inetacccess;
-	
+
 	GetTempPath(MAX_PATH, filename);
 
 	OperatingVersion version = OSVersion::GetVersion();
-
-	if (version == WindowsXP)
-	{
-		wcscat_s (filename, L"lip_ca-es.msi");
-	} 
-	else // Windows Vista & Windows 7
-	{
-		wcscat_s (filename, L"lip_ca-es.mlc");
-	}
-
-	g_log.Log (L"WindowsLPIAction::Download '%s' to '%s'", _getPackageName (), filename);
-	return inetacccess.GetFile (_getPackageName (), filename, progress, data);
+	Url url (_getPackageName());
+	wcscat_s (filename, url.GetFileName());
+	
+	g_log.Log (L"WindowsLPIAction::Download '%s' to '%s'", _getPackageName(), filename);
+	return inetacccess.GetFile (_getPackageName(), filename, progress, data);
 }
 
 // We do not really know how much time is this going to take just start by the estimation
@@ -241,17 +235,16 @@ ActionStatus WindowsLPIAction::GetStatus()
 		if (runner.IsRunning())
 			return InProgress;
 
-		KillTimer (NULL, hTimerID);
+		KillTimer(NULL, hTimerID);
 
-		if (_wasLIPInstalled ()) {
+		if (_wasLIPInstalled()) {
 			status = Successful;			
 		}
 		else {
 			status = FinishedWithError;			
 		}
-		g_log.Log (L"WindowsLPIAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
-		// TODO: Move under WasLIPInstalled
-		_setDefaultLanguage ();
+		_setDefaultLanguage();
+		g_log.Log(L"WindowsLPIAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");				
 	}
 	return status;
 }

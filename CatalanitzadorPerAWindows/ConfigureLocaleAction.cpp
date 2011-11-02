@@ -56,7 +56,7 @@ bool ConfigureLocaleAction::_isCatalanLocaleActive()
 		if (registry.GetString(L"Locale", szValue, sizeof (szValue)))
 		{
 			// 0403 locale code for CA-ES
-			if (wcsstr (szValue, L"0403") != NULL)
+			if (wcsstr(szValue, L"0403") != NULL)
 				bCatalanActive = true;
 		}
 		registry.Close();
@@ -70,7 +70,7 @@ bool ConfigureLocaleAction::IsNeed()
 
 	bNeeded = _isCatalanLocaleActive() == false;
 
-	g_log.Log (L"ConfigureLocaleAction::IsNeed returns %u", (wchar_t *) bNeeded);
+	g_log.Log(L"ConfigureLocaleAction::IsNeed returns %u", (wchar_t *) bNeeded);
 	return bNeeded;
 }
 
@@ -113,7 +113,7 @@ bool ConfigureLocaleAction::_dumpResource(LPCWSTR resource, wchar_t* file)
 	}
 
 	CloseHandle(hFile);
-	g_log.Log (L"ConfigureLocaleAction::_dumpResource '%s'", file);	
+	g_log.Log(L"ConfigureLocaleAction::_dumpResource to '%s'", file);	
 	return true;
 }
 

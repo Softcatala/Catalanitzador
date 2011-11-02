@@ -26,6 +26,7 @@
 #include "OSVersion.h"
 #include "Runner.h"
 #include "Registry.h"
+#include "Url.h"
 
 // There are hacks, and there are ugly hacks.
 // Using a callback with timer does not allow passing an object
@@ -43,37 +44,22 @@ static void *_data;
 
 MSOfficeAction::MSOfficeAction()
 {
-	filename[0] = NULL;	
+	m_szFullFilename[0] = NULL;
 	_getVersionInstalledWithNoLangPack ();
-	GetTempPath(MAX_PATH, szTempPath);
+	GetTempPath(MAX_PATH, m_szTempPath);
+
+	Url url(_getPackageName());
+	wcscpy_s(m_szFilename, url.GetFileName());	
 }
 
 MSOfficeAction::~MSOfficeAction()
 {
-	if (filename[0] != NULL  && GetFileAttributes (filename) != INVALID_FILE_ATTRIBUTES)
+	if (m_szFullFilename[0] != NULL  && GetFileAttributes (m_szFullFilename) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile (filename);
+		DeleteFile (m_szFullFilename);
 	}
 
-	// This deletes the contents of the extracted CAB file for MS Office 2003
-	if (m_MSVersion == MSOffice2003)
-	{
-		wchar_t szFile[MAX_PATH];
-		wchar_t* files[] = {L"DW20.ADM_1027", L"DWINTL20.DLL_0001_1027", L"LIP.MSI",
-			L"lip.xml", L"OSE.EXE", L"SETUP.CHM_1027", L"SETUP.EXE", L"SETUP.INI", L"lip1027.cab",
-			NULL};
-
-		for(int i = 0; files[i] != NULL; i++)
-		{
-			wcscpy_s(szFile, szTempPath);
-			wcscat_s(szFile, files[i]);
-
-			if (GetFileAttributes(szFile) != INVALID_FILE_ATTRIBUTES)
-			{
-				DeleteFile(szFile);
-			}
-		}
-	}
+	_removeOffice2003TempFiles();
 }
 
 wchar_t* MSOfficeAction::GetName()
@@ -84,6 +70,29 @@ wchar_t* MSOfficeAction::GetName()
 wchar_t* MSOfficeAction::GetDescription()
 {
 	return _getStringFromResourceIDName(IDS_MSOFFICEACTION_DESCRIPTION, szDescription);
+}
+
+// This deletes the contents of the extracted CAB file for MS Office 2003
+void MSOfficeAction::_removeOffice2003TempFiles()
+{
+	if (m_MSVersion != MSOffice2003)
+		return;
+	
+	wchar_t szFile[MAX_PATH];
+	wchar_t* files[] = {L"DW20.ADM_1027", L"DWINTL20.DLL_0001_1027", L"LIP.MSI",
+		L"lip.xml", L"OSE.EXE", L"SETUP.CHM_1027", L"SETUP.EXE", L"SETUP.INI", L"lip1027.cab",
+		NULL};
+
+	for(int i = 0; files[i] != NULL; i++)
+	{
+		wcscpy_s(szFile, m_szTempPath);
+		wcscat_s(szFile, files[i]);
+
+		if (GetFileAttributes(szFile) != INVALID_FILE_ATTRIBUTES)
+		{
+			DeleteFile(szFile);
+		}
+	}
 }
 
 bool MSOfficeAction::_isVersionInstalled(wchar_t* version)
@@ -175,24 +184,11 @@ bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	InternetAccess inetacccess;
 	
-	wcscpy_s(filename, szTempPath);
+	wcscpy_s(m_szFullFilename, m_szTempPath);	
+	wcscat_s(m_szFullFilename, m_szFilename);
 
-	switch (m_MSVersion)
-	{
-	case MSOffice2010:
-		wcscat_s(filename, L"LanguageInterfacePack-x86-ca-es.exe");
-		break;
-	case MSOffice2007:
-		wcscat_s(filename, L"office2007-lip.exe");
-		break;
-	case MSOffice2003:
-		wcscat_s(filename, L"office2003-lip.cab");
-		break;
-	default:
-		break;
-	}
-	g_log.Log(L"MSOfficeAction::Download '%s' to '%s'", _getPackageName (), filename);
-	return inetacccess.GetFile (_getPackageName (), filename, progress, data);
+	g_log.Log(L"MSOfficeAction::Download '%s' to '%s'", _getPackageName (), m_szFullFilename);
+	return inetacccess.GetFile(_getPackageName(), m_szFullFilename, progress, data);
 }
 
 // We do not really know how much time is this going to take just start by the estimation
@@ -217,7 +213,7 @@ bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s(szApp, L"\\expand.exe ");
 
-	swprintf_s (szParams, L" %s %s -f:*", filename, path);
+	swprintf_s (szParams, L" %s %s -f:*", m_szFullFilename, path);
 	g_log.Log(L"MSOfficeAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
 	runnerCab.Execute (szApp, szParams);
 	runnerCab.WaitUntilFinished();
@@ -233,13 +229,13 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 	{
 		case MSOffice2010:
 		{
-			wcscpy_s(szApp, L"office2003-lip.exe");
+			wcscpy_s(szApp, m_szFullFilename);
 			wcscpy_s(szParams, L" /passive /norestart /quiet");
 			break;
 		}
 		case MSOffice2007:
 		{
-			wcscpy_s(szApp, L"office2007-lip.exe");
+			wcscpy_s(szApp, m_szFullFilename);
 			wcscpy_s(szParams, L" /quiet");
 			break;
 		}
@@ -247,12 +243,12 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 		{
 			wchar_t szMSI[MAX_PATH];
 		
-			_extractCabFile(filename, szTempPath);
+			_extractCabFile(m_szFullFilename, m_szTempPath);
 
 			GetSystemDirectory(szApp, MAX_PATH);
 			wcscat_s(szApp, L"\\msiexec.exe ");
 
-			wcscpy_s(szMSI, szTempPath);
+			wcscpy_s(szMSI, m_szTempPath);
 			wcscat_s(szMSI, L"lip.msi");
 
 			wcscpy_s(szParams, L" /i ");
@@ -302,8 +298,9 @@ void MSOfficeAction::_setDefaultLanguage()
 		case MSOffice2007:
 			wcscpy_s(szKeyName, L"Software\\Microsoft\\Office\\12.0\\Common\\LanguageResources");
 			break;
-		case MSOffice2010: // Do nothing
-			return;
+		case MSOffice2010:
+			wcscpy_s(szKeyName, L"Software\\Microsoft\\Office\\14.0\\Common\\LanguageResources");
+			break;
 	}
 
 	Registry registry;
@@ -311,8 +308,11 @@ void MSOfficeAction::_setDefaultLanguage()
 
 	if (registry.OpenKey(HKEY_CURRENT_USER, szKeyName, true))
 	{
-		registry.SetDWORD(L"UILanguage", 1027);
-		bSetKey = TRUE;
+		bSetKey = registry.SetDWORD(L"UILanguage", 1027);
+		if (m_MSVersion == MSOffice2010)
+		{
+			registry.SetString(L"FollowSystemUI", L"Off");
+		}		
 		registry.Close();
 	}
 	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set AcceptLanguage %u", (wchar_t *) bSetKey);	
@@ -329,11 +329,11 @@ ActionStatus MSOfficeAction::GetStatus()
 
 		if (_wasInstalledCorrectly()) {
 			status = Successful;
+			_setDefaultLanguage();
 		}
 		else {
 			status = FinishedWithError;
-		}
-		_setDefaultLanguage();
+		}		
 		g_log.Log(L"MSOfficeAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
