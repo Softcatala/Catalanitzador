@@ -238,12 +238,13 @@ ActionStatus WindowsLPIAction::GetStatus()
 		KillTimer(NULL, hTimerID);
 
 		if (_wasLIPInstalled()) {
-			status = Successful;			
+			status = Successful;
+			_setDefaultLanguage();
 		}
 		else {
 			status = FinishedWithError;			
 		}
-		_setDefaultLanguage();
+		
 		g_log.Log(L"WindowsLPIAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");				
 	}
 	return status;
