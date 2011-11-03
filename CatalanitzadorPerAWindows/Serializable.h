@@ -26,5 +26,5 @@ using namespace std;
 class Serializable
 {
     public:
-		virtual void Serialize (ostream* stream) = 0;
+		virtual void Serialize(ostream* stream) = 0;
 };

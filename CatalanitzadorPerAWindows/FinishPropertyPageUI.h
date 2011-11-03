@@ -21,19 +21,26 @@
 
 #include "Action.h"
 #include "PropertyPageUI.h"
+#include "Serializer.h"
 
 #include <vector>
 using namespace std;
 
 class FinishPropertyPageUI: public PropertyPageUI
 {
-public:		
+public:
+		FinishPropertyPageUI();
+		~FinishPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_actions = value;}
+		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 
 private:
 		virtual void _onInitDialog();
 		virtual	void _onFinish();
 		bool _isRebootNeed();
+		static DWORD WINAPI _uploadXmlThead(LPVOID lpParam);
 		
+		HANDLE m_hThread;
 		vector <Action *> * m_actions;
+		Serializer* m_serializer;
 };

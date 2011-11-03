@@ -29,13 +29,13 @@ using namespace std;
 class InstallPropertyPageUI: public PropertyPageUI
 {
 public:		
-		void SetSerializer (Serializer* serializer) { m_serializer = serializer; }		
-		void SetActions(vector <Action *> * value) { m_actions = value;}		
+		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
+		void SetActions(vector <Action *> * value) { m_actions = value;}
 
 private:
 		virtual void _onInitDialog();
 		virtual	void _onShowWindow();
-		virtual	void _onTimer();		
+		virtual	void _onTimer();
 		static void _downloadStatus(int total, int current, void *data);
 
 		void _execute(Action* action);

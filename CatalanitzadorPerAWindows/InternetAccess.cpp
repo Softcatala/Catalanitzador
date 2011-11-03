@@ -21,11 +21,12 @@
 #include <wchar.h>
 #include "InternetAccess.h"
 #include "Window.h"
+#include "Url.h"
+#include <stdio.h>
 
 InternetAccess::InternetAccess()
 {
-	// TODO: Consider add support for proxies
-	hInternet = InternetOpen(0, INTERNET_OPEN_TYPE_DIRECT, 0, 0, 0);
+	hInternet = InternetOpen(0, INTERNET_OPEN_TYPE_PRECONFIG, 0, 0, 0);
 }
 
 InternetAccess::~InternetAccess()
@@ -93,6 +94,95 @@ bool InternetAccess::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progres
 	CloseHandle(hWrite);
 	InternetCloseHandle(hRemoteFile);
 	return true;	
+}
+
+// Encodes a single variable form
+void InternetAccess::_urlFormEncode(char* variables, char* encoded)
+{	
+	int len;
+	char* pos = variables;
+	bool bEqualFound = false;
+
+	encoded [0] = 0;
+	len = strlen(variables);	
+
+	for (int i = 0; i < len; i++, pos++)
+	{		
+		if (bEqualFound == false // Until variable = assignation is not found do not start encoding
+			|| *pos =='.' ||
+			(*pos >='0' && *pos <='9') ||
+			(*pos >='A' && *pos <='Z') ||
+			(*pos >='a' && *pos <='z'))
+		{
+			char ch[2];
+
+			ch[0] = *pos;
+			ch[1] = NULL;
+			strcat (encoded, ch);
+		}
+		else if (*pos == '\r' || *pos == '\n' || *pos == '\t')
+		{
+			// Skip cr, lf, tab
+		}
+		else if (*pos == ' ')
+		{
+			char ch[2];
+
+			ch[0] = '+';
+			ch[1] = NULL;
+			strcat (encoded, ch);
+		}
+		else
+		{
+			char string [16];
+			sprintf (string, "%%%X", *pos);
+			strcat (encoded, string);
+		}
+
+		if (bEqualFound == false && *pos == '=')
+		{
+			bEqualFound = true;
+		}
+	}
+}
+
+// Variables are added in ANSI at the end of the request that's why is an ANSI string
+bool InternetAccess::PostForm(wchar_t* URL, char* variables)
+{
+	HINTERNET hConnect, hRequest;
+	const wchar_t hdrs[] = L"Content-Type: application/x-www-form-urlencoded\n\r";
+	const wchar_t* accept[2]= {L"*/*", NULL};
+	Url url (URL);
+	
+	hConnect = InternetConnect(hInternet, url.GetHostname(),
+		INTERNET_DEFAULT_HTTP_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 1);
+
+	if (hConnect == NULL)	
+		return false;	
+
+	hRequest = HttpOpenRequest(hConnect, L"POST", url.GetPathAndFileName(),  NULL, NULL, accept,
+	  INTERNET_FLAG_RELOAD |INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_FORMS_SUBMIT, 0);
+
+	if (hRequest == NULL)
+	{
+		InternetCloseHandle(hConnect);
+		return false;
+	}
+	
+	char szEncoded[65535];	
+	_urlFormEncode(variables, szEncoded);
+
+	HttpSendRequest(hRequest, hdrs, wcslen(hdrs), szEncoded, strlen(szEncoded));	
+
+	// Get result of the operation
+	DWORD dwCode = 0;
+	DWORD dwSize = sizeof(dwCode);
+	HttpQueryInfo(hRequest, HTTP_QUERY_STATUS_CODE | 
+			HTTP_QUERY_FLAG_NUMBER, &dwCode, &dwSize, NULL);
+	
+	InternetCloseHandle(hRequest);
+	InternetCloseHandle(hConnect);
+	return dwCode == 200;
 }
 
 bool InternetAccess::IsThereConnection()

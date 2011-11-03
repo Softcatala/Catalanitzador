@@ -20,10 +20,59 @@
 #include "stdafx.h"
 #include "FinishPropertyPageUI.h"
 #include "PropertySheetUI.h"
+#include <fstream>
+
+FinishPropertyPageUI::FinishPropertyPageUI()
+{
+	m_hThread = NULL;
+}
+
+FinishPropertyPageUI::~FinishPropertyPageUI()
+{
+	if (m_hThread == NULL)
+	{
+		CloseHandle(m_hThread);
+		m_hThread = NULL;
+	}
+}
 
 void FinishPropertyPageUI::_onInitDialog()
 {
-	
+	m_hThread = CreateThread(NULL, 0, _uploadXmlThead, this, 0, NULL); 
+}
+
+DWORD FinishPropertyPageUI::_uploadXmlThead(LPVOID lpParam)
+{
+	BOOL result = 0;
+	char szBuff[65535];
+	char szVar[65535];
+	FinishPropertyPageUI* pThis = (FinishPropertyPageUI*) lpParam;
+
+	ostream* stream = pThis->m_serializer->GetStream();
+	streambuf* rdbuf = stream->rdbuf();
+	memset (szBuff, 0, sizeof(szBuff));
+	rdbuf->sgetn(szBuff, sizeof(szBuff));
+
+	int n = strlen (szBuff);
+	strcpy(szVar, "xml=");
+	strcat(szVar, szBuff);
+
+	// Dump XML to disc
+	wchar_t szXML[MAX_PATH];
+	GetTempPath(MAX_PATH, szXML);	
+	wcscat_s(szXML, L"results.xml");
+
+	ofstream of (szXML);
+	int size = strlen(szBuff);
+	of.write(szBuff, size);
+	of.close();
+
+	// Send file
+	InternetAccess access;
+	bool rslt = access.PostForm(L"http://www.softvalencia.org/catalanitzador/parser.php", szVar);
+
+	g_log.Log (L"FinishPropertyPageUI::_uploadXmlThead result %u", (wchar_t *)rslt);
+	return 0;
 }
 
 bool FinishPropertyPageUI::_isRebootNeed()
@@ -43,7 +92,7 @@ bool FinishPropertyPageUI::_isRebootNeed()
 }
 
 void FinishPropertyPageUI::_onFinish()
-{	
+{
 	if (_isRebootNeed())
 	{
 		bool result;
@@ -61,4 +110,9 @@ void FinishPropertyPageUI::_onFinish()
 			ExitWindowsEx(EWX_LOGOFF, SHTDN_REASON_MAJOR_APPLICATION);
 		}
 	}
+
+	// In case the user exists the app very quickly, give time the upload to complete
+	if (m_hThread != NULL)
+		WaitForSingleObject(m_hThread, 10000);
+
 }

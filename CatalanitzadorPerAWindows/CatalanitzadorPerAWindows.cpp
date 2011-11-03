@@ -82,13 +82,7 @@ void CreateWizard(HINSTANCE hInstance)
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
 	Actions actions;
-	Serializer* serializer;
-	wchar_t szXML[MAX_PATH];
-	
-	GetTempPath (MAX_PATH, szXML);
-
-	wcscat_s (szXML, L"results.xml");
-	serializer = new Serializer(szXML);
+	Serializer serializer;
 
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
@@ -96,27 +90,26 @@ void CreateWizard(HINSTANCE hInstance)
 	sheet.addPage(&welcome);
 
 	applications.createPage(hInstance, IDD_APPLICATIONS, NULL);
-	applications.setParent (&sheet);
-	applications.setPageButtons (NextBackButtons);
+	applications.setParent(&sheet);
+	applications.setPageButtons(NextBackButtons);
 	vector <Action *> acts = actions.GetActions();
-	applications.SetActions (&acts);	
+	applications.SetActions(&acts);	
 	sheet.addPage(&applications);
 
 	install.setParent(&sheet);
 	install.setPageButtons(CancelButton);
 	install.SetActions(&acts);
-	install.SetSerializer(serializer);
+	install.SetSerializer(&serializer);
 	install.createPage(hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 
+	finish.SetSerializer(&serializer);
 	finish.setParent(&sheet);
 	finish.SetActions(&acts);
-	finish.setPageButtons (FinishButton);
+	finish.setPageButtons(FinishButton);
 	finish.createPage(hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
 
 	sheet.runModal(hInstance, NULL, NULL);
-
-	delete serializer;
 }
 

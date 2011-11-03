@@ -29,9 +29,12 @@ public:
 		~InternetAccess();
 		
 		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);
+		bool PostForm(wchar_t* URL, char* variables);
+
 		static bool IsThereConnection();
 private:
 		int _getFileSize(HINTERNET hRemoteFile);
+		void _urlFormEncode(char* variables, char* encoded);
 
 		HINTERNET hInternet;
 };

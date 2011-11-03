@@ -21,9 +21,9 @@
 #include "Serializer.h"
 #include "OSVersion.h"
 
-Serializer::Serializer(wchar_t* file)
-{
-	stream = new ofstream (file);
+Serializer::Serializer()
+{	
+	stream = new stringstream();
 	
 	*stream << "<?xml version='1.0'?>\n";
 	*stream << "<execution>\n";
@@ -54,6 +54,7 @@ void Serializer::StartAction()
 void Serializer::EndAction()
 {
 	*stream << "\t</actions>\n";
+	*stream << "</execution>\n";
 }
 
 void Serializer::Serialize(Serializable* serializable)
@@ -65,8 +66,6 @@ void Serializer::Close()
 {
 	if (stream != NULL)
 	{
-		*stream << "</execution>\n";
-		stream->close();
 		delete stream;
 		stream = NULL;
 	}

@@ -27,15 +27,16 @@ Url::Url(wchar_t* url)
 
 void Url::_extractpath(wchar_t* url)
 {
-	BOOL rslt;
-	wchar_t szPath[1024];
+	BOOL rslt;	
 	wchar_t szExtraInfo[1024];
 
 	memset(&m_components,0, sizeof(m_components));
 	m_components.dwStructSize = sizeof(m_components);
 
-	m_components.lpszUrlPath = szPath;
-	m_components.dwUrlPathLength = sizeof(szPath);
+	m_components.lpszHostName = m_hostname;
+	m_components.dwHostNameLength = sizeof(m_hostname);
+	m_components.lpszUrlPath = m_path;
+	m_components.dwUrlPathLength = sizeof(m_path);
 	m_components.lpszExtraInfo = szExtraInfo;
 	m_components.dwExtraInfoLength = sizeof(szExtraInfo);
 
@@ -43,7 +44,7 @@ void Url::_extractpath(wchar_t* url)
 
 	if (rslt == TRUE)
 	{
-		_extractfilename(szPath);
+		_extractfilename(m_path);
 	}
 	else
 		m_filename[0] = L'\0';

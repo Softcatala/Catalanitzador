@@ -21,23 +21,22 @@
 
 #include "Actions.h"
 #include "Serializable.h"
-#include <iostream>
-#include <fstream>
+#include <sstream>
 
 class Serializer
 {
 	public:
-			Serializer(wchar_t * file);
+			Serializer();
 			~Serializer();
 
 			void Serialize(Serializable* serializable);
 			void Close();
-
 			void StartAction();
 			void EndAction();
+			ostream* GetStream() { return stream;}
 
 	private:
 			void _application();			
 
-			ofstream* stream;
+			stringstream* stream;
 };
