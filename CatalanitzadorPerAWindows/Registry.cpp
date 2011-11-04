@@ -40,6 +40,13 @@ bool Registry::SetDWORD(wchar_t* string, DWORD value)
 {	
 	return RegSetValueEx(hKey,string,0, REG_DWORD, (BYTE*)&value, sizeof (DWORD)) == ERROR_SUCCESS;
 }
+
+bool Registry::GetDWORD(wchar_t* sName, DWORD *value)
+{
+	DWORD dwType;
+	DWORD dwLen = sizeof (DWORD);	
+	return RegQueryValueEx(hKey,sName,0,&dwType,(BYTE*)value,&dwLen) == ERROR_SUCCESS && dwType == REG_DWORD;
+}
 	
 bool Registry::SetString(wchar_t* string, wchar_t* value)
 {

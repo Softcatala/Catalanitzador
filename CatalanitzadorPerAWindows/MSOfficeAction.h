@@ -31,6 +31,13 @@ enum MSOfficeVersion
 	MSOffice2010
 };
 
+struct RegKeyVersion
+{
+	wchar_t* VersionNumber;
+	wchar_t* InstalledLangMapKey;
+	bool InstalledLangMapKeyIsDWord;
+};
+
 class MSOfficeAction : public Action
 {
 public:
@@ -48,15 +55,16 @@ public:
 private:
 
 		void _getVersionInstalledWithNoLangPack();
-		bool _isVersionInstalled(wchar_t* version);
-		bool _isLangPackForVersionInstalled(wchar_t* version);
-		bool _isVersionInstalledWithNoLangPack(wchar_t* version);
+		bool _isVersionInstalled(RegKeyVersion regkeys);
+		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);
+		bool _isVersionInstalledWithNoLangPack(RegKeyVersion regkeys);
 		bool _wasInstalledCorrectly();
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _setDefaultLanguage();
 		static VOID CALLBACK _timerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);		
 		wchar_t* _getPackageName();
 		void _removeOffice2003TempFiles();
+		RegKeyVersion _getRegKeys();
 
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];

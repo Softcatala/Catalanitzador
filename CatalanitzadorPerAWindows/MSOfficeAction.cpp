@@ -38,14 +38,32 @@ static int nCurrent;
 static void *_data;
 #define TIMER_ID 2014
 
-#define OFFICE_2003_VERSION L"11.0"
-#define OFFICE_2007_VERSION L"12.0"
-#define OFFICE_2010_VERSION L"14.0"
+RegKeyVersion RegKeys2003 = 
+{
+	L"11.0", 
+	L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback",	
+	true
+};
+
+RegKeyVersion RegKeys2007 = 
+{
+	L"12.0",
+	L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs",
+	false
+};
+
+RegKeyVersion RegKeys2010 = 
+{
+	L"14.0",
+	L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs",
+	false
+};
+
 
 MSOfficeAction::MSOfficeAction()
 {
 	m_szFullFilename[0] = NULL;
-	_getVersionInstalledWithNoLangPack ();
+	_getVersionInstalledWithNoLangPack();
 	GetTempPath(MAX_PATH, m_szTempPath);
 
 	Url url(_getPackageName());
@@ -89,20 +107,18 @@ void MSOfficeAction::_removeOffice2003TempFiles()
 		wcscat_s(szFile, files[i]);
 
 		if (GetFileAttributes(szFile) != INVALID_FILE_ATTRIBUTES)
-		{
-			DeleteFile(szFile);
-		}
+			DeleteFile(szFile);		
 	}
 }
 
-bool MSOfficeAction::_isVersionInstalled(wchar_t* version)
+bool MSOfficeAction::_isVersionInstalled(RegKeyVersion regkeys)
 {
 	Registry registry;
 	wchar_t szValue[1024];
 	wchar_t szKey[1024];
 	bool Installed = false;
 
-	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", version);
+	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", regkeys.VersionNumber);
 	if (registry.OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
 	{
 		if (registry.GetString(L"Path", szValue, sizeof (szValue)))
@@ -115,27 +131,36 @@ bool MSOfficeAction::_isVersionInstalled(wchar_t* version)
 	return Installed;
 }
 
-bool MSOfficeAction::_isLangPackForVersionInstalled(wchar_t* szKey)
+bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 {
-	Registry registry;
-	wchar_t szValue[1024];	
+	Registry registry;	
 	bool Installed = false;
 
-	if (registry.OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
-	{
-		if (registry.GetString(L"1027", szValue, sizeof (szValue)))
+	if (registry.OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
+	{		
+		if (regkeys.InstalledLangMapKeyIsDWord)
 		{
-			if (wcslen (szValue) > 0)
-				Installed = true;
+			DWORD dwValue;
+			if (registry.GetDWORD(L"1027", &dwValue))
+					Installed = true;
+		}		
+		else
+		{
+			wchar_t szValue[1024];
+			if (registry.GetString(L"1027", szValue, sizeof (szValue)))
+			{
+				if (wcslen (szValue) > 0)
+					Installed = true;
+			}
 		}
 		registry.Close ();
 	}
 	return Installed;
 }
 
-bool MSOfficeAction::_isVersionInstalledWithNoLangPack(wchar_t* version)
+bool MSOfficeAction::_isVersionInstalledWithNoLangPack(RegKeyVersion regkeys)
 {
-	if (_isVersionInstalled (version) && _isLangPackForVersionInstalled (version) == false)
+	if (_isVersionInstalled(regkeys) && _isLangPackForVersionInstalled(regkeys) == false)
 		return true;
 
 	return false;
@@ -143,11 +168,11 @@ bool MSOfficeAction::_isVersionInstalledWithNoLangPack(wchar_t* version)
 
 void MSOfficeAction::_getVersionInstalledWithNoLangPack()
 {
-	if (_isVersionInstalledWithNoLangPack(OFFICE_2010_VERSION))
+	if (_isVersionInstalledWithNoLangPack(RegKeys2010))
 		m_MSVersion = MSOffice2010;
-	else if (_isVersionInstalledWithNoLangPack(OFFICE_2007_VERSION))
+	else if (_isVersionInstalledWithNoLangPack(RegKeys2007))
 		m_MSVersion = MSOffice2007;
-	else if (_isVersionInstalledWithNoLangPack(OFFICE_2003_VERSION))
+	else if (_isVersionInstalledWithNoLangPack(RegKeys2003))
 		m_MSVersion =  MSOffice2003;
 	else
 		m_MSVersion = NoMSOffice;
@@ -273,35 +298,27 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 
 bool MSOfficeAction::_wasInstalledCorrectly()
 {	
+	return _isLangPackForVersionInstalled(_getRegKeys());	
+}
+
+RegKeyVersion MSOfficeAction::_getRegKeys()
+{
 	switch (m_MSVersion)
 	{
-	case MSOffice2010:
-		return _isLangPackForVersionInstalled(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs");
-	case MSOffice2007:
-		return _isLangPackForVersionInstalled(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs");
-	case MSOffice2003:
-		return _isLangPackForVersionInstalled(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources");
-	default:
-		return false;
+		case MSOffice2003:
+			return RegKeys2003;			
+		case MSOffice2007:
+			return RegKeys2007;	
+		case MSOffice2010:
+		default:
+			return RegKeys2010;			
 	}
 }
 
 void MSOfficeAction::_setDefaultLanguage()
 {
 	wchar_t szKeyName [1024];
-
-	switch (m_MSVersion)
-	{
-		case MSOffice2003:
-			wcscpy_s(szKeyName, L"Software\\Microsoft\\Office\\11.0\\Common\\LanguageResources");
-			break;
-		case MSOffice2007:
-			wcscpy_s(szKeyName, L"Software\\Microsoft\\Office\\12.0\\Common\\LanguageResources");
-			break;
-		case MSOffice2010:
-			wcscpy_s(szKeyName, L"Software\\Microsoft\\Office\\14.0\\Common\\LanguageResources");
-			break;
-	}
+	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
 
 	Registry registry;
 	BOOL bSetKey = FALSE;

@@ -40,14 +40,18 @@ void Url::_extractpath(wchar_t* url)
 	m_components.lpszExtraInfo = szExtraInfo;
 	m_components.dwExtraInfoLength = sizeof(szExtraInfo);
 
-	rslt = InternetCrackUrl(url, wcslen(url), ICU_ESCAPE, &m_components);
+	rslt = InternetCrackUrl(url, url != NULL ? wcslen(url) : 0, ICU_ESCAPE, &m_components);
 
 	if (rslt == TRUE)
 	{
 		_extractfilename(m_path);
 	}
 	else
+	{
 		m_filename[0] = L'\0';
+		m_hostname[0] = L'\0';
+		m_path[0] = L'\0';
+	}
 }
 
 void Url::_extractfilename(wchar_t* path)
