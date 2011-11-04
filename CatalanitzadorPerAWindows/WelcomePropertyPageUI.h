@@ -25,11 +25,15 @@ class WelcomePropertyPageUI: public PropertyPageUI
 {
 public:
 		WelcomePropertyPageUI();
-		~WelcomePropertyPageUI();	
+		~WelcomePropertyPageUI();
+
+		void SetSendStats(BOOL *pbSendStats) { m_pbSendStats = pbSendStats;}
 
 private:
 		virtual void _onInitDialog();
 		void _createBoldFont(HWND hWnd);
+		virtual	bool _onNext();
 
 		HFONT		m_hFont;
+		BOOL*		m_pbSendStats;
 };

@@ -33,6 +33,7 @@ public:
 		~FinishPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_actions = value;}
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
+		void SetSendStats(BOOL *pbSendStats) { m_pbSendStats = pbSendStats;}
 
 private:
 		virtual void _onInitDialog();
@@ -43,4 +44,5 @@ private:
 		HANDLE m_hThread;
 		vector <Action *> * m_actions;
 		Serializer* m_serializer;
+		BOOL* m_pbSendStats;
 };

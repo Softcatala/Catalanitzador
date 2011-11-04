@@ -38,7 +38,10 @@ FinishPropertyPageUI::~FinishPropertyPageUI()
 
 void FinishPropertyPageUI::_onInitDialog()
 {
-	m_hThread = CreateThread(NULL, 0, _uploadXmlThead, this, 0, NULL); 
+	if (*m_pbSendStats)
+	{
+		m_hThread = CreateThread(NULL, 0, _uploadXmlThead, this, 0, NULL);
+	}
 }
 
 DWORD FinishPropertyPageUI::_uploadXmlThead(LPVOID lpParam)
@@ -114,5 +117,4 @@ void FinishPropertyPageUI::_onFinish()
 	// In case the user exists the app very quickly, give time the upload to complete
 	if (m_hThread != NULL)
 		WaitForSingleObject(m_hThread, 10000);
-
 }

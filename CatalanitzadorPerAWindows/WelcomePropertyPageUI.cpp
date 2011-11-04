@@ -55,6 +55,15 @@ void WelcomePropertyPageUI::_onInitDialog()
 	SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	SendMessage(GetDlgItem (getHandle(), IDC_WELCOME_ABOUTSECURITY),
-		WM_SETFONT, (WPARAM) m_hFont, TRUE);	
+		WM_SETFONT, (WPARAM) m_hFont, TRUE);
+
+	hWnd = GetDlgItem (getHandle(), IDC_WELCOME_TOAPP);
+	CheckDlgButton(getHandle(), IDC_SENDRESULTS, TRUE);
+	SetFocus(getHandle());
 }
 
+bool WelcomePropertyPageUI::_onNext()
+{
+	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;
+	return true;
+}

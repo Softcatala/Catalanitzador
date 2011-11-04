@@ -83,10 +83,12 @@ void CreateWizard(HINSTANCE hInstance)
 	FinishPropertyPageUI finish;
 	Actions actions;
 	Serializer serializer;
+	BOOL bSendStats = TRUE;
 
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
 	welcome.createPage(hInstance, IDD_WELCOME, NULL);
+	welcome.SetSendStats(&bSendStats);
 	sheet.addPage(&welcome);
 
 	applications.createPage(hInstance, IDD_APPLICATIONS, NULL);
@@ -107,9 +109,9 @@ void CreateWizard(HINSTANCE hInstance)
 	finish.setParent(&sheet);
 	finish.SetActions(&acts);
 	finish.setPageButtons(FinishButton);
+	finish.SetSendStats(&bSendStats);
 	finish.createPage(hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
 
 	sheet.runModal(hInstance, NULL, NULL);
 }
-
