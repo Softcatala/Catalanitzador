@@ -38,8 +38,11 @@ public:
 private:
 		virtual void _onInitDialog();
 		virtual	void _onFinish();
+		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
 		bool _isRebootNeed();
 		static DWORD WINAPI _uploadXmlThead(LPVOID lpParam);
+		void _createBoldFont(HWND hWnd);
+		HFONT		m_hFont;
 		
 		HANDLE m_hThread;
 		vector <Action *> * m_actions;

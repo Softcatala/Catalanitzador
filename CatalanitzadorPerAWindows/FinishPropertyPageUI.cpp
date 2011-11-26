@@ -25,16 +25,45 @@
 FinishPropertyPageUI::FinishPropertyPageUI()
 {
 	m_hThread = NULL;
+	m_hFont = NULL;
 }
 
 FinishPropertyPageUI::~FinishPropertyPageUI()
 {
-	if (m_hThread == NULL)
+	if (m_hThread != NULL)
 	{
 		CloseHandle(m_hThread);
 		m_hThread = NULL;
 	}
+
+	if (m_hFont != NULL)
+	{
+		DeleteObject (m_hFont);
+		m_hFont = NULL;
+	}
 }
+
+void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
+{
+	wchar_t szURL[1024];
+	wchar_t* szText = L"He catalanitzat el meu PC! Fes-ho tu també a: http://www.softcatala.org/wiki/Rebost:Catalanitzador";
+
+	if (wParam == IDC_TWITTER_BUTTON)
+	{
+		wcscpy_s(szURL, L"http://twitter.com/share?text=");
+		wcscat_s(szURL, szText);
+		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
+	}
+
+	if (wParam == IDC_FACEBOOK_BUTTON)
+	{
+		// See: http://developers.facebook.com/docs/share/
+		wcscpy_s(szURL, L"http://www.facebook.com/sharer.php?u=http://www.softcatala.org/wiki/Rebost:Catalanitzador&t=");
+		wcscat_s(szURL, szText);		
+		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
+	}	
+}
+
 
 void FinishPropertyPageUI::_onInitDialog()
 {
@@ -42,6 +71,9 @@ void FinishPropertyPageUI::_onInitDialog()
 	{
 		m_hThread = CreateThread(NULL, 0, _uploadXmlThead, this, 0, NULL);
 	}
+
+	SendMessage(GetDlgItem (getHandle(), IDC_CONGRATULATIONS),
+		WM_SETFONT, (WPARAM) m_hFont, TRUE);
 }
 
 DWORD FinishPropertyPageUI::_uploadXmlThead(LPVOID lpParam)
@@ -117,4 +149,15 @@ void FinishPropertyPageUI::_onFinish()
 	// In case the user exists the app very quickly, give time the upload to complete
 	if (m_hThread != NULL)
 		WaitForSingleObject(m_hThread, 10000);
+}
+
+void FinishPropertyPageUI::_createBoldFont(HWND hWnd)
+{
+	HFONT hFont;
+	LOGFONT	logFont;
+
+	hFont = (HFONT) SendMessage(hWnd, WM_GETFONT, NULL, NULL);
+	GetObject(hFont, sizeof(LOGFONT), &logFont);
+	logFont.lfWeight = FW_BOLD;
+	m_hFont = CreateFontIndirect(&logFont);
 }
