@@ -16,16 +16,39 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
-
+ 
+ 
 #pragma once
+#include <CommCtrl.h>
+#include "ActionStatus.h"
 
-enum ActionStatus
+enum CheckedColor
 {
-	NotSelected,		// The user did not select the action
-	Selected,			// Selected but no started
-	CannotBeApplied,	// The action cannot be applied (e.g. Windows ES needed US found)
-	AlreadyApplied,		// Action not needed
-	InProgress,			// Selected and in progress
-	Successful,			// End up OK
-	FinishedWithError	// End up with error
+	CheckedColorBlack = RGB(0,0,0),
+	CheckedColorNone = -1,
+	CheckedColorRed = 0x3030F0,
+	CheckedColorGreen = RGB(0x22, 0x8b, 0x22),
+	CheckedColorYellow = RGB(0xff, 0xd7, 0)
+};
+
+enum ImageIndex
+{
+	ImageIndexNone = 0,
+	ImageIndexBlack = 1,
+	ImageIndexRed = 2,
+	ImageIndexYellow = 3,
+	ImageIndexGreen = 4
+};
+
+class CheckedListView
+{
+public:		
+		HIMAGELIST CreateCheckBoxImageList(HWND hWnd);
+
+		static ImageIndex GetImageIndex(ActionStatus status);
+		
+private:
+		int _makeSquareRect(LPRECT src, LPRECT dst);
+		void _createFrameBox(HDC dc, LPRECT r);
+		void _createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, CheckedColor color);
 };

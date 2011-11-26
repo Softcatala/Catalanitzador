@@ -112,7 +112,10 @@ bool WindowsLPIAction::IsNeed()
 	{
 		_updateIsInstalled();
 		bNeed = (m_installed == false);
-	}	
+	}
+
+	if (bNeed == false)
+		status = AlreadyApplied;
 
 	g_log.Log(L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
 	return bNeed;	

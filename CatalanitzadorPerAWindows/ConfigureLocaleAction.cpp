@@ -66,12 +66,15 @@ bool ConfigureLocaleAction::_isCatalanLocaleActive()
 
 bool ConfigureLocaleAction::IsNeed()
 {	
-	bool bNeeded;
+	bool bNeed;
 
-	bNeeded = _isCatalanLocaleActive() == false;
+	bNeed = _isCatalanLocaleActive() == false;
 
-	g_log.Log(L"ConfigureLocaleAction::IsNeed returns %u", (wchar_t *) bNeeded);
-	return bNeeded;
+	if (bNeed == false)
+		status = AlreadyApplied;
+
+	g_log.Log(L"ConfigureLocaleAction::IsNeed returns %u", (wchar_t *) bNeed);
+	return bNeed;
 }
 
 bool ConfigureLocaleAction::_dumpResource(LPCWSTR resource, wchar_t* file)

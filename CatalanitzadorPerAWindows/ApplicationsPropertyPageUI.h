@@ -21,6 +21,7 @@
 
 #include "PropertyPageUI.h"
 #include "Action.h"
+#include "CheckedListView.h"
 #include <vector>
 #include <map>
 using namespace std;
@@ -31,13 +32,15 @@ public:
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
 		
 private:
-
-		bool _isActionNeeded(HWND hWnd, int nItem);
+		
 		virtual void _onInitDialog();
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 		virtual	bool _onNext();
+		void _noInternetConnection();
 		static LRESULT _listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		static void _processClickOnItem(HWND hWnd, int nItem);
 
+		CheckedListView m_listview;
 		HWND hList;
 		vector <Action *> * m_availableActions;
 		typedef pair <Action *, bool> ActionBool_Pair;

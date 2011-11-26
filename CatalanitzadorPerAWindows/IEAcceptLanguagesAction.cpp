@@ -34,18 +34,22 @@ wchar_t* IEAcceptedLanguagesAction::GetDescription()
 bool IEAcceptedLanguagesAction::IsNeed()
 {	
 	wchar_t szValue[1024];
-	bool hasCatalan = false;
+	bool bNeed = true;
 
 	Registry registry;
 	registry.OpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", false);
 	if (registry.GetString(L"AcceptLanguage", szValue, sizeof (szValue)))
 	{
 		if (wcsstr(szValue, L"ca-ES") != NULL)
-			hasCatalan = true;
+			bNeed = false;
 	}
 	registry.Close();
-	g_log.Log (L"IEAcceptedLanguagesAction::IsNeed returns %u", (wchar_t *) (hasCatalan == false));
-	return hasCatalan == false;	
+
+	if (bNeed == false)
+		status = AlreadyApplied;
+
+	g_log.Log(L"IEAcceptedLanguagesAction::IsNeed returns %u", (wchar_t *) bNeed);
+	return bNeed;
 }
 
 void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)

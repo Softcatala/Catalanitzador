@@ -25,23 +25,33 @@
 #include <vector>
 using namespace std;
 
-bool ApplicationsPropertyPageUI::_isActionNeeded(HWND hWnd, int nItem)
+void ApplicationsPropertyPageUI::_processClickOnItem(HWND hWnd, int nItem)
 {	
-	LVITEM lvitem;
-	
-	memset(&lvitem,0,sizeof(lvitem));
-	lvitem.iItem = nItem;
-	lvitem.mask = LVIF_PARAM;
-	ListView_GetItem(hWnd, &lvitem);
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.iItem = nItem;
+	item.mask = LVIF_IMAGE | LVIF_PARAM;
+	ListView_GetItem(hWnd, &item);
 
-	Action* action = (Action *) lvitem.lParam;
-	map <Action *, bool>::iterator item;
+	Action* action = (Action *) item.lParam;
 
-	item = m_disabledActions.find((Action * const &)action);
-	return item->second;
+	switch (action->GetStatus()) {
+	case NotSelected:
+		action->SetStatus(Selected);
+		break;
+	case Selected:
+		action->SetStatus(NotSelected);
+		break;
+	default:
+		return; // Non selectable item
+	}
+
+	item.mask = LVIF_IMAGE;
+	item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
+	ListView_SetItem(hWnd, &item);
 }
 
-LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
+LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {	
 	ApplicationsPropertyPageUI *pThis = (ApplicationsPropertyPageUI *)GetWindowLong(hWnd,GWL_USERDATA);
 
@@ -55,12 +65,9 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 			lvHitTestInfo.pt.y = HIWORD(lParam);
 			int nItem = ListView_HitTest(hWnd, &lvHitTestInfo);
 
-			if (lvHitTestInfo.flags & LVHT_ONITEMSTATEICON)
+			if (lvHitTestInfo.flags & LVHT_ONITEMICON)
 			{
-				if (pThis->_isActionNeeded(hWnd, nItem) == false)
-				{
-					return 0;
-				}
+				_processClickOnItem(hWnd, lvHitTestInfo.iItem);
 			}
 		}
 		
@@ -68,33 +75,31 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 		{
 			if (wParam == VK_SPACE)
 			{
-				int nItem = ListView_GetSelectionMark(hWnd);
-				if (pThis->_isActionNeeded(hWnd, nItem) == false)
-				{
-					return 0;
-				}
+				_processClickOnItem(hWnd, ListView_GetSelectionMark(hWnd));
 			}
 		}
 
 		default:
 			return CallWindowProc(pThis->PreviousProc, hWnd, uMsg, wParam, lParam);
 	}
-} 
+}
 
+ 
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	int nItemId = 0;
-	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
-
-	ListView_SetExtendedListViewStyle(hList, LVS_EX_CHECKBOXES);
+	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);	
 
 	LVITEM item;
 	memset(&item,0,sizeof(item));
-	item.mask=LVIF_TEXT | LVIF_PARAM;
+	item.mask=LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 
 	if (m_availableActions->size() == 0)
 		return;
 
+	HIMAGELIST hImageList = m_listview.CreateCheckBoxImageList(hList);		
+	ListView_SetImageList(hList, hImageList, LVSIL_SMALL);
+	
 	// Enabled items
 	for (unsigned int i = 0; i < m_availableActions->size (); i++)
 	{		
@@ -106,14 +111,15 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		if (needed == false)
 			continue;
 
-		item.iItem=nItemId;
-		item.pszText= action->GetName ();
+		action->SetStatus(Selected);
+		item.iItem = nItemId;
+		item.pszText = action->GetName ();
 		item.lParam = (LPARAM) action;		
-		ListView_InsertItem (hList, &item);
-		ListView_SetCheckState (hList, nItemId, true);
+		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
+		ListView_InsertItem (hList, &item);		
 		nItemId++;
 	}
-
+	
 	// Disabled items
 	for (unsigned int i = 0; i < m_availableActions->size (); i++)
 	{		
@@ -127,9 +133,9 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		
 		item.iItem=nItemId;
 		item.pszText= action->GetName();
-		item.lParam = (LPARAM) action;
+		item.lParam = (LPARAM) action;		
+		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
 		ListView_InsertItem (hList, &item);
-		ListView_SetCheckState(hList, nItemId, false);
 		nItemId++;
 	}
 
@@ -193,32 +199,37 @@ bool ApplicationsPropertyPageUI::_onNext()
 
 	for (int i = 0; i < items; ++i)
 	{
-		bool selected = ListView_GetCheckState(hList, i) != FALSE;
-
+		bool bSelected;
 		LVITEM item;
 		memset(&item,0,sizeof(item));
 		item.iItem = i;
 		item.mask = LVIF_PARAM;
 
 		ListView_GetItem(hList, &item);
-		Action* action = (Action *) item.lParam;
-		action->SetStatus (selected ? Selected : NotSelected);
-		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)selected);
+		Action* action = (Action *) item.lParam;		
+		bSelected = action->GetStatus() == Selected;
+		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)bSelected);
 
-		if (selected == true && action->IsDownloadNeed())
+		if (bSelected && action->IsDownloadNeed())
 			needInet = true;
 	}
 
 	if (needInet && InternetAccess::IsThereConnection() == false)
-	{		
-		wchar_t szMessage [MAX_LOADSTRING];
-		wchar_t szCaption [MAX_LOADSTRING];
-
-		LoadString(GetModuleHandle(NULL), IDS_NOINETACCESS, szMessage, MAX_LOADSTRING);
-		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
-
-		MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);
+	{
+		_noInternetConnection();
 		return FALSE;
 	}
 	return TRUE;
+}
+
+
+void ApplicationsPropertyPageUI::_noInternetConnection()
+{
+	wchar_t szMessage [MAX_LOADSTRING];
+	wchar_t szCaption [MAX_LOADSTRING];
+
+	LoadString(GetModuleHandle(NULL), IDS_NOINETACCESS, szMessage, MAX_LOADSTRING);
+	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+	MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);	
 }

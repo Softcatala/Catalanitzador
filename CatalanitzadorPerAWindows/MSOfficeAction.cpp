@@ -201,6 +201,10 @@ bool MSOfficeAction::IsNeed()
 	bool bNeed;
 
 	bNeed = m_MSVersion != NoMSOffice;
+
+	if (bNeed == false)
+		status = AlreadyApplied;
+
 	g_log.Log(L"MSOfficeAction::IsNeed returns %u", (wchar_t *) bNeed);
 	return bNeed;	
 }

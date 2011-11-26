@@ -89,6 +89,7 @@
     <ClInclude Include="Actions.h" />
     <ClInclude Include="ApplicationsPropertyPageUI.h" />
     <ClInclude Include="CatalanitzadorPerAWindows.h" />
+    <ClInclude Include="CheckedListView.h" />
     <ClInclude Include="ConfigureLocaleAction.h" />
     <ClInclude Include="FinishPropertyPageUI.h" />
     <ClInclude Include="IEAcceptLanguagesAction.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Actions.cpp" />
     <ClCompile Include="ApplicationsPropertyPageUI.cpp" />
     <ClCompile Include="CatalanitzadorPerAWindows.cpp" />
+    <ClCompile Include="CheckedListView.cpp" />
     <ClCompile Include="ConfigureLocaleAction.cpp" />
     <ClCompile Include="FinishPropertyPageUI.cpp" />
     <ClCompile Include="IEAcceptLanguagesAction.cpp" />

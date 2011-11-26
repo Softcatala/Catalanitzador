@@ -122,6 +122,9 @@
     <ClInclude Include="Url.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="CheckedListView.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -189,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="Url.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckedListView.cpp">
+      <Filter>User Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
