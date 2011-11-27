@@ -20,8 +20,6 @@
 #include "stdafx.h"
 #include "CheckedListView.h"
 
-#define RED 0x3030F0
-
 int CheckedListView::_makeSquareRect(LPRECT src, LPRECT dst)
 {
     int Width  = src->right - src->left;
@@ -100,13 +98,13 @@ void CheckedListView::_createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, C
 
 HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 {
-	HDC hdc_wnd, hdc;                                                                                             
-	HBITMAP hbm_im, hbm_mask, hbm_orig;                                                                           
+	HDC hdc_wnd, hdc;
+	HBITMAP hbm_im, hbm_mask, hbm_orig;
 	RECT rc;
 	HBRUSH hbr_white = (HBRUSH) GetStockObject(GRAY_BRUSH);
 	HBRUSH hbr_black = (HBRUSH) GetStockObject(WHITE_BRUSH);
-	HIMAGELIST himl;                                                                                              
-                                                        
+	HIMAGELIST himl;
+                                    
 	int x = GetSystemMetrics(SM_CXSMICON);
 	himl = ImageList_Create(x, GetSystemMetrics(SM_CYSMICON),
 							ILC_COLOR | ILC_MASK, 2, 2);
@@ -115,44 +113,32 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 	hbm_im = CreateCompatibleBitmap(hdc_wnd, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON));	
 	hbm_mask = CreateBitmap(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 1, 1, NULL);
 	ReleaseDC(hWnd, hdc_wnd);
-                                                                                                              
+                                                                      
 	rc.left = rc.top = 0;
 	rc.right = GetSystemMetrics(SM_CXSMICON);
 	rc.bottom = GetSystemMetrics(SM_CYSMICON);
-                                                                                                              
+
 	hbm_orig = (HBITMAP) SelectObject(hdc, hbm_mask);
 	SelectObject(hdc, hbm_im);	
-	
+
 	// Create normal image
 	_createButtonCheckImage(hdc, &rc, false, CheckedColorNone);
 	SelectObject(hdc, hbm_orig);
-	ImageList_Add(himl, hbm_im, hbm_mask);                          
-	SelectObject(hdc, hbm_im);
-
-	// See ImageIndex enum
-	// Create checked image
-	_createButtonCheckImage(hdc, &rc, true, CheckedColorBlack);
-	SelectObject(hdc, hbm_orig);
 	ImageList_Add(himl, hbm_im, hbm_mask);
 	SelectObject(hdc, hbm_im);
 
-	// Create checked image
-	_createButtonCheckImage(hdc, &rc, true, CheckedColorRed);
-	SelectObject(hdc, hbm_orig);
-	ImageList_Add(himl, hbm_im, hbm_mask);
-	SelectObject(hdc, hbm_im);
+	// Create color checked images
+	CheckedColor colors[] = {CheckedColorBlack, CheckedColorRed, CheckedColorYellow, CheckedColorGreen, CheckedColorNone};
+	CheckedColor* color = colors;
 
-	// Create checked image
-	_createButtonCheckImage(hdc, &rc, true, CheckedColorYellow);
-	SelectObject(hdc, hbm_orig);
-	ImageList_Add(himl, hbm_im, hbm_mask);
-	SelectObject(hdc, hbm_im);
-
-	// Create checked image
-	_createButtonCheckImage(hdc, &rc, true, CheckedColorGreen);
-	SelectObject(hdc, hbm_orig);
-	ImageList_Add(himl, hbm_im, hbm_mask);
-	SelectObject(hdc, hbm_im);
+	while (*color != CheckedColorNone)
+	{	
+		_createButtonCheckImage(hdc, &rc, true, *color);
+		SelectObject(hdc, hbm_orig);
+		ImageList_Add(himl, hbm_im, hbm_mask);
+		SelectObject(hdc, hbm_im);
+		color++;
+	}
 
 	DeleteObject(hbm_mask);
 	DeleteObject(hbm_im);
