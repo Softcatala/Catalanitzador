@@ -27,7 +27,7 @@ void Window::ProcessMessages()
 	while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 	{
 		if (msg.message == WM_QUIT)
-			return;
+			ExitProcess(0);
 
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
