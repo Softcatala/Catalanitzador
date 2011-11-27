@@ -38,6 +38,7 @@ public:
 		virtual bool IsNeed() = 0;
 		virtual bool IsRebootNeed() { return false;};
 		virtual ActionStatus GetStatus() { return status;}
+		virtual char* GetVersion() { return "";}
 		virtual void SetStatus(ActionStatus value) { status = value; }
 
 		virtual bool Download(ProgressStatus, void *data) {return false;}

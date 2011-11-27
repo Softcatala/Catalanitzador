@@ -51,13 +51,13 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
 		virtual ActionStatus GetStatus();
+		virtual char* GetVersion();
 
 private:
 
 		void _getVersionInstalledWithNoLangPack();
 		bool _isVersionInstalled(RegKeyVersion regkeys);
-		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);
-		bool _isVersionInstalledWithNoLangPack(RegKeyVersion regkeys);
+		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);		
 		bool _wasInstalledCorrectly();
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _setDefaultLanguage();
@@ -66,6 +66,7 @@ private:
 		void _removeOffice2003TempFiles();
 		RegKeyVersion _getRegKeys();
 
+		bool m_bLangPackInstalled;
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];		

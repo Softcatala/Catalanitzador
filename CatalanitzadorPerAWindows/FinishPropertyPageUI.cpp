@@ -89,8 +89,8 @@ DWORD FinishPropertyPageUI::_uploadXmlThead(LPVOID lpParam)
 	rdbuf->sgetn(szBuff, sizeof(szBuff));
 
 	int n = strlen (szBuff);
-	strcpy(szVar, "xml=");
-	strcat(szVar, szBuff);
+	strcpy_s(szVar, "xml=");
+	strcat_s(szVar, szBuff);
 
 	// Dump XML to disc
 	wchar_t szXML[MAX_PATH];

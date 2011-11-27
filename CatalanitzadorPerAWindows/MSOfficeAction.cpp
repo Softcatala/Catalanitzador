@@ -62,6 +62,7 @@ RegKeyVersion RegKeys2010 =
 
 MSOfficeAction::MSOfficeAction()
 {
+	m_bLangPackInstalled = false;
 	m_szFullFilename[0] = NULL;
 	_getVersionInstalledWithNoLangPack();
 	GetTempPath(MAX_PATH, m_szTempPath);
@@ -90,10 +91,25 @@ wchar_t* MSOfficeAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_MSOFFICEACTION_DESCRIPTION, szDescription);
 }
 
+char* MSOfficeAction::GetVersion()
+{
+	switch (m_MSVersion)
+	{
+		case MSOffice2003:
+			return "2003";
+		case MSOffice2007:
+			return "2007";
+		case MSOffice2010:
+			return "2010";
+		default:
+			return "";
+	}
+}
+
 // This deletes the contents of the extracted CAB file for MS Office 2003
 void MSOfficeAction::_removeOffice2003TempFiles()
 {
-	if (m_MSVersion != MSOffice2003)
+	if (m_bLangPackInstalled == true || m_MSVersion != MSOffice2003)
 		return;
 	
 	wchar_t szFile[MAX_PATH];
@@ -158,26 +174,27 @@ bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 	return Installed;
 }
 
-bool MSOfficeAction::_isVersionInstalledWithNoLangPack(RegKeyVersion regkeys)
-{
-	if (_isVersionInstalled(regkeys) && _isLangPackForVersionInstalled(regkeys) == false)
-		return true;
-
-	return false;
-}
-
 void MSOfficeAction::_getVersionInstalledWithNoLangPack()
 {
-	if (_isVersionInstalledWithNoLangPack(RegKeys2010))
+	if (_isVersionInstalled(RegKeys2010))
+	{
 		m_MSVersion = MSOffice2010;
-	else if (_isVersionInstalledWithNoLangPack(RegKeys2007))
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010);
+	} else if (_isVersionInstalled(RegKeys2007))
+	{
 		m_MSVersion = MSOffice2007;
-	else if (_isVersionInstalledWithNoLangPack(RegKeys2003))
-		m_MSVersion =  MSOffice2003;
-	else
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2007);
+	} else if (_isVersionInstalled(RegKeys2003))
+	{
+		m_MSVersion = MSOffice2003;
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2003);
+	} else {
+		m_bLangPackInstalled = false;
 		m_MSVersion = NoMSOffice;
-
-	g_log.Log(L"MSOfficeAction::_getVersionInstalledWithNoLangPack '%u'", (wchar_t *) m_MSVersion);
+	}
+	
+	g_log.Log(L"MSOfficeAction::_getVersionInstalledWithNoLangPack '%u' installed langmap '%u'", (wchar_t *) m_MSVersion, 
+		(wchar_t *)m_bLangPackInstalled);
 }
 
 wchar_t* MSOfficeAction::_getPackageName()
@@ -200,7 +217,7 @@ bool MSOfficeAction::IsNeed()
 {
 	bool bNeed;
 
-	bNeed = m_MSVersion != NoMSOffice;
+	bNeed = m_bLangPackInstalled == false && m_MSVersion != NoMSOffice;
 
 	if (bNeed == false)
 		status = AlreadyApplied;
@@ -310,12 +327,12 @@ RegKeyVersion MSOfficeAction::_getRegKeys()
 	switch (m_MSVersion)
 	{
 		case MSOffice2003:
-			return RegKeys2003;			
+			return RegKeys2003;
 		case MSOffice2007:
-			return RegKeys2007;	
+			return RegKeys2007;
 		case MSOffice2010:
 		default:
-			return RegKeys2010;			
+			return RegKeys2010;
 	}
 }
 
