@@ -128,7 +128,7 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 	SelectObject(hdc, hbm_im);
 
 	// Create color checked images
-	CheckedColor colors[] = {CheckedColorBlack, CheckedColorRed, CheckedColorYellow, CheckedColorGreen, CheckedColorNone};
+	CheckedColor colors[] = {CheckedColorBlack, CheckedColorGrey, CheckedColorYellow, CheckedColorGreen, CheckedColorNone};
 	CheckedColor* color = colors;
 
 	while (*color != CheckedColorNone)
@@ -155,7 +155,7 @@ ImageIndex CheckedListView::GetImageIndex(ActionStatus status)
 	case Selected:
 		return ImageIndexBlack;
 	case CannotBeApplied:
-		return ImageIndexYellow;
+		return ImageIndexGrey;
 	case AlreadyApplied:
 		return ImageIndexGreen;
 	default:

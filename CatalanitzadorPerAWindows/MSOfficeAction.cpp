@@ -220,7 +220,12 @@ bool MSOfficeAction::IsNeed()
 	bNeed = m_bLangPackInstalled == false && m_MSVersion != NoMSOffice;
 
 	if (bNeed == false)
-		status = AlreadyApplied;
+	{
+		if (m_MSVersion == NoMSOffice)
+			status = CannotBeApplied;
+		else
+			status = AlreadyApplied;
+	}
 
 	g_log.Log(L"MSOfficeAction::IsNeed returns %u", (wchar_t *) bNeed);
 	return bNeed;	

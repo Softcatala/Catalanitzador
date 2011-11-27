@@ -26,7 +26,7 @@ enum CheckedColor
 {
 	CheckedColorBlack = RGB(0,0,0),
 	CheckedColorNone = -1,
-	CheckedColorRed = 0x3030F0,
+	CheckedColorGrey = RGB(0xad,0xa8,0x91),
 	CheckedColorGreen = RGB(0x22, 0x8b, 0x22),
 	CheckedColorYellow = RGB(0xff, 0xd7, 0)
 };
@@ -35,7 +35,7 @@ enum ImageIndex
 {
 	ImageIndexNone = 0,
 	ImageIndexBlack = 1,
-	ImageIndexRed = 2,
+	ImageIndexGrey = 2,
 	ImageIndexYellow = 3,
 	ImageIndexGreen = 4
 };
