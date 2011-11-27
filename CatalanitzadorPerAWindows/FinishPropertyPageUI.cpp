@@ -104,7 +104,7 @@ DWORD FinishPropertyPageUI::_uploadXmlThead(LPVOID lpParam)
 
 	// Send file
 	InternetAccess access;
-	bool rslt = access.PostForm(L"http://www.softvalencia.org/catalanitzador/parser.php", szVar);
+	bool rslt = access.PostForm(L"http://catalanitzador.softcatala.org/parser.php", szVar);
 
 	g_log.Log (L"FinishPropertyPageUI::_uploadXmlThead result %u", (wchar_t *)rslt);
 	return 0;
