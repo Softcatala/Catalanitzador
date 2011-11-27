@@ -22,6 +22,6 @@
 
 #define MAX_LOADSTRING 1024
 #define APP_MAJOR_VERSION		0
-#define APP_MINOR_VERSION		1
-#define APP_REVISION			2
+#define APP_MINOR_VERSION		9
+#define APP_REVISION			0
 
