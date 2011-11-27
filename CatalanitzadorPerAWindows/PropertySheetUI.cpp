@@ -135,8 +135,7 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 					pThis->m_nRslt=IDCANCEL;
 					pThis->destroy();
 					PostQuitMessage(0);
-				}
-				pThis->destroy();
+				}				
 			}			
 
 			break;
