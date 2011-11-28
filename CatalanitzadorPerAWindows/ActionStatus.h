@@ -23,7 +23,7 @@ enum ActionStatus
 {
 	NotSelected,		// The user did not select the action
 	Selected,			// Selected but no started
-	CannotBeApplied,	// The action cannot be applied (e.g. Windows ES needed US found)
+	CannotBeApplied,	// The action cannot be applied (e.g. Windows ES needed US found or application not found)
 	AlreadyApplied,		// Action not needed
 	InProgress,			// Selected and in progress
 	Successful,			// End up OK

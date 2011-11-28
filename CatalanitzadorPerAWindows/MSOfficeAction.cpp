@@ -64,7 +64,7 @@ MSOfficeAction::MSOfficeAction()
 {
 	m_bLangPackInstalled = false;
 	m_szFullFilename[0] = NULL;
-	_getVersionInstalledWithNoLangPack();
+	_getVersionInstalled();
 	GetTempPath(MAX_PATH, m_szTempPath);
 
 	Url url(_getPackageName());
@@ -174,7 +174,7 @@ bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 	return Installed;
 }
 
-void MSOfficeAction::_getVersionInstalledWithNoLangPack()
+void MSOfficeAction::_getVersionInstalled()
 {
 	if (_isVersionInstalled(RegKeys2010))
 	{
@@ -193,7 +193,7 @@ void MSOfficeAction::_getVersionInstalledWithNoLangPack()
 		m_MSVersion = NoMSOffice;
 	}
 	
-	g_log.Log(L"MSOfficeAction::_getVersionInstalledWithNoLangPack '%u' installed langmap '%u'", (wchar_t *) m_MSVersion, 
+	g_log.Log(L"MSOfficeAction::_getVersionInstalled '%u' installed langmap '%u'", (wchar_t *) m_MSVersion, 
 		(wchar_t *)m_bLangPackInstalled);
 }
 

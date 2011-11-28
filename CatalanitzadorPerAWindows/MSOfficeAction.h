@@ -55,7 +55,7 @@ public:
 
 private:
 
-		void _getVersionInstalledWithNoLangPack();
+		void _getVersionInstalled();
 		bool _isVersionInstalled(RegKeyVersion regkeys);
 		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);		
 		bool _wasInstalledCorrectly();

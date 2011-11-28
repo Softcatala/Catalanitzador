@@ -48,7 +48,7 @@ WindowsLPIAction::~WindowsLPIAction()
 {
 	if (filename[0] != NULL  && GetFileAttributes(filename) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile (filename);
+		DeleteFile(filename);
 	}	
 }
 
@@ -112,10 +112,14 @@ bool WindowsLPIAction::IsNeed()
 	{
 		_updateIsInstalled();
 		bNeed = (m_installed == false);
-	}
 
-	if (bNeed == false)
-		status = AlreadyApplied;
+		if (bNeed == false)
+			status = AlreadyApplied;
+	}
+	else
+	{
+		status = CannotBeApplied;
+	}
 
 	g_log.Log(L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
 	return bNeed;	
@@ -145,7 +149,7 @@ VOID CALLBACK WindowsLPIAction::_timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEven
 	if (nCurrent > nTotal)
 		nTotal = (int) ((double) nCurrent * 1.30);
 
-	_progress (nTotal, nCurrent, _data);
+	_progress(nTotal, nCurrent, _data);
 }
 
 void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
@@ -248,7 +252,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 			status = FinishedWithError;			
 		}
 		
-		g_log.Log(L"WindowsLPIAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");				
+		g_log.Log(L"WindowsLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");				
 	}
 	return status;
 }
