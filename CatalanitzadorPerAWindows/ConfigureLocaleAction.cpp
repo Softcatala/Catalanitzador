@@ -160,7 +160,7 @@ ActionStatus ConfigureLocaleAction::GetStatus()
 	if (status == InProgress)
 	{
 		status = _isCatalanLocaleActive() ? Successful : FinishedWithError;
-		g_log.Log(L"ConfigureLocaleAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
+		g_log.Log(L"ConfigureLocaleAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
 }

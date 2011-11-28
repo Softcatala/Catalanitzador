@@ -377,7 +377,7 @@ ActionStatus MSOfficeAction::GetStatus()
 		else {
 			status = FinishedWithError;
 		}		
-		g_log.Log(L"MSOfficeAction::Result is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
+		g_log.Log(L"MSOfficeAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
 }
