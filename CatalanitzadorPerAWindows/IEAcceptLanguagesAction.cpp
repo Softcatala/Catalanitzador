@@ -21,6 +21,11 @@
 #include "IEAcceptLanguagesAction.h"
 #include "Registry.h"
 
+IEAcceptedLanguagesAction::IEAcceptedLanguagesAction()
+{
+	_readVersion();	
+}
+
 wchar_t* IEAcceptedLanguagesAction::GetName()
 {
 	return _getStringFromResourceIDName (IDS_IEACCEPTEDLANGUAGESACTION_NAME, szName);
@@ -73,3 +78,27 @@ void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
 	}
 	g_log.Log(L"IEAcceptedLanguagesAction::Execute, set AcceptLanguage %u", (wchar_t *) (status == Successful));
 }
+
+void IEAcceptedLanguagesAction::_readVersion()
+{
+	Registry registry;
+
+	*szVersionAscii = 0x0;
+	if (registry.OpenKey(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Internet Explorer", false))
+	{
+		wchar_t szVersion[1024];
+
+		if (registry.GetString(L"Version", szVersion, sizeof(szVersion)))
+		{
+			WideCharToMultiByte(CP_ACP, 0, szVersion, wcslen(szVersion) + 1, szVersionAscii, sizeof(szVersionAscii), 
+				NULL, NULL);
+
+			g_log.Log(L"IEAcceptedLanguagesAction::_readVersion %s", szVersion);
+		}		
+	}	
+}
+char* IEAcceptedLanguagesAction::GetVersion()
+{
+	return szVersionAscii;
+}
+

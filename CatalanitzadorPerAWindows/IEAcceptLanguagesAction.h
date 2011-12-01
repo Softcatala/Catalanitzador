@@ -24,11 +24,20 @@
 class IEAcceptedLanguagesAction : public Action
 {
 public:
+		
+		IEAcceptedLanguagesAction();
+
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
 		virtual int GetID() { return IEAcceptLanguage;};
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
-		virtual void Execute(ProgressStatus progress, void *data);		
+		virtual void Execute(ProgressStatus progress, void *data);
+		virtual char* GetVersion();
+
+private:
+		void _readVersion();
+
+		char szVersionAscii[64];
 };
 
