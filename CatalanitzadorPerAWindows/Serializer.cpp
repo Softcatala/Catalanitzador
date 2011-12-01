@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "Serializer.h"
 #include "OSVersion.h"
+#include "Version.h"
 
 Serializer::Serializer()
 {	

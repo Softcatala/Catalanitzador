@@ -125,6 +125,9 @@
     <ClInclude Include="CheckedListView.h">
       <Filter>User Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
