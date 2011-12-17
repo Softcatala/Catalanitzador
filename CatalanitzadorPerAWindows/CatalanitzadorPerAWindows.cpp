@@ -29,27 +29,32 @@
 #include "Actions.h"
 #include "Serializer.h"
 
-void CreateWizard(HINSTANCE hInstance);
-bool SupportedOS();
-void InitLog ();
-
-LogFile g_log;
-
-int APIENTRY _tWinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     LPTSTR    lpCmdLine,
-                     int       nCmdShow)
+CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
-	InitLog ();
-	if (SupportedOS() == true)
-	{
-		CreateWizard(hInstance);
-	}
-	g_log.Close();
-	return TRUE;
+	m_hInstance = hInstance;	
 }
 
-void InitLog()
+CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
+{
+	g_log.Close();
+
+	if (m_hEvent != NULL)
+		CloseHandle(m_hEvent);
+}
+
+void CatalanitzadorPerAWindows::Run()
+{
+	if (IsAlreadyRunning() == true)
+		return;
+
+	InitLog();
+	if (SupportedOS() == true)
+	{
+		CreateWizard();
+	}
+}
+
+void CatalanitzadorPerAWindows::InitLog()
 {	
 	g_log.CreateLog(L"CatalanitzadorPerAWindows.log");
 	
@@ -58,7 +63,7 @@ void InitLog()
 	g_log.Log (szOSInfo);
 }
 
-bool SupportedOS()
+bool CatalanitzadorPerAWindows::SupportedOS()
 {
 	if (OSVersion::GetVersion() == Windows2000 || OSVersion::IsWindows64Bits ())
 	{
@@ -74,7 +79,19 @@ bool SupportedOS()
 	return true;
 }
 
-void CreateWizard(HINSTANCE hInstance)
+bool CatalanitzadorPerAWindows::IsAlreadyRunning()
+{
+    m_hEvent = CreateEvent(NULL, TRUE, FALSE, L"Catalanitzador");
+    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+        CloseHandle(m_hEvent);
+        m_hEvent = NULL;        
+        return true;
+    }    
+    return false;
+}
+
+
+void CatalanitzadorPerAWindows::CreateWizard()
 {
 	PropertySheetUI sheet;
 	WelcomePropertyPageUI welcome;
@@ -87,11 +104,11 @@ void CreateWizard(HINSTANCE hInstance)
 
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
-	welcome.createPage(hInstance, IDD_WELCOME, NULL);
+	welcome.createPage(m_hInstance, IDD_WELCOME, NULL);
 	welcome.SetSendStats(&bSendStats);
 	sheet.addPage(&welcome);
 
-	applications.createPage(hInstance, IDD_APPLICATIONS, NULL);
+	applications.createPage(m_hInstance, IDD_APPLICATIONS, NULL);
 	applications.setParent(&sheet);
 	applications.setPageButtons(NextBackButtons);
 	vector <Action *> acts = actions.GetActions();
@@ -102,7 +119,7 @@ void CreateWizard(HINSTANCE hInstance)
 	install.setPageButtons(CancelButton);
 	install.SetActions(&acts);
 	install.SetSerializer(&serializer);
-	install.createPage(hInstance, IDD_INSTALL, NULL);
+	install.createPage(m_hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 
 	finish.SetSerializer(&serializer);
@@ -110,8 +127,8 @@ void CreateWizard(HINSTANCE hInstance)
 	finish.SetActions(&acts);
 	finish.setPageButtons(FinishButton);
 	finish.SetSendStats(&bSendStats);
-	finish.createPage(hInstance, IDD_FINISH, NULL);	
+	finish.createPage(m_hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
 
-	sheet.runModal(hInstance, NULL, NULL);
+	sheet.runModal(m_hInstance, NULL, NULL);
 }

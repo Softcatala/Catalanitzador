@@ -126,6 +126,10 @@
     <ClCompile Include="InstallPropertyPageUI.cpp" />
     <ClCompile Include="InternetAccess.cpp" />
     <ClCompile Include="LogFile.cpp" />
+    <ClCompile Include="Main.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="MSOfficeAction.cpp" />
     <ClCompile Include="OSVersion.cpp" />
     <ClCompile Include="PropertyPageUI.cpp" />

@@ -7,7 +7,7 @@
 
 #include "targetver.h"
 #include "resource.h"
-#include "CatalanitzadorPerAWindows.h"
+#include "LogFile.h"
 
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
@@ -19,6 +19,8 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+
+extern LogFile g_log;
 
 #define MAX_LOADSTRING 1024
 

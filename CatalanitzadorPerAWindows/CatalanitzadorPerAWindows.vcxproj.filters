@@ -199,6 +199,9 @@
     <ClCompile Include="CheckedListView.cpp">
       <Filter>User Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CatalanitzadorPerAWindows.rc">

@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,27 +16,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
- 
-#pragma once
+
 
 #include <windows.h>
+#include "LogFile.h"
+#include "CatalanitzadorPerAWindows.h"
 
-class CatalanitzadorPerAWindows
-{
-	
-public:
-		CatalanitzadorPerAWindows(HINSTANCE hInstance);
-		~CatalanitzadorPerAWindows();
+LogFile g_log;
 
-		void InitLog();
-		bool SupportedOS();
-		void CreateWizard();
-		void Run();
-private:
-
-		bool IsAlreadyRunning();
-
-		HINSTANCE m_hInstance;
-		HANDLE m_hEvent;
-};
+int CALLBACK WinMain(HINSTANCE hInstance,
+                     HINSTANCE hPrevInstance,
+                     LPSTR    lpCmdLine,
+                     int       nCmdShow)
+{	
+	CatalanitzadorPerAWindows app(hInstance);
+	app.Run();	
+	return TRUE;
+}
