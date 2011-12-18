@@ -36,6 +36,7 @@ public:
 		virtual bool IsRebootNeed();
 		virtual void Execute(ProgressStatus progress, void *data);
 		virtual ActionStatus GetStatus();
+		virtual void CheckPrerequirements();
 
 private:
 		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);

@@ -39,17 +39,19 @@ public:
 		virtual bool IsRebootNeed() { return false;};
 		virtual ActionStatus GetStatus() { return status;}
 		virtual char* GetVersion() { return "";}
+		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
 		virtual void SetStatus(ActionStatus value) { status = value; }
-
 		virtual bool Download(ProgressStatus, void *data) {return false;}
 		virtual void Execute(ProgressStatus progress, void *data) = 0;
-		virtual void Serialize(ostream* stream);		
+		virtual void Serialize(ostream* stream);
+		virtual void CheckPrerequirements(){};
 
 protected:
 		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);
 
 		TCHAR szName[MAX_LOADSTRING];
 		TCHAR szDescription[MAX_LOADSTRING];
+		TCHAR szCannotBeApplied[MAX_LOADSTRING];
 		ActionStatus status;
 };
 

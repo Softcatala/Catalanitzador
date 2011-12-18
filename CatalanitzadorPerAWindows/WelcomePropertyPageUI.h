@@ -31,7 +31,6 @@ public:
 
 private:
 		virtual void _onInitDialog();
-		void _createBoldFont(HWND hWnd);
 		virtual	bool _onNext();
 
 		HFONT		m_hFont;

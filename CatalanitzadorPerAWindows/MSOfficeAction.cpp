@@ -128,7 +128,7 @@ void MSOfficeAction::_removeOffice2003TempFiles()
 }
 
 bool MSOfficeAction::_isVersionInstalled(RegKeyVersion regkeys)
-{
+{	
 	Registry registry;
 	wchar_t szValue[1024];
 	wchar_t szKey[1024];
@@ -191,8 +191,9 @@ void MSOfficeAction::_getVersionInstalled()
 	} else {
 		m_bLangPackInstalled = false;
 		m_MSVersion = NoMSOffice;
+		_getStringFromResourceIDName(IDS_MSOFFICEACTION_NOOFFICE, szCannotBeApplied);
 	}
-	
+
 	g_log.Log(L"MSOfficeAction::_getVersionInstalled '%u' installed langmap '%u'", (wchar_t *) m_MSVersion, 
 		(wchar_t *)m_bLangPackInstalled);
 }

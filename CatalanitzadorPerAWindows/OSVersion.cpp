@@ -169,7 +169,7 @@ OperatingVersion OSVersion::_processVistaAnd7(OSVERSIONINFOEX osvi)
 		if (osvi.wProductType == VER_NT_WORKSTATION)
 			return Windows7;
 		else
-			return Windows2008R2;                
+			return Windows2008R2;
 	}
 	return UnKnownOS;
 }

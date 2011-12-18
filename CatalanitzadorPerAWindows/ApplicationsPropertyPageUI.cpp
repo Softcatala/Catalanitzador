@@ -25,6 +25,20 @@
 #include <vector>
 using namespace std;
 
+ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
+{
+	m_hFont = NULL;
+}
+
+ApplicationsPropertyPageUI::~ApplicationsPropertyPageUI()
+{
+	if (m_hFont)
+	{
+		DeleteObject (m_hFont);
+		m_hFont = NULL;
+	}
+}
+
 void ApplicationsPropertyPageUI::_processClickOnItem(HWND hWnd, int nItem)
 {	
 	LVITEM item;
@@ -96,6 +110,14 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 	if (m_availableActions->size() == 0)
 		return;
+
+	m_hFont = Window::CreateBoldFont(getHandle());
+
+	SendMessage(GetDlgItem (getHandle(), IDC_APPLICATION_DESCRIPTION_CAPTION),
+		WM_SETFONT, (WPARAM) m_hFont, TRUE);
+
+	SendMessage(GetDlgItem (getHandle(), IDC_APPLICATION_CANNOTBEAPPLIED_CAPTION),
+		WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	HIMAGELIST hImageList = m_listview.CreateCheckBoxImageList(hList);		
 	ListView_SetImageList(hList, hImageList, LVSIL_SMALL);
@@ -183,13 +205,25 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 	if(pListView->hdr.code != LVN_ITEMCHANGED)
 		return ReturnFalse;
 
-	Action* action = (Action *)  pListView->lParam;
+	_updateActionDescriptionAndReq((Action *)  pListView->lParam);
+	return ReturnTrue;
+}
+
+void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
+{
+	int show;
 
 	SendDlgItemMessage (getHandle(), IDC_APPLICATION_DESCRIPTION,
 		WM_SETTEXT, (WPARAM) 0, 
 		(LPARAM) action->GetDescription());
 
-	return ReturnTrue;
+	SendDlgItemMessage (getHandle(), IDC_APPLICATION_MISSINGREQ,
+		WM_SETTEXT, (WPARAM) 0, 
+		(LPARAM) action->GetCannotNotBeApplied());
+
+	show = *action->GetCannotNotBeApplied() != NULL ? SW_SHOWNORMAL: SW_HIDE;
+	ShowWindow(GetDlgItem(getHandle(), IDC_APPLICATION_CANNOTBEAPPLIED_CAPTION), show);
+	ShowWindow(GetDlgItem(getHandle(), IDC_APPLICATION_MISSINGREQ), show);	
 }
 
 bool ApplicationsPropertyPageUI::_onNext()

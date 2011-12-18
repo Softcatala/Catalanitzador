@@ -33,3 +33,15 @@ void Window::ProcessMessages()
 		DispatchMessage(&msg);
 	}
 }
+
+HFONT Window::CreateBoldFont(HWND hWnd)
+{
+	HFONT hFont;
+	LOGFONT	logFont;
+
+	hFont = (HFONT) SendMessage(hWnd, WM_GETFONT, NULL, NULL);
+	GetObject(hFont, sizeof(LOGFONT), &logFont);
+	logFont.lfWeight = FW_BOLD;
+	return CreateFontIndirect(&logFont);
+}
+

@@ -42,6 +42,7 @@ WindowsLPIAction::WindowsLPIAction()
 {
 	m_installed = false;	
 	filename[0] = NULL;
+	CheckPrerequirements();
 }
 
 WindowsLPIAction::~WindowsLPIAction()
@@ -106,6 +107,9 @@ void WindowsLPIAction::_updateIsInstalled()
 //	Only works if you have Windows Spanish or French
 bool WindowsLPIAction::IsNeed()
 {
+	if (status == CannotBeApplied)
+		return false;
+	
 	bool bNeed = false;
 
 	if (_getPackageName() != NULL)
@@ -119,6 +123,8 @@ bool WindowsLPIAction::IsNeed()
 	else
 	{
 		status = CannotBeApplied;
+		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDVERSION, szCannotBeApplied);
+		g_log.Log(L"WindowsLPIAction::IsNeed. Unsupported Windows version");
 	}
 
 	g_log.Log(L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
@@ -252,7 +258,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 			status = FinishedWithError;			
 		}
 		
-		g_log.Log(L"WindowsLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");				
+		g_log.Log(L"WindowsLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
 }
@@ -261,3 +267,22 @@ bool WindowsLPIAction::IsRebootNeed()
 {
 	return status == Successful;
 }
+
+#define SPANISH_LOCALEID 0x0A
+#define FRENCH_LOCALEID 0x0c
+
+void WindowsLPIAction::CheckPrerequirements() 
+{
+	LANGID langid;
+
+	langid = GetSystemDefaultUILanguage() & 0xf;
+
+	if (langid != SPANISH_LOCALEID && langid != FRENCH_LOCALEID)
+	{
+		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NOSPFR, szCannotBeApplied);
+		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. No Spanish or French Windows found");
+		status = CannotBeApplied;
+	}
+}
+
+

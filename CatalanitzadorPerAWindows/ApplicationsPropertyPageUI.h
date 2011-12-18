@@ -29,10 +29,13 @@ using namespace std;
 class ApplicationsPropertyPageUI: public PropertyPageUI
 {
 public:
+		~ApplicationsPropertyPageUI();
+		ApplicationsPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
 		
 private:
-		
+
+		void _updateActionDescriptionAndReq(Action* action);
 		virtual void _onInitDialog();
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 		virtual	bool _onNext();
@@ -46,4 +49,5 @@ private:
 		typedef pair <Action *, bool> ActionBool_Pair;
 		map <Action *, bool> m_disabledActions;
 		WNDPROC PreviousProc;
+		HFONT m_hFont;
 };

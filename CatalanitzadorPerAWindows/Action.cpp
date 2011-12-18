@@ -23,6 +23,7 @@
 Action::Action()
 {
 	status = NotSelected;
+	szCannotBeApplied[0] = NULL;	
 }
 
 wchar_t* Action::_getStringFromResourceIDName(int nID, wchar_t* string)
