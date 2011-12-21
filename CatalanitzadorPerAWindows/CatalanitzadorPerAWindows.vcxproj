@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CatalanitzadorPerAWindows.rc" />
+    <ResourceCompile Include="Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="CatalanitzadorPerAWindows.exe.manifest" />

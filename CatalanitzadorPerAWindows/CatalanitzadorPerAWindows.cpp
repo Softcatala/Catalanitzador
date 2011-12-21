@@ -28,6 +28,7 @@
 #include "OSVersion.h"
 #include "Actions.h"
 #include "Serializer.h"
+#include "Version.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -55,12 +56,19 @@ void CatalanitzadorPerAWindows::Run()
 }
 
 void CatalanitzadorPerAWindows::InitLog()
-{	
-	g_log.CreateLog(L"CatalanitzadorPerAWindows.log");
+{
+	wchar_t szApp [1024];
+	wchar_t szVersion [256];
+
+	MultiByteToWideChar(CP_ACP, 0,  STRING_VERSION, strlen (STRING_VERSION) + 1,
+                  szVersion, sizeof (szVersion));
+
+	swprintf_s(szApp, L"CatalanitzadorPerAWindows version %s", szVersion);
+	g_log.CreateLog(L"CatalanitzadorPerAWindows.log",szApp);
 	
 	wchar_t szOSInfo [2048];
-	OSVersion::GetLogInfo (szOSInfo, sizeof (szOSInfo));
-	g_log.Log (szOSInfo);
+	OSVersion::GetLogInfo(szOSInfo, sizeof (szOSInfo));
+	g_log.Log(szOSInfo);
 }
 
 bool CatalanitzadorPerAWindows::SupportedOS()

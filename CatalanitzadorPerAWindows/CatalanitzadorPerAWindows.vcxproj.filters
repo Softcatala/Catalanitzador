@@ -207,6 +207,9 @@
     <ResourceCompile Include="CatalanitzadorPerAWindows.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="CatalanitzadorPerAWindows.exe.manifest" />

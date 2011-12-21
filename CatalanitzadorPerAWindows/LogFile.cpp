@@ -39,7 +39,8 @@ void LogFile::Close ()
 		m_hLog = NULL;
 	}
 }
-bool LogFile::CreateLog(wchar_t* logFileName)
+
+bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
 {
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, logFileName);
@@ -49,7 +50,7 @@ bool LogFile::CreateLog(wchar_t* logFileName)
 	if (!m_hLog) return false;
 
 	_write(L"\xFEFF"); // Unicode mark
-	_writeCompileTime();
+	_writeCompileTime(appName);
 	return true;
 }
 
@@ -83,7 +84,7 @@ void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* 
 	_writeLine(m_szText);
 }
 
-void LogFile::_writeCompileTime ()
+void LogFile::_writeCompileTime(wchar_t* appName)
 {
 	wchar_t szDate [256];
 	wchar_t szTime [256];
@@ -94,7 +95,7 @@ void LogFile::_writeCompileTime ()
 	MultiByteToWideChar(CP_ACP, 0,  __TIME__, strlen ( __TIME__) + 1,
                   szTime, sizeof (szTime));	
 	
-	Log(L"Compiled on %s - %s", szDate, szTime);
+	Log(L"%s. Compiled on %s - %s", appName, szDate, szTime);
 }
 
 void LogFile::_stringTime()

@@ -29,8 +29,8 @@ public:
 
 	LogFile();
 	~LogFile();
-	bool CreateLog(wchar_t* logFileName);
-	void Close ();
+	bool CreateLog(wchar_t* logFileName, wchar_t* appName);
+	void Close();
 
 	void Log(wchar_t* string);
 	void Log(wchar_t* format, wchar_t* string);
@@ -42,7 +42,7 @@ private:
 	void _stringTime();
 	void _write(wchar_t* string);
 	void _writeLine(wchar_t* string);
-	void _writeCompileTime();
+	void _writeCompileTime(wchar_t* appName);
 
 	wchar_t m_szFilename [MAX_PATH];
 	wchar_t m_szText [BUFFER_SIZE];
