@@ -128,7 +128,7 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 				LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 
 				result = (MessageBox(hWnd, szMessage, szCaption,
-					MB_YESNOCANCEL | MB_ICONQUESTION) == IDYES);
+					MB_YESNO | MB_ICONQUESTION) == IDYES);
 
 				if (result)
 				{

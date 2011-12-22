@@ -138,11 +138,11 @@ void FinishPropertyPageUI::_onFinish()
 		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 
 		result = (MessageBox(getHandle(), szMessage, szCaption,
-			MB_YESNOCANCEL | MB_ICONQUESTION) == IDYES);
+			MB_YESNO | MB_ICONQUESTION) == IDYES);
 
 		if (result)
 		{
-			ExitWindowsEx(EWX_LOGOFF, SHTDN_REASON_MAJOR_APPLICATION);
+			ExitWindowsEx(EWX_REBOOT, SHTDN_REASON_MAJOR_APPLICATION);
 		}
 	}
 

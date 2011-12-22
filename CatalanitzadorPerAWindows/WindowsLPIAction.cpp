@@ -39,8 +39,7 @@ static void *_data;
 #define TIMER_ID 2014
 
 WindowsLPIAction::WindowsLPIAction()
-{
-	m_installed = false;	
+{	
 	filename[0] = NULL;
 	CheckPrerequirements();
 }
@@ -63,17 +62,6 @@ wchar_t* WindowsLPIAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
 }
 
-BOOL CALLBACK WindowsLPIAction::_enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam)
-{
-	if (wcsstr(lpUILanguageString, L"ca-ES") != NULL)
-	{
-		WindowsLPIAction* instance = (WindowsLPIAction *) lParam; 
-		instance->m_installed = true;
-		return FALSE;
-	}
-	return TRUE;
-}
-
 wchar_t* WindowsLPIAction::_getPackageName()
 {
 	OperatingVersion version = OSVersion::GetVersion();
@@ -92,14 +80,30 @@ wchar_t* WindowsLPIAction::_getPackageName()
 	return NULL;
 }
 
-void WindowsLPIAction::_updateIsInstalled()
-{
-	m_installed = false;
+// Checks if the Catalan language pack is already installed
+// This code works if the langpack is installed or has just been installed (and the user did not reboot)
+bool WindowsLPIAction::_isLangPackInstalled()
+{	
+	wchar_t langpackDir[MAX_PATH];
+	bool bExists;
 
-	// Checks if the Catalan language pack is already installed
-	// This information is also available by checking: SYSTEM\\ControlSet001\\Control\\MUI\\UILanguages\\CA-ES
-	// However, using Windows API is more standard
-	EnumUILanguages(_enumUILanguagesProc, MUI_LANGUAGE_NAME, (LPARAM) this);	
+	OperatingVersion version = OSVersion::GetVersion();
+
+	if (version == WindowsXP)
+	{	
+		GetSystemDirectory(langpackDir, MAX_PATH);
+		wcscat_s(langpackDir, L"\\mui\\0403");
+		bExists = _directoryExists(langpackDir);
+	}
+	else  //(version == WindowsVista) or 7
+	{
+		Registry registry;
+		bExists = registry.OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false);
+		registry.Close();
+	}		
+	
+	g_log.Log (L"WindowsLPIAction::_updateIsInstalled checking is %u", (wchar_t*) bExists);
+	return bExists;
 }
 
 // TODO:
@@ -113,12 +117,14 @@ bool WindowsLPIAction::IsNeed()
 	bool bNeed = false;
 
 	if (_getPackageName() != NULL)
-	{
-		_updateIsInstalled();
-		bNeed = (m_installed == false);
-
-		if (bNeed == false)
+	{		
+		if (_isLangPackInstalled() == false)
+		{		
+			bNeed = true;
+		}
+		{
 			status = AlreadyApplied;
+		}
 	}
 	else
 	{
@@ -202,32 +208,6 @@ bool WindowsLPIAction::_directoryExists(LPCTSTR szPath)
 	return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
 }
 
-// Once the LIP is installed the EnumUILanguages will not signal that the langpack is install until you reboot
-// Additionally there are no system registry keys that indicate if the pack was installed
-// The only proof at this point is checking if the directory was created
-bool WindowsLPIAction::_wasLIPInstalled()
-{
-	wchar_t langpackDir[MAX_PATH];
-	bool bExists;
-
-	OperatingVersion version = OSVersion::GetVersion();
-
-	if (version == WindowsXP)
-	{	
-		GetSystemDirectory(langpackDir, MAX_PATH);
-		wcscat_s(langpackDir, L"\\mui\\0403");
-	}
-	else  //(version == WindowsVista) or 7
-	{
-		GetWindowsDirectory(langpackDir, MAX_PATH);
-		wcscat_s(langpackDir, L"\\ca-ES");
-	}
-		
-	bExists = _directoryExists(langpackDir);
-	g_log.Log (L"WindowsLPIAction::_wasLIPInstalled checking '%s' is %u", langpackDir, (wchar_t*) bExists);
-	return bExists;
-}
-
 // After the language package is installed we need to set Catalan as default language
 // The key PreferredUILanguagesPending did not work as expected
 void WindowsLPIAction::_setDefaultLanguage()
@@ -250,7 +230,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 
 		KillTimer(NULL, hTimerID);
 
-		if (_wasLIPInstalled()) {
+		if (_isLangPackInstalled()) {
 			status = Successful;
 			_setDefaultLanguage();
 		}
