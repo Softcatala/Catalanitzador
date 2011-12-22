@@ -187,8 +187,8 @@ int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption
 	m_psh.dwFlags = PSH_PROPSHEETPAGE | PSH_WIZARD;
 	m_psh.hwndParent = hParent;
 	m_psh.hInstance = hInstance;
-	m_psh.hIcon  = NULL;
-	m_psh.pszIcon  = NULL;	
+	m_psh.hIcon = NULL;
+	m_psh.pszIcon = NULL;	
 	m_psh.nPages = m_vecPages.size();
     m_psh.nStartPage = 0;
 	m_psh.ppsp = (LPCPROPSHEETPAGE) m_pages;
@@ -214,7 +214,7 @@ int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption
 	SetWindowLong(m_hWnd, GWL_USERDATA, (LONG)this);	
 	SetWindowLong(m_hWnd, GWL_WNDPROC, (LONG)m_pfnDlgProc);
 		
-	_onInitDialog(m_hWnd);		
+	_onInitDialog();
 
 	while (GetMessage(&msg, NULL, 0, 0))
 	{				

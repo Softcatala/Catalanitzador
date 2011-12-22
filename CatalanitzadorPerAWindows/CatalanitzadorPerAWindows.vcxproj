@@ -87,6 +87,7 @@
     <ClInclude Include="ActionID.h" />
     <ClInclude Include="ActionStatus.h" />
     <ClInclude Include="Actions.h" />
+    <ClInclude Include="ApplicationSheetUI.h" />
     <ClInclude Include="ApplicationsPropertyPageUI.h" />
     <ClInclude Include="CatalanitzadorPerAWindows.h" />
     <ClInclude Include="CheckedListView.h" />
@@ -117,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="Actions.cpp" />
+    <ClCompile Include="ApplicationSheetUI.cpp" />
     <ClCompile Include="ApplicationsPropertyPageUI.cpp" />
     <ClCompile Include="CatalanitzadorPerAWindows.cpp" />
     <ClCompile Include="CheckedListView.cpp" />

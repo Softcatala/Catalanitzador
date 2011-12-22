@@ -128,6 +128,9 @@
     <ClInclude Include="Version.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationSheetUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -200,6 +203,9 @@
       <Filter>User Interface</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationSheetUI.cpp">
       <Filter>User Interface</Filter>
     </ClCompile>
   </ItemGroup>

@@ -25,6 +25,7 @@
 #include "PropertySheetUI.h"
 #include "ApplicationsPropertyPageUI.h"
 #include "WelcomePropertyPageUI.h"
+#include "ApplicationSheetUI.h"
 #include "OSVersion.h"
 #include "Actions.h"
 #include "Serializer.h"
@@ -101,7 +102,7 @@ bool CatalanitzadorPerAWindows::IsAlreadyRunning()
 
 void CatalanitzadorPerAWindows::CreateWizard()
 {
-	PropertySheetUI sheet;
+	ApplicationSheetUI sheet;
 	WelcomePropertyPageUI welcome;
 	ApplicationsPropertyPageUI applications;
 	InstallPropertyPageUI install;

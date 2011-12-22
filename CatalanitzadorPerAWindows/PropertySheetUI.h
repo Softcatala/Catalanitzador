@@ -45,7 +45,7 @@ public:
 	void 						addPage(PropertyPageUI* pPage);
 	PROPSHEETPAGE* 				_buildPageArray(void);	
 	static int CALLBACK			s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,LPARAM lParam);	
-	virtual	void				_onInitDialog(HWND /*hwnd*/){};	
+	virtual	void				_onInitDialog(){};
 	virtual void 				destroy(void);
 	virtual void 				cleanup(void);
  	HWND						getHandle(){return m_hWnd;}
