@@ -29,13 +29,14 @@ public:
 		CatalanitzadorPerAWindows(HINSTANCE hInstance);
 		~CatalanitzadorPerAWindows();
 
-		void InitLog();
-		bool SupportedOS();
-		void CreateWizard();
 		void Run();
+
 private:
 
-		bool IsAlreadyRunning();
+		void _initLog();
+		bool _supportedOS();
+		void _createWizard();
+		bool _isAlreadyRunning();
 
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;

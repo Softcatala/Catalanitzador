@@ -46,17 +46,17 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 
 void CatalanitzadorPerAWindows::Run()
 {
-	if (IsAlreadyRunning() == true)
+	if (_isAlreadyRunning() == true)
 		return;
 
-	InitLog();
-	if (SupportedOS() == true)
+	_initLog();
+	if (_supportedOS() == true)
 	{
-		CreateWizard();
+		_createWizard();
 	}
 }
 
-void CatalanitzadorPerAWindows::InitLog()
+void CatalanitzadorPerAWindows::_initLog()
 {
 	wchar_t szApp [1024];
 	wchar_t szVersion [256];
@@ -72,23 +72,28 @@ void CatalanitzadorPerAWindows::InitLog()
 	g_log.Log(szOSInfo);
 }
 
-bool CatalanitzadorPerAWindows::SupportedOS()
+bool CatalanitzadorPerAWindows::_supportedOS()
 {
-	if (OSVersion::GetVersion() == Windows2000 || OSVersion::IsWindows64Bits ())
-	{
-		wchar_t szMessage [MAX_LOADSTRING];
-		wchar_t szCaption [MAX_LOADSTRING];
+	int id;
 
-		g_log.Log (L"Show unsupported OS dialog");
-		LoadString(GetModuleHandle(NULL), IDS_NOTSUPPORTEDOS, szMessage, MAX_LOADSTRING);
-		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
-		MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
-		return false;
-	}
-	return true;
+	if (OSVersion::GetVersion() == Windows2000)
+		id = IDS_NOTSUPPORTEDOS;
+	else if (OSVersion::IsWindows64Bits())
+		id = IDS_NOTSUPPORTEDOS_64;
+	else
+		return true;
+
+	wchar_t szMessage [MAX_LOADSTRING];
+	wchar_t szCaption [MAX_LOADSTRING];
+
+	g_log.Log (L"Show unsupported OS dialog");
+	LoadString(GetModuleHandle(NULL), id, szMessage, MAX_LOADSTRING);
+	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+	MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
+	return false;
 }
 
-bool CatalanitzadorPerAWindows::IsAlreadyRunning()
+bool CatalanitzadorPerAWindows::_isAlreadyRunning()
 {
     m_hEvent = CreateEvent(NULL, TRUE, FALSE, L"Catalanitzador");
     if (GetLastError() == ERROR_ALREADY_EXISTS) {
@@ -100,7 +105,7 @@ bool CatalanitzadorPerAWindows::IsAlreadyRunning()
 }
 
 
-void CatalanitzadorPerAWindows::CreateWizard()
+void CatalanitzadorPerAWindows::_createWizard()
 {
 	ApplicationSheetUI sheet;
 	WelcomePropertyPageUI welcome;
