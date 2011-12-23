@@ -93,7 +93,7 @@ void IEAcceptedLanguagesAction::_readVersion()
 			WideCharToMultiByte(CP_ACP, 0, szVersion, wcslen(szVersion) + 1, szVersionAscii, sizeof(szVersionAscii), 
 				NULL, NULL);
 
-			g_log.Log(L"IEAcceptedLanguagesAction::_readVersion %s", szVersion);
+			g_log.Log(L"IEAcceptedLanguagesAction::_readVersion. IE version %s", szVersion);
 		}		
 	}	
 }
