@@ -42,6 +42,8 @@ private:
 		void _noInternetConnection();
 		static LRESULT _listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static void _processClickOnItem(HWND hWnd, int nItem);
+		void _setBoldControls();
+		void _setLegendControl();
 
 		CheckedListView m_listview;
 		HWND hList;

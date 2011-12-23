@@ -98,6 +98,42 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 	}
 }
 
+void ApplicationsPropertyPageUI::_setBoldControls()
+{
+	int boldControls [] = {IDC_APPLICATION_DESCRIPTION_CAPTION, IDC_APPLICATION_CANNOTBEAPPLIED_CAPTION,
+		IDC_APPLICATION_LEGEND_CAPTION};
+
+	m_hFont = Window::CreateBoldFont(getHandle());
+
+	for (int b = 0; b < sizeof(boldControls) / sizeof(boldControls[0]); b++)
+	{
+		SendMessage(GetDlgItem (getHandle(), boldControls[b]),
+			WM_SETFONT, (WPARAM) m_hFont, TRUE);
+	}
+}
+
+void ApplicationsPropertyPageUI::_setLegendControl()
+{
+	ActionStatus statuses [] = {Selected, AlreadyApplied, CannotBeApplied};
+	int resources [] = {IDS_LEGEND_SELECTED, IDS_LEGEND_ALREADYAPPLIED, IDS_LEGEND_CANNOT};
+	
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.mask = LVIF_TEXT | LVIF_IMAGE;
+
+	for (int l = 0; l <sizeof(statuses) / sizeof(statuses[0]); l++)
+	{
+		wchar_t szString [MAX_LOADSTRING];
+
+		HINSTANCE hInstance = GetModuleHandle(NULL);
+		LoadString(hInstance, resources[l], szString, MAX_LOADSTRING);
+
+		item.iItem= l;
+		item.pszText= szString;
+		item.iImage = CheckedListView::GetImageIndex(statuses[l]);
+		ListView_InsertItem (hList, &item);
+	}
+}
  
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
@@ -111,13 +147,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	if (m_availableActions->size() == 0)
 		return;
 
-	m_hFont = Window::CreateBoldFont(getHandle());
-
-	SendMessage(GetDlgItem (getHandle(), IDC_APPLICATION_DESCRIPTION_CAPTION),
-		WM_SETFONT, (WPARAM) m_hFont, TRUE);
-
-	SendMessage(GetDlgItem (getHandle(), IDC_APPLICATION_CANNOTBEAPPLIED_CAPTION),
-		WM_SETFONT, (WPARAM) m_hFont, TRUE);
+	_setBoldControls();
 
 	HIMAGELIST hImageList = m_listview.CreateCheckBoxImageList(hList);		
 	ListView_SetImageList(hList, hImageList, LVSIL_SMALL);
@@ -160,10 +190,15 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		ListView_InsertItem (hList, &item);
 		nItemId++;
 	}
-
+		
 	ListView_SetItemState(hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
 	SetWindowLongPtr(hList, GWL_USERDATA, (LONG) this);
 	PreviousProc = (WNDPROC)SetWindowLongPtr(hList, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);
+
+	// Legend
+	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND);
+	ListView_SetImageList(hList, hImageList, LVSIL_SMALL);
+	_setLegendControl();
 }
 
 NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
