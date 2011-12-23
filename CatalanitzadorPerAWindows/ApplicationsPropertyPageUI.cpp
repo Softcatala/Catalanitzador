@@ -28,15 +28,16 @@ using namespace std;
 ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
 {
 	m_hFont = NULL;
+	m_hImageList = NULL;
 }
 
 ApplicationsPropertyPageUI::~ApplicationsPropertyPageUI()
 {
 	if (m_hFont)
 	{
-		DeleteObject (m_hFont);
+		DeleteObject(m_hFont);
 		m_hFont = NULL;
-	}
+	}	
 }
 
 void ApplicationsPropertyPageUI::_processClickOnItem(HWND hWnd, int nItem)
@@ -116,7 +117,9 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 {
 	ActionStatus statuses [] = {Selected, AlreadyApplied, CannotBeApplied};
 	int resources [] = {IDS_LEGEND_SELECTED, IDS_LEGEND_ALREADYAPPLIED, IDS_LEGEND_CANNOT};
-	
+	HWND hList;
+
+	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND);
 	LVITEM item;
 	memset(&item,0,sizeof(item));
 	item.mask = LVIF_TEXT | LVIF_IMAGE;
@@ -131,14 +134,16 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 		item.iItem= l;
 		item.pszText= szString;
 		item.iImage = CheckedListView::GetImageIndex(statuses[l]);
-		ListView_InsertItem (hList, &item);
+		ListView_InsertItem(hList, &item);		
 	}
+	
+	ListView_SetImageList(hList, m_hImageList, LVSIL_SMALL);	
 }
  
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	int nItemId = 0;
-	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);	
+	m_hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);	
 
 	LVITEM item;
 	memset(&item,0,sizeof(item));
@@ -149,8 +154,8 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 	_setBoldControls();
 
-	HIMAGELIST hImageList = m_listview.CreateCheckBoxImageList(hList);		
-	ListView_SetImageList(hList, hImageList, LVSIL_SMALL);
+	m_hImageList = m_listview.CreateCheckBoxImageList(m_hList);
+	ListView_SetImageList(m_hList, m_hImageList, LVSIL_SMALL);
 	
 	// Enabled items
 	for (unsigned int i = 0; i < m_availableActions->size (); i++)
@@ -168,7 +173,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		item.pszText = action->GetName ();
 		item.lParam = (LPARAM) action;		
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
-		ListView_InsertItem (hList, &item);		
+		ListView_InsertItem (m_hList, &item);		
 		nItemId++;
 	}
 	
@@ -187,17 +192,14 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		item.pszText= action->GetName();
 		item.lParam = (LPARAM) action;		
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
-		ListView_InsertItem (hList, &item);
+		ListView_InsertItem (m_hList, &item);
 		nItemId++;
 	}
 		
-	ListView_SetItemState(hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
-	SetWindowLongPtr(hList, GWL_USERDATA, (LONG) this);
-	PreviousProc = (WNDPROC)SetWindowLongPtr(hList, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);
-
-	// Legend
-	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND);
-	ListView_SetImageList(hList, hImageList, LVSIL_SMALL);
+	ListView_SetItemState(m_hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
+	SetWindowLongPtr(m_hList, GWL_USERDATA, (LONG) this);
+	PreviousProc = (WNDPROC)SetWindowLongPtr(m_hList, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);
+		
 	_setLegendControl();
 }
 
@@ -263,7 +265,7 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 
 bool ApplicationsPropertyPageUI::_onNext()
 {
-	int items = ListView_GetItemCount(hList);
+	int items = ListView_GetItemCount(m_hList);
 	bool needInet = false;
 
 	for (int i = 0; i < items; ++i)
@@ -274,10 +276,10 @@ bool ApplicationsPropertyPageUI::_onNext()
 		item.iItem = i;
 		item.mask = LVIF_PARAM;
 
-		ListView_GetItem(hList, &item);
+		ListView_GetItem(m_hList, &item);
 		Action* action = (Action *) item.lParam;		
 		bSelected = action->GetStatus() == Selected;
-		g_log.Log (L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)bSelected);
+		g_log.Log(L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)bSelected);
 
 		if (bSelected && action->IsDownloadNeed())
 			needInet = true;
@@ -290,7 +292,6 @@ bool ApplicationsPropertyPageUI::_onNext()
 	}
 	return TRUE;
 }
-
 
 void ApplicationsPropertyPageUI::_noInternetConnection()
 {

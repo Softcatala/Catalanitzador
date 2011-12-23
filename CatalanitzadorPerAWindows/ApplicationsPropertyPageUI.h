@@ -46,7 +46,8 @@ private:
 		void _setLegendControl();
 
 		CheckedListView m_listview;
-		HWND hList;
+		HWND m_hList;
+		HIMAGELIST m_hImageList;
 		vector <Action *> * m_availableActions;
 		typedef pair <Action *, bool> ActionBool_Pair;
 		map <Action *, bool> m_disabledActions;

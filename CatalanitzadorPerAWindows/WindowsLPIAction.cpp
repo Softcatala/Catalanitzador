@@ -49,7 +49,7 @@ WindowsLPIAction::~WindowsLPIAction()
 	if (filename[0] != NULL  && GetFileAttributes(filename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(filename);
-	}	
+	}
 }
 
 wchar_t* WindowsLPIAction::GetName()
@@ -85,19 +85,31 @@ wchar_t* WindowsLPIAction::_getPackageName()
 bool WindowsLPIAction::_isLangPackInstalled()
 {	
 	wchar_t langpackDir[MAX_PATH];
+	Registry registry;
 	bool bExists;
 
 	OperatingVersion version = OSVersion::GetVersion();
 
 	if (version == WindowsXP)
-	{	
-		GetSystemDirectory(langpackDir, MAX_PATH);
-		wcscat_s(langpackDir, L"\\mui\\0403");
-		bExists = _directoryExists(langpackDir);
+	{
+		bExists = false;
+		if (registry.OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop\\", false))
+		{
+			wchar_t szValue[1024];		
+
+			// MultiUILanguageId key is left behind
+			if (registry.GetString(L"MUILanguagePending", szValue, sizeof (szValue)))
+			{
+				if (wcsstr(szValue, L"0403") != NULL)
+					bExists = true;
+			}
+
+			registry.Close();
+		}		
+
 	}
 	else  //(version == WindowsVista) or 7
-	{
-		Registry registry;
+	{		
 		bExists = registry.OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false);
 		registry.Close();
 	}		
@@ -212,6 +224,9 @@ bool WindowsLPIAction::_directoryExists(LPCTSTR szPath)
 // The key PreferredUILanguagesPending did not work as expected
 void WindowsLPIAction::_setDefaultLanguage()
 {
+	if (OSVersion::GetVersion() == WindowsXP)
+		return;
+
 	Registry registry;
 	if (registry.OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{

@@ -40,6 +40,7 @@ private:
 		virtual	void _onFinish();
 		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
 		bool _isRebootNeed();
+		void _shutdown();
 		static DWORD WINAPI _uploadXmlThead(LPVOID lpParam);
 		void _createBoldFont(HWND hWnd);
 		HFONT		m_hFont;
