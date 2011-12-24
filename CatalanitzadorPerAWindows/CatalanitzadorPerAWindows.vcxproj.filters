@@ -131,6 +131,9 @@
     <ClInclude Include="ApplicationSheetUI.h">
       <Filter>User Interface</Filter>
     </ClInclude>
+    <ClInclude Include="UploadStatistics.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -207,6 +210,9 @@
     </ClCompile>
     <ClCompile Include="ApplicationSheetUI.cpp">
       <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UploadStatistics.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -84,7 +84,6 @@ wchar_t* WindowsLPIAction::_getPackageName()
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
 bool WindowsLPIAction::_isLangPackInstalled()
 {	
-	wchar_t langpackDir[MAX_PATH];
 	Registry registry;
 	bool bExists;
 

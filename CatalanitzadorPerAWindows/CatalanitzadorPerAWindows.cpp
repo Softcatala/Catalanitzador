@@ -28,12 +28,11 @@
 #include "ApplicationSheetUI.h"
 #include "OSVersion.h"
 #include "Actions.h"
-#include "Serializer.h"
 #include "Version.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
-	m_hInstance = hInstance;	
+	m_hInstance = hInstance;
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -85,11 +84,14 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 
 	wchar_t szMessage [MAX_LOADSTRING];
 	wchar_t szCaption [MAX_LOADSTRING];
+	UploadStatistics uploadStatistics (m_serializer.GetStream());
+	uploadStatistics.StartUploadThread();
 
 	g_log.Log (L"Show unsupported OS dialog");
 	LoadString(GetModuleHandle(NULL), id, szMessage, MAX_LOADSTRING);
 	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 	MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
+	uploadStatistics.WaitBeforeExit();
 	return false;
 }
 
@@ -113,7 +115,6 @@ void CatalanitzadorPerAWindows::_createWizard()
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
 	Actions actions;
-	Serializer serializer;
 	BOOL bSendStats = TRUE;
 
 	welcome.setParent(&sheet);
@@ -132,11 +133,11 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.setParent(&sheet);
 	install.setPageButtons(CancelButton);
 	install.SetActions(&acts);
-	install.SetSerializer(&serializer);
+	install.SetSerializer(&m_serializer);
 	install.createPage(m_hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 
-	finish.SetSerializer(&serializer);
+	finish.SetSerializer(&m_serializer);
 	finish.setParent(&sheet);
 	finish.SetActions(&acts);
 	finish.setPageButtons(FinishButton);

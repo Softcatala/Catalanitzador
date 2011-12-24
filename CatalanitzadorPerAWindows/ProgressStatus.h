@@ -19,7 +19,7 @@
  
 #pragma once
 
-// Callback for notifyng progress in actions (like action class or download class)
+// Callback for notifying progress in actions (like action class or download class)
 typedef void (*ProgressStatus)(int nTotal, int nCurrent, void *data);
 
 

@@ -25,6 +25,7 @@
 #include "Serializable.h"
 #include "ActionStatus.h"
 #include "ActionID.h"
+#include "stdafx.h"
 
 class Action : public Serializable
 {

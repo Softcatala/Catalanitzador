@@ -20,22 +20,15 @@
 #include "stdafx.h"
 #include "FinishPropertyPageUI.h"
 #include "PropertySheetUI.h"
-#include <fstream>
 
 FinishPropertyPageUI::FinishPropertyPageUI()
 {
-	m_hThread = NULL;
+	m_uploadStatistics = NULL;
 	m_hFont = NULL;
 }
 
 FinishPropertyPageUI::~FinishPropertyPageUI()
 {
-	if (m_hThread != NULL)
-	{
-		CloseHandle(m_hThread);
-		m_hThread = NULL;
-	}
-
 	if (m_hFont != NULL)
 	{
 		DeleteObject (m_hFont);
@@ -69,46 +62,12 @@ void FinishPropertyPageUI::_onInitDialog()
 {
 	if (*m_pbSendStats)
 	{
-		m_hThread = CreateThread(NULL, 0, _uploadXmlThead, this, 0, NULL);
+		m_uploadStatistics = new UploadStatistics(m_serializer->GetStream());
+		m_uploadStatistics->StartUploadThread();
 	}
 
-	SendMessage(GetDlgItem (getHandle(), IDC_CONGRATULATIONS),
-		WM_SETFONT, (WPARAM) m_hFont, TRUE);
-}
-
-DWORD FinishPropertyPageUI::_uploadXmlThead(LPVOID lpParam)
-{
-	BOOL result = 0;
-	char szBuff[65535];
-	char szVar[65535];
-	FinishPropertyPageUI* pThis = (FinishPropertyPageUI*) lpParam;
-
-	ostream* stream = pThis->m_serializer->GetStream();
-	streambuf* rdbuf = stream->rdbuf();
-	memset (szBuff, 0, sizeof(szBuff));
-	rdbuf->sgetn(szBuff, sizeof(szBuff));
-
-	int n = strlen (szBuff);
-	strcpy_s(szVar, "xml=");
-	strcat_s(szVar, szBuff);
-
-	// Dump XML to disc
-	wchar_t szXML[MAX_PATH];
-	GetTempPath(MAX_PATH, szXML);	
-	wcscat_s(szXML, L"results.xml");
-
-	ofstream of (szXML);
-	int size = strlen(szBuff);
-	of.write(szBuff, size);
-	of.close();
-
-	// Send file
-	InternetAccess access;
-	bool rslt = access.PostForm(L"http://catalanitzador.softcatala.org/parser.php", szVar);
-	DeleteFile(szXML);
-
-	g_log.Log (L"FinishPropertyPageUI::_uploadXmlThead result %u", (wchar_t *)rslt);
-	return 0;
+	m_hFont = Window::CreateBoldFont(getHandle());
+	SendMessage(GetDlgItem (getHandle(), IDC_CONGRATULATIONS),	WM_SETFONT, (WPARAM) m_hFont, TRUE);
 }
 
 bool FinishPropertyPageUI::_isRebootNeed()
@@ -145,11 +104,9 @@ void FinishPropertyPageUI::_onFinish()
 		{
 			_shutdown();
 		}
-	}
-
-	// In case the user exists the app very quickly, give time the upload to complete
-	if (m_hThread != NULL)
-		WaitForSingleObject(m_hThread, 10000);
+	}	
+	if (m_uploadStatistics!= NULL)
+		m_uploadStatistics->WaitBeforeExit();
 }
 
 void FinishPropertyPageUI::_shutdown()
@@ -167,13 +124,3 @@ void FinishPropertyPageUI::_shutdown()
 	ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
 }
 
-void FinishPropertyPageUI::_createBoldFont(HWND hWnd)
-{
-	HFONT hFont;
-	LOGFONT	logFont;
-
-	hFont = (HFONT) SendMessage(hWnd, WM_GETFONT, NULL, NULL);
-	GetObject(hFont, sizeof(LOGFONT), &logFont);
-	logFont.lfWeight = FW_BOLD;
-	m_hFont = CreateFontIndirect(&logFont);
-}

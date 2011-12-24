@@ -17,29 +17,25 @@
  * 02111-1307, USA.
  */
  
- 
 #pragma once
 
-#include <windows.h>
-#include "Serializer.h"
+#include "Serializable.h"
+#include <sstream>
 
-class CatalanitzadorPerAWindows
+class UploadStatistics
 {
-	
-public:
-		CatalanitzadorPerAWindows(HINSTANCE hInstance);
-		~CatalanitzadorPerAWindows();
+	public:
+			UploadStatistics(ostream* stream);
+			~UploadStatistics();
 
-		void Run();
+			void StartUploadThread();
+			void UploadFile();
+			void WaitBeforeExit();
 
-private:
+	private:
 
-		void _initLog();
-		bool _supportedOS();
-		void _createWizard();
-		bool _isAlreadyRunning();
+			static DWORD WINAPI _uploadXmlThead(LPVOID lpParam);
 
-		HINSTANCE m_hInstance;
-		HANDLE m_hEvent;
-		Serializer m_serializer;
+			ostream* m_stream;
+			HANDLE m_hThread;
 };

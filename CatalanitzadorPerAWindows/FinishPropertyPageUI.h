@@ -22,6 +22,7 @@
 #include "Action.h"
 #include "PropertyPageUI.h"
 #include "Serializer.h"
+#include "UploadStatistics.h"
 
 #include <vector>
 using namespace std;
@@ -40,13 +41,12 @@ private:
 		virtual	void _onFinish();
 		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
 		bool _isRebootNeed();
-		void _shutdown();
-		static DWORD WINAPI _uploadXmlThead(LPVOID lpParam);
-		void _createBoldFont(HWND hWnd);
+		void _shutdown();		
+
 		HFONT		m_hFont;
-		
-		HANDLE m_hThread;
 		vector <Action *> * m_actions;
 		Serializer* m_serializer;
 		BOOL* m_pbSendStats;
+		UploadStatistics * m_uploadStatistics;
+		
 };
