@@ -25,10 +25,8 @@
 Serializer::Serializer()
 {	
 	stream = new stringstream();
-	
-	*stream << "<?xml version='1.0'?>\n";
-	*stream << "<execution>\n";
 
+	_openHeader();
 	_application ();
 	OSVersion::Serialize(stream);
 }
@@ -54,7 +52,17 @@ void Serializer::StartAction()
 
 void Serializer::EndAction()
 {
-	*stream << "\t</actions>\n";
+	*stream << "\t</actions>\n";	
+}
+
+void Serializer::_openHeader()
+{
+	*stream << "<?xml version='1.0'?>\n";
+	*stream << "<execution>\n";
+}
+
+void Serializer::CloseHeader()
+{
 	*stream << "</execution>\n";
 }
 

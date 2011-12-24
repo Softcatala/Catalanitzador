@@ -85,6 +85,8 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 	wchar_t szMessage [MAX_LOADSTRING];
 	wchar_t szCaption [MAX_LOADSTRING];
 	UploadStatistics uploadStatistics (m_serializer.GetStream());
+
+	m_serializer.CloseHeader();
 	uploadStatistics.StartUploadThread();
 
 	g_log.Log (L"Show unsupported OS dialog");

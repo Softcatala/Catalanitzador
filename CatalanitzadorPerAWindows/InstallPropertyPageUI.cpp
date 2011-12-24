@@ -156,6 +156,7 @@ void InstallPropertyPageUI::_onTimer()
 		m_serializer->Serialize(action);
 	}
 	m_serializer->EndAction();
+	m_serializer->CloseHeader();
 	_completed();
 }
 
