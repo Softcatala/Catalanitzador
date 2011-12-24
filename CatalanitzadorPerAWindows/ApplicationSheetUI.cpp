@@ -19,6 +19,7 @@
 
 #include <stdafx.h>
 #include "ApplicationSheetUI.h"
+#include "Windows.h"
 
 ApplicationSheetUI::ApplicationSheetUI()
 {
@@ -39,4 +40,6 @@ void ApplicationSheetUI::_onInitDialog()
 	m_hIcon = LoadIcon (hInstance, MAKEINTRESOURCE (IDI_CATALANITZADORPERAWINDOWS));
 	SendMessage(getHandle(), WM_SETICON, TRUE, (LPARAM) m_hIcon);
 	SendMessage(getHandle(), WM_SETICON, FALSE, (LPARAM) m_hIcon);
+
+	Window::CenterWindow(getHandle());
 }

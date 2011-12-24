@@ -24,4 +24,5 @@ class Window
 	public:
 			static void ProcessMessages();
 			static HFONT CreateBoldFont(HWND hWnd);
+			static void CenterWindow(HWND hWindow);
 };

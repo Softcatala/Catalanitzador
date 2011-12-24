@@ -24,6 +24,7 @@
 #include "PropertySheetUI.h"
 #include "Window.h"
 #include "resource.h"
+#include "OSVersion.h"
 
 #include <stdio.h>
 #include <vector>
@@ -116,11 +117,46 @@ int InstallPropertyPageUI::_getSelectedActionsCount()
 	return cnt;
 }
 
+void InstallPropertyPageUI::_windowsXPAsksCDWarning()
+{
+	if (OSVersion::GetVersion() != WindowsXP)
+		return;
+
+	bool bShow = false;
+	Action* action;
+	for (unsigned int i = 0; i < m_actions->size(); i++)
+	{
+		action = m_actions->at(i);
+
+		if (action->GetStatus() != Selected)
+			continue;
+
+		if (action->GetID() == WindowsLPI)
+		{
+			bShow = true;
+			break;
+		} 
+		else
+			break;
+	}
+
+	if (bShow)
+	{
+		wchar_t szMessage [MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];
+		LoadString(GetModuleHandle(NULL), IDS_WINDOWSXP_ASKSCD, szMessage, MAX_LOADSTRING);
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+		MessageBox(getParent()->getHandle(), szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
+	}
+}
+
 void InstallPropertyPageUI::_onTimer()
 {
 	Action* action;
 
 	KillTimer(getHandle(), TIMER_ID);
+
+	_windowsXPAsksCDWarning();
 
 	int cnt_selected = _getSelectedActionsCount();
 	int cnt_total = m_actions->size();

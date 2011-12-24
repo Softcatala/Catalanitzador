@@ -31,7 +31,7 @@ class InstallPropertyPageUI: public PropertyPageUI
 public:		
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 		void SetActions(vector <Action *> * value) { m_actions = value;}
-
+		
 private:
 		virtual void _onInitDialog();
 		virtual	void _onShowWindow();
@@ -42,6 +42,7 @@ private:
 		void _download(Action* action);
 		void _completed();
 		int _getSelectedActionsCount();
+		void _windowsXPAsksCDWarning();
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;

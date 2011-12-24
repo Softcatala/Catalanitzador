@@ -45,3 +45,19 @@ HFONT Window::CreateBoldFont(HWND hWnd)
 	return CreateFontIndirect(&logFont);
 }
 
+void Window::CenterWindow(HWND hWindow)
+{
+	RECT WindowRect;	
+ 
+	if (GetWindowRect(hWindow, &WindowRect) == FALSE)
+		return;
+    
+	int ScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+	int ScreenHeight = GetSystemMetrics(SM_CYSCREEN);
+ 
+	int WindowWidth = WindowRect.right - WindowRect.left;
+	int WindowHeight = WindowRect.bottom - WindowRect.top;
+
+	SetWindowPos(hWindow, 0, ScreenWidth / 2 - WindowWidth / 2,
+		ScreenHeight / 2 - WindowHeight / 2, 0, 0, SWP_NOSIZE | SWP_NOZORDER);   
+}
