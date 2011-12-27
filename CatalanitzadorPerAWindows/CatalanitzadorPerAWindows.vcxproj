@@ -106,6 +106,7 @@
     <ClInclude Include="PropertyPageUI.h" />
     <ClInclude Include="PropertySheetUI.h" />
     <ClInclude Include="Registry.h" />
+    <ClInclude Include="RemoteURLs.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Runner.h" />
     <ClInclude Include="Serializable.h" />

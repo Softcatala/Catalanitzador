@@ -69,11 +69,11 @@ wchar_t* WindowsLPIAction::_getPackageName()
 	switch (version)
 	{
 		case WindowsXP:
-			return L"http://www.softcatala.org/pub/beta/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi";
+			return WINDOWSLPIACTION_XP;
 		case WindowsVista:		
-			return L"http://www.softcatala.org/pub/beta/catalanitzador/WindowsVista/lip_ca-es.mlc";
+			return WINDOWSLPIACTION_VISTA;
 		case Windows7:
-			return L"http://www.softcatala.org/pub/beta/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc";
+			return WINDOWSLPIACTION_7;
 		default:
 			break;
 	}

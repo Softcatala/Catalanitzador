@@ -143,6 +143,9 @@
     <ClInclude Include="UploadStatistics.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="RemoteURLs.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

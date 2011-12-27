@@ -22,8 +22,6 @@
 #include "InternetAccess.h"
 #include <fstream>
 
-#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
-
 UploadStatistics::UploadStatistics(ostream* stream)
 {
 	m_stream = stream;

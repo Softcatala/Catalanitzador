@@ -222,11 +222,11 @@ wchar_t* MSOfficeAction::_getPackageName()
 	switch (m_MSVersion)
 	{
 		case MSOffice2010:
-			return L"http://www.softcatala.org/pub/beta/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe";
+			return MSOFFICEACTION_2010;
 		case MSOffice2007:
-			return L"http://www.softcatala.org/pub/beta/catalanitzador/office2007/office2007-lip.exe";
+			return MSOFFICEACTION_2007;
 		case MSOffice2003:
-			return L"http://www.softcatala.org/pub/beta/catalanitzador/office2003/office2003-lip.cab";
+			return MSOFFICEACTION_2003;
 		default:
 			break;
 	}
