@@ -36,6 +36,15 @@
     <None Include="config_locale_winvista.bin">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="graphics\vertical-logo.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="graphics\facebook_32px.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="graphics\twitter_32px.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

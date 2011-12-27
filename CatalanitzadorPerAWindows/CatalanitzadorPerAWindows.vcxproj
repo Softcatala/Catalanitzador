@@ -80,6 +80,9 @@
     <None Include="config_locale_winvista.bin" />
     <None Include="CatalanitzadorPerAWindows.ico" />
     <None Include="config_locale_winxp.bin" />
+    <None Include="graphics\facebook_32px.bmp" />
+    <None Include="graphics\twitter_32px.bmp" />
+    <None Include="graphics\vertical-logo.bmp" />
     <None Include="vertical-logo.bmp" />
   </ItemGroup>
   <ItemGroup>
