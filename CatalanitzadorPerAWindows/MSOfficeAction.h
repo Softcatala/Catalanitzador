@@ -69,7 +69,8 @@ private:
 		bool m_bLangPackInstalled;
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];
-		wchar_t m_szTempPath[MAX_PATH];		
+		wchar_t m_szTempPath[MAX_PATH];
+		wchar_t m_szTempPath2003[MAX_PATH];
 		Runner runner;
 		UINT hTimerID;
 		MSOfficeVersion m_MSVersion;		

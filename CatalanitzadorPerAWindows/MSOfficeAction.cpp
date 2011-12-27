@@ -64,6 +64,7 @@ MSOfficeAction::MSOfficeAction()
 {
 	m_bLangPackInstalled = false;
 	m_szFullFilename[0] = NULL;
+	m_szTempPath2003[0] = NULL;
 	_getVersionInstalled();
 	GetTempPath(MAX_PATH, m_szTempPath);
 
@@ -75,7 +76,7 @@ MSOfficeAction::~MSOfficeAction()
 {
 	if (m_szFullFilename[0] != NULL  && GetFileAttributes (m_szFullFilename) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile (m_szFullFilename);
+		DeleteFile(m_szFullFilename);
 	}
 
 	_removeOffice2003TempFiles();
@@ -119,12 +120,17 @@ void MSOfficeAction::_removeOffice2003TempFiles()
 
 	for(int i = 0; files[i] != NULL; i++)
 	{
-		wcscpy_s(szFile, m_szTempPath);
+		wcscpy_s(szFile, m_szTempPath2003);
+		wcscat_s(szFile, L"\\");
 		wcscat_s(szFile, files[i]);
 
-		if (GetFileAttributes(szFile) != INVALID_FILE_ATTRIBUTES)
-			DeleteFile(szFile);		
+		if (DeleteFile(szFile) == FALSE)
+		{
+			g_log.Log(L"MSOfficeAction::_removeOffice2003TempFiles. Cannot delete '%s'", (wchar_t *) szFile);
+		}		
 	}
+
+	RemoveDirectory(m_szTempPath2003);
 }
 
 bool MSOfficeAction::_isVersionInstalled(RegKeyVersion regkeys)
@@ -176,6 +182,9 @@ bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 
 void MSOfficeAction::_getVersionInstalled()
 {
+	wchar_t szVersion[256];
+	char* pVersion;
+
 	if (_isVersionInstalled(RegKeys2010))
 	{
 		m_MSVersion = MSOffice2010;
@@ -194,8 +203,18 @@ void MSOfficeAction::_getVersionInstalled()
 		_getStringFromResourceIDName(IDS_MSOFFICEACTION_NOOFFICE, szCannotBeApplied);
 	}
 
-	g_log.Log(L"MSOfficeAction::_getVersionInstalled '%u' installed langmap '%u'", (wchar_t *) m_MSVersion, 
-		(wchar_t *)m_bLangPackInstalled);
+	pVersion = GetVersion();
+
+	if (strlen(pVersion) > 0)
+	{
+		MultiByteToWideChar(CP_ACP, 0,  pVersion, strlen (pVersion) + 1, szVersion, sizeof (szVersion));
+	}
+	else
+	{
+		wcscpy_s(szVersion, L"None");
+	}
+
+	g_log.Log(L"MSOfficeAction::_getVersionInstalled '%s' installed langmap '%u'", szVersion, (wchar_t *)m_bLangPackInstalled);
 }
 
 wchar_t* MSOfficeAction::_getPackageName()
@@ -274,8 +293,8 @@ bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
 
 void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 {
-	wchar_t szParams[MAX_PATH];
-	wchar_t szApp[MAX_PATH];
+	wchar_t szParams[MAX_PATH] = L"";
+	wchar_t szApp[MAX_PATH] = L"";
 
 	switch (m_MSVersion)
 	{
@@ -294,13 +313,24 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 		case MSOffice2003:
 		{
 			wchar_t szMSI[MAX_PATH];
+
+			// Unique temporary file (needs to create it)
+			GetTempFileName(m_szTempPath, L"CAT", 0, m_szTempPath2003);
+			DeleteFile(m_szTempPath2003);
+
+			if (CreateDirectory(m_szTempPath2003, NULL) == FALSE)
+			{
+				g_log.Log(L"MSOfficeAction::Execute. Cannot create temp directory '%s'", m_szTempPath2003);
+				break;
+			}
 		
-			_extractCabFile(m_szFullFilename, m_szTempPath);
+			_extractCabFile(m_szFullFilename, m_szTempPath2003);
 
 			GetSystemDirectory(szApp, MAX_PATH);
 			wcscat_s(szApp, L"\\msiexec.exe ");
 
-			wcscpy_s(szMSI, m_szTempPath);
+			wcscpy_s(szMSI, m_szTempPath2003);
+			wcscat_s(szMSI, L"\\");
 			wcscat_s(szMSI, L"lip.msi");
 
 			wcscpy_s(szParams, L" /i ");
@@ -353,13 +383,17 @@ void MSOfficeAction::_setDefaultLanguage()
 	if (registry.OpenKey(HKEY_CURRENT_USER, szKeyName, true))
 	{
 		bSetKey = registry.SetDWORD(L"UILanguage", 1027);
-		if (m_MSVersion == MSOffice2010)
+
+		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
+		// and use the specified language instead
+		if (m_MSVersion == MSOffice2010 || m_MSVersion == MSOffice2007)
 		{
-			registry.SetString(L"FollowSystemUI", L"Off");
+			BOOL bSetFollowKey = registry.SetString(L"FollowSystemUI", L"Off");
+			g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	
 		}		
 		registry.Close();
 	}
-	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set AcceptLanguage %u", (wchar_t *) bSetKey);	
+	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set UILanguage %u", (wchar_t *) bSetKey);	
 }
 
 ActionStatus MSOfficeAction::GetStatus()
