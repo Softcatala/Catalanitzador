@@ -268,13 +268,16 @@ bool WindowsLPIAction::IsRebootNeed()
 void WindowsLPIAction::CheckPrerequirements() 
 {
 	LANGID langid;
+	WORD primary;
 
-	langid = GetSystemDefaultUILanguage() & 0xf;
+	langid = GetSystemDefaultUILanguage();
+	primary = PRIMARYLANGID(langid);
 
-	if (langid != SPANISH_LOCALEID && langid != FRENCH_LOCALEID)
+	if (primary != SPANISH_LOCALEID && primary != FRENCH_LOCALEID)
 	{
 		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NOSPFR, szCannotBeApplied);
-		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. No Spanish or French Windows found");
+		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. No Spanish or French Windows found (langid %u)",
+			(wchar_t* )langid);
 		status = CannotBeApplied;
 	}
 }
