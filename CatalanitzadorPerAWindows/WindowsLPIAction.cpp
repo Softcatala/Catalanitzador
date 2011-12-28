@@ -28,16 +28,6 @@
 #include "Registry.h"
 #include "Url.h"
 
-// There are hacks, and there are ugly hacks.
-// Using a callback with timer does not allow passing an object
-// we need to work statically. It is not too bad since only once instance per application
-// of this property page can be run.
-static ProgressStatus _progress;
-static int nTotal = 3 * 60;
-static int nCurrent;
-static void *_data;
-#define TIMER_ID 2014
-
 WindowsLPIAction::WindowsLPIAction()
 {	
 	filename[0] = NULL;
@@ -162,20 +152,7 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 	return inetacccess.GetFile (_getPackageName(), filename, progress, data);
 }
 
-// We do not really know how much time is this going to take just start by the estimation
-// of nTotal and increase it when we reach the end
-VOID CALLBACK WindowsLPIAction::_timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
-{
-	nCurrent++;
-
-	// Let's manage user expectations by increasing total by 30%
-	if (nCurrent > nTotal)
-		nTotal = (int) ((double) nCurrent * 1.30);
-
-	_progress(nTotal, nCurrent, _data);
-}
-
-void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
+void WindowsLPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
@@ -202,12 +179,6 @@ void WindowsLPIAction::Execute(ProgressStatus progress, void *data)
 	}	
 
 	status = InProgress;
-	_data = data;
-	_progress = progress;
-
-	// Timer trigger every second to update progress bar
-	hTimerID = SetTimer(NULL, TIMER_ID, 1000, _timerProc);
-
 	g_log.Log(L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
 	runner.Execute(lpkapp, szParams);
 }
@@ -241,8 +212,6 @@ ActionStatus WindowsLPIAction::GetStatus()
 	{
 		if (runner.IsRunning())
 			return InProgress;
-
-		KillTimer(NULL, hTimerID);
 
 		if (_isLangPackInstalled()) {
 			status = Successful;

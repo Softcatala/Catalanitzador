@@ -49,7 +49,7 @@ public:
 		virtual int GetID() { return MSOfficeLPI;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
-		virtual void Execute(ProgressStatus progress, void *data);
+		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		virtual char* GetVersion();
 
@@ -60,8 +60,7 @@ private:
 		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);		
 		bool _wasInstalledCorrectly();
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
-		void _setDefaultLanguage();
-		static VOID CALLBACK _timerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);		
+		void _setDefaultLanguage();		
 		wchar_t* _getPackageName();
 		void _removeOffice2003TempFiles();
 		RegKeyVersion _getRegKeys();
@@ -71,8 +70,7 @@ private:
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
 		wchar_t m_szTempPath2003[MAX_PATH];
-		Runner runner;
-		UINT hTimerID;
+		Runner runner;		
 		MSOfficeVersion m_MSVersion;		
 };
 

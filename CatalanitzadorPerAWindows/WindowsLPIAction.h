@@ -34,7 +34,7 @@ public:
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual bool IsRebootNeed();
-		virtual void Execute(ProgressStatus progress, void *data);
+		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements();
 
@@ -48,6 +48,5 @@ private:
 
 		wchar_t filename[MAX_PATH];		
 		Runner runner;
-		UINT hTimerID;
 };
 

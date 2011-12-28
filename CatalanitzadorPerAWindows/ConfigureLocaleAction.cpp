@@ -120,7 +120,7 @@ bool ConfigureLocaleAction::_dumpResource(LPCWSTR resource, wchar_t* file)
 	return true;
 }
 
-void ConfigureLocaleAction::Execute(ProgressStatus progress, void *data)
+void ConfigureLocaleAction::Execute()
 {	
 	wchar_t szConfigFileName[MAX_PATH];
 	wchar_t szParams[MAX_PATH];
@@ -151,8 +151,8 @@ void ConfigureLocaleAction::Execute(ProgressStatus progress, void *data)
 	swprintf_s(szParams, L" intl.cpl,,/f:\"%s\"", szCfgFile);
 
 	g_log.Log(L"ConfigureLocaleAction::Execute '%s' with params '%s'", szApp, szParams);
-	runner.Execute (szApp, szParams);
-	runner.WaitUntilFinished ();
+	runner.Execute(szApp, szParams);
+	runner.WaitUntilFinished();
 }
 
 ActionStatus ConfigureLocaleAction::GetStatus()

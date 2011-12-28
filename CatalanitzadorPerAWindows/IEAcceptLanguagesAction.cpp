@@ -57,7 +57,7 @@ bool IEAcceptedLanguagesAction::IsNeed()
 	return bNeed;
 }
 
-void IEAcceptedLanguagesAction::Execute(ProgressStatus progress, void *data)
+void IEAcceptedLanguagesAction::Execute()
 {
 	wchar_t szValue[1024], szNew[1024];
 	Registry registry;

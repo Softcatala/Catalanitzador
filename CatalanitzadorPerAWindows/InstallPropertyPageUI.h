@@ -43,6 +43,7 @@ private:
 		void _completed();
 		int _getSelectedActionsCount();
 		void _windowsXPAsksCDWarning();
+		void _setTaskMarqueeMode(bool enable);
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;

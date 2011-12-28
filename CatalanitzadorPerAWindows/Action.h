@@ -43,7 +43,7 @@ public:
 		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
 		virtual void SetStatus(ActionStatus value) { status = value; }
 		virtual bool Download(ProgressStatus, void *data) {return false;}
-		virtual void Execute(ProgressStatus progress, void *data) = 0;
+		virtual void Execute() = 0;
 		virtual void Serialize(ostream* stream);
 		virtual void CheckPrerequirements(){};
 

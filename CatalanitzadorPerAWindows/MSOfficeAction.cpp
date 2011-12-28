@@ -28,15 +28,6 @@
 #include "Registry.h"
 #include "Url.h"
 
-// There are hacks, and there are ugly hacks.
-// Using a callback with timer does not allow passing an object
-// we need to work statically. It is not too bad since only once instance per application
-// of this property page can be run.
-static ProgressStatus _progress;
-static int nTotal = 3 * 60;
-static int nCurrent;
-static void *_data;
-#define TIMER_ID 2014
 
 RegKeyVersion RegKeys2003 = 
 {
@@ -262,19 +253,6 @@ bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 	return inetacccess.GetFile(_getPackageName(), m_szFullFilename, progress, data);
 }
 
-// We do not really know how much time is this going to take just start by the estimation
-// of nTotal and increase it when we reach the end
-VOID CALLBACK MSOfficeAction::_timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
-{
-	nCurrent++;
-
-	// Let's manage user expectations by increasing total by 30%
-	if (nCurrent > nTotal)
-		nTotal = (int) ((double) nCurrent * 1.30);
-
-	_progress (nTotal, nCurrent, _data);
-}
-
 bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
 {
 	Runner runnerCab;
@@ -291,7 +269,7 @@ bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
 	return true;
 }
 
-void MSOfficeAction::Execute(ProgressStatus progress, void *data)
+void MSOfficeAction::Execute()
 {
 	wchar_t szParams[MAX_PATH] = L"";
 	wchar_t szApp[MAX_PATH] = L"";
@@ -343,12 +321,6 @@ void MSOfficeAction::Execute(ProgressStatus progress, void *data)
 	}
 
 	status = InProgress;
-	_data = data;
-	_progress = progress;
-
-	// Timer trigger every second to update progress bar
-	hTimerID = SetTimer(NULL, TIMER_ID, 1000, _timerProc);
-
 	g_log.Log(L"MSOfficeAction::Execute '%s' with params '%s'", szApp, szParams);
 	runner.Execute (szApp, szParams);	
 }
@@ -402,8 +374,6 @@ ActionStatus MSOfficeAction::GetStatus()
 	{
 		if (runner.IsRunning())
 			return InProgress;
-
-		KillTimer(NULL, hTimerID);
 
 		if (_wasInstalledCorrectly()) {
 			status = Successful;

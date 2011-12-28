@@ -62,13 +62,15 @@ void InstallPropertyPageUI::_execute(Action* action)
 	wchar_t szString [MAX_LOADSTRING];
 	wchar_t szText [MAX_LOADSTRING];
 
+	_setTaskMarqueeMode(true);
+
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_EXECUTING, szString, MAX_LOADSTRING);
-	
 	swprintf_s (szText, szString, action->GetName());
 	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+
 	Window::ProcessMessages();
-	action->Execute((ProgressStatus)_downloadStatus, this);
+	action->Execute();
 }
 
 void InstallPropertyPageUI::_download(Action* action)
@@ -76,11 +78,13 @@ void InstallPropertyPageUI::_download(Action* action)
 	wchar_t szString [MAX_LOADSTRING];
 	wchar_t szText [MAX_LOADSTRING];
 
-	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);
-	
+	_setTaskMarqueeMode(false);
+
+	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);	
 	swprintf_s (szText, szString, action->GetName());
 	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+
 	Window::ProcessMessages();
 	action->Download((ProgressStatus)_downloadStatus, this);
 }
@@ -89,6 +93,8 @@ void InstallPropertyPageUI::_completed()
 {
 	wchar_t szString [MAX_LOADSTRING];
 	int nCompleted = 255;
+
+	_setTaskMarqueeMode(false);
 
 	SendMessage(hTaskProgressBar, PBM_SETRANGE32, 0, nCompleted);
 	SendMessage(hTaskProgressBar, PBM_SETPOS, nCompleted, 0);
@@ -150,6 +156,22 @@ void InstallPropertyPageUI::_windowsXPAsksCDWarning()
 	}
 }
 
+void InstallPropertyPageUI::_setTaskMarqueeMode(bool enable)
+{
+	LONG_PTR style = GetWindowLongPtr(hTaskProgressBar, GWL_STYLE);
+
+	if (enable)
+	{
+		SetWindowLongPtr(hTaskProgressBar, GWL_STYLE, style | PBS_MARQUEE);
+		SendMessage(hTaskProgressBar, PBM_SETMARQUEE, TRUE, 0);
+	}
+	else
+	{
+		SendMessage(hTaskProgressBar, PBM_SETMARQUEE, FALSE, 0);
+		SetWindowLongPtr(hTaskProgressBar, GWL_STYLE, style &~ PBS_MARQUEE);
+	}
+}
+
 void InstallPropertyPageUI::_onTimer()
 {
 	Action* action;
@@ -186,7 +208,7 @@ void InstallPropertyPageUI::_onTimer()
 				break;
 
 			Window::ProcessMessages();
-			Sleep(500);
+			Sleep(50);
 			Window::ProcessMessages();			
 		}
 		m_serializer->Serialize(action);

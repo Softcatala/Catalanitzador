@@ -33,7 +33,7 @@ public:
 		virtual int GetID() { return ConfigureLocale;};
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
-		virtual void Execute(ProgressStatus progress, void *data);
+		virtual void Execute();
 		virtual ActionStatus GetStatus();
 private:
 		bool _isCatalanLocaleActive();
