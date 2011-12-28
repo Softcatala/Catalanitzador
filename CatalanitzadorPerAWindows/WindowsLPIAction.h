@@ -39,9 +39,7 @@ public:
 		virtual void CheckPrerequirements();
 
 private:
-		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
-		static VOID CALLBACK _timerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
-		bool _directoryExists(LPCTSTR szPath);
+
 		wchar_t* _getPackageName();
 		bool _isLangPackInstalled();
 		void _setDefaultLanguage();		

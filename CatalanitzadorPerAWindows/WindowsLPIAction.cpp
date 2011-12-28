@@ -107,9 +107,6 @@ bool WindowsLPIAction::_isLangPackInstalled()
 	return bExists;
 }
 
-// TODO:
-//	Does not work with 64-bits Windows
-//	Only works if you have Windows Spanish or French
 bool WindowsLPIAction::IsNeed()
 {
 	if (status == CannotBeApplied)
@@ -181,13 +178,6 @@ void WindowsLPIAction::Execute()
 	status = InProgress;
 	g_log.Log(L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
 	runner.Execute(lpkapp, szParams);
-}
-
-bool WindowsLPIAction::_directoryExists(LPCTSTR szPath)
-{
-	DWORD dwAttrib = GetFileAttributes(szPath);
-
-	return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
 }
 
 // After the language package is installed we need to set Catalan as default language
