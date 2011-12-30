@@ -39,7 +39,7 @@ FinishPropertyPageUI::~FinishPropertyPageUI()
 void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
 	wchar_t szURL[1024];
-	wchar_t* szText = L"He catalanitzat el meu PC! Fes-ho tu també a: http://www.softcatala.org/wiki/Rebost:Catalanitzador";
+	wchar_t* szText = L"He catalanitzat el meu PC! Fes-ho tu també a: http://catalanitzador.softcatala.org";
 
 	if (wParam == IDC_TWITTER_BUTTON)
 	{
@@ -51,7 +51,7 @@ void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 	if (wParam == IDC_FACEBOOK_BUTTON)
 	{
 		// See: http://developers.facebook.com/docs/share/
-		wcscpy_s(szURL, L"http://www.facebook.com/sharer.php?u=http://www.softcatala.org/wiki/Rebost:Catalanitzador&t=");
+		wcscpy_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=http://catalanitzador.softcatala.org&t=");
 		wcscat_s(szURL, szText);		
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
 	}	
