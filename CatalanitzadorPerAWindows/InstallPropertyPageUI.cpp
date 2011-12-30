@@ -66,8 +66,7 @@ void InstallPropertyPageUI::_execute(Action* action)
 
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_EXECUTING, szString, MAX_LOADSTRING);
 	swprintf_s (szText, szString, action->GetName());
-	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);
-	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);	
 
 	Window::ProcessMessages();
 	action->Execute();
@@ -80,13 +79,13 @@ void InstallPropertyPageUI::_download(Action* action)
 
 	_setTaskMarqueeMode(false);
 
-	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);	
+	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);
 	swprintf_s (szText, szString, action->GetName());
 	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);
-	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
 
 	Window::ProcessMessages();
 	action->Download((ProgressStatus)_downloadStatus, this);
+	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
 }
 
 void InstallPropertyPageUI::_completed()
@@ -211,6 +210,7 @@ void InstallPropertyPageUI::_onTimer()
 			Sleep(50);
 			Window::ProcessMessages();			
 		}
+		SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0); // 'Execute' completed
 		m_serializer->Serialize(action);
 	}
 	m_serializer->EndAction();
