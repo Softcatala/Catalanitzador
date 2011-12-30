@@ -133,7 +133,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	sheet.addPage(&applications);
 
 	install.setParent(&sheet);
-	install.setPageButtons(CancelButton);
+	install.setPageButtons(CancelButtonOnly);
 	install.SetActions(&acts);
 	install.SetSerializer(&m_serializer);
 	install.createPage(m_hInstance, IDD_INSTALL, NULL);
@@ -142,7 +142,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	finish.SetSerializer(&m_serializer);
 	finish.setParent(&sheet);
 	finish.SetActions(&acts);
-	finish.setPageButtons(FinishButton);
+	finish.setPageButtons(FinishButtonOnly);
 	finish.SetSendStats(&bSendStats);
 	finish.createPage(m_hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);

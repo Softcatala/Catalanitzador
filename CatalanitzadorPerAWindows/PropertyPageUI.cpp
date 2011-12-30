@@ -170,11 +170,10 @@ void PropertyPageUI::_sendSetButtonsMessage()
 		case NextBackButtons:
 			buttons = PSWIZB_NEXT | PSWIZB_BACK;
 			break;
-		case FinishButton:
-			buttons |= PSWIZB_FINISH;
+		case FinishButtonOnly:
+			buttons = PSWIZB_FINISH;
+			EnableWindow(GetDlgItem (getParent()->getHandle(), IDCANCEL), FALSE);
 			break;
-		case CancelButton:
-			break;			
 	}
 
 	SendMessage (getParent()->getHandle (), PSM_SETWIZBUTTONS, 0, buttons);

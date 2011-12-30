@@ -30,8 +30,8 @@ enum PropertyPageButton
 	NextButton,
 	BackButton,
 	NextBackButtons,
-	FinishButton,
-	CancelButton,
+	FinishButtonOnly,
+	CancelButtonOnly,
 };
 
 enum NotificationResult

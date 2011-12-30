@@ -52,9 +52,8 @@ public:
 	
 	void						setCallBack(PFNPROPSHEETCALLBACK pCallback) {m_pCallback=pCallback;};
 	void						setDialogProc(DLGPROC pfnDlgProc){m_pfnDlgProc=pfnDlgProc;};		
-	void						setApplyButton(bool b){m_bApplyButton=b;};	
-	void						setOkButton(bool b){m_bOkButton=b;};	
-	void						setCancelButton(bool b){m_bCancelButton=b;};	
+	void						setApplyButton(bool b){m_bApplyButton=b;};
+	void						setOkButton(bool b){m_bOkButton=b;};
 
 	virtual int					_onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/){return 1;};
 	virtual	void				_onOK(){}; 
@@ -70,8 +69,7 @@ private:
 	DLGPROC						m_pfnDlgProc;
 	WHICHPROC 					m_lpfnDefSheet; 
 	bool						m_bApplyButton;
-	bool						m_bOkButton;
-	bool						m_bCancelButton;
+	bool						m_bOkButton;	
 	PROPSHEETPAGE*				m_pages;
 	bool						m_modeless;
 	

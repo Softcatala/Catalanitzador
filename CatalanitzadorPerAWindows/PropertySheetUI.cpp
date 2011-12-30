@@ -30,7 +30,6 @@ PropertySheetUI::PropertySheetUI()
 {	
 	setOkButton(false);
 	setApplyButton(true);
-	setCancelButton(true);
 	m_lpfnDefSheet = NULL;
 	m_pfnDlgProc = s_sheetWndProc;	
 	m_pCallback = NULL;
