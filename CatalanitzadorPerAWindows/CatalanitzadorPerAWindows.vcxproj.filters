@@ -146,6 +146,9 @@
     <ClInclude Include="RemoteURLs.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="IELPIAction.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -225,6 +228,9 @@
     </ClCompile>
     <ClCompile Include="UploadStatistics.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="IELPIAction.cpp">
+      <Filter>Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,8 +23,10 @@ enum ActionID
 {
 	// Do not modify these since they are used in the server side to identify 
 	// actions in a unique manner
-	WindowsLPI = 0,
-	MSOfficeLPI = 1,
-	ConfigureLocale = 2,
-	IEAcceptLanguage = 3
+	NoAction = 0,
+	WindowsLPI = 1,
+	MSOfficeLPI = 2,
+	ConfigureLocale = 3,
+	IEAcceptLanguage = 4,
+	IELPI = 5,
 };

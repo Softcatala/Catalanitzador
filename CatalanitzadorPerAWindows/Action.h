@@ -27,6 +27,9 @@
 #include "ActionID.h"
 #include "stdafx.h"
 
+#include <vector>
+using namespace std;
+
 class Action : public Serializable
 {
 public:
@@ -45,7 +48,10 @@ public:
 		virtual bool Download(ProgressStatus, void *data) {return false;}
 		virtual void Execute() = 0;
 		virtual void Serialize(ostream* stream);
-		virtual void CheckPrerequirements(){};
+		virtual void CheckPrerequirements(Action * action){};
+		virtual ActionID DependsOn() { return NoAction;};
+		Action* AnotherActionDependsOnMe(vector <Action *> * allActions);
+		bool HasDependency(vector <Action *> * allActions);
 
 protected:
 		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);

@@ -17,40 +17,47 @@
  * 02111-1307, USA.
  */
 
-#include "stdafx.h"
+#pragma once
+
 #include "Action.h"
+#include "Runner.h"
 
-Action::Action()
+enum IEVersion
 {
-	status = NotSelected;
-	szCannotBeApplied[0] = NULL;	
-}
+	IEUnknown = 0,
+	IE6 = 6,
+	IE7 = 7,
+	IE8 = 8,
+	IE9 = 9,
+};
 
-wchar_t* Action::_getStringFromResourceIDName(int nID, wchar_t* string)
+
+class IELPIAction : public Action
 {
-	HINSTANCE hInstance = GetModuleHandle(NULL);
-	LoadString(hInstance, nID, string, MAX_LOADSTRING);
-	return string;
-}
+public:
+		IELPIAction ();
+		~IELPIAction ();
 
-void Action::Serialize(ostream* stream)
-{
-	char szText[1024];
+		virtual wchar_t* GetName();
+		virtual wchar_t* GetDescription();
+		virtual int GetID() { return IELPI;};
+		virtual bool Download(ProgressStatus progress, void *data);
+		virtual bool IsNeed();		
+		virtual void Execute();
+		virtual ActionStatus GetStatus();
+		virtual void CheckPrerequirements(Action * action);
+		virtual ActionID DependsOn() { return WindowsLPI;};
 
-	sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n",
-		GetID(), GetVersion(), status);
+private:
 
-	*stream << szText;
-}
+		wchar_t* _getPackageName();
+		wchar_t* _getPackageNameIE7();
+		wchar_t* _getPackageNameIE8();
+		IEVersion _getVersion();
+		bool _isLangPackInstalled();
 
-Action* Action::AnotherActionDependsOnMe(vector <Action *> * allActions)
-{
-	for (unsigned int i = 0; i < allActions->size (); i++)
-	{		
-		Action* action = allActions->at(i);
+		wchar_t m_filename[MAX_PATH];
+		Runner runner;
+		IEVersion m_version;
+};
 
-		if (GetID() == action->DependsOn())
-			return action;
-	}
-	return NULL;
-}

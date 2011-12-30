@@ -97,6 +97,7 @@ void IEAcceptedLanguagesAction::_readVersion()
 		}		
 	}	
 }
+
 char* IEAcceptedLanguagesAction::GetVersion()
 {
 	return szVersionAscii;

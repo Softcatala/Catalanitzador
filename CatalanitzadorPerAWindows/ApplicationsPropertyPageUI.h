@@ -41,9 +41,10 @@ private:
 		virtual	bool _onNext();
 		void _noInternetConnection();
 		static LRESULT _listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-		static void _processClickOnItem(HWND hWnd, int nItem);
+		void _processClickOnItem(int nItem);
 		void _setBoldControls();
 		void _setLegendControl();
+		void _processDependantItem(Action* action);
 
 		CheckedListView m_listview;
 		HWND m_hList;

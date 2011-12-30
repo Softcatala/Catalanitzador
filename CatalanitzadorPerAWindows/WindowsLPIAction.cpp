@@ -31,7 +31,7 @@
 WindowsLPIAction::WindowsLPIAction()
 {	
 	filename[0] = NULL;
-	CheckPrerequirements();
+	CheckPrerequirements(NULL);
 }
 
 WindowsLPIAction::~WindowsLPIAction()
@@ -103,7 +103,7 @@ bool WindowsLPIAction::_isLangPackInstalled()
 		registry.Close();
 	}		
 	
-	g_log.Log (L"WindowsLPIAction::_updateIsInstalled checking is %u", (wchar_t*) bExists);
+	g_log.Log (L"WindowsLPIAction::_updateIsInstalled returns %u", (wchar_t*) bExists);
 	return bExists;
 }
 
@@ -224,7 +224,7 @@ bool WindowsLPIAction::IsRebootNeed()
 #define SPANISH_LOCALEID 0x0A
 #define FRENCH_LOCALEID 0x0c
 
-void WindowsLPIAction::CheckPrerequirements() 
+void WindowsLPIAction::CheckPrerequirements(Action * action) 
 {
 	LANGID langid;
 	WORD primary;
@@ -240,5 +240,4 @@ void WindowsLPIAction::CheckPrerequirements()
 		status = CannotBeApplied;
 	}
 }
-
 

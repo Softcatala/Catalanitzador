@@ -38,6 +38,6 @@ public:
 private:
 		void _readVersion();
 
-		char szVersionAscii[64];
+		char szVersionAscii[128];
 };
 

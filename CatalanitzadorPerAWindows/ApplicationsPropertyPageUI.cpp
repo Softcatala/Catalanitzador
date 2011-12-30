@@ -40,13 +40,47 @@ ApplicationsPropertyPageUI::~ApplicationsPropertyPageUI()
 	}	
 }
 
-void ApplicationsPropertyPageUI::_processClickOnItem(HWND hWnd, int nItem)
+void ApplicationsPropertyPageUI::_processDependantItem(Action* action)
+{
+	Action* dependant = action->AnotherActionDependsOnMe(m_availableActions);
+
+	if (dependant == NULL)
+		return;
+	
+	ActionStatus prevStatus = dependant->GetStatus();
+	dependant->CheckPrerequirements(action);
+
+	if (prevStatus == dependant->GetStatus())
+		return;
+	
+	int items = ListView_GetItemCount(m_hList);
+
+	for (int i = 0; i < items; ++i)
+	{		
+		LVITEM item;
+		memset(&item,0,sizeof(item));
+		item.iItem = i;
+		item.mask = LVIF_PARAM;
+
+		ListView_GetItem(m_hList, &item);
+		Action* itemAction = (Action *) item.lParam;		
+		if (itemAction == dependant)
+		{
+			item.mask = LVIF_IMAGE;
+			item.iImage = CheckedListView::GetImageIndex(itemAction->GetStatus());
+			ListView_SetItem(m_hList, &item);
+			break;
+		}		
+	}	
+}
+
+void ApplicationsPropertyPageUI::_processClickOnItem(int nItem)
 {	
 	LVITEM item;
 	memset(&item,0,sizeof(item));
 	item.iItem = nItem;
 	item.mask = LVIF_IMAGE | LVIF_PARAM;
-	ListView_GetItem(hWnd, &item);
+	ListView_GetItem(m_hList, &item);
 
 	Action* action = (Action *) item.lParam;
 
@@ -61,9 +95,11 @@ void ApplicationsPropertyPageUI::_processClickOnItem(HWND hWnd, int nItem)
 		return; // Non selectable item
 	}
 
+	_processDependantItem(action);
+
 	item.mask = LVIF_IMAGE;
 	item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
-	ListView_SetItem(hWnd, &item);
+	ListView_SetItem(m_hList, &item);
 }
 
 LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -82,7 +118,7 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 
 			if (lvHitTestInfo.flags & LVHT_ONITEMICON)
 			{
-				_processClickOnItem(hWnd, lvHitTestInfo.iItem);
+				pThis->_processClickOnItem(lvHitTestInfo.iItem);
 			}
 		}
 		
@@ -90,7 +126,7 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 		{
 			if (wParam == VK_SPACE)
 			{
-				_processClickOnItem(hWnd, ListView_GetSelectionMark(hWnd));
+				pThis->_processClickOnItem(ListView_GetSelectionMark(hWnd));
 			}
 		}
 
@@ -170,7 +206,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 		action->SetStatus(Selected);
 		item.iItem = nItemId;
-		item.pszText = action->GetName ();
+		item.pszText = action->GetName();
 		item.lParam = (LPARAM) action;		
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
 		ListView_InsertItem (m_hList, &item);		
@@ -192,7 +228,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		item.pszText= action->GetName();
 		item.lParam = (LPARAM) action;		
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
-		ListView_InsertItem (m_hList, &item);
+		ListView_InsertItem(m_hList, &item);
 		nItemId++;
 	}
 		
@@ -214,7 +250,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_PREPAINT)
 		{
-			SetWindowLong (getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
+			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
 			return ReturnTrue;
 		}
 
@@ -230,7 +266,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 				DWORD color = GetSysColor(COLOR_GRAYTEXT);
 				lpNMLVCD->clrText = color;
 			}
-			SetWindowLong (getHandle(), DWLP_MSGRESULT, CDRF_DODEFAULT);
+			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_DODEFAULT);
 			return ReturnTrue;
 		}
 		

@@ -36,7 +36,7 @@ public:
 		virtual bool IsRebootNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
-		virtual void CheckPrerequirements();
+		virtual void CheckPrerequirements(Action * action);
 
 private:
 
