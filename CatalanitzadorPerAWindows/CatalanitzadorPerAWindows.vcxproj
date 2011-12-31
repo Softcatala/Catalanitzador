@@ -39,11 +39,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Resources;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Resources;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,13 +79,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="config_locale_winvista.bin" />
-    <None Include="CatalanitzadorPerAWindows.ico" />
-    <None Include="config_locale_winxp.bin" />
-    <None Include="graphics\facebook_32px.bmp" />
-    <None Include="graphics\twitter_32px.bmp" />
+    <None Include="Resources\config_locale_winvista.bin" />
+    <None Include="Resources\CatalanitzadorPerAWindows.ico" />
+    <None Include="Resources\config_locale_winxp.bin" />
+    <None Include="Resources\facebook_32px.bmp" />
+    <None Include="Resources\twitter_32px.bmp" />
     <None Include="graphics\vertical-logo.bmp" />
-    <None Include="vertical-logo.bmp" />
+    <None Include="Resources\vertical-logo.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI\AboutBoxDlgUI.h" />
@@ -161,8 +161,8 @@
     <ClCompile Include="Actions\WindowsLPIAction.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="CatalanitzadorPerAWindows.rc" />
-    <ResourceCompile Include="Version.rc" />
+    <ResourceCompile Include="Resources\CatalanitzadorPerAWindows.rc" />
+    <ResourceCompile Include="Resources\Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="CatalanitzadorPerAWindows.exe.manifest" />

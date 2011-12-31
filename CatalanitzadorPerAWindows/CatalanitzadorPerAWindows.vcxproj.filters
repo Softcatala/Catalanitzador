@@ -24,25 +24,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CatalanitzadorPerAWindows.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="vertical-logo.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="config_locale_winxp.bin">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="config_locale_winvista.bin">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="graphics\vertical-logo.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="graphics\facebook_32px.bmp">
+    <None Include="Resources\CatalanitzadorPerAWindows.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="graphics\twitter_32px.bmp">
+    <None Include="Resources\config_locale_winvista.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\config_locale_winxp.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\facebook_32px.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\twitter_32px.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\vertical-logo.bmp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -230,10 +230,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="CatalanitzadorPerAWindows.rc">
+    <ResourceCompile Include="Resources\CatalanitzadorPerAWindows.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="Resources\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
