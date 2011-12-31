@@ -6,7 +6,7 @@
 #pragma once
 
 // Cross cutting concerns
-#include "targetver.h"
+
 #include "resource.h"
 #include "LogFile.h"
 #include "Window.h"
