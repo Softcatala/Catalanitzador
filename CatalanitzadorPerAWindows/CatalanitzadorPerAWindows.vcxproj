@@ -39,9 +39,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -86,77 +88,77 @@
     <None Include="vertical-logo.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AboutBoxDlgUI.h" />
-    <ClInclude Include="Action.h" />
-    <ClInclude Include="ActionID.h" />
-    <ClInclude Include="ActionStatus.h" />
-    <ClInclude Include="Actions.h" />
-    <ClInclude Include="ApplicationSheetUI.h" />
-    <ClInclude Include="ApplicationsPropertyPageUI.h" />
+    <ClInclude Include="UI\AboutBoxDlgUI.h" />
+    <ClInclude Include="Actions\Action.h" />
+    <ClInclude Include="Actions\ActionID.h" />
+    <ClInclude Include="Actions\ActionStatus.h" />
+    <ClInclude Include="Actions\Actions.h" />
+    <ClInclude Include="UI\ApplicationSheetUI.h" />
+    <ClInclude Include="UI\ApplicationsPropertyPageUI.h" />
     <ClInclude Include="CatalanitzadorPerAWindows.h" />
-    <ClInclude Include="CheckedListView.h" />
-    <ClInclude Include="ConfigureLocaleAction.h" />
-    <ClInclude Include="FinishPropertyPageUI.h" />
-    <ClInclude Include="IEAcceptLanguagesAction.h" />
-    <ClInclude Include="IELPIAction.h" />
-    <ClInclude Include="InstallPropertyPageUI.h" />
-    <ClInclude Include="InternetAccess.h" />
-    <ClInclude Include="LogFile.h" />
-    <ClInclude Include="MSOfficeAction.h" />
-    <ClInclude Include="OSVersion.h" />
-    <ClInclude Include="ProgressStatus.h" />
-    <ClInclude Include="PropertyPageUI.h" />
-    <ClInclude Include="PropertySheetUI.h" />
-    <ClInclude Include="Registry.h" />
+    <ClInclude Include="UI\CheckedListView.h" />
+    <ClInclude Include="Actions\ConfigureLocaleAction.h" />
+    <ClInclude Include="UI\FinishPropertyPageUI.h" />
+    <ClInclude Include="Actions\IEAcceptLanguagesAction.h" />
+    <ClInclude Include="Actions\IELPIAction.h" />
+    <ClInclude Include="UI\InstallPropertyPageUI.h" />
+    <ClInclude Include="Core\InternetAccess.h" />
+    <ClInclude Include="Core\LogFile.h" />
+    <ClInclude Include="Actions\MSOfficeAction.h" />
+    <ClInclude Include="Core\OSVersion.h" />
+    <ClInclude Include="Core\ProgressStatus.h" />
+    <ClInclude Include="UI\PropertyPageUI.h" />
+    <ClInclude Include="UI\PropertySheetUI.h" />
+    <ClInclude Include="Core\Registry.h" />
     <ClInclude Include="RemoteURLs.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Runner.h" />
-    <ClInclude Include="Serializable.h" />
-    <ClInclude Include="Serializer.h" />
+    <ClInclude Include="Core\Runner.h" />
+    <ClInclude Include="Core\Serializable.h" />
+    <ClInclude Include="Core\Serializer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="UploadStatistics.h" />
-    <ClInclude Include="Url.h" />
+    <ClInclude Include="Core\UploadStatistics.h" />
+    <ClInclude Include="Core\Url.h" />
     <ClInclude Include="Version.h" />
-    <ClInclude Include="WelcomePropertyPageUI.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="WindowsLPIAction.h" />
+    <ClInclude Include="UI\WelcomePropertyPageUI.h" />
+    <ClInclude Include="Core\Window.h" />
+    <ClInclude Include="Actions\WindowsLPIAction.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AboutBoxDlgUI.cpp" />
-    <ClCompile Include="Action.cpp" />
-    <ClCompile Include="Actions.cpp" />
-    <ClCompile Include="ApplicationSheetUI.cpp" />
-    <ClCompile Include="ApplicationsPropertyPageUI.cpp" />
+    <ClCompile Include="UI\AboutBoxDlgUI.cpp" />
+    <ClCompile Include="Actions\Action.cpp" />
+    <ClCompile Include="Actions\Actions.cpp" />
+    <ClCompile Include="UI\ApplicationSheetUI.cpp" />
+    <ClCompile Include="UI\ApplicationsPropertyPageUI.cpp" />
     <ClCompile Include="CatalanitzadorPerAWindows.cpp" />
-    <ClCompile Include="CheckedListView.cpp" />
-    <ClCompile Include="ConfigureLocaleAction.cpp" />
-    <ClCompile Include="FinishPropertyPageUI.cpp" />
-    <ClCompile Include="IEAcceptLanguagesAction.cpp" />
-    <ClCompile Include="IELPIAction.cpp" />
-    <ClCompile Include="InstallPropertyPageUI.cpp" />
-    <ClCompile Include="InternetAccess.cpp" />
-    <ClCompile Include="LogFile.cpp" />
+    <ClCompile Include="UI\CheckedListView.cpp" />
+    <ClCompile Include="Actions\ConfigureLocaleAction.cpp" />
+    <ClCompile Include="UI\FinishPropertyPageUI.cpp" />
+    <ClCompile Include="Actions\IEAcceptLanguagesAction.cpp" />
+    <ClCompile Include="Actions\IELPIAction.cpp" />
+    <ClCompile Include="UI\InstallPropertyPageUI.cpp" />
+    <ClCompile Include="Core\InternetAccess.cpp" />
+    <ClCompile Include="Core\LogFile.cpp" />
     <ClCompile Include="Main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MSOfficeAction.cpp" />
-    <ClCompile Include="OSVersion.cpp" />
-    <ClCompile Include="PropertyPageUI.cpp" />
-    <ClCompile Include="PropertySheetUI.cpp" />
-    <ClCompile Include="Registry.cpp" />
-    <ClCompile Include="Runner.cpp" />
-    <ClCompile Include="Serializer.cpp" />
+    <ClCompile Include="Actions\MSOfficeAction.cpp" />
+    <ClCompile Include="Core\OSVersion.cpp" />
+    <ClCompile Include="UI\PropertyPageUI.cpp" />
+    <ClCompile Include="UI\PropertySheetUI.cpp" />
+    <ClCompile Include="Core\Registry.cpp" />
+    <ClCompile Include="Core\Runner.cpp" />
+    <ClCompile Include="Core\Serializer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="UploadStatistics.cpp" />
-    <ClCompile Include="Url.cpp" />
-    <ClCompile Include="WelcomePropertyPageUI.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WindowsLPIAction.cpp" />
+    <ClCompile Include="Core\UploadStatistics.cpp" />
+    <ClCompile Include="Core\Url.cpp" />
+    <ClCompile Include="UI\WelcomePropertyPageUI.cpp" />
+    <ClCompile Include="Core\Window.cpp" />
+    <ClCompile Include="Actions\WindowsLPIAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CatalanitzadorPerAWindows.rc" />

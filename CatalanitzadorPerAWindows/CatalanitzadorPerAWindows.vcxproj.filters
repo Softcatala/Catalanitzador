@@ -56,100 +56,94 @@
     <ClInclude Include="Resource.h">
       <Filter>Support Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowsLPIAction.h">
+    <ClInclude Include="Actions\WindowsLPIAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Actions.h">
+    <ClInclude Include="Actions\MSOfficeAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="IEAcceptLanguagesAction.h">
+    <ClInclude Include="Actions\IELPIAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Action.h">
+    <ClInclude Include="Actions\IEAcceptLanguagesAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="CatalanitzadorPerAWindows.h">
-      <Filter>User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyPageUI.h">
-      <Filter>User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertySheetUI.h">
-      <Filter>User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationsPropertyPageUI.h">
-      <Filter>User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="InternetAccess.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="OSVersion.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Runner.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="InstallPropertyPageUI.h">
-      <Filter>User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="FinishPropertyPageUI.h">
-      <Filter>User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Registry.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ProgressStatus.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="WelcomePropertyPageUI.h">
-      <Filter>User Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="LogFile.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigureLocaleAction.h">
+    <ClInclude Include="Actions\ConfigureLocaleAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="MSOfficeAction.h">
+    <ClInclude Include="Actions\ActionStatus.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Serializer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Serializable.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionStatus.h">
+    <ClInclude Include="Actions\Actions.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="ActionID.h">
+    <ClInclude Include="Actions\ActionID.h">
       <Filter>Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Url.h">
+    <ClInclude Include="Actions\Action.h">
+      <Filter>Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\InternetAccess.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="CheckedListView.h">
+    <ClInclude Include="Core\LogFile.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\OSVersion.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ProgressStatus.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Registry.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Runner.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Serializable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Serializer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\UploadStatistics.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Url.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Window.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteURLs.h" />
+    <ClInclude Include="Version.h" />
+    <ClInclude Include="CatalanitzadorPerAWindows.h" />
+    <ClInclude Include="UI\AboutBoxDlgUI.h">
       <Filter>User Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Version.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationSheetUI.h">
+    <ClInclude Include="UI\ApplicationSheetUI.h">
       <Filter>User Interface</Filter>
     </ClInclude>
-    <ClInclude Include="UploadStatistics.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="UI\ApplicationsPropertyPageUI.h">
+      <Filter>User Interface</Filter>
     </ClInclude>
-    <ClInclude Include="RemoteURLs.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="UI\CheckedListView.h">
+      <Filter>User Interface</Filter>
     </ClInclude>
-    <ClInclude Include="IELPIAction.h">
-      <Filter>Actions</Filter>
+    <ClInclude Include="UI\FinishPropertyPageUI.h">
+      <Filter>User Interface</Filter>
     </ClInclude>
-    <ClInclude Include="AboutBoxDlgUI.h">
+    <ClInclude Include="UI\InstallPropertyPageUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PropertyPageUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PropertySheetUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\WelcomePropertyPageUI.h">
       <Filter>User Interface</Filter>
     </ClInclude>
   </ItemGroup>
@@ -157,85 +151,81 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Support Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Actions.cpp">
+    <ClCompile Include="Actions\WindowsLPIAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="IEAcceptLanguagesAction.cpp">
+    <ClCompile Include="Actions\MSOfficeAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="CatalanitzadorPerAWindows.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertySheetUI.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertyPageUI.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationsPropertyPageUI.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Action.cpp">
+    <ClCompile Include="Actions\IELPIAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="WindowsLPIAction.cpp">
+    <ClCompile Include="Actions\IEAcceptLanguagesAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="InternetAccess.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="OSVersion.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Runner.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="InstallPropertyPageUI.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="FinishPropertyPageUI.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Registry.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="WelcomePropertyPageUI.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="LogFile.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigureLocaleAction.cpp">
+    <ClCompile Include="Actions\ConfigureLocaleAction.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="MSOfficeAction.cpp">
+    <ClCompile Include="Actions\Actions.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="Serializer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Url.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckedListView.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationSheetUI.cpp">
-      <Filter>User Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="UploadStatistics.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="IELPIAction.cpp">
+    <ClCompile Include="Actions\Action.cpp">
       <Filter>Actions</Filter>
     </ClCompile>
-    <ClCompile Include="AboutBoxDlgUI.cpp">
+    <ClCompile Include="Core\InternetAccess.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\LogFile.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\OSVersion.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Registry.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Runner.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Serializer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\UploadStatistics.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Url.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Window.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CatalanitzadorPerAWindows.cpp" />
+    <ClCompile Include="UI\AboutBoxDlgUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\ApplicationSheetUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\ApplicationsPropertyPageUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\CheckedListView.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\FinishPropertyPageUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\InstallPropertyPageUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="UI\PropertyPageUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PropertySheetUI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\WelcomePropertyPageUI.cpp">
       <Filter>User Interface</Filter>
     </ClCompile>
   </ItemGroup>
