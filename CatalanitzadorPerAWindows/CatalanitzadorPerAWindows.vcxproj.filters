@@ -22,6 +22,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{18df8de8-b0dc-47f6-b430-3961cbad6cbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{ca005bb0-af6b-4e4f-8962-3bfb62224bf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="graphics\vertical-logo.bmp">
@@ -116,9 +119,6 @@
     <ClInclude Include="Core\Window.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="RemoteURLs.h" />
-    <ClInclude Include="Version.h" />
-    <ClInclude Include="CatalanitzadorPerAWindows.h" />
     <ClInclude Include="UI\AboutBoxDlgUI.h">
       <Filter>User Interface</Filter>
     </ClInclude>
@@ -145,6 +145,15 @@
     </ClInclude>
     <ClInclude Include="UI\WelcomePropertyPageUI.h">
       <Filter>User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CatalanitzadorPerAWindows.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\RemoteURLs.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Version.h">
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +208,6 @@
     <ClCompile Include="Core\Window.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="CatalanitzadorPerAWindows.cpp" />
     <ClCompile Include="UI\AboutBoxDlgUI.cpp">
       <Filter>User Interface</Filter>
     </ClCompile>
@@ -218,7 +226,6 @@
     <ClCompile Include="UI\InstallPropertyPageUI.cpp">
       <Filter>User Interface</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="UI\PropertyPageUI.cpp">
       <Filter>User Interface</Filter>
     </ClCompile>
@@ -227,6 +234,12 @@
     </ClCompile>
     <ClCompile Include="UI\WelcomePropertyPageUI.cpp">
       <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CatalanitzadorPerAWindows.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Main.cpp">
+      <Filter>Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +251,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="Resources\CatalanitzadorPerAWindows.exe.manifest" />
+    <Manifest Include="Resources\CatalanitzadorPerAWindows.exe.manifest">
+      <Filter>Resource Files</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>
