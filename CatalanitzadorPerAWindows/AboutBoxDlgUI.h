@@ -19,18 +19,11 @@
  
 #pragma once
 
-#include "PropertySheetUI.h"
-
-class ApplicationSheetUI: public PropertySheetUI
+class AboutBoxDlgUI
 {
 public:
-		ApplicationSheetUI();
-		~ApplicationSheetUI();
-
-		virtual	void _onInitDialog();
-		virtual int	_onSysCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		void Run(HWND hWnd);
 private:
-		void _setAboutBoxMenu();
 
-		HICON m_hIcon;
+		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);		
 };

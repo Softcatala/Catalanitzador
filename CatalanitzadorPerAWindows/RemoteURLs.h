@@ -17,7 +17,7 @@
  * 02111-1307, USA.
  */
  
-
+#define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
 
 #define MSOFFICEACTION_2010 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe"
 #define MSOFFICEACTION_2007 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe"

@@ -55,7 +55,8 @@ public:
 	void						setApplyButton(bool b){m_bApplyButton=b;};
 	void						setOkButton(bool b){m_bOkButton=b;};
 
-	virtual int					_onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/){return 1;};
+	virtual int					_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam){return 1;};
+	virtual int					_onSysCommand(HWND hWnd, WPARAM wParam, LPARAM lParam){return 1;};
 	virtual	void				_onOK(){}; 
 	virtual	void				_onApply(){};
 	

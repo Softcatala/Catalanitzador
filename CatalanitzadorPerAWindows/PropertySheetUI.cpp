@@ -45,6 +45,9 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 	{
 		case WM_SYSCOMMAND:  
 		{
+			if (!pThis->_onSysCommand(hWnd, wParam, lParam))
+				return 0; // Already processed
+
 			// Support the closing button
 			if (wParam==SC_CLOSE)
 			{
@@ -56,9 +59,9 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 			   	else			   
 				{				
 					pThis->destroy();
-					return 0;							
-				}			
-			}	            		
+					return 0;
+				}				
+			}
 			break;
 		}
 			

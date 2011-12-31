@@ -149,6 +149,9 @@
     <ClInclude Include="IELPIAction.h">
       <Filter>Actions</Filter>
     </ClInclude>
+    <ClInclude Include="AboutBoxDlgUI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -231,6 +234,9 @@
     </ClCompile>
     <ClCompile Include="IELPIAction.cpp">
       <Filter>Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutBoxDlgUI.cpp">
+      <Filter>User Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

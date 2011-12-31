@@ -86,6 +86,7 @@
     <None Include="vertical-logo.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AboutBoxDlgUI.h" />
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionID.h" />
     <ClInclude Include="ActionStatus.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="WindowsLPIAction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutBoxDlgUI.cpp" />
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="Actions.cpp" />
     <ClCompile Include="ApplicationSheetUI.cpp" />

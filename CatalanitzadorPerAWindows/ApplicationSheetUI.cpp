@@ -20,6 +20,9 @@
 #include <stdafx.h>
 #include "ApplicationSheetUI.h"
 #include "Windows.h"
+#include "AboutBoxDlgUI.h"
+
+#define IDM_ABOUTBOX 0x0010
 
 ApplicationSheetUI::ApplicationSheetUI()
 {
@@ -42,4 +45,31 @@ void ApplicationSheetUI::_onInitDialog()
 	SendMessage(getHandle(), WM_SETICON, FALSE, (LPARAM) m_hIcon);
 
 	Window::CenterWindow(getHandle());
+	_setAboutBoxMenu();
 }
+
+void ApplicationSheetUI::_setAboutBoxMenu()
+{
+	HMENU hMenu = GetSystemMenu(getHandle(), FALSE);
+
+	if (hMenu == NULL)
+		return;
+	
+	wchar_t szResource[MAX_LOADSTRING];
+
+	AppendMenu(hMenu, MF_SEPARATOR, 0, MF_STRING);
+	LoadString(GetModuleHandle(NULL), IDS_MENU_ABOUTBOX, szResource, MAX_LOADSTRING);
+	AppendMenu(hMenu, MF_STRING, IDM_ABOUTBOX, szResource);
+}
+
+int ApplicationSheetUI::_onSysCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == IDM_ABOUTBOX)
+	{
+		AboutBoxDlgUI aboutDlg;
+		aboutDlg.Run(hWnd);
+		return 0;
+	}
+	return 1;
+}
+
