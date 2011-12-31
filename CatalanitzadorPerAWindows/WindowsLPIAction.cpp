@@ -120,6 +120,7 @@ bool WindowsLPIAction::IsNeed()
 		{		
 			bNeed = true;
 		}
+		else
 		{
 			status = AlreadyApplied;
 		}
