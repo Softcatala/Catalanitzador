@@ -165,7 +165,7 @@
     <ResourceCompile Include="Resources\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="CatalanitzadorPerAWindows.exe.manifest" />
+    <Manifest Include="Resources\CatalanitzadorPerAWindows.exe.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

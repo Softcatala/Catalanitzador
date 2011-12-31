@@ -238,6 +238,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="CatalanitzadorPerAWindows.exe.manifest" />
+    <Manifest Include="Resources\CatalanitzadorPerAWindows.exe.manifest" />
   </ItemGroup>
 </Project>
