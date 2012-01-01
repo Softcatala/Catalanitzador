@@ -211,6 +211,8 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
 		ListView_InsertItem (m_hList, &item);		
 		nItemId++;
+
+		_processDependantItem(action);
 	}
 	
 	// Disabled items
@@ -230,6 +232,8 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
 		ListView_InsertItem(m_hList, &item);
 		nItemId++;
+
+		_processDependantItem(action);
 	}
 		
 	ListView_SetItemState(m_hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
