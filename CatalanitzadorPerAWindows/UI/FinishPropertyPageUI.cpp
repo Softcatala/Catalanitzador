@@ -39,10 +39,13 @@ FinishPropertyPageUI::~FinishPropertyPageUI()
 void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
 	wchar_t szURL[1024];
-	wchar_t* szText = L"He catalanitzat el meu PC! Fes-ho tu també a: http://catalanitzador.softcatala.org";
+	wchar_t szText[MAX_LOADSTRING], szString[MAX_LOADSTRING];
 
 	if (wParam == IDC_TWITTER_BUTTON)
 	{
+		LoadString(GetModuleHandle(NULL), IDS_SOCIALNETWORKS_TWITTER, szString, MAX_LOADSTRING);
+		swprintf_s(szText, szString, APPLICATON_WEBSITE);
+
 		wcscpy_s(szURL, L"http://twitter.com/share?text=");
 		wcscat_s(szURL, szText);
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
@@ -50,13 +53,15 @@ void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 
 	if (wParam == IDC_FACEBOOK_BUTTON)
 	{
+		LoadString(GetModuleHandle(NULL), IDS_SOCIALNETWORKS_FACEBOOK, szString, MAX_LOADSTRING);
+		swprintf_s(szText, szString, APPLICATON_WEBSITE);	
+
 		// See: http://developers.facebook.com/docs/share/
-		wcscpy_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=http://catalanitzador.softcatala.org&t=");
+		swprintf_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=%s&t=", APPLICATON_WEBSITE);
 		wcscat_s(szURL, szText);		
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
-	}	
+	}
 }
-
 
 void FinishPropertyPageUI::_onInitDialog()
 {

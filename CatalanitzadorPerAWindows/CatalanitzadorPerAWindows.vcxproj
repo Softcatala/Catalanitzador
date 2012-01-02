@@ -88,6 +88,7 @@
     <None Include="Resources\vertical-logo.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Resources\resource.h" />
     <ClInclude Include="UI\AboutBoxDlgUI.h" />
     <ClInclude Include="Actions\Action.h" />
     <ClInclude Include="Actions\ActionID.h" />
