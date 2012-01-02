@@ -33,6 +33,7 @@
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
 	m_hInstance = hInstance;
+	m_hEvent = NULL;
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -107,7 +108,6 @@ bool CatalanitzadorPerAWindows::_isAlreadyRunning()
     }    
     return false;
 }
-
 
 void CatalanitzadorPerAWindows::_createWizard()
 {

@@ -79,7 +79,7 @@ void CheckedListView::_createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, C
 
     if (bChecked)
     {        
-        HBRUSH hBrush = CreateSolidBrush (color);
+        HBRUSH hBrush = CreateSolidBrush(color);
 
         /* draw 7 bars, with h=3w to form the check */
         bar.left = myr.left + 3;
@@ -106,8 +106,7 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 	HIMAGELIST himl;
                                     
 	int x = GetSystemMetrics(SM_CXSMICON);
-	himl = ImageList_Create(x, GetSystemMetrics(SM_CYSMICON),
-							ILC_COLOR | ILC_MASK, 2, 2);
+	himl = ImageList_Create(x, GetSystemMetrics(SM_CYSMICON), ILC_COLOR16 | ILC_MASK, 2, 2);
 	hdc_wnd = GetDC(hWnd);
 	hdc = CreateCompatibleDC(hdc_wnd);
 	hbm_im = CreateCompatibleBitmap(hdc_wnd, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON));	
