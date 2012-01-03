@@ -27,11 +27,14 @@
 #include "Runner.h"
 #include "Registry.h"
 #include "Url.h"
+#include "RemoteURLs.h"
 
-WindowsLPIAction::WindowsLPIAction()
-{	
-	filename[0] = NULL;
-	CheckPrerequirements(NULL);
+WindowsLPIAction::WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N)
+{
+	m_registry = registry;
+	m_win32I18N = win32I18N;
+	m_OSVersion = OSVersion;
+	filename[0] = NULL;	
 }
 
 WindowsLPIAction::~WindowsLPIAction()
@@ -72,35 +75,32 @@ wchar_t* WindowsLPIAction::_getPackageName()
 
 // Checks if the Catalan language pack is already installed
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
-bool WindowsLPIAction::_isLangPackInstalled()
+bool WindowsLPIAction::IsLangPackInstalled()
 {	
-	Registry registry;
 	bool bExists;
 
-	OperatingVersion version = OSVersion::GetVersion();
+	OperatingVersion version = m_OSVersion->GetVersion();
 
 	if (version == WindowsXP)
 	{
 		bExists = false;
-		if (registry.OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop\\", false))
+		if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop\\", false))
 		{
 			wchar_t szValue[1024];		
 
 			// MultiUILanguageId key is left behind
-			if (registry.GetString(L"MUILanguagePending", szValue, sizeof (szValue)))
+			if (m_registry->GetString(L"MUILanguagePending", szValue, sizeof (szValue)))
 			{
 				if (wcsstr(szValue, L"0403") != NULL)
 					bExists = true;
 			}
-
-			registry.Close();
-		}		
-
+			m_registry->Close();
+		}
 	}
 	else  //(version == WindowsVista) or 7
 	{		
-		bExists = registry.OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false);
-		registry.Close();
+		bExists = m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false);
+		m_registry->Close();
 	}		
 	
 	g_log.Log (L"WindowsLPIAction::_updateIsInstalled returns %u", (wchar_t*) bExists);
@@ -116,7 +116,7 @@ bool WindowsLPIAction::IsNeed()
 
 	if (_getPackageName() != NULL)
 	{		
-		if (_isLangPackInstalled() == false)
+		if (IsLangPackInstalled() == false)
 		{		
 			bNeed = true;
 		}
@@ -146,8 +146,8 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 	Url url (_getPackageName());
 	wcscat_s (filename, url.GetFileName());
 	
-	g_log.Log (L"WindowsLPIAction::Download '%s' to '%s'", _getPackageName(), filename);
-	return inetacccess.GetFile (_getPackageName(), filename, progress, data);
+	g_log.Log(L"WindowsLPIAction::Download '%s' to '%s'", _getPackageName(), filename);
+	return inetacccess.GetFile(_getPackageName(), filename, progress, data);
 }
 
 void WindowsLPIAction::Execute()
@@ -174,7 +174,7 @@ void WindowsLPIAction::Execute()
 	
 		GetSystemDirectory(lpkapp, MAX_PATH);
 		wcscat_s(lpkapp, L"\\lpksetup.exe");
-	}	
+	}
 
 	status = InProgress;
 	g_log.Log(L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
@@ -189,10 +189,10 @@ void WindowsLPIAction::_setDefaultLanguage()
 		return;
 
 	Registry registry;
-	if (registry.OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
-		registry.SetString(L"PreferredUILanguages", L"ca-ES");
-		registry.Close();
+		m_registry->SetString(L"PreferredUILanguages", L"ca-ES");
+		m_registry->Close();
 		g_log.Log(L"WindowsLPIAction::_setDefaultLanguage done");
 	}
 }
@@ -204,7 +204,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 		if (runner.IsRunning())
 			return InProgress;
 
-		if (_isLangPackInstalled()) {
+		if (IsLangPackInstalled()) {
 			status = Successful;
 			_setDefaultLanguage();
 		}
@@ -230,7 +230,7 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 	LANGID langid;
 	WORD primary;
 
-	langid = GetSystemDefaultUILanguage();
+	langid = m_win32I18N->GetSystemDefaultUILanguage();
 	primary = PRIMARYLANGID(langid);
 
 	if (primary != SPANISH_LOCALEID && primary != FRENCH_LOCALEID)

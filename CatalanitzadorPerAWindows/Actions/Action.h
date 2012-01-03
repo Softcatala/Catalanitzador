@@ -25,12 +25,12 @@
 #include "Serializable.h"
 #include "ActionStatus.h"
 #include "ActionID.h"
-#include "stdafx.h"
+
 
 #include <vector>
 using namespace std;
 
-class Action : public Serializable
+class _APICALL Action : public Serializable
 {
 public:
 		Action();

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,16 +16,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
 
-class _APICALL Runner
-{
-public:
-		bool Execute(wchar_t* program, wchar_t* params);
-		bool IsRunning();
-		void WaitUntilFinished();
+#include "IRegistry.h"
 
-private:
-		PROCESS_INFORMATION pi;
+class RegistryMock : public IRegistry
+{
+ public:
+
+	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
+	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
+	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
+	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
+	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
+	MOCK_METHOD0(Close, bool());
 };

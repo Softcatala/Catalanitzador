@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,13 +19,17 @@
  
 #pragma once
 
-class _APICALL Runner
+#include "OSVersion.h"
+#include <ostream>
+
+using namespace std;
+
+class IOSVersionEx
 {
 public:
-		bool Execute(wchar_t* program, wchar_t* params);
-		bool IsRunning();
-		void WaitUntilFinished();
-
-private:
-		PROCESS_INFORMATION pi;
+		virtual OperatingVersion GetVersion() = 0;
+		virtual wchar_t* GetVersionText(OperatingVersion version) = 0;
+		virtual bool IsWindows64Bits() = 0;
+		virtual void GetLogInfo(wchar_t * szString, int size) = 0;
+		virtual void Serialize(ostream* stream) = 0;
 };

@@ -21,11 +21,15 @@
 
 #include "Action.h"
 #include "Runner.h"
+#include "IRegistry.h"
+#include "IWin32I18N.h"
+#include "IOSVersionEx.h"
+#include "OSVersionEx.h"
 
-class WindowsLPIAction : public Action
+class _APICALL WindowsLPIAction : public Action
 {
 public:
-		WindowsLPIAction ();
+		WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N);
 		~WindowsLPIAction ();
 
 		virtual wchar_t* GetName();
@@ -38,13 +42,17 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
 
+		bool IsLangPackInstalled();
+
 private:
 
-		wchar_t* _getPackageName();
-		bool _isLangPackInstalled();
+		wchar_t* _getPackageName();		
 		void _setDefaultLanguage();		
 
 		wchar_t filename[MAX_PATH];		
 		Runner runner;
+		IRegistry* m_registry;
+		IWin32I18N* m_win32I18N;
+		IOSVersionEx* m_OSVersion;
 };
 

@@ -19,7 +19,7 @@
 
 #pragma once
 
-enum ActionStatus
+enum _APICALL ActionStatus
 {
 	NotSelected,		// The user did not select the action
 	Selected,			// Selected but no started

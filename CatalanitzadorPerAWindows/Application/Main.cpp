@@ -19,6 +19,7 @@
 
 
 #include <windows.h>
+#include "Defines.h"
 #include "LogFile.h"
 #include "CatalanitzadorPerAWindows.h"
 

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,13 +19,14 @@
  
 #pragma once
 
-class _APICALL Runner
+class IRegistry
 {
-public:
-		bool Execute(wchar_t* program, wchar_t* params);
-		bool IsRunning();
-		void WaitUntilFinished();
+public:		
+		virtual bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess) = 0;
+		virtual bool SetString(wchar_t* string, wchar_t* value) = 0;
+		virtual bool SetDWORD(wchar_t* string, DWORD value) = 0;
+		virtual bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength) = 0;
+		virtual bool GetDWORD(wchar_t* sName, DWORD *value) = 0;
+		virtual bool Close() = 0;
 
-private:
-		PROCESS_INFORMATION pi;
 };

@@ -35,7 +35,6 @@ enum OperatingVersion
 	Windows2008R2
 };
 
-
 class OSVersion 
 {
 public:

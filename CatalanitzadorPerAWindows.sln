@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows", "CatalanitzadorPerAWindows\CatalanitzadorPerAWindows.vcxproj", "{92531C32-0349-44DA-A029-5B7E429E8BBB}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows", "CatalanitzadorPerAWindows\CatalanitzadorPerAWindows.vcproj", "{A6EB9C02-ED55-4432-95A8-799C0E9BC143}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows.UnitTests", "CatalanitzadorPerAWindows.UnitTests\CatalanitzadorPerAWindows.UnitTests.vcproj", "{6C32442F-7862-453E-A69A-DB37ECEC17AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +11,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{92531C32-0349-44DA-A029-5B7E429E8BBB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{92531C32-0349-44DA-A029-5B7E429E8BBB}.Debug|Win32.Build.0 = Debug|Win32
-		{92531C32-0349-44DA-A029-5B7E429E8BBB}.Release|Win32.ActiveCfg = Release|Win32
-		{92531C32-0349-44DA-A029-5B7E429E8BBB}.Release|Win32.Build.0 = Release|Win32
+		{A6EB9C02-ED55-4432-95A8-799C0E9BC143}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A6EB9C02-ED55-4432-95A8-799C0E9BC143}.Debug|Win32.Build.0 = Debug|Win32
+		{A6EB9C02-ED55-4432-95A8-799C0E9BC143}.Release|Win32.ActiveCfg = Release|Win32
+		{A6EB9C02-ED55-4432-95A8-799C0E9BC143}.Release|Win32.Build.0 = Release|Win32
+		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Debug|Win32.Build.0 = Debug|Win32
+		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Release|Win32.ActiveCfg = Release|Win32
+		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

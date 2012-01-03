@@ -32,8 +32,7 @@
 IELPIAction::IELPIAction()
 {	
 	m_filename[0] = NULL;
-	m_version = _getVersion();
-	CheckPrerequirements(NULL);
+	m_version = _getVersion();	
 }
 
 IELPIAction::~IELPIAction()

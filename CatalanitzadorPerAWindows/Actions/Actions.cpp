@@ -24,6 +24,10 @@
 #include "ConfigureLocaleAction.h"
 #include "MSOfficeAction.h"
 #include "IELPIAction.h"
+#include "IWin32I18N.h"
+#include "Win32I18N.h"
+#include "IRegistry.h"
+#include "Registry.h"
 
 Actions::Actions()
 {
@@ -42,9 +46,21 @@ Actions::~Actions()
 
 void Actions::_buildListOfActions()
 {
-	m_actions.push_back(new WindowsLPIAction());
+	// TODO: All these news are leaks
+	m_actions.push_back(new WindowsLPIAction((IOSVersionEx *)new OSVersionEx(),(IRegistry *)new Registry(), (IWin32I18N *) new Win32I18N()));
 	m_actions.push_back(new MSOfficeAction());
 	m_actions.push_back(new IELPIAction());
 	m_actions.push_back(new IEAcceptedLanguagesAction());
-	m_actions.push_back(new ConfigureLocaleAction());		
+	m_actions.push_back(new ConfigureLocaleAction());
+
+	_checkPrerequirements();
+}
+
+void Actions::_checkPrerequirements()
+{
+	for (unsigned int i = 0; i < m_actions.size(); i++)
+	{		
+		Action* action = m_actions.at(i);
+		action->CheckPrerequirements(NULL);
+	}
 }

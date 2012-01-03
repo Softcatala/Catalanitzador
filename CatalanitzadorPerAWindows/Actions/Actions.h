@@ -32,6 +32,7 @@ class Actions
 		vector <Action *> GetActions() {return m_actions; }
 	private:
 		void _buildListOfActions();
+		void _checkPrerequirements();
 
 		vector <Action *> m_actions;
 };

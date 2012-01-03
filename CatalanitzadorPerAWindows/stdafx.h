@@ -7,7 +7,10 @@
 
 // Cross cutting concerns
 
+#define CATALANITZADOR_CREATE_SHARED_LIBRARY 1
+
 #include "resource.h"
+#include "Defines.h"
 #include "LogFile.h"
 #include "Window.h"
 #include "RemoteURLs.h"
@@ -23,6 +26,4 @@
 #include <tchar.h>
 
 extern LogFile g_log;
-
-#define MAX_LOADSTRING 1024
 

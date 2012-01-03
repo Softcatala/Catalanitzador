@@ -19,7 +19,9 @@
  
 #pragma once
 
-class Registry
+#include "IRegistry.h"
+
+class _APICALL Registry : public IRegistry
 {
 public:
 		Registry();

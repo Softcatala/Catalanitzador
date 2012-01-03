@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,16 +16,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
 
-class _APICALL Runner
+class OSVersionExMock : public IOSVersionEx
 {
-public:
-		bool Execute(wchar_t* program, wchar_t* params);
-		bool IsRunning();
-		void WaitUntilFinished();
+ public:
 
-private:
-		PROCESS_INFORMATION pi;
+		MOCK_METHOD0(GetVersion, OperatingVersion());
+		MOCK_METHOD1(GetVersionText, wchar_t*(OperatingVersion));
+		MOCK_METHOD0(IsWindows64Bits, bool());
+		MOCK_METHOD2(GetLogInfo, void(wchar_t *, int));
+		MOCK_METHOD1(Serialize, void(ostream*));
 };
