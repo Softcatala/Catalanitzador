@@ -29,11 +29,12 @@
 #include "Url.h"
 #include "RemoteURLs.h"
 
-WindowsLPIAction::WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N)
+WindowsLPIAction::WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	m_registry = registry;
 	m_win32I18N = win32I18N;
 	m_OSVersion = OSVersion;
+	m_runner = runner;
 	filename[0] = NULL;	
 }
 
@@ -57,7 +58,7 @@ wchar_t* WindowsLPIAction::GetDescription()
 
 wchar_t* WindowsLPIAction::_getPackageName()
 {
-	OperatingVersion version = OSVersion::GetVersion();
+	OperatingVersion version = m_OSVersion->GetVersion();
 
 	switch (version)
 	{
@@ -142,7 +143,6 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 
 	GetTempPath(MAX_PATH, filename);
 
-	OperatingVersion version = OSVersion::GetVersion();
 	Url url (_getPackageName());
 	wcscat_s (filename, url.GetFileName());
 	
@@ -155,7 +155,7 @@ void WindowsLPIAction::Execute()
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
 
-	OperatingVersion version = OSVersion::GetVersion();
+	OperatingVersion version = m_OSVersion->GetVersion();
 
 	if (version == WindowsXP)
 	{
@@ -178,14 +178,14 @@ void WindowsLPIAction::Execute()
 
 	status = InProgress;
 	g_log.Log(L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
-	runner.Execute(lpkapp, szParams);
+	m_runner->Execute(lpkapp, szParams);
 }
 
 // After the language package is installed we need to set Catalan as default language
 // The key PreferredUILanguagesPending did not work as expected
 void WindowsLPIAction::_setDefaultLanguage()
 {
-	if (OSVersion::GetVersion() == WindowsXP)
+	if (m_OSVersion->GetVersion() == WindowsXP)
 		return;
 
 	Registry registry;
@@ -201,7 +201,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 {
 	if (status == InProgress)
 	{
-		if (runner.IsRunning())
+		if (m_runner->IsRunning())
 			return InProgress;
 
 		if (IsLangPackInstalled()) {

@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,23 +16,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
+ 
+#pragma once
 
+class RunnerMock : public IRunner
+{
+public:
 
-#include <windows.h>
-
-#define CATALANITZADOR_CREATE_SHARED_LIBRARY 1
-#include "Defines.h"
-#include "LogFile.h"
-#include "CatalanitzadorPerAWindows.h"
-
-LogFile g_log;
-
-int CALLBACK WinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     LPSTR    lpCmdLine,
-                     int       nCmdShow)
-{	
-	CatalanitzadorPerAWindows app(hInstance);
-	app.Run();	
-	return TRUE;
-}
+		MOCK_METHOD2(Execute, bool(wchar_t*, wchar_t*));
+		MOCK_METHOD0(IsRunning, bool());
+		MOCK_METHOD0(WaitUntilFinished, void());
+};

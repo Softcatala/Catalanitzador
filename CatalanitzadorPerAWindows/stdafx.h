@@ -8,9 +8,9 @@
 // Cross cutting concerns
 
 #define CATALANITZADOR_CREATE_SHARED_LIBRARY 1
+#include "Defines.h"
 
 #include "resource.h"
-#include "Defines.h"
 #include "LogFile.h"
 #include "Window.h"
 #include "RemoteURLs.h"

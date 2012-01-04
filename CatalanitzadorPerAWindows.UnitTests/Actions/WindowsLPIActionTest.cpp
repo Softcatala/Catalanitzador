@@ -26,11 +26,13 @@
 #include "RegistryMock.h"
 #include "OSVersionExMock.h"
 #include "Win32I18NMock.h"
+#include "RunnerMock.h"
 
 using ::testing::Return;
 using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
+using ::testing::HasSubstr;
 
 #define SPANISH_LOCALE 0x0c0a
 #define US_LOCALE 0x0409
@@ -40,82 +42,93 @@ ACTION_P(SetArgCharString1, value)
 	wcscpy_s(arg1, 255 /*hack*/, value);
 }
 
+#define CreateWindowsLIPAction \
+	RegistryMock regsitryMockobj; \
+	Win32I18NMock win32I18NMockobj; \
+	OSVersionExMock osVersionExMock; \
+	RunnerMock runnerMock; \
+	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj, &runnerMock);
+
+
 TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 {
-	RegistryMock regsitryMockobj;
-	Win32I18NMock win32I18NMockobj;
-	OSVersionExMock osVersionExMock;
+	CreateWindowsLIPAction;
 
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_LOCALE));
-
-	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj);
+	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_NE(CannotBeApplied,  lipAction.GetStatus());
 }
 
+
 TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsEnglish)
 {
-	RegistryMock regsitryMockobj;
-	Win32I18NMock win32I18NMockobj;
-	OSVersionExMock osVersionExMock;
+	CreateWindowsLIPAction;
 
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(US_LOCALE));
-
-	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj);
+	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_EQ(CannotBeApplied,  lipAction.GetStatus());
 }
 
+
 TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFTrue)
 {	
-	RegistryMock regsitryMockobj;
-	Win32I18NMock win32I18NMockobj;
-	OSVersionExMock osVersionExMock;
+	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	
-	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj);	
+
 	EXPECT_EQ(false, lipAction.IsLangPackInstalled());
 }
 
 TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFalse)
 {
-	RegistryMock regsitryMockobj;
-	Win32I18NMock win32I18NMockobj;
-	OSVersionExMock osVersionExMock;
+	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(regsitryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\"), false)).WillRepeatedly(Return(true));
-	
+	EXPECT_CALL(regsitryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\"), false)).WillRepeatedly(Return(true));	
 	EXPECT_CALL(regsitryMockobj, GetString(StrCaseEq(L"MUILanguagePending"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharString1(L"0403"), Return(true)));
+		WillRepeatedly(DoAll(SetArgCharString1(L"0403"), Return(true)));	
 	
-	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj);	
 	EXPECT_EQ(true, lipAction.IsLangPackInstalled());
 }
 
 TEST(WindowsLPIActionTest, IsLangPackInstalled_7True)
 {	
-	RegistryMock regsitryMockobj;
-	Win32I18NMock win32I18NMockobj;
-	OSVersionExMock osVersionExMock;
+	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(regsitryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
-	
-	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj);	
+
 	EXPECT_EQ(true, lipAction.IsLangPackInstalled());
 }
 
 TEST(WindowsLPIActionTest, IsLangPackInstalled_7False)
 {	
-	RegistryMock regsitryMockobj;
-	Win32I18NMock win32I18NMockobj;
-	OSVersionExMock osVersionExMock;
-	
+	CreateWindowsLIPAction;
+
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
-	
-	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj);	
+
 	EXPECT_EQ(false, lipAction.IsLangPackInstalled());
+}
+
+TEST(WindowsLPIActionTest, ExecuteWindowsXP)
+{	
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));	
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"msiexec.exe"), HasSubstr(L"/qn /norestart"))).Times(1).WillRepeatedly(Return(true));
+
+	lipAction.Execute();
+}
+
+TEST(WindowsLPIActionTest, ExecuteWindows7)
+{	
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));	
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"lpksetup.exe"), HasSubstr(L"/i ca-ES /r /s /p"))).Times(1).WillRepeatedly(Return(true));
+
+	lipAction.Execute();
 }
 

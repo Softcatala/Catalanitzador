@@ -343,6 +343,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\IRunner.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\IWin32I18N.h"
 				>
 			</File>

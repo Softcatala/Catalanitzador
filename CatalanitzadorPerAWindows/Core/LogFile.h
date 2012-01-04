@@ -23,7 +23,7 @@
 
 #define BUFFER_SIZE 2048
 
-class _APICALL LogFile 
+class LogFile
 {
 public:
 

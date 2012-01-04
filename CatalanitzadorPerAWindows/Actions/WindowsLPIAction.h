@@ -29,7 +29,7 @@
 class _APICALL WindowsLPIAction : public Action
 {
 public:
-		WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N);
+		WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
 		~WindowsLPIAction ();
 
 		virtual wchar_t* GetName();
@@ -50,7 +50,7 @@ private:
 		void _setDefaultLanguage();		
 
 		wchar_t filename[MAX_PATH];		
-		Runner runner;
+		IRunner* m_runner;
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;
 		IOSVersionEx* m_OSVersion;
