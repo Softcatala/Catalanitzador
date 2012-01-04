@@ -15,6 +15,8 @@ Requirements:
 Visual Studio 2008 SP 1 is used to generate binaries that can run in Windows SP previous to SP 2.
 See: http://support.microsoft.com/kb/2005279
 
+Download and unzip Google Mocks 1.6 at libs/gmock and Google Test 1.6 at libs/test
+
 -- Contact Information
 
 Jordi Mas
