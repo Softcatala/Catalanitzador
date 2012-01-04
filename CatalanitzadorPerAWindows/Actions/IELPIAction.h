@@ -21,6 +21,7 @@
 
 #include "Action.h"
 #include "Runner.h"
+#include "OSVersion.h"
 
 enum IEVersion
 {
@@ -59,5 +60,6 @@ private:
 		wchar_t m_filename[MAX_PATH];
 		Runner runner;
 		IEVersion m_version;
+		OSVersion m_osVersion;
 };
 

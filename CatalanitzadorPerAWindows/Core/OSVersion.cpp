@@ -21,8 +21,10 @@
 #include "OSVersion.h"
 #include <stdio.h>
 
-
-OperatingVersion OSVersion::m_version = UnKnownOS;
+OSVersion::OSVersion()
+{
+	m_version = UnKnownOS;
+}
 
 OperatingVersion OSVersion::GetVersion()
 {

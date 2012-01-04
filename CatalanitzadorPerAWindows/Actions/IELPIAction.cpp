@@ -121,7 +121,7 @@ wchar_t* IELPIAction::_getPackageName()
 
 wchar_t* IELPIAction::_getPackageNameIE8()
 {
-	switch (OSVersion::GetVersion())
+	switch (m_osVersion.GetVersion())
 	{
 		case WindowsXP:
 			return IELPI_IE8_XP;
@@ -218,8 +218,7 @@ bool IELPIAction::Download(ProgressStatus progress, void *data)
 	InternetAccess inetacccess;
 
 	GetTempPath(MAX_PATH, m_filename);
-
-	OperatingVersion version = OSVersion::GetVersion();
+	
 	Url url(_getPackageName());
 	wcscat_s(m_filename, url.GetFileName());
 	
@@ -240,7 +239,7 @@ void IELPIAction::Execute()
 			break;
 		}
 	case IE8:
-			if (OSVersion::GetVersion() == WindowsXP)
+			if (m_osVersion.GetVersion() == WindowsXP)
 			{
 				wcscpy_s(szParams, m_filename);
 				wcscat_s(szParams, L" /quiet /norestart /update-no");				
@@ -295,7 +294,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 		bool WindowsLPISelected;
 		WindowsLPISelected = action->GetStatus() == Selected || action->GetStatus() == AlreadyApplied;
 	
-		switch (OSVersion::GetVersion())
+		switch (m_osVersion.GetVersion())
 		{
 			case WindowsXP:
 				if (m_version == IE6)

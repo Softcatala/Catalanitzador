@@ -24,7 +24,7 @@
 #include "ActionStatus.h"
 #include "Registry.h"
 #include "RegistryMock.h"
-#include "OSVersionExMock.h"
+#include "OSVersionMock.h"
 #include "Win32I18NMock.h"
 #include "RunnerMock.h"
 
@@ -45,7 +45,7 @@ ACTION_P(SetArgCharString1, value)
 #define CreateWindowsLIPAction \
 	RegistryMock regsitryMockobj; \
 	Win32I18NMock win32I18NMockobj; \
-	OSVersionExMock osVersionExMock; \
+	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
 	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj, &runnerMock);
 

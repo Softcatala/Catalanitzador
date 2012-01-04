@@ -124,7 +124,9 @@ int InstallPropertyPageUI::_getSelectedActionsCount()
 
 void InstallPropertyPageUI::_windowsXPAsksCDWarning()
 {
-	if (OSVersion::GetVersion() != WindowsXP)
+	OSVersion version;
+
+	if (version.GetVersion() != WindowsXP)
 		return;
 
 	bool bShow = false;

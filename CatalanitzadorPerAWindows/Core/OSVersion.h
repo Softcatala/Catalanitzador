@@ -20,34 +20,23 @@
 #pragma once
 
 #include <ostream>
+#include "IOSVersion.h"
 
 using namespace std;
 
-// Keep in sync with OSVersion::GetVersionText
-enum OperatingVersion
-{
-	UnKnownOS,
-	WindowsXP,
-	WindowsVista,
-	Windows2000,
-	Windows2008,
-	Windows7,
-	Windows2008R2
-};
 
-class OSVersion 
+class OSVersion : public IOSVersion
 {
 public:
-		static OperatingVersion GetVersion();
-		static wchar_t* GetVersionText(OperatingVersion version);
+		OSVersion();
+		virtual OperatingVersion GetVersion();
+		virtual wchar_t* GetVersionText(OperatingVersion version);
+		virtual bool IsWindows64Bits();
+		virtual void GetLogInfo(wchar_t * szString, int size);
+		virtual void Serialize(ostream* stream);
 
-		static bool IsWindows64Bits();
-		static void GetLogInfo(wchar_t * szString, int size);
-		static void Serialize(ostream* stream);
 private:
-
-		static OperatingVersion _processVistaAnd7 (OSVERSIONINFOEX osvi);
-		static OperatingVersion _processXPAnd2000 (OSVERSIONINFOEX osvi);		
-
-		static OperatingVersion m_version;
+		static OperatingVersion _processVistaAnd7(OSVERSIONINFOEX osvi);
+		static OperatingVersion _processXPAnd2000(OSVERSIONINFOEX osvi);
+		OperatingVersion m_version;
 };

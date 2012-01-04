@@ -335,7 +335,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\IOSVersionEx.h"
+				RelativePath=".\Core\IOSVersion.h"
 				>
 			</File>
 			<File
@@ -364,14 +364,6 @@
 			</File>
 			<File
 				RelativePath=".\Core\OSVersion.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\OSVersionEx.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\OSVersionEx.h"
 				>
 			</File>
 			<File

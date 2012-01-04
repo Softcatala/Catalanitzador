@@ -29,7 +29,7 @@
 #include "Url.h"
 #include "RemoteURLs.h"
 
-WindowsLPIAction::WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
+WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	m_registry = registry;
 	m_win32I18N = win32I18N;

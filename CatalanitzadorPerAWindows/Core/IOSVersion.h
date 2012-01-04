@@ -19,12 +19,23 @@
  
 #pragma once
 
-#include "OSVersion.h"
 #include <ostream>
 
 using namespace std;
 
-class IOSVersionEx
+// Keep in sync with OSVersion::GetVersionText
+enum OperatingVersion
+{
+	UnKnownOS,
+	WindowsXP,
+	WindowsVista,
+	Windows2000,
+	Windows2008,
+	Windows7,
+	Windows2008R2
+};
+
+class IOSVersion
 {
 public:
 		virtual OperatingVersion GetVersion() = 0;

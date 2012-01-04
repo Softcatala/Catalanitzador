@@ -126,6 +126,7 @@ void ConfigureLocaleAction::Execute()
 	wchar_t szParams[MAX_PATH];
 	wchar_t szApp[MAX_PATH];
 	LPCWSTR resource;
+	OSVersion version;
 
 	GetTempPath(MAX_PATH, szCfgFile);
 
@@ -133,7 +134,7 @@ void ConfigureLocaleAction::Execute()
 	wcscat_s(szApp, L"\\control.exe ");
 	status = InProgress;
 
-	if (OSVersion::GetVersion() == WindowsXP)
+	if (version.GetVersion() == WindowsXP)
 	{
 		//Documentation: http://support.microsoft.com/default.aspx?scid=kb;en-us;289125
 		wcscpy_s(szConfigFileName, L"regopts.txt");

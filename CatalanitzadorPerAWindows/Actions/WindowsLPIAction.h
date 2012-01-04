@@ -23,13 +23,13 @@
 #include "Runner.h"
 #include "IRegistry.h"
 #include "IWin32I18N.h"
-#include "IOSVersionEx.h"
-#include "OSVersionEx.h"
+#include "IOSVersion.h"
+#include "OSVersion.h"
 
 class _APICALL WindowsLPIAction : public Action
 {
 public:
-		WindowsLPIAction(IOSVersionEx* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
+		WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
 		~WindowsLPIAction ();
 
 		virtual wchar_t* GetName();
@@ -53,6 +53,6 @@ private:
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;
-		IOSVersionEx* m_OSVersion;
+		IOSVersion* m_OSVersion;
 };
 

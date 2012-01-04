@@ -16,21 +16,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
 
-#include "IOSVersionEx.h"
-#include "OSVersion.h"
-#include <ostream>
-
-using namespace std;
-
-class OSVersionEx : IOSVersionEx
+class OSVersionMock : public IOSVersion
 {
-public:
-		virtual OperatingVersion GetVersion();
-		virtual wchar_t* GetVersionText(OperatingVersion version);
-		virtual bool IsWindows64Bits();
-		virtual void GetLogInfo(wchar_t * szString, int size);
-		virtual void Serialize(ostream* stream);
+ public:
+
+		MOCK_METHOD0(GetVersion, OperatingVersion());
+		MOCK_METHOD1(GetVersionText, wchar_t*(OperatingVersion));
+		MOCK_METHOD0(IsWindows64Bits, bool());
+		MOCK_METHOD2(GetLogInfo, void(wchar_t *, int));
+		MOCK_METHOD1(Serialize, void(ostream*));
 };

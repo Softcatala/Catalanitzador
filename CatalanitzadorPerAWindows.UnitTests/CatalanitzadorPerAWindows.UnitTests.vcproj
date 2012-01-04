@@ -265,7 +265,7 @@
 			Name="Mocks"
 			>
 			<File
-				RelativePath=".\Mocks\OSVersionExMock.h"
+				RelativePath=".\Mocks\OSVersionMock.h"
 				>
 			</File>
 			<File

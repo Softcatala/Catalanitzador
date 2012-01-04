@@ -22,6 +22,7 @@
 
 #include <windows.h>
 #include "Serializer.h"
+#include "OSVersion.h"
 
 class CatalanitzadorPerAWindows
 {
@@ -42,4 +43,5 @@ private:
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;
 		Serializer m_serializer;
+		OSVersion m_osVersion;
 };

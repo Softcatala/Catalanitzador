@@ -26,7 +26,6 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "WelcomePropertyPageUI.h"
 #include "ApplicationSheetUI.h"
-#include "OSVersion.h"
 #include "Actions.h"
 #include "Version.h"
 
@@ -68,7 +67,7 @@ void CatalanitzadorPerAWindows::_initLog()
 	g_log.CreateLog(L"CatalanitzadorPerAWindows.log",szApp);
 	
 	wchar_t szOSInfo [2048];
-	OSVersion::GetLogInfo(szOSInfo, sizeof (szOSInfo));
+	m_osVersion.GetLogInfo(szOSInfo, sizeof (szOSInfo));
 	g_log.Log(szOSInfo);
 }
 
@@ -76,9 +75,9 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 {
 	int id;
 
-	if (OSVersion::GetVersion() == Windows2000)
+	if (m_osVersion.GetVersion() == Windows2000)
 		id = IDS_NOTSUPPORTEDOS;
-	else if (OSVersion::IsWindows64Bits())
+	else if (m_osVersion.IsWindows64Bits())
 		id = IDS_NOTSUPPORTEDOS_64;
 	else
 		return true;

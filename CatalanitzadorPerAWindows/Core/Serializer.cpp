@@ -23,12 +23,13 @@
 #include "Version.h"
 
 Serializer::Serializer()
-{	
+{
+	OSVersion version;
 	stream = new stringstream();
 
 	_openHeader();
-	_application ();
-	OSVersion::Serialize(stream);
+	_application();	
+	version.Serialize(stream);
 }
 
 Serializer::~Serializer()
