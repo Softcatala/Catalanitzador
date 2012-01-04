@@ -120,6 +120,17 @@ void OSVersion::GetLogInfo(wchar_t * szString, int size)
 		GetVersionText (GetVersion ()));
 }
 
+ DWORD OSVersion::GetServicePackVersion()
+ {	
+	OSVERSIONINFOEX osvi;	
+	
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	GetVersionEx((OSVERSIONINFO*) &osvi);
+
+	return MAKELONG(osvi.wServicePackMinor, osvi.wServicePackMajor);
+ }
+
 wchar_t* OSVersion::GetVersionText(OperatingVersion version)
 {
 	switch (version)

@@ -21,7 +21,6 @@ Global
 		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Debug|Win32.Build.0 = Debug|Win32
 		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Release|Win32.ActiveCfg = Release|Win32
-		{6C32442F-7862-453E-A69A-DB37ECEC17AB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

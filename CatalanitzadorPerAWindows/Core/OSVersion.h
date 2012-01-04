@@ -34,6 +34,7 @@ public:
 		virtual bool IsWindows64Bits();
 		virtual void GetLogInfo(wchar_t * szString, int size);
 		virtual void Serialize(ostream* stream);
+		virtual DWORD GetServicePackVersion();
 
 private:
 		static OperatingVersion _processVistaAnd7(OSVERSIONINFOEX osvi);

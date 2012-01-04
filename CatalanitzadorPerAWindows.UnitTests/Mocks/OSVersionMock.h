@@ -28,4 +28,5 @@ class OSVersionMock : public IOSVersion
 		MOCK_METHOD0(IsWindows64Bits, bool());
 		MOCK_METHOD2(GetLogInfo, void(wchar_t *, int));
 		MOCK_METHOD1(Serialize, void(ostream*));
+		MOCK_METHOD0(GetServicePackVersion, DWORD());
 };

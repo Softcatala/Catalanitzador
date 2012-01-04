@@ -24,6 +24,7 @@
 #define MSOFFICEACTION_2003 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab";
 
 #define WINDOWSLPIACTION_XP L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi"
+#define WINDOWSLPIACTION_XP_SP2 L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi"
 #define WINDOWSLPIACTION_VISTA L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc"
 #define WINDOWSLPIACTION_7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc"
 

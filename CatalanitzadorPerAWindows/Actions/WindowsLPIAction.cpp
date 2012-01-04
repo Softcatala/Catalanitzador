@@ -56,14 +56,24 @@ wchar_t* WindowsLPIAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
 }
 
-wchar_t* WindowsLPIAction::_getPackageName()
+wchar_t* WindowsLPIAction::GetPackageName()
 {
 	OperatingVersion version = m_OSVersion->GetVersion();
 
 	switch (version)
 	{
 		case WindowsXP:
-			return WINDOWSLPIACTION_XP;
+		{
+			WORD majorVersion = HIWORD(m_OSVersion->GetServicePackVersion());
+			if (majorVersion >= 2)
+			{
+				return WINDOWSLPIACTION_XP_SP2;
+			}
+			else
+			{
+				return WINDOWSLPIACTION_XP;
+			}
+		}
 		case WindowsVista:		
 			return WINDOWSLPIACTION_VISTA;
 		case Windows7:
@@ -115,7 +125,7 @@ bool WindowsLPIAction::IsNeed()
 	
 	bool bNeed = false;
 
-	if (_getPackageName() != NULL)
+	if (GetPackageName() != NULL)
 	{		
 		if (IsLangPackInstalled() == false)
 		{		
@@ -143,11 +153,11 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 
 	GetTempPath(MAX_PATH, filename);
 
-	Url url (_getPackageName());
+	Url url (GetPackageName());
 	wcscat_s (filename, url.GetFileName());
 	
-	g_log.Log(L"WindowsLPIAction::Download '%s' to '%s'", _getPackageName(), filename);
-	return inetacccess.GetFile(_getPackageName(), filename, progress, data);
+	g_log.Log(L"WindowsLPIAction::Download '%s' to '%s'", GetPackageName(), filename);
+	return inetacccess.GetFile(GetPackageName(), filename, progress, data);
 }
 
 void WindowsLPIAction::Execute()
