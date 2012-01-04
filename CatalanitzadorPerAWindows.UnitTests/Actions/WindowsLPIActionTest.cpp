@@ -130,28 +130,6 @@ TEST(WindowsLPIActionTest, ExecuteWindows7)
 	lipAction.Execute();
 }
 
-TEST(WindowsLPIActionTest, GetPackageName)
-{	
-	CreateWindowsLIPAction;
-
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));	
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"LIP_ca-ES-32bit.mlc"));
-
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"lip_ca-es.mlc"));
-
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"lip_ca-es.mlc"));
-
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(osVersionExMock, GetServicePackVersion()).WillRepeatedly(Return(MAKELONG(0,1)));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"Build2006Professional/LIPsetup.msi"));
-
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(osVersionExMock, GetServicePackVersion()).WillRepeatedly(Return(MAKELONG(0,2)));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"XP2orlater/LIPsetup.msi"));
-}
-
 TEST(WindowsLPIActionTest, GetPackageName7)
 {	
 	CreateWindowsLIPAction;
