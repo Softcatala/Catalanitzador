@@ -45,11 +45,18 @@ bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, logFileName);
 
-	m_hLog = CreateFile(m_szFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	m_hLog = CreateFile(m_szFilename,  FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (!m_hLog) return false;
 
-	_write(L"\xFEFF"); // Unicode mark
+	if (GetLastError() != ERROR_ALREADY_EXISTS)
+	{
+		_write(L"\xFEFF"); // Unicode mark
+	}
+	else
+	{
+		_write(L"\r\n");
+	}
 	_writeCompileTime(appName);
 	return true;
 }
