@@ -53,7 +53,18 @@ LRESULT AboutBoxDlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 				swprintf_s(szString, szResource, szVersion, szDate, szTime);
 				SetWindowText(hWnd, szString);
 				return TRUE;
-		}	
+		}
+
+		case WM_SYSCOMMAND:  
+		{
+			// Support the closing button
+			if (wParam==SC_CLOSE)
+			{
+				SendMessage (hWndDlg, WM_COMMAND, IDOK, 0L);
+				return TRUE;
+			}
+			break;
+		}
 
 		case WM_COMMAND:
 		{
