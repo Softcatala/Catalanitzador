@@ -250,5 +250,13 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 			(wchar_t* )langid);
 		status = CannotBeApplied;
 	}
+
+	if (m_OSVersion->GetVersion() != WindowsXP && m_OSVersion->GetVersion() != WindowsVista && m_OSVersion->GetVersion() != Windows7)
+	{
+		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
+		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version",
+			(wchar_t* )langid);
+		status = CannotBeApplied;
+	}
 }
 

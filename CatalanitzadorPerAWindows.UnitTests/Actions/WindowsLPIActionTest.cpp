@@ -54,6 +54,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 {
 	CreateWindowsLIPAction;
 
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_LOCALE));
 	
 	lipAction.CheckPrerequirements(NULL);
@@ -64,10 +65,34 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsEnglish)
 {
 	CreateWindowsLIPAction;
 
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(US_LOCALE));
 	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_EQ(CannotBeApplied, lipAction.GetStatus());
+}
+
+
+TEST(WindowsLPIActionTest, CheckPrerequirementsWindows2008)
+{
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_LOCALE));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows2008));
+	
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_EQ(CannotBeApplied, lipAction.GetStatus());
+}
+
+TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP)
+{
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_LOCALE));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
 }
 
 TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFTrue)
