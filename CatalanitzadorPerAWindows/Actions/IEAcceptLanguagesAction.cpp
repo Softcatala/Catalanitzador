@@ -84,7 +84,7 @@ bool IEAcceptLanguagesAction::IsNeed()
 	bool bNeed = true;
 	wstring langcode, firstlang;
 
-	_readLanguageCode(langcode);	
+	_readLanguageCode(langcode);
 	ParseLanguage(langcode);
 	_getFirstLanguage(firstlang);	
 
@@ -94,7 +94,7 @@ bool IEAcceptLanguagesAction::IsNeed()
 	if (bNeed == false)
 		status = AlreadyApplied;
 
-	g_log.Log(L"IEAcceptLanguagesAction::IsNeed returns %u", (wchar_t *) bNeed);
+	g_log.Log(L"IEAcceptLanguagesAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
 	return bNeed;
 }
 
