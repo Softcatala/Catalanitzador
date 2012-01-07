@@ -32,3 +32,8 @@ class RegistryMock : public IRegistry
 	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
 	MOCK_METHOD0(Close, bool());
 };
+
+ACTION_P(SetArgCharStringPar2, value) 
+{
+	wcscpy_s(arg1, 255, value);
+}

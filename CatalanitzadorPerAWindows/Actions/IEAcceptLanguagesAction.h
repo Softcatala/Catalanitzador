@@ -20,12 +20,18 @@
 #pragma once
 
 #include "Action.h"
+#include "IRegistry.h"
 
-class IEAcceptedLanguagesAction : public Action
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class _APICALL IEAcceptLanguagesAction : public Action
 {
 public:
 		
-		IEAcceptedLanguagesAction();
+		IEAcceptLanguagesAction(IRegistry* registry);
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -34,10 +40,23 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual char* GetVersion();
+		virtual void CheckPrerequirements(Action * action);
+
+		void ParseLanguage(wstring regvalue);
+		void CreateRegistryString(wstring &regvalue);
+		void AddCatalanToArrayAndRemoveOldIfExists();
+		vector <wstring> * GetLanguages() {return &m_languages;}		
 
 private:
+		
+		void _getFirstLanguage(wstring& regvalue);
 		void _readVersion();
+		void _readLanguageCode(wstring& langcode);
+		bool _writeLanguageCode(wstring langcode);
+		void _createRegistryStringTwoLangs(wstring &regvalue, float average);	
 
 		char szVersionAscii[128];
+		IRegistry* m_registry;
+		vector <wstring> m_languages;
 };
 

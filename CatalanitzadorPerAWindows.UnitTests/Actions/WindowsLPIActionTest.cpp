@@ -22,7 +22,6 @@
 #include "IWin32I18N.h"
 #include "WindowsLPIAction.h"
 #include "ActionStatus.h"
-#include "Registry.h"
 #include "RegistryMock.h"
 #include "OSVersionMock.h"
 #include "Win32I18NMock.h"
@@ -37,17 +36,12 @@ using ::testing::HasSubstr;
 #define SPANISH_LOCALE 0x0c0a
 #define US_LOCALE 0x0409
 
-ACTION_P(SetArgCharString1, value) 
-{
-	wcscpy_s(arg1, 255 /*hack*/, value);
-}
-
 #define CreateWindowsLIPAction \
-	RegistryMock regsitryMockobj; \
+	RegistryMock registryMockobj; \
 	Win32I18NMock win32I18NMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	WindowsLPIAction lipAction(&osVersionExMock, &regsitryMockobj, &win32I18NMockobj, &runnerMock);
+	WindowsLPIAction lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock);
 
 
 TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
@@ -109,9 +103,9 @@ TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFalse)
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(regsitryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(regsitryMockobj, GetString(StrCaseEq(L"MUILanguagePending"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharString1(L"0403"), Return(true)));	
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\"), false)).WillRepeatedly(Return(true));	
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"MUILanguagePending"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0403"), Return(true)));	
 	
 	EXPECT_EQ(true, lipAction.IsLangPackInstalled());
 }
@@ -121,7 +115,7 @@ TEST(WindowsLPIActionTest, IsLangPackInstalled_7True)
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
-	EXPECT_CALL(regsitryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
 
 	EXPECT_EQ(true, lipAction.IsLangPackInstalled());
 }

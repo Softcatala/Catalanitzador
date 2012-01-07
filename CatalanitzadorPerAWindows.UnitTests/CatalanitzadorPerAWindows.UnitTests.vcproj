@@ -22,6 +22,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
+			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -284,6 +285,10 @@
 		<Filter
 			Name="Actions"
 			>
+			<File
+				RelativePath=".\Actions\IEAcceptLanguagesActionTest.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\Actions\WindowsLPIActionTest.cpp"
 				>
