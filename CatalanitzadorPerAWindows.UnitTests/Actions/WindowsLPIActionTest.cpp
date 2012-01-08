@@ -134,7 +134,7 @@ TEST(WindowsLPIActionTest, ExecuteWindowsXP)
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));	
-	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"msiexec.exe"), HasSubstr(L"/qn /norestart"))).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"msiexec.exe"), HasSubstr(L"/qn"))).Times(1).WillRepeatedly(Return(true));
 
 	lipAction.Execute();
 }

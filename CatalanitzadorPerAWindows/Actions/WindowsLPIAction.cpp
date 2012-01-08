@@ -174,7 +174,7 @@ void WindowsLPIAction::Execute()
 
 		wcscpy_s(szParams, L" /i ");
 		wcscat_s(szParams, filename); // full path to 'lip_ca-es.msi'
-		wcscat_s(szParams, L" /qn /norestart");
+		wcscat_s(szParams, L" /qn");
 	}
 	else // Windows Vista and 7
 	{	

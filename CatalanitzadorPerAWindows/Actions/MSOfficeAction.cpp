@@ -313,7 +313,7 @@ void MSOfficeAction::Execute()
 
 			wcscpy_s(szParams, L" /i ");
 			wcscat_s(szParams, szMSI);
-			wcscat_s(szParams, L" /passive /norestart /quiet");			
+			wcscat_s(szParams, L" /qn");
 			break;
 		}
 	default:
