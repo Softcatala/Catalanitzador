@@ -41,12 +41,14 @@ private:
 		virtual	void _onFinish();
 		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
 		bool _isRebootNeed();
-		void _shutdown();		
+		void _shutdown();
+		void _setProgressBarLevelAndPercentage();
 
-		HFONT		m_hFont;
+		HFONT m_hFont;
 		vector <Action *> * m_actions;
 		Serializer* m_serializer;
 		BOOL* m_pbSendStats;
 		UploadStatistics * m_uploadStatistics;
+		HWND m_levelProgressBar;
 		
 };

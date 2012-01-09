@@ -18,6 +18,7 @@
  */
 
 #include "stdafx.h"
+#include <math.h>
 #include "FinishPropertyPageUI.h"
 #include "PropertySheetUI.h"
 
@@ -71,8 +72,55 @@ void FinishPropertyPageUI::_onInitDialog()
 		m_uploadStatistics->StartUploadThread();
 	}
 
+	m_levelProgressBar = GetDlgItem (getHandle(), IDC_LEVEL_PROGRESSBAR);
 	m_hFont = Window::CreateBoldFont(getHandle());
-	SendMessage(GetDlgItem (getHandle(), IDC_CONGRATULATIONS),	WM_SETFONT, (WPARAM) m_hFont, TRUE);
+	SendMessage(GetDlgItem (getHandle(), IDC_CONGRATULATIONS), WM_SETFONT, (WPARAM) m_hFont, TRUE);
+	SendMessage(GetDlgItem (getHandle(), IDC_HELPSOCIALNETWORKS), WM_SETFONT, (WPARAM) m_hFont, TRUE);
+
+	_setProgressBarLevelAndPercentage();
+}
+
+void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()
+{
+	Action* action;
+	int doable, done;
+	bool errors = false;
+	wchar_t szText[128];
+	
+	doable = done = 0;
+	for (unsigned int i = 0; i < m_actions->size(); i++)
+	{
+		action = m_actions->at(i);
+
+		switch (action->GetStatus())
+		{			
+			case AlreadyApplied:
+			case Successful:
+				doable++;
+				done++;
+				break;
+			case NotSelected:
+				doable++;
+				break;
+			case FinishedWithError:
+				doable++;
+				errors = true;
+				break;
+			default:
+				break;
+		}
+	}
+
+	SendMessage(m_levelProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, doable));
+	SendMessage(m_levelProgressBar, PBM_SETPOS, done, 0);
+
+	// Percentage	
+	float per = doable != 0 ? floor ((float) done/ (float)doable * 100.0f) : 0;
+	swprintf_s(szText, L"%2.0f%%", per);
+	SendMessage(GetDlgItem(getHandle(), IDC_LEVEL_PERCENTAGE), WM_SETTEXT, 0, (LPARAM) szText);
+
+	if (errors)
+		ShowWindow(GetDlgItem(getHandle(), IDC_PROCESSWASNOTFULLYSUCCESSFULL), SW_NORMAL);
 }
 
 bool FinishPropertyPageUI::_isRebootNeed()
