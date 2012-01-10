@@ -20,6 +20,8 @@
 #pragma once
 
 #include <WinInet.h>
+#include <string>
+using namespace std;
 
 class Url
 {
@@ -28,6 +30,7 @@ public:
 		wchar_t * GetFileName() {return m_filename;}
 		wchar_t * GetPathAndFileName() {return m_path;}
 		wchar_t * GetHostname() {return m_hostname;}
+		static void EncodeParameter(wstring parameter, wstring& encoded);
 
 private:
 		void _extractfilename(wchar_t* path);

@@ -24,6 +24,7 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <string.h>
 
 extern LogFile g_log;
 

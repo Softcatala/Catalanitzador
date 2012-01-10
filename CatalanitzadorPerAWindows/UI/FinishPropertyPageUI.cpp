@@ -21,6 +21,7 @@
 #include <math.h>
 #include "FinishPropertyPageUI.h"
 #include "PropertySheetUI.h"
+#include "Url.h"
 
 FinishPropertyPageUI::FinishPropertyPageUI()
 {
@@ -44,22 +45,24 @@ void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 
 	if (wParam == IDC_TWITTER_BUTTON)
 	{
+		wstring parameter;
+
 		LoadString(GetModuleHandle(NULL), IDS_SOCIALNETWORKS_TWITTER, szString, MAX_LOADSTRING);
 		swprintf_s(szText, szString, APPLICATON_WEBSITE);
-
+		
+		Url::EncodeParameter(wstring(szText), parameter);
 		wcscpy_s(szURL, L"http://twitter.com/share?text=");
-		wcscat_s(szURL, szText);
+		wcscat_s(szURL, parameter.c_str());
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
 	}
 
 	if (wParam == IDC_FACEBOOK_BUTTON)
 	{
 		LoadString(GetModuleHandle(NULL), IDS_SOCIALNETWORKS_FACEBOOK, szString, MAX_LOADSTRING);
-		swprintf_s(szText, szString, APPLICATON_WEBSITE);	
+		swprintf_s(szText, szString, APPLICATON_WEBSITE);
 
 		// See: http://developers.facebook.com/docs/share/
-		swprintf_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=%s&t=", APPLICATON_WEBSITE);
-		wcscat_s(szURL, szText);		
+		swprintf_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=%s", APPLICATON_WEBSITE);
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
 	}
 }

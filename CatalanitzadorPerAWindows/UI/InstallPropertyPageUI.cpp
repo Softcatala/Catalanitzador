@@ -196,7 +196,7 @@ void InstallPropertyPageUI::_onTimer()
 	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L);
 
 	m_serializer->StartAction();
-	for (int i = 0; i < m_actions->size(); i++)
+	for (unsigned int i = 0; i < m_actions->size(); i++)
 	{
 		action = m_actions->at(i);
 

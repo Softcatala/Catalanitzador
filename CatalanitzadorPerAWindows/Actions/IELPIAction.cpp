@@ -18,7 +18,6 @@
  */
 
 #include "stdafx.h"
-#include <string.h>
 #include <stdio.h>
 
 #include "IELPIAction.h"
