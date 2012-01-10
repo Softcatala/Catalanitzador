@@ -77,6 +77,9 @@ void InstallPropertyPageUI::_download(Action* action)
 	wchar_t szString [MAX_LOADSTRING];
 	wchar_t szText [MAX_LOADSTRING];
 
+	if (action->IsDownloadNeed() == false)
+		return;
+
 	_setTaskMarqueeMode(false);
 
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);
@@ -108,18 +111,24 @@ void InstallPropertyPageUI::_completed()
 	SendMessage(getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, PSWIZB_NEXT);
 }
 
-int InstallPropertyPageUI::_getSelectedActionsCount()
+void InstallPropertyPageUI::_updateSelectedActionsCounts()
 {
 	Action* action;
-	
-	int cnt = 0;
+
+	m_selActions = m_downloads = 0;
+
 	for (unsigned int i = 0; i < m_actions->size(); i++)
 	{
 		action = m_actions->at(i);
 		if (action->GetStatus() == Selected)
-			cnt++;
+		{
+			m_selActions++;
+			if (action->IsDownloadNeed())
+			{
+				m_downloads++;
+			}
+		}
 	}
-	return cnt;
 }
 
 void InstallPropertyPageUI::_windowsXPAsksCDWarning()
@@ -181,14 +190,13 @@ void InstallPropertyPageUI::_onTimer()
 
 	_windowsXPAsksCDWarning();
 
-	int cnt_selected = _getSelectedActionsCount();
-	int cnt_total = m_actions->size();
+	_updateSelectedActionsCounts();
 
-	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt_selected * 2));
-	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L); 
-	
+	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, m_downloads + m_selActions));
+	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L);
+
 	m_serializer->StartAction();
-	for (int i = 0; i < cnt_total; i++)
+	for (int i = 0; i < m_actions->size(); i++)
 	{
 		action = m_actions->at(i);
 
@@ -210,10 +218,11 @@ void InstallPropertyPageUI::_onTimer()
 
 			Window::ProcessMessages();
 			Sleep(50);
-			Window::ProcessMessages();			
+			Window::ProcessMessages();
 		}
 		SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0); // 'Execute' completed
 		m_serializer->Serialize(action);
+		Window::ProcessMessages();
 	}
 	m_serializer->EndAction();
 	m_serializer->CloseHeader();

@@ -41,7 +41,7 @@ private:
 		void _execute(Action* action);
 		void _download(Action* action);
 		void _completed();
-		int _getSelectedActionsCount();
+		void _updateSelectedActionsCounts();
 		void _windowsXPAsksCDWarning();
 		void _setTaskMarqueeMode(bool enable);
 
@@ -51,4 +51,6 @@ private:
 		HWND hDescription;
 		BOOL ShowWindowOnce;
 		Serializer* m_serializer;
+		int m_selActions;
+		int m_downloads;
 };
