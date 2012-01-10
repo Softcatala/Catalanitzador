@@ -20,13 +20,19 @@
 #include "stdafx.h"
 #include "Runner.h"
 
-bool Runner::Execute(wchar_t* program, wchar_t* params)
+bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 {
-	STARTUPINFO si;	
+	STARTUPINFO si;
+	PVOID OldValue = NULL;
 
 	ZeroMemory (&si, sizeof (si));
 	si.cb = sizeof(si);
 	ZeroMemory (&pi, sizeof (pi));
+	
+	if (b64bits)
+	{
+		Wow64DisableWow64FsRedirection(&OldValue);
+	}
 
 	// Start the child process
 	if (!CreateProcess(program, params,         
@@ -37,6 +43,11 @@ bool Runner::Execute(wchar_t* program, wchar_t* params)
 			program, params);
 
 		return false;
+	}
+
+	if (b64bits)
+	{
+		Wow64RevertWow64FsRedirection(OldValue);
 	}
 	
 	return true;

@@ -23,7 +23,7 @@ class RunnerMock : public IRunner
 {
 public:
 
-		MOCK_METHOD2(Execute, bool(wchar_t*, wchar_t*));
+		MOCK_METHOD3(Execute, bool(wchar_t*, wchar_t*, bool));
 		MOCK_METHOD0(IsRunning, bool());
 		MOCK_METHOD0(WaitUntilFinished, void());
 };

@@ -27,6 +27,7 @@
 #define WINDOWSLPIACTION_XP_SP2 L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi"
 #define WINDOWSLPIACTION_VISTA L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc"
 #define WINDOWSLPIACTION_7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc"
+#define WINDOWSLPIACTION_7_64BITS L"http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc"
 
 #define IELPI_IE7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe"
 #define IELPI_IE8_XP L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe"

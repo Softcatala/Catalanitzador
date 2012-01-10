@@ -92,7 +92,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP)
 TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFTrue)
 {	
 	CreateWindowsLIPAction;
-	
+
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 
 	EXPECT_EQ(false, lipAction.IsLangPackInstalled());
@@ -133,8 +133,9 @@ TEST(WindowsLPIActionTest, ExecuteWindowsXP)
 {	
 	CreateWindowsLIPAction;
 
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));	
-	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"msiexec.exe"), HasSubstr(L"/qn"))).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"msiexec.exe"), HasSubstr(L"/qn"), false)).Times(1).WillRepeatedly(Return(true));
 
 	lipAction.Execute();
 }
@@ -143,8 +144,9 @@ TEST(WindowsLPIActionTest, ExecuteWindows7)
 {	
 	CreateWindowsLIPAction;
 
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));	
-	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"lpksetup.exe"), HasSubstr(L"/i ca-ES /r /s /p"))).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"lpksetup.exe"), HasSubstr(L"/i ca-ES /r /s /p"), false)).Times(1).WillRepeatedly(Return(true));
 
 	lipAction.Execute();
 }
@@ -153,7 +155,8 @@ TEST(WindowsLPIActionTest, GetPackageName7)
 {	
 	CreateWindowsLIPAction;
 
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"LIP_ca-ES-32bit.mlc"));
 }
 

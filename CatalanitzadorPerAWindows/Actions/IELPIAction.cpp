@@ -285,7 +285,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 {
 	szCannotBeApplied[0] = NULL;
 
-	if (m_version == IEUnknown || m_version == IE9)
+	if (m_version == IEUnknown || m_version == IE9 || m_osVersion.IsWindows64Bits())
 	{
 		_getStringFromResourceIDName(IDS_IELPIACTION_UNKNOWNIE, szCannotBeApplied);
 	}

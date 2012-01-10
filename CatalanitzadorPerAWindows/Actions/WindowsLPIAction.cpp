@@ -77,7 +77,14 @@ wchar_t* WindowsLPIAction::GetPackageName()
 		case WindowsVista:		
 			return WINDOWSLPIACTION_VISTA;
 		case Windows7:
-			return WINDOWSLPIACTION_7;
+			if (m_OSVersion->IsWindows64Bits())
+			{
+				return WINDOWSLPIACTION_7_64BITS;
+			}
+			else
+			{
+				return WINDOWSLPIACTION_7;
+			}
 		default:
 			break;
 	}
@@ -188,7 +195,7 @@ void WindowsLPIAction::Execute()
 
 	status = InProgress;
 	g_log.Log(L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
-	m_runner->Execute(lpkapp, szParams);
+	m_runner->Execute(lpkapp, szParams, m_OSVersion->IsWindows64Bits());
 }
 
 // After the language package is installed we need to set Catalan as default language
@@ -249,14 +256,29 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. No Spanish or French Windows found (langid %u)",
 			(wchar_t* )langid);
 		status = CannotBeApplied;
+		return;
 	}
 
-	if (m_OSVersion->GetVersion() != WindowsXP && m_OSVersion->GetVersion() != WindowsVista && m_OSVersion->GetVersion() != Windows7)
+	if (m_OSVersion->IsWindows64Bits() == false)
 	{
-		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
-		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version",
-			(wchar_t* )langid);
-		status = CannotBeApplied;
+		if (m_OSVersion->GetVersion() != WindowsXP && m_OSVersion->GetVersion() != WindowsVista && m_OSVersion->GetVersion() != Windows7)
+		{
+			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
+			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version",
+				(wchar_t* )langid);
+			status = CannotBeApplied;
+			return;
+		}
+	} 
+	else // 64 bits
+	{
+		if (m_OSVersion->GetVersion() != Windows7)
+		{
+			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
+			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version",
+				(wchar_t* )langid);
+			status = CannotBeApplied;
+			return;
+		}
 	}
 }
-

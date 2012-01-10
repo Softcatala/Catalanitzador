@@ -76,9 +76,7 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 	int id;
 
 	if (m_osVersion.GetVersion() == Windows2000)
-		id = IDS_NOTSUPPORTEDOS;
-	else if (m_osVersion.IsWindows64Bits())
-		id = IDS_NOTSUPPORTEDOS_64;
+		id = IDS_NOTSUPPORTEDOS;	
 	else
 		return true;
 
