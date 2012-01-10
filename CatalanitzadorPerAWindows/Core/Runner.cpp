@@ -19,11 +19,13 @@
 
 #include "stdafx.h"
 #include "Runner.h"
+#include "Wow64.h"
 
 bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 {
 	STARTUPINFO si;
 	PVOID OldValue = NULL;
+	Wow64 wow64;
 
 	ZeroMemory (&si, sizeof (si));
 	si.cb = sizeof(si);
@@ -31,7 +33,7 @@ bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 	
 	if (b64bits)
 	{
-		Wow64DisableWow64FsRedirection(&OldValue);
+		wow64.DisableFsRedirection(&OldValue);
 	}
 
 	// Start the child process
@@ -47,7 +49,7 @@ bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 
 	if (b64bits)
 	{
-		Wow64RevertWow64FsRedirection(OldValue);
+		wow64.RevertRedirection(OldValue);		
 	}
 	
 	return true;

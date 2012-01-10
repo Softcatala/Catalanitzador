@@ -426,6 +426,14 @@
 				RelativePath=".\Core\Window.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Core\Wow64.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Wow64.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="UI"
