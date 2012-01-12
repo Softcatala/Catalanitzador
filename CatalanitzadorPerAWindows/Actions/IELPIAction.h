@@ -54,6 +54,7 @@ private:
 		wchar_t* _getPackageName();
 		wchar_t* _getPackageNameIE7();
 		wchar_t* _getPackageNameIE8();
+		wchar_t* _getPackageNameIE9();
 		IEVersion _getVersion();
 		bool _isLangPackInstalled();
 

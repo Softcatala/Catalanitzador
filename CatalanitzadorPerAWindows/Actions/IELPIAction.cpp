@@ -110,7 +110,7 @@ wchar_t* IELPIAction::_getPackageName()
 		case IE8:
 			return _getPackageNameIE8();
 		case IE9:
-			return IELPI_IE9;
+			return _getPackageNameIE9();
 		default:
 			break;
 	}
@@ -132,6 +132,19 @@ wchar_t* IELPIAction::_getPackageNameIE8()
 	return NULL;
 }
 
+wchar_t* IELPIAction::_getPackageNameIE9()
+{
+	switch (m_osVersion.GetVersion())
+	{
+		case WindowsVista:
+			return IELPI_IE9_VISTA;
+		case Windows7:
+			return IELPI_IE9_7;
+		default:
+			break;
+	}
+	return NULL;
+}
 
 struct LANGANDCODEPAGE {
 	WORD wLanguage;
@@ -174,7 +187,7 @@ bool IELPIAction::_isLangPackInstalled()
 		installed = (m_version == majorVersion && lpTranslate->wLanguage == CATALAN_LANGCODE);	
 
 		g_log.Log(L"IELPIAction::_isLangPackInstalled %s has version %u and language code %x", 
-			szFile, (wchar_t*)  majorVersion, (wchar_t*) lpTranslate->wLanguage);
+			szFile, (wchar_t*) majorVersion, (wchar_t*) lpTranslate->wLanguage);
 		
 		GlobalFree((HGLOBAL)lpVI);
 	}
@@ -238,6 +251,7 @@ void IELPIAction::Execute()
 			break;
 		}
 	case IE8:
+	case IE9:
 			if (m_osVersion.GetVersion() == WindowsXP)
 			{
 				wcscpy_s(szParams, m_filename);
@@ -250,8 +264,7 @@ void IELPIAction::Execute()
 				wcscat_s(szParams, m_filename);
 				wcscat_s(szParams, L" /quiet /norestart");
 			}
-			break;		
-	case IE9:
+			break;
 	default:
 		break;
 	}
@@ -284,7 +297,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 {
 	szCannotBeApplied[0] = NULL;
 
-	if (m_version == IEUnknown || m_version == IE9 || m_osVersion.IsWindows64Bits())
+	if (m_version == IEUnknown || m_osVersion.IsWindows64Bits())
 	{
 		_getStringFromResourceIDName(IDS_IELPIACTION_UNKNOWNIE, szCannotBeApplied);
 	}
