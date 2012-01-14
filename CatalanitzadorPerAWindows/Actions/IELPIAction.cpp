@@ -346,6 +346,13 @@ void IELPIAction::CheckPrerequirements(Action * action)
 						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
 					}
 				}
+				if (m_version == IE9)
+				{
+					if (WindowsLPISelected == false)
+					{
+						_getStringFromResourceIDName(IDS_IELPIACTION_IE9NEEDWINLPI, szCannotBeApplied);
+					}
+				}
 				break;
 			case Windows7:
 				if (m_version == IE8)
@@ -353,6 +360,13 @@ void IELPIAction::CheckPrerequirements(Action * action)
 					if (WindowsLPISelected == false)
 					{
 						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
+					}
+				}
+				if (m_version == IE9)
+				{
+					if (WindowsLPISelected == false)
+					{
+						_getStringFromResourceIDName(IDS_IELPIACTION_IE9NEEDWINLPI, szCannotBeApplied);
 					}
 				}
 				break;
