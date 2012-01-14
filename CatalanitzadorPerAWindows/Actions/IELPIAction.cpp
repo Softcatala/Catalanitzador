@@ -139,11 +139,32 @@ wchar_t* IELPIAction::_getPackageNameIE9()
 		case WindowsVista:
 			return IELPI_IE9_VISTA;
 		case Windows7:
-			return IELPI_IE9_7;
+			if (m_osVersion.IsWindows64Bits())
+			{
+				return IELPI_IE9_7_64BITS;
+			}
+			else
+			{
+				return IELPI_IE9_7;
+			}
 		default:
 			break;
 	}
 	return NULL;
+}
+
+bool IELPIAction::_is64BitsPackage()
+{
+	switch (m_osVersion.GetVersion())
+	{
+		case Windows7:
+			if (m_osVersion.IsWindows64Bits())
+			{
+				return true;
+			}
+		default:
+			return false;
+	}
 }
 
 struct LANGANDCODEPAGE {
@@ -154,7 +175,7 @@ struct LANGANDCODEPAGE {
 #define CATALAN_LANGCODE 0x403
 
 bool IELPIAction::_isLangPackInstalled()
-{
+{	
 	bool installed = false;	
 	wchar_t szFile[MAX_PATH];
 	DWORD dwLen, dwUnUsed;
@@ -270,8 +291,8 @@ void IELPIAction::Execute()
 	}
 
 	status = InProgress;
-	g_log.Log(L"IELPIAction::Execute '%s'", szParams);
-	runner.Execute (NULL, szParams);
+	g_log.Log(L"IELPIAction::Execute '%s', 64 bits %u", szParams,  (wchar_t *)_is64BitsPackage());
+	runner.Execute (NULL, szParams, _is64BitsPackage());
 }
 
 ActionStatus IELPIAction::GetStatus()
@@ -297,7 +318,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 {
 	szCannotBeApplied[0] = NULL;
 
-	if (m_version == IEUnknown || m_osVersion.IsWindows64Bits())
+	if (m_version == IEUnknown || (m_osVersion.IsWindows64Bits() && m_version != IE9))
 	{
 		_getStringFromResourceIDName(IDS_IELPIACTION_UNKNOWNIE, szCannotBeApplied);
 	}

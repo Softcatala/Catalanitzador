@@ -57,6 +57,7 @@ private:
 		wchar_t* _getPackageNameIE9();
 		IEVersion _getVersion();
 		bool _isLangPackInstalled();
+		bool _is64BitsPackage();
 
 		wchar_t m_filename[MAX_PATH];
 		Runner runner;
