@@ -27,6 +27,8 @@ using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
 
+#define LANGCODE_SET L"ca"
+
 #define CreateIEAcceptLanguagesAction \
 	RegistryMock registryMockobj; \
 	IEAcceptLanguagesAction IEAction(&registryMockobj);
@@ -206,7 +208,6 @@ TEST(IEAcceptLanguagesActionTest, CreateRegistryStringCatalanSpanishEnglishGerma
 	EXPECT_THAT(regvalue, StrCaseEq(L"ca-ES,es-ES;q=0.8,en-US;q=0.6,de-DE;q=0.4,eu-ES;q=0.2"));
 }
 
-
 TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIfExistsNoCatalan)
 {
 	CreateIEAcceptLanguagesAction;
@@ -219,7 +220,7 @@ TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIfExistsNoCatalan
 	IEAction.AddCatalanToArrayAndRemoveOldIfExists();
 
 	EXPECT_EQ(3, languages->size());
-	EXPECT_THAT(languages->at(0), StrCaseEq(L"ca-ES"));
+	EXPECT_THAT(languages->at(0), StrCaseEq(LANGCODE_SET));
 	EXPECT_THAT(languages->at(1), StrCaseEq(L"es-ES"));
 	EXPECT_THAT(languages->at(2), StrCaseEq(L"en-US"));
 }
@@ -237,7 +238,7 @@ TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIfExistsCatalan)
 	IEAction.AddCatalanToArrayAndRemoveOldIfExists();
 
 	EXPECT_EQ(3, languages->size());
-	EXPECT_THAT(languages->at(0), StrCaseEq(L"ca-ES"));
+	EXPECT_THAT(languages->at(0), StrCaseEq(LANGCODE_SET));
 	EXPECT_THAT(languages->at(1), StrCaseEq(L"es-ES"));
 	EXPECT_THAT(languages->at(2), StrCaseEq(L"en-US"));
 }
@@ -254,6 +255,6 @@ TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIE6)
 	IEAction.AddCatalanToArrayAndRemoveOldIfExists();
 
 	EXPECT_EQ(2, languages->size());	
-	EXPECT_THAT(languages->at(0), StrCaseEq(L"ca-ES"));
+	EXPECT_THAT(languages->at(0), StrCaseEq(LANGCODE_SET));
 	EXPECT_THAT(languages->at(1), StrCaseEq(L"es"));
 }

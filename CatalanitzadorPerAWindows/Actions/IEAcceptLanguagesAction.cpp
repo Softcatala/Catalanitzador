@@ -117,7 +117,7 @@ void IEAcceptLanguagesAction::AddCatalanToArrayAndRemoveOldIfExists()
 		}
 	}
 
-	wstring str(L"ca-ES");
+	wstring str(L"ca");
 	it = m_languages.begin();
 	m_languages.insert(it, str);
 }
