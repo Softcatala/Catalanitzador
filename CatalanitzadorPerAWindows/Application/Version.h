@@ -20,5 +20,5 @@
 
 #define APP_MAJOR_VERSION		0
 #define APP_MINOR_VERSION		9
-#define APP_REVISION			4
-#define STRING_VERSION			"0.9.4.0"
+#define APP_REVISION			5
+#define STRING_VERSION			"0.9.5.0"
