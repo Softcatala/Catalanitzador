@@ -21,6 +21,7 @@
 #include "ConfigureLocaleAction.h"
 #include "Registry.h"
 #include "OSVersion.h"
+#include "Resources.h"
 
 ConfigureLocaleAction::ConfigureLocaleAction()
 {
@@ -77,49 +78,6 @@ bool ConfigureLocaleAction::IsNeed()
 	return bNeed;
 }
 
-bool ConfigureLocaleAction::_dumpResource(LPCWSTR resource, wchar_t* file)
-{
-	HRSRC hRsrc = NULL;
-	HGLOBAL hGlbl = NULL;
-	BYTE *pExeResource = NULL;
-	HANDLE hFile = INVALID_HANDLE_VALUE;
-	DWORD size;
-	HMODULE hInstance;
-
-	hInstance = GetModuleHandle(NULL);
-
-	hRsrc = FindResource(hInstance, resource, (LPCWSTR)L"CONFIG_FILES");
-	if (hRsrc == NULL)
-		return false;
-
-	size = SizeofResource(hInstance, hRsrc);
-
-	hGlbl = LoadResource(hInstance, hRsrc);
-	if (hGlbl == NULL)
-		return false;
-
-	pExeResource = (BYTE*)LockResource(hGlbl);
-	if (pExeResource == NULL)
-		return false;
-   
-	hFile = CreateFile(file, GENERIC_WRITE|GENERIC_READ, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (hFile != INVALID_HANDLE_VALUE)
-	{
-		BYTE byte = 0;
-		DWORD bytesWritten = 0;
-		for (DWORD i=0; i<size; i++)
-		{
-			byte = pExeResource[i];
-			WriteFile(hFile, &byte, sizeof(byte), &bytesWritten, NULL);
-		}
-	}
-
-	CloseHandle(hFile);
-	g_log.Log(L"ConfigureLocaleAction::_dumpResource to '%s'", file);	
-	return true;
-}
-
 void ConfigureLocaleAction::Execute()
 {	
 	wchar_t szConfigFileName[MAX_PATH];
@@ -148,7 +106,7 @@ void ConfigureLocaleAction::Execute()
 	}
 	wcscat_s(szCfgFile, szConfigFileName);
 
-	_dumpResource(resource, szCfgFile);	
+	Resources::DumpResource(L"CONFIG_FILES", resource, szCfgFile);
 	swprintf_s(szParams, L" intl.cpl,,/f:\"%s\"", szCfgFile);
 
 	g_log.Log(L"ConfigureLocaleAction::Execute '%s' with params '%s'", szApp, szParams);

@@ -22,6 +22,7 @@
 #include "WindowsLPIAction.h"
 #include "IEAcceptLanguagesAction.h"
 #include "ConfigureLocaleAction.h"
+#include "ConfigureDefaultLanguageAction.h"
 #include "MSOfficeAction.h"
 #include "IELPIAction.h"
 #include "IWin32I18N.h"
@@ -52,6 +53,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new IELPIAction());
 	m_actions.push_back(new IEAcceptLanguagesAction((IRegistry *)new Registry()));
 	m_actions.push_back(new ConfigureLocaleAction());
+	m_actions.push_back(new ConfigureDefaultLanguageAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IRunner *) new Runner()));
 
 	_checkPrerequirements();
 }

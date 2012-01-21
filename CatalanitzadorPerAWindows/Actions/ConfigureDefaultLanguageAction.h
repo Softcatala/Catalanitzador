@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,24 +21,34 @@
 
 #include "Action.h"
 #include "Runner.h"
+#include "IRegistry.h"
+#include "IOSVersion.h"
+#include "OSVersion.h"
 
-class ConfigureLocaleAction : public Action
+class _APICALL ConfigureDefaultLanguageAction : public Action
 {
 public:
-		ConfigureLocaleAction();
-		~ConfigureLocaleAction();
+		ConfigureDefaultLanguageAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
+		~ConfigureDefaultLanguageAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual int GetID() { return ConfigureLocale;};
+		virtual int GetID() { return ConfigureDefaultLanguage;};
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
+		virtual void CheckPrerequirements(Action * action);		
+		virtual bool IsRebootNeed();
+
+		bool IsCatalanLocaleActive();
+		bool HasSpanishKeyboard();
+
 private:
-		bool _isCatalanLocaleActive();		
 
 		wchar_t szCfgFile[MAX_PATH];
-		Runner runner;
+		IRunner* m_runner;
+		IRegistry* m_registry;
+		IOSVersion* m_OSVersion;
 };
 

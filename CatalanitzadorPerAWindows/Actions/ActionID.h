@@ -29,4 +29,5 @@ enum ActionID
 	ConfigureLocale = 3,
 	IEAcceptLanguage = 4,
 	IELPI = 5,
+	ConfigureDefaultLanguage = 6,
 };

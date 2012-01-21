@@ -286,6 +286,10 @@
 			Name="Actions"
 			>
 			<File
+				RelativePath=".\Actions\ConfigureDefaultLanguageActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\IEAcceptLanguagesActionTest.cpp"
 				>
 			</File>

@@ -235,6 +235,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\ConfigureDefaultLanguageAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\ConfigureDefaultLanguageAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\ConfigureLocaleAction.cpp"
 				>
 			</File>
@@ -376,6 +384,14 @@
 			</File>
 			<File
 				RelativePath=".\Core\Registry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Resources.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Resources.h"
 				>
 			</File>
 			<File
