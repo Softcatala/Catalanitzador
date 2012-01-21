@@ -39,6 +39,6 @@ private:
 		bool _isCatalanLocaleActive();		
 
 		wchar_t szCfgFile[MAX_PATH];
-		Runner runner;
+		Runner m_runner;
 };
 

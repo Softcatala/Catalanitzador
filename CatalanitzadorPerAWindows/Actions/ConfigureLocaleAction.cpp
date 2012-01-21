@@ -110,15 +110,26 @@ void ConfigureLocaleAction::Execute()
 	swprintf_s(szParams, L" intl.cpl,,/f:\"%s\"", szCfgFile);
 
 	g_log.Log(L"ConfigureLocaleAction::Execute '%s' with params '%s'", szApp, szParams);
-	runner.Execute(szApp, szParams);
-	runner.WaitUntilFinished();
+	status = InProgress;
+	m_runner.Execute(szApp, szParams);
 }
 
 ActionStatus ConfigureLocaleAction::GetStatus()
 {
 	if (status == InProgress)
 	{
-		status = _isCatalanLocaleActive() ? Successful : FinishedWithError;
+		if (m_runner.IsRunning())
+			return InProgress;
+
+		if (_isCatalanLocaleActive())
+		{
+			status = Successful;	
+		}
+		else
+		{
+			status = FinishedWithError;
+		}
+		
 		g_log.Log(L"ConfigureLocaleAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;

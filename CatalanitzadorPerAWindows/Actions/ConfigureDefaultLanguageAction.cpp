@@ -47,7 +47,7 @@ wchar_t* ConfigureDefaultLanguageAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_DEFLANGACTION_DESCRIPTION, szDescription);
 }
 
-bool ConfigureDefaultLanguageAction::IsCatalanLocaleActive()
+bool ConfigureDefaultLanguageAction::IsCatalanKeyboardActive()
 {
 	wchar_t szValue[1024];
 	bool bCatalanActive = false;
@@ -73,7 +73,7 @@ bool ConfigureDefaultLanguageAction::IsNeed()
 
 	bool bNeed;
 
-	bNeed = IsCatalanLocaleActive() == false;
+	bNeed = IsCatalanKeyboardActive() == false;
 
 	if (bNeed == false)
 		status = AlreadyApplied;
@@ -146,7 +146,7 @@ bool ConfigureDefaultLanguageAction::HasSpanishKeyboard()
 
 void ConfigureDefaultLanguageAction::CheckPrerequirements(Action * action)
 {
-	if (IsCatalanLocaleActive() == false && HasSpanishKeyboard() == false)
+	if (IsCatalanKeyboardActive() == false && HasSpanishKeyboard() == false)
 	{
 		_getStringFromResourceIDName(IDS_DEFLANGACTION_NOSPANISHKEYBOARD, szCannotBeApplied);
 		g_log.Log(L"ConfigureDefaultLanguageAction::CheckPrerequirements. No Spanish keyboard installed.");
@@ -173,7 +173,7 @@ ActionStatus ConfigureDefaultLanguageAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (IsCatalanLocaleActive())
+		if (IsCatalanKeyboardActive())
 		{
 			status = Successful;	
 		}

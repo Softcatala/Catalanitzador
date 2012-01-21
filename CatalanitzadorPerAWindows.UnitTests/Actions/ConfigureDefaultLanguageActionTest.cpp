@@ -38,7 +38,7 @@ using ::testing::DoAll;
 	ConfigureDefaultLanguageAction defLanguageAction(&osVersionExMock, &registryMockobj, &runnerMock);
 
 
-TEST(WindowsLPIActionTest, IsCatalanLocaleActive_True)
+TEST(WindowsLPIActionTest, IsCatalanKeyboardActive_True)
 {
 	CreateConfigureDefaultLanguageAction;
 
@@ -47,10 +47,10 @@ TEST(WindowsLPIActionTest, IsCatalanLocaleActive_True)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0403"), Return(true)));	
 	
-	EXPECT_EQ(true, defLanguageAction.IsCatalanLocaleActive());
+	EXPECT_EQ(true, defLanguageAction.IsCatalanKeyboardActive());
 }
 
-TEST(WindowsLPIActionTest, IsCatalanLocaleActive_False)
+TEST(WindowsLPIActionTest, IsCatalanKeyboardActive_False)
 {
 	CreateConfigureDefaultLanguageAction;
 
@@ -59,7 +59,7 @@ TEST(WindowsLPIActionTest, IsCatalanLocaleActive_False)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));	
 	
-	EXPECT_EQ(false, defLanguageAction.IsCatalanLocaleActive());
+	EXPECT_EQ(false, defLanguageAction.IsCatalanKeyboardActive());
 }
 
 TEST(WindowsLPIActionTest, HasSpanishKeyboard_True)

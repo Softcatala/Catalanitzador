@@ -41,7 +41,7 @@ public:
 		virtual void CheckPrerequirements(Action * action);		
 		virtual bool IsRebootNeed();
 
-		bool IsCatalanLocaleActive();
+		bool IsCatalanKeyboardActive();
 		bool HasSpanishKeyboard();
 
 private:
