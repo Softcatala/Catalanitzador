@@ -58,11 +58,15 @@ void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 
 	if (wParam == IDC_FACEBOOK_BUTTON)
 	{
-		LoadString(GetModuleHandle(NULL), IDS_SOCIALNETWORKS_FACEBOOK, szString, MAX_LOADSTRING);
-		swprintf_s(szText, szString, APPLICATON_WEBSITE);
-
 		// See: http://developers.facebook.com/docs/share/
 		swprintf_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=%s", APPLICATON_WEBSITE);
+		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
+	}
+
+	if (wParam == IDC_GOOGLEPLUS_BUTTON)
+	{
+		// See: https://developers.google.com/+/plugins/+1button/		
+		swprintf_s(szURL, L"http://plusone.google.com/_/+1/confirm?hl=ca&url=%s", APPLICATON_WEBSITE);
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
 	}
 }
