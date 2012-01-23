@@ -95,7 +95,7 @@ TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFTrue)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 
-	EXPECT_EQ(false, lipAction.IsLangPackInstalled());
+	EXPECT_FALSE(lipAction.IsLangPackInstalled());
 }
 
 TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFalse)
@@ -107,7 +107,7 @@ TEST(WindowsLPIActionTest, IsLangPackInstalled_XPFalse)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"MUILanguagePending"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0403"), Return(true)));	
 	
-	EXPECT_EQ(true, lipAction.IsLangPackInstalled());
+	EXPECT_TRUE(lipAction.IsLangPackInstalled());
 }
 
 TEST(WindowsLPIActionTest, IsLangPackInstalled_7True)
@@ -117,7 +117,7 @@ TEST(WindowsLPIActionTest, IsLangPackInstalled_7True)
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
 
-	EXPECT_EQ(true, lipAction.IsLangPackInstalled());
+	EXPECT_TRUE(lipAction.IsLangPackInstalled());
 }
 
 TEST(WindowsLPIActionTest, IsLangPackInstalled_7False)
@@ -126,7 +126,7 @@ TEST(WindowsLPIActionTest, IsLangPackInstalled_7False)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 
-	EXPECT_EQ(false, lipAction.IsLangPackInstalled());
+	EXPECT_FALSE(lipAction.IsLangPackInstalled());
 }
 
 TEST(WindowsLPIActionTest, ExecuteWindowsXP)

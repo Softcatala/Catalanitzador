@@ -42,7 +42,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanOnly)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
 
-	EXPECT_EQ(false, IEAction.IsNeed());
+	EXPECT_FALSE(IEAction.IsNeed());
 }
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanAndSpanish)
@@ -53,7 +53,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanAndSpanish)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES,es-ES;q=0.5"), Return(true)));
 
-	EXPECT_EQ(false, IEAction.IsNeed());
+	EXPECT_FALSE(IEAction.IsNeed());
 }
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_EnglishSpanishCatalan)
@@ -64,7 +64,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_EnglishSpanishCatalan)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"en-US,es-ES;q=0.7,ca-ES;q=0.3"), Return(true)));
 
-	EXPECT_EQ(true, IEAction.IsNeed());
+	EXPECT_TRUE(IEAction.IsNeed());
 }
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_SpanishOnly)
@@ -75,7 +75,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_SpanishOnly)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"es-ES"), Return(true)));
 
-	EXPECT_EQ(true, IEAction.IsNeed());
+	EXPECT_TRUE(IEAction.IsNeed());
 }
 
 TEST(IEAcceptLanguagesActionTest, ParseLanguagesSpanishEnglishCatalan)
