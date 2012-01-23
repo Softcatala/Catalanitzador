@@ -58,8 +58,11 @@ private:
 		IEVersion _getVersion();
 		bool _isLangPackInstalled();
 		bool _is64BitsPackage();
+		bool _createTempDirectory();
+		bool _wasInstalled();
 
 		wchar_t m_filename[MAX_PATH];
+		wchar_t m_szTempDir[MAX_PATH];		
 		Runner runner;
 		IEVersion m_version;
 		OSVersion m_osVersion;

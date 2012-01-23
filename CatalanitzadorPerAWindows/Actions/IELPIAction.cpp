@@ -31,6 +31,7 @@
 IELPIAction::IELPIAction()
 {	
 	m_filename[0] = NULL;
+	m_szTempDir[0] = NULL;
 	m_version = _getVersion();	
 }
 
@@ -39,6 +40,11 @@ IELPIAction::~IELPIAction()
 	if (m_filename[0] != NULL  && GetFileAttributes(m_filename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_filename);
+	}
+
+	if (m_szTempDir[0] != NULL)
+	{
+		RemoveDirectory(m_szTempDir);
 	}
 }
 
@@ -246,13 +252,36 @@ bool IELPIAction::IsNeed()
 	return bNeed;	
 }
 
+// We need to copy the file into a subdirectory with in the temp file since the IE installer 
+// will try to do the same in the %temp% dir and fail since the file already exists	
+bool IELPIAction::_createTempDirectory()
+{
+	wchar_t szTempDir[MAX_PATH];
+
+	GetTempPath(MAX_PATH, szTempDir);
+
+	// Unique temporary file (needs to create it)
+	GetTempFileName(szTempDir, L"CAT", 0, m_szTempDir);
+	DeleteFile(m_szTempDir);
+
+	if (CreateDirectory(m_szTempDir, NULL) == FALSE)
+	{
+		g_log.Log(L"IELPIAction::_createTempDirectory. Cannot create temp directory '%s'", m_szTempDir);
+		return false;
+	}
+	return true;
+}
+
 bool IELPIAction::Download(ProgressStatus progress, void *data)
 {
 	InternetAccess inetacccess;
 
-	GetTempPath(MAX_PATH, m_filename);
+	if (_createTempDirectory() == false)
+		return false;
 	
 	Url url(_getPackageName());
+	wcscpy_s(m_filename, m_szTempDir);
+	wcscat_s(m_filename, L"\\");
 	wcscat_s(m_filename, url.GetFileName());
 	
 	g_log.Log(L"IELPIAction::Download '%s' to '%s'", _getPackageName(), m_filename);
@@ -272,19 +301,24 @@ void IELPIAction::Execute()
 			break;
 		}
 	case IE8:
-	case IE9:
-			if (m_osVersion.GetVersion() == WindowsXP)
-			{
-				wcscpy_s(szParams, m_filename);
-				wcscat_s(szParams, L" /quiet /norestart /update-no");				
-			}
-			else
-			{
-				GetSystemDirectory(szParams, MAX_PATH);
-				wcscat_s(szParams, L"\\wusa.exe ");
-				wcscat_s(szParams, m_filename);
-				wcscat_s(szParams, L" /quiet /norestart");
-			}
+		if (m_osVersion.GetVersion() == WindowsXP)
+		{
+			wcscpy_s(szParams, m_filename);
+			wcscat_s(szParams, L" /quiet /norestart /update-no");
+		}
+		else
+		{
+			GetSystemDirectory(szParams, MAX_PATH);
+			wcscat_s(szParams, L"\\wusa.exe ");
+			wcscat_s(szParams, m_filename);
+			wcscat_s(szParams, L" /quiet /norestart");
+		}
+		break;
+	case IE9:		
+			GetSystemDirectory(szParams, MAX_PATH);
+			wcscat_s(szParams, L"\\wusa.exe ");
+			wcscat_s(szParams, m_filename);
+			wcscat_s(szParams, L" /quiet /norestart");
 			break;
 	default:
 		break;
@@ -302,7 +336,7 @@ ActionStatus IELPIAction::GetStatus()
 		if (runner.IsRunning())
 			return InProgress;
 
-		if (_isLangPackInstalled()) {
+		if (_wasInstalled()) {
 			status = Successful;
 		}
 		else {
@@ -312,6 +346,17 @@ ActionStatus IELPIAction::GetStatus()
 		g_log.Log(L"IELPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
+}
+
+bool IELPIAction::_wasInstalled()
+{
+	// Could not find a way to tell if it went well
+	if (m_version == IE8 && m_osVersion.GetVersion() == WindowsXP)
+	{
+		return true;
+	}
+
+	return _isLangPackInstalled();
 }
 
 void IELPIAction::CheckPrerequirements(Action * action)
@@ -331,6 +376,13 @@ void IELPIAction::CheckPrerequirements(Action * action)
 		{
 			case WindowsXP:
 				if (m_version == IE6)
+				{
+					if (WindowsLPISelected == false)
+					{
+						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
+					}
+				}
+				if (m_version == IE7 ||  m_version == IE8)
 				{
 					if (WindowsLPISelected == false)
 					{
