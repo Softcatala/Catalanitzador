@@ -166,12 +166,62 @@ bool ConfigureDefaultLanguageAction::IsRebootNeed()
 	return false;
 }
 
+// In Windows XP, you cannot signal to make a keyboard the default
+void ConfigureDefaultLanguageAction::MakeCatalanActiveKeyboard()
+{
+	wchar_t szValue[1024], szNum[16];
+
+	g_log.Log(L"ConfigureDefaultLanguageAction::MakeCatalanActiveKeyboard needed");
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Keyboard Layout\\Preload", true))
+	{
+		int nCatIndex = 0;
+		for (int i = 1; i < 100; i++)
+		{
+			swprintf_s(szNum, L"%u", i);
+			if (m_registry->GetString(szNum, szValue, sizeof (szValue)) == false)
+				break;		
+
+			if (wcsstr(szValue, L"0403") != NULL)
+			{
+				nCatIndex = i;
+				break;
+			}
+		}
+
+		if (nCatIndex > 0)
+		{
+			wchar_t szFirstLang[1024];
+			
+			if (m_registry->GetString(L"1", szFirstLang, sizeof (szFirstLang)))
+			{
+				swprintf_s(szNum, L"%u", nCatIndex);
+				if (m_registry->GetString(szNum, szValue, sizeof (szValue)))
+				{
+					m_registry->SetString(L"1", szValue);
+					m_registry->SetString(szNum, szFirstLang);
+					g_log.Log(L"ConfigureDefaultLanguageAction::MakeCatalanActiveKeyboard. Switching language positions");
+				}
+			}
+		}
+			
+		m_registry->Close();
+	}	
+}
+
 ActionStatus ConfigureDefaultLanguageAction::GetStatus()
 {
 	if (status == InProgress)
 	{
 		if (m_runner->IsRunning())
 			return InProgress;
+
+		if (m_OSVersion->GetVersion() == WindowsXP)
+		{
+			if (IsCatalanKeyboardActive() == false)
+			{
+				MakeCatalanActiveKeyboard();
+			}
+		}
 
 		if (IsCatalanKeyboardActive())
 		{

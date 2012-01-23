@@ -84,7 +84,46 @@ TEST(WindowsLPIActionTest, HasSpanishKeyboard_SecondTrue)
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0400"), Return(true)));	
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"2"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));	
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));
 	
 	EXPECT_EQ(true, defLanguageAction.HasSpanishKeyboard());
+}
+
+
+ACTION_P(ReadArgCharString, value)
+{
+	wcscpy_s(value, 255, arg1);
+}
+
+#define CATALAN_LANGCODE L"0403"
+#define ANOTHER_LANGCODE L"040a"
+
+TEST(WindowsLPIActionTest, MakeCatalanActiveKeyboard_XP)
+{
+	CreateConfigureDefaultLanguageAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Keyboard Layout\\Preload"), true)).WillRepeatedly(Return(true));	
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(ANOTHER_LANGCODE), Return(true)));	
+
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"2"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0400"), Return(true)));
+
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"3"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(CATALAN_LANGCODE), Return(true)));
+
+	wchar_t lang1[1024], lang3[1024];
+
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"1"),_)).
+		WillRepeatedly(DoAll(ReadArgCharString(lang1), Return(true)));
+
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"3"),_)).
+		WillRepeatedly(DoAll(ReadArgCharString(lang3), Return(true)));
+
+	defLanguageAction.MakeCatalanActiveKeyboard();
+
+	EXPECT_THAT(lang1, StrCaseEq(CATALAN_LANGCODE));
+	EXPECT_THAT(lang3, StrCaseEq(ANOTHER_LANGCODE));
 }

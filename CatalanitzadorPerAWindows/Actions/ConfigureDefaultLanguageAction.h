@@ -43,6 +43,7 @@ public:
 
 		bool IsCatalanKeyboardActive();
 		bool HasSpanishKeyboard();
+		void MakeCatalanActiveKeyboard();
 
 private:
 
