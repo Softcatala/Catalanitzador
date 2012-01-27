@@ -298,6 +298,14 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Core"
+			>
+			<File
+				RelativePath=".\Core\HttpFormInetTest.cpp"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

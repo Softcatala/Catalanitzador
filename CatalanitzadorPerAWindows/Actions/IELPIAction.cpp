@@ -21,7 +21,6 @@
 #include <stdio.h>
 
 #include "IELPIAction.h"
-#include "InternetAccess.h"
 #include "OSVersion.h"
 #include "Runner.h"
 #include "Registry.h"
@@ -274,7 +273,7 @@ bool IELPIAction::_createTempDirectory()
 
 bool IELPIAction::Download(ProgressStatus progress, void *data)
 {
-	InternetAccess inetacccess;
+	DownloadInet inetacccess;
 
 	if (_createTempDirectory() == false)
 		return false;

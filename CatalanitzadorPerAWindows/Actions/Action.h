@@ -20,7 +20,7 @@
 #pragma once
 
 #include <windows.h>
-#include "InternetAccess.h"
+#include "DownloadInet.h"
 #include "ProgressStatus.h"
 #include "Serializable.h"
 #include "ActionStatus.h"

@@ -19,22 +19,17 @@
  
 #pragma once
 
+#include "Defines.h"
+#include <Windows.h>
 #include <WinInet.h>
-#include "ProgressStatus.h"
 
-class InternetAccess 
+class _APICALL Inet 
 {
 public:
-		InternetAccess();
-		~InternetAccess();
+		Inet();
+		~Inet();		
 		
-		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);
-		bool PostForm(wchar_t* URL, char* variables);
-
 		static bool IsThereConnection();
-private:
-		int _getFileSize(HINTERNET hRemoteFile);
-		void _urlFormEncode(char* variables, char* encoded);
-
+protected:
 		HINTERNET hInternet;
 };

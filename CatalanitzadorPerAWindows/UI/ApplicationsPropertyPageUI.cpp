@@ -325,7 +325,7 @@ bool ApplicationsPropertyPageUI::_onNext()
 			needInet = true;
 	}
 
-	if (needInet && InternetAccess::IsThereConnection() == false)
+	if (needInet && Inet::IsThereConnection() == false)
 	{
 		_noInternetConnection();
 		return FALSE;

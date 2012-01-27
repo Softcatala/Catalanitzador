@@ -21,7 +21,6 @@
 #include <stdio.h>
 
 #include "WindowsLPIAction.h"
-#include "InternetAccess.h"
 #include "OSVersion.h"
 #include "Runner.h"
 #include "Registry.h"
@@ -155,7 +154,7 @@ bool WindowsLPIAction::IsNeed()
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
-	InternetAccess inetacccess;
+	DownloadInet inetacccess;
 
 	GetTempPath(MAX_PATH, filename);
 

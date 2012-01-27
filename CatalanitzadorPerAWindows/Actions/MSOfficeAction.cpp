@@ -21,7 +21,6 @@
 #include <stdio.h>
 
 #include "MSOfficeAction.h"
-#include "InternetAccess.h"
 #include "OSVersion.h"
 #include "Runner.h"
 #include "Registry.h"
@@ -243,7 +242,7 @@ bool MSOfficeAction::IsNeed()
 
 bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 {
-	InternetAccess inetacccess;
+	DownloadInet inetacccess;
 	
 	wcscpy_s(m_szFullFilename, m_szTempPath);	
 	wcscat_s(m_szFullFilename, m_szFilename);

@@ -335,11 +335,27 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\InternetAccess.cpp"
+				RelativePath=".\Core\DownloadInet.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Core\InternetAccess.h"
+				RelativePath=".\Core\DownloadInet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\HttpFormInet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\HttpFormInet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Inet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Inet.h"
 				>
 			</File>
 			<File

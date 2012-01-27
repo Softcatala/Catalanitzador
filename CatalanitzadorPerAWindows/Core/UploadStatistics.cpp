@@ -19,7 +19,7 @@
  
 #include "stdafx.h"
 #include "UploadStatistics.h"
-#include "InternetAccess.h"
+#include "HttpFormInet.h"
 #include <fstream>
 
 UploadStatistics::UploadStatistics(ostream* stream)
@@ -61,7 +61,7 @@ void UploadStatistics::UploadFile()
 	of.close();
 
 	// Send file
-	InternetAccess access;
+	HttpFormInet access;
 	bool rslt = access.PostForm(UPLOAD_URL, szVar);
 	DeleteFile(szXML);
 
