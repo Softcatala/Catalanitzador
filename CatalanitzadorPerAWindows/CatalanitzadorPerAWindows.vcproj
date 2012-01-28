@@ -431,6 +431,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\Sha1Sum.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Sha1Sum.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\UploadStatistics.cpp"
 				>
 			</File>
@@ -500,6 +508,14 @@
 			</File>
 			<File
 				RelativePath=".\UI\CheckedListView.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UI\DownloadErrorDlgUI.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UI\DownloadErrorDlgUI.h"
 				>
 			</File>
 			<File

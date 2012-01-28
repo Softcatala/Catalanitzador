@@ -54,3 +54,40 @@ Action* Action::AnotherActionDependsOnMe(vector <Action *> * allActions)
 	}
 	return NULL;
 }
+
+bool Action::_getAssociatedFileSha1Sum(wchar_t* URL, wchar_t* file, Sha1Sum &sha1sum)
+{
+	DownloadInet inetacccess;
+	wstring sha1_file(file);
+	wstring sha1_url(URL);
+
+	sha1_file += SHA1_EXTESION;
+	sha1_url += SHA1_EXTESION;
+
+	if (inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL) == false)
+	{		
+		return false;
+	}
+
+	sha1sum.SetFile(sha1_file);
+	sha1sum.ReadFromFile();
+	DeleteFile(sha1_file.c_str());
+	return sha1sum.GetSum().empty() == false;
+}
+
+bool Action::_getFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
+{	
+	DownloadInet inetacccess;
+	Sha1Sum sha1_computed(file), sha1_read;
+
+	// Get file
+	if (inetacccess.GetFile(URL, file, progress, data) == false)
+		return false;
+
+	// If cannot get the file, cannot check assume that is OK
+	if (_getAssociatedFileSha1Sum(URL, file, sha1_read) == false)
+		return true;
+	
+	sha1_computed.ComputeforFile();
+	return sha1_computed == sha1_read;
+}

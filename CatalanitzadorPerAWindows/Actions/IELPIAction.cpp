@@ -273,8 +273,6 @@ bool IELPIAction::_createTempDirectory()
 
 bool IELPIAction::Download(ProgressStatus progress, void *data)
 {
-	DownloadInet inetacccess;
-
 	if (_createTempDirectory() == false)
 		return false;
 	
@@ -284,7 +282,7 @@ bool IELPIAction::Download(ProgressStatus progress, void *data)
 	wcscat_s(m_filename, url.GetFileName());
 	
 	g_log.Log(L"IELPIAction::Download '%s' to '%s'", _getPackageName(), m_filename);
-	return inetacccess.GetFile (_getPackageName(), m_filename, progress, data);
+	return _getFile(_getPackageName(), m_filename, progress, data);
 }
 
 void IELPIAction::Execute()

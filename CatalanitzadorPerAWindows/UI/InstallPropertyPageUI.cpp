@@ -25,6 +25,7 @@
 #include "Window.h"
 #include "resource.h"
 #include "OSVersion.h"
+#include "DownloadErrorDlgUI.h"
 
 #include <stdio.h>
 #include <vector>
@@ -72,23 +73,44 @@ void InstallPropertyPageUI::_execute(Action* action)
 	action->Execute();
 }
 
-void InstallPropertyPageUI::_download(Action* action)
+bool InstallPropertyPageUI::_download(Action* action)
 {
+	bool bDownload;
+	bool bError = false;
 	wchar_t szString [MAX_LOADSTRING];
 	wchar_t szText [MAX_LOADSTRING];
 
 	if (action->IsDownloadNeed() == false)
-		return;
+		return false;
 
 	_setTaskMarqueeMode(false);
 
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);
-	swprintf_s (szText, szString, action->GetName());
-	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);
+	swprintf_s(szText, szString, action->GetName());
+	SendMessage(hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 
 	Window::ProcessMessages();
-	action->Download((ProgressStatus)_downloadStatus, this);
+
+	bDownload = true;
+	while (bDownload)
+	{
+		if (action->Download((ProgressStatus)_downloadStatus, this) == false)
+		{
+			DownloadErrorDlgUI dlgError(action->GetName());
+			if (dlgError.Run(getHandle()) == false)
+			{
+				bDownload = false;
+				bError = true;
+			}
+		}
+		else
+		{
+			bDownload = false;
+		}
+	}
+
 	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+	return bError;
 }
 
 void InstallPropertyPageUI::_completed()
@@ -182,6 +204,21 @@ void InstallPropertyPageUI::_setTaskMarqueeMode(bool enable)
 	}
 }
 
+void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
+{
+	while (true)
+	{
+		ActionStatus status = action->GetStatus();
+
+		if (status == Successful || status == FinishedWithError)
+			break;
+
+		Window::ProcessMessages();
+		Sleep(50);
+		Window::ProcessMessages();
+	}
+}
+
 void InstallPropertyPageUI::_onTimer()
 {
 	Action* action;
@@ -206,20 +243,16 @@ void InstallPropertyPageUI::_onTimer()
 			continue;
 		}
 
-		_download(action);
-		_execute(action);
-
-		while (true)
+		if (_download(action) == false)
 		{
-			ActionStatus status = action->GetStatus();
-
-			if (status == Successful || status == FinishedWithError)
-				break;
-
-			Window::ProcessMessages();
-			Sleep(50);
-			Window::ProcessMessages();
+			_execute(action);
+			_waitExecutionComplete(action);
 		}
+		else
+		{
+			action->SetStatus(FinishedWithError);
+		}
+
 		SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0); // 'Execute' completed
 		m_serializer->Serialize(action);
 		Window::ProcessMessages();

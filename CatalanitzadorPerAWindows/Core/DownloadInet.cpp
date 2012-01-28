@@ -44,8 +44,8 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 	DWORD dwRead, dwWritten;
 	int nTotal, nCurrent;
 	
-	hRemoteFile = InternetOpenUrl(hInternet, URL, NULL, 0,	
-		INTERNET_FLAG_RELOAD, // TODO: Debug only, prevents local caching
+	hRemoteFile = InternetOpenUrl(hInternet, URL, NULL, 0,
+		0,
 		0);
 
 	if (hRemoteFile == 0)

@@ -305,6 +305,10 @@
 				RelativePath=".\Core\HttpFormInetTest.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Core\Sha1SumTest.cpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

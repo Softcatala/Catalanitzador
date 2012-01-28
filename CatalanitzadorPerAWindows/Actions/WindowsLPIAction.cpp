@@ -154,15 +154,13 @@ bool WindowsLPIAction::IsNeed()
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
-	DownloadInet inetacccess;
-
 	GetTempPath(MAX_PATH, filename);
 
 	Url url (GetPackageName());
 	wcscat_s (filename, url.GetFileName());
 	
 	g_log.Log(L"WindowsLPIAction::Download '%s' to '%s'", GetPackageName(), filename);
-	return inetacccess.GetFile(GetPackageName(), filename, progress, data);
+	return _getFile(GetPackageName(), filename, progress, data);
 }
 
 void WindowsLPIAction::Execute()

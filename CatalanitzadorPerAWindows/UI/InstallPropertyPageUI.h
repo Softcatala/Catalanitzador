@@ -39,11 +39,12 @@ private:
 		static void _downloadStatus(int total, int current, void *data);
 
 		void _execute(Action* action);
-		void _download(Action* action);
+		bool _download(Action* action);
 		void _completed();
 		void _updateSelectedActionsCounts();
 		void _windowsXPAsksCDWarning();
 		void _setTaskMarqueeMode(bool enable);
+		void _waitExecutionComplete(Action* action);
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;

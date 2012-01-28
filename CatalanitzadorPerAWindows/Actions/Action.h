@@ -25,10 +25,12 @@
 #include "Serializable.h"
 #include "ActionStatus.h"
 #include "ActionID.h"
-
+#include "Sha1Sum.h"
 
 #include <vector>
 using namespace std;
+
+#define SHA1_EXTESION L".sha1"
 
 class _APICALL Action : public Serializable
 {
@@ -45,7 +47,7 @@ public:
 		virtual char* GetVersion() { return "";}
 		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
 		virtual void SetStatus(ActionStatus value) { status = value; }
-		virtual bool Download(ProgressStatus, void *data) {return false;}
+		virtual bool Download(ProgressStatus, void *data) {return true;}
 		virtual void Execute() = 0;
 		virtual void Serialize(ostream* stream);
 		virtual void CheckPrerequirements(Action * action){};
@@ -54,6 +56,8 @@ public:
 		bool HasDependency(vector <Action *> * allActions);
 
 protected:
+		bool _getAssociatedFileSha1Sum(wchar_t* URL, wchar_t* file, Sha1Sum &sha1sum);
+		bool _getFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);
 		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);
 
 		TCHAR szName[MAX_LOADSTRING];

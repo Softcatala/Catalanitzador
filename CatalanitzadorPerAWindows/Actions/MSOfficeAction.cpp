@@ -242,13 +242,11 @@ bool MSOfficeAction::IsNeed()
 
 bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 {
-	DownloadInet inetacccess;
-	
 	wcscpy_s(m_szFullFilename, m_szTempPath);	
 	wcscat_s(m_szFullFilename, m_szFilename);
 
 	g_log.Log(L"MSOfficeAction::Download '%s' to '%s'", _getPackageName (), m_szFullFilename);
-	return inetacccess.GetFile(_getPackageName(), m_szFullFilename, progress, data);
+	return _getFile(_getPackageName(), m_szFullFilename, progress, data);
 }
 
 bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
