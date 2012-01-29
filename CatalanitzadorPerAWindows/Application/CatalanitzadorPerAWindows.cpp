@@ -75,10 +75,15 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 {
 	int id;
 
-	if (m_osVersion.GetVersion() == Windows2000)
-		id = IDS_NOTSUPPORTEDOS;	
+	if (m_osVersion.GetVersion() == Windows2000 ||
+		(m_osVersion.GetVersion() == WindowsXP && m_osVersion.IsWindows64Bits()))
+	{
+		id = IDS_NOTSUPPORTEDOS;
+	}
 	else
+	{
 		return true;
+	}
 
 	wchar_t szMessage [MAX_LOADSTRING];
 	wchar_t szCaption [MAX_LOADSTRING];
