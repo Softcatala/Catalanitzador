@@ -47,7 +47,9 @@ void WelcomePropertyPageUI::_onInitDialog()
 		WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	hWnd = GetDlgItem (getHandle(), IDC_WELCOME_TOAPP);
+#if !_DEBUG
 	CheckDlgButton(getHandle(), IDC_SENDRESULTS, TRUE);
+#endif
 	SetFocus(getHandle());
 }
 
