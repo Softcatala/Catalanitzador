@@ -169,7 +169,7 @@ void InstallPropertyPageUI::_windowsXPAsksCDWarning()
 		if (action->GetStatus() != Selected)
 			continue;
 
-		if (action->GetID() == WindowsLPI)
+		if (action->GetID() == WindowsLPI || action->GetID() == ConfigureLocale)
 		{
 			bShow = true;
 			break;
