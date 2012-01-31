@@ -53,6 +53,20 @@ bool Registry::SetString(wchar_t* string, wchar_t* value)
 	return RegSetValueEx(hKey,string,0, REG_SZ, (BYTE*)value, (wcslen (value) +1) * sizeof (wchar_t)) == ERROR_SUCCESS;
 }
 
+bool Registry::SetMultiString(wchar_t* string, wchar_t* value)
+{
+	bool bRslt;
+	int len = wcslen(value);
+	wchar_t* pString = new wchar_t[len + 2];
+
+	memcpy(pString, value, (len + 1) * sizeof(wchar_t));
+	pString[len+1] = NULL;
+
+	bRslt = RegSetValueEx(hKey,string,0, REG_MULTI_SZ, (BYTE*)pString, len * sizeof(wchar_t)) == ERROR_SUCCESS;
+ 	delete pString;
+	return bRslt;
+}
+
 bool Registry::GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength)
 {
 	DWORD dwType;

@@ -33,7 +33,7 @@ WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, I
 	m_win32I18N = win32I18N;
 	m_OSVersion = OSVersion;
 	m_runner = runner;
-	filename[0] = NULL;	
+	filename[0] = NULL;
 }
 
 WindowsLPIAction::~WindowsLPIAction()
@@ -200,13 +200,21 @@ void WindowsLPIAction::_setDefaultLanguage()
 {
 	if (m_OSVersion->GetVersion() == WindowsXP)
 		return;
-
-	Registry registry;
+	
+	// Sets the language for the default user
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
 		m_registry->SetString(L"PreferredUILanguages", L"ca-ES");
 		m_registry->Close();
-		g_log.Log(L"WindowsLPIAction::_setDefaultLanguage done");
+		g_log.Log(L"WindowsLPIAction::_setDefaultLanguage current user done");
+	}
+
+	// Sets the language for all users
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\Settings", true) == TRUE)
+	{
+		m_registry->SetMultiString(L"PreferredUILanguages", L"ca-ES");
+		m_registry->Close();
+		g_log.Log(L"WindowsLPIAction::_setDefaultLanguage all users done");
 	}
 }
 

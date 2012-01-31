@@ -24,6 +24,7 @@ class IRegistry
 public:		
 		virtual bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess) = 0;
 		virtual bool SetString(wchar_t* string, wchar_t* value) = 0;
+		virtual bool SetMultiString(wchar_t* string, wchar_t* value) = 0;
 		virtual bool SetDWORD(wchar_t* string, DWORD value) = 0;
 		virtual bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength) = 0;
 		virtual bool GetDWORD(wchar_t* sName, DWORD *value) = 0;

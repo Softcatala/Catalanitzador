@@ -29,6 +29,7 @@ public:
 
 		bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess);
 		bool SetString(wchar_t* string, wchar_t* value);
+		virtual bool SetMultiString(wchar_t* string, wchar_t* value);
 		bool SetDWORD(wchar_t* string, DWORD value);
 		bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength);
 		bool GetDWORD(wchar_t* sName, DWORD *value);
