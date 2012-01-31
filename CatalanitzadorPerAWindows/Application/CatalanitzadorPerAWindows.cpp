@@ -49,7 +49,7 @@ void CatalanitzadorPerAWindows::Run()
 		return;
 
 	_initLog();
-	if (_supportedOS() == true)
+	if (_supportedOS() == true && _hasAdminPermissionsDialog() == true)
 	{
 		_createWizard();
 	}
@@ -98,6 +98,46 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 	MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
 	uploadStatistics.WaitBeforeExit();
 	return false;
+}
+
+bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
+{
+	bool hasAdmin;
+
+	hasAdmin = _hasAdminPermissions();
+
+	if (hasAdmin == false)
+	{	
+		wchar_t szMessage [MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];
+
+		g_log.Log (L"Show not admin user dialog");
+		LoadString(GetModuleHandle(NULL), IDS_NOUSERADMIN, szMessage, MAX_LOADSTRING);
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+		MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
+	}
+	return hasAdmin;
+}
+
+bool CatalanitzadorPerAWindows::_hasAdminPermissions()
+{	
+	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+	PSID AdministratorsGroup;
+
+	if (!AllocateAndInitializeSid(&NtAuthority, 2,
+		SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS,
+		0, 0, 0, 0, 0, 0, &AdministratorsGroup))
+	{
+		return false;
+	}
+	
+	BOOL IsInAdminGroup = FALSE;
+	if(!CheckTokenMembership(NULL, AdministratorsGroup, &IsInAdminGroup))
+	{	
+		IsInAdminGroup = FALSE;
+	}	
+	FreeSid(AdministratorsGroup);
+	return IsInAdminGroup == TRUE ? true : false;
 }
 
 bool CatalanitzadorPerAWindows::_isAlreadyRunning()

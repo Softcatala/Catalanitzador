@@ -39,6 +39,8 @@ private:
 		bool _supportedOS();
 		void _createWizard();
 		bool _isAlreadyRunning();
+		bool _hasAdminPermissions();
+		bool _hasAdminPermissionsDialog();
 
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;
