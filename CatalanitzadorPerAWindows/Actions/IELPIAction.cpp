@@ -419,7 +419,8 @@ void IELPIAction::CheckPrerequirements(Action * action)
 					}
 				}
 				break;
-			default:
+			default: //	Windows2008, Windows2008R2 and others
+				_getStringFromResourceIDName(IDS_IELPIACTION_NOPACKAGE, szCannotBeApplied);
 				break;
 		}
 	}
