@@ -66,3 +66,18 @@ TEST(Sha1SumTest, ReadFromFile)
 
 	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(L"ce4b01c1d705f33204d352dfdfc2d7ab97134c9"));
 }
+
+TEST(Sha1SumTest, EqualOperator)
+{
+	wstring file, computed;
+	_createFile(file);
+
+	Sha1Sum sha1(file);
+	sha1.ReadFromFile();
+
+	Sha1Sum sha2(file);
+	sha2.ReadFromFile();
+
+	DeleteFile(file.c_str());
+	EXPECT_TRUE(sha1==sha2);
+}

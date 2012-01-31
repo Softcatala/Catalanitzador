@@ -36,12 +36,10 @@ class _APICALL Sha1Sum
 			wstring ComputeforFile();
 			wstring ReadFromFile();
 			
-			bool operator== (Sha1Sum& other);			
+			bool operator== (Sha1Sum& other);
 						
 	private:
 			void _compute();
 			wstring m_sum;
 			wstring m_file;
 };
-
-bool operator ==(const Sha1Sum& a, const Sha1Sum& b);
