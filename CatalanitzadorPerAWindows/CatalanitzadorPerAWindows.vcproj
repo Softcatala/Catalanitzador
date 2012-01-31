@@ -63,6 +63,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="wininet.lib version.lib comctl32.lib"
+				OutputFile="$(OutDir)\CatalanitzadorPerAlWindows.exe"
 				LinkIncremental="2"
 				EnableUAC="true"
 				UACExecutionLevel="2"
@@ -140,6 +141,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="wininet.lib version.lib comctl32.lib"
+				OutputFile="$(OutDir)\CatalanitzadorPerAlWindows.exe"
 				LinkIncremental="1"
 				EnableUAC="true"
 				UACExecutionLevel="2"

@@ -63,7 +63,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib version.lib gtestd.lib gmock.lib CatalanitzadorPerAWindows.lib"
+				AdditionalDependencies="wininet.lib version.lib gtestd.lib gmock.lib CatalanitzadorPerAlWindows.lib"
+				OutputFile="$(OutDir)\CatalanitzadorPerAlWindows.UnitTests.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(VCInstallDir)lib&quot;;&quot;$(VCInstallDir)atlmfc\lib&quot;;&quot;$(WindowsSdkDir)lib&quot;;&quot;$(FrameworkSDKDir)\lib&quot;;&quot;$(SolutionDir)\libs\gtest\msvc\gtest-md\Debug&quot;;&quot;$(SolutionDir)\libs\gmock\msvc\2005\Debug&quot;;&quot;$(SolutionDir)Debug&quot;"
 				GenerateDebugInformation="true"
@@ -139,7 +140,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib version.lib gtest.lib gmock.lib CatalanitzadorPerAWindows.lib"
+				AdditionalDependencies="wininet.lib version.lib gtest.lib gmock.lib CatalanitzadorPerAlWindows.lib"
+				OutputFile="$(OutDir)\$CatalanitzadorPerAlwindows.UnitTests.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(VCInstallDir)lib&quot;;&quot;$(VCInstallDir)atlmfc\lib&quot;;&quot;$(WindowsSdkDir)lib&quot;;&quot;$(FrameworkSDKDir)\lib&quot;;&quot;$(SolutionDir)\libs\gtest\msvc\gtest-md\Release&quot;;&quot;$(SolutionDir)\libs\gmock\msvc\2005\Release&quot;;&quot;$(SolutionDir)Release&quot;"
 				GenerateDebugInformation="true"

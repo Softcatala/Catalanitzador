@@ -3,10 +3,10 @@
 <assemblyIdentity
    version="1.0.0.0"
    processorArchitecture="X86"
-   name="CatalanitzadorPerAWindows"
+   name="CatalanitzadorPerAlWindows"
    type="win32"
 />
-<description>Catalanitzador per a Windows</description>
+<description>Catalanitzador per al Windows</description>
 <dependency>
    <dependentAssembly>
      <assemblyIdentity

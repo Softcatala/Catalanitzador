@@ -63,8 +63,8 @@ void CatalanitzadorPerAWindows::_initLog()
 	MultiByteToWideChar(CP_ACP, 0,  STRING_VERSION, strlen (STRING_VERSION) + 1,
                   szVersion, sizeof (szVersion));
 
-	swprintf_s(szApp, L"CatalanitzadorPerAWindows version %s", szVersion);
-	g_log.CreateLog(L"CatalanitzadorPerAWindows.log",szApp);
+	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", szVersion);
+	g_log.CreateLog(L"CatalanitzadorPerAlWindows.log",szApp);
 	
 	wchar_t szOSInfo [2048];
 	m_osVersion.GetLogInfo(szOSInfo, sizeof (szOSInfo));
