@@ -371,7 +371,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 	
 		switch (m_osVersion.GetVersion())
 		{
-			case WindowsXP:
+			case WindowsXP: // Includes IE 6
 				if (m_version == IE6)
 				{
 					if (WindowsLPISelected == false)
@@ -379,15 +379,15 @@ void IELPIAction::CheckPrerequirements(Action * action)
 						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
 					}
 				}
-				if (m_version == IE7 ||  m_version == IE8)
+				if (m_version == IE7 || m_version == IE8)
 				{
 					if (WindowsLPISelected == false)
 					{
-						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
+						_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
 					}
 				}
 				break;
-			case WindowsVista:
+			case WindowsVista: // Includes IE 7
 				if (m_version == IE7)
 				{
 					if (WindowsLPISelected == false)
@@ -399,11 +399,11 @@ void IELPIAction::CheckPrerequirements(Action * action)
 				{
 					if (WindowsLPISelected == false)
 					{
-						_getStringFromResourceIDName(IDS_IELPIACTION_IE9NEEDWINLPI, szCannotBeApplied);
+						_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
 					}
 				}
 				break;
-			case Windows7:
+			case Windows7: // Includes IE 8
 				if (m_version == IE8)
 				{
 					if (WindowsLPISelected == false)
@@ -415,7 +415,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 				{
 					if (WindowsLPISelected == false)
 					{
-						_getStringFromResourceIDName(IDS_IELPIACTION_IE9NEEDWINLPI, szCannotBeApplied);
+						_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
 					}
 				}
 				break;
