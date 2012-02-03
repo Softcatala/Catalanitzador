@@ -46,10 +46,10 @@ OperatingVersion OSVersion::GetVersion()
 	switch (osvi.dwMajorVersion)
 	{
 		case 5:
-			m_version = _processXPAnd2000 (osvi);			
+			m_version = _processXPAnd2000(osvi);			
 			break;
 		case 6:
-			m_version = _processVistaAnd7 (osvi);
+			m_version = _processVistaAnd7(osvi);
 			break;
 		default:
 			m_version = UnKnownOS;
@@ -110,14 +110,15 @@ void OSVersion::GetLogInfo(wchar_t * szString, int size)
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	GetVersionEx((OSVERSIONINFO*) &osvi);
 		
-	swprintf_s (szString, size / sizeof (wchar_t), L"OS Info. OS version %u.%u, SP version %u.%u, SuiteMask %u, 64 bit %s, enum %s",
+	swprintf_s (szString, size / sizeof (wchar_t), L"OS Info. OS version %u.%u, SP version %u.%u, SuiteMask %u, ProductType %u, 64 bit %s, enum %s",
 		osvi.dwMajorVersion, 
 		osvi.dwMinorVersion,
 		osvi.wServicePackMajor,
 		osvi.wServicePackMinor,
 		osvi.wSuiteMask,
+		osvi.wProductType,
 		IsWindows64Bits() == true ? L"yes" : L"no",
-		GetVersionText (GetVersion ()));
+		GetVersionText(GetVersion()));
 }
 
  DWORD OSVersion::GetServicePackVersion()
@@ -165,6 +166,12 @@ OperatingVersion OSVersion::_processXPAnd2000(OSVERSIONINFOEX osvi)
 	{
 		return WindowsXP;
 	}
+
+	if (osvi.dwMinorVersion == 2)
+	{
+		return WindowsXP64_2003;
+	}
+
 	return UnKnownOS;
 }
 
@@ -173,7 +180,7 @@ OperatingVersion OSVersion::_processVistaAnd7(OSVERSIONINFOEX osvi)
 	if (osvi.dwMinorVersion == 0)
 	{
 		if (osvi.wProductType == VER_NT_WORKSTATION)
-			return WindowsVista;                
+			return WindowsVista;
 		else 
 			return Windows2008;
 	}

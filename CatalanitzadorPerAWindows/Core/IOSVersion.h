@@ -32,7 +32,8 @@ enum OperatingVersion
 	Windows2000,
 	Windows2008,
 	Windows7,
-	Windows2008R2
+	Windows2008R2,
+	WindowsXP64_2003
 };
 
 class IOSVersion
