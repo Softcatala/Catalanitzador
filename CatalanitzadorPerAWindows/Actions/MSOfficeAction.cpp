@@ -57,8 +57,11 @@ MSOfficeAction::MSOfficeAction()
 	_getVersionInstalled();
 	GetTempPath(MAX_PATH, m_szTempPath);
 
-	Url url(m_downloadAction.GetFileName(_getDownloadID()));
-	wcscpy_s(m_szFilename, url.GetFileName());	
+	if (_getDownloadID() != DI_UNKNOWN)
+	{
+		Url url(m_downloadAction.GetFileName(_getDownloadID()));
+		wcscpy_s(m_szFilename, url.GetFileName());
+	}
 }
 
 MSOfficeAction::~MSOfficeAction()
