@@ -19,6 +19,7 @@
 
 #pragma once
 
+#pragma warning(disable:4251)
 
 #include <windows.h>
 #include "DownloadInet.h"
