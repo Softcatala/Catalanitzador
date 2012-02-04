@@ -81,3 +81,18 @@ TEST(Sha1SumTest, EqualOperator)
 	DeleteFile(file.c_str());
 	EXPECT_TRUE(sha1==sha2);
 }
+
+TEST(Sha1SumTest, NotEqualOperator)
+{
+	wstring file, computed;
+	_createFile(file);
+
+	Sha1Sum sha1(file);
+	sha1.ReadFromFile();
+
+	Sha1Sum sha2(file);
+	sha2.ComputeforFile();
+
+	DeleteFile(file.c_str());
+	EXPECT_TRUE(sha1!=sha2);
+}

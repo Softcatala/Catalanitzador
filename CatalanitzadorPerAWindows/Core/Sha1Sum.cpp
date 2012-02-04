@@ -77,6 +77,7 @@ void Sha1Sum::_compute()
     BYTE rgbHash[SHA1LEN];    
     char digits[] = "0123456789abcdef";
     
+	m_sum.erase();
 	hFile = CreateFile(m_file.c_str(), GENERIC_READ,
         FILE_SHARE_READ,  NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 

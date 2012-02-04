@@ -46,7 +46,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			bSha1 == true ? L"Ok" : L"Failed",
 			sha1_read == sha1_computed ? L"Ok" : L"Failed");
 
-		if (!bFile || !bSha1 || !(sha1_read == sha1_computed))
+		if (bFile == false || bSha1 == false || sha1_read != sha1_computed)
 			bAllOk = false;
 	}
 

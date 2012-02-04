@@ -37,6 +37,7 @@ class _APICALL Sha1Sum
 			wstring ReadFromFile();
 			
 			bool operator== (Sha1Sum& other);
+			bool operator!= (Sha1Sum& other) {return !(*this == other);};
 						
 	private:
 			void _compute();
