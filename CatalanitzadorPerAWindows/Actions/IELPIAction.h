@@ -51,10 +51,10 @@ public:
 
 private:
 
-		wchar_t* _getPackageName();
-		wchar_t* _getPackageNameIE7();
-		wchar_t* _getPackageNameIE8();
-		wchar_t* _getPackageNameIE9();
+		DownloadID _getDownloadID();
+		DownloadID _getDownloadIDIE7();
+		DownloadID _getDownloadIDIE8();
+		DownloadID _getDownloadIDIE9();
 		IEVersion _getVersion();
 		bool _isLangPackInstalled();
 		bool _is64BitsPackage();

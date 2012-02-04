@@ -19,21 +19,5 @@
  
 #define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
 
-#define MSOFFICEACTION_2010 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe"
-#define MSOFFICEACTION_2007 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe"
-#define MSOFFICEACTION_2003 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab";
-
-#define WINDOWSLPIACTION_XP L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi"
-#define WINDOWSLPIACTION_XP_SP2 L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi"
-#define WINDOWSLPIACTION_VISTA L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc"
-#define WINDOWSLPIACTION_7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc"
-#define WINDOWSLPIACTION_7_64BITS L"http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc"
-
-#define IELPI_IE7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe"
-#define IELPI_IE8_XP L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe"
-#define IELPI_IE8_VISTA L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu"
-#define IELPI_IE9_VISTA L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu"
-#define IELPI_IE9_7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu"
-#define IELPI_IE9_7_64BITS L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu"
 
 #define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"

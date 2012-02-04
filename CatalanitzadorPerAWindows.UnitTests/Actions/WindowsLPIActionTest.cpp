@@ -151,41 +151,41 @@ TEST(WindowsLPIActionTest, ExecuteWindows7)
 	lipAction.Execute();
 }
 
-TEST(WindowsLPIActionTest, GetPackageName7)
+TEST(WindowsLPIActionTest, GetDownloadID7)
 {	
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"LIP_ca-ES-32bit.mlc"));
+	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_7);
 }
 
-TEST(WindowsLPIActionTest, GetPackageNameVista)
+TEST(WindowsLPIActionTest, GetDownloadIDVista)
 {	
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"lip_ca-es.mlc"));
+	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_VISTA);
 }
 
 #define WINDOWS_SP_MAJORNUM_SP1 1
 
-TEST(WindowsLPIActionTest, GetPackageNameXPSP1)
+TEST(WindowsLPIActionTest, GetDownloadIDXPSP1)
 {	
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, GetServicePackVersion()).WillRepeatedly(Return(MAKELONG(0,WINDOWS_SP_MAJORNUM_SP1)));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"Build2006Professional/LIPsetup.msi"));
+	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_XP);
 }
 
 #define WINDOWS_SP_MAJORNUM_SP2 2
 
-TEST(WindowsLPIActionTest, GetPackageNameXPSP2)
+TEST(WindowsLPIActionTest, GetDownloadIDXPSP2)
 {	
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, GetServicePackVersion()).WillRepeatedly(Return(MAKELONG(0,WINDOWS_SP_MAJORNUM_SP2)));
-	EXPECT_THAT(lipAction.GetPackageName(), HasSubstr(L"XP2orlater/LIPsetup.msi"));
+	//EXPECT_THAT(lipAction.GetDownloadID(), HasSubstr(L"XP2orlater/LIPsetup.msi"));
 }

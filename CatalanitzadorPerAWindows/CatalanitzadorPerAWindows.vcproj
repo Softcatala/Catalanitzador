@@ -253,6 +253,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\DownloadAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\DownloadAction.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\DownloadActionData.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\IEAcceptLanguagesAction.cpp"
 				>
 			</File>

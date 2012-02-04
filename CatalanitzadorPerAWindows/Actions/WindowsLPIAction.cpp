@@ -54,7 +54,7 @@ wchar_t* WindowsLPIAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
 }
 
-wchar_t* WindowsLPIAction::GetPackageName()
+DownloadID WindowsLPIAction::GetDownloadID()
 {
 	OperatingVersion version = m_OSVersion->GetVersion();
 
@@ -65,28 +65,28 @@ wchar_t* WindowsLPIAction::GetPackageName()
 			WORD majorVersion = HIWORD(m_OSVersion->GetServicePackVersion());
 			if (majorVersion >= 2)
 			{
-				return WINDOWSLPIACTION_XP_SP2;
+				return DI_WINDOWSLPIACTION_XP_SP2;
 			}
 			else
 			{
-				return WINDOWSLPIACTION_XP;
+				return DI_WINDOWSLPIACTION_XP;
 			}
 		}
 		case WindowsVista:		
-			return WINDOWSLPIACTION_VISTA;
+			return DI_WINDOWSLPIACTION_VISTA;
 		case Windows7:
 			if (m_OSVersion->IsWindows64Bits())
 			{
-				return WINDOWSLPIACTION_7_64BITS;
+				return DI_WINDOWSLPIACTION_7_64BITS;
 			}
 			else
 			{
-				return WINDOWSLPIACTION_7;
+				return DI_WINDOWSLPIACTION_7;
 			}
 		default:
 			break;
 	}
-	return NULL;
+	return DI_UNKNOWN;
 }
 
 // Checks if the Catalan language pack is already installed
@@ -130,7 +130,7 @@ bool WindowsLPIAction::IsNeed()
 	
 	bool bNeed = false;
 
-	if (GetPackageName() != NULL)
+	if (GetDownloadID() != DI_UNKNOWN)
 	{		
 		if (IsLangPackInstalled() == false)
 		{		
@@ -156,11 +156,9 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
 	GetTempPath(MAX_PATH, filename);
 
-	Url url (GetPackageName());
-	wcscat_s (filename, url.GetFileName());
-	
-	g_log.Log(L"WindowsLPIAction::Download '%s' to '%s'", GetPackageName(), filename);
-	return _getFile(GetPackageName(), filename, progress, data);
+	Url url(m_downloadAction.GetFileName(GetDownloadID()));
+	wcscat_s (filename, url.GetFileName());	
+	return _getFile(GetDownloadID(), filename, progress, data);
 }
 
 void WindowsLPIAction::Execute()

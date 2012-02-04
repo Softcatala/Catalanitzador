@@ -106,56 +106,56 @@ IEVersion IELPIAction::_getVersion()
 	return version;
 }
 
-wchar_t* IELPIAction::_getPackageName()
+DownloadID IELPIAction::_getDownloadID()
 {
 	switch (m_version)
 	{
 		case IE7:
-			return IELPI_IE7;
+			return DI_IELPI_IE7;
 		case IE8:
-			return _getPackageNameIE8();
+			return _getDownloadIDIE8();
 		case IE9:
-			return _getPackageNameIE9();
+			return _getDownloadIDIE9();
 		default:
 			break;
 	}
 
-	return NULL;
+	return DI_UNKNOWN;
 }
 
-wchar_t* IELPIAction::_getPackageNameIE8()
+DownloadID IELPIAction::_getDownloadIDIE8()
 {
 	switch (m_osVersion.GetVersion())
 	{
 		case WindowsXP:
-			return IELPI_IE8_XP;
+			return DI_IELPI_IE8_XP;
 		case WindowsVista:
-			return IELPI_IE8_VISTA;
+			return DI_IELPI_IE8_VISTA;
 		default:
 			break;
 	}
-	return NULL;
+	return DI_UNKNOWN;
 }
 
-wchar_t* IELPIAction::_getPackageNameIE9()
+DownloadID IELPIAction::_getDownloadIDIE9()
 {
 	switch (m_osVersion.GetVersion())
 	{
 		case WindowsVista:
-			return IELPI_IE9_VISTA;
+			return DI_IELPI_IE9_VISTA;
 		case Windows7:
 			if (m_osVersion.IsWindows64Bits())
 			{
-				return IELPI_IE9_7_64BITS;
+				return DI_IELPI_IE9_7_64BITS;
 			}
 			else
 			{
-				return IELPI_IE9_7;
+				return DI_IELPI_IE9_7;
 			}
 		default:
 			break;
 	}
-	return NULL;
+	return DI_UNKNOWN;
 }
 
 bool IELPIAction::_is64BitsPackage()
@@ -229,7 +229,7 @@ bool IELPIAction::IsNeed()
 	
 	bool bNeed = false;
 
-	if (_getPackageName() != NULL)
+	if (_getDownloadID() != DI_UNKNOWN)
 	{
 		if (_isLangPackInstalled() == false)
 		{		
@@ -276,13 +276,11 @@ bool IELPIAction::Download(ProgressStatus progress, void *data)
 	if (_createTempDirectory() == false)
 		return false;
 	
-	Url url(_getPackageName());
+	Url url(m_downloadAction.GetFileName(_getDownloadID()));
 	wcscpy_s(m_filename, m_szTempDir);
 	wcscat_s(m_filename, L"\\");
-	wcscat_s(m_filename, url.GetFileName());
-	
-	g_log.Log(L"IELPIAction::Download '%s' to '%s'", _getPackageName(), m_filename);
-	return _getFile(_getPackageName(), m_filename, progress, data);
+	wcscat_s(m_filename, url.GetFileName());	
+	return _getFile(_getDownloadID(), m_filename, progress, data);
 }
 
 void IELPIAction::Execute()
@@ -434,7 +432,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 	}
 	else
 	{
-		if (_getPackageName() != NULL)
+		if (_getDownloadID() != NULL)
 		{
 			if (_isLangPackInstalled() == false)
 			{		

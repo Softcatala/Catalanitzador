@@ -61,7 +61,7 @@ private:
 		bool _wasInstalledCorrectly();
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _setDefaultLanguage();		
-		wchar_t* _getPackageName();
+		DownloadID  _getDownloadID();
 		void _removeOffice2003TempFiles();
 		RegKeyVersion _getRegKeys();
 

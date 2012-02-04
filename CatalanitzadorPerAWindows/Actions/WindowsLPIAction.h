@@ -43,11 +43,10 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 
 		bool IsLangPackInstalled();
-		wchar_t* GetPackageName();
+		DownloadID GetDownloadID();
 
 private:
 
-		
 		void _setDefaultLanguage();		
 
 		wchar_t filename[MAX_PATH];		

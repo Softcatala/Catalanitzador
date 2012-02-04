@@ -20,6 +20,11 @@
 #include "stdafx.h"
 #include "Url.h"
 
+Url::Url(wstring string) 
+{
+	_extractpath((wchar_t *)string.c_str());
+}
+
 Url::Url(wchar_t* url)
 {
 	_extractpath(url);

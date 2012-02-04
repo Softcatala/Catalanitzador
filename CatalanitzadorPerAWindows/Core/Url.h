@@ -27,6 +27,7 @@ class Url
 {
 public:
 		Url(wchar_t* url);
+		Url(wstring string);
 		wchar_t * GetFileName() {return m_filename;}
 		wchar_t * GetPathAndFileName() {return m_path;}
 		wchar_t * GetHostname() {return m_hostname;}

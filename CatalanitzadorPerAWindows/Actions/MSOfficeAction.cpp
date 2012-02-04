@@ -57,7 +57,7 @@ MSOfficeAction::MSOfficeAction()
 	_getVersionInstalled();
 	GetTempPath(MAX_PATH, m_szTempPath);
 
-	Url url(_getPackageName());
+	Url url(m_downloadAction.GetFileName(_getDownloadID()));
 	wcscpy_s(m_szFilename, url.GetFileName());	
 }
 
@@ -206,20 +206,20 @@ void MSOfficeAction::_getVersionInstalled()
 	g_log.Log(L"MSOfficeAction::_getVersionInstalled '%s' installed langmap '%u'", szVersion, (wchar_t *)m_bLangPackInstalled);
 }
 
-wchar_t* MSOfficeAction::_getPackageName()
+DownloadID  MSOfficeAction::_getDownloadID()
 {
 	switch (m_MSVersion)
 	{
 		case MSOffice2010:
-			return MSOFFICEACTION_2010;
+			return DI_MSOFFICEACTION_2010;
 		case MSOffice2007:
-			return MSOFFICEACTION_2007;
+			return DI_MSOFFICEACTION_2007;
 		case MSOffice2003:
-			return MSOFFICEACTION_2003;
+			return DI_MSOFFICEACTION_2003;
 		default:
 			break;
 	}
-	return NULL;
+	return DI_UNKNOWN;
 }
 
 bool MSOfficeAction::IsNeed()
@@ -244,9 +244,7 @@ bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	wcscpy_s(m_szFullFilename, m_szTempPath);	
 	wcscat_s(m_szFullFilename, m_szFilename);
-
-	g_log.Log(L"MSOfficeAction::Download '%s' to '%s'", _getPackageName (), m_szFullFilename);
-	return _getFile(_getPackageName(), m_szFullFilename, progress, data);
+	return _getFile(_getDownloadID(), m_szFullFilename, progress, data);
 }
 
 bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
