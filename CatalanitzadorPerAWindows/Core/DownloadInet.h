@@ -22,7 +22,7 @@
 #include "Inet.h"
 #include "ProgressStatus.h"
 
-class DownloadInet : public Inet
+class _APICALL DownloadInet : public Inet
 {
 public:
 		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);		

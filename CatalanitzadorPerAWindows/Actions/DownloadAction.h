@@ -58,11 +58,13 @@ public:
 		DownloadAction();
 		
 		bool GetFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data);
+		bool GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha1_file, Sha1Sum &sha1sum);
 		wstring GetFileName(DownloadID downloadID);
+		vector <Download> GetDownloads() {return m_downloads;}
 
 private:
 		void _getRebost(DownloadID downloadID, wstring &url);
-		bool _getAssociatedFileSha1Sum(DownloadID downloadID, wstring file, Sha1Sum &sha1sum);
+		
 		vector <Download> m_downloads;
 };
 

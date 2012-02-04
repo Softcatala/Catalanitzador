@@ -22,7 +22,7 @@
  
 DownloadAction::DownloadAction()
 {
-	m_downloads.resize(DI_LENGTH);
+	m_downloads.resize(DI_LENGTH - 1);
 
 	m_downloads[DI_MSOFFICEACTION_2010] = Download(wstring(MSOFFICEACTION_2010), 5199);
 	m_downloads[DI_MSOFFICEACTION_2007] = Download(wstring(MSOFFICEACTION_2007), 3481);
@@ -45,7 +45,7 @@ wstring DownloadAction::GetFileName(DownloadID downloadID)
 	return m_downloads[downloadID].download;
 }
 
-bool DownloadAction::_getAssociatedFileSha1Sum(DownloadID downloadID, wstring sha1_file, Sha1Sum &sha1sum)
+bool DownloadAction::GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha1_file, Sha1Sum &sha1sum)
 {
 	wstring sha1_url;
 	DownloadInet inetacccess;
@@ -56,7 +56,7 @@ bool DownloadAction::_getAssociatedFileSha1Sum(DownloadID downloadID, wstring sh
 	sha1_url += SHA1_EXTESION;
 
 	bRslt = inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
-	g_log.Log(L"DownloadAction::_getAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
+	g_log.Log(L"DownloadAction::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
 
 	sha1sum.SetFile(sha1_file);
 	sha1sum.ReadFromFile();
@@ -90,7 +90,7 @@ bool DownloadAction::GetFile(DownloadID downloadID, wstring file, ProgressStatus
 		return false;	
 
 	// If cannot get the file, cannot check assume that is OK
-	if (_getAssociatedFileSha1Sum(downloadID, (wchar_t *)file.c_str(), sha1_read) == false)
+	if (GetAssociatedFileSha1Sum(downloadID, (wchar_t *)file.c_str(), sha1_read) == false)
 		return true;
 	
 	sha1_computed.ComputeforFile();
