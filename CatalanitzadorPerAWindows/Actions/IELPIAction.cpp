@@ -393,7 +393,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
 					}
 				}
-				if (m_version == IE9)
+				if (m_version == IE8 || m_version == IE9)
 				{
 					if (WindowsLPISelected == false)
 					{
@@ -432,7 +432,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 	}
 	else
 	{
-		if (_getDownloadID() != NULL)
+		if (_getDownloadID() != DI_UNKNOWN)
 		{
 			if (_isLangPackInstalled() == false)
 			{		
