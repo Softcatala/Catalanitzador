@@ -180,8 +180,8 @@ struct LANGANDCODEPAGE {
 #define CATALAN_LANGCODE 0x403
 
 bool IELPIAction::_isLangPackInstalled()
-{	
-	bool installed = false;	
+{
+	bool installed = false;
 	wchar_t szFile[MAX_PATH];
 	DWORD dwLen, dwUnUsed;
 	LPTSTR lpVI;
@@ -370,51 +370,53 @@ void IELPIAction::CheckPrerequirements(Action * action)
 		switch (m_osVersion.GetVersion())
 		{
 			case WindowsXP: // Includes IE 6
-				if (m_version == IE6)
+				switch (m_version)
 				{
-					if (WindowsLPISelected == false)
-					{
+					case IE6:
 						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
-					}
-				}
-				if (m_version == IE7 || m_version == IE8)
-				{
-					if (WindowsLPISelected == false)
-					{
-						_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
-					}
+						break;
+					case IE7:
+					case IE8:				
+						if (WindowsLPISelected == false)
+						{
+							_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
+						}
+						break;
+					default:
+						break;
 				}
 				break;
 			case WindowsVista: // Includes IE 7
-				if (m_version == IE7)
+				switch (m_version)
 				{
-					if (WindowsLPISelected == false)
-					{
+					case IE7:				
 						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
-					}
-				}
-				if (m_version == IE8 || m_version == IE9)
-				{
-					if (WindowsLPISelected == false)
-					{
-						_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
-					}
+						break;
+					case IE8:
+					case IE9:				
+						if (WindowsLPISelected == false)
+						{
+							_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
+						}
+						break;
+					default:
+						break;
 				}
 				break;
 			case Windows7: // Includes IE 8
-				if (m_version == IE8)
+				switch (m_version)
 				{
-					if (WindowsLPISelected == false)
-					{
+					case IE8:				
 						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
-					}
-				}
-				if (m_version == IE9)
-				{
-					if (WindowsLPISelected == false)
-					{
-						_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
-					}
+						break;
+					case IE9:				
+						if (WindowsLPISelected == false)
+						{
+							_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
+						}
+						break;
+					default:
+						break;
 				}
 				break;
 			default: //	Windows2008, Windows2008R2 and others
@@ -422,9 +424,8 @@ void IELPIAction::CheckPrerequirements(Action * action)
 				break;
 		}
 	}
-		
-	g_log.Log(L"IELPIAction::CheckPrerequirements: %s",
-			wcslen(szCannotBeApplied) > 0 ? szCannotBeApplied: L"Ok");
+
+	g_log.Log(L"IELPIAction::CheckPrerequirements: %s", wcslen(szCannotBeApplied) > 0 ? szCannotBeApplied: L"Ok");
 
 	if (wcslen(szCannotBeApplied) > 0)
 	{
