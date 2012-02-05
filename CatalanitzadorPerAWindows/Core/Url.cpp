@@ -79,40 +79,30 @@ void Url::_extractfilename(wchar_t* path)
 // See: http://www.w3.org/International/O-URL-code.html
 void Url::EncodeParameter(wstring parameter, wstring& encoded)
 {
-	char szAsciiString[255], szString[255];	
-	wchar_t szEncoded[255];
+	char szUTF8[2048];	
 
 	WideCharToMultiByte(CP_UTF8, 0, parameter.c_str(), parameter.size() + 1,
-		szAsciiString, sizeof(szAsciiString), 0, 0);
+		szUTF8, sizeof(szUTF8), 0, 0);
 
-	szString[0] = NULL;
-	for (unsigned int i = 0; i < strlen (szAsciiString) ; i++)
+	for (unsigned int i = 0; i < strlen(szUTF8); i++)
 	{
 		unsigned char c;
 
-		c = szAsciiString[i];
+		c = szUTF8[i];
 
 		if (c =='.' ||
 			(c >='0' && c <='9') ||
 			(c >='A' && c <='Z') ||
 			(c >='a' && c <='z'))
-		{			
-			char ch[2];
-
-			ch[0] = c;
-			ch[1] = NULL;
-			strcat(szString, ch);
+		{
+			encoded += c;
 		}		
 		else
 		{
-			char string [16];
-			sprintf (string, "%%%X", c);
-			strcat(szString, string);
+			wchar_t szString[16];
+
+			wsprintf(szString, L"%%%X", c);
+			encoded += szString;
 		}	
-	}
-
-	MultiByteToWideChar(CP_ACP, 0,  szString, strlen(szString) + 1,
-		szEncoded, sizeof (szEncoded));
-
-	encoded = szEncoded;
+	}	
 }

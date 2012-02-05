@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,30 +16,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
 
-#include <Windows.h>
-#include <WinInet.h>
-#include <string>
-using namespace std;
+#include "stdafx.h"
+#include "Defines.h"
+#include "Url.h"
 
-class _APICALL Url
-{
-public:
-		Url(wchar_t* url);
-		Url(wstring string);
-		wchar_t * GetFileName() {return m_filename;}
-		wchar_t * GetPathAndFileName() {return m_path;}
-		wchar_t * GetHostname() {return m_hostname;}
-		static void EncodeParameter(wstring parameter, wstring& encoded);
+using ::testing::StrCaseEq;
 
-private:
-		void _extractfilename(wchar_t* path);
-		void _extractpath(wchar_t* url);
+TEST(UrlTest, UrlFormEncode)
+{	
+	wstring input, expected, encoded;
 
-		URL_COMPONENTS m_components;		
-		wchar_t m_filename[1024];
-		wchar_t m_hostname[1024];
-		wchar_t m_path[1024];
-};
+	input = L"Jo ja he catalanitzat el meu ordinador! Tu també pots amb el Catalanitzador de Softcatalà #catalanitzador";
+	expected = L"Jo%20ja%20he%20catalanitzat%20el%20meu%20ordinador%21%20Tu%20tamb%C3%A9%20pots%20amb%20el%20Catalanitzador%20de%20Softcatal%C3%A0%20%23catalanitzador";
+	
+	Url::EncodeParameter(input, encoded);
+	
+	EXPECT_THAT(encoded, StrCaseEq(expected));	
+}
