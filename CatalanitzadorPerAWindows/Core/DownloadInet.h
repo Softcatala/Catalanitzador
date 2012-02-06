@@ -28,5 +28,6 @@ public:
 		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);		
 		
 private:
-		int _getFileSize(HINTERNET hRemoteFile);		
+		int _getFileSize(HINTERNET hRemoteFile);
+		int _getStatusCode(HINTERNET hRemoteFile);
 };

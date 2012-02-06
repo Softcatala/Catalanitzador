@@ -24,9 +24,11 @@
 #include "Url.h"
 #include <stdio.h>
 
+#define ERROR_SERVER_ERROR 500
+#define ERROR_FILE_NOTFOUND 404
+
 int DownloadInet::_getFileSize(HINTERNET hRemoteFile)
 {
-	const int nEstimatedSize = 20000000;
 	wchar_t szSizeBuffer[64];
 	DWORD dwLengthSizeBuffer = sizeof(szSizeBuffer);
 	
@@ -34,7 +36,19 @@ int DownloadInet::_getFileSize(HINTERNET hRemoteFile)
 	{
 		return _wtol(szSizeBuffer);
 	}	
-	return nEstimatedSize;
+	return 0;
+}
+
+int DownloadInet::_getStatusCode(HINTERNET hRemoteFile)
+{	
+	DWORD dwStatus;
+	DWORD dwStatusSize = sizeof(dwStatus);
+	
+	if (HttpQueryInfo(hRemoteFile, HTTP_QUERY_STATUS_CODE|HTTP_QUERY_FLAG_NUMBER, &dwStatus, &dwStatusSize, NULL))
+	{
+		return dwStatus;
+	}	
+	return ERROR_FILE_NOTFOUND;
 }
 
 bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
@@ -48,13 +62,25 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 		INTERNET_FLAG_RELOAD, // TODO: Debug only, prevents local caching
 		0);
 
-	if (hRemoteFile == 0)
-		return false;
+	if (hRemoteFile == 0)	
+		return false;	
 
+	int status = _getStatusCode(hRemoteFile);
+
+	if (status == ERROR_FILE_NOTFOUND || status == ERROR_SERVER_ERROR)
+	{
+		g_log.Log(L"DownloadInet::GetFile. Error '%u' getting '%s'", (wchar_t *) status, URL);
+		InternetCloseHandle(hRemoteFile);
+		return false;
+	}
+	
 	hWrite = CreateFile(file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hWrite == INVALID_HANDLE_VALUE)
+	{
+		InternetCloseHandle(hRemoteFile);
 		return false;
+	}
 		
 	BYTE buffer[32768];
 
@@ -68,10 +94,6 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 
 		nCurrent+= dwRead;
 
-		// In the case that the size was estimated, let's manage user expectations by increasing total by 30%
-		if (nCurrent > nTotal)
-			nTotal = (int) ((double) nCurrent * 1.30);
-		
 		if (progress != NULL)
 		{
 			progress (nTotal, nCurrent, data);
