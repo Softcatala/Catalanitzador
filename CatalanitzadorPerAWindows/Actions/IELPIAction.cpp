@@ -356,6 +356,9 @@ bool IELPIAction::_wasInstalled()
 
 void IELPIAction::CheckPrerequirements(Action * action)
 {
+	if (GetStatus() == AlreadyApplied)
+		return;
+
 	szCannotBeApplied[0] = NULL;
 
 	if (m_version == IEUnknown || (m_osVersion.IsWindows64Bits() && m_version != IE9))
