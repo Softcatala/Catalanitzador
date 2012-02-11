@@ -26,6 +26,7 @@
 #include "resource.h"
 #include "OSVersion.h"
 #include "DownloadErrorDlgUI.h"
+#include "WindowsXPDialogCanceler.h"
 
 #include <stdio.h>
 #include <vector>
@@ -45,7 +46,7 @@ void InstallPropertyPageUI::_onShowWindow()
 {
 	if (ShowWindowOnce == FALSE)
 	{
-		SetTimer (getHandle(), TIMER_ID, 500, NULL);
+		SetTimer(getHandle(), TIMER_ID, 500, NULL);
 		ShowWindowOnce = TRUE;
 	}
 }
@@ -153,41 +154,6 @@ void InstallPropertyPageUI::_updateSelectedActionsCounts()
 	}
 }
 
-void InstallPropertyPageUI::_windowsXPAsksCDWarning()
-{
-	OSVersion version;
-
-	if (version.GetVersion() != WindowsXP)
-		return;
-
-	bool bShow = false;
-	Action* action;
-	for (unsigned int i = 0; i < m_actions->size(); i++)
-	{
-		action = m_actions->at(i);
-
-		if (action->GetStatus() != Selected)
-			continue;
-
-		if (action->GetID() == WindowsLPI || action->GetID() == ConfigureLocale)
-		{
-			bShow = true;
-			break;
-		} 
-		else
-			break;
-	}
-
-	if (bShow)
-	{
-		wchar_t szMessage [MAX_LOADSTRING];
-		wchar_t szCaption [MAX_LOADSTRING];
-		LoadString(GetModuleHandle(NULL), IDS_WINDOWSXP_ASKSCD, szMessage, MAX_LOADSTRING);
-		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
-		MessageBox(getParent()->getHandle(), szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
-	}
-}
-
 void InstallPropertyPageUI::_setTaskMarqueeMode(bool enable)
 {
 	LONG_PTR style = GetWindowLongPtr(hTaskProgressBar, GWL_STYLE);
@@ -222,10 +188,11 @@ void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
 void InstallPropertyPageUI::_onTimer()
 {
 	Action* action;
+	WindowsXPDialogCanceler dialogCanceler;
 
 	KillTimer(getHandle(), TIMER_ID);
-
-	_windowsXPAsksCDWarning();
+	
+	dialogCanceler.Start();
 
 	_updateSelectedActionsCounts();
 
@@ -257,6 +224,8 @@ void InstallPropertyPageUI::_onTimer()
 		m_serializer->Serialize(action);
 		Window::ProcessMessages();
 	}
+
+	dialogCanceler.Stop();
 	m_serializer->EndAction();
 	m_serializer->CloseHeader();
 	_completed();

@@ -572,6 +572,14 @@
 				RelativePath=".\UI\WelcomePropertyPageUI.h"
 				>
 			</File>
+			<File
+				RelativePath=".\UI\WindowsXPDialogCanceler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UI\WindowsXPDialogCanceler.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Application"
