@@ -150,6 +150,10 @@ wchar_t* OSVersion::GetVersionText(OperatingVersion version)
 			return L"Windows7";
 		case Windows2008R2:
 			return L"Windows2008R2";
+		case WindowsXP64_2003:
+			return L"WindowsXP64_2003";
+		case Windows8:
+			return L"Windows8";
 		default:
 			return L"Unknown enum";
 	}	
@@ -192,6 +196,12 @@ OperatingVersion OSVersion::_processVistaAnd7(OSVERSIONINFOEX osvi)
 		else
 			return Windows2008R2;
 	}
+
+	if (osvi.dwMinorVersion == 2)
+	{
+		return Windows8;
+	}
+
 	return UnKnownOS;
 }
 
