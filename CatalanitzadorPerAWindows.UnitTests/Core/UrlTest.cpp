@@ -32,5 +32,27 @@ TEST(UrlTest, UrlFormEncode)
 	
 	Url::EncodeParameter(input, encoded);
 	
-	EXPECT_THAT(encoded, StrCaseEq(expected));	
+	EXPECT_THAT(encoded, StrCaseEq(expected));
+}
+
+TEST(UrlTest, GetFileName)
+{
+	Url url (L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe");
+
+	EXPECT_THAT(url.GetFileName(), StrCaseEq(L"LanguageInterfacePack-x86-ca-es.exe"));
+}
+
+TEST(UrlTest, GetPathAndFileName)
+{
+	Url url (L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe");
+
+	EXPECT_THAT(url.GetPathAndFileName(), StrCaseEq(L"pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe"));
+}
+
+TEST(UrlTest, GetHostname)
+{
+	Url url (L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe");
+
+	EXPECT_THAT(url.GetHostname(), StrCaseEq(L"www.softcatala.org"));
+
 }
