@@ -296,6 +296,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\IELPIActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\WindowsLPIActionTest.cpp"
 				>
 			</File>

@@ -22,16 +22,18 @@
 
 #include "IELPIAction.h"
 #include "OSVersion.h"
-#include "Runner.h"
-#include "Registry.h"
 #include "Url.h"
 #include "Winver.h"
 
-IELPIAction::IELPIAction()
-{	
+IELPIAction::IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
+{
+	m_registry = registry;	
+	m_OSVersion = OSVersion;
+	m_runner = runner;
+
 	m_filename[0] = NULL;
 	m_szTempDir[0] = NULL;
-	m_version = _getVersion();	
+	m_version = IEUnread;
 }
 
 IELPIAction::~IELPIAction()
@@ -57,19 +59,28 @@ wchar_t* IELPIAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_IELPIACTION_DESCRIPTION, szDescription);
 }
 
-IEVersion IELPIAction::_getVersion()
+IEVersion IELPIAction::GetIEVersion()
 {
-	IEVersion version;
-	Registry registry;
-	wchar_t szVersion[128] = L"";
-	wchar_t szMajorVersion[128];
+	if (m_version == IEUnread)
+	{
+		m_version = ReadIEVersion();
+	}
+	return m_version;
+}
+
+IEVersion IELPIAction::ReadIEVersion()
+{
+	IEVersion version;	
+	wchar_t szVersion[255] = L"";
+	wchar_t szMajorVersion[255];
 	unsigned int cnt;
 	
-	if (registry.OpenKey(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Internet Explorer", false))
-	{		
-		registry.GetString(L"Version", szVersion, sizeof(szVersion));
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Internet Explorer", false))
+	{
+		int n=sizeof(szVersion);
+		m_registry->GetString(L"Version", szVersion, sizeof(szVersion));
 	}
-	registry.Close();
+	m_registry->Close();
 	
 	// read the first part of the number
 	for (cnt = 0; cnt < wcslen(szVersion) && (szVersion[cnt] >= L'0' && szVersion[cnt] <= L'9'); cnt++);
@@ -108,7 +119,7 @@ IEVersion IELPIAction::_getVersion()
 
 DownloadID IELPIAction::_getDownloadID()
 {
-	switch (m_version)
+	switch (GetIEVersion())
 	{
 		case IE7:
 			return DI_IELPI_IE7;
@@ -125,7 +136,7 @@ DownloadID IELPIAction::_getDownloadID()
 
 DownloadID IELPIAction::_getDownloadIDIE8()
 {
-	switch (m_osVersion.GetVersion())
+	switch (m_OSVersion->GetVersion())
 	{
 		case WindowsXP:
 			return DI_IELPI_IE8_XP;
@@ -139,12 +150,12 @@ DownloadID IELPIAction::_getDownloadIDIE8()
 
 DownloadID IELPIAction::_getDownloadIDIE9()
 {
-	switch (m_osVersion.GetVersion())
+	switch (m_OSVersion->GetVersion())
 	{
 		case WindowsVista:
 			return DI_IELPI_IE9_VISTA;
 		case Windows7:
-			if (m_osVersion.IsWindows64Bits())
+			if (m_OSVersion->IsWindows64Bits())
 			{
 				return DI_IELPI_IE9_7_64BITS;
 			}
@@ -160,10 +171,10 @@ DownloadID IELPIAction::_getDownloadIDIE9()
 
 bool IELPIAction::_is64BitsPackage()
 {
-	switch (m_osVersion.GetVersion())
+	switch (m_OSVersion->GetVersion())
 	{
 		case Windows7:
-			if (m_osVersion.IsWindows64Bits())
+			if (m_OSVersion->IsWindows64Bits())
 			{
 				return true;
 			}
@@ -210,7 +221,7 @@ bool IELPIAction::_isLangPackInstalled()
 		VerQueryValue(lpVI , L"\\" , (LPVOID *)&lpFfi , &uLen);
 		WORD majorVersion = HIWORD (lpFfi->dwFileVersionMS);
 
-		installed = (m_version == majorVersion && lpTranslate->wLanguage == CATALAN_LANGCODE);	
+		installed = (GetIEVersion() == majorVersion && lpTranslate->wLanguage == CATALAN_LANGCODE);	
 
 		g_log.Log(L"IELPIAction::_isLangPackInstalled %s has version %u and language code %x", 
 			szFile, (wchar_t*) majorVersion, (wchar_t*) lpTranslate->wLanguage);
@@ -287,7 +298,7 @@ void IELPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH] = L"";	
 
-	switch (m_version)
+	switch (GetIEVersion())
 	{
 	case IE7:
 		{
@@ -296,7 +307,7 @@ void IELPIAction::Execute()
 			break;
 		}
 	case IE8:
-		if (m_osVersion.GetVersion() == WindowsXP)
+		if (m_OSVersion->GetVersion() == WindowsXP)
 		{
 			wcscpy_s(szParams, m_filename);
 			wcscat_s(szParams, L" /quiet /norestart /update-no");
@@ -321,14 +332,14 @@ void IELPIAction::Execute()
 
 	status = InProgress;
 	g_log.Log(L"IELPIAction::Execute '%s', 64 bits %u", szParams,  (wchar_t *)_is64BitsPackage());
-	runner.Execute (NULL, szParams, _is64BitsPackage());
+	m_runner->Execute(NULL, szParams, _is64BitsPackage());
 }
 
 ActionStatus IELPIAction::GetStatus()
 {
 	if (status == InProgress)
 	{
-		if (runner.IsRunning())
+		if (m_runner->IsRunning())
 			return InProgress;
 
 		if (_wasInstalled()) {
@@ -346,12 +357,73 @@ ActionStatus IELPIAction::GetStatus()
 bool IELPIAction::_wasInstalled()
 {
 	// Could not find a way to tell if it went well
-	if (m_version == IE8 && m_osVersion.GetVersion() == WindowsXP)
+	if (GetIEVersion() == IE8 && m_OSVersion->GetVersion() == WindowsXP)
 	{
 		return true;
 	}
 
 	return _isLangPackInstalled();
+}
+
+Prerequirements IELPIAction::CheckPrerequirementsDependand(Action * action)
+{
+	bool WindowsLPISelected;
+	WindowsLPISelected = action->GetStatus() == Selected || action->GetStatus() == AlreadyApplied;
+
+	switch (m_OSVersion->GetVersion())
+	{
+		case WindowsXP: // Includes IE 6
+			switch (GetIEVersion())
+			{
+				case IE6:
+					return AppliedInWinLPI;
+				case IE7:
+				case IE8:				
+					if (WindowsLPISelected == false)
+					{
+						return NeedsWinLPI;
+					}
+					break;
+				default:
+					break;
+			}
+			break;
+		case WindowsVista: // Includes IE 7
+			switch (GetIEVersion())
+			{
+				case IE7:
+					return AppliedInWinLPI;					
+				case IE8:
+				case IE9:				
+					if (WindowsLPISelected == false)
+					{						
+						return NeedsWinLPI;
+					}
+					break;
+				default:
+					break;
+			}
+			break;
+		case Windows7: // Includes IE 8
+			switch (GetIEVersion())
+			{
+				case IE8:
+					return AppliedInWinLPI;					
+				case IE9:				
+					if (WindowsLPISelected == false)
+					{						
+						return NeedsWinLPI;
+					}
+					break;
+				default:
+					break;
+			}
+			break;
+		default: //	Windows2008, Windows2008R2 and others
+			return NoLangPackAvailable;			
+	}
+
+	return PrerequirementsOk;
 }
 
 void IELPIAction::CheckPrerequirements(Action * action)
@@ -361,69 +433,24 @@ void IELPIAction::CheckPrerequirements(Action * action)
 
 	szCannotBeApplied[0] = NULL;
 
-	if (m_version == IEUnknown || (m_osVersion.IsWindows64Bits() && m_version != IE9))
+	if (GetIEVersion() == IEUnknown || (m_OSVersion->IsWindows64Bits() && GetIEVersion() != IE9))
 	{
 		_getStringFromResourceIDName(IDS_IELPIACTION_UNKNOWNIE, szCannotBeApplied);
 	}
 	else if (action != NULL)
 	{
-		bool WindowsLPISelected;
-		WindowsLPISelected = action->GetStatus() == Selected || action->GetStatus() == AlreadyApplied;
-	
-		switch (m_osVersion.GetVersion())
+		switch (CheckPrerequirementsDependand(action))
 		{
-			case WindowsXP: // Includes IE 6
-				switch (m_version)
-				{
-					case IE6:
-						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
-						break;
-					case IE7:
-					case IE8:				
-						if (WindowsLPISelected == false)
-						{
-							_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
-						}
-						break;
-					default:
-						break;
-				}
+			case AppliedInWinLPI:
+				_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
 				break;
-			case WindowsVista: // Includes IE 7
-				switch (m_version)
-				{
-					case IE7:				
-						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
-						break;
-					case IE8:
-					case IE9:				
-						if (WindowsLPISelected == false)
-						{
-							_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
-						}
-						break;
-					default:
-						break;
-				}
+			case NeedsWinLPI:
+				_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
 				break;
-			case Windows7: // Includes IE 8
-				switch (m_version)
-				{
-					case IE8:				
-						_getStringFromResourceIDName(IDS_IELPIACTION_APPLIEDINWINLPI, szCannotBeApplied);
-						break;
-					case IE9:				
-						if (WindowsLPISelected == false)
-						{
-							_getStringFromResourceIDName(IDS_IELPIACTION_IENEEDWINLPI, szCannotBeApplied);
-						}
-						break;
-					default:
-						break;
-				}
-				break;
-			default: //	Windows2008, Windows2008R2 and others
+			case NoLangPackAvailable:
 				_getStringFromResourceIDName(IDS_IELPIACTION_NOPACKAGE, szCannotBeApplied);
+				break;
+			default:
 				break;
 		}
 	}

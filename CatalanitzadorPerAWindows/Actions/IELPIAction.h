@@ -22,9 +22,13 @@
 #include "Action.h"
 #include "Runner.h"
 #include "OSVersion.h"
+#include "IRegistry.h"
+#include "IOSVersion.h"
+
 
 enum IEVersion
 {
+	IEUnread = -1,
 	IEUnknown = 0,
 	IE6 = 6,
 	IE7 = 7,
@@ -32,12 +36,20 @@ enum IEVersion
 	IE9 = 9,
 };
 
+enum Prerequirements
+{
+	PrerequirementsOk,
+	AppliedInWinLPI,
+	NeedsWinLPI,
+	NoLangPackAvailable,
+};
 
-class IELPIAction : public Action
+
+class _APICALL IELPIAction : public Action
 {
 public:
-		IELPIAction ();
-		~IELPIAction ();
+		IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
+		~IELPIAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -48,23 +60,28 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
 		virtual ActionID DependsOn() { return WindowsLPI;};
+		Prerequirements CheckPrerequirementsDependand(Action * action);
+
+		IEVersion ReadIEVersion();
+		IEVersion GetIEVersion();	
+		void SetIEVersion(IEVersion version) {m_version = version;}
 
 private:
 
 		DownloadID _getDownloadID();
 		DownloadID _getDownloadIDIE7();
 		DownloadID _getDownloadIDIE8();
-		DownloadID _getDownloadIDIE9();
-		IEVersion _getVersion();
+		DownloadID _getDownloadIDIE9();		
 		bool _isLangPackInstalled();
 		bool _is64BitsPackage();
 		bool _createTempDirectory();
 		bool _wasInstalled();
 
 		wchar_t m_filename[MAX_PATH];
-		wchar_t m_szTempDir[MAX_PATH];		
-		Runner runner;
+		wchar_t m_szTempDir[MAX_PATH];
 		IEVersion m_version;
-		OSVersion m_osVersion;
+		IRunner* m_runner;
+		IRegistry* m_registry;		
+		IOSVersion* m_OSVersion;
 };
 
