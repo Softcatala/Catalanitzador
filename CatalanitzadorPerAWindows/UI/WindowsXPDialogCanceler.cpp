@@ -34,7 +34,7 @@ void WindowsXPDialogCanceler::Start()
 	if (m_version.GetVersion() != WindowsXP)
 		return;
 
-	SetTimer(NULL, TIMER_ID_XP, 500, _timerWindowsXPProc);
+	m_nTimerID = SetTimer(NULL, TIMER_ID_XP, 500, _timerWindowsXPProc);
 }
 
 void WindowsXPDialogCanceler::Stop()
@@ -42,7 +42,7 @@ void WindowsXPDialogCanceler::Stop()
 	if (m_version.GetVersion() != WindowsXP)
 		return;
 	
-	KillTimer(NULL, TIMER_ID_XP);
+	KillTimer(NULL, m_nTimerID);
 }
 
 bool WindowsXPDialogCanceler::_isXPDialogLocale(HWND hWnd)

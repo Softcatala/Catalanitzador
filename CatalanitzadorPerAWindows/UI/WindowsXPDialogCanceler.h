@@ -30,8 +30,9 @@ public:
 
 private:
 		static bool _isXPDialogLocale(HWND hWnd);
-		static bool _isXPDialogWinLPI(HWND hWnd);		
+		static bool _isXPDialogWinLPI(HWND hWnd);
 		static VOID CALLBACK _timerWindowsXPProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
 
-		OSVersion m_version;		
+		OSVersion m_version;
+		int m_nTimerID;
 };
