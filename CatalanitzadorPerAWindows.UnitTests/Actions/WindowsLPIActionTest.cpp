@@ -187,5 +187,5 @@ TEST(WindowsLPIActionTest, GetDownloadIDXPSP2)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, GetServicePackVersion()).WillRepeatedly(Return(MAKELONG(0,WINDOWS_SP_MAJORNUM_SP2)));
-	//EXPECT_THAT(lipAction.GetDownloadID(), HasSubstr(L"XP2orlater/LIPsetup.msi"));
+	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_XP_SP2);
 }
