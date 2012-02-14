@@ -26,6 +26,7 @@
 #include "Registry.h"
 #include "Url.h"
 #include "RemoteURLs.h"
+#include "Resources.h"
 
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
@@ -52,6 +53,11 @@ wchar_t* WindowsLPIAction::GetName()
 wchar_t* WindowsLPIAction::GetDescription()
 {
 	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
+}
+
+LPCWSTR WindowsLPIAction::GetLicenseID()
+{
+	return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSVISTA);
 }
 
 DownloadID WindowsLPIAction::GetDownloadID()

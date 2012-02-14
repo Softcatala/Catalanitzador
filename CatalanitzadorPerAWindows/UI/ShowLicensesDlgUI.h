@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,12 +19,23 @@
  
 #pragma once
 
-#include <string>
+#include "Action.h"
+
+#include <vector>
+#include <map>
 using namespace std;
 
-class Resources
+class ShowLicensesDlgUI
 {
-	public:
-			static bool DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file);
-			static bool LoadResourceToString(LPCWSTR type, LPCWSTR resource, wstring& text);
+public:	
+		ShowLicensesDlgUI();
+		~ShowLicensesDlgUI();
+		void Run(HWND hWnd);
+		void SetActions(vector <Action *> * value) { m_actions =  value;}
+
+private:
+		static void _setLicenseTextForItem(HWND hWndDlg, int index);
+		static LRESULT CALLBACK _dlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+		HMODULE m_handle;
+		vector <Action *> * m_actions;
 };

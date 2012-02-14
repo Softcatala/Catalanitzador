@@ -49,7 +49,12 @@ public:
 		virtual void Execute() = 0;
 		virtual void Serialize(ostream* stream);
 		virtual void CheckPrerequirements(Action * action){};
-		virtual ActionID DependsOn() { return NoAction;};
+		virtual ActionID DependsOn() { return NoAction; };
+		virtual LPCWSTR GetLicenseID() { return NULL; };
+
+		void GetLicense(wstring &license);
+		bool HasLicense() { return GetLicenseID() != NULL; };
+
 		Action* AnotherActionDependsOnMe(vector <Action *> * allActions);
 		bool HasDependency(vector <Action *> * allActions);
 

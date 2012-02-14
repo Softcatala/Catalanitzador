@@ -52,6 +52,7 @@ public:
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		virtual char* GetVersion();
+		virtual LPCWSTR GetLicenseID();
 
 private:
 

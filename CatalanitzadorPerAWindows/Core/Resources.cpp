@@ -32,8 +32,9 @@ bool Resources::DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file)
 	hInstance = GetModuleHandle(NULL);
 
 	hRsrc = FindResource(hInstance, resource, type);
+
 	if (hRsrc == NULL)
-		return false;
+ 		return false;
 
 	size = SizeofResource(hInstance, hRsrc);
 
@@ -60,6 +61,38 @@ bool Resources::DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file)
 
 	CloseHandle(hFile);
 	g_log.Log(L"Resources::_dumpResource to '%s'", file);	
+	return true;
+}
+
+#define UNICODE_MARK_SIZE 2
+
+bool Resources::LoadResourceToString(LPCWSTR type, LPCWSTR resource, wstring& text)
+{
+	HRSRC hRsrc = NULL;
+	HGLOBAL hGlbl = NULL;
+	BYTE *pExeResource = NULL;
+	HANDLE hFile = INVALID_HANDLE_VALUE;
+	DWORD size;
+	HMODULE hInstance;
+
+	hInstance = GetModuleHandle(NULL);
+
+	hRsrc = FindResource(hInstance, resource, type);
+
+	if (hRsrc == NULL)
+ 		return false;
+
+	size = SizeofResource(hInstance, hRsrc);
+
+	hGlbl = LoadResource(hInstance, hRsrc);
+	if (hGlbl == NULL)
+		return false;
+
+	pExeResource = (BYTE*)LockResource(hGlbl);
+	if (pExeResource == NULL)
+		return false;	
+
+	text = (wchar_t *) (pExeResource + UNICODE_MARK_SIZE);
 	return true;
 }
 

@@ -41,6 +41,7 @@ public:
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
+		virtual LPCWSTR GetLicenseID();
 
 		bool IsLangPackInstalled();
 		DownloadID GetDownloadID();

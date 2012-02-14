@@ -84,6 +84,11 @@ wchar_t* MSOfficeAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_MSOFFICEACTION_DESCRIPTION, szDescription);
 }
 
+LPCWSTR MSOfficeAction::GetLicenseID()
+{
+	return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
+}
+
 char* MSOfficeAction::GetVersion()
 {
 	switch (m_MSVersion)

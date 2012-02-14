@@ -19,11 +19,27 @@
 
 #include "stdafx.h"
 #include "Action.h"
+#include "Resources.h"
+
+#include <fstream>
+#include <iostream>
 
 Action::Action()
 {
 	status = NotSelected;
 	szCannotBeApplied[0] = NULL;	
+}
+
+void Action::GetLicense(wstring &license)
+{
+	LPCWSTR id;
+	
+	id = GetLicenseID();
+
+	if (id == NULL)
+		return;
+
+	Resources::LoadResourceToString(L"LICENSE_FILES", id, license);	
 }
 
 wchar_t* Action::_getStringFromResourceIDName(int nID, wchar_t* string)

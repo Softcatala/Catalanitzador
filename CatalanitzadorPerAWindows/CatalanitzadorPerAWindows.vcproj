@@ -565,6 +565,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UI\ShowLicensesDlgUI.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UI\ShowLicensesDlgUI.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UI\WelcomePropertyPageUI.cpp"
 				>
 			</File>

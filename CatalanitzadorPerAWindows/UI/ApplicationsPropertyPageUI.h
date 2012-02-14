@@ -28,9 +28,9 @@ using namespace std;
 
 class ApplicationsPropertyPageUI: public PropertyPageUI
 {
-public:
-		~ApplicationsPropertyPageUI();
+public:		
 		ApplicationsPropertyPageUI();
+		~ApplicationsPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
 		
 private:
@@ -38,6 +38,7 @@ private:
 		void _updateActionDescriptionAndReq(Action* action);
 		virtual void _onInitDialog();
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
+		virtual void _onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
 		virtual	bool _onNext();
 		void _noInternetConnection();
 		static LRESULT _listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -45,6 +46,11 @@ private:
 		void _setBoldControls();
 		void _setLegendControl();
 		void _processDependantItem(Action* action);
+		bool _llicencesAccepted();
+		bool _llicencesNeedToBeAccepted();
+		void _enableOrDisableLicenseControls();
+		void _getActionDisplayName(Action *action, wstring& name);
+		
 
 		CheckedListView m_listview;
 		HWND m_hList;

@@ -21,6 +21,7 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "Actions.h"
 #include "Action.h"
+#include "ShowLicensesDlgUI.h"
 
 #include <vector>
 using namespace std;
@@ -38,6 +39,16 @@ ApplicationsPropertyPageUI::~ApplicationsPropertyPageUI()
 		DeleteObject(m_hFont);
 		m_hFont = NULL;
 	}	
+}
+
+void ApplicationsPropertyPageUI::_getActionDisplayName(Action *action, wstring& name)
+{	
+	name = action->GetName();
+
+	if (action->GetStatus() == Selected && action->HasLicense())
+	{
+		name+= L" *";
+	}
 }
 
 void ApplicationsPropertyPageUI::_processDependantItem(Action* action)
@@ -97,9 +108,15 @@ void ApplicationsPropertyPageUI::_processClickOnItem(int nItem)
 
 	_processDependantItem(action);
 
-	item.mask = LVIF_IMAGE;
+	wstring name;
+	_getActionDisplayName(action, name);
+
+	item.mask = LVIF_IMAGE | LVIF_TEXT;
 	item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
+	item.pszText = (LPWSTR) name.c_str();
+	
 	ListView_SetItem(m_hList, &item);
+	_enableOrDisableLicenseControls();
 }
 
 LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -138,7 +155,7 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 void ApplicationsPropertyPageUI::_setBoldControls()
 {
 	int boldControls [] = {IDC_APPLICATION_DESCRIPTION_CAPTION, IDC_APPLICATION_CANNOTBEAPPLIED_CAPTION,
-		IDC_APPLICATION_LEGEND_CAPTION};
+		IDC_APPLICATION_LEGEND_CAPTION, IDC_APPLICATION_LICENSES_CAPTION};
 
 	m_hFont = Window::CreateBoldFont(getHandle());
 
@@ -179,7 +196,8 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	int nItemId = 0;
-	m_hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);	
+	wstring name;
+	m_hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
 
 	LVITEM item;
 	memset(&item,0,sizeof(item));
@@ -205,8 +223,9 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 			continue;
 
 		action->SetStatus(Selected);
+		_getActionDisplayName(action, name);		
 		item.iItem = nItemId;
-		item.pszText = action->GetName();
+		item.pszText = (LPWSTR) name.c_str();
 		item.lParam = (LPARAM) action;		
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
 		ListView_InsertItem (m_hList, &item);		
@@ -226,8 +245,9 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		if (disabled_item->second == true)
 			continue;
 		
+		_getActionDisplayName(action, name);
 		item.iItem=nItemId;
-		item.pszText= action->GetName();
+		item.pszText= (LPWSTR) name.c_str();
 		item.lParam = (LPARAM) action;		
 		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
 		ListView_InsertItem(m_hList, &item);
@@ -241,6 +261,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	PreviousProc = (WNDPROC)SetWindowLongPtr(m_hList, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);
 		
 	_setLegendControl();
+	_enableOrDisableLicenseControls();
 }
 
 NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
@@ -303,10 +324,70 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 	ShowWindow(GetDlgItem(getHandle(), IDC_APPLICATION_MISSINGREQ), show);	
 }
 
+ void ApplicationsPropertyPageUI::_enableOrDisableLicenseControls()
+ {
+	bool bEnabled;
+		 
+	bEnabled = _llicencesNeedToBeAccepted();
+
+	int controls [] = {IDC_LICENSES_ASTERISCTEXT, IDC_SHOWLICENSES_BUTTON, IDC_ACCEPTLICENSES_CHECKBOX};
+	for (int i = 0; i < sizeof(controls) / sizeof(controls[0]); i++)
+	{
+		EnableWindow(GetDlgItem (getHandle(), controls[i]), bEnabled ? TRUE : FALSE);
+	}
+ }
+
+bool ApplicationsPropertyPageUI::_llicencesNeedToBeAccepted()
+{	
+	for (unsigned int i = 0; i < m_availableActions->size (); i++)
+	{
+		Action* action = m_availableActions->at(i);
+
+		if (action->GetStatus() != Selected)
+			continue;
+
+		if (action->HasLicense())
+			return true;	
+	}
+	return false;	
+}
+
+bool ApplicationsPropertyPageUI::_llicencesAccepted()
+{
+	if (_llicencesNeedToBeAccepted() == false)
+		return true;
+
+	if (IsDlgButtonChecked(getHandle(),IDC_ACCEPTLICENSES_CHECKBOX) != BST_CHECKED)
+	{
+		wchar_t szMessage [MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];
+
+		LoadString(GetModuleHandle(NULL), IDS_REQUIRES_ACCEPTLICENSES, szMessage, MAX_LOADSTRING);
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+		MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);
+		return false;
+	}
+	return true;
+}
+
+void ApplicationsPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == IDC_SHOWLICENSES_BUTTON)
+	{
+		ShowLicensesDlgUI licencesDlg;
+		licencesDlg.SetActions(m_availableActions);
+		licencesDlg.Run(hWnd);
+	}
+}
+
 bool ApplicationsPropertyPageUI::_onNext()
 {
 	int items = ListView_GetItemCount(m_hList);
 	bool needInet = false;
+
+	if (_llicencesAccepted() == false)
+		return FALSE;
 
 	for (int i = 0; i < items; ++i)
 	{
