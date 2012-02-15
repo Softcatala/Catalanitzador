@@ -60,6 +60,8 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
 		virtual ActionID DependsOn() { return WindowsLPI;};
+		virtual LPCWSTR GetLicenseID();
+
 		Prerequirements CheckPrerequirementsDependand(Action * action);
 
 		IEVersion ReadIEVersion();

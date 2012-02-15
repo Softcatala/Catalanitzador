@@ -59,6 +59,11 @@ wchar_t* IELPIAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_IELPIACTION_DESCRIPTION, szDescription);
 }
 
+LPCWSTR IELPIAction::GetLicenseID()
+{
+	return MAKEINTRESOURCE(IDR_LICENSE_IE9);
+}
+
 IEVersion IELPIAction::GetIEVersion()
 {
 	if (m_version == IEUnread)
