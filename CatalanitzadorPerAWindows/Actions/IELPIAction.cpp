@@ -61,7 +61,18 @@ wchar_t* IELPIAction::GetDescription()
 
 LPCWSTR IELPIAction::GetLicenseID()
 {
-	return MAKEINTRESOURCE(IDR_LICENSE_IE9);
+	switch (GetIEVersion())
+	{
+		case IE7:
+			return MAKEINTRESOURCE(IDR_LICENSE_IE7);
+		case IE8:
+			return MAKEINTRESOURCE(IDR_LICENSE_IE8);
+		case IE9:
+			return MAKEINTRESOURCE(IDR_LICENSE_IE9);
+		default:
+			break;
+	}	
+	return NULL;
 }
 
 IEVersion IELPIAction::GetIEVersion()

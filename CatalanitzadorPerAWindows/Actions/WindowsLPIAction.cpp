@@ -57,7 +57,18 @@ wchar_t* WindowsLPIAction::GetDescription()
 
 LPCWSTR WindowsLPIAction::GetLicenseID()
 {
-	return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSVISTA);
+	OperatingVersion version = m_OSVersion->GetVersion();
+
+	switch (version)
+	{
+		case WindowsXP:
+			return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSXP);
+		case WindowsVista:		
+			return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSVISTA);
+		default:
+			break;
+	}
+	return NULL;
 }
 
 DownloadID WindowsLPIAction::GetDownloadID()
