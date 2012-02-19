@@ -63,8 +63,10 @@ LPCWSTR WindowsLPIAction::GetLicenseID()
 	{
 		case WindowsXP:
 			return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSXP);
-		case WindowsVista:		
+		case WindowsVista:
 			return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSVISTA);
+		case Windows7:
+			return MAKEINTRESOURCE(IDR_LICENSE_WINDOWS7);
 		default:
 			break;
 	}

@@ -86,7 +86,18 @@ wchar_t* MSOfficeAction::GetDescription()
 
 LPCWSTR MSOfficeAction::GetLicenseID()
 {
-	return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
+	switch (m_MSVersion)
+	{
+		case MSOffice2003:
+			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2003);
+		case MSOffice2007:
+			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
+		case MSOffice2010:
+			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2010);
+		default:
+			break;		
+	}		
+	return NULL;
 }
 
 char* MSOfficeAction::GetVersion()
