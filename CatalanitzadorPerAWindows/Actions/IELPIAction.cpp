@@ -129,7 +129,7 @@ IEVersion IELPIAction::ReadIEVersion()
 		}
 	}
 
-	g_log.Log(L"IELPIAction::_getVersion returns IE '%u'", (wchar_t *) version);
+	g_log.Log(L"IELPIAction::ReadIEVersion returns IE '%u'", (wchar_t *) version);
 	return version;
 }
 

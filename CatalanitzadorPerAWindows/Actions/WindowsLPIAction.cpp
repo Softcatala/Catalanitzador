@@ -138,7 +138,7 @@ bool WindowsLPIAction::IsLangPackInstalled()
 		m_registry->Close();
 	}		
 	
-	g_log.Log (L"WindowsLPIAction::_updateIsInstalled returns %u", (wchar_t*) bExists);
+	g_log.Log (L"WindowsLPIAction::IsLangPackInstalled returns %u", (wchar_t*) bExists);
 	return bExists;
 }
 
