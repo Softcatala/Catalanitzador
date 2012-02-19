@@ -442,16 +442,38 @@ Prerequirements IELPIAction::CheckPrerequirementsDependand(Action * action)
 	return PrerequirementsOk;
 }
 
+Prerequirements IELPIAction::CheckPrerequirements()
+{
+	if (GetIEVersion() == IEUnknown)
+		return UnknownIEVersion;
+		
+	if (m_OSVersion->IsWindows64Bits() && GetIEVersion() != IE9 && GetIEVersion() != IE8)
+		return UnknownIEVersion;
+
+	return PrerequirementsOk;
+}
+
 void IELPIAction::CheckPrerequirements(Action * action)
 {
+	szCannotBeApplied[0] = NULL;
+
 	if (GetStatus() == AlreadyApplied)
 		return;
 
-	szCannotBeApplied[0] = NULL;
+	Prerequirements pre;
 
-	if (GetIEVersion() == IEUnknown || (m_OSVersion->IsWindows64Bits() && GetIEVersion() != IE9))
+	pre = CheckPrerequirements();
+
+	if (pre != PrerequirementsOk)	
 	{
-		_getStringFromResourceIDName(IDS_IELPIACTION_UNKNOWNIE, szCannotBeApplied);
+		switch (pre)
+		{
+			case UnknownIEVersion:
+				_getStringFromResourceIDName(IDS_IELPIACTION_UNKNOWNIE, szCannotBeApplied);
+				break;
+			default:
+				break;
+		}
 	}
 	else if (action != NULL)
 	{

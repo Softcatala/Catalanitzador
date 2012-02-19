@@ -42,6 +42,7 @@ enum Prerequirements
 	AppliedInWinLPI,
 	NeedsWinLPI,
 	NoLangPackAvailable,
+	UnknownIEVersion,
 };
 
 
@@ -63,6 +64,7 @@ public:
 		virtual LPCWSTR GetLicenseID();
 
 		Prerequirements CheckPrerequirementsDependand(Action * action);
+		Prerequirements CheckPrerequirements();
 
 		IEVersion ReadIEVersion();
 		IEVersion GetIEVersion();	

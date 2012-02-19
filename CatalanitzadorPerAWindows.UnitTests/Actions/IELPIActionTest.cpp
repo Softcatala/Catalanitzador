@@ -155,3 +155,33 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE9_Windows7)
 
 	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), NeedsWinLPI);
 }
+
+TEST(IELPIActionTest, CheckPrerequirements_UnknownIEVersion)
+{
+	CreateIELPIAction;
+
+	lipAction.SetIEVersion(IEUnknown);
+	EXPECT_THAT(lipAction.CheckPrerequirements(), UnknownIEVersion);
+}
+
+TEST(IELPIActionTest, CheckPrerequirements_Windows7_64bits_IE8)
+{
+	CreateIELPIAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+
+	lipAction.SetIEVersion(IE8);
+	EXPECT_THAT(lipAction.CheckPrerequirements(), PrerequirementsOk);
+}
+
+TEST(IELPIActionTest, CheckPrerequirements_Windows7_64bits_IE9)
+{
+	CreateIELPIAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+
+	lipAction.SetIEVersion(IE9);
+	EXPECT_THAT(lipAction.CheckPrerequirements(), PrerequirementsOk);
+}
