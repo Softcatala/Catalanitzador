@@ -488,6 +488,14 @@
 				RelativePath=".\Core\Wow64.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Core\XmlParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\XmlParser.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="UI"
