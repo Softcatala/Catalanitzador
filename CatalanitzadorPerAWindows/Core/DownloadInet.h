@@ -20,7 +20,8 @@
 #pragma once
 
 #include "Inet.h"
-#include "ProgressStatus.h"
+
+typedef void (*ProgressStatus)(int nTotal, int nCurrent, void *data);
 
 class _APICALL DownloadInet : public Inet
 {
