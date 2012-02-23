@@ -64,6 +64,25 @@ void ShowLicensesDlgUI::_setLicenseTextForItem(HWND hWndDlg, int index)
 	SendMessage(hRichEdit, EM_SETSCROLLPOS, 0, (LPARAM)&point);
 }
 
+void ShowLicensesDlgUI::_fillActions(HWND hWndDlg)
+{
+	HWND hComboBox;
+	Action* action;
+	int index;
+	
+	hComboBox = GetDlgItem(hWndDlg, IDC_LICENSE_COMBO);
+
+	for (unsigned int i = 0; i < m_actions->size (); i++)
+	{
+		action = m_actions->at(i);
+		if (action->HasLicense() && action->GetStatus() == Selected)
+		{
+			index = SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM) action->GetName());
+			SendMessage(hComboBox, CB_SETITEMDATA, index, (LPARAM) action);
+		}
+	}
+}
+
 LRESULT ShowLicensesDlgUI::_dlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(Msg)
@@ -72,23 +91,10 @@ LRESULT ShowLicensesDlgUI::_dlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARA
 		{
 			ShowLicensesDlgUI* pThis = (ShowLicensesDlgUI*) lParam;
 			HWND hComboBox;
-			vector <Action *> * actions;
 			
+			pThis->_fillActions(hWndDlg);
+
 			hComboBox = GetDlgItem(hWndDlg, IDC_LICENSE_COMBO);
-			actions = pThis->m_actions;
-
-			for (unsigned int i = 0; i < actions->size (); i++)
-			{
-				Action* action = actions->at(i);
-				if (action->HasLicense())
-				{
-					int index;
-					
-					index = SendMessage(hComboBox, CB_ADDSTRING, 0, (LPARAM) action->GetName());
-					SendMessage(hComboBox, CB_SETITEMDATA, index, (LPARAM) action);
-				}
-			}
-
 			SendMessage(hComboBox, CB_SETCURSEL, 0, 0);
 			_setLicenseTextForItem(hWndDlg, 0);
 			return TRUE;

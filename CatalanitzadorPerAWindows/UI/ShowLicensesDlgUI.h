@@ -36,6 +36,8 @@ public:
 private:
 		static void _setLicenseTextForItem(HWND hWndDlg, int index);
 		static LRESULT CALLBACK _dlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+		void _fillActions(HWND hWndDlg);
+
 		HMODULE m_handle;
 		vector <Action *> * m_actions;
 };
