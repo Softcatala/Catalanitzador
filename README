@@ -17,6 +17,14 @@ See: http://support.microsoft.com/kb/2005279
 
 Download and unzip Google Mocks 1.6 at libs/gmock and Google Test 1.6 at libs/gtest
 
+-- Git configuration for contribuing
+
+git should be setup to Unix line ending style:
+
+core.autocrlf=input
+
+Additionally remember to set 'user.name' and 'user.email' variables
+
 -- Contact Information
 
 Jordi Mas
