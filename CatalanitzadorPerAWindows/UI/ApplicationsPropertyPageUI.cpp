@@ -330,7 +330,7 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 		 
 	bEnabled = _llicencesNeedToBeAccepted();
 
-	int controls [] = {IDC_LICENSES_ASTERISCTEXT, IDC_SHOWLICENSES_BUTTON, IDC_ACCEPTLICENSES_CHECKBOX};
+	int controls [] = {IDC_LICENSES_ASTERISCTEXT, IDC_SHOWLICENSES_BUTTON, IDC_ACCEPTLICENSES_CHECKBOX, IDC_APPLICATION_LICENSES_CAPTION};
 	for (int i = 0; i < sizeof(controls) / sizeof(controls[0]); i++)
 	{
 		EnableWindow(GetDlgItem (getHandle(), controls[i]), bEnabled ? TRUE : FALSE);
