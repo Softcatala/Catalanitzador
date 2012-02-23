@@ -9,6 +9,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows.U
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DownloadFileChecker", "DownloadFileChecker\DownloadFileChecker.vcproj", "{83840EB6-6F95-4C90-AF74-3A975FAB448D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A6EB9C02-ED55-4432-95A8-799C0E9BC143} = {A6EB9C02-ED55-4432-95A8-799C0E9BC143}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
