@@ -82,7 +82,7 @@ bool InstallPropertyPageUI::_download(Action* action)
 	wchar_t szText [MAX_LOADSTRING];
 
 	if (action->IsDownloadNeed() == false)
-		return false;
+		return true;
 
 	_setTaskMarqueeMode(false);
 
@@ -111,7 +111,7 @@ bool InstallPropertyPageUI::_download(Action* action)
 	}
 
 	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
-	return bError;
+	return bError == false;
 }
 
 void InstallPropertyPageUI::_completed()
@@ -210,7 +210,7 @@ void InstallPropertyPageUI::_onTimer()
 			continue;
 		}
 
-		if (_download(action) == false)
+		if (_download(action) == true)
 		{
 			_execute(action);
 			_waitExecutionComplete(action);
