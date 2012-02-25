@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "Runner.h"
 #include "Wow64.h"
+#include "psapi.h"
 
 bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 {
@@ -66,4 +67,47 @@ bool Runner::IsRunning()
 void Runner::WaitUntilFinished()
 {
 	WaitForSingleObject(pi.hProcess, INFINITE);
+}
+
+
+DWORD Runner::GetProcessID(wstring name)
+{	
+	DWORD aProcesses[4096], cbNeeded, processID;
+    
+	processID = 0;
+    if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))
+    {
+		g_log.Log (L"Runner::IsProcessRunning. Error EnumProcesses");
+        return processID;
+    }
+    
+    for (unsigned int i = 0; i < cbNeeded / sizeof(DWORD); i++)
+    {
+		wchar_t szProcessName[MAX_PATH];	
+
+        if (aProcesses[i] != 0)
+        {
+			HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, aProcesses[i]);
+
+			if (hProcess)
+			{
+				HMODULE hMod;
+				DWORD cbNeeded;
+
+				if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded))
+				{
+					GetModuleBaseName(hProcess, hMod, szProcessName, sizeof(szProcessName)/sizeof(wchar_t));
+
+					if (lstrcmpi(szProcessName, name.c_str()) ==0)
+					{
+						processID = aProcesses[i];
+						break;
+					}
+				}
+			}
+			CloseHandle(hProcess);
+        }
+    }
+	g_log.Log (L"Runner::IsProcessRunning. Process '%s' is running %u", (wchar_t *)name.c_str(), (wchar_t *)processID);
+    return processID;
 }

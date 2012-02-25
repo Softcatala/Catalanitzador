@@ -19,10 +19,15 @@
  
 #pragma once
 
+#include <string>
+using namespace std;
+
+
 class IRunner
 {
 public:
 		virtual bool Execute(wchar_t* program, wchar_t* params, bool b64bits = false) = 0;
 		virtual bool IsRunning() = 0;
 		virtual void WaitUntilFinished() = 0;
+		virtual DWORD GetProcessID(wstring name) = 0;
 };

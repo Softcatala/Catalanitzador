@@ -26,4 +26,5 @@ public:
 		MOCK_METHOD3(Execute, bool(wchar_t*, wchar_t*, bool));
 		MOCK_METHOD0(IsRunning, bool());
 		MOCK_METHOD0(WaitUntilFinished, void());
+		MOCK_METHOD1(GetProcessID, DWORD(wstring));
 };

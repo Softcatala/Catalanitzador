@@ -27,6 +27,7 @@ public:
 		bool Execute(wchar_t* program, wchar_t* params, bool b64bits = false);
 		bool IsRunning();
 		void WaitUntilFinished();
+		DWORD GetProcessID(wstring name);
 
 private:
 		PROCESS_INFORMATION pi;
