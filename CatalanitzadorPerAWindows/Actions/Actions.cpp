@@ -25,6 +25,7 @@
 #include "ConfigureDefaultLanguageAction.h"
 #include "MSOfficeAction.h"
 #include "IELPIAction.h"
+#include "ChromeAction.h"
 #include "IWin32I18N.h"
 #include "Win32I18N.h"
 #include "IRegistry.h"
@@ -54,6 +55,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new IEAcceptLanguagesAction((IRegistry *)new Registry()));
 	m_actions.push_back(new ConfigureLocaleAction());
 	m_actions.push_back(new ConfigureDefaultLanguageAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IRunner *) new Runner()));
+	m_actions.push_back(new ChromeAction((IRegistry *)new Registry()));
 
 	_checkPrerequirements();
 }

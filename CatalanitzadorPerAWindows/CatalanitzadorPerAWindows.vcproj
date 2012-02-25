@@ -237,6 +237,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\ChromeAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\ChromeAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\ConfigureDefaultLanguageAction.cpp"
 				>
 			</File>

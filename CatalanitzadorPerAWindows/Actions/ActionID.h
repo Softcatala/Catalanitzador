@@ -30,4 +30,5 @@ enum ActionID
 	IEAcceptLanguage = 4,
 	IELPI = 5,
 	ConfigureDefaultLanguage = 6,
+	Chrome = 7,
 };
