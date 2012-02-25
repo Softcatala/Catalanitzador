@@ -50,6 +50,7 @@ public:
 		virtual void CheckPrerequirements(Action * action){};
 		virtual ActionID DependsOn() { return NoAction; };
 		virtual LPCWSTR GetLicenseID() { return NULL; };
+		virtual DWORD GetProcessIDForRunningApp() {return NULL;}
 
 		void GetLicense(wstring &license);
 		bool HasLicense() { return GetLicenseID() != NULL; };

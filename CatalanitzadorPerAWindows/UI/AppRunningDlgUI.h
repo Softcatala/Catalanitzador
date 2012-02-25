@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,13 +19,16 @@
  
 #pragma once
 
-class RunnerMock : public IRunner
+#include <Action.h>
+
+class AppRunningDlgUI
 {
 public:
+		AppRunningDlgUI(wstring action_name);
 
-		MOCK_METHOD3(Execute, bool(wchar_t*, wchar_t*, bool));
-		MOCK_METHOD0(IsRunning, bool());
-		MOCK_METHOD0(WaitUntilFinished, void());
-		MOCK_METHOD1(GetProcessID, DWORD(wstring));
-		MOCK_METHOD1(RequestQuitToProcessID, bool(DWORD));
+		bool Run(HWND hWnd);
+private:
+		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+		
+		wstring m_action_name;
 };

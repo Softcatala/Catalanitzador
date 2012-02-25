@@ -50,6 +50,7 @@ private:
 		bool _llicencesNeedToBeAccepted();
 		void _enableOrDisableLicenseControls();
 		void _getActionDisplayName(Action *action, wstring& name);
+		bool _checkRunningApps();
 		
 
 		CheckedListView m_listview;

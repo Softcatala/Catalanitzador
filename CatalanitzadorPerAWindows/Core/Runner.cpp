@@ -69,7 +69,6 @@ void Runner::WaitUntilFinished()
 	WaitForSingleObject(pi.hProcess, INFINITE);
 }
 
-
 DWORD Runner::GetProcessID(wstring name)
 {	
 	DWORD aProcesses[4096], cbNeeded, processID;
@@ -110,4 +109,24 @@ DWORD Runner::GetProcessID(wstring name)
     }
 	g_log.Log (L"Runner::IsProcessRunning. Process '%s' is running %u", (wchar_t *)name.c_str(), (wchar_t *)processID);
     return processID;
+}
+
+BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
+{	
+	DWORD processID;
+
+	GetWindowThreadProcessId(hWnd, &processID);
+
+	if (processID == (DWORD) lParam)
+	{
+		PostMessage(hWnd, WM_QUIT, 0, 0);
+		return TRUE;
+	}
+	return TRUE;
+}
+
+bool Runner::RequestQuitToProcessID(DWORD processID)
+{
+	EnumWindows(EnumWindowsProc, processID);
+	return true;
 }

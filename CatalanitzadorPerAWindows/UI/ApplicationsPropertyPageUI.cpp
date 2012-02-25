@@ -21,7 +21,9 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "Actions.h"
 #include "Action.h"
+#include "Runner.h"
 #include "ShowLicensesDlgUI.h"
+#include "AppRunningDlgUI.h"
 
 #include <vector>
 using namespace std;
@@ -389,6 +391,9 @@ bool ApplicationsPropertyPageUI::_onNext()
 	if (_llicencesAccepted() == false)
 		return FALSE;
 
+	if (_checkRunningApps() == true)
+		return FALSE;
+
 	for (int i = 0; i < items; ++i)
 	{
 		bool bSelected;
@@ -423,4 +428,30 @@ void ApplicationsPropertyPageUI::_noInternetConnection()
 	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 
 	MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);	
+}
+
+bool ApplicationsPropertyPageUI::_checkRunningApps()
+{
+	DWORD processID;
+	
+	for (unsigned int i = 0; i < m_availableActions->size(); i++)
+	{
+		Action* action = m_availableActions->at(i);
+
+		if (action->GetStatus() != Selected)
+			continue;
+
+		processID = action->GetProcessIDForRunningApp();			
+		if (processID != 0)
+		{		
+			AppRunningDlgUI dlg (action->GetName());
+			if (dlg.Run(getHandle()) == IDOK)
+			{
+				Runner runner;
+				runner.RequestQuitToProcessID(processID);					
+			}
+			return true;
+		}
+	}
+	return false;
 }

@@ -30,4 +30,5 @@ public:
 		virtual bool IsRunning() = 0;
 		virtual void WaitUntilFinished() = 0;
 		virtual DWORD GetProcessID(wstring name) = 0;
+		virtual bool RequestQuitToProcessID(DWORD processID) = 0;
 };

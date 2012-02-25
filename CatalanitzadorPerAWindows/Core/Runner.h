@@ -28,6 +28,7 @@ public:
 		bool IsRunning();
 		void WaitUntilFinished();
 		DWORD GetProcessID(wstring name);
+		bool RequestQuitToProcessID(DWORD processID);
 
 private:
 		PROCESS_INFORMATION pi;

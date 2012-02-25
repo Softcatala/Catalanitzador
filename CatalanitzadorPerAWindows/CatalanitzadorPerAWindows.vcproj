@@ -521,6 +521,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UI\AppRunningDlgUI.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UI\AppRunningDlgUI.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UI\CheckedListView.cpp"
 				>
 			</File>
