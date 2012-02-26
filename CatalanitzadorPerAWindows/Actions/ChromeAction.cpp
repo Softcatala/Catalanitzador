@@ -351,7 +351,8 @@ void ChromeAction::_readVersion()
 				NULL, NULL);
 
 			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szVersion);
-		}		
+		}
+		m_registry->Close();
 	}	
 }
 
@@ -373,7 +374,7 @@ wchar_t * ChromeAction::_readInstallLocation()
 			delete(szInstallLocation);
 			szInstallLocation = NULL;
 		}
-		
+		m_registry->Close();
 	} else {
 		g_log.Log(L"ChromeAction::_readInstallLocation - Chrome is not installed");
 	}
@@ -394,8 +395,6 @@ void ChromeAction::CheckPrerequirements(Action * action)
 {
 	_readVersion();
 }
-
-
 
 void ChromeAction::CreateJSONString(wstring &jsonvalue)
 {
