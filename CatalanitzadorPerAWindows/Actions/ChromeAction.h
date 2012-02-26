@@ -67,5 +67,6 @@ private:
 		char szVersionAscii[128];
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
+		bool isInstalled;
 };
 

@@ -31,6 +31,7 @@ ChromeAction::ChromeAction(IRegistry* registry)
 {
 	m_registry = registry;
 	szVersionAscii[0] = NULL;
+	isInstalled = false;
 }
 
 wchar_t* ChromeAction::GetName()
@@ -286,16 +287,21 @@ bool ChromeAction::IsNeed()
 
 	bool langcodeFound = _readLanguageCode(langcode);
 
-	if(langcodeFound) {
-		ParseLanguage(langcode);
-		_getFirstLanguage(firstlang);	
+	if(isInstalled) {
+		if(langcodeFound) {
+			ParseLanguage(langcode);
+			_getFirstLanguage(firstlang);	
 	
-		bNeed = firstlang.compare(L"ca") != 0;
+			bNeed = firstlang.compare(L"ca") != 0;
+			if(bNeed == false) {
+				status = AlreadyApplied;
+			}
+		}
+	} else {
+		bNeed = true;
+		status = CannotBeApplied;
 	}
-
-	if (bNeed == false)
-		status = AlreadyApplied;
-
+	
 	g_log.Log(L"ChromeAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
 	return bNeed;
 }
@@ -356,9 +362,10 @@ wchar_t * ChromeAction::_readInstallLocation()
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome", false))
 	{
 		szInstallLocation = new wchar_t[1024];
-
+		
 		if (m_registry->GetString(L"InstallLocation", szInstallLocation, sizeof(szInstallLocation)))
 		{
+			isInstalled = true;
 			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szInstallLocation);
 		} 
 		else 
@@ -366,6 +373,9 @@ wchar_t * ChromeAction::_readInstallLocation()
 			delete(szInstallLocation);
 			szInstallLocation = NULL;
 		}
+		
+	} else {
+		g_log.Log(L"ChromeAction::_readInstallLocation returns Chrome is not installed");
 	}
 
 	return szInstallLocation;
