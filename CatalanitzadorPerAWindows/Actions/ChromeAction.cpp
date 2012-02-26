@@ -298,7 +298,7 @@ bool ChromeAction::IsNeed()
 			}
 		}
 	} else {
-		bNeed = true;
+		bNeed = false;
 		status = CannotBeApplied;
 	}
 	
@@ -375,7 +375,7 @@ wchar_t * ChromeAction::_readInstallLocation()
 		}
 		
 	} else {
-		g_log.Log(L"ChromeAction::_readInstallLocation returns Chrome is not installed");
+		g_log.Log(L"ChromeAction::_readInstallLocation - Chrome is not installed");
 	}
 
 	return szInstallLocation;
