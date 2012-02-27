@@ -245,7 +245,7 @@ void FirefoxAction::_writeLanguageCode(wstring &langcode)
 	wifstream reader;
 	wofstream writer;
 	wstring line, filer, filew;
-	bool ret = false;
+	bool ret, written;
 	
 	_getPreferencesFile(filer);
 	filew += filer;
@@ -264,13 +264,21 @@ void FirefoxAction::_writeLanguageCode(wstring &langcode)
 		return;
 	}
 
+	written = false;
 	while(!(getline(reader,line)).eof())
 	{
 		if (line.find(USER_PREF) != wstring::npos)
 		{
+			written = true;
 			_getPrefLine(langcode, line);
 		}
 
+		writer << line << L"\n";
+	}
+
+	if (written == false)
+	{		
+		_getPrefLine(langcode, line);
 		writer << line << L"\n";
 	}
 
