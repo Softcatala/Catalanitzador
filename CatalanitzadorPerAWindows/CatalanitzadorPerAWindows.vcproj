@@ -273,6 +273,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\FirefoxAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\FirefoxAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\IEAcceptLanguagesAction.cpp"
 				>
 			</File>

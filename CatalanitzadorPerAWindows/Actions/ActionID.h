@@ -31,4 +31,5 @@ enum ActionID
 	IELPI = 5,
 	ConfigureDefaultLanguage = 6,
 	Chrome = 7,
+	Firefox = 8,
 };
