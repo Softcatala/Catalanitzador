@@ -50,20 +50,25 @@ DWORD FirefoxAction::GetProcessIDForRunningApp()
 	return runner.GetProcessID(wstring(L"firefox.exe"));
 }
 
-
 bool FirefoxAction::IsNeed()
 {
-	bool bNeed = true;
+	bool bNeed = false;
 	wstring langcode, firstlang;
 
-	_readLanguageCode(langcode);
-	ParseLanguage(langcode);
-	_getFirstLanguage(firstlang);
+	if (_readLanguageCode(langcode))
+	{
+		ParseLanguage(langcode);
+		_getFirstLanguage(firstlang);
 
-	bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
+		bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
 
-	if (bNeed == false)
-		status = AlreadyApplied;
+		if (bNeed == false)
+			status = AlreadyApplied;
+	}
+	else
+	{
+		status = CannotBeApplied;
+	}
 
 	g_log.Log(L"FirefoxAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
 	return bNeed;
@@ -129,7 +134,6 @@ void FirefoxAction::_getPreferencesFile(wstring &location)
 	location += L"\\prefs.js";
 }
 
-
 void FirefoxAction::ParseLanguage(wstring regvalue)
 {
 	wstring language;
@@ -158,9 +162,8 @@ void FirefoxAction::ParseLanguage(wstring regvalue)
 
 bool FirefoxAction::_readLanguageCode(wstring& langcode)
 {
-	wstring location;
+	wstring location, line;
 	wifstream reader;
-	wstring line;
 
 	langcode.erase();
 	
@@ -189,8 +192,12 @@ bool FirefoxAction::_readLanguageCode(wstring& langcode)
 			break;
 		}
 	}
-
-	return langcode.length() > 0;
+	else
+	{
+		g_log.Log(L"FirefoxAction::_readLanguageCode cannot open %s", (wchar_t *) location.c_str());
+		return false;
+	}
+	return true;
 }
 void FirefoxAction::AddCatalanToArrayAndRemoveOldIfExists()
 {	
@@ -287,7 +294,7 @@ void FirefoxAction::_writeLanguageCode(wstring &langcode)
 
 	ret = MoveFileEx(filew.c_str(), filer.c_str(), MOVEFILE_REPLACE_EXISTING) != 0;
 	
-	if(ret) 
+	if (ret)
 	{
 		status = Successful;
 	} 
