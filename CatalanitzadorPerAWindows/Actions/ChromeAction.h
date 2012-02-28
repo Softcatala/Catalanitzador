@@ -52,7 +52,7 @@ private:
 		
 		void _getFirstLanguage(wstring& regvalue);
 		void _readVersion();
-		wchar_t * _readInstallLocation();
+		void _readInstallLocation(wstring& path);
 		bool _readLanguageCode(wstring& langcode);
 		bool _writeLanguageCode(wstring langcode);
 		void _createRegistryStringTwoLangs(wstring &regvalue, float average);	
