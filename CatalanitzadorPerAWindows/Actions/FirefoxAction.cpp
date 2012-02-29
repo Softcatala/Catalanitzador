@@ -31,6 +31,7 @@
 FirefoxAction::FirefoxAction(IRegistry* registry)
 {
 	m_registry = registry;
+	szVersionAscii[0] = NULL;
 }
 
 wchar_t* FirefoxAction::GetName()
@@ -55,15 +56,27 @@ bool FirefoxAction::IsNeed()
 	bool bNeed = false;
 	wstring langcode, firstlang;
 
-	if (_readLanguageCode(langcode))
+	if (*szVersionAscii == 0x0)
 	{
-		ParseLanguage(langcode);
-		_getFirstLanguage(firstlang);
+		_readVersionAndLocale();
+	}
 
-		bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
+	if (m_locale != L"ca")
+	{
+		if (_readLanguageCode(langcode))
+		{
+			ParseLanguage(langcode);
+			_getFirstLanguage(firstlang);
 
-		if (bNeed == false)
-			status = AlreadyApplied;
+			bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
+
+			if (bNeed == false)
+				status = AlreadyApplied;
+		}
+		else
+		{
+			status = CannotBeApplied;
+		}
 	}
 	else
 	{
@@ -315,4 +328,57 @@ void FirefoxAction::Execute()
 	AddCatalanToArrayAndRemoveOldIfExists();
 	CreatePrefsString(regvalue);
 	_writeLanguageCode(regvalue);
+}
+
+char* FirefoxAction::GetVersion()
+{
+	if (*szVersionAscii == 0x0)
+	{
+		_readVersionAndLocale();
+	}
+	return szVersionAscii;
+}
+
+bool FirefoxAction::_readVersionAndLocale()
+{
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Mozilla\\Mozilla Firefox", false) == false)
+	{
+		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Cannot open registry key");
+		return false;
+	}
+	
+	wstring sreg, version, locale;
+	wchar_t szVersion[1024];
+	int start, end;
+
+	if (m_registry->GetString(L"CurrentVersion", szVersion, sizeof(szVersion)))
+	{
+		sreg = szVersion;
+		start = sreg.find(L" ");
+
+		if (start != wstring::npos)
+		{
+			version = sreg.substr(0, start);
+
+			WideCharToMultiByte(CP_ACP, 0, version.c_str(), version.size() + 1, szVersionAscii, sizeof(szVersionAscii), 
+				NULL, NULL);
+
+			start = sreg.find(L"(", start);
+
+			if (start != wstring::npos)
+			{
+				start++;
+				end = sreg.find(L")", start);
+				if (end != wstring::npos)
+				{
+					m_locale = sreg.substr(start, end-start);
+				}
+			}
+		}
+
+		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Firefox version %s, version %s, locale %s", 
+			(wchar_t*) szVersion, (wchar_t*) version.c_str(), (wchar_t*)  m_locale.c_str());
+	}
+	m_registry->Close();
+	return true;	
 }

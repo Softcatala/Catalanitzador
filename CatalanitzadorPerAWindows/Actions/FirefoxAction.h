@@ -41,6 +41,7 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
+		virtual char* GetVersion();
 		virtual DWORD GetProcessIDForRunningApp();
 
 		void ParseLanguage(wstring regvalue);
@@ -53,6 +54,7 @@ private:
 		void _getFirstLanguage(wstring& regvalue);
 		void _writeLanguageCode(wstring &langcode);
 		void _getPrefLine(wstring langcode, wstring& line);
+		bool _readVersionAndLocale();
 		
 		void _getProfilesIniLocation(wstring &location);
 		void _getPreferencesFile(wstring &location);
@@ -60,5 +62,7 @@ private:
 
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
+		char szVersionAscii[128];
+		wstring m_locale;
 };
 
