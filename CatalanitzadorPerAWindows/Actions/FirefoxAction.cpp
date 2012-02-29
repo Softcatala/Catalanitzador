@@ -197,6 +197,9 @@ bool FirefoxAction::_readLanguageCode(wstring& langcode)
 		g_log.Log(L"FirefoxAction::_readLanguageCode cannot open %s", (wchar_t *) location.c_str());
 		return false;
 	}
+
+	reader.close();
+	g_log.Log(L"FirefoxAction::_readLanguageCode open %s", (wchar_t *) location.c_str());
 	return true;
 }
 void FirefoxAction::AddCatalanToArrayAndRemoveOldIfExists()
