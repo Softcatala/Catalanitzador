@@ -58,8 +58,7 @@ private:
 
 		void _getVersionInstalled();
 		bool _isVersionInstalled(RegKeyVersion regkeys);
-		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);		
-		bool _wasInstalledCorrectly();
+		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _setDefaultLanguage();		
 		DownloadID  _getDownloadID();

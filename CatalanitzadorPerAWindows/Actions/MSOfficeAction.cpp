@@ -338,11 +338,6 @@ void MSOfficeAction::Execute()
 	runner.Execute (szApp, szParams);	
 }
 
-bool MSOfficeAction::_wasInstalledCorrectly()
-{	
-	return _isLangPackForVersionInstalled(_getRegKeys());	
-}
-
 RegKeyVersion MSOfficeAction::_getRegKeys()
 {
 	switch (m_MSVersion)
@@ -388,7 +383,7 @@ ActionStatus MSOfficeAction::GetStatus()
 		if (runner.IsRunning())
 			return InProgress;
 
-		if (_wasInstalledCorrectly()) {
+		if (_isLangPackForVersionInstalled(_getRegKeys())) {
 			status = Successful;
 			_setDefaultLanguage();
 		}

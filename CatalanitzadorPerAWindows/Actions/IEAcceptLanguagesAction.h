@@ -45,10 +45,11 @@ public:
 		void ParseLanguage(wstring regvalue);
 		void CreateRegistryString(wstring &regvalue);
 		void AddCatalanToArrayAndRemoveOldIfExists();
-		vector <wstring> * GetLanguages() {return &m_languages;}		
-
+		vector <wstring> * GetLanguages() {return &m_languages;}
 private:
 		
+		bool _isCurrentLanguageOk(wstring& firstlang);
+		void _getCurrentLanguage(wstring& lang);
 		void _getFirstLanguage(wstring& regvalue);
 		void _readVersion();
 		void _readLanguageCode(wstring& langcode);

@@ -52,19 +52,20 @@ void IEAcceptLanguagesAction::_readLanguageCode(wstring& langcode)
 }
 
 bool IEAcceptLanguagesAction::_writeLanguageCode(wstring langcode)
-{	
+{
+	bool bOk = false;
+
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Internet Explorer\\International", true))
 	{
 		if (m_registry->SetString (L"AcceptLanguage", (wchar_t *)langcode.c_str()) == true)
 		{	
-			status = Successful;
+			bOk = true;
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"IEAcceptLanguagesAction::_writeLanguageCode, set AcceptLanguage %u", (wchar_t *) (status == Successful));
-	return status == Successful;
+	g_log.Log(L"IEAcceptLanguagesAction::_writeLanguageCode, set AcceptLanguage %u", (wchar_t *) bOk);
+	return bOk;
 }
-
 
 void IEAcceptLanguagesAction::_getFirstLanguage(wstring& regvalue)
 {
@@ -79,17 +80,24 @@ void IEAcceptLanguagesAction::_getFirstLanguage(wstring& regvalue)
 	return;
 }
 
-bool IEAcceptLanguagesAction::IsNeed()
+bool IEAcceptLanguagesAction::_isCurrentLanguageOk(wstring& firstlang)
 {
-	bool bNeed = true;
-	wstring langcode, firstlang;
+	wstring langcode;
 
 	_readLanguageCode(langcode);
 	ParseLanguage(langcode);
-	_getFirstLanguage(firstlang);	
+	_getFirstLanguage(firstlang);
 
 	// IE 6.0 uses two digit language codes, after IE 6 can also include country
-	bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
+	return firstlang.compare(L"ca-es") == 0 || firstlang.compare(L"ca") == 0;
+}
+
+bool IEAcceptLanguagesAction::IsNeed()
+{
+	bool bNeed;
+	wstring firstlang;
+
+	bNeed = _isCurrentLanguageOk(firstlang) == false;
 
 	if (bNeed == false)
 		status = AlreadyApplied;
@@ -129,6 +137,13 @@ void IEAcceptLanguagesAction::Execute()
 	AddCatalanToArrayAndRemoveOldIfExists();
 	CreateRegistryString(regvalue);
 	_writeLanguageCode(regvalue);
+	
+	if (_isCurrentLanguageOk(regvalue) == true)
+		status = Successful;
+	else
+		status = FinishedWithError;
+
+	g_log.Log(L"IEAcceptLanguagesAction::Execute returns %s", status == Successful ? L"Successful" : L"FinishedWithError");
 }
 
 void IEAcceptLanguagesAction::_readVersion()
