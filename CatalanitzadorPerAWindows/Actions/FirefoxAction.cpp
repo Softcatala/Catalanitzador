@@ -61,28 +61,31 @@ bool FirefoxAction::IsNeed()
 		_readVersionAndLocale();
 	}
 
-	if (m_locale != L"ca")
+	if (_readLanguageCode(langcode))
 	{
-		if (_readLanguageCode(langcode))
+		if (langcode.length() == 0)
+		{
+			if (m_locale == L"ca")
+				bNeed = false;
+			else
+				bNeed = true;
+		}
+		else
 		{
 			ParseLanguage(langcode);
 			_getFirstLanguage(firstlang);
 
-			bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
+			bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;			
+		}
 
-			if (bNeed == false)
-				status = AlreadyApplied;
-		}
-		else
-		{
-			status = CannotBeApplied;
-		}
+		if (bNeed == false)
+			status = AlreadyApplied;
 	}
 	else
 	{
 		status = CannotBeApplied;
 	}
-
+	
 	g_log.Log(L"FirefoxAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
 	return bNeed;
 }
