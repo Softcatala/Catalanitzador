@@ -27,7 +27,7 @@
 #include "ActionStatus.h"
 #include "ActionID.h"
 #include "Sha1Sum.h"
-#include "DownloadActionData.h"
+#include "ActionDownloadData.h"
 
 #include <vector>
 using namespace std;
@@ -52,10 +52,10 @@ public:
 	int id;	
 };
 
-class _APICALL DownloadAction
+class _APICALL ActionDownload
 {
 public:	
-		DownloadAction();
+		ActionDownload();
 		
 		bool GetFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data);
 		bool GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha1_file, Sha1Sum &sha1sum);

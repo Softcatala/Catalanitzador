@@ -73,5 +73,5 @@ Action* Action::AnotherActionDependsOnMe(vector <Action *> * allActions)
 
 bool Action::_getFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data)
 {	
-	return m_downloadAction.GetFile(downloadID, file, progress, data);
+	return m_actionDownload.GetFile(downloadID, file, progress, data);
 }

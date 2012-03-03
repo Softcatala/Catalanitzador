@@ -20,7 +20,7 @@
 #include "stdafx.h"
 #include "Action.h"
  
-DownloadAction::DownloadAction()
+ActionDownload::ActionDownload()
 {
 	m_downloads.resize(DI_LENGTH - 1);
 
@@ -40,12 +40,12 @@ DownloadAction::DownloadAction()
 	m_downloads[DI_IELPI_IE9_7_64BITS] = Download(wstring(IELPI_IE9_7_64BITS), 5722);
 }
 
-wstring DownloadAction::GetFileName(DownloadID downloadID)
+wstring ActionDownload::GetFileName(DownloadID downloadID)
 {
 	return m_downloads[downloadID].download;
 }
 
-bool DownloadAction::GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha1_file, Sha1Sum &sha1sum)
+bool ActionDownload::GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha1_file, Sha1Sum &sha1sum)
 {
 	wstring sha1_url;
 	DownloadInet inetacccess;
@@ -56,7 +56,7 @@ bool DownloadAction::GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha
 	sha1_url += SHA1_EXTESION;
 
 	bRslt = inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
-	g_log.Log(L"DownloadAction::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
+	g_log.Log(L"ActionDownload::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
 
 	sha1sum.SetFile(sha1_file);
 	sha1sum.ReadFromFile();
@@ -64,7 +64,7 @@ bool DownloadAction::GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha
 	return sha1sum.GetSum().empty() == false;
 }
 
-void DownloadAction::_getRebost(DownloadID downloadID, wstring &url)
+void ActionDownload::_getRebost(DownloadID downloadID, wstring &url)
 {
 	wchar_t szURL[2048];	
 	
@@ -75,7 +75,7 @@ void DownloadAction::_getRebost(DownloadID downloadID, wstring &url)
 	url = szURL;
 }
 
-bool DownloadAction::GetFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data)
+bool ActionDownload::GetFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data)
 {	
 	DownloadInet inetacccess;
 	Sha1Sum sha1_computed(file), sha1_read;
@@ -84,7 +84,7 @@ bool DownloadAction::GetFile(DownloadID downloadID, wstring file, ProgressStatus
 	
 	_getRebost(downloadID, url);
 	bRslt = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
-	g_log.Log(L"DownloadAction::GetFile '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
+	g_log.Log(L"ActionDownload::GetFile '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
 
 	if (bRslt == false)
 		return false;	

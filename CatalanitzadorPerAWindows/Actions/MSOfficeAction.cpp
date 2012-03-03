@@ -59,7 +59,7 @@ MSOfficeAction::MSOfficeAction()
 
 	if (_getDownloadID() != DI_UNKNOWN)
 	{
-		Url url(m_downloadAction.GetFileName(_getDownloadID()));
+		Url url(m_actionDownload.GetFileName(_getDownloadID()));
 		wcscpy_s(m_szFilename, url.GetFileName());
 	}
 }

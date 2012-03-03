@@ -175,7 +175,7 @@ bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
 	GetTempPath(MAX_PATH, filename);
 
-	Url url(m_downloadAction.GetFileName(GetDownloadID()));
+	Url url(m_actionDownload.GetFileName(GetDownloadID()));
 	wcscat_s (filename, url.GetFileName());	
 	return _getFile(GetDownloadID(), filename, progress, data);
 }

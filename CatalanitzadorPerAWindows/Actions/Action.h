@@ -24,7 +24,7 @@
 #include "Serializable.h"
 #include "ActionStatus.h"
 #include "ActionID.h"
-#include "DownloadAction.h"
+#include "ActionDownload.h"
 
 #include <vector>
 using namespace std;
@@ -67,6 +67,6 @@ protected:
 		TCHAR szDescription[MAX_LOADSTRING];
 		TCHAR szCannotBeApplied[MAX_LOADSTRING];
 		ActionStatus status;
-		DownloadAction m_downloadAction;
+		ActionDownload m_actionDownload;
 };
 

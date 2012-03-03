@@ -19,13 +19,13 @@
 
 #include "stdafx.h"
 
-#include "DownloadAction.h"
+#include "ActionDownload.h"
 #include "DownloadInet.h"
 #include "Sha1Sum.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	DownloadAction downloadAction;
+	ActionDownload actionDownload;
 	DownloadInet downloader;
 	wstring file(L"download.bin");
 	Sha1Sum sha1_computed(file), sha1_read;
@@ -33,11 +33,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool bFile, bSha1;
 	bool bAllOk = true;
 
-	downloads = downloadAction.GetDownloads();
+	downloads = actionDownload.GetDownloads();
 	for (unsigned int i = 0; i < downloads.size(); i++)
 	{
 		bFile = downloader.GetFile((wchar_t*) downloads[i].download.c_str(), (wchar_t*) file.c_str(), NULL, NULL);
-		bSha1 = downloadAction.GetAssociatedFileSha1Sum((DownloadID) i, file, sha1_read);
+		bSha1 = actionDownload.GetAssociatedFileSha1Sum((DownloadID) i, file, sha1_read);
 		sha1_computed.ComputeforFile();
 		
 		wprintf(L"* %s download file:%s, download sha1:%s, sha1 verification:%s\r\n",

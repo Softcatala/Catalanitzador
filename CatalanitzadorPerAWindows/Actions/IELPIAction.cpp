@@ -303,7 +303,7 @@ bool IELPIAction::Download(ProgressStatus progress, void *data)
 	if (_createTempDirectory() == false)
 		return false;
 	
-	Url url(m_downloadAction.GetFileName(_getDownloadID()));
+	Url url(m_actionDownload.GetFileName(_getDownloadID()));
 	wcscpy_s(m_filename, m_szTempDir);
 	wcscat_s(m_filename, L"\\");
 	wcscat_s(m_filename, url.GetFileName());	
