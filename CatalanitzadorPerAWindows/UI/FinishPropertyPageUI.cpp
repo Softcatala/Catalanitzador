@@ -83,6 +83,7 @@ void FinishPropertyPageUI::_onInitDialog()
 	m_hFont = Window::CreateBoldFont(getHandle());
 	SendMessage(GetDlgItem (getHandle(), IDC_CONGRATULATIONS), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 	SendMessage(GetDlgItem (getHandle(), IDC_HELPSOCIALNETWORKS), WM_SETFONT, (WPARAM) m_hFont, TRUE);
+	SendMessage(GetDlgItem (getHandle(), IDC_FEEDBACK), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	_setProgressBarLevelAndPercentage();
 }
