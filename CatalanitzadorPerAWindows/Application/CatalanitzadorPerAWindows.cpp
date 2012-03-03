@@ -28,6 +28,7 @@
 #include "ApplicationSheetUI.h"
 #include "Actions.h"
 #include "Version.h"
+#include "ax.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -51,6 +52,8 @@ void CatalanitzadorPerAWindows::Run()
 	_initLog();
 	if (_supportedOS() == true && _hasAdminPermissionsDialog() == true)
 	{
+		OleInitialize(0);
+		AXRegister();
 		_createWizard();
 	}
 }

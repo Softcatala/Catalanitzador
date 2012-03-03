@@ -27,6 +27,8 @@
 #include "OSVersion.h"
 #include "DownloadErrorDlgUI.h"
 #include "WindowsXPDialogCanceler.h"
+#include "ax.h"
+#include <exdisp.h>
 
 #include <stdio.h>
 #include <vector>
@@ -39,7 +41,21 @@ void InstallPropertyPageUI::_onInitDialog()
 	hTotalProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TOTAL);
 	hTaskProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TASK);
 	hDescription = GetDlgItem (getHandle(), IDC_INSTALL_DESCRIPTION);
-	ShowWindowOnce = FALSE;	
+	ShowWindowOnce = FALSE;
+/*
+	HWND hX = GetDlgItem(getHandle (),IDC_INTERNETEXPLORER);
+
+	SendMessage(hX,AX_INPLACE,1,0);
+	
+	// Navigate
+	IWebBrowser2* wb = 0;
+	SendMessage(hX,AX_QUERYINTERFACE,(WPARAM)&IID_IWebBrowser2,(LPARAM)&wb);
+	if (wb)
+	{
+			wb->Navigate(L"file:///C:\\CatalanitzadorPerAWindows\\catalanitzador_recomanacions\\recomana.html",0,0,0,0);
+			wb->Release();
+	}
+*/
 }
 
 void InstallPropertyPageUI::_onShowWindow()

@@ -545,6 +545,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UI\ax.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UI\ax.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UI\CheckedListView.cpp"
 				>
 			</File>
