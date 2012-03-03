@@ -119,7 +119,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 
 	if (processID == (DWORD) lParam)
 	{
-		PostMessage(hWnd, WM_QUIT, 0, 0);
+		PostMessage(hWnd, WM_CLOSE, 0, 0);
 		return TRUE;
 	}
 	return TRUE;
