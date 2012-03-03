@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+  font-family:sans-serif;
+}
+
+.section {
+  display:none;
+  position:absolute;
+  padding:10px;
+}
+
+#nav {
+  position:fixed;
+  bottom:0px;
+  width:100%;
+  text-align:center;
+}
+
+#nav img {
+  cursor:pointer;
+}
+
+.lateral {
+  float:left;
+  border:1px dashed gray;
+  padding:10px;
+  text-align:center;
+  width:20%;
+}
+
+.main {
+  margin-left:22%;
+  padding:10px;
+  line-height:150%;
+  text-align:justify;
+}
+
+.descarrega {
+  background:palegreen;
+  border:1px solid green;
+  padding:5px;
+  color:darkgreen;
+  font-weight:bold;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  text-decoration:none;
+}
+
+.desc {
+  margin-left:50px;
+  font-size:120%;
+}
+
+.images {
+  height:150px;
+  background:lightgray;
+  padding:5px;
+  border-top:2px solid gray;
+  border-bottom:2px solid gray;
+  text-align:center;
+  margin-top:20px;
+}
+.images img {
+  height:100%;
+  cursor:pointer;
+}
+
+#window {
+  position:fixed;
+  width:80%;
+  height:80%;
+  left:10%;
+  top:10%;
+  background:white;
+  border:1px solid gray;
+  z-index:100;
+  display:none;
+  padding:5px;
+  text-align:center;
+}
+
+</style>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+recomana = {};
+
+recomana.selectedIndex = 0;
+
+recomana.oldIndex = 0;
+
+recomana.action = function (v) {
+  clearInterval(recomana.interval);
+  var t = (recomana.selectedIndex+v);
+  if (t >= recomana.quants) {
+    t -= recomana.quants;
+  } else if (t < 0) {
+    t += recomana.quants;
+  }
+  recomana.oldIndex = recomana.selectedIndex;
+  recomana.selectedIndex = t;
+  recomana.show();
+  recomana.interval = setInterval(recomana.func,5000);
+};
+
+recomana.show = function () {
+  $(".section").hide();
+  $("#recomanats > .section:nth-child("+(recomana.oldIndex+1)+")").fadeOut(1000);
+  $("#recomanats > .section:nth-child("+(recomana.selectedIndex+1)+")").fadeIn(1000);
+};
+
+recomana.func = function () {
+  recomana.action(1);
+};
+
+$(document).ready(function () {
+  recomana.quants = $(".section").length;
+  $(".images img").click(function () {
+    clearInterval(recomana.interval);
+    $("#wcontents").html('<img src="'+$(this).attr("src")+'" style="height:100%;">');
+    $("#window").fadeIn();
+  });
+  recomana.interval = setInterval(recomana.func,5000);
+});
+</script>
+<title>Programes recomanats</title>
+</head>
+<body>
+<div id="window">
+<div style="float:right;padding:5px;color:gray;cursor:pointer;" onclick="$('#window').fadeOut();recomana.interval = setInterval(recomana.func,5000);">x</div>
+<div id="wcontents" style="height:100%;"></div>
+</div>
+<div id="recomanats">
+<div class="section" style="display:block;">
+<div class="lateral">
+<img src="gimp.png" style="width:100%;">
+<br><br><br>
+<a href="http://www.softcatala.org/wiki/Rebost:GIMP" class="descarrega" target="_blank">Descarrega a Softcatalà</a>
+<br><br>
+<table class="desc">
+ <tr><td><img src="check.png"></td><td>En català</td></tr>
+</table>
+<table class="desc">
+ <tr><td><img src="check.png"></td><td>19,4 MB</td></tr>
+</table>
+<br><br><br>
+<img src="sc.png" style="width:50%;">
+</div>
+<div class="main">
+<h1>GIMP</h1>
+El GIMP és un programa de distribució lliure, extremadament potent i versàtil, adequat per a tasques com ara retoc fotogràfic o creació i disseny d'imatges. Es pot utilitzar com a simple programa de dibuix, com a programa de retoc fotogràfic professional, com a sistema de processament massiu en línia, com a dissenyador massiu d'imatges de producció, com a convertidor de formats gràfics, etc. Disponible per a Linux, Windows i Mac.
+
+<div class="images">
+<img src="gimp1.jpg">
+<img src="gimp2.png">
+</div>
+</div>
+</div>
+<div class="section">
+<div class="lateral">
+<img src="libreoffice.png" style="width:100%;">
+<br><br><br>
+<a href="http://www.softcatala.org/wiki/Rebost:LibreOffice" class="descarrega" target="_blank">Descarrega a Softcatalà</a>
+<br><br>
+<table class="desc">
+ <tr><td><img src="check.png"></td><td>En català</td></tr>
+</table>
+<table class="desc">
+ <tr><td><img src="check.png"></td><td>201 MB</td></tr>
+</table>
+<br><br><br>
+<img src="sc.png" style="width:50%;">
+</div>
+<div class="main">
+<h1>LibreOffice</h1>
+El LibreOffice és un paquet ofimàtic lliure derivat de l'OpenOffice.org i mantingut per part de l'antiga comunitat. Aquesta versió inclou tant la versió en l'estàndard general de la llengua catalana com en la variant valenciana, que podeu triar durant el procés d'instal·lació (català o català (valencià)).
+
+Conté un processador de textos (Writer) compatible amb Microsoft Word, un gestor de fulls de càlcul (Calc) compatible amb Microsoft Excel, un editor de presentacions (Impress) compatible amb Microsoft Power Point, un editor de bases de dades (Base) que pot importar bases de dades Microsoft Access, un editor de dibuixos vectorials i gràfics (Draw) i un editor de fórmules matemàtiques (Math).
+<div class="images">
+<img src="libreoffice1.jpg">
+<img src="libreoffice2.png">
+</div>
+</div>
+</div>
+</div>
+<div id="nav">
+<img src="esquerra.png" onclick="recomana.action(-1)">
+<img src="dreta.png" onclick="recomana.action(1)">
+</div>
+</body>
+</html>
