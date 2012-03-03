@@ -63,8 +63,9 @@ void UploadStatistics::UploadFile()
 	// Send file
 	HttpFormInet access;
 	bool rslt = access.PostForm(UPLOAD_URL, szVar);
+#if !_DEBUG
 	DeleteFile(szXML);
-
+#endif
 	g_log.Log (L"UploadStatistics::UploadFile result %u", (wchar_t *)rslt);	
 }
 

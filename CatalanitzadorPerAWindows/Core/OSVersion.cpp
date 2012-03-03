@@ -82,35 +82,40 @@ bool OSVersion::IsWindows64Bits()
 
 void OSVersion::Serialize(ostream* stream)
 {
-	char szText [1024];
-	OSVERSIONINFOEX osvi;	
+	char szText[2048];
+	char szAsciiName[2048];
+	OSVERSIONINFOEX osvi;
+	wchar_t* name;
 	
 	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
-
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	GetVersionEx((OSVERSIONINFO*) &osvi);
+	
+	name = GetVersionText(GetVersion());
+	WideCharToMultiByte(CP_ACP, 0, name, wcslen(name) + 1, szAsciiName, sizeof(szAsciiName), 0, 0);
 
-	sprintf_s (szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' Bits='%u'/>\r\n",
+	sprintf_s(szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s'/>\r\n",
 		osvi.dwMajorVersion, 
 		osvi.dwMinorVersion,
 		osvi.wServicePackMajor,
 		osvi.wServicePackMinor,
 		osvi.wSuiteMask,
-		IsWindows64Bits() == true ? 64 : 32);
+		osvi.wProductType,
+		IsWindows64Bits() == true ? 64 : 32,
+		szAsciiName);
 
 	*stream << szText;
 }
 
 void OSVersion::GetLogInfo(wchar_t * szString, int size)
 {
-	OSVERSIONINFOEX osvi;	
-	
-	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+	OSVERSIONINFOEX osvi;
 
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	GetVersionEx((OSVERSIONINFO*) &osvi);
-		
-	swprintf_s (szString, size / sizeof (wchar_t), L"OS Info. OS version %u.%u, SP version %u.%u, SuiteMask %u, ProductType %u, 64 bit %s, enum %s",
+
+	swprintf_s(szString, size / sizeof (wchar_t), L"OS Info. OS version %u.%u, SP version %u.%u, SuiteMask %u, ProductType %u, 64 bit %s, name %s",
 		osvi.dwMajorVersion, 
 		osvi.dwMinorVersion,
 		osvi.wServicePackMajor,
