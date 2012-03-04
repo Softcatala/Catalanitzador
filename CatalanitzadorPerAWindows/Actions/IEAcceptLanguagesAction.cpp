@@ -155,7 +155,8 @@ void IEAcceptLanguagesAction::_readVersion()
 		{
 			StringConversion::ToMultiByte(wstring(szVersion), m_version);
 			g_log.Log(L"IEAcceptLanguagesAction::_readVersion. IE version %s", szVersion);
-		}		
+		}
+		m_registry->Close();
 	}	
 }
 

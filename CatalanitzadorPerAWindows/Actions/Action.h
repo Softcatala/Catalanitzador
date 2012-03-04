@@ -43,8 +43,7 @@ public:
 		virtual bool IsRebootNeed() { return false;};
 		virtual ActionStatus GetStatus() { return status;}
 		virtual const char* GetVersion() { return "";}
-		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
-		virtual void SetStatus(ActionStatus value) { status = value; }
+		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}		
 		virtual bool Download(ProgressStatus, void *data) {return true;}
 		virtual void Execute() = 0;
 		virtual void Serialize(ostream* stream);
@@ -53,6 +52,7 @@ public:
 		virtual LPCWSTR GetLicenseID() { return NULL; };
 		virtual DWORD GetProcessIDForRunningApp() {return NULL;}
 
+		void SetStatus(ActionStatus value);
 		void GetLicense(wstring &license);
 		bool HasLicense() { return GetLicenseID() != NULL; };
 

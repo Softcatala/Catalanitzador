@@ -75,3 +75,38 @@ bool Action::_getFile(DownloadID downloadID, wstring file, ProgressStatus progre
 {	
 	return m_actionDownload.GetFile(downloadID, file, progress, data);
 }
+
+void Action::SetStatus(ActionStatus value) 
+{
+	ActionStatus prev = GetStatus();
+	status = value;
+
+	// Check which transitions are valid within the Status action state machine
+	switch (prev)
+	{
+		case NotSelected:
+			assert(status == CannotBeApplied || status == Selected || status ==AlreadyApplied);
+			break;
+		case Selected:
+			assert(status == InProgress || status == NotSelected);
+			break;
+		case CannotBeApplied:
+			assert(false);
+			break;
+		case AlreadyApplied:
+			assert(false);
+			break;
+		case InProgress:
+			assert(status == Successful || status == FinishedWithError);
+			break;
+		case Successful:
+			assert(false);
+			break;
+		case FinishedWithError:
+			assert(false);
+			break;
+		default:
+			assert(false);
+			break;
+	}
+}

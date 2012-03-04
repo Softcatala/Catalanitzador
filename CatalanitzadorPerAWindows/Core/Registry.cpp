@@ -27,11 +27,13 @@ Registry::Registry()
 
 Registry::~Registry()
 {
-	Close ();
+	Close();
 }
 
 bool Registry::OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 {
+	assert(hKey == NULL);
+
 	return RegOpenKeyEx(hBaseKey, sSubKey, 0,
 		bWriteAccess ? KEY_READ|KEY_WRITE:KEY_READ, &hKey) == ERROR_SUCCESS;
 }
