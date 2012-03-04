@@ -21,11 +21,13 @@
 
 enum _APICALL ActionStatus
 {
-	NotSelected,		// The user did not select the action
-	Selected,			// Selected but no started
-	CannotBeApplied,	// The action cannot be applied (e.g. Windows ES needed US found or application not found)
-	AlreadyApplied,		// Action not needed
-	InProgress,			// Selected and in progress
-	Successful,			// End up OK
-	FinishedWithError	// End up with error
+	// Do not modify these since they are used in the server side to identify 
+	// action status in a unique manner
+	NotSelected = 0,		// The user did not select the action
+	Selected = 1,			// Selected but no started
+	CannotBeApplied = 2,	// The action cannot be applied (e.g. Windows ES needed US found or application not found)
+	AlreadyApplied = 3,		// Action not needed
+	InProgress = 4,			// Selected and in progress
+	Successful = 5,			// End up OK
+	FinishedWithError = 6	// End up with error
 };
