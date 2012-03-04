@@ -36,13 +36,8 @@ using namespace std;
 
 #define TIMER_ID 1714
 
-void InstallPropertyPageUI::_onInitDialog()
+void InstallPropertyPageUI::_openURLInIE()
 {
-	hTotalProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TOTAL);
-	hTaskProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TASK);
-	hDescription = GetDlgItem (getHandle(), IDC_INSTALL_DESCRIPTION);
-	ShowWindowOnce = FALSE;
-/*
 	HWND hX = GetDlgItem(getHandle (),IDC_INTERNETEXPLORER);
 
 	SendMessage(hX,AX_INPLACE,1,0);
@@ -52,10 +47,20 @@ void InstallPropertyPageUI::_onInitDialog()
 	SendMessage(hX,AX_QUERYINTERFACE,(WPARAM)&IID_IWebBrowser2,(LPARAM)&wb);
 	if (wb)
 	{
-			wb->Navigate(L"file:///C:\\CatalanitzadorPerAWindows\\catalanitzador_recomanacions\\recomana.html",0,0,0,0);
-			wb->Release();
+		m_slideshow->WaitForThread();
+		wb->Navigate((BSTR)m_slideshow->GetURL().c_str(),0,0,0,0);
+		wb->Release();
 	}
-*/
+}
+
+void InstallPropertyPageUI::_onInitDialog()
+{
+	hTotalProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TOTAL);
+	hTaskProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TASK);
+	hDescription = GetDlgItem (getHandle(), IDC_INSTALL_DESCRIPTION);
+	ShowWindowOnce = FALSE;
+
+	_openURLInIE();
 }
 
 void InstallPropertyPageUI::_onShowWindow()

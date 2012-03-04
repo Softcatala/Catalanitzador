@@ -345,6 +345,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Resources\SlideShow.rc"
+				>
+			</File>
+			<File
 				RelativePath=".\Resources\twitter_32px.bmp"
 				>
 			</File>
@@ -462,6 +466,14 @@
 			</File>
 			<File
 				RelativePath=".\Core\Sha1Sum.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Slideshow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\Slideshow.h"
 				>
 			</File>
 			<File

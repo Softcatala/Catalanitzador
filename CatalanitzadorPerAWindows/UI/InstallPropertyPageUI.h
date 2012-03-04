@@ -22,6 +22,7 @@
 #include "PropertyPageUI.h"
 #include "Action.h"
 #include "Serializer.h"
+#include "SlideShow.h"
 
 #include <vector>
 using namespace std;
@@ -31,6 +32,7 @@ class InstallPropertyPageUI: public PropertyPageUI
 public:		
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 		void SetActions(vector <Action *> * value) { m_actions = value;}
+		void SetSlideshow(Slideshow* slideshow) { m_slideshow = slideshow;}
 		
 private:
 		virtual void _onInitDialog();
@@ -45,6 +47,7 @@ private:
 		void _windowsXPAsksCDWarning();
 		void _setTaskMarqueeMode(bool enable);
 		void _waitExecutionComplete(Action* action);
+		void _openURLInIE();
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;
@@ -54,4 +57,5 @@ private:
 		Serializer* m_serializer;
 		int m_selActions;
 		int m_downloads;
+		Slideshow* m_slideshow;
 };

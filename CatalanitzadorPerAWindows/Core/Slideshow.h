@@ -19,15 +19,26 @@
  
 #pragma once
 
-#include <string>
 #include <vector>
 using namespace std;
 
-class Resources
+class Slideshow
 {
 	public:
-			static bool DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file);
-			static bool LoadResourceToString(LPCWSTR type, LPCWSTR resource, wstring& text);
-			static bool Resources::EnumResources(LPCWSTR type, vector <wstring>& resources);
-			static BOOL CALLBACK  Resources::EnumResNameProcCallback(HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LONG_PTR lParam);
+			Slideshow();
+			~Slideshow();
+
+			void StartUnpackThread();
+			void UploadFile();
+			void WaitForThread();
+			wstring GetURL(){return m_URL; }
+
+	private:
+			void _unpackSlideShow();
+			void _createURL();
+			static DWORD WINAPI _unpackThread(LPVOID lpParam);
+			
+			vector <wstring> m_tempFiles;
+			wstring m_URL;
+			HANDLE m_hThread;
 };

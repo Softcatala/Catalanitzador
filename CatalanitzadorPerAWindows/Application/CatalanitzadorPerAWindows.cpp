@@ -29,6 +29,7 @@
 #include "Actions.h"
 #include "Version.h"
 #include "ax.h"
+#include "Slideshow.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -162,6 +163,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
 	Actions actions;
+	Slideshow slideshow;
 	BOOL bSendStats = TRUE;
 
 	welcome.setParent(&sheet);
@@ -181,6 +183,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.setPageButtons(CancelButtonOnly);
 	install.SetActions(&acts);
 	install.SetSerializer(&m_serializer);
+	install.SetSlideshow(&slideshow);
 	install.createPage(m_hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 
@@ -192,5 +195,6 @@ void CatalanitzadorPerAWindows::_createWizard()
 	finish.createPage(m_hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
 
+	slideshow.StartUnpackThread();
 	sheet.runModal(m_hInstance, NULL, NULL);
 }

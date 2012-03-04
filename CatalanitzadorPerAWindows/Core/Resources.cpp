@@ -96,3 +96,20 @@ bool Resources::LoadResourceToString(LPCWSTR type, LPCWSTR resource, wstring& te
 	return true;
 }
 
+BOOL Resources::EnumResNameProcCallback(HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LONG_PTR lParam)
+{
+	vector <wstring>* resources;
+
+	resources = (vector <wstring>*) lParam;
+	resources->push_back(wstring(lpszName));
+	return TRUE;
+}
+
+bool Resources::EnumResources(LPCWSTR type, vector <wstring>& resources)
+{
+	HMODULE hInstance;
+
+	hInstance = GetModuleHandle(NULL);
+	return EnumResourceNames(hInstance, type, EnumResNameProcCallback, (LONG_PTR) &resources) == TRUE;	
+}  
+
