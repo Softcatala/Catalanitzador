@@ -51,7 +51,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
-		virtual char* GetVersion();
+		virtual const char* GetVersion();
 		virtual LPCWSTR GetLicenseID();
 
 private:

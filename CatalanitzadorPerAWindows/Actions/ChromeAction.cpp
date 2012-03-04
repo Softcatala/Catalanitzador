@@ -32,7 +32,6 @@ enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 ChromeAction::ChromeAction(IRegistry* registry)
 {
 	m_registry = registry;
-	szVersionAscii[0] = NULL;
 	isInstalled = false;
 }
 
@@ -351,9 +350,7 @@ void ChromeAction::_readVersion()
 
 		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
 		{
-			WideCharToMultiByte(CP_ACP, 0, szVersion, wcslen(szVersion) + 1, szVersionAscii, sizeof(szVersionAscii), 
-				NULL, NULL);
-
+			StringConversion::ToMultiByte(wstring(szVersion), m_version);
 			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szVersion);
 		}
 		m_registry->Close();
@@ -388,13 +385,13 @@ void ChromeAction::_readInstallLocation(wstring & path)
 	}
 }
 
-char* ChromeAction::GetVersion()
+const char* ChromeAction::GetVersion()
 {
-	if (*szVersionAscii == 0x0)
+	if (m_version.length() == 0)
 	{
 		_readVersion();
 	}
-	return szVersionAscii;
+	return m_version.c_str();
 }
 
 void ChromeAction::CheckPrerequirements(Action * action)

@@ -24,7 +24,6 @@
 IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry)
 {
 	m_registry = registry;
-	szVersionAscii[0] = NULL;
 }
 
 wchar_t* IEAcceptLanguagesAction::GetName()
@@ -154,21 +153,19 @@ void IEAcceptLanguagesAction::_readVersion()
 
 		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
 		{
-			WideCharToMultiByte(CP_ACP, 0, szVersion, wcslen(szVersion) + 1, szVersionAscii, sizeof(szVersionAscii), 
-				NULL, NULL);
-
+			StringConversion::ToMultiByte(wstring(szVersion), m_version);
 			g_log.Log(L"IEAcceptLanguagesAction::_readVersion. IE version %s", szVersion);
 		}		
 	}	
 }
 
-char* IEAcceptLanguagesAction::GetVersion()
+const char* IEAcceptLanguagesAction::GetVersion()
 {
-	if (*szVersionAscii == 0x0)
+	if (m_version.length() == 0)
 	{
 		_readVersion();
 	}
-	return szVersionAscii;
+	return m_version.c_str();
 }
 
 void IEAcceptLanguagesAction::CheckPrerequirements(Action * action)

@@ -25,6 +25,7 @@
 #include "ActionStatus.h"
 #include "ActionID.h"
 #include "ActionDownload.h"
+#include "StringConversion.h"
 
 #include <vector>
 using namespace std;
@@ -41,7 +42,7 @@ public:
 		virtual bool IsNeed() = 0;
 		virtual bool IsRebootNeed() { return false;};
 		virtual ActionStatus GetStatus() { return status;}
-		virtual char* GetVersion() { return "";}
+		virtual const char* GetVersion() { return "";}
 		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
 		virtual void SetStatus(ActionStatus value) { status = value; }
 		virtual bool Download(ProgressStatus, void *data) {return true;}

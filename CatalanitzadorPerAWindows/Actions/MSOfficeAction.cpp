@@ -100,7 +100,7 @@ LPCWSTR MSOfficeAction::GetLicenseID()
 	return NULL;
 }
 
-char* MSOfficeAction::GetVersion()
+const char* MSOfficeAction::GetVersion()
 {
 	switch (m_MSVersion)
 	{
@@ -191,7 +191,7 @@ bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 void MSOfficeAction::_getVersionInstalled()
 {
 	wchar_t szVersion[256];
-	char* pVersion;
+	const char* pVersion;
 
 	if (_isVersionInstalled(RegKeys2010))
 	{

@@ -41,7 +41,7 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual char* GetVersion();
+		virtual const char* GetVersion();
 		virtual DWORD GetProcessIDForRunningApp();
 
 		void ParseLanguage(wstring regvalue);
@@ -64,5 +64,6 @@ private:
 		vector <wstring> m_languages;
 		char szVersionAscii[128];
 		wstring m_locale;
+		string m_version;
 };
 

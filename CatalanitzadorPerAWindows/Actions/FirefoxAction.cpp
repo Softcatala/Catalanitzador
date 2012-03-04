@@ -333,13 +333,13 @@ void FirefoxAction::Execute()
 	_writeLanguageCode(regvalue);
 }
 
-char* FirefoxAction::GetVersion()
+const char* FirefoxAction::GetVersion()
 {
-	if (*szVersionAscii == 0x0)
+	if (m_version.length() == 0)
 	{
 		_readVersionAndLocale();
 	}
-	return szVersionAscii;
+	return m_version.c_str();
 }
 
 bool FirefoxAction::_readVersionAndLocale()
@@ -362,9 +362,7 @@ bool FirefoxAction::_readVersionAndLocale()
 		if (start != wstring::npos)
 		{
 			version = sreg.substr(0, start);
-
-			WideCharToMultiByte(CP_ACP, 0, version.c_str(), version.size() + 1, szVersionAscii, sizeof(szVersionAscii), 
-				NULL, NULL);
+			StringConversion::ToMultiByte(wstring(version), m_version);			
 
 			start = sreg.find(L"(", start);
 

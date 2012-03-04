@@ -477,6 +477,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\StringConversion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\StringConversion.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\UploadStatistics.cpp"
 				>
 			</File>

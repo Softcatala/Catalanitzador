@@ -39,7 +39,7 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual char* GetVersion();
+		virtual const char* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
 
 		void ParseLanguage(wstring regvalue);
@@ -64,7 +64,7 @@ private:
 		bool _findAcceptedValue(wstring,int&);
 		bool _findLanguageString(wstring,int &,wstring &);
 
-		char szVersionAscii[128];
+		string m_version;
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
 		bool isInstalled;
