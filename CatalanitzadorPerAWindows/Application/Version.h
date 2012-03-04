@@ -20,8 +20,8 @@
 
 #define APP_MAJOR_VERSION		0
 #define APP_MINOR_VERSION		9
-#define APP_REVISION			8
-#define STRING_VERSION			"0.9.8.0"
+#define APP_REVISION			9
+#define STRING_VERSION			"0.9.9.0"
 
 #define _SLIDESHOW 1
 
