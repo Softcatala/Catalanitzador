@@ -78,7 +78,7 @@ DWORD UploadStatistics::_uploadXmlThread(LPVOID lpParam)
 
 void UploadStatistics::StartUploadThread()
 {
-	m_hThread = CreateThread(NULL, 0, _uploadXmlThead, this, 0, NULL);
+	m_hThread = CreateThread(NULL, 0, _uploadXmlThread, this, 0, NULL);
 }
 
 void UploadStatistics::WaitBeforeExit()
