@@ -34,7 +34,7 @@ class UploadStatistics
 
 	private:
 
-			static DWORD WINAPI _uploadXmlThead(LPVOID lpParam);
+			static DWORD WINAPI _uploadXmlThread(LPVOID lpParam);
 
 			ostream* m_stream;
 			HANDLE m_hThread;

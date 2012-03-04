@@ -69,7 +69,7 @@ void UploadStatistics::UploadFile()
 	g_log.Log (L"UploadStatistics::UploadFile result %u", (wchar_t *)rslt);	
 }
 
-DWORD UploadStatistics::_uploadXmlThead(LPVOID lpParam)
+DWORD UploadStatistics::_uploadXmlThread(LPVOID lpParam)
 {
 	UploadStatistics* stats = (UploadStatistics *) lpParam;
 	stats->UploadFile();
