@@ -55,7 +55,8 @@ private:
 		void _readInstallLocation(wstring& path);
 		bool _readLanguageCode(wstring& langcode);
 		bool _writeLanguageCode(wstring langcode);
-		void _createRegistryStringTwoLangs(wstring &regvalue, float average);	
+		void _createRegistryStringTwoLangs(wstring &regvalue, float average);
+		bool _isChromeAppLocaleOk();
 
 		bool _findIntl(wstring,int&);
 		bool _findSemicolon(wstring,int&);
@@ -63,6 +64,7 @@ private:
 		bool _findAcceptedKey(wstring,int&);
 		bool _findAcceptedValue(wstring,int&);
 		bool _findLanguageString(wstring,int &,wstring &);
+		bool _findAppLocaleKey(wstring line, int & pos);
 
 		string m_version;
 		IRegistry* m_registry;
