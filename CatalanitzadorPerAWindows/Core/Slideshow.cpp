@@ -26,6 +26,7 @@
 
 Slideshow::Slideshow()
 {
+	m_hThread = NULL;
 	_createURL();
 }
 
