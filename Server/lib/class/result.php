@@ -24,7 +24,7 @@ class result {
     function save_session()
     {
         global $db;
-                
+
         $MajorVersion = $db->escape( $this->MajorVersion );
         $MinorVersion = $db->escape( $this->MinorVersion );
         $Revision = $db->escape( $this->Revision );
@@ -34,11 +34,17 @@ class result {
         $SPMinorVersion = $db->escape( $this->SPMinorVersion );
         $SuiteMask = $db->escape( $this->SuiteMask );
         $Bits = $db->escape( $this->Bits );
+        $ProductType = $db->escape( $this->ProductType );
+        $Name = $db->escape( $this->Name );
+
+        $applications_query = $db->get_var ( "SELECT ID FROM applications WHERE  MajorVersion = '$MajorVersion' AND MinorVersion = '$MinorVersion' AND Revision = '$Revision'");
+        $operatings_query = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='$Name' AND Bits ='$Bits' ");
+        $operatings_query_null = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='' AND Bits ='$Bits' ");
         
         //No log file at this moment
         $LogFile = '';
         
-        if ( !$db->get_var ( "SELECT ID FROM applications WHERE  MajorVersion = '$MajorVersion' AND MinorVersion = '$MinorVersion' AND Revision = '$Revision'"))
+        if ( !$applications_query )
         {
             $db->query( "INSERT INTO applications 
                     ( MajorVersion, MinorVersion, Revision ) 
@@ -48,19 +54,27 @@ class result {
              $ApplicationsID = $db->insert_id;
         }
         else
-             $ApplicationsID = $db->get_var ( "SELECT ID FROM applications WHERE  MajorVersion = '$MajorVersion' AND MinorVersion = '$MinorVersion' AND Revision = '$Revision'");
+             $ApplicationsID = $applications_query;
         
-        if ( !$db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND Bits ='$Bits' "))
+        if ( !$operatings_query )
         {
-            $db->query( "INSERT INTO operatings 
-                    ( OSMajorVersion, OSMinorVersion, SPMajorVersion, SPMinorVersion, SuiteMask, Bits ) 
-                    VALUES 
-                    ( '$OSMajorVersion', '$OSMinorVersion', '$SPMajorVersion', '$SPMinorVersion', '$SuiteMask', '$Bits' )
-                    " );
-             $OperatingsID = $db->insert_id;
+            if( $id = $operatings_query_null )
+            {
+                $db->query( "UPDATE operatings SET Name = '$Name' WHERE id = '$id'" );
+                $OperatingsID = $id;
+            }
+            else
+            {
+                $db->query( "INSERT INTO operatings 
+                        ( OSMajorVersion, OSMinorVersion, SPMajorVersion, SPMinorVersion, SuiteMask, ProductType, Name, Bits ) 
+                        VALUES 
+                        ( '$OSMajorVersion', '$OSMinorVersion', '$SPMajorVersion', '$SPMinorVersion', '$SuiteMask', '$ProductType', '$Name', '$Bits' )
+                        " );
+                 $OperatingsID = $db->insert_id;
+             }
         }
         else
-            $OperatingsID = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND Bits ='$Bits' ");
+            $OperatingsID = $operatings_query;
          
          $db->query( "INSERT INTO sessions 
                 ( Date, ApplicationsID, OperatingsID, LogFile ) 
