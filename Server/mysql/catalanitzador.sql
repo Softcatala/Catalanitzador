@@ -1,19 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.7deb6
+-- version 3.3.7deb7
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Temps de generació: 07-11-2011 a les 07:28:55
+-- Temps de generació: 08-03-2012 a les 08:20:23
 -- Versió del servidor: 5.1.49
--- Versió de PHP : 5.3.6-12~bpo60+1
+-- Versió de PHP : 5.3.8-2~bpo60+1
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de dades: `catalanitzador`
@@ -45,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `MinorVersion` tinyint(4) NOT NULL,
   `Revision` tinyint(4) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -60,9 +54,11 @@ CREATE TABLE IF NOT EXISTS `operatings` (
   `SPMajorVersion` tinyint(4) NOT NULL,
   `SPMinorVersion` tinyint(4) NOT NULL,
   `SuiteMask` int(11) NOT NULL,
+  `ProductType` int(11) NOT NULL,
+  `Name` text NOT NULL,
   `Bits` tinyint(4) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=46 ;
 
 -- --------------------------------------------------------
 
@@ -77,4 +73,5 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   `OperatingsID` int(11) NOT NULL,
   `LogFile` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1527 ;
+
