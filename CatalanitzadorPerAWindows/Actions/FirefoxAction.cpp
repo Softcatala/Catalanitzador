@@ -66,9 +66,21 @@ bool FirefoxAction::IsNeed()
 		if (langcode.length() == 0)
 		{
 			if (m_locale == L"ca")
+			{
 				bNeed = false;
+			}
 			else
+			{
+				// The Firefox locale determines which languages are going to be used in the 
+				// accept_languages. Since by setting to Catalan we reset the default value
+				// add at the end of the locale of the langpack as secondary language, then
+				// if you install Firefox in English you will have ca, es as language codes
+				if (m_locale.size() > 0)
+				{
+					m_languages.push_back(m_locale);
+				}
 				bNeed = true;
+			}
 		}
 		else
 		{
@@ -114,7 +126,7 @@ void FirefoxAction::_getProfilesIniLocation(wstring &location)
 
 #define	PATHKEY L"Path="
 
-void FirefoxAction::_getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation)
+bool FirefoxAction::_getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation)
 {
 	wifstream reader;
 	wstring line;
@@ -122,8 +134,8 @@ void FirefoxAction::_getProfileLocationFromProfilesIni(wstring file, wstring &pr
 
 	reader.open(file.c_str());
 
-	if(!reader.is_open())	
-		return;	
+	if (!reader.is_open())	
+		return false;
 
 	while(!(getline(reader, line)).eof())
 	{
@@ -137,17 +149,27 @@ void FirefoxAction::_getProfileLocationFromProfilesIni(wstring file, wstring &pr
 		profileLocation = szPath;
 		profileLocation += L"\\Mozilla\\Firefox\\";
 		profileLocation += (wchar_t *)&line[pathLen];
-		break;
+		return true;
 	}
+
+	return false;
 }
 
-void FirefoxAction::_getPreferencesFile(wstring &location)
+bool FirefoxAction::_getPreferencesFile(wstring &location)
 {
 	wstring profileIni;
 
 	_getProfilesIniLocation(profileIni);
-	_getProfileLocationFromProfilesIni(profileIni, location);
-	location += L"\\prefs.js";
+	
+	if (_getProfileLocationFromProfilesIni(profileIni, location))
+	{	
+		location += L"\\prefs.js";
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void FirefoxAction::ParseLanguage(wstring regvalue)
@@ -183,7 +205,11 @@ bool FirefoxAction::_readLanguageCode(wstring& langcode)
 
 	langcode.erase();
 	
-	_getPreferencesFile(location);	
+	if (_getPreferencesFile(location) == false)
+	{
+		g_log.Log(L"FirefoxAction::_readLanguageCode. No preferences file found. Firefox is not installed");
+		return false;
+	}
 	reader.open(location.c_str());
 
 	if (reader.is_open())

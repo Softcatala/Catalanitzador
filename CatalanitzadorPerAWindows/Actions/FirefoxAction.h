@@ -57,8 +57,8 @@ private:
 		bool _readVersionAndLocale();
 		
 		void _getProfilesIniLocation(wstring &location);
-		void _getPreferencesFile(wstring &location);
-		void _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
+		bool _getPreferencesFile(wstring &location);
+		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
 
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
