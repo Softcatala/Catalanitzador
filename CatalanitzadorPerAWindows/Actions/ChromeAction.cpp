@@ -244,6 +244,7 @@ bool ChromeAction::_readLanguageCode(wstring& langcode)
 
 				pos = wstring::npos;
 			}
+			reader.close();
 		}
 	}
 
@@ -323,9 +324,13 @@ bool ChromeAction::_writeLanguageCode(wstring langcode)
 
 			}
 			writer << lastLine << L"\n";
-			writer.close();
-			reader.close();
 		}
+
+		if(reader.is_open())
+			reader.close();
+
+		if(writer.is_open())
+			writer.close();
 		
 		if(ret) {
 			ret = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
@@ -357,30 +362,29 @@ bool ChromeAction::IsNeed()
 	bool langcodeFound, localeOk;
 
 	wstring langcode, firstlang;
-	localeOk = _isChromeAppLocaleOk();
+	
 	langcodeFound = _readLanguageCode(langcode);
-
-	if (localeOk)
-	{
-		status = AlreadyApplied;
-		bNeed = false;
-	}
-	else
-	{
-		if(isInstalled) {
-			if(langcodeFound) {
-				ParseLanguage(langcode);
-				_getFirstLanguage(firstlang);	
+	
+	if(isInstalled){
+		localeOk = _isChromeAppLocaleOk();
 		
-				bNeed = firstlang.compare(L"ca") != 0;
-				if(bNeed == false) {
-					status = AlreadyApplied;
-				}
+		if(langcodeFound) {
+			ParseLanguage(langcode);
+			_getFirstLanguage(firstlang);	
+		
+			bNeed = firstlang.compare(L"ca") != 0;
+			if(bNeed == false) {
+				status = AlreadyApplied;
 			}
 		} else {
-			bNeed = false;
-			status = CannotBeApplied;
+			if (localeOk) {
+				status = AlreadyApplied;
+				bNeed = false;
+			}
 		}
+	} else {
+		bNeed = false;
+		status = CannotBeApplied;
 	}
 	
 	g_log.Log(L"ChromeAction::IsNeed returns %u (first lang:%s), locale ok %u", 
