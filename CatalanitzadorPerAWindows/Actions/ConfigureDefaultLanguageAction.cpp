@@ -62,7 +62,7 @@ bool ConfigureDefaultLanguageAction::IsCatalanKeyboardActive()
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"ConfigureDefaultLanguageAction::IsCatalanLocaleActive returns %u", (wchar_t *) bCatalanActive);
+	g_log.Log(L"ConfigureDefaultLanguageAction::IsCatalanKeyboardActive returns %u", (wchar_t *) bCatalanActive);
 	return bCatalanActive;
 }
 
