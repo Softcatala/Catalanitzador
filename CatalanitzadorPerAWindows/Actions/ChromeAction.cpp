@@ -359,7 +359,7 @@ void ChromeAction::_getFirstLanguage(wstring& jsonvalue)
 bool ChromeAction::IsNeed()
 {
 	bool bNeed = true;
-	bool langcodeFound, localeOk;
+	bool langcodeFound, localeOk = false;
 
 	wstring langcode, firstlang;
 	
