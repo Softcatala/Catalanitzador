@@ -23,5 +23,6 @@
 #define APP_REVISION			9
 #define STRING_VERSION			"0.9.9.0"
 
-#define _SLIDESHOW 1
+// Activates the slideshow support. Disabled until 1.00 is released
+// #define _SLIDESHOW 1
 
