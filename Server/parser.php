@@ -36,7 +36,7 @@ if ( isset($_POST['xml']))
     	$result->OSMajorVersion = $xml->operating['OSMajorVersion'][0];
     	$result->OSMinorVersion = $xml->operating['OSMinorVersion'][0];
     	$result->SPMajorVersion = $xml->operating['SPMajorVersion'][0];
-    	$result->SPMinorVersion = $xml->operating['OSMinorVersion'][0];
+    	$result->SPMinorVersion = $xml->operating['SPMinorVersion'][0];
     	$result->SuiteMask = $xml->operating['SuiteMask'][0];
    		$result->Bits = $xml->operating['Bits'][0];
    		$result->ProductType = $xml->operating['ProductType'][0];
