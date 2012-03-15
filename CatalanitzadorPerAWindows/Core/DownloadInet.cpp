@@ -18,11 +18,8 @@
  */
  
 #include "stdafx.h"
-#include <wchar.h>
 #include "DownloadInet.h"
 #include "Window.h"
-#include "Url.h"
-#include <stdio.h>
 
 #define ERROR_SERVER_ERROR 500
 #define ERROR_FILE_NOTFOUND 404
