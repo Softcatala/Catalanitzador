@@ -62,8 +62,7 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE6_WindowsXP)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
-
-	winLIPAction.SetStatus(NotSelected);
+	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	lipAction.SetIEVersion(IE6);
 
@@ -75,8 +74,7 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE7_WindowsXP)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
-
-	winLIPAction.SetStatus(NotSelected);
+	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	lipAction.SetIEVersion(IE7);
 
@@ -88,8 +86,7 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE7_WindowsVista)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
-
-	winLIPAction.SetStatus(NotSelected);
+	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
 	lipAction.SetIEVersion(IE7);
 
@@ -100,8 +97,7 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE8_WindowsXP)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
-
-	winLIPAction.SetStatus(NotSelected);
+	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	lipAction.SetIEVersion(IE8);
 
@@ -112,8 +108,7 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE8_WindowsVista)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
-
-	winLIPAction.SetStatus(NotSelected);
+	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
 	lipAction.SetIEVersion(IE8);
 
@@ -125,7 +120,6 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE8_Windows7)
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 
-	winLIPAction.SetStatus(NotSelected);
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	lipAction.SetIEVersion(IE8);
 
@@ -136,8 +130,7 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE9_WindowsVista)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
-
-	winLIPAction.SetStatus(NotSelected);
+	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
 	lipAction.SetIEVersion(IE9);
 
@@ -148,8 +141,7 @@ TEST(IELPIActionTest, CheckPrerequirementsDependand_IE9_Windows7)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
-
-	winLIPAction.SetStatus(NotSelected);
+	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	lipAction.SetIEVersion(IE9);
 
