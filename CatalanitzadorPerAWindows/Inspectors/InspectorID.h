@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,23 +19,10 @@
 
 #pragma once
 
-#include "IRegistry.h"
-
-class RegistryMock : public IRegistry
+enum InspectorID
 {
- public:
-
-	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
-	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
-	MOCK_METHOD2(SetMultiString, bool(wchar_t*, wchar_t*));	
-	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
-	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
-	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
-	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
+	// Do not modify these since they are used in the server side to identify 
+	// inspectors in a unique manner
+	NoInspector = 0,
+	AcrobatInspector = 1,	
 };
-
-ACTION_P(SetArgCharStringPar2, value) 
-{
-	wcscpy_s(arg1, 255, value);
-}

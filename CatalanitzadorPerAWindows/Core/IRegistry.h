@@ -19,6 +19,10 @@
  
 #pragma once
 
+#include <string>
+
+using namespace std;
+
 class IRegistry
 {
 public:		
@@ -29,5 +33,5 @@ public:
 		virtual bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength) = 0;
 		virtual bool GetDWORD(wchar_t* sName, DWORD *value) = 0;
 		virtual bool Close() = 0;
-
+		virtual bool RegEnumKey(DWORD dwIndex, wstring& key) = 0;
 };

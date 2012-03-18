@@ -19,23 +19,49 @@
 
 #pragma once
 
-#include "IRegistry.h"
+#include <windows.h>
+#include "Serializable.h"
+#include "InspectorID.h"
+#include "StringConversion.h"
 
-class RegistryMock : public IRegistry
+#include <vector>
+
+using namespace std;
+
+class _APICALL InspectorKeyValue
 {
- public:
 
-	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
-	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
-	MOCK_METHOD2(SetMultiString, bool(wchar_t*, wchar_t*));	
-	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
-	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
-	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
-	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
+public:
+
+	InspectorKeyValue() {}
+
+	InspectorKeyValue(wstring key, wstring value)
+	{
+		m_key = key;
+		m_value = value;
+	}
+
+	wstring GetKey() {return m_key;}
+	wstring GetValue() {return m_value;}
+
+private:
+
+	wstring m_key;
+	wstring m_value;
 };
 
-ACTION_P(SetArgCharStringPar2, value) 
+class _APICALL Inspector : public Serializable
 {
-	wcscpy_s(arg1, 255, value);
-}
+public:
+		Inspector() {};
+		virtual ~Inspector() {};
+		virtual int GetID() = 0;
+		virtual vector <InspectorKeyValue> GetKeyValues() {return m_KeyValues;}
+		virtual void Execute() = 0;
+		virtual void Serialize(ostream* stream);
+		
+protected:
+
+		 vector <InspectorKeyValue> m_KeyValues;
+};
+

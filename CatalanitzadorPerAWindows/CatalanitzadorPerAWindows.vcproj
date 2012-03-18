@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -706,6 +706,38 @@
 			</File>
 			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Inspectors"
+			>
+			<File
+				RelativePath=".\Inspectors\AdobeAcrobatInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\AdobeAcrobatInspector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\InspectorID.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspectors.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspectors.h"
 				>
 			</File>
 		</Filter>

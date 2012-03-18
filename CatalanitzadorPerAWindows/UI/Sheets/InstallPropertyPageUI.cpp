@@ -27,6 +27,7 @@
 #include "OSVersion.h"
 #include "DownloadErrorDlgUI.h"
 #include "WindowsXPDialogCanceler.h"
+#include "Inspectors.h"
 #include "ax.h"
 #include <exdisp.h>
 
@@ -252,6 +253,11 @@ void InstallPropertyPageUI::_onTimer()
 
 	dialogCanceler.Stop();
 	m_serializer->EndAction();
+
+	Inspectors inspectors;
+	inspectors.Execute();
+	inspectors.Serialize(m_serializer->GetStream());
+
 	m_serializer->CloseHeader();
 	_completed();
 }

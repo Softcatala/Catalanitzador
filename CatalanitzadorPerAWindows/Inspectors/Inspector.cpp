@@ -17,25 +17,28 @@
  * 02111-1307, USA.
  */
 
-#pragma once
+#include "stdafx.h"
+#include "Inspector.h"
+#include "StringConversion.h"
 
-#include "IRegistry.h"
+#include <fstream>
+#include <iostream>
 
-class RegistryMock : public IRegistry
+void Inspector::Serialize(ostream* stream)
 {
- public:
+	wchar_t szText[1024];
 
-	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
-	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
-	MOCK_METHOD2(SetMultiString, bool(wchar_t*, wchar_t*));	
-	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
-	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
-	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
-	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
-};
+	for (unsigned i = 0; i < m_KeyValues.size(); i++)
+	{
+		InspectorKeyValue keyValue;
 
-ACTION_P(SetArgCharStringPar2, value) 
-{
-	wcscpy_s(arg1, 255, value);
+		keyValue = m_KeyValues[i];
+
+		swprintf_s(szText, L"\t\t<inspector id='%u' key='%s' value='%s'/>\n", 
+			GetID(), keyValue.GetKey().c_str(), keyValue.GetValue().c_str());
+
+		string text;
+		StringConversion::ToMultiByte(wstring(szText), text);
+		*stream << text;
+	}	
 }

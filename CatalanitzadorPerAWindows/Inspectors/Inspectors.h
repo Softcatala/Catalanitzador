@@ -19,23 +19,23 @@
 
 #pragma once
 
-#include "IRegistry.h"
+#include "Inspector.h"
+#include <vector>
 
-class RegistryMock : public IRegistry
+using namespace std;
+
+class Inspectors
 {
- public:
+    public:
+		Inspectors();
+		~Inspectors();		
+		void Execute();
+		void Serialize(ostream* stream);
 
-	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
-	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
-	MOCK_METHOD2(SetMultiString, bool(wchar_t*, wchar_t*));	
-	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
-	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
-	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
-	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
+		vector <Inspector *> GetInspectors() {return m_Inspectors; }
+
+	private:
+		void _buildListOfInspectors();		
+
+		vector <Inspector *> m_Inspectors;
 };
-
-ACTION_P(SetArgCharStringPar2, value) 
-{
-	wcscpy_s(arg1, 255, value);
-}

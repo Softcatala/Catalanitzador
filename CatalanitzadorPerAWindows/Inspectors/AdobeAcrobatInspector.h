@@ -19,23 +19,22 @@
 
 #pragma once
 
+#include "Inspector.h"
 #include "IRegistry.h"
 
-class RegistryMock : public IRegistry
+class _APICALL AdobeAcrobatInspector : public Inspector
 {
- public:
+public:
 
-	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
-	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
-	MOCK_METHOD2(SetMultiString, bool(wchar_t*, wchar_t*));	
-	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
-	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
-	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
-	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
+		AdobeAcrobatInspector(IRegistry* registry);
+
+		virtual int GetID() {return AcrobatInspector;};		
+		virtual void Execute();
+
+private:
+		
+		void _enumVersions(vector <wstring>& versions);
+		void _enumInstalledLangs(vector <wstring>& versions);
+
+		IRegistry* m_registry;
 };
-
-ACTION_P(SetArgCharStringPar2, value) 
-{
-	wcscpy_s(arg1, 255, value);
-}
