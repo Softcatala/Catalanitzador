@@ -24,5 +24,5 @@
 #define STRING_VERSION			"1.0.0.0"
 
 // Activates the slideshow support. Disabled until 1.00 is released
-// #define _SLIDESHOW 1
+#define _SLIDESHOW 1
 
