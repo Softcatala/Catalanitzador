@@ -27,7 +27,7 @@ class AXClientSite : public IOleClientSite,  public IDispatch,  public IAdviseSi
 		bool ExternalPlace;
 		bool CalledCanInPlace;
 
-		class AX* ax;
+		class ActiveX* ax;
 
 		// MyClientSite Methods
 		AXClientSite();
@@ -96,13 +96,13 @@ protected:
 };
 
 
-class AX
+class ActiveX
 {
 public:
 
-		AX(char* clsid);
+		ActiveX(char* clsid);
 		CLSID GetCLSID();
-		~AX();
+		~ActiveX();
 
 
 		void Init(char* clsid);

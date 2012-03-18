@@ -580,11 +580,11 @@
 				Name="Controls"
 				>
 				<File
-					RelativePath=".\UI\Controls\ax.cpp"
+					RelativePath=".\UI\Controls\ActiveX.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\UI\Controls\ax.h"
+					RelativePath=".\UI\Controls\ActiveX.h"
 					>
 				</File>
 				<File

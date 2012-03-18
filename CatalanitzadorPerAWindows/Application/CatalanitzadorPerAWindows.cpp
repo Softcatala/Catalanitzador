@@ -28,7 +28,7 @@
 #include "ApplicationSheetUI.h"
 #include "Actions.h"
 #include "Version.h"
-#include "ax.h"
+#include "ActiveX.h"
 #include "Slideshow.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)

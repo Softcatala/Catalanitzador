@@ -3,7 +3,7 @@
 #include <comdef.h>
 #include <exdisp.h>
 #include <oledlg.h>
-#include "ax.h"
+#include "ActiveX.h"
 
 #pragma warning (disable: 4311)
 #pragma warning (disable: 4312)
@@ -260,7 +260,7 @@ HRESULT _stdcall AXClientSite :: GetIDsOfNames(
 
 
 // Other Methods
-void AX :: Init(char* cls)
+void ActiveX :: Init(char* cls)
 	{
    wchar_t x[1000] = {0};
    MultiByteToWideChar(CP_ACP,0,cls,-1,x,1000);
@@ -277,14 +277,14 @@ void AX :: Init(char* cls)
    Site.ax = this;
 	}
 
-AX :: AX(char* cls)
+ActiveX :: ActiveX(char* cls)
    {
 	Init(cls);
    }
 
 
 
-void AX :: Clean()
+void ActiveX :: Clean()
       {
       if (Site.InPlace == true)
         {
@@ -328,12 +328,12 @@ void AX :: Clean()
 
 	}
 
-AX :: ~AX()
+ActiveX :: ~ActiveX()
 	{
 	Clean();
    }
 
-CLSID AX :: GetCLSID()
+CLSID ActiveX :: GetCLSID()
       {
       return clsid;
       }
@@ -349,7 +349,7 @@ HRESULT _stdcall AXClientSite :: SetMenu(HMENU h,HOLEMENU hO,HWND hw)
 
 HRESULT _stdcall AXClientSite :: RemoveMenus(HMENU h)
       {
-      AX * t = (AX*)ax;
+      ActiveX * t = (ActiveX*)ax;
       if (t->AddMenu)
         {
         if (!h)
@@ -402,8 +402,8 @@ LRESULT CALLBACK AXWndProc(HWND hh,UINT mm,WPARAM ww,LPARAM ll)
 
       GetWindowTextA(hh,tit,1000);
 
-      AX* ax;
-      ax = new AX(tit);
+      ActiveX* ax;
+      ax = new ActiveX(tit);
 
       SetWindowLong(hh,GWL_USERDATA,(LONG)ax);
       ax->Site.Window = hh;
@@ -440,7 +440,7 @@ LRESULT CALLBACK AXWndProc(HWND hh,UINT mm,WPARAM ww,LPARAM ll)
 
    if (mm == WM_DESTROY)
       {
-      AX* ax = (AX*)GetWindowLong(hh,GWL_USERDATA);
+      ActiveX* ax = (ActiveX*)GetWindowLong(hh,GWL_USERDATA);
       if (!ax)
          return 0;
 		ax->Clean();
@@ -449,7 +449,7 @@ LRESULT CALLBACK AXWndProc(HWND hh,UINT mm,WPARAM ww,LPARAM ll)
 
    if (mm == AX_SETDATAADVISE)
       {
-      AX* ax = (AX*)GetWindowLong(hh,GWL_USERDATA);
+      ActiveX* ax = (ActiveX*)GetWindowLong(hh,GWL_USERDATA);
       if (!ax)
          return 0;
 
@@ -486,14 +486,14 @@ LRESULT CALLBACK AXWndProc(HWND hh,UINT mm,WPARAM ww,LPARAM ll)
 
    if (mm == AX_GETAXINTERFACE)
       {
-      AX* ax = (AX*)GetWindowLong(hh,GWL_USERDATA);
+      ActiveX* ax = (ActiveX*)GetWindowLong(hh,GWL_USERDATA);
       return (LONG)ax;
       }
 
    if (mm == AX_QUERYINTERFACE)
       {
       char* p = (char*)ww;
-      AX* ax = (AX*)GetWindowLong(hh,GWL_USERDATA);
+      ActiveX* ax = (ActiveX*)GetWindowLong(hh,GWL_USERDATA);
       if (!ax)
          return 0;
       return ax->OleObject->QueryInterface((REFIID)*p,(void**)ll);
@@ -508,7 +508,7 @@ LRESULT CALLBACK AXWndProc(HWND hh,UINT mm,WPARAM ww,LPARAM ll)
 
    if (mm == AX_INPLACE)
       {
-      AX* ax = (AX*)GetWindowLong(hh,GWL_USERDATA);
+      ActiveX* ax = (ActiveX*)GetWindowLong(hh,GWL_USERDATA);
       if (!ax)
         return 0;
       if (!ax->OleObject)
@@ -546,7 +546,7 @@ LRESULT CALLBACK AXWndProc(HWND hh,UINT mm,WPARAM ww,LPARAM ll)
 
    if (mm == WM_SIZE)
         {
-        AX* ax = (AX*)GetWindowLong(hh,GWL_USERDATA);
+        ActiveX* ax = (ActiveX*)GetWindowLong(hh,GWL_USERDATA);
         if (!ax)
           return 0;
         if (!ax->OleObject)

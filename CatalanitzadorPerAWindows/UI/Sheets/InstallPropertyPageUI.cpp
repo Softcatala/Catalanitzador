@@ -28,7 +28,7 @@
 #include "DownloadErrorDlgUI.h"
 #include "WindowsXPDialogCanceler.h"
 #include "Inspectors.h"
-#include "ax.h"
+#include "ActiveX.h"
 #include <exdisp.h>
 
 #include <stdio.h>
