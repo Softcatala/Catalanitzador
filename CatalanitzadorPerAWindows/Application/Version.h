@@ -19,9 +19,9 @@
  
 
 #define APP_MAJOR_VERSION		1
-#define APP_MINOR_VERSION		0
+#define APP_MINOR_VERSION		1
 #define APP_REVISION			0
-#define STRING_VERSION			"1.0.0.0"
+#define STRING_VERSION			"1.1.0.0"
 
 // Activates the slideshow support. Disabled until 1.00 is released
 #define _SLIDESHOW 1
