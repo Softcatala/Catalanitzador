@@ -42,9 +42,12 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
 		virtual LPCWSTR GetLicenseID();
+		virtual bool IsDownloadNeed();
 
 		bool IsLangPackInstalled();
+		bool IsDefaultLanguage();
 		DownloadID GetDownloadID();
+
 
 private:
 
