@@ -108,6 +108,36 @@ DownloadID WindowsLPIAction::GetDownloadID()
 	return DI_UNKNOWN;
 }
 
+#define LANGUAGE_CODE L"ca-ES"
+
+bool WindowsLPIAction::IsDownloadNeed()
+{
+	return IsLangPackInstalled() == false;
+}
+
+// The langpack may be installed by not selected
+bool WindowsLPIAction::IsDefaultLanguage()
+{
+	if (m_OSVersion->GetVersion() == WindowsXP)
+		return true;
+
+	wchar_t szPreferred[2048] =L"";	
+	wchar_t szPreferredPending[2048] =L"";	
+	
+	// Sets the language for the default user
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", false))
+	{
+		m_registry->GetString(L"PreferredUILanguages", szPreferred, sizeof(szPreferred));
+		m_registry->GetString(L"PreferredUILanguagesPending", szPreferredPending, sizeof(szPreferredPending));
+		m_registry->Close();
+	}
+	g_log.Log(L"WindowsLPIAction::IsDefaultLanguage preferred lang '%s', preferred pending lang '%s'", 
+		szPreferred, szPreferredPending);
+
+	return (_wcsnicmp(szPreferred, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0) ||
+		(_wcsnicmp(szPreferredPending, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0);
+}
+
 // Checks if the Catalan language pack is already installed
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
 bool WindowsLPIAction::IsLangPackInstalled()
@@ -144,14 +174,14 @@ bool WindowsLPIAction::IsLangPackInstalled()
 
 bool WindowsLPIAction::IsNeed()
 {
-	if (status == CannotBeApplied)
+ 	if (status == CannotBeApplied)
 		return false;
 	
 	bool bNeed = false;
 
 	if (GetDownloadID() != DI_UNKNOWN)
 	{		
-		if (IsLangPackInstalled() == false)
+		if (IsLangPackInstalled() == false || IsDefaultLanguage() == false)
 		{		
 			bNeed = true;
 		}
@@ -184,6 +214,14 @@ void WindowsLPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
+
+	if (IsLangPackInstalled() == true)
+	{
+		_setDefaultLanguage();
+		status = IsLangPackInstalled() ? Successful : FinishedWithError;
+		g_log.Log(L"WindowsLPIAction::Execute. Setting default language only was '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
+		return;
+	}
 
 	OperatingVersion version = m_OSVersion->GetVersion();
 
