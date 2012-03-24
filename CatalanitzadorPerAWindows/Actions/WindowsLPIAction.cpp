@@ -305,14 +305,24 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 {
 	LANGID langid;
 	WORD primary;
+	bool bLangOk;
 
 	langid = m_win32I18N->GetSystemDefaultUILanguage();
 	primary = PRIMARYLANGID(langid);
+	
+	if (m_OSVersion->GetVersion() == WindowsXP)
+	{
+		bLangOk = (primary == SPANISH_LOCALEID);
+	}
+	else
+	{
+		bLangOk = (primary == SPANISH_LOCALEID || primary == FRENCH_LOCALEID);
+	}
 
-	if (primary != SPANISH_LOCALEID && primary != FRENCH_LOCALEID)
+	if (bLangOk == false)
 	{
 		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NOSPFR, szCannotBeApplied);
-		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. No Spanish or French Windows found (langid %u)",
+		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Incorrect Windows base language found (langid %u)",
 			(wchar_t* )langid);
 		status = CannotBeApplied;
 		return;
