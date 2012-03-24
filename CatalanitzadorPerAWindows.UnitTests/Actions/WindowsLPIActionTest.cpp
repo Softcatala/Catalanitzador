@@ -34,6 +34,7 @@ using ::testing::DoAll;
 using ::testing::HasSubstr;
 
 #define SPANISH_LOCALE 0x0c0a
+#define FRENCH_LOCALE 0x040c
 #define US_LOCALE 0x0409
 
 #define CreateWindowsLIPAction \
@@ -50,6 +51,28 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_LOCALE));
+	
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
+}
+
+TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsXPFrench)
+{
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(FRENCH_LOCALE));
+
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_EQ(CannotBeApplied, lipAction.GetStatus());
+}
+
+TEST(WindowsLPIActionTest, CheckPrerequirements_Windows7French)
+{
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(FRENCH_LOCALE));
 	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
