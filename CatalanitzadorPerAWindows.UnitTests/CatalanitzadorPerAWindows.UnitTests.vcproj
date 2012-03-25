@@ -316,6 +316,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\StringConversionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\UrlTest.cpp"
 				>
 			</File>
