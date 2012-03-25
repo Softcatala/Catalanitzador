@@ -25,7 +25,7 @@ void StringConversion::ToMultiByte(wstring src, string& target)
 	char* multiByte;
 	int size;
 	
-	size = 4 * src.size();
+	size = 4 * (src.size() + 1);
 	multiByte = new char[size];
 	WideCharToMultiByte(CP_ACP, 0, src.c_str(), src.size() + 1, multiByte, size, NULL, NULL);
 	target = multiByte;

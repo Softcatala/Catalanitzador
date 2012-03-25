@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,16 +16,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
 
-#include <string>
+#include "stdafx.h"
+#include "Defines.h"
+#include "StringConversion.h"
 
-using namespace std;
+using ::testing::StrCaseEq;
 
-class _APICALL StringConversion
+TEST(StringConversionTest, ToMultiByte_String)
 {
-	public:	
-		    static void ToMultiByte(wstring src, string& target);
-			static void ToWriteChar(string src, string& target);
-};
+	wstring src(L"Això és una prova");
+	string target;
+
+	StringConversion::ToMultiByte(src, target);	
+	EXPECT_THAT(target, StrCaseEq("Això és una prova"));
+}
+
+TEST(StringConversionTest, ToMultiByte_Empty)
+{
+	wstring src;
+	string target;
+
+	StringConversion::ToMultiByte(src, target);	
+	EXPECT_THAT(target, StrCaseEq(""));
+}
