@@ -23,6 +23,7 @@
 
 #include "FirefoxAction.h"
 #include "OSVersion.h"
+#include "StringConversion.h"
 
 #include <fstream>
 #include <cstdio>
@@ -32,6 +33,7 @@ FirefoxAction::FirefoxAction(IRegistry* registry)
 {
 	m_registry = registry;
 	szVersionAscii[0] = NULL;
+	m_CachedLanguageCode = false;
 }
 
 wchar_t* FirefoxAction::GetName()
@@ -54,16 +56,13 @@ DWORD FirefoxAction::GetProcessIDForRunningApp()
 bool FirefoxAction::IsNeed()
 {
 	bool bNeed = false;
-	wstring langcode, firstlang;
+	wstring firstlang;
 
-	if (*szVersionAscii == 0x0)
-	{
-		_readVersionAndLocale();
-	}
+	ReadVersionAndLocale();
 
-	if (_readLanguageCode(langcode))
+	if (ReadLanguageCode())
 	{
-		if (langcode.length() == 0)
+		if (m_languages.size() == 0)
 		{
 			if (m_locale == L"ca")
 			{
@@ -71,23 +70,13 @@ bool FirefoxAction::IsNeed()
 			}
 			else
 			{
-				// The Firefox locale determines which languages are going to be used in the 
-				// accept_languages. Since by setting to Catalan we reset the default value
-				// add at the end of the locale of the langpack as secondary language, then
-				// if you install Firefox in English you will have ca, es as language codes
-				if (m_locale.size() > 0)
-				{
-					m_languages.push_back(m_locale);
-				}
 				bNeed = true;
 			}
 		}
 		else
 		{
-			ParseLanguage(langcode);
 			_getFirstLanguage(firstlang);
-
-			bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;			
+			bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
 		}
 
 		if (bNeed == false)
@@ -115,13 +104,20 @@ void FirefoxAction::_getFirstLanguage(wstring& regvalue)
 	return;
 }
 
-void FirefoxAction::_getProfilesIniLocation(wstring &location)
-{	
+void FirefoxAction::_getProfileRootDir(wstring &location)
+{
 	wchar_t szPath[MAX_PATH];
 	
 	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
 	location = szPath;
-	location += L"\\Mozilla\\Firefox\\profiles.ini";
+	location += L"\\Mozilla\\Firefox\\";
+}
+
+
+void FirefoxAction::_getProfilesIniLocation(wstring &location)
+{	
+	_getProfileRootDir(location);
+	location += L"profiles.ini";
 }
 
 #define	PATHKEY L"Path="
@@ -142,12 +138,7 @@ bool FirefoxAction::_getProfileLocationFromProfilesIni(wstring file, wstring &pr
 		if (_wcsnicmp(line.c_str(), PATHKEY, pathLen) != 0)
 			continue;
 
-		wstring path;
-		wchar_t szPath[MAX_PATH];
-	
-		SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
-		profileLocation = szPath;
-		profileLocation += L"\\Mozilla\\Firefox\\";
+		_getProfileRootDir(profileLocation);
 		profileLocation += (wchar_t *)&line[pathLen];
 		return true;
 	}
@@ -172,7 +163,7 @@ bool FirefoxAction::_getPreferencesFile(wstring &location)
 	}
 }
 
-void FirefoxAction::ParseLanguage(wstring regvalue)
+void FirefoxAction::_parseLanguage(wstring regvalue)
 {
 	wstring language;
 	
@@ -186,7 +177,7 @@ void FirefoxAction::ParseLanguage(wstring regvalue)
 			continue;
 		}
 
-		language += regvalue[i];		
+		language += regvalue[i];
 	}
 
 	if (language.empty() == false)
@@ -198,26 +189,28 @@ void FirefoxAction::ParseLanguage(wstring regvalue)
 
 #define USER_PREF L"user_pref(\"intl.accept_languages\", \""
 
-bool FirefoxAction::_readLanguageCode(wstring& langcode)
-{
-	wstring location, line;
+bool FirefoxAction::ReadLanguageCode()
+{	
+	wstring location, line, langcode;
 	wifstream reader;
 
-	langcode.erase();
+	if (m_CachedLanguageCode == true)
+		return true;	
 	
 	if (_getPreferencesFile(location) == false)
 	{
-		g_log.Log(L"FirefoxAction::_readLanguageCode. No preferences file found. Firefox is not installed");
+		g_log.Log(L"FirefoxAction::ReadLanguageCode. No preferences file found. Firefox is not installed");
 		return false;
 	}
 	reader.open(location.c_str());
 
 	if (reader.is_open())
-	{		
+	{
 		int start, end;
 
-		while(!(getline(reader,line)).eof())
-		{			
+		while(!reader.eof())
+		{	
+			getline(reader,line);
 			start = line.find(USER_PREF);
 
 			if (start == wstring::npos)
@@ -231,17 +224,19 @@ bool FirefoxAction::_readLanguageCode(wstring& langcode)
 				continue;
 
 			langcode = line.substr(start, end - start);
+			_parseLanguage(langcode);
 			break;
 		}
 	}
 	else
 	{
-		g_log.Log(L"FirefoxAction::_readLanguageCode cannot open %s", (wchar_t *) location.c_str());
+		g_log.Log(L"FirefoxAction::ReadLanguageCode cannot open %s", (wchar_t *) location.c_str());
 		return false;
 	}
 
 	reader.close();
-	g_log.Log(L"FirefoxAction::_readLanguageCode open %s", (wchar_t *) location.c_str());
+	g_log.Log(L"FirefoxAction::ReadLanguageCode open %s", (wchar_t *) location.c_str());
+	m_CachedLanguageCode = true;
 	return true;
 }
 void FirefoxAction::AddCatalanToArrayAndRemoveOldIfExists()
@@ -329,7 +324,7 @@ void FirefoxAction::_writeLanguageCode(wstring &langcode)
 	}
 
 	if (written == false)
-	{		
+	{
 		_getPrefLine(langcode, line);
 		writer << line << L"\n";
 	}
@@ -349,30 +344,53 @@ void FirefoxAction::_writeLanguageCode(wstring &langcode)
 	}
 }
 
+// The Firefox locale determines which languages are going to be used in the 
+// accept_languages. Since by setting to Catalan we reset the default value
+// add at the end of the locale of the langpack as secondary language, then
+// if you install Firefox in English you will have ca, es as language codes
+void FirefoxAction::_addFireForLocale()
+{
+	if (m_locale == L"ca")
+		return;
+
+	if (m_languages.size() == 0)
+	{			
+		if (m_locale.size() > 0)
+		{
+			m_languages.push_back(m_locale);
+		}
+	}
+}
 
 void FirefoxAction::Execute()
 {
-	wstring regvalue;
+	wstring value;
 
+	ReadVersionAndLocale();
+	ReadLanguageCode();
+
+	_addFireForLocale();
 	AddCatalanToArrayAndRemoveOldIfExists();
-	CreatePrefsString(regvalue);
-	_writeLanguageCode(regvalue);
+	CreatePrefsString(value);
+	_writeLanguageCode(value);
 }
 
 const char* FirefoxAction::GetVersion()
 {
-	if (m_version.length() == 0)
-	{
-		_readVersionAndLocale();
-	}
+	ReadVersionAndLocale();	
 	return m_version.c_str();
 }
 
-bool FirefoxAction::_readVersionAndLocale()
+bool FirefoxAction::ReadVersionAndLocale()
 {
+	if (m_version.length() > 0)
+	{
+		return true;
+	}
+
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Mozilla\\Mozilla Firefox", false) == false)
 	{
-		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Cannot open registry key");
+		g_log.Log(L"FirefoxAction::ReadVersionAndLocale. Cannot open registry key");
 		return false;
 	}
 	
@@ -388,7 +406,7 @@ bool FirefoxAction::_readVersionAndLocale()
 		if (start != wstring::npos)
 		{
 			version = sreg.substr(0, start);
-			StringConversion::ToMultiByte(wstring(version), m_version);			
+			StringConversion::ToMultiByte(wstring(version), m_version);
 
 			start = sreg.find(L"(", start);
 
@@ -403,9 +421,9 @@ bool FirefoxAction::_readVersionAndLocale()
 			}
 		}
 
-		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Firefox version %s, version %s, locale %s", 
+		g_log.Log(L"FirefoxAction::ReadVersionAndLocale. Firefox version %s, version %s, locale %s", 
 			(wchar_t*) szVersion, (wchar_t*) version.c_str(), (wchar_t*)  m_locale.c_str());
 	}
 	m_registry->Close();
-	return true;	
+	return m_locale.empty() != true;
 }

@@ -292,6 +292,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\FirefoxActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\IEAcceptLanguagesActionTest.cpp"
 				>
 			</File>

@@ -385,6 +385,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\IFileSystem.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\Inet.cpp"
 				>
 			</File>
