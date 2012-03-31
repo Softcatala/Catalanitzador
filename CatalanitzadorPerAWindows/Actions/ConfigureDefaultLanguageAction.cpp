@@ -47,7 +47,7 @@ wchar_t* ConfigureDefaultLanguageAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_DEFLANGACTION_DESCRIPTION, szDescription);
 }
 
-bool ConfigureDefaultLanguageAction::IsCatalanKeyboardActive()
+bool ConfigureDefaultLanguageAction::_isCatalanKeyboardActive()
 {
 	wchar_t szValue[1024];
 	bool bCatalanActive = false;
@@ -62,7 +62,7 @@ bool ConfigureDefaultLanguageAction::IsCatalanKeyboardActive()
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"ConfigureDefaultLanguageAction::IsCatalanKeyboardActive returns %u", (wchar_t *) bCatalanActive);
+	g_log.Log(L"ConfigureDefaultLanguageAction::_isCatalanKeyboardActive returns %u", (wchar_t *) bCatalanActive);
 	return bCatalanActive;
 }
 
@@ -73,7 +73,7 @@ bool ConfigureDefaultLanguageAction::IsNeed()
 
 	bool bNeed;
 
-	bNeed = IsCatalanKeyboardActive() == false;
+	bNeed = _isCatalanKeyboardActive() == false;
 
 	if (bNeed == false)
 		status = AlreadyApplied;
@@ -117,7 +117,7 @@ void ConfigureDefaultLanguageAction::Execute()
 	m_runner->Execute(szApp, szParams);
 }
 
-bool ConfigureDefaultLanguageAction::HasSpanishKeyboard()
+bool ConfigureDefaultLanguageAction::_hasSpanishKeyboard()
 {
 	wchar_t szValue[1024];
 	wchar_t szNum[16];
@@ -140,13 +140,13 @@ bool ConfigureDefaultLanguageAction::HasSpanishKeyboard()
 			
 		m_registry->Close();
 	}
-	g_log.Log(L"ConfigureDefaultLanguageAction::HasSpanishKeyboard is '%u'", (wchar_t *)bSpanishActive);
+	g_log.Log(L"ConfigureDefaultLanguageAction::_hasSpanishKeyboard is '%u'", (wchar_t *)bSpanishActive);
 	return bSpanishActive;	
 }
 
 void ConfigureDefaultLanguageAction::CheckPrerequirements(Action * action)
 {
-	if (IsCatalanKeyboardActive() == false && HasSpanishKeyboard() == false)
+	if (_isCatalanKeyboardActive() == false && _hasSpanishKeyboard() == false)
 	{
 		_getStringFromResourceIDName(IDS_DEFLANGACTION_NOSPANISHKEYBOARD, szCannotBeApplied);
 		g_log.Log(L"ConfigureDefaultLanguageAction::CheckPrerequirements. No Spanish keyboard installed.");
@@ -167,7 +167,7 @@ bool ConfigureDefaultLanguageAction::IsRebootNeed()
 }
 
 // In Windows XP, you cannot signal to make a keyboard the default
-void ConfigureDefaultLanguageAction::MakeCatalanActiveKeyboard()
+void ConfigureDefaultLanguageAction::_makeCatalanActiveKeyboard()
 {
 	wchar_t szValue[1024], szNum[16];
 
@@ -217,13 +217,13 @@ ActionStatus ConfigureDefaultLanguageAction::GetStatus()
 
 		if (m_OSVersion->GetVersion() == WindowsXP)
 		{
-			if (IsCatalanKeyboardActive() == false)
+			if (_isCatalanKeyboardActive() == false)
 			{
-				MakeCatalanActiveKeyboard();
+				_makeCatalanActiveKeyboard();
 			}
 		}
 
-		if (IsCatalanKeyboardActive())
+		if (_isCatalanKeyboardActive())
 		{
 			status = Successful;	
 		}
