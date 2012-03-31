@@ -112,11 +112,11 @@ DownloadID WindowsLPIAction::GetDownloadID()
 
 bool WindowsLPIAction::IsDownloadNeed()
 {
-	return IsLangPackInstalled() == false;
+	return _isLangPackInstalled() == false;
 }
 
 // The langpack may be installed by not selected
-bool WindowsLPIAction::IsDefaultLanguage()
+bool WindowsLPIAction::_isDefaultLanguage()
 {
 	if (m_OSVersion->GetVersion() == WindowsXP)
 		return true;
@@ -131,7 +131,7 @@ bool WindowsLPIAction::IsDefaultLanguage()
 		m_registry->GetString(L"PreferredUILanguagesPending", szPreferredPending, sizeof(szPreferredPending));
 		m_registry->Close();
 	}
-	g_log.Log(L"WindowsLPIAction::IsDefaultLanguage preferred lang '%s', preferred pending lang '%s'", 
+	g_log.Log(L"WindowsLPIAction::_isDefaultLanguage preferred lang '%s', preferred pending lang '%s'", 
 		szPreferred, szPreferredPending);
 
 	return (_wcsnicmp(szPreferred, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0) ||
@@ -140,7 +140,7 @@ bool WindowsLPIAction::IsDefaultLanguage()
 
 // Checks if the Catalan language pack is already installed
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
-bool WindowsLPIAction::IsLangPackInstalled()
+bool WindowsLPIAction::_isLangPackInstalled()
 {	
 	bool bExists;
 
@@ -168,7 +168,7 @@ bool WindowsLPIAction::IsLangPackInstalled()
 		m_registry->Close();
 	}		
 	
-	g_log.Log (L"WindowsLPIAction::IsLangPackInstalled returns %u", (wchar_t*) bExists);
+	g_log.Log (L"WindowsLPIAction::_isLangPackInstalled returns %u", (wchar_t*) bExists);
 	return bExists;
 }
 
@@ -181,8 +181,8 @@ bool WindowsLPIAction::IsNeed()
 
 	if (GetDownloadID() != DI_UNKNOWN)
 	{		
-		if (IsLangPackInstalled() == false || IsDefaultLanguage() == false)
-		{		
+		if (_isLangPackInstalled() == false || _isDefaultLanguage() == false)
+		{
 			bNeed = true;
 		}
 		else
@@ -215,10 +215,10 @@ void WindowsLPIAction::Execute()
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
 
-	if (IsLangPackInstalled() == true)
+	if (_isLangPackInstalled() == true)
 	{
 		_setDefaultLanguage();
-		status = IsLangPackInstalled() ? Successful : FinishedWithError;
+		status = _isLangPackInstalled() ? Successful : FinishedWithError;
 		g_log.Log(L"WindowsLPIAction::Execute. Setting default language only was '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 		return;
 	}
@@ -280,7 +280,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (IsLangPackInstalled()) {
+		if (_isLangPackInstalled()) {
 			status = Successful;
 			_setDefaultLanguage();
 		}
