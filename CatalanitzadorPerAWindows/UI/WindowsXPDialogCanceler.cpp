@@ -59,20 +59,20 @@ bool WindowsXPDialogCanceler::_isXPDialogLocale(HWND hWnd)
 		if (child == NULL)
 			break;
 
-		if (GetDlgCtrlID(child) == COMBOBOX_ID)
-		{			
-			bFoundCombo = true;
-		}
-
-		if (GetDlgCtrlID(child) == CANCEL_ID)
-		{		
-			hHwndCancel = child;
-			bCancel = true;
-		}
-
-		if (GetDlgCtrlID(child) == EXPLORE_ID)
-		{			
-			bExplore = true;
+		switch (GetDlgCtrlID(child))
+		{
+			case COMBOBOX_ID:
+				bFoundCombo = true;
+				break;
+			case CANCEL_ID:
+				hHwndCancel = child;
+				bCancel = true;
+				break;
+			case EXPLORE_ID:
+				bExplore = true;
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -100,20 +100,20 @@ bool WindowsXPDialogCanceler::_isXPDialogWinLPI(HWND hWnd)
 		if (child == NULL)
 			break;
 
-		if (GetDlgCtrlID(child) == STATIC_ID)
-		{			
-			bFoundStatic = true;
-		}
-
-		if (GetDlgCtrlID(child) == CANCEL_ID)
-		{		
-			hHwndCancel = child;
-			bFoundCancel = true;
-		}
-
-		if (GetDlgCtrlID(child) == TEXT_ID)
-		{			
-			bFoundText = true;
+		switch (GetDlgCtrlID(child))
+		{
+			case STATIC_ID:
+				bFoundStatic = true;
+				break;
+			case CANCEL_ID:
+				hHwndCancel = child;
+				bFoundCancel = true;
+				break;
+			case TEXT_ID:
+				bFoundText = true;
+				break;
+			default:
+				break;
 		}
 	}
 
