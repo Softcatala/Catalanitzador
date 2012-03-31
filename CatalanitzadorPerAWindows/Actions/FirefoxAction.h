@@ -48,8 +48,8 @@ protected:
 		virtual void _getProfileRootDir(wstring &location);
 		bool _readVersionAndLocale();
 
-		wstring* GetLocale() {return &m_locale;}
-		vector <wstring> * GetLanguages() {return &m_languages;}
+		wstring* _getLocale() {return &m_locale;}
+		vector <wstring> * _getLanguages() {return &m_languages;}
 
 private:
 		

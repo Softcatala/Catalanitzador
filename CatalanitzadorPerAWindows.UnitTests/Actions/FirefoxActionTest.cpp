@@ -51,8 +51,8 @@ public:
 		}
 
 	public: using FirefoxAction::_readVersionAndLocale;
-	public: using FirefoxAction::GetLocale;
-	public: using FirefoxAction::GetLanguages;
+	public: using FirefoxAction::_getLocale;
+	public: using FirefoxAction::_getLanguages;
 
 };
 
@@ -124,7 +124,7 @@ TEST(FirefoxActionTest, _readVersionAndLocale)
 
 	firefoxAction._readVersionAndLocale();
 	EXPECT_THAT(firefoxAction.GetVersion(), StrCaseEq("12.0"));
-	EXPECT_THAT(firefoxAction.GetLocale()->c_str(), StrCaseEq(L"ca"));
+	EXPECT_THAT(firefoxAction._getLocale()->c_str(), StrCaseEq(L"ca"));
 }
 
 TEST(FirefoxActionTest, IsNeed_CatalanLocale_EmptyAccept)
@@ -193,7 +193,7 @@ TEST(FirefoxActionTest, Execute_CatalanLocale_DEAccept)
 	CreateAcceptLanguage(wstring(L"de"), accept);
 	GeneratePrefsJS(wstring(accept));
 	firefoxAction.Execute();	
-	languages = firefoxAction.GetLanguages();
+	languages = firefoxAction._getLanguages();
 
 	EXPECT_EQ(2, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(L"ca"));
@@ -210,7 +210,7 @@ TEST(FirefoxActionTest, Execute_FrenchLocale_Empty)
 	SetLocale(registryMockobj, L"12.0 (fr)");
 	GeneratePrefsJS(wstring());
 	firefoxAction.Execute();
-	languages = firefoxAction.GetLanguages();
+	languages = firefoxAction._getLanguages();
 
 	EXPECT_EQ(2, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(L"ca"));
@@ -229,7 +229,7 @@ TEST(FirefoxActionTest, Execute_SpanishLocale_English)
 	CreateAcceptLanguage(wstring(L"en"), accept);
 	GeneratePrefsJS(wstring(accept));
 	firefoxAction.Execute();
-	languages = firefoxAction.GetLanguages();
+	languages = firefoxAction._getLanguages();
 
 	EXPECT_EQ(2, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(L"ca"));
