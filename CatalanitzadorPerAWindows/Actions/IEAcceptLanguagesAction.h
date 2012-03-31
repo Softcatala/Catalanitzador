@@ -42,10 +42,12 @@ public:
 		virtual const char* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
 
-		void ParseLanguage(wstring regvalue);
-		void CreateRegistryString(wstring &regvalue);
-		void AddCatalanToArrayAndRemoveOldIfExists();
-		vector <wstring> * GetLanguages() {return &m_languages;}
+protected:
+
+		void _parseLanguage(wstring regvalue);
+		void _createRegistryString(wstring &regvalue);
+		void _addCatalanToArrayAndRemoveOldIfExists();
+		vector <wstring> * _getLanguages() {return &m_languages;}
 private:
 		
 		bool _isCurrentLanguageOk(wstring& firstlang);
