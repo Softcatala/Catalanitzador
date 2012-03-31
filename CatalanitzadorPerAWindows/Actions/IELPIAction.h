@@ -66,16 +66,18 @@ public:
 		Prerequirements CheckPrerequirementsDependand(Action * action);
 		Prerequirements CheckPrerequirements();
 
-		IEVersion ReadIEVersion();
-		IEVersion GetIEVersion();	
-		void SetIEVersion(IEVersion version) {m_version = version;}
+protected:
+
+		IEVersion _readIEVersion();
+		IEVersion _getIEVersion();	
+		void _setIEVersion(IEVersion version) {m_version = version;}
 
 private:
 
 		DownloadID _getDownloadID();
 		DownloadID _getDownloadIDIE7();
 		DownloadID _getDownloadIDIE8();
-		DownloadID _getDownloadIDIE9();		
+		DownloadID _getDownloadIDIE9();
 		bool _isLangPackInstalled();
 		bool _is64BitsPackage();
 		bool _createTempDirectory();
