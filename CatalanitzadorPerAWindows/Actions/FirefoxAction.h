@@ -43,19 +43,19 @@ public:
 		virtual void Execute();
 		virtual const char* GetVersion();
 		virtual DWORD GetProcessIDForRunningApp();
-		
-		void AddCatalanToArrayAndRemoveOldIfExists();
-		void CreatePrefsString(wstring& string);
-		bool ReadVersionAndLocale();
-		bool ReadLanguageCode();
+
+protected:
+		virtual void _getProfileRootDir(wstring &location);
+		bool _readVersionAndLocale();
 
 		wstring* GetLocale() {return &m_locale;}
 		vector <wstring> * GetLanguages() {return &m_languages;}
 
-protected:
-		virtual void _getProfileRootDir(wstring &location);
-
-private:		
+private:
+		
+		bool _readLanguageCode();
+		void _createPrefsString(wstring& string);
+		void _addCatalanToArrayAndRemoveOldIfExists();
 		void _getFirstLanguage(wstring& regvalue);
 		void _writeLanguageCode(wstring &langcode);
 		void _getPrefLine(wstring langcode, wstring& line);

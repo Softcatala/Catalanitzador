@@ -58,9 +58,9 @@ bool FirefoxAction::IsNeed()
 	bool bNeed = false;
 	wstring firstlang;
 
-	ReadVersionAndLocale();
+	_readVersionAndLocale();
 
-	if (ReadLanguageCode())
+	if (_readLanguageCode())
 	{
 		if (m_languages.size() == 0)
 		{
@@ -189,7 +189,7 @@ void FirefoxAction::_parseLanguage(wstring regvalue)
 
 #define USER_PREF L"user_pref(\"intl.accept_languages\", \""
 
-bool FirefoxAction::ReadLanguageCode()
+bool FirefoxAction::_readLanguageCode()
 {	
 	wstring location, line, langcode;
 	wifstream reader;
@@ -199,7 +199,7 @@ bool FirefoxAction::ReadLanguageCode()
 	
 	if (_getPreferencesFile(location) == false)
 	{
-		g_log.Log(L"FirefoxAction::ReadLanguageCode. No preferences file found. Firefox is not installed");
+		g_log.Log(L"FirefoxAction::_readLanguageCode. No preferences file found. Firefox is not installed");
 		return false;
 	}
 	reader.open(location.c_str());
@@ -230,16 +230,16 @@ bool FirefoxAction::ReadLanguageCode()
 	}
 	else
 	{
-		g_log.Log(L"FirefoxAction::ReadLanguageCode cannot open %s", (wchar_t *) location.c_str());
+		g_log.Log(L"FirefoxAction::_readLanguageCode cannot open %s", (wchar_t *) location.c_str());
 		return false;
 	}
 
 	reader.close();
-	g_log.Log(L"FirefoxAction::ReadLanguageCode open %s", (wchar_t *) location.c_str());
+	g_log.Log(L"FirefoxAction::_readLanguageCode open %s", (wchar_t *) location.c_str());
 	m_CachedLanguageCode = true;
 	return true;
 }
-void FirefoxAction::AddCatalanToArrayAndRemoveOldIfExists()
+void FirefoxAction::_addCatalanToArrayAndRemoveOldIfExists()
 {	
 	wstring regvalue;
 	vector <wstring>languages;
@@ -263,7 +263,7 @@ void FirefoxAction::AddCatalanToArrayAndRemoveOldIfExists()
 	m_languages.insert(it, str);
 }
 
-void FirefoxAction::CreatePrefsString(wstring& string)
+void FirefoxAction::_createPrefsString(wstring& string)
 {
 	int languages = m_languages.size();	
 	
@@ -366,22 +366,22 @@ void FirefoxAction::Execute()
 {
 	wstring value;
 
-	ReadVersionAndLocale();
-	ReadLanguageCode();
+	_readVersionAndLocale();
+	_readLanguageCode();
 
 	_addFireForLocale();
-	AddCatalanToArrayAndRemoveOldIfExists();
-	CreatePrefsString(value);
+	_addCatalanToArrayAndRemoveOldIfExists();
+	_createPrefsString(value);
 	_writeLanguageCode(value);
 }
 
 const char* FirefoxAction::GetVersion()
 {
-	ReadVersionAndLocale();	
+	_readVersionAndLocale();
 	return m_version.c_str();
 }
 
-bool FirefoxAction::ReadVersionAndLocale()
+bool FirefoxAction::_readVersionAndLocale()
 {
 	if (m_version.length() > 0)
 	{
@@ -390,7 +390,7 @@ bool FirefoxAction::ReadVersionAndLocale()
 
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Mozilla\\Mozilla Firefox", false) == false)
 	{
-		g_log.Log(L"FirefoxAction::ReadVersionAndLocale. Cannot open registry key");
+		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Cannot open registry key");
 		return false;
 	}
 	
@@ -421,7 +421,7 @@ bool FirefoxAction::ReadVersionAndLocale()
 			}
 		}
 
-		g_log.Log(L"FirefoxAction::ReadVersionAndLocale. Firefox version %s, version %s, locale %s", 
+		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Firefox version %s, version %s, locale %s", 
 			(wchar_t*) szVersion, (wchar_t*) version.c_str(), (wchar_t*)  m_locale.c_str());
 	}
 	m_registry->Close();

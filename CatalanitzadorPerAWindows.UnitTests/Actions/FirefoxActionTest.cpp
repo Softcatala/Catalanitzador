@@ -49,6 +49,11 @@ public:
 			getExecutionLocation(location);
 			location += L"Firefox\\";
 		}
+
+	public: using FirefoxAction::_readVersionAndLocale;
+	public: using FirefoxAction::GetLocale;
+	public: using FirefoxAction::GetLanguages;
+
 };
 
 #define CreateFirefoxAction \
@@ -110,14 +115,14 @@ void CreateAcceptLanguage(wstring lang, wstring& accept)
 */
 
 
-TEST(FirefoxActionTest, ReadVersionAndLocale)
+TEST(FirefoxActionTest, _readVersionAndLocale)
 {
 	RegistryMock registryMockobj; 
 	FirefoxActionForTest firefoxAction(&registryMockobj);
 
 	SetLocale(registryMockobj, L"12.0 (ca)");
 
-	firefoxAction.ReadVersionAndLocale();	
+	firefoxAction._readVersionAndLocale();
 	EXPECT_THAT(firefoxAction.GetVersion(), StrCaseEq("12.0"));
 	EXPECT_THAT(firefoxAction.GetLocale()->c_str(), StrCaseEq(L"ca"));
 }
