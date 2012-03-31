@@ -27,5 +27,5 @@ class _APICALL StringConversion
 {
 	public:	
 		    static void ToMultiByte(wstring src, string& target);
-			static void ToWriteChar(string src, string& target);
+			static void ToWideChar(string src, wstring& target);
 };

@@ -40,3 +40,21 @@ TEST(StringConversionTest, ToMultiByte_Empty)
 	StringConversion::ToMultiByte(src, target);	
 	EXPECT_THAT(target, StrCaseEq(""));
 }
+
+TEST(StringConversionTest, ToWideChar_String)
+{
+	string src("Això és una prova");
+	wstring target;
+
+	StringConversion::ToWideChar(src, target);	
+	EXPECT_THAT(target, StrCaseEq(L"Això és una prova"));
+}
+
+TEST(StringConversionTest, ToWideChar_Empty)
+{
+	string src;
+	wstring target;
+
+	StringConversion::ToWideChar(src, target);
+	EXPECT_THAT(target, StrCaseEq(L""));
+}

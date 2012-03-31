@@ -19,6 +19,7 @@
 
 #include "stdafx.h"
 #include "Sha1Sum.h"
+#include "StringConversion.h"
 
 Sha1Sum::Sha1Sum(wstring file)
 {
@@ -47,16 +48,12 @@ wstring Sha1Sum::ReadFromFile()
 	{
 		if (ReadFile(hFile, sha1, SHA1LEN, &cbRead, NULL) == TRUE)
 		{
-			wchar_t szHash[SHA1LEN + 1];
-
 			int i = 0;
 			for (i = 0; i < SHA1LEN && isspace(sha1[i]) == false; i++);
 
 			sha1[i] = NULL;
 
-			MultiByteToWideChar(CP_ACP, 0, sha1, strlen(sha1) + 1, szHash, sizeof (szHash));
-			m_sum = szHash;
-			
+			StringConversion::ToWideChar(sha1, m_sum);			
 		}
 		CloseHandle(hFile);
 	}

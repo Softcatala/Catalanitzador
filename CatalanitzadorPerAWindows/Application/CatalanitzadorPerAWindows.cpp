@@ -30,6 +30,7 @@
 #include "Version.h"
 #include "ActiveX.h"
 #include "Slideshow.h"
+#include "StringConversion.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -61,13 +62,12 @@ void CatalanitzadorPerAWindows::Run()
 
 void CatalanitzadorPerAWindows::_initLog()
 {
-	wchar_t szApp [1024];
-	wchar_t szVersion [256];
+	wchar_t szApp[1024];
+	wstring version;
 
-	MultiByteToWideChar(CP_ACP, 0,  STRING_VERSION, strlen (STRING_VERSION) + 1,
-                  szVersion, sizeof (szVersion));
+	StringConversion::ToWideChar(string(STRING_VERSION), version);
 
-	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", szVersion);
+	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", version.c_str());
 	g_log.CreateLog(L"CatalanitzadorPerAlWindows.log",szApp);
 	
 	wchar_t szOSInfo [2048];

@@ -20,19 +20,29 @@
 #include "stdafx.h"
 #include "StringConversion.h"
 
+#define POSSIBLE_BYTES_PER_CHAR 4
+
 void StringConversion::ToMultiByte(wstring src, string& target)
 {
 	char* multiByte;
 	int size;
-	
-	size = 4 * (src.size() + 1);
+
+	size = POSSIBLE_BYTES_PER_CHAR * (src.size() + 1);
 	multiByte = new char[size];
 	WideCharToMultiByte(CP_ACP, 0, src.c_str(), src.size() + 1, multiByte, size, NULL, NULL);
 	target = multiByte;
 	delete multiByte;
 }
 
-void StringConversion::ToWriteChar(string src, string& target)
+void StringConversion::ToWideChar(string src, wstring& target)
 {
-	
-}			
+	wchar_t* wideChar;
+	int size;
+
+	size = sizeof(wchar_t) * (src.size() + 1); 
+	wideChar = new wchar_t[size];
+
+	MultiByteToWideChar(CP_ACP, 0,  src.c_str(), src.size() + 1, wideChar, size);
+	target = wideChar;
+	delete wideChar;
+}
