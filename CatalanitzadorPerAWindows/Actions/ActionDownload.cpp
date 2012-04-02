@@ -27,6 +27,7 @@ ActionDownload::ActionDownload()
 	m_downloads[DI_MSOFFICEACTION_2010] = Download(wstring(MSOFFICEACTION_2010), 5199);
 	m_downloads[DI_MSOFFICEACTION_2007] = Download(wstring(MSOFFICEACTION_2007), 3481);
 	m_downloads[DI_MSOFFICEACTION_2003] = Download(wstring(MSOFFICEACTION_2003), 3444);
+	m_downloads[DI_MSOFFICEACTION_OUTLOOK_CONNECTOR] = Download(wstring(MSOFFICEACTION_OUTLOOK_CONNECTOR), 5845);
 	m_downloads[DI_WINDOWSLPIACTION_XP] = Download(wstring(WINDOWSLPIACTION_XP), 3468);
 	m_downloads[DI_WINDOWSLPIACTION_XP_SP2] = Download(wstring(WINDOWSLPIACTION_XP_SP2), 3468);
 	m_downloads[DI_WINDOWSLPIACTION_VISTA] = Download(wstring(WINDOWSLPIACTION_VISTA), 3511);
@@ -66,13 +67,20 @@ bool ActionDownload::GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha
 
 void ActionDownload::_getRebost(DownloadID downloadID, wstring &url)
 {
-	wchar_t szURL[2048];	
-	
-	swprintf_s(szURL, L"http://baixades.softcatala.org/?url=%s&id=%u&mirall=catalanitzador&so=win32&versio=1.0",
-		m_downloads[downloadID].download.c_str(),
-		m_downloads[downloadID].id);
+	wchar_t szURL[2048];
 
-	url = szURL;
+	if (m_downloads[downloadID].id > 0)
+	{
+		swprintf_s(szURL, L"http://baixades.softcatala.org/?url=%s&id=%u&mirall=catalanitzador&so=win32&versio=1.0",
+			m_downloads[downloadID].download.c_str(),
+			m_downloads[downloadID].id);
+
+		url = szURL;
+	}
+	else
+	{
+		url = m_downloads[downloadID].download.c_str();
+	}
 }
 
 bool ActionDownload::GetFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data)
@@ -80,7 +88,7 @@ bool ActionDownload::GetFile(DownloadID downloadID, wstring file, ProgressStatus
 	DownloadInet inetacccess;
 	Sha1Sum sha1_computed(file), sha1_read;
 	wstring url;
-	bool bRslt;	
+	bool bRslt;
 	
 	_getRebost(downloadID, url);
 	bRslt = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);

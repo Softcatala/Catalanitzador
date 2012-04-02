@@ -23,6 +23,7 @@
 #define MSOFFICEACTION_2010 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe"
 #define MSOFFICEACTION_2007 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe"
 #define MSOFFICEACTION_2003 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab"
+#define MSOFFICEACTION_OUTLOOK_CONNECTOR L"http://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe"
 
 #define WINDOWSLPIACTION_XP L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi"
 #define WINDOWSLPIACTION_XP_SP2 L"http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi"
@@ -42,6 +43,7 @@ enum DownloadID
 	DI_MSOFFICEACTION_2010,
 	DI_MSOFFICEACTION_2007,
 	DI_MSOFFICEACTION_2003,
+	DI_MSOFFICEACTION_OUTLOOK_CONNECTOR,
 	DI_WINDOWSLPIACTION_XP,
 	DI_WINDOWSLPIACTION_XP_SP2,
 	DI_WINDOWSLPIACTION_VISTA,
