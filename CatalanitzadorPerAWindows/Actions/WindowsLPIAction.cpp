@@ -23,9 +23,7 @@
 #include "WindowsLPIAction.h"
 #include "OSVersion.h"
 #include "Runner.h"
-#include "Registry.h"
 #include "Url.h"
-#include "RemoteURLs.h"
 #include "Resources.h"
 
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)

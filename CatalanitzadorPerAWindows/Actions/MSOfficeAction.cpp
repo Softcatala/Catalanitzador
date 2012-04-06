@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011-2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,9 +22,7 @@
 #include <Shlobj.h>
 
 #include "MSOfficeAction.h"
-#include "OSVersion.h"
 #include "Runner.h"
-#include "Registry.h"
 #include "Url.h"
 
 
@@ -49,21 +47,17 @@ RegKeyVersion RegKeys2010 =
 	false
 };
 
-
-MSOfficeAction::MSOfficeAction()
+MSOfficeAction::MSOfficeAction(IRegistry* registry, IRunner* runner)
 {
+	m_registry = registry;	
+	m_runner = runner;
+	m_MSVersion = MSOfficeUnKnown;
+
 	m_bLangPackInstalled = false;
 	m_szFullFilename[0] = NULL;
 	m_szTempPath2003[0] = NULL;
 	m_executionStep = ExecutionStepNone;
-	_getVersionInstalled();
-	GetTempPath(MAX_PATH, m_szTempPath);
-
-	if (_getDownloadID() != DI_UNKNOWN)
-	{
-		Url url(m_actionDownload.GetFileName(_getDownloadID()));
-		wcscpy_s(m_szFilename, url.GetFileName());
-	}
+	GetTempPath(MAX_PATH, m_szTempPath);	
 }
 
 MSOfficeAction::~MSOfficeAction()
@@ -93,7 +87,7 @@ wchar_t* MSOfficeAction::GetDescription()
 
 LPCWSTR MSOfficeAction::GetLicenseID()
 {
-	switch (m_MSVersion)
+	switch (_getVersionInstalled())
 	{
 		case MSOffice2003:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2003);
@@ -109,7 +103,7 @@ LPCWSTR MSOfficeAction::GetLicenseID()
 
 const char* MSOfficeAction::GetVersion()
 {
-	switch (m_MSVersion)
+	switch (_getVersionInstalled())
 	{
 		case MSOffice2003:
 			return "2003";
@@ -125,7 +119,7 @@ const char* MSOfficeAction::GetVersion()
 // This deletes the contents of the extracted CAB file for MS Office 2003
 void MSOfficeAction::_removeOffice2003TempFiles()
 {
-	if (m_bLangPackInstalled == true || m_MSVersion != MSOffice2003)
+	if (m_bLangPackInstalled == true || _getVersionInstalled() != MSOffice2003)
 		return;
 	
 	wchar_t szFile[MAX_PATH];
@@ -149,71 +143,101 @@ void MSOfficeAction::_removeOffice2003TempFiles()
 }
 
 bool MSOfficeAction::_isVersionInstalled(RegKeyVersion regkeys)
-{	
-	Registry registry;
+{
 	wchar_t szValue[1024];
 	wchar_t szKey[1024];
 	bool Installed = false;
 
 	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", regkeys.VersionNumber);
-	if (registry.OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
 	{
-		if (registry.GetString(L"Path", szValue, sizeof (szValue)))
+		if (m_registry->GetString(L"Path", szValue, sizeof (szValue)))
 		{
 			if (wcslen(szValue) > 0)
 				Installed = true;
 		}
-		registry.Close();
+		m_registry->Close();
 	}
 	return Installed;
 }
 
 bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
-{
-	Registry registry;	
+{	
 	bool Installed = false;
 
-	if (registry.OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
 	{		
 		if (regkeys.InstalledLangMapKeyIsDWord)
 		{
 			DWORD dwValue;
-			if (registry.GetDWORD(L"1027", &dwValue))
+			if (m_registry->GetDWORD(L"1027", &dwValue))
 					Installed = true;
 		}		
 		else
 		{
 			wchar_t szValue[1024];
-			if (registry.GetString(L"1027", szValue, sizeof (szValue)))
+			if (m_registry->GetString(L"1027", szValue, sizeof (szValue)))
 			{
 				if (wcslen (szValue) > 0)
 					Installed = true;
 			}
 		}
-		registry.Close();
+		m_registry->Close();
 	}
 	return Installed;
 }
 
-void MSOfficeAction::_getVersionInstalled()
+void MSOfficeAction::_readIsLangPackInstalled()
+{
+	switch (_getVersionInstalled())
+	{
+	case MSOffice2010:
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010);
+		break;
+	case MSOffice2007:
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2007);
+		break;
+	case MSOffice2003:
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2003);
+		break;
+	default:
+		break;
+	}
+}
+
+bool MSOfficeAction::_isLangPackInstalled()
+{
+	if (m_bLangPackInstalled.IsUndefined())
+	{
+		_readIsLangPackInstalled();
+	}
+	return m_bLangPackInstalled == true;
+}
+
+MSOfficeVersion MSOfficeAction::_getVersionInstalled()
+{
+	if (m_MSVersion == MSOfficeUnKnown)
+	{
+		_readVersionInstalled();
+	}
+	return m_MSVersion;
+}
+
+void MSOfficeAction::_readVersionInstalled()
 {
 	wchar_t szVersion[256];
 	const char* pVersion;
 
 	if (_isVersionInstalled(RegKeys2010))
 	{
-		m_MSVersion = MSOffice2010;
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010);
+		m_MSVersion = MSOffice2010;		
 	} else if (_isVersionInstalled(RegKeys2007))
 	{
-		m_MSVersion = MSOffice2007;
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2007);
+		m_MSVersion = MSOffice2007;		
 	} else if (_isVersionInstalled(RegKeys2003))
 	{
-		m_MSVersion = MSOffice2003;
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2003);
-	} else {
-		m_bLangPackInstalled = false;
+		m_MSVersion = MSOffice2003;		
+	} else {		
 		m_MSVersion = NoMSOffice;
 		_getStringFromResourceIDName(IDS_MSOFFICEACTION_NOOFFICE, szCannotBeApplied);
 	}
@@ -229,12 +253,12 @@ void MSOfficeAction::_getVersionInstalled()
 		wcscpy_s(szVersion, L"None");
 	}
 
-	g_log.Log(L"MSOfficeAction::_getVersionInstalled '%s' installed langmap '%u'", szVersion, (wchar_t *)m_bLangPackInstalled);
+	g_log.Log(L"MSOfficeAction::_readVersionInstalled '%s' installed langmap '%s'", szVersion, m_bLangPackInstalled.ToString());
 }
 
 DownloadID  MSOfficeAction::_getDownloadID()
 {
-	switch (m_MSVersion)
+	switch (_getVersionInstalled())
 	{
 		case MSOffice2010:
 			return DI_MSOFFICEACTION_2010;
@@ -252,11 +276,11 @@ bool MSOfficeAction::IsNeed()
 {
 	bool bNeed;
 
-	bNeed = m_bLangPackInstalled == false && m_MSVersion != NoMSOffice;
+	bNeed = m_bLangPackInstalled == false && _getVersionInstalled() != NoMSOffice;
 
 	if (bNeed == false)
 	{
-		if (m_MSVersion == NoMSOffice)
+		if (_getVersionInstalled() == NoMSOffice)
 			status = CannotBeApplied;
 		else
 			status = AlreadyApplied;
@@ -271,17 +295,18 @@ bool MSOfficeAction::IsNeed()
 bool MSOfficeAction::_needsInstallConnector()
 {
 	bool bNeed = false;
+	MSOfficeVersion officeVersion;
 
-	if (m_MSVersion == MSOffice2003 || m_MSVersion == MSOffice2007 || m_MSVersion == MSOffice2010)
-	{
-		Registry registry;
+	officeVersion = _getVersionInstalled();
+	if (officeVersion == MSOffice2003 || officeVersion == MSOffice2007 || officeVersion == MSOffice2010)
+	{		
 		wstring path;
 		wchar_t szPath[MAX_PATH];
 
 		// Connector installed
-		if (registry.OpenKey(HKEY_LOCAL_MACHINE, CONNECTOR_REGKEY, false) == true)
+		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, CONNECTOR_REGKEY, false) == true)
 		{
-			registry.Close();			
+			m_registry->Close();			
 			SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
 			path=szPath;
 
@@ -297,6 +322,12 @@ bool MSOfficeAction::_needsInstallConnector()
 bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	bool bFile1, bFile2;
+
+	if (_getDownloadID() != DI_UNKNOWN)
+	{
+		Url url(m_actionDownload.GetFileName(_getDownloadID()));
+		wcscpy_s(m_szFilename, url.GetFileName());
+	}
 
 	wcscpy_s(m_szFullFilename, m_szTempPath);
 	wcscat_s(m_szFullFilename, m_szFilename);
@@ -336,7 +367,7 @@ void MSOfficeAction::Execute()
 	wchar_t szParams[MAX_PATH] = L"";
 	wchar_t szApp[MAX_PATH] = L"";
 
-	switch (m_MSVersion)
+	switch (_getVersionInstalled())
 	{
 		case MSOffice2010:
 		{
@@ -385,12 +416,12 @@ void MSOfficeAction::Execute()
 	status = InProgress;
 	m_executionStep = ExecutionStep1;
 	g_log.Log(L"MSOfficeAction::Execute '%s' with params '%s'", szApp, szParams);
-	runner.Execute(szApp, szParams);
+	m_runner->Execute(szApp, szParams);
 }
 
 RegKeyVersion MSOfficeAction::_getRegKeys()
 {
-	switch (m_MSVersion)
+	switch (_getVersionInstalled())
 	{
 		case MSOffice2003:
 			return RegKeys2003;
@@ -404,24 +435,22 @@ RegKeyVersion MSOfficeAction::_getRegKeys()
 
 void MSOfficeAction::_setDefaultLanguage()
 {
-	wchar_t szKeyName [1024];
-	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
-
-	Registry registry;
 	BOOL bSetKey = FALSE;
+	wchar_t szKeyName [1024];
 
-	if (registry.OpenKey(HKEY_CURRENT_USER, szKeyName, true))
+	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, true))
 	{
-		bSetKey = registry.SetDWORD(L"UILanguage", 1027);
+		bSetKey = m_registry->SetDWORD(L"UILanguage", 1027);
 
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
-		if (m_MSVersion == MSOffice2010 || m_MSVersion == MSOffice2007)
+		if (_getVersionInstalled() == MSOffice2010 || _getVersionInstalled() == MSOffice2007)
 		{
-			BOOL bSetFollowKey = registry.SetString(L"FollowSystemUI", L"Off");
+			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");
 			g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	
 		}		
-		registry.Close();
+		m_registry->Close();
 	}
 	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set UILanguage %u", (wchar_t *) bSetKey);	
 }
@@ -434,7 +463,7 @@ bool MSOfficeAction::_executeInstallConnector()
 	wchar_t szParams[MAX_PATH];
 
 	wcscpy_s(szParams, L" /quiet");
-	runner.Execute((wchar_t *)m_connectorFile.c_str(), szParams);
+	m_runner->Execute((wchar_t *)m_connectorFile.c_str(), szParams);
 	g_log.Log(L"MSOfficeAction::_executeInstallConnector. Microsoft Office Connector '%s' with params '%s'", (wchar_t *)m_connectorFile.c_str(), szParams);
 	return true;
 }
@@ -443,7 +472,7 @@ ActionStatus MSOfficeAction::GetStatus()
 {
 	if (status == InProgress)
 	{
-		if (runner.IsRunning())
+		if (m_runner->IsRunning())
 			return InProgress;
 
 		switch (m_executionStep)

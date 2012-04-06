@@ -304,6 +304,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\MSOfficeActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\WindowsLPIActionTest.cpp"
 				>
 			</File>
@@ -321,6 +325,10 @@
 			</File>
 			<File
 				RelativePath=".\Core\StringConversionTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\TriBoolTest.cpp"
 				>
 			</File>
 			<File

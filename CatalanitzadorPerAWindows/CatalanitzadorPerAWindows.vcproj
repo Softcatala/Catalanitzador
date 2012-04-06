@@ -489,6 +489,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\TriBool.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\TriBool.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\UploadStatistics.cpp"
 				>
 			</File>

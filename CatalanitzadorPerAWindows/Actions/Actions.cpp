@@ -51,7 +51,7 @@ void Actions::_buildListOfActions()
 {
 	// TODO: All these news are leaks
 	m_actions.push_back(new WindowsLPIAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IWin32I18N *) new Win32I18N(), (IRunner *) new Runner()));
-	m_actions.push_back(new MSOfficeAction());
+	m_actions.push_back(new MSOfficeAction((IRegistry *)new Registry(), (IRunner *) new Runner()));
 	m_actions.push_back(new IELPIAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IRunner *)new Runner()));
 	m_actions.push_back(new IEAcceptLanguagesAction((IRegistry *)new Registry()));
 	m_actions.push_back(new ConfigureLocaleAction());

@@ -20,7 +20,12 @@
 #pragma once
 
 #include "Action.h"
+#include "IRunner.h"
+#include "IOSVersion.h"
+#include "IRegistry.h"
+#include "OSVersion.h"
 #include "Runner.h"
+#include "TriBool.h"
 
 enum MSOfficeVersion
 {
@@ -45,10 +50,10 @@ struct RegKeyVersion
 	bool InstalledLangMapKeyIsDWord;
 };
 
-class MSOfficeAction : public Action
+class _APICALL MSOfficeAction : public Action
 {
 public:
-		MSOfficeAction();
+		MSOfficeAction(IRegistry* registry, IRunner* runner);
 		~MSOfficeAction();
 
 		virtual wchar_t* GetName();
@@ -61,20 +66,26 @@ public:
 		virtual const char* GetVersion();
 		virtual LPCWSTR GetLicenseID();
 
-private:
+protected:
+		
+		MSOfficeVersion _getVersionInstalled();
 
-		void _getVersionInstalled();
+private:
+		
+		bool _isLangPackInstalled();
 		bool _isVersionInstalled(RegKeyVersion regkeys);
+		void _readVersionInstalled();
 		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _setDefaultLanguage();		
-		DownloadID  _getDownloadID();
+		DownloadID _getDownloadID();
 		void _removeOffice2003TempFiles();
 		RegKeyVersion _getRegKeys();
 		bool _needsInstallConnector();
-		bool _executeInstallConnector();		
+		bool _executeInstallConnector();
+		void _readIsLangPackInstalled();
 
-		bool m_bLangPackInstalled;
+		TriBool m_bLangPackInstalled;
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
@@ -83,5 +94,7 @@ private:
 		MSOfficeVersion m_MSVersion;
 		wstring m_connectorFile;
 		ExecutionStep m_executionStep;
+		IRunner* m_runner;
+		IRegistry* m_registry;		
 };
 
