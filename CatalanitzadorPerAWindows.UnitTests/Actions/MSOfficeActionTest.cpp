@@ -86,17 +86,3 @@ TEST(MSOfficeActionTest, _isVersionInstalled_2010)
 	
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2010);	
 }
-
-TEST(MSOfficeActionTest, _isLangPackInstalled)
-{
-	CreateMSOfficeAction;
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));
-	
-	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2010);	
-}
