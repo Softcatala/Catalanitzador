@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Resources;$(ProjectDir)Application"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Resources;$(ProjectDir)Application"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -385,6 +385,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\IFileSystem.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\Inet.cpp"
 				>
 			</File>
@@ -477,6 +481,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\StringConversion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\StringConversion.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\UploadStatistics.cpp"
 				>
 			</File>
@@ -525,110 +537,6 @@
 			Name="UI"
 			>
 			<File
-				RelativePath=".\UI\AboutBoxDlgUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\AboutBoxDlgUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ApplicationSheetUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ApplicationSheetUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ApplicationsPropertyPageUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ApplicationsPropertyPageUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\AppRunningDlgUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\AppRunningDlgUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ax.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ax.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\CheckedListView.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\CheckedListView.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\DownloadErrorDlgUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\DownloadErrorDlgUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\FinishPropertyPageUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\FinishPropertyPageUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\InstallPropertyPageUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\InstallPropertyPageUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\PropertyPageUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\PropertyPageUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\PropertySheetUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\PropertySheetUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ShowLicensesDlgUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\ShowLicensesDlgUI.h"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\WelcomePropertyPageUI.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\WelcomePropertyPageUI.h"
-				>
-			</File>
-			<File
 				RelativePath=".\UI\WindowsXPDialogCanceler.cpp"
 				>
 			</File>
@@ -636,6 +544,122 @@
 				RelativePath=".\UI\WindowsXPDialogCanceler.h"
 				>
 			</File>
+			<Filter
+				Name="Dialogs"
+				>
+				<File
+					RelativePath=".\UI\Dialogs\AboutBoxDlgUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\AboutBoxDlgUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\AppRunningDlgUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\AppRunningDlgUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\DownloadErrorDlgUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\DownloadErrorDlgUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\ShowLicensesDlgUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\ShowLicensesDlgUI.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Controls"
+				>
+				<File
+					RelativePath=".\UI\Controls\ActiveX.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Controls\ActiveX.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Controls\CheckedListView.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Controls\CheckedListView.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Sheets"
+				>
+				<File
+					RelativePath=".\UI\Sheets\ApplicationSheetUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\ApplicationSheetUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\ApplicationsPropertyPageUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\ApplicationsPropertyPageUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\FinishPropertyPageUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\FinishPropertyPageUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\InstallPropertyPageUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\InstallPropertyPageUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\PropertyPageUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\PropertyPageUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\PropertySheetUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\PropertySheetUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\WelcomePropertyPageUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\WelcomePropertyPageUI.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Application"
@@ -686,6 +710,38 @@
 			</File>
 			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Inspectors"
+			>
+			<File
+				RelativePath=".\Inspectors\AdobeAcrobatInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\AdobeAcrobatInspector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\InspectorID.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspectors.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\Inspectors.h"
 				>
 			</File>
 		</Filter>

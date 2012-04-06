@@ -9,6 +9,7 @@
 
 #define CATALANITZADOR_CREATE_SHARED_LIBRARY 1
 #include "Defines.h"
+#include "version.h"
 
 #include "resource.h"
 #include "LogFile.h"
@@ -25,6 +26,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <string.h>
+#include <assert.h>
 
 extern LogFile g_log;
 

@@ -20,9 +20,7 @@
 #include "stdafx.h"
 #include <wchar.h>
 #include "HttpFormInet.h"
-#include "Window.h"
 #include "Url.h"
-#include <stdio.h>
 
 
 // Encodes a single variable form

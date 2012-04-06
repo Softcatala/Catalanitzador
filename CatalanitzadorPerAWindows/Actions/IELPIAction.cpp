@@ -61,7 +61,7 @@ wchar_t* IELPIAction::GetDescription()
 
 LPCWSTR IELPIAction::GetLicenseID()
 {
-	switch (GetIEVersion())
+	switch (_getIEVersion())
 	{
 		case IE7:
 			return MAKEINTRESOURCE(IDR_LICENSE_IE7);
@@ -75,16 +75,16 @@ LPCWSTR IELPIAction::GetLicenseID()
 	return NULL;
 }
 
-IEVersion IELPIAction::GetIEVersion()
+IEVersion IELPIAction::_getIEVersion()
 {
 	if (m_version == IEUnread)
 	{
-		m_version = ReadIEVersion();
+		m_version = _readIEVersion();
 	}
 	return m_version;
 }
 
-IEVersion IELPIAction::ReadIEVersion()
+IEVersion IELPIAction::_readIEVersion()
 {
 	IEVersion version;	
 	wchar_t szVersion[255] = L"";
@@ -129,13 +129,13 @@ IEVersion IELPIAction::ReadIEVersion()
 		}
 	}
 
-	g_log.Log(L"IELPIAction::ReadIEVersion returns IE '%u'", (wchar_t *) version);
+	g_log.Log(L"IELPIAction::_readIEVersion returns IE '%u'", (wchar_t *) version);
 	return version;
 }
 
 DownloadID IELPIAction::_getDownloadID()
 {
-	switch (GetIEVersion())
+	switch (_getIEVersion())
 	{
 		case IE7:
 			return DI_IELPI_IE7;
@@ -237,7 +237,7 @@ bool IELPIAction::_isLangPackInstalled()
 		VerQueryValue(lpVI , L"\\" , (LPVOID *)&lpFfi , &uLen);
 		WORD majorVersion = HIWORD (lpFfi->dwFileVersionMS);
 
-		installed = (GetIEVersion() == majorVersion && lpTranslate->wLanguage == CATALAN_LANGCODE);	
+		installed = (_getIEVersion() == majorVersion && lpTranslate->wLanguage == CATALAN_LANGCODE);	
 
 		g_log.Log(L"IELPIAction::_isLangPackInstalled %s has version %u and language code %x", 
 			szFile, (wchar_t*) majorVersion, (wchar_t*) lpTranslate->wLanguage);
@@ -314,7 +314,7 @@ void IELPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH] = L"";	
 
-	switch (GetIEVersion())
+	switch (_getIEVersion())
 	{
 	case IE7:
 		{
@@ -373,7 +373,7 @@ ActionStatus IELPIAction::GetStatus()
 bool IELPIAction::_wasInstalled()
 {
 	// Could not find a way to tell if it went well
-	if (GetIEVersion() == IE8 && m_OSVersion->GetVersion() == WindowsXP)
+	if (_getIEVersion() == IE8 && m_OSVersion->GetVersion() == WindowsXP)
 	{
 		return true;
 	}
@@ -389,7 +389,7 @@ Prerequirements IELPIAction::CheckPrerequirementsDependand(Action * action)
 	switch (m_OSVersion->GetVersion())
 	{
 		case WindowsXP: // Includes IE 6
-			switch (GetIEVersion())
+			switch (_getIEVersion())
 			{
 				case IE6:
 					return AppliedInWinLPI;
@@ -405,7 +405,7 @@ Prerequirements IELPIAction::CheckPrerequirementsDependand(Action * action)
 			}
 			break;
 		case WindowsVista: // Includes IE 7
-			switch (GetIEVersion())
+			switch (_getIEVersion())
 			{
 				case IE7:
 					return AppliedInWinLPI;					
@@ -421,7 +421,7 @@ Prerequirements IELPIAction::CheckPrerequirementsDependand(Action * action)
 			}
 			break;
 		case Windows7: // Includes IE 8
-			switch (GetIEVersion())
+			switch (_getIEVersion())
 			{
 				case IE8:
 					return AppliedInWinLPI;					
@@ -444,10 +444,10 @@ Prerequirements IELPIAction::CheckPrerequirementsDependand(Action * action)
 
 Prerequirements IELPIAction::CheckPrerequirements()
 {
-	if (GetIEVersion() == IEUnknown)
+	if (_getIEVersion() == IEUnknown)
 		return UnknownIEVersion;
 		
-	if (m_OSVersion->IsWindows64Bits() && GetIEVersion() != IE9 && GetIEVersion() != IE8)
+	if (m_OSVersion->IsWindows64Bits() && _getIEVersion() != IE9 && _getIEVersion() != IE8)
 		return UnknownIEVersion;
 
 	return PrerequirementsOk;

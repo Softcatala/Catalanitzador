@@ -41,28 +41,36 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual char* GetVersion();
+		virtual const char* GetVersion();
 		virtual DWORD GetProcessIDForRunningApp();
 
-		void ParseLanguage(wstring regvalue);
-		void AddCatalanToArrayAndRemoveOldIfExists();
-		void CreatePrefsString(wstring& string);
-		vector <wstring> * GetLanguages() {return &m_languages;}
+protected:
+		virtual void _getProfileRootDir(wstring &location);
+		bool _readVersionAndLocale();
+
+		wstring* _getLocale() {return &m_locale;}
+		vector <wstring> * _getLanguages() {return &m_languages;}
 
 private:
-		bool _readLanguageCode(wstring& langcode);
+		
+		bool _readLanguageCode();
+		void _createPrefsString(wstring& string);
+		void _addCatalanToArrayAndRemoveOldIfExists();
 		void _getFirstLanguage(wstring& regvalue);
 		void _writeLanguageCode(wstring &langcode);
 		void _getPrefLine(wstring langcode, wstring& line);
-		bool _readVersionAndLocale();
-		
+		void _addFireForLocale();
+		void _parseLanguage(wstring regvalue);
+
 		void _getProfilesIniLocation(wstring &location);
-		void _getPreferencesFile(wstring &location);
-		void _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
+		bool _getPreferencesFile(wstring &location);
+		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
 
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
 		char szVersionAscii[128];
 		wstring m_locale;
+		string m_version;
+		bool m_CachedLanguageCode;
 };
 

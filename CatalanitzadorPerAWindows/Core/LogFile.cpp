@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "LogFile.h"
 #include <stdio.h>
+#include "StringConversion.h"
 
 LogFile::LogFile()
 {
@@ -93,16 +94,12 @@ void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* 
 
 void LogFile::_writeCompileTime(wchar_t* appName)
 {
-	wchar_t szDate [256];
-	wchar_t szTime [256];
+	wstring date, time;
 
-	MultiByteToWideChar(CP_ACP, 0,  __DATE__, strlen ( __DATE__) + 1,
-                  szDate, sizeof (szDate));
-
-	MultiByteToWideChar(CP_ACP, 0,  __TIME__, strlen ( __TIME__) + 1,
-                  szTime, sizeof (szTime));	
+	StringConversion::ToWideChar(string(__DATE__), date);
+	StringConversion::ToWideChar(string(__TIME__), time);
 	
-	Log(L"%s. Compiled on %s - %s", appName, szDate, szTime);
+	Log(L"%s. Compiled on %s - %s", appName, (wchar_t*) date.c_str(), (wchar_t*) time.c_str());
 }
 
 void LogFile::_stringTime()

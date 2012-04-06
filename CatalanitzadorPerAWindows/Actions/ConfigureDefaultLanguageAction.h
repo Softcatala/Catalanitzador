@@ -41,9 +41,11 @@ public:
 		virtual void CheckPrerequirements(Action * action);		
 		virtual bool IsRebootNeed();
 
-		bool IsCatalanKeyboardActive();
-		bool HasSpanishKeyboard();
-		void MakeCatalanActiveKeyboard();
+protected:
+
+		bool _isCatalanKeyboardActive();
+		bool _hasSpanishKeyboard();
+		void _makeCatalanActiveKeyboard();
 
 private:
 

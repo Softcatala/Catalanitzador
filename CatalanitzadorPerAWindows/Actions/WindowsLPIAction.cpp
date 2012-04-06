@@ -108,9 +108,39 @@ DownloadID WindowsLPIAction::GetDownloadID()
 	return DI_UNKNOWN;
 }
 
+#define LANGUAGE_CODE L"ca-ES"
+
+bool WindowsLPIAction::IsDownloadNeed()
+{
+	return _isLangPackInstalled() == false;
+}
+
+// The langpack may be installed by not selected
+bool WindowsLPIAction::_isDefaultLanguage()
+{
+	if (m_OSVersion->GetVersion() == WindowsXP)
+		return true;
+
+	wchar_t szPreferred[2048] =L"";	
+	wchar_t szPreferredPending[2048] =L"";	
+	
+	// Sets the language for the default user
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", false))
+	{
+		m_registry->GetString(L"PreferredUILanguages", szPreferred, sizeof(szPreferred));
+		m_registry->GetString(L"PreferredUILanguagesPending", szPreferredPending, sizeof(szPreferredPending));
+		m_registry->Close();
+	}
+	g_log.Log(L"WindowsLPIAction::_isDefaultLanguage preferred lang '%s', preferred pending lang '%s'", 
+		szPreferred, szPreferredPending);
+
+	return (_wcsnicmp(szPreferred, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0) ||
+		(_wcsnicmp(szPreferredPending, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0);
+}
+
 // Checks if the Catalan language pack is already installed
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
-bool WindowsLPIAction::IsLangPackInstalled()
+bool WindowsLPIAction::_isLangPackInstalled()
 {	
 	bool bExists;
 
@@ -138,21 +168,21 @@ bool WindowsLPIAction::IsLangPackInstalled()
 		m_registry->Close();
 	}		
 	
-	g_log.Log (L"WindowsLPIAction::IsLangPackInstalled returns %u", (wchar_t*) bExists);
+	g_log.Log (L"WindowsLPIAction::_isLangPackInstalled returns %u", (wchar_t*) bExists);
 	return bExists;
 }
 
 bool WindowsLPIAction::IsNeed()
 {
-	if (status == CannotBeApplied)
+ 	if (status == CannotBeApplied)
 		return false;
 	
 	bool bNeed = false;
 
 	if (GetDownloadID() != DI_UNKNOWN)
 	{		
-		if (IsLangPackInstalled() == false)
-		{		
+		if (_isLangPackInstalled() == false || _isDefaultLanguage() == false)
+		{
 			bNeed = true;
 		}
 		else
@@ -184,6 +214,14 @@ void WindowsLPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
+
+	if (_isLangPackInstalled() == true)
+	{
+		_setDefaultLanguage();
+		status = _isLangPackInstalled() ? Successful : FinishedWithError;
+		g_log.Log(L"WindowsLPIAction::Execute. Setting default language only was '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
+		return;
+	}
 
 	OperatingVersion version = m_OSVersion->GetVersion();
 
@@ -242,7 +280,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (IsLangPackInstalled()) {
+		if (_isLangPackInstalled()) {
 			status = Successful;
 			_setDefaultLanguage();
 		}
@@ -267,14 +305,24 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 {
 	LANGID langid;
 	WORD primary;
+	bool bLangOk;
 
 	langid = m_win32I18N->GetSystemDefaultUILanguage();
 	primary = PRIMARYLANGID(langid);
+	
+	if (m_OSVersion->GetVersion() == WindowsXP)
+	{
+		bLangOk = (primary == SPANISH_LOCALEID);
+	}
+	else
+	{
+		bLangOk = (primary == SPANISH_LOCALEID || primary == FRENCH_LOCALEID);
+	}
 
-	if (primary != SPANISH_LOCALEID && primary != FRENCH_LOCALEID)
+	if (bLangOk == false)
 	{
 		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NOSPFR, szCannotBeApplied);
-		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. No Spanish or French Windows found (langid %u)",
+		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Incorrect Windows base language found (langid %u)",
 			(wchar_t* )langid);
 		status = CannotBeApplied;
 		return;

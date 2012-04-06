@@ -24,7 +24,6 @@
 IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry)
 {
 	m_registry = registry;
-	szVersionAscii[0] = NULL;
 }
 
 wchar_t* IEAcceptLanguagesAction::GetName()
@@ -85,7 +84,7 @@ bool IEAcceptLanguagesAction::_isCurrentLanguageOk(wstring& firstlang)
 	wstring langcode;
 
 	_readLanguageCode(langcode);
-	ParseLanguage(langcode);
+	_parseLanguage(langcode);
 	_getFirstLanguage(firstlang);
 
 	// IE 6.0 uses two digit language codes, after IE 6 can also include country
@@ -106,7 +105,7 @@ bool IEAcceptLanguagesAction::IsNeed()
 	return bNeed;
 }
 
-void IEAcceptLanguagesAction::AddCatalanToArrayAndRemoveOldIfExists()
+void IEAcceptLanguagesAction::_addCatalanToArrayAndRemoveOldIfExists()
 {	
 	wstring regvalue;
 	vector <wstring>languages;
@@ -134,8 +133,8 @@ void IEAcceptLanguagesAction::Execute()
 {
 	wstring regvalue;
 
-	AddCatalanToArrayAndRemoveOldIfExists();
-	CreateRegistryString(regvalue);
+	_addCatalanToArrayAndRemoveOldIfExists();
+	_createRegistryString(regvalue);
 	_writeLanguageCode(regvalue);
 	
 	if (_isCurrentLanguageOk(regvalue) == true)
@@ -154,21 +153,20 @@ void IEAcceptLanguagesAction::_readVersion()
 
 		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
 		{
-			WideCharToMultiByte(CP_ACP, 0, szVersion, wcslen(szVersion) + 1, szVersionAscii, sizeof(szVersionAscii), 
-				NULL, NULL);
-
+			StringConversion::ToMultiByte(wstring(szVersion), m_version);
 			g_log.Log(L"IEAcceptLanguagesAction::_readVersion. IE version %s", szVersion);
-		}		
+		}
+		m_registry->Close();
 	}	
 }
 
-char* IEAcceptLanguagesAction::GetVersion()
+const char* IEAcceptLanguagesAction::GetVersion()
 {
-	if (*szVersionAscii == 0x0)
+	if (m_version.length() == 0)
 	{
 		_readVersion();
 	}
-	return szVersionAscii;
+	return m_version.c_str();
 }
 
 void IEAcceptLanguagesAction::CheckPrerequirements(Action * action)
@@ -186,7 +184,7 @@ void IEAcceptLanguagesAction::_createRegistryStringTwoLangs(wstring &regvalue, f
 	regvalue = szFormat;
 }
 
-void IEAcceptLanguagesAction::CreateRegistryString(wstring &regvalue)
+void IEAcceptLanguagesAction::_createRegistryString(wstring &regvalue)
 {
 	wchar_t szFormat[128];
 	int languages = m_languages.size();	
@@ -212,7 +210,7 @@ void IEAcceptLanguagesAction::CreateRegistryString(wstring &regvalue)
 	}
 }
 
-void IEAcceptLanguagesAction::ParseLanguage(wstring regvalue)
+void IEAcceptLanguagesAction::_parseLanguage(wstring regvalue)
 {
 	wstring language;
 	bool reading_quality = false;

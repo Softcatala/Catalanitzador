@@ -27,11 +27,13 @@ Registry::Registry()
 
 Registry::~Registry()
 {
-	Close ();
+	Close();
 }
 
 bool Registry::OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 {
+	assert(hKey == NULL);
+
 	return RegOpenKeyEx(hBaseKey, sSubKey, 0,
 		bWriteAccess ? KEY_READ|KEY_WRITE:KEY_READ, &hKey) == ERROR_SUCCESS;
 }
@@ -87,3 +89,26 @@ bool Registry::Close()
 	}
 	return false;
 }
+
+
+bool Registry::RegEnumKey(DWORD dwIndex, wstring& key)
+{
+	bool bRslt;
+	wchar_t szKey[2048];
+	DWORD dwSize = sizeof(szKey);
+
+	assert(hKey != NULL);
+
+	bRslt = RegEnumKeyEx(hKey, dwIndex, szKey, &dwSize, NULL, NULL, NULL,NULL) == ERROR_SUCCESS; 
+
+	if (bRslt)
+	{
+		key = szKey;
+	}
+	else
+	{
+		key.erase();
+	}
+	return bRslt;
+}
+

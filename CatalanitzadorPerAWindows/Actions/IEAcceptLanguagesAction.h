@@ -39,13 +39,15 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual char* GetVersion();
+		virtual const char* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
 
-		void ParseLanguage(wstring regvalue);
-		void CreateRegistryString(wstring &regvalue);
-		void AddCatalanToArrayAndRemoveOldIfExists();
-		vector <wstring> * GetLanguages() {return &m_languages;}
+protected:
+
+		void _parseLanguage(wstring regvalue);
+		void _createRegistryString(wstring &regvalue);
+		void _addCatalanToArrayAndRemoveOldIfExists();
+		vector <wstring> * _getLanguages() {return &m_languages;}
 private:
 		
 		bool _isCurrentLanguageOk(wstring& firstlang);
@@ -59,5 +61,6 @@ private:
 		char szVersionAscii[128];
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
+		string m_version;
 };
 

@@ -32,7 +32,6 @@ enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 ChromeAction::ChromeAction(IRegistry* registry)
 {
 	m_registry = registry;
-	szVersionAscii[0] = NULL;
 	isInstalled = false;
 }
 
@@ -89,9 +88,17 @@ bool ChromeAction::_findAcceptedKey(wstring line, int & pos)
 	return pos != wstring::npos;
 }
 
+bool ChromeAction::_findAppLocaleKey(wstring line, int & pos)
+{
+	if(pos == wstring::npos) pos = 0;
+	
+	pos = line.find(L"\"app_locale\"",pos);
+
+	return pos != wstring::npos;
+}
+
 bool ChromeAction::_findLanguageString(wstring line,int & pos,wstring & langcode) 
 {
-
 	wstring tempLang;
 
 	if(pos == wstring::npos) pos = 0;
@@ -121,6 +128,66 @@ bool ChromeAction::_findLanguageString(wstring line,int & pos,wstring & langcode
 	}
 	
 	return found;
+}
+
+#define LANGUAGECODE L"ca"
+
+bool ChromeAction::_isChromeAppLocaleOk()
+{	
+	wstring path_t, langcode;
+	_readInstallLocation(path_t);
+
+	if(path_t.empty() == false)
+	{
+		wifstream reader;
+		wstring line;
+		wstring path = L"/../User Data/Local State";
+		path = path_t + path;
+		reader.open(path.c_str());
+
+		if(reader.is_open()) 
+		{
+			int currentState = NoState;			
+			int pos = 0;
+
+			while(!(getline(reader,line)).eof())
+			{
+				if(currentState == NoState) {
+					if(_findIntl(line,pos))
+						currentState = InIntl;
+				}
+
+				if(currentState == InIntl) {
+					if(_findSemicolon(line,pos))
+						currentState = InIntlSemicolon;
+				}
+
+				if(currentState == InIntlSemicolon) {
+					if(_findStartBlock(line,pos))
+						currentState = InIntlBlock;
+				}
+
+				if(currentState == InIntlBlock) {
+					if(_findAppLocaleKey(line,pos))
+						currentState = InAcceptedKey;
+				}
+				
+				if(currentState == InAcceptedKey) {
+					if(_findSemicolon(line,pos))
+						currentState = InAcceptedSemicolon;
+				}
+
+				if(currentState == InAcceptedSemicolon) {
+					if(_findLanguageString(line,pos,langcode))						
+						break;
+				}
+
+				pos = wstring::npos;
+			}
+		}
+	}
+
+	return langcode.compare(LANGUAGECODE) == 0;
 }
 
 bool ChromeAction::_readLanguageCode(wstring& langcode)
@@ -177,6 +244,7 @@ bool ChromeAction::_readLanguageCode(wstring& langcode)
 
 				pos = wstring::npos;
 			}
+			reader.close();
 		}
 	}
 
@@ -256,9 +324,13 @@ bool ChromeAction::_writeLanguageCode(wstring langcode)
 
 			}
 			writer << lastLine << L"\n";
-			writer.close();
-			reader.close();
 		}
+
+		if(reader.is_open())
+			reader.close();
+
+		if(writer.is_open())
+			writer.close();
 		
 		if(ret) {
 			ret = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
@@ -287,18 +359,27 @@ void ChromeAction::_getFirstLanguage(wstring& jsonvalue)
 bool ChromeAction::IsNeed()
 {
 	bool bNeed = true;
+	bool langcodeFound, localeOk = false;
+
 	wstring langcode, firstlang;
-
-	bool langcodeFound = _readLanguageCode(langcode);
-
-	if(isInstalled) {
+	
+	langcodeFound = _readLanguageCode(langcode);
+	
+	if(isInstalled){
+		localeOk = _isChromeAppLocaleOk();
+		
 		if(langcodeFound) {
 			ParseLanguage(langcode);
 			_getFirstLanguage(firstlang);	
-	
+		
 			bNeed = firstlang.compare(L"ca") != 0;
 			if(bNeed == false) {
 				status = AlreadyApplied;
+			}
+		} else {
+			if (localeOk) {
+				status = AlreadyApplied;
+				bNeed = false;
 			}
 		}
 	} else {
@@ -306,7 +387,9 @@ bool ChromeAction::IsNeed()
 		status = CannotBeApplied;
 	}
 	
-	g_log.Log(L"ChromeAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
+	g_log.Log(L"ChromeAction::IsNeed returns %u (first lang:%s), locale ok %u", 
+		(wchar_t *) bNeed, (wchar_t *) firstlang.c_str(),  (wchar_t *) localeOk);
+
 	return bNeed;
 }
 
@@ -351,9 +434,7 @@ void ChromeAction::_readVersion()
 
 		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
 		{
-			WideCharToMultiByte(CP_ACP, 0, szVersion, wcslen(szVersion) + 1, szVersionAscii, sizeof(szVersionAscii), 
-				NULL, NULL);
-
+			StringConversion::ToMultiByte(wstring(szVersion), m_version);
 			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szVersion);
 		}
 		m_registry->Close();
@@ -363,7 +444,7 @@ void ChromeAction::_readVersion()
 void ChromeAction::_readInstallLocation(wstring & path)
 {
 	wchar_t * szInstallLocation = NULL;
-	path = L"";
+	path.erase();
 
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, ChromeRegistryPath, false))
 	{
@@ -373,7 +454,7 @@ void ChromeAction::_readInstallLocation(wstring & path)
 		{
 			isInstalled = true;
 			path = szInstallLocation;
-			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szInstallLocation);
+			g_log.Log(L"ChromeAction::_readInstallLocation. Chrome version %s", szInstallLocation);
 			delete(szInstallLocation);
 			szInstallLocation = NULL;
 		} 
@@ -388,13 +469,13 @@ void ChromeAction::_readInstallLocation(wstring & path)
 	}
 }
 
-char* ChromeAction::GetVersion()
+const char* ChromeAction::GetVersion()
 {
-	if (*szVersionAscii == 0x0)
+	if (m_version.length() == 0)
 	{
 		_readVersion();
 	}
-	return szVersionAscii;
+	return m_version.c_str();
 }
 
 void ChromeAction::CheckPrerequirements(Action * action)

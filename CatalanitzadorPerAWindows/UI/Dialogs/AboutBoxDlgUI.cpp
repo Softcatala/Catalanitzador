@@ -21,6 +21,7 @@
 #include <Commctrl.h>
 #include "AboutBoxDlgUI.h"
 #include "Version.h"
+#include "StringConversion.h"
 
 void AboutBoxDlgUI::Run(HWND hWnd)
 {
@@ -34,23 +35,18 @@ LRESULT AboutBoxDlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lPa
 	{
 		case WM_INITDIALOG:
 		{
-				wchar_t szDate [MAX_LOADSTRING], szTime [MAX_LOADSTRING], szVersion [MAX_LOADSTRING]; 
+				wstring date, time, version;
 				wchar_t szResource [MAX_LOADSTRING], szString [MAX_LOADSTRING];
 				HWND hWnd;
 				
 				hWnd = GetDlgItem(hWndDlg, IDC_CATALANITZADOR_VERSION);
-			
-				MultiByteToWideChar(CP_ACP, 0,  __DATE__, strlen ( __DATE__) + 1,
-					  szDate, sizeof (szDate));
 
-				MultiByteToWideChar(CP_ACP, 0,  __TIME__, strlen ( __TIME__) + 1,
-					  szTime, sizeof (szTime));
-				
-				MultiByteToWideChar(CP_ACP, 0,  STRING_VERSION, strlen (STRING_VERSION) + 1,
-				      szVersion, sizeof (szVersion));
+				StringConversion::ToWideChar(string(__DATE__), date);
+				StringConversion::ToWideChar(string(__TIME__), time);
+				StringConversion::ToWideChar(string(STRING_VERSION), version);			
 				
 				LoadString(GetModuleHandle(NULL), IDS_ABOUTDLG_VERSION, szResource, MAX_LOADSTRING);
-				swprintf_s(szString, szResource, szVersion, szDate, szTime);
+				swprintf_s(szString, szResource, version.c_str(), date.c_str(), time.c_str());
 				SetWindowText(hWnd, szString);
 				return TRUE;
 		}

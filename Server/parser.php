@@ -27,30 +27,32 @@ if ( isset($_POST['xml']))
 
 	if (!empty($xml))
 	{
-	        //Application
-        	$result->MajorVersion = $xml->application['MajorVersion'][0];
-        	$result->MinorVersion = $xml->application['MinorVersion'][0];
-        	$result->Revision = $xml->application['Revision'][0];
+        //Application
+    	$result->MajorVersion = $xml->application['MajorVersion'][0];
+    	$result->MinorVersion = $xml->application['MinorVersion'][0];
+    	$result->Revision = $xml->application['Revision'][0];
 
-        	//Operating
-        	$result->OSMajorVersion = $xml->operating['OSMajorVersion'][0];
-        	$result->OSMinorVersion = $xml->operating['OSMinorVersion'][0];
-        	$result->SPMajorVersion = $xml->operating['SPMajorVersion'][0];
-        	$result->SPMinorVersion = $xml->operating['OSMajorVersion'][0];
-        	$result->SuiteMask = $xml->operating['SuiteMask'][0];
-       		$result->Bits = $xml->operating['Bits'][0];
+    	//Operating
+    	$result->OSMajorVersion = $xml->operating['OSMajorVersion'][0];
+    	$result->OSMinorVersion = $xml->operating['OSMinorVersion'][0];
+    	$result->SPMajorVersion = $xml->operating['SPMajorVersion'][0];
+    	$result->SPMinorVersion = $xml->operating['SPMinorVersion'][0];
+    	$result->SuiteMask = $xml->operating['SuiteMask'][0];
+   		$result->Bits = $xml->operating['Bits'][0];
+   		$result->ProductType = $xml->operating['ProductType'][0];
+   		$result->Name = $xml->operating['Name'][0];
 
 		//Get the new SessionID in order to save actions
-        	$SessionID =  $result->save_session();
+    	$SessionID =  $result->save_session();
 
-        	if ( $xml->actions->action )
+    	if ( $xml->actions->action )
+    	{
+        	foreach ( $xml->actions->action as $action )
         	{
-                	foreach ( $xml->actions->action as $action )
-                	{
-                        	$result->add_action($SessionID, $action['id'], $action['version'], $action['result']);
-                	}
+                $result->add_action($SessionID, $action['id'], $action['version'], $action['result']);
         	}
-        	return true;
+    	}
+    	return true;
 	}
 	else
 	{

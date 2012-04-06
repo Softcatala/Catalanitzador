@@ -31,6 +31,13 @@ enum MSOfficeVersion
 	MSOffice2010
 };
 
+enum ExecutionStep
+{
+	ExecutionStepNone,
+	ExecutionStep1,
+	ExecutionStep2	
+};
+
 struct RegKeyVersion
 {
 	wchar_t* VersionNumber;
@@ -51,7 +58,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
-		virtual char* GetVersion();
+		virtual const char* GetVersion();
 		virtual LPCWSTR GetLicenseID();
 
 private:
@@ -64,6 +71,8 @@ private:
 		DownloadID  _getDownloadID();
 		void _removeOffice2003TempFiles();
 		RegKeyVersion _getRegKeys();
+		bool _needsInstallConnector();
+		bool _executeInstallConnector();		
 
 		bool m_bLangPackInstalled;
 		wchar_t m_szFullFilename[MAX_PATH];
@@ -71,6 +80,8 @@ private:
 		wchar_t m_szTempPath[MAX_PATH];
 		wchar_t m_szTempPath2003[MAX_PATH];
 		Runner runner;		
-		MSOfficeVersion m_MSVersion;		
+		MSOfficeVersion m_MSVersion;
+		wstring m_connectorFile;
+		ExecutionStep m_executionStep;
 };
 

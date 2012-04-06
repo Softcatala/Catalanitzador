@@ -31,14 +31,26 @@ using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
 
+class ConfigureDefaultLanguageActionTest : public ConfigureDefaultLanguageAction
+{
+public:
+	
+	ConfigureDefaultLanguageActionTest::ConfigureDefaultLanguageActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
+		: ConfigureDefaultLanguageAction(OSVersion, registry, runner) {};
+
+	public: using ConfigureDefaultLanguageAction::_isCatalanKeyboardActive;
+	public: using ConfigureDefaultLanguageAction::_hasSpanishKeyboard;
+	public: using ConfigureDefaultLanguageAction::_makeCatalanActiveKeyboard;	
+};
+
 #define CreateConfigureDefaultLanguageAction \
 	RegistryMock registryMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	ConfigureDefaultLanguageAction defLanguageAction(&osVersionExMock, &registryMockobj, &runnerMock);
+	ConfigureDefaultLanguageActionTest defLanguageAction(&osVersionExMock, &registryMockobj, &runnerMock);
 
 
-TEST(WindowsLPIActionTest, IsCatalanKeyboardActive_True)
+TEST(WindowsLPIActionTest, _isCatalanKeyboardActive_True)
 {
 	CreateConfigureDefaultLanguageAction;
 
@@ -47,10 +59,10 @@ TEST(WindowsLPIActionTest, IsCatalanKeyboardActive_True)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0403"), Return(true)));	
 	
-	EXPECT_TRUE(defLanguageAction.IsCatalanKeyboardActive());
+	EXPECT_TRUE(defLanguageAction._isCatalanKeyboardActive());
 }
 
-TEST(WindowsLPIActionTest, IsCatalanKeyboardActive_False)
+TEST(WindowsLPIActionTest, _isCatalanKeyboardActive_False)
 {
 	CreateConfigureDefaultLanguageAction;
 
@@ -59,10 +71,10 @@ TEST(WindowsLPIActionTest, IsCatalanKeyboardActive_False)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));	
 	
-	EXPECT_FALSE(defLanguageAction.IsCatalanKeyboardActive());
+	EXPECT_FALSE(defLanguageAction._isCatalanKeyboardActive());
 }
 
-TEST(WindowsLPIActionTest, HasSpanishKeyboard_True)
+TEST(WindowsLPIActionTest, _hasSpanishKeyboard_True)
 {
 	CreateConfigureDefaultLanguageAction;
 
@@ -71,10 +83,10 @@ TEST(WindowsLPIActionTest, HasSpanishKeyboard_True)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));	
 	
-	EXPECT_TRUE(defLanguageAction.HasSpanishKeyboard());
+	EXPECT_TRUE(defLanguageAction._hasSpanishKeyboard());
 }
 
-TEST(WindowsLPIActionTest, HasSpanishKeyboard_SecondTrue)
+TEST(WindowsLPIActionTest, _hasSpanishKeyboard_SecondTrue)
 {
 	CreateConfigureDefaultLanguageAction;
 
@@ -86,7 +98,7 @@ TEST(WindowsLPIActionTest, HasSpanishKeyboard_SecondTrue)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"2"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));
 	
-	EXPECT_TRUE(defLanguageAction.HasSpanishKeyboard());
+	EXPECT_TRUE(defLanguageAction._hasSpanishKeyboard());
 }
 
 
@@ -122,7 +134,7 @@ TEST(WindowsLPIActionTest, MakeCatalanActiveKeyboard_XP)
 	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"3"),_)).
 		WillRepeatedly(DoAll(ReadArgCharString(lang3), Return(true)));
 
-	defLanguageAction.MakeCatalanActiveKeyboard();
+	defLanguageAction._makeCatalanActiveKeyboard();
 
 	EXPECT_THAT(lang1, StrCaseEq(CATALAN_LANGCODE));
 	EXPECT_THAT(lang3, StrCaseEq(ANOTHER_LANGCODE));

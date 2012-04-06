@@ -29,9 +29,24 @@ using ::testing::DoAll;
 
 #define LANGCODE_SET L"ca"
 
+class IEAcceptLanguagesActionTest : public IEAcceptLanguagesAction
+{
+public:
+
+	IEAcceptLanguagesActionTest::IEAcceptLanguagesActionTest(IRegistry* registry)
+		: IEAcceptLanguagesAction(registry) {};
+
+	public: using IEAcceptLanguagesAction::_parseLanguage;
+	public: using IEAcceptLanguagesAction::_createRegistryString;
+	public: using IEAcceptLanguagesAction::_addCatalanToArrayAndRemoveOldIfExists;
+	public: using IEAcceptLanguagesAction::_getLanguages;
+
+};
+
+
 #define CreateIEAcceptLanguagesAction \
 	RegistryMock registryMockobj; \
-	IEAcceptLanguagesAction IEAction(&registryMockobj);
+	IEAcceptLanguagesActionTest IEAction(&registryMockobj);
 
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanOnly)
@@ -78,13 +93,13 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_SpanishOnly)
 	EXPECT_TRUE(IEAction.IsNeed());
 }
 
-TEST(IEAcceptLanguagesActionTest, ParseLanguagesSpanishEnglishCatalan)
+TEST(IEAcceptLanguagesActionTest, _parseLanguagesSpanishEnglishCatalan)
 {
 	CreateIEAcceptLanguagesAction;	
 	vector <wstring> * languages;
 
-	IEAction.ParseLanguage(L"en-US,es-ES;q=0.7,ca-ES;q=0.3");
-	languages = IEAction.GetLanguages();
+	IEAction._parseLanguage(L"en-US,es-ES;q=0.7,ca-ES;q=0.3");
+	languages = IEAction._getLanguages();
 
 	EXPECT_EQ(3, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(L"en-US"));
@@ -92,132 +107,132 @@ TEST(IEAcceptLanguagesActionTest, ParseLanguagesSpanishEnglishCatalan)
 	EXPECT_THAT(languages->at(2), StrCaseEq(L"ca-ES"));
 }
 
-TEST(IEAcceptLanguagesActionTest, ParseLanguagesSpanishEnglish)
+TEST(IEAcceptLanguagesActionTest, _parseLanguagesSpanishEnglish)
 {
 	CreateIEAcceptLanguagesAction;	
 	vector <wstring> * languages;
 
-	IEAction.ParseLanguage(L"en-US,es-ES;q=0.5");
-	languages = IEAction.GetLanguages();
+	IEAction._parseLanguage(L"en-US,es-ES;q=0.5");
+	languages = IEAction._getLanguages();
 		
 	EXPECT_EQ(2, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(L"en-US"));
 	EXPECT_THAT(languages->at(1), StrCaseEq(L"es-ES"));
 }
 
-TEST(IEAcceptLanguagesActionTest, ParseLanguagesSpanish)
+TEST(IEAcceptLanguagesActionTest, _parseLanguagesSpanish)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;
 
-	IEAction.ParseLanguage(L"es-ES");
-	languages = IEAction.GetLanguages();
+	IEAction._parseLanguage(L"es-ES");
+	languages = IEAction._getLanguages();
 
 	EXPECT_EQ(1, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(L"es-ES"));
 }
 
-TEST(IEAcceptLanguagesActionTest, ParseLanguagesNone)
+TEST(IEAcceptLanguagesActionTest, _parseLanguagesNone)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;
 
-	IEAction.ParseLanguage(L"");
-	languages = IEAction.GetLanguages();
+	IEAction._parseLanguage(L"");
+	languages = IEAction._getLanguages();
 
 	EXPECT_EQ(0, languages->size());	
 }
 
-TEST(IEAcceptLanguagesActionTest, CreateRegistryStringCatalan)
+TEST(IEAcceptLanguagesActionTest, _createRegistryStringCatalan)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;
 	wstring regvalue;
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"ca-ES");
 	
-	IEAction.CreateRegistryString(regvalue);
+	IEAction._createRegistryString(regvalue);
 
 	EXPECT_THAT(regvalue, StrCaseEq(L"ca-ES"));
 }
 
-TEST(IEAcceptLanguagesActionTest, CreateRegistryStringCatalanSpanish)
+TEST(IEAcceptLanguagesActionTest, _createRegistryStringCatalanSpanish)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;
 	wstring regvalue;
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"ca-ES");
 	languages->push_back(L"es-ES");
 	
-	IEAction.CreateRegistryString(regvalue);
+	IEAction._createRegistryString(regvalue);
 
 	EXPECT_THAT(regvalue, StrCaseEq(L"ca-ES,es-ES;q=0.5"));
 }
 
-TEST(IEAcceptLanguagesActionTest, CreateRegistryStringCatalanSpanishEnglish)
+TEST(IEAcceptLanguagesActionTest, _createRegistryStringCatalanSpanishEnglish)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;
 	wstring regvalue;
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"ca-ES");
 	languages->push_back(L"es-ES");
 	languages->push_back(L"en-US");
 
-	IEAction.CreateRegistryString(regvalue);
+	IEAction._createRegistryString(regvalue);
 
 	EXPECT_THAT(regvalue, StrCaseEq(L"ca-ES,es-ES;q=0.7,en-US;q=0.3"));
 }
 
-TEST(IEAcceptLanguagesActionTest, CreateRegistryStringCatalanSpanishEnglishGerman)
+TEST(IEAcceptLanguagesActionTest, _createRegistryStringCatalanSpanishEnglishGerman)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;
 	wstring regvalue;
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"ca-ES");
 	languages->push_back(L"es-ES");
 	languages->push_back(L"en-US");
 	languages->push_back(L"de-DE");
 
-	IEAction.CreateRegistryString(regvalue);
+	IEAction._createRegistryString(regvalue);
 
 	EXPECT_THAT(regvalue, StrCaseEq(L"ca-ES,es-ES;q=0.8,en-US;q=0.5,de-DE;q=0.3"));
 }
 
-TEST(IEAcceptLanguagesActionTest, CreateRegistryStringCatalanSpanishEnglishGermanEuskera)
+TEST(IEAcceptLanguagesActionTest, _createRegistryStringCatalanSpanishEnglishGermanEuskera)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;
 	wstring regvalue;
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"ca-ES");
 	languages->push_back(L"es-ES");
 	languages->push_back(L"en-US");
 	languages->push_back(L"de-DE");
 	languages->push_back(L"eu-ES");
 
-	IEAction.CreateRegistryString(regvalue);
+	IEAction._createRegistryString(regvalue);
 
 	EXPECT_THAT(regvalue, StrCaseEq(L"ca-ES,es-ES;q=0.8,en-US;q=0.6,de-DE;q=0.4,eu-ES;q=0.2"));
 }
 
-TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIfExistsNoCatalan)
+TEST(IEAcceptLanguagesActionTest, _addCatalanToArrayAndRemoveOldIfExistsNoCatalan)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;	
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"es-ES");
 	languages->push_back(L"en-US");	
 
-	IEAction.AddCatalanToArrayAndRemoveOldIfExists();
+	IEAction._addCatalanToArrayAndRemoveOldIfExists();
 
 	EXPECT_EQ(3, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(LANGCODE_SET));
@@ -225,17 +240,17 @@ TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIfExistsNoCatalan
 	EXPECT_THAT(languages->at(2), StrCaseEq(L"en-US"));
 }
 
-TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIfExistsCatalan)
+TEST(IEAcceptLanguagesActionTest, _addCatalanToArrayAndRemoveOldIfExistsCatalan)
 {
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;	
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"es-ES");
 	languages->push_back(L"ca-ES");
 	languages->push_back(L"en-US");	
 
-	IEAction.AddCatalanToArrayAndRemoveOldIfExists();
+	IEAction._addCatalanToArrayAndRemoveOldIfExists();
 
 	EXPECT_EQ(3, languages->size());
 	EXPECT_THAT(languages->at(0), StrCaseEq(LANGCODE_SET));
@@ -248,11 +263,11 @@ TEST(IEAcceptLanguagesActionTest, AddCatalanToArrayAndRemoveOldIE6)
 	CreateIEAcceptLanguagesAction;
 	vector <wstring> * languages;	
 
-	languages = IEAction.GetLanguages();
+	languages = IEAction._getLanguages();
 	languages->push_back(L"es");
 	languages->push_back(L"ca");	
 
-	IEAction.AddCatalanToArrayAndRemoveOldIfExists();
+	IEAction._addCatalanToArrayAndRemoveOldIfExists();
 
 	EXPECT_EQ(2, languages->size());	
 	EXPECT_THAT(languages->at(0), StrCaseEq(LANGCODE_SET));

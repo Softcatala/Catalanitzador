@@ -20,11 +20,11 @@
 #pragma once
 
 #include <windows.h>
-#include "DownloadInet.h"
 #include "Serializable.h"
 #include "ActionStatus.h"
 #include "ActionID.h"
 #include "ActionDownload.h"
+#include "StringConversion.h"
 
 #include <vector>
 using namespace std;
@@ -41,9 +41,8 @@ public:
 		virtual bool IsNeed() = 0;
 		virtual bool IsRebootNeed() { return false;};
 		virtual ActionStatus GetStatus() { return status;}
-		virtual char* GetVersion() { return "";}
-		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
-		virtual void SetStatus(ActionStatus value) { status = value; }
+		virtual const char* GetVersion() { return "";}
+		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}		
 		virtual bool Download(ProgressStatus, void *data) {return true;}
 		virtual void Execute() = 0;
 		virtual void Serialize(ostream* stream);
@@ -52,6 +51,7 @@ public:
 		virtual LPCWSTR GetLicenseID() { return NULL; };
 		virtual DWORD GetProcessIDForRunningApp() {return NULL;}
 
+		void SetStatus(ActionStatus value);
 		void GetLicense(wstring &license);
 		bool HasLicense() { return GetLicenseID() != NULL; };
 

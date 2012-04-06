@@ -30,7 +30,7 @@ class _APICALL WindowsLPIAction : public Action
 {
 public:
 		WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
-		~WindowsLPIAction ();
+		~WindowsLPIAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -42,15 +42,19 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
 		virtual LPCWSTR GetLicenseID();
+		virtual bool IsDownloadNeed();
+		virtual DownloadID GetDownloadID();
 
-		bool IsLangPackInstalled();
-		DownloadID GetDownloadID();
+protected:
 
-private:
+		bool _isLangPackInstalled();
+		bool _isDefaultLanguage();
 
-		void _setDefaultLanguage();		
+private:		
 
-		wchar_t filename[MAX_PATH];		
+		void _setDefaultLanguage();
+
+		wchar_t filename[MAX_PATH];
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;

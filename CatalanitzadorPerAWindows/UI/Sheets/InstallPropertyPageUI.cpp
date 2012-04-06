@@ -27,7 +27,8 @@
 #include "OSVersion.h"
 #include "DownloadErrorDlgUI.h"
 #include "WindowsXPDialogCanceler.h"
-#include "ax.h"
+#include "Inspectors.h"
+#include "ActiveX.h"
 #include <exdisp.h>
 
 #include <stdio.h>
@@ -38,6 +39,9 @@ using namespace std;
 
 void InstallPropertyPageUI::_openURLInIE()
 {
+
+#ifdef _SLIDESHOW
+
 	HWND hX = GetDlgItem(getHandle (),IDC_INTERNETEXPLORER);
 
 	SendMessage(hX,AX_INPLACE,1,0);
@@ -51,6 +55,7 @@ void InstallPropertyPageUI::_openURLInIE()
 		wb->Navigate((BSTR)m_slideshow->GetURL().c_str(),0,0,0,0);
 		wb->Release();
 	}
+#endif
 }
 
 void InstallPropertyPageUI::_onInitDialog()
@@ -248,6 +253,11 @@ void InstallPropertyPageUI::_onTimer()
 
 	dialogCanceler.Stop();
 	m_serializer->EndAction();
+
+	Inspectors inspectors;
+	inspectors.Execute();
+	inspectors.Serialize(m_serializer->GetStream());
+
 	m_serializer->CloseHeader();
 	_completed();
 }

@@ -28,8 +28,9 @@
 #include "ApplicationSheetUI.h"
 #include "Actions.h"
 #include "Version.h"
-#include "ax.h"
+#include "ActiveX.h"
 #include "Slideshow.h"
+#include "StringConversion.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -61,13 +62,12 @@ void CatalanitzadorPerAWindows::Run()
 
 void CatalanitzadorPerAWindows::_initLog()
 {
-	wchar_t szApp [1024];
-	wchar_t szVersion [256];
+	wchar_t szApp[1024];
+	wstring version;
 
-	MultiByteToWideChar(CP_ACP, 0,  STRING_VERSION, strlen (STRING_VERSION) + 1,
-                  szVersion, sizeof (szVersion));
+	StringConversion::ToWideChar(string(STRING_VERSION), version);
 
-	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", szVersion);
+	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", version.c_str());
 	g_log.CreateLog(L"CatalanitzadorPerAlWindows.log",szApp);
 	
 	wchar_t szOSInfo [2048];
@@ -78,9 +78,13 @@ void CatalanitzadorPerAWindows::_initLog()
 bool CatalanitzadorPerAWindows::_supportedOS()
 {
 	int id;
+	OperatingVersion version;
 
-	if (m_osVersion.GetVersion() == Windows2000 ||
-		(m_osVersion.GetVersion() == WindowsXP64_2003))
+	version = m_osVersion.GetVersion();
+
+	if (version == Windows2000 ||
+		version == WindowsXP64_2003 ||
+		version == Windows8)
 	{
 		id = IDS_NOTSUPPORTEDOS;
 	}
@@ -194,7 +198,8 @@ void CatalanitzadorPerAWindows::_createWizard()
 	finish.SetSendStats(&bSendStats);
 	finish.createPage(m_hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
-
+#ifdef _SLIDESHOW
 	slideshow.StartUnpackThread();
+#endif
 	sheet.runModal(m_hInstance, NULL, NULL);
 }

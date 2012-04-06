@@ -39,7 +39,7 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual char* GetVersion();
+		virtual const char* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
 
 		void ParseLanguage(wstring regvalue);
@@ -55,7 +55,8 @@ private:
 		void _readInstallLocation(wstring& path);
 		bool _readLanguageCode(wstring& langcode);
 		bool _writeLanguageCode(wstring langcode);
-		void _createRegistryStringTwoLangs(wstring &regvalue, float average);	
+		void _createRegistryStringTwoLangs(wstring &regvalue, float average);
+		bool _isChromeAppLocaleOk();
 
 		bool _findIntl(wstring,int&);
 		bool _findSemicolon(wstring,int&);
@@ -63,8 +64,9 @@ private:
 		bool _findAcceptedKey(wstring,int&);
 		bool _findAcceptedValue(wstring,int&);
 		bool _findLanguageString(wstring,int &,wstring &);
+		bool _findAppLocaleKey(wstring line, int & pos);
 
-		char szVersionAscii[128];
+		string m_version;
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
 		bool isInstalled;

@@ -34,6 +34,8 @@ public:
 		bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength);
 		bool GetDWORD(wchar_t* sName, DWORD *value);
 		bool Close();
+		bool RegEnumKey(DWORD dwIndex, wstring& key);
+
 private:
 
 		HKEY hKey;
