@@ -46,7 +46,7 @@ public:
 	RunnerMock runnerMock; \
 	MSOfficeLPIActionTest officeAction(&registryMockobj, &runnerMock);
 
-TEST(MSOfficeActionTest, _isVersionInstalled_2003)
+TEST(MSOfficeLPIActionTest, _isVersionInstalled_2003)
 {
 	CreateMSOfficeAction;
 
@@ -64,7 +64,7 @@ TEST(MSOfficeActionTest, _isVersionInstalled_2003)
 	EXPECT_EQ(officeAction._getVersionInstalled(), MSOffice2003);
 }
 
-TEST(MSOfficeActionTest, _isVersionInstalled_2007)
+TEST(MSOfficeLPIActionTest, _isVersionInstalled_2007)
 {
 	CreateMSOfficeAction;
 
@@ -77,7 +77,7 @@ TEST(MSOfficeActionTest, _isVersionInstalled_2007)
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2007);
 }
 
-TEST(MSOfficeActionTest, _isVersionInstalled_2010)
+TEST(MSOfficeLPIActionTest, _isVersionInstalled_2010)
 {
 	CreateMSOfficeAction;
 
