@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "MSOfficeAction.h"
+#include "MSOfficeLPIAction.h"
 #include "OSVersionMock.h"
 #include "RunnerMock.h"
 #include "RegistryMock.h"
@@ -30,21 +30,21 @@ using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::HasSubstr;
 
-class MSOfficeActionTest : public MSOfficeAction
+class MSOfficeLPIActionTest : public MSOfficeLPIAction
 {
 public:
 
-	MSOfficeActionTest::MSOfficeActionTest(IRegistry* registry, IRunner* runner)
-		: MSOfficeAction(registry, runner) {};
+	MSOfficeLPIActionTest::MSOfficeLPIActionTest(IRegistry* registry, IRunner* runner)
+		: MSOfficeLPIAction(registry, runner) {};
 	
-	public: using MSOfficeAction::_getVersionInstalled;
+	public: using MSOfficeLPIAction::_getVersionInstalled;
 
 };
 
 #define CreateMSOfficeAction \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	MSOfficeActionTest officeAction(&registryMockobj, &runnerMock);
+	MSOfficeLPIActionTest officeAction(&registryMockobj, &runnerMock);
 
 TEST(MSOfficeActionTest, _isVersionInstalled_2003)
 {

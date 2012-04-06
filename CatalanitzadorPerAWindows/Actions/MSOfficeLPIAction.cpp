@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <Shlobj.h>
 
-#include "MSOfficeAction.h"
+#include "MSOfficeLPIAction.h"
 #include "Runner.h"
 #include "Url.h"
 
@@ -47,7 +47,7 @@ RegKeyVersion RegKeys2010 =
 	false
 };
 
-MSOfficeAction::MSOfficeAction(IRegistry* registry, IRunner* runner)
+MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner)
 {
 	m_registry = registry;	
 	m_runner = runner;
@@ -58,7 +58,7 @@ MSOfficeAction::MSOfficeAction(IRegistry* registry, IRunner* runner)
 	GetTempPath(MAX_PATH, m_szTempPath);	
 }
 
-MSOfficeAction::~MSOfficeAction()
+MSOfficeLPIAction::~MSOfficeLPIAction()
 {
 	if (m_szFullFilename[0] != NULL  && GetFileAttributes(m_szFullFilename) != INVALID_FILE_ATTRIBUTES)
 	{
@@ -73,17 +73,17 @@ MSOfficeAction::~MSOfficeAction()
 	_removeOffice2003TempFiles();
 }
 
-wchar_t* MSOfficeAction::GetName()
+wchar_t* MSOfficeLPIAction::GetName()
 {
 	return _getStringFromResourceIDName(IDS_MSOFFICEACTION_NAME, szName);
 }
 
-wchar_t* MSOfficeAction::GetDescription()
+wchar_t* MSOfficeLPIAction::GetDescription()
 {
 	return _getStringFromResourceIDName(IDS_MSOFFICEACTION_DESCRIPTION, szDescription);
 }
 
-LPCWSTR MSOfficeAction::GetLicenseID()
+LPCWSTR MSOfficeLPIAction::GetLicenseID()
 {
 	switch (_getVersionInstalled())
 	{
@@ -99,7 +99,7 @@ LPCWSTR MSOfficeAction::GetLicenseID()
 	return NULL;
 }
 
-const char* MSOfficeAction::GetVersion()
+const char* MSOfficeLPIAction::GetVersion()
 {
 	switch (_getVersionInstalled())
 	{
@@ -115,7 +115,7 @@ const char* MSOfficeAction::GetVersion()
 }
 
 // This deletes the contents of the extracted CAB file for MS Office 2003
-void MSOfficeAction::_removeOffice2003TempFiles()
+void MSOfficeLPIAction::_removeOffice2003TempFiles()
 {
 	if (_getVersionInstalled() != MSOffice2003 || _isLangPackInstalled() == true)
 		return;
@@ -133,14 +133,14 @@ void MSOfficeAction::_removeOffice2003TempFiles()
 
 		if (DeleteFile(szFile) == FALSE)
 		{
-			g_log.Log(L"MSOfficeAction::_removeOffice2003TempFiles. Cannot delete '%s'", (wchar_t *) szFile);
+			g_log.Log(L"MSOfficeLPIAction::_removeOffice2003TempFiles. Cannot delete '%s'", (wchar_t *) szFile);
 		}		
 	}
 
 	RemoveDirectory(m_szTempPath2003);
 }
 
-bool MSOfficeAction::_isVersionInstalled(RegKeyVersion regkeys)
+bool MSOfficeLPIAction::_isVersionInstalled(RegKeyVersion regkeys)
 {
 	wchar_t szValue[1024];
 	wchar_t szKey[1024];
@@ -159,7 +159,7 @@ bool MSOfficeAction::_isVersionInstalled(RegKeyVersion regkeys)
 	return Installed;
 }
 
-bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
+bool MSOfficeLPIAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 {	
 	bool Installed = false;
 
@@ -185,7 +185,7 @@ bool MSOfficeAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 	return Installed;
 }
 
-void MSOfficeAction::_readIsLangPackInstalled()
+void MSOfficeLPIAction::_readIsLangPackInstalled()
 {
 	switch (_getVersionInstalled())
 	{
@@ -202,10 +202,10 @@ void MSOfficeAction::_readIsLangPackInstalled()
 		break;
 	}
 
-	g_log.Log(L"MSOfficeAction::_readIsLangPackInstalled returns '%s'", m_bLangPackInstalled.ToString());
+	g_log.Log(L"MSOfficeLPIAction::_readIsLangPackInstalled returns '%s'", m_bLangPackInstalled.ToString());
 }
 
-bool MSOfficeAction::_isLangPackInstalled()
+bool MSOfficeLPIAction::_isLangPackInstalled()
 {
 	if (m_bLangPackInstalled.IsUndefined())
 	{
@@ -214,7 +214,7 @@ bool MSOfficeAction::_isLangPackInstalled()
 	return m_bLangPackInstalled == true;
 }
 
-MSOfficeVersion MSOfficeAction::_getVersionInstalled()
+MSOfficeVersion MSOfficeLPIAction::_getVersionInstalled()
 {
 	if (m_MSVersion == MSOfficeUnKnown)
 	{
@@ -223,7 +223,7 @@ MSOfficeVersion MSOfficeAction::_getVersionInstalled()
 	return m_MSVersion;
 }
 
-void MSOfficeAction::_readVersionInstalled()
+void MSOfficeLPIAction::_readVersionInstalled()
 {
 	wstring version;
 
@@ -250,10 +250,10 @@ void MSOfficeAction::_readVersionInstalled()
 		version = L"None";
 	}
 
-	g_log.Log(L"MSOfficeAction::_readVersionInstalled '%s'", (wchar_t*) version.c_str());
+	g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) version.c_str());
 }
 
-DownloadID  MSOfficeAction::_getDownloadID()
+DownloadID  MSOfficeLPIAction::_getDownloadID()
 {
 	switch (_getVersionInstalled())
 	{
@@ -269,7 +269,7 @@ DownloadID  MSOfficeAction::_getDownloadID()
 	return DI_UNKNOWN;
 }
 
-bool MSOfficeAction::IsNeed()
+bool MSOfficeLPIAction::IsNeed()
 {
 	bool bNeed;
 
@@ -283,13 +283,13 @@ bool MSOfficeAction::IsNeed()
 			status = AlreadyApplied;
 	}
 
-	g_log.Log(L"MSOfficeAction::IsNeed returns %u", (wchar_t *) bNeed);
+	g_log.Log(L"MSOfficeLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
 	return bNeed;	
 }
 
 #define CONNECTOR_REGKEY L"SOFTWARE\\Microsoft\\Office\\Outlook\\Addins\\MSNCON.Addin.1"
 
-bool MSOfficeAction::_needsInstallConnector()
+bool MSOfficeLPIAction::_needsInstallConnector()
 {
 	bool bNeed = false;
 	MSOfficeVersion officeVersion;
@@ -312,11 +312,11 @@ bool MSOfficeAction::_needsInstallConnector()
 			bNeed = GetFileAttributes(path.c_str()) == INVALID_FILE_ATTRIBUTES;
 		}
 	}
-	g_log.Log(L"MSOfficeAction::_needsInstallConnector returns %u", (wchar_t *) bNeed);
+	g_log.Log(L"MSOfficeLPIAction::_needsInstallConnector returns %u", (wchar_t *) bNeed);
 	return bNeed;	
 }
 
-bool MSOfficeAction::Download(ProgressStatus progress, void *data)
+bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 {
 	bool bFile1, bFile2;
 
@@ -343,7 +343,7 @@ bool MSOfficeAction::Download(ProgressStatus progress, void *data)
 	}
 }
 
-bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
+bool MSOfficeLPIAction::_extractCabFile(wchar_t * file, wchar_t * path)
 {
 	Runner runnerCab;
 	wchar_t szParams[MAX_PATH];
@@ -353,13 +353,13 @@ bool MSOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
 	wcscat_s(szApp, L"\\expand.exe ");
 
 	swprintf_s (szParams, L" %s %s -f:*", m_szFullFilename, path);
-	g_log.Log(L"MSOfficeAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
+	g_log.Log(L"MSOfficeLPIAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
 	runnerCab.Execute(szApp, szParams);
 	runnerCab.WaitUntilFinished();
 	return true;
 }
 
-void MSOfficeAction::Execute()
+void MSOfficeLPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH] = L"";
 	wchar_t szApp[MAX_PATH] = L"";
@@ -388,7 +388,7 @@ void MSOfficeAction::Execute()
 
 			if (CreateDirectory(m_szTempPath2003, NULL) == FALSE)
 			{
-				g_log.Log(L"MSOfficeAction::Execute. Cannot create temp directory '%s'", m_szTempPath2003);
+				g_log.Log(L"MSOfficeLPIAction::Execute. Cannot create temp directory '%s'", m_szTempPath2003);
 				break;
 			}
 		
@@ -412,11 +412,11 @@ void MSOfficeAction::Execute()
 
 	status = InProgress;
 	m_executionStep = ExecutionStep1;
-	g_log.Log(L"MSOfficeAction::Execute '%s' with params '%s'", szApp, szParams);
+	g_log.Log(L"MSOfficeLPIAction::Execute '%s' with params '%s'", szApp, szParams);
 	m_runner->Execute(szApp, szParams);
 }
 
-RegKeyVersion MSOfficeAction::_getRegKeys()
+RegKeyVersion MSOfficeLPIAction::_getRegKeys()
 {
 	switch (_getVersionInstalled())
 	{
@@ -430,7 +430,7 @@ RegKeyVersion MSOfficeAction::_getRegKeys()
 	}
 }
 
-void MSOfficeAction::_setDefaultLanguage()
+void MSOfficeLPIAction::_setDefaultLanguage()
 {
 	BOOL bSetKey = FALSE;
 	wchar_t szKeyName [1024];
@@ -445,14 +445,14 @@ void MSOfficeAction::_setDefaultLanguage()
 		if (_getVersionInstalled() == MSOffice2010 || _getVersionInstalled() == MSOffice2007)
 		{
 			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");
-			g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	
+			g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	
 		}		
 		m_registry->Close();
 	}
-	g_log.Log(L"MSOfficeAction::_setDefaultLanguage, set UILanguage %u", (wchar_t *) bSetKey);	
+	g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set UILanguage %u", (wchar_t *) bSetKey);	
 }
 
-bool MSOfficeAction::_executeInstallConnector()
+bool MSOfficeLPIAction::_executeInstallConnector()
 {
 	if (_needsInstallConnector() == false)
 		return false;
@@ -461,11 +461,11 @@ bool MSOfficeAction::_executeInstallConnector()
 
 	wcscpy_s(szParams, L" /quiet");
 	m_runner->Execute((wchar_t *)m_connectorFile.c_str(), szParams);
-	g_log.Log(L"MSOfficeAction::_executeInstallConnector. Microsoft Office Connector '%s' with params '%s'", (wchar_t *)m_connectorFile.c_str(), szParams);
+	g_log.Log(L"MSOfficeLPIAction::_executeInstallConnector. Microsoft Office Connector '%s' with params '%s'", (wchar_t *)m_connectorFile.c_str(), szParams);
 	return true;
 }
 
-ActionStatus MSOfficeAction::GetStatus()
+ActionStatus MSOfficeLPIAction::GetStatus()
 {
 	if (status == InProgress)
 	{
@@ -499,7 +499,7 @@ ActionStatus MSOfficeAction::GetStatus()
 		else {
 			status = FinishedWithError;
 		}		
-		g_log.Log(L"MSOfficeAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
+		g_log.Log(L"MSOfficeLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
 }

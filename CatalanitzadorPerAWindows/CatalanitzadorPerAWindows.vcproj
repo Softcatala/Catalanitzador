@@ -297,11 +297,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Actions\MSOfficeAction.cpp"
+				RelativePath=".\Actions\MSOfficeLPIAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Actions\MSOfficeAction.h"
+				RelativePath=".\Actions\MSOfficeLPIAction.h"
 				>
 			</File>
 			<File
