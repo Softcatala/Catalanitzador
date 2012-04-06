@@ -52,8 +52,6 @@ MSOfficeAction::MSOfficeAction(IRegistry* registry, IRunner* runner)
 	m_registry = registry;	
 	m_runner = runner;
 	m_MSVersion = MSOfficeUnKnown;
-
-	m_bLangPackInstalled = false;
 	m_szFullFilename[0] = NULL;
 	m_szTempPath2003[0] = NULL;
 	m_executionStep = ExecutionStepNone;
@@ -119,7 +117,7 @@ const char* MSOfficeAction::GetVersion()
 // This deletes the contents of the extracted CAB file for MS Office 2003
 void MSOfficeAction::_removeOffice2003TempFiles()
 {
-	if (m_bLangPackInstalled == true || _getVersionInstalled() != MSOffice2003)
+	if (_getVersionInstalled() != MSOffice2003 || _isLangPackInstalled() == true)
 		return;
 	
 	wchar_t szFile[MAX_PATH];
@@ -203,6 +201,8 @@ void MSOfficeAction::_readIsLangPackInstalled()
 	default:
 		break;
 	}
+
+	g_log.Log(L"MSOfficeAction::_readIsLangPackInstalled returns '%s'", m_bLangPackInstalled.ToString());
 }
 
 bool MSOfficeAction::_isLangPackInstalled()
@@ -225,8 +225,7 @@ MSOfficeVersion MSOfficeAction::_getVersionInstalled()
 
 void MSOfficeAction::_readVersionInstalled()
 {
-	wchar_t szVersion[256];
-	const char* pVersion;
+	wstring version;
 
 	if (_isVersionInstalled(RegKeys2010))
 	{
@@ -241,19 +240,17 @@ void MSOfficeAction::_readVersionInstalled()
 		m_MSVersion = NoMSOffice;
 		_getStringFromResourceIDName(IDS_MSOFFICEACTION_NOOFFICE, szCannotBeApplied);
 	}
-
-	pVersion = GetVersion();
-
-	if (strlen(pVersion) > 0)
+	
+	if (strlen(GetVersion()) > 0)
 	{
-		MultiByteToWideChar(CP_ACP, 0,  pVersion, strlen (pVersion) + 1, szVersion, sizeof (szVersion));
+		StringConversion::ToWideChar(string(GetVersion()), version);
 	}
 	else
 	{
-		wcscpy_s(szVersion, L"None");
+		version = L"None";
 	}
 
-	g_log.Log(L"MSOfficeAction::_readVersionInstalled '%s' installed langmap '%s'", szVersion, m_bLangPackInstalled.ToString());
+	g_log.Log(L"MSOfficeAction::_readVersionInstalled '%s'", (wchar_t*) version.c_str());
 }
 
 DownloadID  MSOfficeAction::_getDownloadID()
@@ -276,7 +273,7 @@ bool MSOfficeAction::IsNeed()
 {
 	bool bNeed;
 
-	bNeed = m_bLangPackInstalled == false && _getVersionInstalled() != NoMSOffice;
+	bNeed = _isLangPackInstalled() == false && _getVersionInstalled() != NoMSOffice;
 
 	if (bNeed == false)
 	{
