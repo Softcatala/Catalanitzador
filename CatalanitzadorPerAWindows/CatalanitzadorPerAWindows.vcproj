@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(ProjectDir);OS"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(ProjectDir);OS"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -369,14 +369,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\DownloadInet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\DownloadInet.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Core\HttpFormInet.cpp"
 				>
 			</File>
@@ -389,67 +381,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\Inet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Inet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\IOSVersion.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\IRegistry.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\IRunner.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\IWin32I18N.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Core\LogFile.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Core\LogFile.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\OSVersion.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\OSVersion.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Registry.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Registry.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Resources.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Resources.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Runner.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Runner.h"
 				>
 			</File>
 			<File
@@ -462,14 +398,6 @@
 			</File>
 			<File
 				RelativePath=".\Core\Serializer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Sha1Sum.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Sha1Sum.h"
 				>
 			</File>
 			<File
@@ -510,34 +438,6 @@
 			</File>
 			<File
 				RelativePath=".\Core\Url.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Win32I18N.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Window.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Window.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Wow64.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\Wow64.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\XmlParser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Core\XmlParser.h"
 				>
 			</File>
 		</Filter>
@@ -750,6 +650,106 @@
 			</File>
 			<File
 				RelativePath=".\Inspectors\Inspectors.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="OS"
+			>
+			<File
+				RelativePath=".\OS\DownloadInet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\DownloadInet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Inet.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Inet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\IOSVersion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\IRegistry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\IRunner.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\OSVersion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\OSVersion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Registry.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Registry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Resources.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Resources.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Runner.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Runner.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Sha1Sum.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Sha1Sum.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Win32I18N.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Window.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Window.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Wow64.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Wow64.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\XmlParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\XmlParser.h"
 				>
 			</File>
 		</Filter>

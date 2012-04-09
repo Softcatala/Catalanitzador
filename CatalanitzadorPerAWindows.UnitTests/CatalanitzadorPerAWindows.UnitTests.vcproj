@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -320,10 +320,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\Sha1SumTest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Core\StringConversionTest.cpp"
 				>
 			</File>
@@ -333,6 +329,14 @@
 			</File>
 			<File
 				RelativePath=".\Core\UrlTest.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="OS"
+			>
+			<File
+				RelativePath=".\OS\Sha1SumTest.cpp"
 				>
 			</File>
 		</Filter>
