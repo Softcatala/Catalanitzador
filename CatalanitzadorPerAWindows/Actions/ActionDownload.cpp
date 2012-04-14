@@ -39,6 +39,7 @@ ActionDownload::ActionDownload()
 	m_downloads[DI_IELPI_IE9_VISTA] = Download(wstring(IELPI_IE9_VISTA), 5721);
 	m_downloads[DI_IELPI_IE9_7] = Download(wstring(IELPI_IE9_7), 5722);
 	m_downloads[DI_IELPI_IE9_7_64BITS] = Download(wstring(IELPI_IE9_7_64BITS), 5722);
+	m_downloads[DI_OPENOFFICE_33] = Download(wstring(OPENOFFICE_33), 3490);
 }
 
 wstring ActionDownload::GetFileName(DownloadID downloadID)

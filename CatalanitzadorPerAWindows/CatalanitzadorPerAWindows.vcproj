@@ -305,6 +305,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\OpenOfficeAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\OpenOfficeAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\WindowsLPIAction.cpp"
 				>
 			</File>

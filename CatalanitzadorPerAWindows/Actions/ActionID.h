@@ -32,4 +32,5 @@ enum ActionID
 	ConfigureDefaultLanguage = 6,
 	Chrome = 7,
 	Firefox = 8,
+	OpenOffice = 9,
 };

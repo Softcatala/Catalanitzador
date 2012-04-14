@@ -352,7 +352,7 @@ bool MSOfficeLPIAction::_extractCabFile(wchar_t * file, wchar_t * path)
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s(szApp, L"\\expand.exe ");
 
-	swprintf_s (szParams, L" %s %s -f:*", m_szFullFilename, path);
+	swprintf_s (szParams, L" %s %s -f:*", file, path);
 	g_log.Log(L"MSOfficeLPIAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
 	runnerCab.Execute(szApp, szParams);
 	runnerCab.WaitUntilFinished();

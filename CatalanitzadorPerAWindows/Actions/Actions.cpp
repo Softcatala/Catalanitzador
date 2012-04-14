@@ -31,6 +31,7 @@
 #include "Win32I18N.h"
 #include "IRegistry.h"
 #include "Registry.h"
+#include "OpenOfficeAction.h"
 
 Actions::Actions()
 {
@@ -58,6 +59,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new ConfigureDefaultLanguageAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IRunner *) new Runner()));
 	m_actions.push_back(new ChromeAction((IRegistry *)new Registry()));
 	m_actions.push_back(new FirefoxAction((IRegistry *)new Registry()));
+	m_actions.push_back(new OpenOfficeAction((IRegistry *)new Registry(), (IRunner *) new Runner()));	
 
 	_checkPrerequirements();
 }
