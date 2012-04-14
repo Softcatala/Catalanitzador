@@ -55,7 +55,7 @@ MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner)
 	m_szFullFilename[0] = NULL;
 	m_szTempPath2003[0] = NULL;
 	m_executionStep = ExecutionStepNone;
-	GetTempPath(MAX_PATH, m_szTempPath);	
+	GetTempPath(MAX_PATH, m_szTempPath);
 }
 
 MSOfficeLPIAction::~MSOfficeLPIAction()
@@ -117,7 +117,7 @@ const char* MSOfficeLPIAction::GetVersion()
 // This deletes the contents of the extracted CAB file for MS Office 2003
 void MSOfficeLPIAction::_removeOffice2003TempFiles()
 {
-	if (_getVersionInstalled() != MSOffice2003 || _isLangPackInstalled() == true)
+	if (_getVersionInstalled() != MSOffice2003 || m_szTempPath2003[0] == NULL)
 		return;
 	
 	wchar_t szFile[MAX_PATH];
