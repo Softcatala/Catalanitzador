@@ -99,6 +99,10 @@ bool OpenOfficeAction::IsNeed()
 				bNeed = true;
 			}
 		}
+		else
+		{
+			status = CannotBeApplied;
+		}
 	}
 	
 	g_log.Log(L"OpenOfficeAction::IsNeed returns %u", (wchar_t *) bNeed);
