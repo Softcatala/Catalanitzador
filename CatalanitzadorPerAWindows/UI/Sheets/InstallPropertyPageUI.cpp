@@ -242,7 +242,7 @@ void InstallPropertyPageUI::_onTimer()
 		}
 		else
 		{
-			action->SetStatus(FinishedWithError);
+			action->SetStatus(NotSelected);
 		}
 
 		SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0); // 'Execute' completed
