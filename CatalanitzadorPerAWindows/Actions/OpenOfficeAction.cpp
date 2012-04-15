@@ -79,6 +79,7 @@ void OpenOfficeAction::_readVersionInstalled()
 		}
 		m_registry->Close();
 	}
+	g_log.Log(L"OpenOfficeAction::_readVersionInstalled '%s'", (wchar_t *) m_version.c_str());
 }
 
 bool OpenOfficeAction::IsNeed()
@@ -87,8 +88,6 @@ bool OpenOfficeAction::IsNeed()
 
 	if (status != CannotBeApplied)
 	{
-		bNeed = m_version.size() > 0 && _isLangPackInstalled() == false;
-
 		if (m_version.size() > 0)
 		{
 			if (_isLangPackInstalled() == true)
@@ -182,6 +181,7 @@ void OpenOfficeAction::_removeCabTempFiles()
 bool OpenOfficeAction::_isLangPackInstalled()
 {
 	wstring key;
+	bool bRslt = false;
 
 	key = PROGRAM_REGKEY;
 	key += L"\\";
@@ -200,10 +200,10 @@ bool OpenOfficeAction::_isLangPackInstalled()
 		szFileName[i + 1] = NULL;
 		wcscat_s(szFileName, L"resource\\oooca.res");
 
-		return GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES;
+		bRslt = GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES;
 	}
-
-	return false;
+	g_log.Log(L"OpenOfficeAction::_isLangPackInstalled '%u'", (wchar_t *) bRslt);
+	return bRslt;
 }
 
 ActionStatus OpenOfficeAction::GetStatus()
