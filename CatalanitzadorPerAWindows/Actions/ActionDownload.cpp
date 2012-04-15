@@ -97,9 +97,9 @@ bool ActionDownload::GetFile(DownloadID downloadID, wstring file, ProgressStatus
 	if (bRslt == false)
 		return false;	
 
-	// If cannot get the file, cannot check assume that is OK
+	// If cannot get the sh1 file, we cannot verify the download and report it as incorrect
 	if (GetAssociatedFileSha1Sum(downloadID, (wchar_t *)file.c_str(), sha1_read) == false)
-		return true;
+		return false;
 	
 	sha1_computed.ComputeforFile();
 	return sha1_computed == sha1_read;
