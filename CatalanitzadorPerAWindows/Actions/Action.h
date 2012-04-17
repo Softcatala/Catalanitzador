@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include <windows.h>
 #include "Serializable.h"
 #include "ActionStatus.h"
 #include "ActionID.h"
@@ -29,28 +28,72 @@
 #include <vector>
 using namespace std;
 
+//
+// This abstract class defines the action interface for all actions
+//
 class _APICALL Action : public Serializable
 {
 public:
 		Action();
 		virtual ~Action(){};
+
+		// Get the name of action
 		virtual wchar_t* GetName() = 0;
+
+		// Get the detailed description to show to the user of action
 		virtual wchar_t* GetDescription() = 0;
+
+		// Unique ID that identifies the action
 		virtual int GetID() = 0;
+
+		// If the action needs to download files to be completed (like language packages) or can run without
+		// downloading files (changes in configuration). This is used to determine if Internet Connection is
+		// needed to execute this action
 		virtual bool IsDownloadNeed() {return true;}
+
+		// If the action needs to be performed in this PC or not (already done, software not installed, etc)
 		virtual bool IsNeed() = 0;
+
+		// If the user needs to reboot the PC after executing the action to make the changes effective
 		virtual bool IsRebootNeed() { return false;};
+
+		// Get the status of the action
 		virtual ActionStatus GetStatus() { return status;}
+
+		// Get the version of the application for which the action makes a change
 		virtual const char* GetVersion() { return "";}
-		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}		
+
+		// Returns the reason why this action cannot be applied
+		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
+
+		// If a download is needed, executes the download of the files
 		virtual bool Download(ProgressStatus, void *data) {return true;}
+
+		// Executes the action and make the configuration changes effective
 		virtual void Execute() = 0;
+
+		// Serialize the changes into an XML file
 		virtual void Serialize(ostream* stream);
+
+		// This method is called to verify if the prerequirements to execute 
+		// the action are satisfied, such as the software is installed, is
+		// the right version, etc.
 		virtual void CheckPrerequirements(Action * action){};
+
+		// An action may depend in another action to be selected to be able to execute it
+		// For example, Internet Explorer 6 language pack is part of the Windows language pack
 		virtual ActionID DependsOn() { return NoAction; };
+
+		// If the action has license that the user needs to accept before installing
+		// contains the Windows resouce ID of the license text
 		virtual LPCWSTR GetLicenseID() { return NULL; };
+
+		// Some actions cannot be applied (ex. g. changes in the configuration) if the application is running
+		// If this action cannot run if an application is running, this method returns the process ID that
+		// should be terminated before the action can be run.
 		virtual DWORD GetProcessIDForRunningApp() {return NULL;}
 
+		// Public utility methods
 		void SetStatus(ActionStatus value);
 		void GetLicense(wstring &license);
 		bool HasLicense() { return GetLicenseID() != NULL; };
