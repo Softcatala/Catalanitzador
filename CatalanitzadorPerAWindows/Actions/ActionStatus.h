@@ -29,5 +29,6 @@ enum _APICALL ActionStatus
 	AlreadyApplied = 3,		// Action not needed
 	InProgress = 4,			// Selected and in progress
 	Successful = 5,			// End up OK
-	FinishedWithError = 6	// End up with error
+	FinishedWithError = 6,	// End up with error
+	NotInstalled = 7		// Software not installed
 };

@@ -43,9 +43,8 @@ public:
 		bool _isLangPackInstalled();
 		void CheckPrerequirements(Action * action);
 
-protected:	
-		
-		//_getVersionInstalled();
+protected:
+
 		void _readVersionInstalled();
 
 private:

@@ -18,7 +18,6 @@
  */
 
 #include "stdafx.h"
-#include <stdio.h>
 #include "OpenOfficeAction.h"
 #include "Url.h"
 
@@ -30,8 +29,6 @@ OpenOfficeAction::OpenOfficeAction(IRegistry* registry, IRunner* runner)
 	m_szTempPathCAB[0] = NULL;
 
 	GetTempPath(MAX_PATH, m_szTempPath);
-
-	_readVersionInstalled();
 }
 
 OpenOfficeAction::~OpenOfficeAction()
@@ -46,17 +43,17 @@ OpenOfficeAction::~OpenOfficeAction()
 
 wchar_t* OpenOfficeAction::GetName()
 {
-	return L"Paquet d'idioma i corrector per l'OpenOffice.org";
+	return _getStringFromResourceIDName(IDS_OPENOFFICEACTION_NAME, szName);
 }
 
 wchar_t* OpenOfficeAction::GetDescription()
 {
-	return L"Paquet d'idioma que tradueix els menús de l'OpenOffice.org al català i afegeix també el corrector ortogràfic en català.";
+	return _getStringFromResourceIDName(IDS_OPENOFFICEACTION_DESCRIPTION, szDescription);
 }
 
 #define PROGRAM_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
 
-// TODO: You can several versions install, just read first one for now
+// TODO: You can several versions installed, just read first one for now
 void OpenOfficeAction::_readVersionInstalled()
 {
 	bool bKeys = true;
@@ -83,30 +80,22 @@ void OpenOfficeAction::_readVersionInstalled()
 }
 
 bool OpenOfficeAction::IsNeed()
-{	
-	bool bNeed = false;
+{
+	bool bNeed;
 
-	if (status != CannotBeApplied)
-	{
-		if (m_version.size() > 0)
-		{
-			if (_isLangPackInstalled() == true)
-			{
-				status = AlreadyApplied;
-			}
-			else
-			{
-				bNeed = true;
-			}
-		}
-		else
-		{
-			status = CannotBeApplied;
-		}
+	switch(GetStatus())
+	{		
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
 	}
-	
-	g_log.Log(L"OpenOfficeAction::IsNeed returns %u", (wchar_t *) bNeed);
-	return bNeed;	
+	g_log.Log(L"OpenOfficeAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
+	return bNeed;
 }
 
 bool OpenOfficeAction::Download(ProgressStatus progress, void *data)
@@ -151,7 +140,7 @@ bool OpenOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
 	wcscat_s(szApp, L"\\expand.exe ");
 
 	swprintf_s (szParams, L" %s %s -f:*", file, path);
-	g_log.Log(L"MSOfficeLPIAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
+	g_log.Log(L"OpenOfficeAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
 	runnerCab.Execute(szApp, szParams);
 	runnerCab.WaitUntilFinished();
 	return true;
@@ -180,7 +169,6 @@ void OpenOfficeAction::_removeCabTempFiles()
 
 	RemoveDirectory(m_szTempPathCAB);
 }
-
 
 bool OpenOfficeAction::_isLangPackInstalled()
 {
@@ -230,13 +218,29 @@ ActionStatus OpenOfficeAction::GetStatus()
 	return status;
 }
 
-void OpenOfficeAction::CheckPrerequirements(Action * action) 
+void OpenOfficeAction::CheckPrerequirements(Action * action)
 {
-	if (m_version.size() > 0 && m_version != L"3.3")
+	_readVersionInstalled();
+
+	if (m_version.size() > 0)
 	{
-		wcscpy_s(szCannotBeApplied, L"No es pot catalanitzar aquesta versió de l'OpenOffice.org.");
-		g_log.Log(L"OpenOfficeAction::CheckPrerequirements. Version not supported");
-		status = CannotBeApplied;
+		if (_isLangPackInstalled() == true)
+		{
+			SetStatus(AlreadyApplied);
+			return;
+		}
+
+		if (m_version != L"3.3")
+		{			
+			_getStringFromResourceIDName(IDS_OPENOFFICEACTION_NOTSUPPORTEDVERSION, szCannotBeApplied);
+			g_log.Log(L"OpenOfficeAction::CheckPrerequirements. Version not supported");
+			SetStatus(CannotBeApplied);
+			return;
+		}
+	}
+	else
+	{
+		SetStatus(NotInstalled);
 		return;
 	}
 }
