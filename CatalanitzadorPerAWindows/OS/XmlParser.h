@@ -20,28 +20,90 @@
 #pragma once
 
 #include "Defines.h"
+#include "StringConversion.h"
+
 #include <Windows.h>
 #include <WinInet.h>
-
 #include <string>
 #import <msxml3.dll>
+#include <vector>
 
 using namespace std;
 using namespace MSXML2;
 
-typedef void (*NodeCallback)(wstring node, wstring value);
 
-class _APICALL XmlParser 
+class _APICALL XMLAttribute
 {
 public:
 
-		bool Parse(wstring file, NodeCallback callback);
+	XMLAttribute() {};
+
+	XMLAttribute(wstring name, wstring value)
+	{
+		m_name = name;
+		m_value = value;
+	}
+
+	wstring GetName() {return m_name; }
+	wstring GetValue() {return m_value; }
+
+private:
+
+	wstring m_name;
+	wstring m_value;
+};
+
+class _APICALL XMLNode
+{
+public:
+
+	void SetName(wstring name) { m_Name = name;}
+	wstring GetName() {return m_Name; }
+
+	void SetText(wstring text) { m_Text = text;}
+	wstring GetText() {return m_Text; }
+
+	MSXML2::IXMLDOMElementPtr GetIXMLDOMElementPtr() { return m_itemPtr;}
+	void SetIXMLDOMElementPtr(MSXML2::IXMLDOMElementPtr itemPtr) { m_itemPtr = itemPtr;}
+	
+	vector <XMLNode>* GetChildren() {return &m_children; }
+	void AddChildren(XMLNode node)
+	{
+		m_children.push_back(node);
+	}
+
+	vector <XMLAttribute>* GetAtrributes() {return &m_attributes;}
+	void AddAtrribute(XMLAttribute attribute)
+	{
+		m_attributes.push_back(attribute);
+	}
+
+private:
+	vector <XMLAttribute> m_attributes;
+	vector <XMLNode> m_children;
+	wstring m_Name;
+	wstring m_Text;
+	MSXML2::IXMLDOMElementPtr m_itemPtr;
+};
+
+
+typedef bool (*NodeCallback)(XMLNode node, void *data);
+
+class _APICALL XmlParser
+{
+public:
+		XmlParser();
+		~XmlParser();
+		void Parse(NodeCallback callback, void *data);
+		bool Load(wstring file);
+		bool Save(wstring file);
+		void AppendNode(XMLNode node);
 		
 private:
 		void _initialize();
 		void _uninitialize();
-		bool _load(wstring file);
+		void _parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XMLNode& node);
+		void _processNode(XMLNode& node);
 
 		MSXML2::IXMLDOMDocumentPtr m_domDocument;
-
 };

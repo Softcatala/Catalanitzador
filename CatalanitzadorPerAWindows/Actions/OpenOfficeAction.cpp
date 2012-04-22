@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "OpenOfficeAction.h"
 #include "Url.h"
+#include "XmlParser.h"
 
 OpenOfficeAction::OpenOfficeAction(IRegistry* registry, IRunner* runner)
 {
@@ -168,6 +169,106 @@ void OpenOfficeAction::_removeCabTempFiles()
 	}
 
 	RemoveDirectory(m_szTempPathCAB);
+}
+
+enum LanguageParsingState
+{
+	ItemOther,
+	ItemLinguisticGeneral,
+	PropUILocale
+};
+
+LanguageParsingState parsing_state = ItemOther;
+
+// TODO: Remove debugging
+bool ReadNodeCallback(XMLNode node, void *data)
+{
+	vector <XMLAttribute>* attributes;
+	bool bIsItem;
+
+	OutputDebugString(node.GetName().c_str());
+	OutputDebugString(L"\r\n");
+
+	if (parsing_state == PropUILocale && node.GetName().compare(L"value")==0)
+	{		
+		wstring* lang_found = (wstring *) data;
+		*lang_found = node.GetText();
+		parsing_state = ItemOther;
+		return false;
+	}
+
+	bIsItem = node.GetName().compare(L"item") == 0;
+
+	if (bIsItem && parsing_state != ItemOther)
+	{
+		parsing_state = ItemOther;
+	}	
+
+	attributes = node.GetAtrributes();
+	for (unsigned int i = 0; i < attributes->size(); i++)
+	{
+		XMLAttribute attribute;
+
+		attribute = attributes->at(i);
+
+		OutputDebugString(L"\t");
+		OutputDebugString(attribute.GetName().c_str());
+		OutputDebugString(L" - ");
+		OutputDebugString(attribute.GetValue().c_str());
+		OutputDebugString(L"\r\n");
+
+		if (parsing_state == ItemOther && bIsItem && attribute.GetName() == L"oor:path" && attribute.GetValue() == L"/org.openoffice.Office.Linguistic/General")
+		{
+			parsing_state = ItemLinguisticGeneral;			
+		}
+
+		if (parsing_state == ItemLinguisticGeneral && attribute.GetName() == L"oor:name" && attribute.GetValue() == L"UILocale")
+		{
+			parsing_state = PropUILocale;
+		}		
+	}
+	
+	return true;
+}
+
+// TODO: complete setting
+void OpenOfficeAction::_setDefaultLanguage()
+{
+	XmlParser parser;
+	wstring file(L"C:\\Users\\Jordi\\AppData\\Roaming\\OpenOffice.org\\3\\user\\registrymodifications.xcu");
+	if (parser.Load(file) == false)
+	{
+		g_log.Log(L"OpenOfficeAction::_isDefaultLanguage. Could not open '%s'", (wchar_t *) file.c_str());
+		return;
+	}
+
+	XMLNode item, prop, value;
+	value.SetName(wstring(L"value"));
+	value.SetText(wstring(L"ca"));
+
+	prop.SetName(wstring(L"prop"));
+	prop.AddChildren(value);
+
+	item.SetName(wstring(L"item"));
+	item.AddChildren(prop);
+	parser.AppendNode(item);
+	parser.Save(file);
+}
+
+bool OpenOfficeAction::_isDefaultLanguage()
+{
+	XmlParser parser;
+	wstring lang_found;
+	wstring file(L"C:\\Users\\Jordi\\AppData\\Roaming\\OpenOffice.org\\3\\user\\registrymodifications.xcu");
+
+	if (parser.Load(file) == false)
+	{
+		g_log.Log(L"OpenOfficeAction::_isDefaultLanguage. Could not open '%s'", (wchar_t *) file.c_str());
+		return false;
+	}
+	parser.Parse(ReadNodeCallback, &lang_found);
+	// TODO: We should for != "ca" but right now we can only add Catalan if no language is present
+	return lang_found.size() != 0;
 }
 
 bool OpenOfficeAction::_isLangPackInstalled()

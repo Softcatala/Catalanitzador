@@ -20,22 +20,58 @@
 #include "stdafx.h"
 #include "XmlParser.h"
 
+// Documentation: http://msdn.microsoft.com/en-us/library/windows/desktop/ms753821%28v=vs.85%29.aspx
 
-bool XmlParser::Parse(wstring file, NodeCallback callback)
+XmlParser::XmlParser()
 {
+	m_domDocument = NULL;
 	_initialize();
-	if (_load(file) == false)
-	{
-		_uninitialize();
-		return false;
-	}
+}
 
+XmlParser::~XmlParser()
+{
+	_uninitialize();
+}
+
+void XmlParser::_parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XMLNode& node)
+{
+	MSXML2::IXMLDOMNamedNodeMapPtr attributes;
+	BSTR bstrItemText, bstrItemNode, attrName;
+
+	pIDOMNode->get_nodeName(&bstrItemNode);						 
+	pIDOMNode->get_text(&bstrItemText);
+	attributes = pIDOMNode->attributes;
+
+	node.SetName(wstring(bstrItemNode));
+	node.SetText(bstrItemText);
+
+	int len = attributes->Getlength();
+	for (int i = 0; i < len; i++)
+	{
+		MSXML2::IXMLDOMNodePtr atrr = attributes->Getitem(i);
+
+		atrr->get_nodeName(&attrName);
+		_variant_t  val = atrr->GetnodeValue();
+		
+		wstring name(attrName);
+		BSTR b = val.bstrVal;
+		wstring value(b);
+
+		XMLAttribute attribute(name, value);
+		node.AddAtrribute(attribute);
+	}	
+}
+
+void XmlParser::Parse(NodeCallback callback, void *data)
+{
 	MSXML2::IXMLDOMNodeListPtr NodeListPtr;
 	BSTR strFindText  = L" ";
 	MSXML2::IXMLDOMNode *pIDOMNode = NULL;
-	BSTR bstrItemText, bstrItemNode,bstrNodeType;	
+	BSTR bstrNodeType;	
 
-	NodeListPtr = m_domDocument->getElementsByTagName(strFindText);
+	assert(m_domDocument != NULL);
+
+	NodeListPtr = m_domDocument->getElementsByTagName(strFindText);	
 
 	for(int i = 0; i < (NodeListPtr->length); i++)
 	{
@@ -43,25 +79,60 @@ bool XmlParser::Parse(wstring file, NodeCallback callback)
 			pIDOMNode->Release();
 
 		NodeListPtr->get_item(i, &pIDOMNode);
-
-		pIDOMNode->get_nodeName(&bstrItemNode);									 
-		pIDOMNode->get_text(&bstrItemText);
-		pIDOMNode->get_nodeTypeString(&bstrNodeType);		
+		pIDOMNode->get_nodeTypeString(&bstrNodeType);
 
 		if (lstrcmp((LPCTSTR)bstrNodeType, (LPCTSTR)L"element") != 0)
 			continue;
-
-		callback(wstring (bstrItemNode), wstring(bstrItemText));
+		
+		XMLNode node;
+		_parseNode(pIDOMNode, node);
+		
+		if (callback(node, data) == false)
+			break;
 	}
 
 	if (pIDOMNode)
-			pIDOMNode->Release();
-
-	_uninitialize();
-	return true;
+			pIDOMNode->Release();	
 }
 
-bool XmlParser::_load(wstring file)
+void XmlParser::_processNode(XMLNode& node)
+{
+	MSXML2::IXMLDOMElementPtr item;
+	vector <XMLNode>* children;
+
+	item = m_domDocument->createElement(node.GetName().c_str());
+	node.SetIXMLDOMElementPtr(item);
+
+	children = node.GetChildren();
+
+	for (unsigned i = 0; children->size(); i++)
+	{		
+		XMLNode child = children->at(i);
+		_processNode(child);
+		m_domDocument->documentElement->appendChild(item);
+	}	
+}
+
+void XmlParser::AppendNode(XMLNode node)
+{
+	MSXML2::IXMLDOMElementPtr item;
+	vector <XMLNode>* children;
+
+	item = m_domDocument->createElement(node.GetName().c_str());
+	node.SetIXMLDOMElementPtr(item);
+
+	children = node.GetChildren();
+
+	for (unsigned i = 0; children->size(); i++)
+	{		
+		XMLNode child = children->at(i);
+		_processNode(child);
+		item->appendChild(child.GetIXMLDOMElementPtr());
+	}
+	m_domDocument->documentElement->appendChild(item);
+}
+
+bool XmlParser::Load(wstring file)
 {	  
 	_variant_t varXml(file.c_str());
 	_variant_t varResult((bool)TRUE);
@@ -70,6 +141,15 @@ bool XmlParser::_load(wstring file)
 
 	return (bool)varResult;
 }
+
+bool XmlParser::Save(wstring file)
+{
+	_variant_t varXml2(file.c_str());
+	m_domDocument->save(varXml2);
+	//TODO: error detection
+	return true;
+}
+
 
 void XmlParser::_uninitialize()
 {

@@ -40,17 +40,18 @@ public:
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		//virtual const char* GetVersion();
-		bool _isLangPackInstalled();
 		void CheckPrerequirements(Action * action);
 
 protected:
 
 		void _readVersionInstalled();
 
-private:
-
+private:				
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _removeCabTempFiles();
+		bool _isLangPackInstalled();
+		bool _isDefaultLanguage();
+		void _setDefaultLanguage();
 
 		wstring m_version;
 		IRunner* m_runner;
