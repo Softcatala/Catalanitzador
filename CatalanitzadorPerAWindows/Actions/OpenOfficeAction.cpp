@@ -54,6 +54,27 @@ wchar_t* OpenOfficeAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_OPENOFFICEACTION_DESCRIPTION, szDescription);
 }
 
+// message used to communicate with try icon process
+#define LISTENER_WINDOWCLASS    L"SO Listener Class"
+#define KILLTRAY_MESSAGE        L"SO KillTray"
+
+bool OpenOfficeAction::IsExecuting()
+{
+	return (FindWindowEx(NULL, NULL, LISTENER_WINDOWCLASS, NULL) == NULL) ? false : true;
+}
+
+void OpenOfficeAction::FinishExecution()
+{
+	HWND hwndTray; 
+		
+	hwndTray = FindWindow( LISTENER_WINDOWCLASS, NULL );
+
+    if (hwndTray)
+	{
+		SendMessage(hwndTray, RegisterWindowMessage(KILLTRAY_MESSAGE), 0, 0);
+	}
+}
+
 #define PROGRAM_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
 
 // TODO: You can several versions installed, just read first one for now

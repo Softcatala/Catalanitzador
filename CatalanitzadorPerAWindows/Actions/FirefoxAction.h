@@ -42,7 +42,8 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual const char* GetVersion();
-		virtual DWORD GetProcessIDForRunningApp();
+		virtual bool IsExecuting();
+		virtual void FinishExecution();
 
 protected:
 		virtual void _getProfileRootDir(wstring &location);
@@ -65,6 +66,7 @@ private:
 		void _getProfilesIniLocation(wstring &location);
 		bool _getPreferencesFile(wstring &location);
 		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
+		DWORD _getProcessID();
 
 		IRegistry* m_registry;
 		vector <wstring> m_languages;

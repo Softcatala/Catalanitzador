@@ -432,23 +432,19 @@ void ApplicationsPropertyPageUI::_noInternetConnection()
 
 bool ApplicationsPropertyPageUI::_checkRunningApps()
 {
-	DWORD processID;
-	
 	for (unsigned int i = 0; i < m_availableActions->size(); i++)
 	{
 		Action* action = m_availableActions->at(i);
 
 		if (action->GetStatus() != Selected)
 			continue;
-
-		processID = action->GetProcessIDForRunningApp();			
-		if (processID != 0)
+		
+		if (action->IsExecuting())
 		{		
 			AppRunningDlgUI dlg (action->GetName());
 			if (dlg.Run(getHandle()) == IDOK)
 			{
-				Runner runner;
-				runner.RequestQuitToProcessID(processID);					
+				action->FinishExecution();
 			}
 			return true;
 		}

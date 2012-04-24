@@ -40,7 +40,9 @@ public:
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		//virtual const char* GetVersion();
-		void CheckPrerequirements(Action * action);
+		virtual void CheckPrerequirements(Action * action);
+		virtual bool IsExecuting();
+		virtual void FinishExecution();
 
 protected:
 

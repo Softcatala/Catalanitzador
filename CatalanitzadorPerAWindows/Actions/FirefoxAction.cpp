@@ -46,11 +46,21 @@ wchar_t* FirefoxAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_FIREFOXACTION_DESCRIPTION, szDescription);
 }
 
-DWORD FirefoxAction::GetProcessIDForRunningApp()
+DWORD FirefoxAction::_getProcessID()
 {
 	Runner runner;
-
 	return runner.GetProcessID(wstring(L"firefox.exe"));
+}
+
+bool FirefoxAction::IsExecuting()
+{
+	return _getProcessID() != 0;
+}
+
+void FirefoxAction::FinishExecution()
+{
+	Runner runner;
+	runner.RequestQuitToProcessID(_getProcessID());
 }
 
 bool FirefoxAction::IsNeed()

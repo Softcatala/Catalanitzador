@@ -41,12 +41,13 @@ public:
 		virtual void Execute();
 		virtual const char* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
+		virtual bool IsExecuting();
+		virtual void FinishExecution();
 
 		void ParseLanguage(wstring regvalue);
 		void CreateJSONString(wstring &regvalue);
 		void AddCatalanToArrayAndRemoveOldIfExists();
 		vector <wstring> * GetLanguages() {return &m_languages;}
-		DWORD GetProcessIDForRunningApp();
 
 private:
 		
@@ -65,6 +66,7 @@ private:
 		bool _findAcceptedValue(wstring,int&);
 		bool _findLanguageString(wstring,int &,wstring &);
 		bool _findAppLocaleKey(wstring line, int & pos);
+		DWORD _getProcessID();
 
 		string m_version;
 		IRegistry* m_registry;

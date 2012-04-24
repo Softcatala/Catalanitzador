@@ -45,11 +45,21 @@ wchar_t* ChromeAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_CHROMEACTION_DESCRIPTION, szDescription);	
 }
 
-DWORD ChromeAction::GetProcessIDForRunningApp() 
+DWORD ChromeAction::_getProcessID()
 {
 	Runner runner;
-
 	return runner.GetProcessID(wstring(L"chrome.exe"));
+}
+
+bool ChromeAction::IsExecuting()
+{
+	return _getProcessID() != 0;
+}
+
+void ChromeAction::FinishExecution()
+{
+	Runner runner;
+	runner.RequestQuitToProcessID(_getProcessID());
 }
 
 bool ChromeAction::_findIntl(wstring line, int & pos)
