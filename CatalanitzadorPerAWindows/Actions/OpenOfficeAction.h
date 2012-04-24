@@ -52,6 +52,7 @@ private:
 		bool _isLangPackInstalled();
 		bool _isDefaultLanguage();
 		void _setDefaultLanguage();
+		void _getPreferencesFile(wstring& location);
 
 		wstring m_version;
 		IRunner* m_runner;

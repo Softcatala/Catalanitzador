@@ -18,6 +18,8 @@
  */
 
 #include "stdafx.h"
+#include <Shlobj.h>
+
 #include "OpenOfficeAction.h"
 #include "Url.h"
 #include "XmlParser.h"
@@ -231,11 +233,22 @@ bool ReadNodeCallback(XMLNode node, void *data)
 	return true;
 }
 
+void OpenOfficeAction::_getPreferencesFile(wstring& location)
+{
+	wchar_t szPath[MAX_PATH];
+	
+	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
+	location = szPath;
+	location += L"\\OpenOffice.org\\3\\user\\registrymodifications.xcu";
+}
+
 // TODO: complete setting
 void OpenOfficeAction::_setDefaultLanguage()
 {
 	XmlParser parser;
-	wstring file(L"C:\\Users\\Jordi\\AppData\\Roaming\\OpenOffice.org\\3\\user\\registrymodifications.xcu");
+	wstring file;
+
+	_getPreferencesFile(file);
 	if (parser.Load(file) == false)
 	{
 		g_log.Log(L"OpenOfficeAction::_isDefaultLanguage. Could not open '%s'", (wchar_t *) file.c_str());
@@ -258,8 +271,9 @@ void OpenOfficeAction::_setDefaultLanguage()
 bool OpenOfficeAction::_isDefaultLanguage()
 {
 	XmlParser parser;
-	wstring lang_found;
-	wstring file(L"C:\\Users\\Jordi\\AppData\\Roaming\\OpenOffice.org\\3\\user\\registrymodifications.xcu");
+	wstring lang_found, file;
+
+	_getPreferencesFile(file);
 
 	if (parser.Load(file) == false)
 	{
@@ -267,7 +281,7 @@ bool OpenOfficeAction::_isDefaultLanguage()
 		return false;
 	}
 	parser.Parse(ReadNodeCallback, &lang_found);
-	// TODO: We should for != "ca" but right now we can only add Catalan if no language is present
+	// TODO: We should look for != "ca" but right now we can only add Catalan if no language is present
 	return lang_found.size() != 0;
 }
 
