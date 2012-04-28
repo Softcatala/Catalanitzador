@@ -38,7 +38,6 @@ UploadStatistics::~UploadStatistics()
 
 void UploadStatistics::UploadFile()
 {
-	BOOL result = 0;
 	char szBuff[65535];
 	char szVar[65535];
 	
@@ -46,7 +45,6 @@ void UploadStatistics::UploadFile()
 	memset (szBuff, 0, sizeof(szBuff));
 	rdbuf->sgetn(szBuff, sizeof(szBuff));
 
-	int n = strlen (szBuff);
 	strcpy_s(szVar, "xml=");
 	strcat_s(szVar, szBuff);
 

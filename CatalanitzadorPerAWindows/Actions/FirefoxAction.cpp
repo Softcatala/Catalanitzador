@@ -250,9 +250,7 @@ bool FirefoxAction::_readLanguageCode()
 	return true;
 }
 void FirefoxAction::_addCatalanToArrayAndRemoveOldIfExists()
-{	
-	wstring regvalue;
-	vector <wstring>languages;
+{
 	vector<wstring>::iterator it;
 
 	// Delete previous ocurrences of Catalan locale that were not first

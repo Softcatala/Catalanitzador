@@ -92,8 +92,7 @@ IEVersion IELPIAction::_readIEVersion()
 	unsigned int cnt;
 	
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Internet Explorer", false))
-	{
-		int n=sizeof(szVersion);
+	{		
 		m_registry->GetString(L"Version", szVersion, sizeof(szVersion));
 	}
 	m_registry->Close();

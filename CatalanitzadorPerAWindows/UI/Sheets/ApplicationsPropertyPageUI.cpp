@@ -133,7 +133,7 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 			LVHITTESTINFO lvHitTestInfo;
 			lvHitTestInfo.pt.x = LOWORD(lParam);
 			lvHitTestInfo.pt.y = HIWORD(lParam);
-			int nItem = ListView_HitTest(hWnd, &lvHitTestInfo);
+			ListView_HitTest(hWnd, &lvHitTestInfo);
 
 			if (lvHitTestInfo.flags & LVHT_ONITEMICON)
 			{

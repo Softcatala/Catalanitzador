@@ -503,8 +503,6 @@ void ChromeAction::CreateJSONString(wstring &jsonvalue)
 		return;
 	}
 
-	jsonvalue.empty();
-	
 	jsonvalue = m_languages.at(0);
 		
 	for (int i = 1; i < languages; i++)

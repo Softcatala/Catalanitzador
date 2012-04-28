@@ -71,7 +71,6 @@ bool Resources::LoadResourceToString(LPCWSTR type, LPCWSTR resource, wstring& te
 	HRSRC hRsrc = NULL;
 	HGLOBAL hGlbl = NULL;
 	BYTE *pExeResource = NULL;
-	HANDLE hFile = INVALID_HANDLE_VALUE;
 	DWORD size;
 	HMODULE hInstance;
 

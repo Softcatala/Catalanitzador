@@ -101,8 +101,6 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 	HDC hdc_wnd, hdc;
 	HBITMAP hbm_im, hbm_mask, hbm_orig;
 	RECT rc;
-	HBRUSH hbr_white = (HBRUSH) GetStockObject(GRAY_BRUSH);
-	HBRUSH hbr_black = (HBRUSH) GetStockObject(WHITE_BRUSH);
 	HIMAGELIST himl;
                                     
 	int x = GetSystemMetrics(SM_CXSMICON);

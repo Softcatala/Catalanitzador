@@ -106,9 +106,7 @@ bool IEAcceptLanguagesAction::IsNeed()
 }
 
 void IEAcceptLanguagesAction::_addCatalanToArrayAndRemoveOldIfExists()
-{	
-	wstring regvalue;
-	vector <wstring>languages;
+{
 	vector<wstring>::iterator it;
 
 	// Delete previous ocurrences of Catalan locale that were not first
