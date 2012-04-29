@@ -25,6 +25,10 @@ core.autocrlf=input
 
 Additionally remember to set 'user.name' and 'user.email' variables
 
+-- Binary files
+
+The git repository with the binary files is located at: https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries
+
 -- Contact Information
 
 Jordi Mas
