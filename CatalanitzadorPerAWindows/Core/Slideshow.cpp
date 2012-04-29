@@ -22,7 +22,7 @@
 #include "Resources.h"
 
 #define SLIDESHOW_RSCTYPE L"SLIDESHOW_FILES"
-#define INDEX_FILE L"recomana.html"
+#define INDEX_FILE L"index.html"
 
 Slideshow::Slideshow()
 {
