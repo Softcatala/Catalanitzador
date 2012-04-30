@@ -91,6 +91,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copy unit test data for tests"
+				CommandLine="xcopy /y /s $(ProjectDir)TestData\* $(OutDir)"
 			/>
 		</Configuration>
 		<Configuration
@@ -170,6 +172,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copy unit test data for tests"
+				CommandLine="xcopy /y /s $(ProjectDir)TestData\* $(OutDir)"
 			/>
 		</Configuration>
 	</Configurations>
