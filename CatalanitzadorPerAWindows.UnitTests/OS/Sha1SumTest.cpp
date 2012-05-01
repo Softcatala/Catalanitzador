@@ -21,21 +21,17 @@
 #include "Defines.h"
 #include "Sha1Sum.h"
 #include <windows.h>
+#include "TempFile.h"
 
 #include <fstream>
 
 using ::testing::StrCaseEq;
 
-void _createFile(wstring& file)
+void _createFile(TempFile& file)
 {
 	char szBuff[] = "ce4b01c1d705f33204d352dfdfc2d7ab97134c9 *LIP_ca-ES-32bit.mlc";
-	wchar_t szFile[MAX_PATH];
 
-	GetTempPath(MAX_PATH, szFile);
-	wcscat_s(szFile, L"test.sha1");
-	file = szFile;
-
-	ofstream of(szFile);
+	ofstream of(file.GetFileName().c_str());
 	int size = strlen(szBuff);
 	of.write(szBuff, size);
 	of.close();
@@ -44,12 +40,13 @@ void _createFile(wstring& file)
 // Creates a file a computes the sha1 (the file contains actually another sha1, but this is not rellevant)
 TEST(Sha1SumTest, ComputeforFile)
 {
-	wstring file, computed;
+	wstring computed;
+	TempFile file;
+
 	_createFile(file);
 
-	Sha1Sum sha1sum(file);
+	Sha1Sum sha1sum(file.GetFileName());
 	sha1sum.ComputeforFile();
-	DeleteFile(file.c_str());
 
 	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(L"bcb3c3873226eb348b25ad779acaefcd8b4bf0e9"));
 }
@@ -57,42 +54,42 @@ TEST(Sha1SumTest, ComputeforFile)
 // Creates a file that contains a SHA1 signature and reads it
 TEST(Sha1SumTest, ReadFromFile)
 {
-	wstring file, computed;
+	wstring computed;
+	TempFile file;
 	_createFile(file);
 
-	Sha1Sum sha1sum(file);
-	sha1sum.ReadFromFile();
-	DeleteFile(file.c_str());
+	Sha1Sum sha1sum(file.GetFileName());
+	sha1sum.ReadFromFile();	
 
 	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(L"ce4b01c1d705f33204d352dfdfc2d7ab97134c9"));
 }
 
 TEST(Sha1SumTest, EqualOperator)
 {
-	wstring file, computed;
+	wstring computed;
+	TempFile file;
 	_createFile(file);
 
-	Sha1Sum sha1(file);
+	Sha1Sum sha1(file.GetFileName());
 	sha1.ReadFromFile();
 
-	Sha1Sum sha2(file);
+	Sha1Sum sha2(file.GetFileName());
 	sha2.ReadFromFile();
-
-	DeleteFile(file.c_str());
+	
 	EXPECT_TRUE(sha1==sha2);
 }
 
 TEST(Sha1SumTest, NotEqualOperator)
 {
-	wstring file, computed;
+	wstring computed;
+	TempFile file;
 	_createFile(file);
 
-	Sha1Sum sha1(file);
+	Sha1Sum sha1(file.GetFileName().c_str());
 	sha1.ReadFromFile();
 
-	Sha1Sum sha2(file);
+	Sha1Sum sha2(file.GetFileName().c_str());
 	sha2.ComputeforFile();
-
-	DeleteFile(file.c_str());
+	
 	EXPECT_TRUE(sha1!=sha2);
 }

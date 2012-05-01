@@ -20,22 +20,17 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "XmlParser.h"
-#include <windows.h>
+#include "TempFile.h"
 
 #include <fstream>
 
 using ::testing::StrCaseEq;
 
-void _createXmlFile(wstring& file)
+void _createXmlFile(TempFile& tempfile)
 {
 	char szBuff[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><parent><child1>value</child1><child2 attr=\"valattr\"></child2></parent>";
-	wchar_t szFile[MAX_PATH];
 
-	GetTempPath(MAX_PATH, szFile);
-	wcscat_s(szFile, L"test.xml");
-	file = szFile;
-
-	ofstream of(szFile);
+	ofstream of(tempfile.GetFileName().c_str());
 	int size = strlen(szBuff);
 	of.write(szBuff, size);
 	of.close();
@@ -52,13 +47,13 @@ bool ReadTagsCallback(XmlNode node, void *data)
 TEST(XmlParserTest, ParseFile)
 {	
 	vector <wstring> found;
-	wstring file;
+	TempFile tempfile;
 	bool bRslt;
 
-	_createXmlFile(file);
+	_createXmlFile(tempfile);
 
 	XmlParser parser;
-	bRslt = parser.Load(file);
+	bRslt = parser.Load(tempfile.GetFileName());
 	EXPECT_TRUE(bRslt);
 
 	parser.Parse(ReadTagsCallback, &found);
@@ -66,6 +61,5 @@ TEST(XmlParserTest, ParseFile)
 	EXPECT_THAT(found.size(), 3);
 	EXPECT_THAT(found[0], StrCaseEq(L"parent"));
 	EXPECT_THAT(found[1], StrCaseEq(L"child1"));
-	EXPECT_THAT(found[2], StrCaseEq(L"child2"));
-	DeleteFile(file.c_str());
+	EXPECT_THAT(found[2], StrCaseEq(L"child2"));	
 }

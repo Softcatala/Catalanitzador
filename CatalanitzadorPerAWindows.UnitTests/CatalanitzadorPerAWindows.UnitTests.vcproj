@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -122,7 +122,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -345,6 +345,14 @@
 			</File>
 			<File
 				RelativePath=".\OS\XmlParserTest.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Support"
+			>
+			<File
+				RelativePath=".\Support\TempFile.h"
 				>
 			</File>
 		</Filter>
