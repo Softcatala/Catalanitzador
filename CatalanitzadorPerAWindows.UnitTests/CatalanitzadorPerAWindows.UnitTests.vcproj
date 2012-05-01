@@ -343,6 +343,10 @@
 				RelativePath=".\OS\Sha1SumTest.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\OS\XmlParserTest.cpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

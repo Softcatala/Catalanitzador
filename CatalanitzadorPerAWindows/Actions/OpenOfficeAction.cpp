@@ -170,7 +170,7 @@ bool OpenOfficeAction::_extractCabFile(wchar_t * file, wchar_t * path)
 	return true;
 }
 
-// This deletes the contents of the extracted CAB file for MS Office 2003
+// This deletes the contents of the extracted CAB file for the language pack
 void OpenOfficeAction::_removeCabTempFiles()
 {
 	if (m_szTempPathCAB[0] == NULL)
@@ -203,14 +203,10 @@ enum LanguageParsingState
 
 LanguageParsingState parsing_state = ItemOther;
 
-// TODO: Remove debugging
-bool ReadNodeCallback(XMLNode node, void *data)
+bool ReadNodeCallback(XmlNode node, void *data)
 {
-	vector <XMLAttribute>* attributes;
+	vector <XmlAttribute>* attributes;
 	bool bIsItem;
-
-	OutputDebugString(node.GetName().c_str());
-	OutputDebugString(L"\r\n");
 
 	if (parsing_state == PropUILocale && node.GetName().compare(L"value")==0)
 	{		
@@ -227,18 +223,12 @@ bool ReadNodeCallback(XMLNode node, void *data)
 		parsing_state = ItemOther;
 	}	
 
-	attributes = node.GetAtrributes();
+	attributes = node.GetAttributes();
 	for (unsigned int i = 0; i < attributes->size(); i++)
 	{
-		XMLAttribute attribute;
+		XmlAttribute attribute;
 
 		attribute = attributes->at(i);
-
-		OutputDebugString(L"\t");
-		OutputDebugString(attribute.GetName().c_str());
-		OutputDebugString(L" - ");
-		OutputDebugString(attribute.GetValue().c_str());
-		OutputDebugString(L"\r\n");
 
 		if (parsing_state == ItemOther && bIsItem && attribute.GetName() == L"oor:path" && attribute.GetValue() == L"/org.openoffice.Office.Linguistic/General")
 		{
@@ -263,36 +253,55 @@ void OpenOfficeAction::_getPreferencesFile(wstring& location)
 	location += L"\\OpenOffice.org\\3\\user\\registrymodifications.xcu";
 }
 
-// TODO: complete setting
+#define DEFAULT_LANGUAGE L"ca"
+
 void OpenOfficeAction::_setDefaultLanguage()
 {
 	XmlParser parser;
 	wstring file;
+	bool bRslt;
 
 	_getPreferencesFile(file);
 	if (parser.Load(file) == false)
 	{
-		g_log.Log(L"OpenOfficeAction::_isDefaultLanguage. Could not open '%s'", (wchar_t *) file.c_str());
+		g_log.Log(L"OpenOfficeAction::_setDefaultLanguage. Could not open '%s'", (wchar_t *) file.c_str());
 		return;
 	}
 
-	XMLNode item, prop, value;
-	value.SetName(wstring(L"value"));
-	value.SetText(wstring(L"ca"));
+	/*
+		XML fragment to generate
 
+		<item oor:path="/org.openoffice.Office.Linguistic/General">
+			<prop oor:name="UILocale" oor:op="fuse">
+				<value>DEFAULT_LANGUAGE</value>
+			</prop>
+		</item>
+	*/
+
+	XmlNode item(parser.getDocument()), prop(parser.getDocument()), value(parser.getDocument());
+	value.SetName(wstring(L"value"));
+	value.SetText(wstring(DEFAULT_LANGUAGE));
+	
 	prop.SetName(wstring(L"prop"));
+	prop.AddAttribute(XmlAttribute(L"oor:name", L"UILocale"));
+	prop.AddAttribute(XmlAttribute(L"oor:op", L"fuse"));
 	prop.AddChildren(value);
 
 	item.SetName(wstring(L"item"));
+	item.AddAttribute(XmlAttribute(L"oor:path", L"/org.openoffice.Office.Linguistic/General"));	
 	item.AddChildren(prop);
+
 	parser.AppendNode(item);
-	parser.Save(file);
+	bRslt = parser.Save(file);
+
+	g_log.Log(L"OpenOfficeAction::_setDefaultLanguage. Saved file '%s', result %u", (wchar_t *)file.c_str(), (wchar_t *) bRslt);
 }
 
 bool OpenOfficeAction::_isDefaultLanguage()
 {
 	XmlParser parser;
 	wstring lang_found, file;
+	bool bRslt;
 
 	_getPreferencesFile(file);
 
@@ -303,7 +312,9 @@ bool OpenOfficeAction::_isDefaultLanguage()
 	}
 	parser.Parse(ReadNodeCallback, &lang_found);
 	// TODO: We should look for != "ca" but right now we can only add Catalan if no language is present
-	return lang_found.size() != 0;
+	bRslt = lang_found.size() != 0;
+	g_log.Log(L"OpenOfficeAction::_isDefaultLanguage. Preferences file '%s', isdefault %u", (wchar_t *)file.c_str(), (wchar_t *) bRslt);
+	return bRslt;
 }
 
 bool OpenOfficeAction::_isLangPackInstalled()
@@ -341,12 +352,18 @@ ActionStatus OpenOfficeAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (_isLangPackInstalled()) 
+		if (_isLangPackInstalled())
 		{
-			status = Successful;
+			if (_isDefaultLanguage() == false)
+			{
+				_setDefaultLanguage();
+			}
+
+			status = _isDefaultLanguage() ? Successful : FinishedWithError;
 		}
-		else {
-			status = FinishedWithError;			
+		else
+		{
+			status = FinishedWithError;
 		}
 		
 		g_log.Log(L"OpenOfficeAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");

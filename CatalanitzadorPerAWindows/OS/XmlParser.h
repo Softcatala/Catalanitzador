@@ -32,13 +32,13 @@ using namespace std;
 using namespace MSXML2;
 
 
-class _APICALL XMLAttribute
+class _APICALL XmlAttribute
 {
 public:
 
-	XMLAttribute() {};
+	XmlAttribute() {};
 
-	XMLAttribute(wstring name, wstring value)
+	XmlAttribute(wstring name, wstring value)
 	{
 		m_name = name;
 		m_value = value;
@@ -53,41 +53,57 @@ private:
 	wstring m_value;
 };
 
-class _APICALL XMLNode
+class _APICALL XmlNode
 {
 public:
 
-	void SetName(wstring name) { m_Name = name;}
+	XmlNode()
+	{
+		m_document = NULL;
+	}
+
+	XmlNode(MSXML2::IXMLDOMDocumentPtr document)
+	{
+		m_document = document;
+	}
+
+	void SetName(wstring name) 
+	{
+		assert(m_itemPtr == NULL);
+		m_Name = name;
+	}
 	wstring GetName() {return m_Name; }
 
-	void SetText(wstring text) { m_Text = text;}
+	void SetText(wstring text) 
+	{
+		assert(m_itemPtr == NULL);
+		m_Text = text;
+	}
 	wstring GetText() {return m_Text; }
 
 	MSXML2::IXMLDOMElementPtr GetIXMLDOMElementPtr() { return m_itemPtr;}
 	void SetIXMLDOMElementPtr(MSXML2::IXMLDOMElementPtr itemPtr) { m_itemPtr = itemPtr;}
 	
-	vector <XMLNode>* GetChildren() {return &m_children; }
-	void AddChildren(XMLNode node)
-	{
-		m_children.push_back(node);
-	}
+	vector <XmlNode>* GetChildren() {return &m_children; }
+	vector <XmlAttribute>* GetAttributes() {return &m_attributes;}
 
-	vector <XMLAttribute>* GetAtrributes() {return &m_attributes;}
-	void AddAtrribute(XMLAttribute attribute)
-	{
-		m_attributes.push_back(attribute);
-	}
-
+	void AddChildren(XmlNode child);
+	void AddAttribute(XmlAttribute attribute);
+	
 private:
-	vector <XMLAttribute> m_attributes;
-	vector <XMLNode> m_children;
+
+	void _createElement();
+
+	vector <XmlAttribute> m_attributes;
+	vector <XmlNode> m_children;
 	wstring m_Name;
 	wstring m_Text;
 	MSXML2::IXMLDOMElementPtr m_itemPtr;
+	MSXML2::IXMLDOMDocumentPtr m_document;
 };
 
 
-typedef bool (*NodeCallback)(XMLNode node, void *data);
+typedef bool (*NodeCallback)(XmlNode node, void *data);
 
 class _APICALL XmlParser
 {
@@ -97,13 +113,14 @@ public:
 		void Parse(NodeCallback callback, void *data);
 		bool Load(wstring file);
 		bool Save(wstring file);
-		void AppendNode(XMLNode node);
+		void AppendNode(XmlNode node);
+		MSXML2::IXMLDOMDocumentPtr getDocument() {return m_domDocument;}
 		
 private:
 		void _initialize();
 		void _uninitialize();
-		void _parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XMLNode& node);
-		void _processNode(XMLNode& node);
+		void _parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
+		void _processNode(XmlNode& node);
 
 		MSXML2::IXMLDOMDocumentPtr m_domDocument;
 };

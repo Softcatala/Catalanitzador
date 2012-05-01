@@ -33,7 +33,7 @@ XmlParser::~XmlParser()
 	_uninitialize();
 }
 
-void XmlParser::_parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XMLNode& node)
+void XmlParser::_parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node)
 {
 	MSXML2::IXMLDOMNamedNodeMapPtr attributes;
 	BSTR bstrItemText, bstrItemNode, attrName;
@@ -43,23 +43,22 @@ void XmlParser::_parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XMLNode& node)
 	attributes = pIDOMNode->attributes;
 
 	node.SetName(wstring(bstrItemNode));
-	node.SetText(bstrItemText);
-
-	int len = attributes->Getlength();
-	for (int i = 0; i < len; i++)
+	node.SetText(wstring(bstrItemText));
+	
+	for (int i = 0; i < attributes->Getlength(); i++)
 	{
 		MSXML2::IXMLDOMNodePtr atrr = attributes->Getitem(i);
 
 		atrr->get_nodeName(&attrName);
-		_variant_t  val = atrr->GetnodeValue();
+		_variant_t val = atrr->GetnodeValue();
 		
 		wstring name(attrName);
 		BSTR b = val.bstrVal;
 		wstring value(b);
 
-		XMLAttribute attribute(name, value);
-		node.AddAtrribute(attribute);
-	}	
+		XmlAttribute attribute(name, value);
+		node.AddAttribute(attribute);
+	}
 }
 
 void XmlParser::Parse(NodeCallback callback, void *data)
@@ -73,7 +72,7 @@ void XmlParser::Parse(NodeCallback callback, void *data)
 
 	NodeListPtr = m_domDocument->getElementsByTagName(strFindText);	
 
-	for(int i = 0; i < (NodeListPtr->length); i++)
+	for(int i = 0; i < NodeListPtr->length; i++)
 	{
 		if (pIDOMNode)
 			pIDOMNode->Release();
@@ -84,7 +83,7 @@ void XmlParser::Parse(NodeCallback callback, void *data)
 		if (lstrcmp((LPCTSTR)bstrNodeType, (LPCTSTR)L"element") != 0)
 			continue;
 		
-		XMLNode node;
+		XmlNode node;
 		_parseNode(pIDOMNode, node);
 		
 		if (callback(node, data) == false)
@@ -95,10 +94,10 @@ void XmlParser::Parse(NodeCallback callback, void *data)
 			pIDOMNode->Release();	
 }
 
-void XmlParser::_processNode(XMLNode& node)
+void XmlParser::_processNode(XmlNode& node)
 {
 	MSXML2::IXMLDOMElementPtr item;
-	vector <XMLNode>* children;
+	vector <XmlNode>* children;
 
 	item = m_domDocument->createElement(node.GetName().c_str());
 	node.SetIXMLDOMElementPtr(item);
@@ -107,29 +106,18 @@ void XmlParser::_processNode(XMLNode& node)
 
 	for (unsigned i = 0; children->size(); i++)
 	{		
-		XMLNode child = children->at(i);
+		XmlNode child = children->at(i);
 		_processNode(child);
 		m_domDocument->documentElement->appendChild(item);
 	}	
 }
 
-void XmlParser::AppendNode(XMLNode node)
+void XmlParser::AppendNode(XmlNode root)
 {
 	MSXML2::IXMLDOMElementPtr item;
-	vector <XMLNode>* children;
 
-	item = m_domDocument->createElement(node.GetName().c_str());
-	node.SetIXMLDOMElementPtr(item);
-
-	children = node.GetChildren();
-
-	for (unsigned i = 0; children->size(); i++)
-	{		
-		XMLNode child = children->at(i);
-		_processNode(child);
-		item->appendChild(child.GetIXMLDOMElementPtr());
-	}
-	m_domDocument->documentElement->appendChild(item);
+	item = root.GetIXMLDOMElementPtr();
+	m_domDocument->documentElement->appendChild(item);	
 }
 
 bool XmlParser::Load(wstring file)
@@ -138,22 +126,19 @@ bool XmlParser::Load(wstring file)
 	_variant_t varResult((bool)TRUE);
       
 	varResult = m_domDocument->load(varXml);
-
 	return (bool)varResult;
 }
 
 bool XmlParser::Save(wstring file)
 {
-	_variant_t varXml2(file.c_str());
-	m_domDocument->save(varXml2);
-	//TODO: error detection
+	_variant_t varXml(file.c_str());
+	m_domDocument->save(varXml);	
 	return true;
 }
 
-
 void XmlParser::_uninitialize()
 {
-	CoUninitialize();
+	
 }
 
 void XmlParser::_initialize()
@@ -165,3 +150,48 @@ void XmlParser::_initialize()
 	 
 	m_domDocument.CreateInstance(__uuidof(DOMDocument30));
 }
+
+/*
+	XmlNode
+*/
+
+void XmlNode::_createElement()
+{
+	if (m_itemPtr != NULL)
+		return;
+	
+	m_itemPtr = m_document->createElement(m_Name.c_str());
+
+	if (GetText().size() > 0)
+	{
+		_variant_t varText(GetText().c_str());
+		m_itemPtr->put_text(varText.bstrVal);
+	}
+
+	for (unsigned int i = 0; i < m_attributes.size(); i++)
+	{
+		m_itemPtr->setAttribute(m_attributes[i].GetName().c_str(),
+			m_attributes[i].GetValue().c_str());				
+	}	
+}
+
+void XmlNode::AddChildren(XmlNode child)
+{
+	MSXML2::IXMLDOMElementPtr childPtr;
+
+	if (m_itemPtr == NULL)
+	{	
+		_createElement();
+	}
+
+	child._createElement();
+	m_itemPtr->appendChild(child.GetIXMLDOMElementPtr());
+	m_children.push_back(child);
+}
+
+void XmlNode::AddAttribute(XmlAttribute attribute)
+{
+	assert(m_itemPtr == NULL);
+	m_attributes.push_back(attribute);
+}
+
