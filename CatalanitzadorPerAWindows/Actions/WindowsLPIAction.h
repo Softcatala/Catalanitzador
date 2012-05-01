@@ -47,11 +47,13 @@ public:
 		bool IsLangPackInstalled();
 		bool IsDefaultLanguage();
 		DownloadID GetDownloadID();
-
+		static bool IsWindowsValidated();		
 
 private:
 
-		void _setDefaultLanguage();		
+		static bool _isWindowsValidatedFile();
+		static bool _isWindowsValidated();
+		void _setDefaultLanguage();
 
 		wchar_t filename[MAX_PATH];		
 		IRunner* m_runner;

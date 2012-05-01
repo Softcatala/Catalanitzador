@@ -19,6 +19,8 @@
 
 #include "stdafx.h"
 #include <stdio.h>
+#include <Shlobj.h>
+#include <comdef.h>
 
 #include "WindowsLPIAction.h"
 #include "OSVersion.h"
@@ -82,7 +84,11 @@ DownloadID WindowsLPIAction::GetDownloadID()
 		case WindowsXP:
 		{
 			WORD majorVersion = HIWORD(m_OSVersion->GetServicePackVersion());
-			if (majorVersion >= 2)
+
+			// The Windows LPI for SP2 or higher checks if the the Windows is validated and fails if is not
+			// If the version of Windows is not validated, we switch back to the old language pack that does not
+			// do any validation
+			if (majorVersion >= 2 && IsWindowsValidated())
 			{
 				return DI_WINDOWSLPIACTION_XP_SP2;
 			}
@@ -154,6 +160,7 @@ bool WindowsLPIAction::IsLangPackInstalled()
 			wchar_t szValue[1024];		
 
 			// MultiUILanguageId key is left behind
+			// MultiUILanguageId is written
 			if (m_registry->GetString(L"MUILanguagePending", szValue, sizeof (szValue)))
 			{
 				if (wcsstr(szValue, L"0403") != NULL)
@@ -182,7 +189,7 @@ bool WindowsLPIAction::IsNeed()
 	if (GetDownloadID() != DI_UNKNOWN)
 	{		
 		if (IsLangPackInstalled() == false || IsDefaultLanguage() == false)
-		{		
+		{
 			bNeed = true;
 		}
 		else
@@ -351,3 +358,70 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 		}
 	}
 }
+
+bool WindowsLPIAction::IsWindowsValidated() 
+{
+	OSVersion version;
+	Registry registry;
+	DWORD dwGSSS = -1;
+	DWORD dwservicePack;
+		
+	if (version.GetVersion() == WindowsXP)
+	{		
+		dwservicePack = version.GetServicePackVersion();
+	
+		if (HIWORD(dwservicePack) < 2)
+		{
+			g_log.Log(L"WindowsLPIAction::IsWindowsValidated. Old XP");
+			return true;
+		}
+		return _isWindowsValidated();
+	}
+	else
+	{
+		g_log.Log(L"WindowsLPIAction::IsWindowsValidated. No XP");
+		return true;
+	}
+}
+
+#define FUNCTION_ID 0x1
+
+// Strategy: only says that is validated if we can really confirm it
+bool WindowsLPIAction::_isWindowsValidated()
+{
+	CLSID lcsid;
+	IDispatch* disp;
+	VARIANT dispRes;
+	EXCEPINFO *pExcepInfo = NULL;
+	unsigned int *puArgErr = NULL;
+	bool bRslt;	
+
+	CoInitialize(NULL);
+	
+	if (!SUCCEEDED(CLSIDFromString(L"{17492023-C23A-453E-A040-C7C580BBF700}", &lcsid)))
+	{
+		g_log.Log(L"WindowsLPIAction::IsWindowsValidated. CLSIDFromString failed, passed: 0");
+		return false;
+	}
+	 
+    if (!SUCCEEDED(CoCreateInstance(lcsid, NULL, CLSCTX_INPROC_SERVER, __uuidof(IDispatch), (void**)&disp)))
+	{
+		g_log.Log(L"WindowsLPIAction::IsWindowsValidated. CreateInstance failed, passed: 0");
+		return false;
+	}
+
+	DISPPARAMS dispparamsNoArgs = {NULL, NULL, 0, 0};
+
+	HRESULT hr = disp->Invoke(FUNCTION_ID, IID_NULL,
+                               LOCALE_SYSTEM_DEFAULT, 
+                               DISPATCH_METHOD,
+                               &dispparamsNoArgs, &dispRes,
+                               pExcepInfo, puArgErr);
+
+	disp->Release();
+
+	bRslt = wcscmp(dispRes.bstrVal, L"0") == 0;
+	g_log.Log(L"WindowsLPIAction::IsWindowsValidated. Result: '%s', passed %u", dispRes.bstrVal,  (wchar_t *)bRslt);
+	return bRslt;
+}
+
