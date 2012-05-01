@@ -1,0 +1,26 @@
+Release process
+
+Steps to follow
+
+1. Upload release notes
+www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows/Versio_1.0
+
+2. Upload binary to
+ftp://ftp.softcatala.org/pub/softcatala/catalanitzador/
+
+3. Make it public at 
+http://www.softcatala.org/wiki/Rebost:Catalanitzador_per_al_Windows
+
+updating the version
+
+4. Upload binary to 
+https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries/tree/master/releases
+
+5. Notify it to development mailing list
+
+6. git tag
+
+git tag -m "X.Y.X tag" -a X_Y_X
+git push origin X_Y_X
+
+Where X_Y_X is the version published
