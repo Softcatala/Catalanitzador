@@ -44,7 +44,7 @@ wstring Sha1Sum::ReadFromFile()
 	hFile = CreateFile(m_file.c_str(), GENERIC_READ,
         FILE_SHARE_READ,  NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
 
-	if (hFile != NULL)
+	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		if (ReadFile(hFile, sha1, SHA1LEN, &cbRead, NULL) == TRUE)
 		{

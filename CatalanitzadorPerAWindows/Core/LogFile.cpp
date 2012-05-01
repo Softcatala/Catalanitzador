@@ -48,7 +48,7 @@ bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
 
 	m_hLog = CreateFile(m_szFilename,  FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	if (!m_hLog) return false;
+	if (m_hLog == INVALID_HANDLE_VALUE) return false;
 
 	if (GetLastError() != ERROR_ALREADY_EXISTS)
 	{
