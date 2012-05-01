@@ -45,12 +45,16 @@ public:
 		virtual bool IsDownloadNeed();
 		virtual DownloadID GetDownloadID();
 
+
 protected:
 
 		bool _isLangPackInstalled();
 		bool _isDefaultLanguage();
 
-private:		
+private:
+
+		bool IsWindowsValidated();
+		bool _isWindowsValidated();
 
 		void _setDefaultLanguage();
 
