@@ -39,7 +39,7 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual const char* GetVersion();
+		virtual const wchar_t* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
 		virtual bool IsExecuting();
 		virtual void FinishExecution();
@@ -68,7 +68,7 @@ private:
 		bool _findAppLocaleKey(wstring line, int & pos);
 		DWORD _getProcessID();
 
-		string m_version;
+		wstring m_version;
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
 		bool isInstalled;

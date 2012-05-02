@@ -444,7 +444,7 @@ void ChromeAction::_readVersion()
 
 		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
 		{
-			StringConversion::ToMultiByte(wstring(szVersion), m_version);
+			m_version = szVersion;
 			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szVersion);
 		}
 		m_registry->Close();
@@ -479,7 +479,7 @@ void ChromeAction::_readInstallLocation(wstring & path)
 	}
 }
 
-const char* ChromeAction::GetVersion()
+const wchar_t* ChromeAction::GetVersion()
 {
 	if (m_version.length() == 0)
 	{

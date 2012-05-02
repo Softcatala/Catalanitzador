@@ -52,9 +52,11 @@ wchar_t* Action::_getStringFromResourceIDName(int nID, wchar_t* string)
 void Action::Serialize(ostream* stream)
 {
 	char szText[1024];
+	string version;
 
+	StringConversion::ToMultiByte(wstring(GetVersion()), version);
 	sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n",
-		GetID(), GetVersion(), status);
+		GetID(), version.c_str(), status);
 
 	*stream << szText;
 }

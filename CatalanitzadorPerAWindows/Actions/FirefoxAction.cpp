@@ -383,7 +383,7 @@ void FirefoxAction::Execute()
 	_writeLanguageCode(value);
 }
 
-const char* FirefoxAction::GetVersion()
+const wchar_t* FirefoxAction::GetVersion()
 {
 	_readVersionAndLocale();
 	return m_version.c_str();
@@ -402,7 +402,7 @@ bool FirefoxAction::_readVersionAndLocale()
 		return false;
 	}
 	
-	wstring sreg, version, locale;
+	wstring sreg, locale;
 	wchar_t szVersion[1024];
 	int start, end;
 
@@ -413,8 +413,7 @@ bool FirefoxAction::_readVersionAndLocale()
 
 		if (start != wstring::npos)
 		{
-			version = sreg.substr(0, start);
-			StringConversion::ToMultiByte(wstring(version), m_version);
+			m_version = sreg.substr(0, start);			
 
 			start = sreg.find(L"(", start);
 
@@ -430,7 +429,7 @@ bool FirefoxAction::_readVersionAndLocale()
 		}
 
 		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Firefox version %s, version %s, locale %s", 
-			(wchar_t*) szVersion, (wchar_t*) version.c_str(), (wchar_t*)  m_locale.c_str());
+			(wchar_t*) szVersion, (wchar_t*) m_version.c_str(), (wchar_t*)  m_locale.c_str());
 	}
 	m_registry->Close();
 	return m_locale.empty() != true;

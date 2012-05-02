@@ -39,7 +39,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
-		//virtual const char* GetVersion();
+		virtual const wchar_t* GetVersion() {return m_version.c_str();}
 		virtual void CheckPrerequirements(Action * action);
 		virtual bool IsExecuting();
 		virtual void FinishExecution();
@@ -62,6 +62,7 @@ private:
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
-		wchar_t m_szTempPathCAB[MAX_PATH];		
+		wchar_t m_szTempPathCAB[MAX_PATH];
+		
 };
 

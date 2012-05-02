@@ -151,14 +151,14 @@ void IEAcceptLanguagesAction::_readVersion()
 
 		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
 		{
-			StringConversion::ToMultiByte(wstring(szVersion), m_version);
+			m_version = szVersion;
 			g_log.Log(L"IEAcceptLanguagesAction::_readVersion. IE version %s", szVersion);
 		}
 		m_registry->Close();
 	}	
 }
 
-const char* IEAcceptLanguagesAction::GetVersion()
+const wchar_t* IEAcceptLanguagesAction::GetVersion()
 {
 	if (m_version.length() == 0)
 	{

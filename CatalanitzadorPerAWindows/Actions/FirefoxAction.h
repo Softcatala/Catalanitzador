@@ -41,7 +41,7 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual const char* GetVersion();
+		virtual const wchar_t* GetVersion();
 		virtual bool IsExecuting();
 		virtual void FinishExecution();
 
@@ -72,7 +72,7 @@ private:
 		vector <wstring> m_languages;
 		char szVersionAscii[128];
 		wstring m_locale;
-		string m_version;
+		wstring m_version;
 		bool m_CachedLanguageCode;
 };
 

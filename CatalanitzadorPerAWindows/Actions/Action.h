@@ -61,7 +61,7 @@ public:
 		virtual ActionStatus GetStatus() { return status;}
 
 		// Get the version of the application for which the action makes a change
-		virtual const char* GetVersion() { return "";}
+		virtual const wchar_t* GetVersion() { return L"";}
 
 		// Returns the reason why this action cannot be applied
 		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}

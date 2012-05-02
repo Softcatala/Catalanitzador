@@ -99,18 +99,18 @@ LPCWSTR MSOfficeLPIAction::GetLicenseID()
 	return NULL;
 }
 
-const char* MSOfficeLPIAction::GetVersion()
+const wchar_t* MSOfficeLPIAction::GetVersion()
 {
 	switch (_getVersionInstalled())
 	{
 		case MSOffice2003:
-			return "2003";
+			return L"2003";
 		case MSOffice2007:
-			return "2007";
+			return L"2007";
 		case MSOffice2010:
-			return "2010";
+			return L"2010";
 		default:
-			return "";
+			return L"";
 	}
 }
 
@@ -241,16 +241,7 @@ void MSOfficeLPIAction::_readVersionInstalled()
 		_getStringFromResourceIDName(IDS_MSOFFICEACTION_NOOFFICE, szCannotBeApplied);
 	}
 	
-	if (strlen(GetVersion()) > 0)
-	{
-		StringConversion::ToWideChar(string(GetVersion()), version);
-	}
-	else
-	{
-		version = L"None";
-	}
-
-	g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) version.c_str());
+	g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) GetVersion());
 }
 
 DownloadID  MSOfficeLPIAction::_getDownloadID()

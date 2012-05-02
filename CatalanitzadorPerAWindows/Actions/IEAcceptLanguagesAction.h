@@ -39,7 +39,7 @@ public:
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual const char* GetVersion();
+		virtual const wchar_t* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
 
 protected:
@@ -61,6 +61,6 @@ private:
 		char szVersionAscii[128];
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
-		string m_version;
+		wstring m_version;
 };
 

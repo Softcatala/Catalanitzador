@@ -63,7 +63,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
-		virtual const char* GetVersion();
+		virtual const wchar_t* GetVersion();
 		virtual LPCWSTR GetLicenseID();
 
 protected:
