@@ -19,14 +19,8 @@
 
 #include "stdafx.h"
 #include "ApplicationsPropertyPageUI.h"
-#include "Actions.h"
-#include "Action.h"
-#include "Runner.h"
 #include "ShowLicensesDlgUI.h"
 #include "AppRunningDlgUI.h"
-
-#include <vector>
-using namespace std;
 
 ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
 {
