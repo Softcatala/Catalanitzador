@@ -117,7 +117,17 @@ void XmlParser::AppendNode(XmlNode root)
 	MSXML2::IXMLDOMElementPtr item;
 
 	item = root.GetIXMLDOMElementPtr();
-	m_domDocument->documentElement->appendChild(item);	
+
+	MSXML2::IXMLDOMElementPtr docElement = m_domDocument->documentElement;
+
+	if (docElement == NULL)
+	{
+		m_domDocument->appendChild(item);
+	}
+	else
+	{
+		m_domDocument->documentElement->appendChild(item);
+	}
 }
 
 bool XmlParser::Load(wstring file)
