@@ -123,7 +123,7 @@ TEST(FirefoxActionTest, _readVersionAndLocale)
 	SetLocale(registryMockobj, L"12.0 (ca)");
 
 	firefoxAction._readVersionAndLocale();
-	EXPECT_THAT(firefoxAction.GetVersion(), StrCaseEq("12.0"));
+	EXPECT_THAT(firefoxAction.GetVersion(), StrCaseEq(L"12.0"));
 	EXPECT_THAT(firefoxAction._getLocale()->c_str(), StrCaseEq(L"ca"));
 }
 
