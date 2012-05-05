@@ -29,6 +29,10 @@ Additionally remember to set 'user.name' and 'user.email' variables
 
 The git repository with the binary files is located at: https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries
 
+-- High level overview of the system architecture
+
+The OpenOffice.org Write file architecture.odt contains a high level description of the system architecture
+
 -- Contact Information
 
 Jordi Mas
