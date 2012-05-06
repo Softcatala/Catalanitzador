@@ -152,6 +152,7 @@ ImageIndex CheckedListView::GetImageIndex(ActionStatus status)
 	case Selected:
 		return ImageIndexBlack;
 	case CannotBeApplied:
+	case NotInstalled:
 		return ImageIndexGrey;
 	case AlreadyApplied:
 		return ImageIndexGreen;
