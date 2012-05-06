@@ -729,6 +729,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OS\SystemRestore.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\SystemRestore.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OS\Win32I18N.h"
 				>
 			</File>
