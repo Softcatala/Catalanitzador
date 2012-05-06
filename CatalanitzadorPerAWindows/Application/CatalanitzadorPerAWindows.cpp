@@ -169,11 +169,13 @@ void CatalanitzadorPerAWindows::_createWizard()
 	Actions actions;
 	Slideshow slideshow;
 	BOOL bSendStats = TRUE;
+	BOOL bSystemRestore = TRUE;
 
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
 	welcome.createPage(m_hInstance, IDD_WELCOME, NULL);
 	welcome.SetSendStats(&bSendStats);
+	welcome.SetSystemRestore(&bSystemRestore);
 	sheet.addPage(&welcome);
 
 	applications.createPage(m_hInstance, IDD_APPLICATIONS, NULL);
@@ -188,6 +190,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.SetActions(&acts);
 	install.SetSerializer(&m_serializer);
 	install.SetSlideshow(&slideshow);
+	install.SetSystemRestore(&bSystemRestore);
 	install.createPage(m_hInstance, IDD_INSTALL, NULL);
 	sheet.addPage(&install);
 

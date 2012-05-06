@@ -28,6 +28,7 @@ public:
 		~WelcomePropertyPageUI();
 
 		void SetSendStats(BOOL *pbSendStats) { m_pbSendStats = pbSendStats;}
+		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
 
 private:
 		virtual void _onInitDialog();
@@ -35,4 +36,5 @@ private:
 
 		HFONT		m_hFont;
 		BOOL*		m_pbSendStats;
+		BOOL*		m_pbSystemRestore;
 };

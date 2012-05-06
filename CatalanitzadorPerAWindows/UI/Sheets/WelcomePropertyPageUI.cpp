@@ -19,6 +19,7 @@
 
 #include "stdafx.h"
 #include "WelcomePropertyPageUI.h"
+#include "SystemRestore.h"
 
 WelcomePropertyPageUI::WelcomePropertyPageUI()
 {
@@ -37,6 +38,8 @@ WelcomePropertyPageUI::~WelcomePropertyPageUI()
 void WelcomePropertyPageUI::_onInitDialog()
 {
 	HWND hWnd;
+	SystemRestore systemRestore;
+	bool bCanSystemRestore;
 
 	hWnd = GetDlgItem(getHandle(), IDC_WELCOME_TOAPP);
 	m_hFont = Window::CreateBoldFont(hWnd);
@@ -46,15 +49,28 @@ void WelcomePropertyPageUI::_onInitDialog()
 	SendMessage(GetDlgItem (getHandle(), IDC_WELCOME_ABOUTSECURITY),
 		WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
-	hWnd = GetDlgItem (getHandle(), IDC_WELCOME_TOAPP);
+	hWnd = GetDlgItem(getHandle(), IDC_WELCOME_TOAPP);
 #if !_DEBUG
 	CheckDlgButton(getHandle(), IDC_SENDRESULTS, TRUE);
 #endif
+	bCanSystemRestore = systemRestore.Init();
+
+	if (systemRestore.Init() == true)
+	{
+		CheckDlgButton(getHandle(), IDC_SYSTEMRESTORE, TRUE);
+	}
+	else
+	{
+		EnableWindow(GetDlgItem(getHandle(), IDC_SYSTEMRESTORE), FALSE);
+	}
+
+	
 	SetFocus(getHandle());
 }
 
 bool WelcomePropertyPageUI::_onNext()
 {
 	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;
+	*m_pbSystemRestore = IsDlgButtonChecked(getHandle(),IDC_SYSTEMRESTORE)==BST_CHECKED;
 	return true;
 }

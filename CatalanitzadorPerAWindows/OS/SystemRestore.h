@@ -22,6 +22,9 @@
 #include <SRRestorePtAPI.h>
 #include <accctrl.h>
 #include <aclapi.h>
+#include <string>
+
+using namespace std;
 
 typedef BOOL (WINAPI *PFN_SETRESTOREPTW) (PRESTOREPOINTINFOW, PSTATEMGRSTATUS);
 
@@ -29,8 +32,8 @@ class SystemRestore
 {
 public:
 
-	bool Init();		
-	bool Start();
+	bool Init();
+	bool Start(wstring name);
 	bool End();
 		
 private:

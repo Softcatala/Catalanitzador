@@ -44,7 +44,7 @@ bool SystemRestore::Init()
 	return true;
 }
 
-bool SystemRestore::Start()
+bool SystemRestore::Start(wstring name)
 {
 	BOOL bRslt;
 	RESTOREPOINTINFO restorePoint;		
@@ -53,7 +53,7 @@ bool SystemRestore::Start()
 	restorePoint.dwEventType = BEGIN_SYSTEM_CHANGE;
 	restorePoint.dwRestorePtType = APPLICATION_INSTALL;
 	restorePoint.llSequenceNumber = 0;
-	wcscpy_s(restorePoint.szDescription, L"Catalanitzador per a Windows");
+	wcscpy_s(restorePoint.szDescription, name.c_str());
 
 	bRslt = m_SetRestorePointW(&restorePoint, &status);
 	m_llSequenceNumber = status.llSequenceNumber;

@@ -211,10 +211,48 @@ void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
 	}
 }
 
+DWORD InstallPropertyPageUI::_systemRestoreThread(LPVOID lpParam)
+{
+	SystemRestore* systemRestore = (SystemRestore *) lpParam;
+	
+	systemRestore->Init();
+	systemRestore->Start(L"Catalanitzador per a Windows");
+	return 0;
+}
+
+void InstallPropertyPageUI::_systemRestore(SystemRestore& systemRestore)
+{
+	wchar_t szText[MAX_LOADSTRING];
+	HANDLE hThread;
+	DWORD dwStatus;
+
+	_setTaskMarqueeMode(true);
+	
+	LoadString(GetModuleHandle(NULL), IDS_CREATINGSYSTEMRESTORE, szText, MAX_LOADSTRING);
+	SendMessage(hDescription, WM_SETTEXT, 0, (LPARAM) szText);
+
+	hThread = CreateThread(NULL, 0, _systemRestoreThread, &systemRestore, 0, NULL);
+
+	while (true)
+	{		
+		GetExitCodeThread(hThread, &dwStatus);
+		if (dwStatus != STILL_ACTIVE)
+			break;
+
+		Window::ProcessMessages();
+		Sleep(50);
+		Window::ProcessMessages();
+	}
+	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+	CloseHandle(hThread);
+}
+
 void InstallPropertyPageUI::_onTimer()
 {
+	SystemRestore systemRestore;
 	Action* action;
 	WindowsXPDialogCanceler dialogCanceler;
+	int cnt;
 
 	KillTimer(getHandle(), TIMER_ID);
 	
@@ -222,8 +260,18 @@ void InstallPropertyPageUI::_onTimer()
 
 	_updateSelectedActionsCounts();
 
-	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, m_downloads + m_selActions));
+	cnt = m_downloads + m_selActions;
+
+	if (m_selActions > 0 && *m_pbSystemRestore)
+		cnt++;	
+
+	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt));
 	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L);
+	
+	if (m_selActions > 0 && *m_pbSystemRestore)
+	{
+		_systemRestore(systemRestore);
+	}
 
 	m_serializer->StartAction();
 	for (unsigned int i = 0; i < m_actions->size(); i++)
@@ -260,5 +308,9 @@ void InstallPropertyPageUI::_onTimer()
 
 	m_serializer->CloseHeader();
 	_completed();
-}
 
+	if (m_selActions > 0 && *m_pbSystemRestore)
+	{		
+		systemRestore.End();
+	}
+}

@@ -23,6 +23,7 @@
 #include "Action.h"
 #include "Serializer.h"
 #include "SlideShow.h"
+#include "SystemRestore.h"
 
 #include <vector>
 using namespace std;
@@ -33,6 +34,7 @@ public:
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 		void SetActions(vector <Action *> * value) { m_actions = value;}
 		void SetSlideshow(Slideshow* slideshow) { m_slideshow = slideshow;}
+		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
 		
 private:
 		virtual void _onInitDialog();
@@ -48,6 +50,8 @@ private:
 		void _setTaskMarqueeMode(bool enable);
 		void _waitExecutionComplete(Action* action);
 		void _openURLInIE();
+		void _systemRestore(SystemRestore& systemRestore);
+		static DWORD WINAPI _systemRestoreThread(LPVOID lpParam);
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;
@@ -58,4 +62,5 @@ private:
 		int m_selActions;
 		int m_downloads;
 		Slideshow* m_slideshow;
+		BOOL* m_pbSystemRestore;
 };
