@@ -324,7 +324,7 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
  {
 	bool bEnabled;
 		 
-	bEnabled = _llicencesNeedToBeAccepted();
+	bEnabled = _licensesNeedToBeAccepted();
 
 	int controls [] = {IDC_LICENSES_ASTERISCTEXT, IDC_SHOWLICENSES_BUTTON, IDC_ACCEPTLICENSES_CHECKBOX, IDC_APPLICATION_LICENSES_CAPTION};
 	for (int i = 0; i < sizeof(controls) / sizeof(controls[0]); i++)
@@ -350,7 +350,7 @@ bool ApplicationsPropertyPageUI::_licensesNeedToBeAccepted()
 
 bool ApplicationsPropertyPageUI::_licenseAccepted()
 {
-	if (_llicencesNeedToBeAccepted() == false)
+	if (_licensesNeedToBeAccepted() == false)
 		return true;
 
 	if (IsDlgButtonChecked(getHandle(),IDC_ACCEPTLICENSES_CHECKBOX) != BST_CHECKED)
@@ -382,7 +382,7 @@ bool ApplicationsPropertyPageUI::_onNext()
 	int items = ListView_GetItemCount(m_hList);
 	bool needInet = false;
 
-	if (_llicencesAccepted() == false)
+	if (_licenseAccepted() == false)
 		return FALSE;
 
 	if (_checkRunningApps() == true)
