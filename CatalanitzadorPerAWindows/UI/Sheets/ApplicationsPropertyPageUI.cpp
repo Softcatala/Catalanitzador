@@ -333,7 +333,7 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 	}
  }
 
-bool ApplicationsPropertyPageUI::_llicencesNeedToBeAccepted()
+bool ApplicationsPropertyPageUI::_licensesNeedToBeAccepted()
 {	
 	for (unsigned int i = 0; i < m_availableActions->size (); i++)
 	{
@@ -348,7 +348,7 @@ bool ApplicationsPropertyPageUI::_llicencesNeedToBeAccepted()
 	return false;	
 }
 
-bool ApplicationsPropertyPageUI::_llicencesAccepted()
+bool ApplicationsPropertyPageUI::_licenseAccepted()
 {
 	if (_llicencesNeedToBeAccepted() == false)
 		return true;

@@ -46,12 +46,11 @@ private:
 		void _setBoldControls();
 		void _setLegendControl();
 		void _processDependantItem(Action* action);
-		bool _llicencesAccepted();
-		bool _llicencesNeedToBeAccepted();
+		bool _licenseAccepted();
+		bool _licensesNeedToBeAccepted();
 		void _enableOrDisableLicenseControls();
 		void _getActionDisplayName(Action *action, wstring& name);
 		bool _checkRunningApps();
-		
 
 		CheckedListView m_listview;
 		HWND m_hList;
