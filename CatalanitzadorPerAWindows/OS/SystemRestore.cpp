@@ -57,6 +57,7 @@ bool SystemRestore::Start(wstring name)
 
 	bRslt = m_SetRestorePointW(&restorePoint, &status);
 	m_llSequenceNumber = status.llSequenceNumber;
+	g_log.Log(L"SystemRestore::Start. Created point '%s' with result %u", (wchar_t*) name.c_str(), (wchar_t*)bRslt);
 	return bRslt == TRUE;
 }
 
@@ -72,6 +73,7 @@ bool SystemRestore::End()
 	restorePoint.szDescription[0] = NULL;
 
 	bRslt = m_SetRestorePointW(&restorePoint, &status);	
+	g_log.Log(L"SystemRestore::End. Called with result %u", (wchar_t*)bRslt);
 	return bRslt == TRUE;	
 }
 
