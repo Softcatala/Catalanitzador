@@ -192,6 +192,7 @@ TEST(FirefoxActionTest, Execute_CatalanLocale_DEAccept)
 	SetLocale(registryMockobj, L"12.0 (ca)");
 	CreateAcceptLanguage(wstring(L"de"), accept);
 	GeneratePrefsJS(wstring(accept));
+	firefoxAction.SetStatus(Selected);
 	firefoxAction.Execute();	
 	languages = firefoxAction._getLanguages();
 
@@ -209,6 +210,7 @@ TEST(FirefoxActionTest, Execute_FrenchLocale_Empty)
 
 	SetLocale(registryMockobj, L"12.0 (fr)");
 	GeneratePrefsJS(wstring());
+	firefoxAction.SetStatus(Selected);
 	firefoxAction.Execute();
 	languages = firefoxAction._getLanguages();
 
@@ -228,6 +230,7 @@ TEST(FirefoxActionTest, Execute_SpanishLocale_English)
 	SetLocale(registryMockobj, L"12.0 (es)");
 	CreateAcceptLanguage(wstring(L"en"), accept);
 	GeneratePrefsJS(wstring(accept));
+	firefoxAction.SetStatus(Selected);
 	firefoxAction.Execute();
 	languages = firefoxAction._getLanguages();
 
