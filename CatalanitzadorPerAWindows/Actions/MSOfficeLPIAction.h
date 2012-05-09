@@ -90,11 +90,10 @@ private:
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
 		wchar_t m_szTempPath2003[MAX_PATH];
-		Runner runner;		
 		MSOfficeVersion m_MSVersion;
 		wstring m_connectorFile;
 		ExecutionStep m_executionStep;
 		IRunner* m_runner;
-		IRegistry* m_registry;		
+		IRegistry* m_registry;
 };
 
