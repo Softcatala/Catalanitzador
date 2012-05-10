@@ -661,6 +661,14 @@
 			Name="OS"
 			>
 			<File
+				RelativePath=".\OS\Authorization.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Authorization.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OS\DownloadInet.cpp"
 				>
 			</File>

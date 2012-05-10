@@ -31,6 +31,7 @@
 #include "ActiveX.h"
 #include "Slideshow.h"
 #include "StringConversion.h"
+#include "Authorization.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -112,7 +113,7 @@ bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
 {
 	bool hasAdmin;
 
-	hasAdmin = _hasAdminPermissions();
+	hasAdmin = Authorization::UserHasAdminPermissions();
 
 	if (hasAdmin == false)
 	{	
@@ -125,27 +126,6 @@ bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
 		MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
 	}
 	return hasAdmin;
-}
-
-bool CatalanitzadorPerAWindows::_hasAdminPermissions()
-{	
-	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-	PSID AdministratorsGroup;
-
-	if (!AllocateAndInitializeSid(&NtAuthority, 2,
-		SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS,
-		0, 0, 0, 0, 0, 0, &AdministratorsGroup))
-	{
-		return false;
-	}
-	
-	BOOL IsInAdminGroup = FALSE;
-	if(!CheckTokenMembership(NULL, AdministratorsGroup, &IsInAdminGroup))
-	{	
-		IsInAdminGroup = FALSE;
-	}	
-	FreeSid(AdministratorsGroup);
-	return IsInAdminGroup == TRUE ? true : false;
 }
 
 bool CatalanitzadorPerAWindows::_isAlreadyRunning()

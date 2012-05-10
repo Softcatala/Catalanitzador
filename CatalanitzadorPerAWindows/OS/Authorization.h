@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,32 +17,12 @@
  * 02111-1307, USA.
  */
  
- 
 #pragma once
 
-#include <windows.h>
-#include "Serializer.h"
-#include "OSVersion.h"
-
-class CatalanitzadorPerAWindows
+class Authorization
 {
-	
 public:
-		CatalanitzadorPerAWindows(HINSTANCE hInstance);
-		~CatalanitzadorPerAWindows();
-
-		void Run();
-
-private:
-
-		void _initLog();
-		bool _supportedOS();
-		void _createWizard();
-		bool _isAlreadyRunning();
-		bool _hasAdminPermissionsDialog();
-
-		HINSTANCE m_hInstance;
-		HANDLE m_hEvent;
-		Serializer m_serializer;
-		OSVersion m_osVersion;
+		static bool UserHasAdminPermissions();
+		static bool RequestShutdownPrivileges();
+		
 };
