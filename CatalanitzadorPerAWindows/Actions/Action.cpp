@@ -80,7 +80,7 @@ bool Action::_getFile(DownloadID downloadID, wstring file, ProgressStatus progre
 
 void Action::SetStatus(ActionStatus value) 
 {
-	ActionStatus prev = GetStatus();
+	ActionStatus prev = status;
 	status = value;
 
 	// Check which transitions are valid within the Status action state machine

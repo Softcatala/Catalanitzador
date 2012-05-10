@@ -57,7 +57,9 @@ void WelcomePropertyPageUI::_onInitDialog()
 
 	if (systemRestore.Init() == true)
 	{
+#if !_DEBUG
 		CheckDlgButton(getHandle(), IDC_SYSTEMRESTORE, TRUE);
+#endif
 	}
 	else
 	{

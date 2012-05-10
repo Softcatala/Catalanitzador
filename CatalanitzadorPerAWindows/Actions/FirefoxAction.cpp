@@ -90,11 +90,13 @@ bool FirefoxAction::IsNeed()
 		}
 
 		if (bNeed == false)
-			status = AlreadyApplied;
+		{
+			SetStatus(AlreadyApplied);
+		}
 	}
 	else
 	{
-		status = CannotBeApplied;
+		SetStatus(NotInstalled);		
 	}
 	
 	g_log.Log(L"FirefoxAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
@@ -344,11 +346,11 @@ void FirefoxAction::_writeLanguageCode(wstring &langcode)
 	
 	if (ret)
 	{
-		status = Successful;
+		SetStatus(Successful);
 	} 
 	else 
 	{
-		status = FinishedWithError;
+		SetStatus(FinishedWithError);
 	}
 }
 
@@ -374,6 +376,7 @@ void FirefoxAction::Execute()
 {
 	wstring value;
 
+	SetStatus(InProgress);
 	_readVersionAndLocale();
 	_readLanguageCode();
 

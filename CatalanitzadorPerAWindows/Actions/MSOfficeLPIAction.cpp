@@ -240,7 +240,7 @@ void MSOfficeLPIAction::_readVersionInstalled()
 		m_MSVersion = NoMSOffice;
 		_getStringFromResourceIDName(IDS_MSOFFICEACTION_NOOFFICE, szCannotBeApplied);
 	}
-	
+
 	g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) GetVersion());
 }
 
@@ -269,9 +269,13 @@ bool MSOfficeLPIAction::IsNeed()
 	if (bNeed == false)
 	{
 		if (_getVersionInstalled() == NoMSOffice)
-			status = CannotBeApplied;
+		{
+			SetStatus(NotInstalled);
+		}
 		else
-			status = AlreadyApplied;
+		{
+			SetStatus(AlreadyApplied);
+		}
 	}
 
 	g_log.Log(L"MSOfficeLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
@@ -401,7 +405,7 @@ void MSOfficeLPIAction::Execute()
 		break;
 	}
 
-	status = InProgress;
+	SetStatus(InProgress);
 	m_executionStep = ExecutionStep1;
 	g_log.Log(L"MSOfficeLPIAction::Execute '%s' with params '%s'", szApp, szParams);
 	m_runner->Execute(szApp, szParams);
@@ -483,13 +487,15 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 				break;
 		}
 
-		if (_isLangPackForVersionInstalled(_getRegKeys())) {
-			status = Successful;
+		if (_isLangPackForVersionInstalled(_getRegKeys()))
+		{
+			SetStatus(Successful);
 			_setDefaultLanguage();
 		}
-		else {
-			status = FinishedWithError;
-		}		
+		else
+		{
+			SetStatus(FinishedWithError);
+		}
 		g_log.Log(L"MSOfficeLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
