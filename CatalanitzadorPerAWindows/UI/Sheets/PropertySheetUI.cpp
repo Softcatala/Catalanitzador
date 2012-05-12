@@ -154,7 +154,7 @@ int CALLBACK PropertySheetUI::s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 
 PROPSHEETPAGE* PropertySheetUI::_buildPageArray()
 {			
-	PROPSHEETPAGE *pArPages = (PROPSHEETPAGE *) new PROPSHEETPAGE[m_vecPages.size()];
+	PROPSHEETPAGE *pArPages = new PROPSHEETPAGE[m_vecPages.size()];
 	PROPSHEETPAGE *pCurPage;
 	pCurPage = pArPages;
 	PropertyPageUI* pPage;
