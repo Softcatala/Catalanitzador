@@ -25,6 +25,7 @@
 UploadStatistics::UploadStatistics(ostream* stream)
 {
 	m_stream = stream;
+	m_hThread = NULL;
 }
 
 UploadStatistics::~UploadStatistics()

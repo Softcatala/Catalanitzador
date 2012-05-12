@@ -31,7 +31,7 @@ void StringConversion::ToMultiByte(wstring src, string& target)
 	multiByte = new char[size];
 	WideCharToMultiByte(CP_ACP, 0, src.c_str(), src.size() + 1, multiByte, size, NULL, NULL);
 	target = multiByte;
-	delete multiByte;
+	delete[] multiByte;
 }
 
 void StringConversion::ToWideChar(string src, wstring& target)
@@ -44,5 +44,5 @@ void StringConversion::ToWideChar(string src, wstring& target)
 
 	MultiByteToWideChar(CP_ACP, 0,  src.c_str(), src.size() + 1, wideChar, size);
 	target = wideChar;
-	delete wideChar;
+	delete[] wideChar;
 }

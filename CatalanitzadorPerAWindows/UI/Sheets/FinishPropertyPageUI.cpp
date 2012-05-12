@@ -34,8 +34,14 @@ FinishPropertyPageUI::~FinishPropertyPageUI()
 {
 	if (m_hFont != NULL)
 	{
-		DeleteObject (m_hFont);
+		DeleteObject(m_hFont);
 		m_hFont = NULL;
+	}
+
+	if (m_uploadStatistics != NULL)
+	{
+		delete m_uploadStatistics;
+		m_uploadStatistics = NULL;
 	}
 }
 

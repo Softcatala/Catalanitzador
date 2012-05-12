@@ -27,9 +27,7 @@
 #include "IELPIAction.h"
 #include "ChromeAction.h"
 #include "FirefoxAction.h"
-#include "IWin32I18N.h"
 #include "Win32I18N.h"
-#include "IRegistry.h"
 #include "Registry.h"
 #include "OpenOfficeAction.h"
 
@@ -45,21 +43,57 @@ Actions::~Actions()
 		Action* action = m_actions.at(i);
 		delete action;
 	}
-	m_actions.clear();
+	
+	for (unsigned int i = 0; i < m_objectsToDelete.size(); i++)
+	{
+		void* object = m_objectsToDelete.at(i);
+		delete object;
+	}
+}
+
+IOSVersion* Actions::_getNewOSVersion()
+{
+	IOSVersion* version;
+	version = (IOSVersion *)new OSVersion();
+	m_objectsToDelete.push_back(version);
+	return version;
+}
+
+IRegistry* Actions::_getNewRegistry()
+{
+	IRegistry* registry;
+	registry = (IRegistry *)new Registry();
+	m_objectsToDelete.push_back(registry);
+	return registry;
+}
+
+IRunner* Actions::_getNewRunner()
+{
+	IRunner* runner;
+	runner = (IRunner *)new Runner();
+	m_objectsToDelete.push_back(runner);
+	return runner;
+}
+
+IWin32I18N* Actions::_getNewWin32I18N()
+{
+	IWin32I18N* win32I18N;
+	win32I18N = (IWin32I18N *)new Win32I18N();
+	m_objectsToDelete.push_back(win32I18N);
+	return win32I18N;
 }
 
 void Actions::_buildListOfActions()
 {
-	// TODO: All these news are leaks
-	m_actions.push_back(new WindowsLPIAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IWin32I18N *) new Win32I18N(), (IRunner *) new Runner()));
-	m_actions.push_back(new MSOfficeLPIAction((IRegistry *)new Registry(), (IRunner *) new Runner()));
-	m_actions.push_back(new IELPIAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IRunner *)new Runner()));
-	m_actions.push_back(new IEAcceptLanguagesAction((IRegistry *)new Registry()));
+	m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
+	m_actions.push_back(new MSOfficeLPIAction( _getNewRegistry(), _getNewRunner()));
+	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
+	m_actions.push_back(new IEAcceptLanguagesAction( _getNewRegistry()));
 	m_actions.push_back(new ConfigureLocaleAction());
-	m_actions.push_back(new ConfigureDefaultLanguageAction((IOSVersion *)new OSVersion(),(IRegistry *)new Registry(), (IRunner *) new Runner()));
-	m_actions.push_back(new ChromeAction((IRegistry *)new Registry()));
-	m_actions.push_back(new FirefoxAction((IRegistry *)new Registry()));
-	m_actions.push_back(new OpenOfficeAction((IRegistry *)new Registry(), (IRunner *) new Runner()));	
+	m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
+	m_actions.push_back(new ChromeAction( _getNewRegistry()));
+	m_actions.push_back(new FirefoxAction( _getNewRegistry()));
+	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner()));
 
 	_checkPrerequirements();
 }

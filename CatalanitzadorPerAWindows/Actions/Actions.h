@@ -20,6 +20,11 @@
 #pragma once
 
 #include "Action.h"
+#include "IOSVersion.h"
+#include "IWin32I18N.h"
+#include "IRegistry.h"
+#include "IRunner.h"
+
 #include <vector>
 
 using namespace std;
@@ -34,5 +39,11 @@ class Actions
 		void _buildListOfActions();
 		void _checkPrerequirements();
 
+		IOSVersion* _getNewOSVersion();
+		IRegistry* _getNewRegistry();
+		IRunner* _getNewRunner();
+		IWin32I18N* _getNewWin32I18N();
+
 		vector <Action *> m_actions;
+		vector <void *> m_objectsToDelete;
 };
