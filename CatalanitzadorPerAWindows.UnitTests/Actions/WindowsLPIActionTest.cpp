@@ -46,6 +46,7 @@ public:
 
 	public: using WindowsLPIAction::_isLangPackInstalled;
 	public: using WindowsLPIAction::_isDefaultLanguage;
+	public: using WindowsLPIAction::_getDownloadID;
 
 };
 
@@ -192,7 +193,7 @@ TEST(WindowsLPIActionTest, GetDownloadID7)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_7);
+	EXPECT_THAT(lipAction._getDownloadID(), DI_WINDOWSLPIACTION_7);
 }
 
 TEST(WindowsLPIActionTest, GetDownloadIDVista)
@@ -200,7 +201,7 @@ TEST(WindowsLPIActionTest, GetDownloadIDVista)
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
-	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_VISTA);
+	EXPECT_THAT(lipAction._getDownloadID(), DI_WINDOWSLPIACTION_VISTA);
 }
 
 #define WINDOWS_SP_MAJORNUM_SP1 1
@@ -211,7 +212,7 @@ TEST(WindowsLPIActionTest, GetDownloadIDXPSP1)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, GetServicePackVersion()).WillRepeatedly(Return(MAKELONG(0,WINDOWS_SP_MAJORNUM_SP1)));
-	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_XP);
+	EXPECT_THAT(lipAction._getDownloadID(), DI_WINDOWSLPIACTION_XP);
 }
 
 #define WINDOWS_SP_MAJORNUM_SP2 2
@@ -222,7 +223,7 @@ TEST(WindowsLPIActionTest, GetDownloadIDXPSP2)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, GetServicePackVersion()).WillRepeatedly(Return(MAKELONG(0,WINDOWS_SP_MAJORNUM_SP2)));
-	EXPECT_THAT(lipAction.GetDownloadID(), DI_WINDOWSLPIACTION_XP_SP2);
+	EXPECT_THAT(lipAction._getDownloadID(), DI_WINDOWSLPIACTION_XP_SP2);
 }
 
 TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesYes)

@@ -43,22 +43,20 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 		virtual LPCWSTR GetLicenseID();
 		virtual bool IsDownloadNeed();
-		virtual DownloadID GetDownloadID();
-
 
 protected:
 
 		bool _isLangPackInstalled();
 		bool _isDefaultLanguage();
+		DownloadID _getDownloadID();
 
 private:
 
 		bool IsWindowsValidated();
 		bool _isWindowsValidated();
-
 		void _setDefaultLanguage();
 
-		wchar_t filename[MAX_PATH];
+		wchar_t m_szFilename[MAX_PATH];
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;

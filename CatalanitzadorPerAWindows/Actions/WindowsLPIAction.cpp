@@ -32,14 +32,14 @@ WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, I
 	m_win32I18N = win32I18N;
 	m_OSVersion = OSVersion;
 	m_runner = runner;
-	filename[0] = NULL;
+	m_szFilename[0] = NULL;
 }
 
 WindowsLPIAction::~WindowsLPIAction()
 {
-	if (filename[0] != NULL  && GetFileAttributes(filename) != INVALID_FILE_ATTRIBUTES)
+	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile(filename);
+		DeleteFile(m_szFilename);
 	}
 }
 
@@ -71,7 +71,7 @@ LPCWSTR WindowsLPIAction::GetLicenseID()
 	return NULL;
 }
 
-DownloadID WindowsLPIAction::GetDownloadID()
+DownloadID WindowsLPIAction::_getDownloadID()
 {
 	OperatingVersion version = m_OSVersion->GetVersion();
 
@@ -182,7 +182,7 @@ bool WindowsLPIAction::IsNeed()
 	
 	bool bNeed = false;
 
-	if (GetDownloadID() != DI_UNKNOWN)
+	if (_getDownloadID() != DI_UNKNOWN)
 	{		
 		if (_isLangPackInstalled() == false || _isDefaultLanguage() == false)
 		{
@@ -206,11 +206,11 @@ bool WindowsLPIAction::IsNeed()
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
-	GetTempPath(MAX_PATH, filename);
+	GetTempPath(MAX_PATH, m_szFilename);
 
-	Url url(m_actionDownload.GetFileName(GetDownloadID()));
-	wcscat_s (filename, url.GetFileName());	
-	return _getFile(GetDownloadID(), filename, progress, data);
+	Url url(m_actionDownload.GetFileName(_getDownloadID()));
+	wcscat_s(m_szFilename, url.GetFileName());
+	return _getFile(_getDownloadID(), m_szFilename, progress, data);
 }
 
 void WindowsLPIAction::Execute()
@@ -234,14 +234,14 @@ void WindowsLPIAction::Execute()
 		wcscat_s(lpkapp, L"\\msiexec.exe ");
 
 		wcscpy_s(szParams, L" /i ");
-		wcscat_s(szParams, filename); // full path to 'lip_ca-es.msi'
+		wcscat_s(szParams, m_szFilename); // full path to 'lip_ca-es.msi'
 		wcscat_s(szParams, L" /qn");
 	}
 	else // Windows Vista and 7
 	{	
 		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
 		wcscpy_s(szParams, L" /i ca-ES /r /s /p ");
-		wcscat_s(szParams, filename);
+		wcscat_s(szParams, m_szFilename);
 	
 		GetSystemDirectory(lpkapp, MAX_PATH);
 		wcscat_s(lpkapp, L"\\lpksetup.exe");
