@@ -272,81 +272,26 @@ body {
     float: left;
     font-family: Arial;
     font-size: 14px;
-    height: 300px;
-    width: 672px;
+    height: 100%;
+    width: 100%;
+    background: #DFE6EB; 
 }
+
 
 .screenshot_section{    
-    height: 300px !important;
-    width: 672px;
 }
-
-.bx-wrapper{height: 300px !important;}
-.bx-window {height: 300px !important;}
-
 
 h1, h2, h3, span { font-family: Arial;font-size: 30px; font-weight:bold;}
 
-div.top { height: 76px; background: url('../images/top_bg.png') repeat-x; margin: 0 auto;}
-div.top .container .social { float: right;}
-div.top .container .social ul { padding-top: 17px; }
-div.top .container .social ul li { list-style: none; display: inline-block; margin-right: 15px; *display: inline; vertical-align: middle; }
-div.top .container .social ul li.compartiu, div.top .container .social ul li.enllaceu { display: inline; margin-top: -32px; vertical-align: middle; color: #FFF; font-weight: bold; }
+div.center ul#slider li { width: 100%; height: 100%; overflow: hidden; }
 
-a.pmf { background: none repeat scroll 0 0 #2C2C2C;
-    border-radius: 9px 9px 9px 9px;
-    color: #FFFFFF;
-    margin-top: 10px;
-    padding: 3px 10px;
-    text-decoration: none;
-    width: 157px;
-    width: -moz-max-content;  
-}
-
-a.pmf:hover { background: #3A3A3A; }
-
-/* -- Slider controls -- */
-a.bx-next {
-    background: url("../images/fletxa_dreta.png") no-repeat scroll 0 0 transparent ;
-    color: transparent;
-    display: block;
-    height: 68px;
-    left: 366px;
-    position: relative;
-    top: -217px;
-    width: 38px;
-font-size: 1px;
-text-decoration: none; 
-text-indent: -999999px;
-}
-a.bx-next:hover {background: url ('../images/fletxa_dreta.png') no-repeat; background-position:bottom;text-decoration: none;  }
-a.bx-prev {
-    background: url("../images/fletxa_esquerra.png") no-repeat scroll 0 0 transparent;
-    color: transparent;
-    display: block;
-    height: 71px;
-    left: -38px;
-    position: relative;
-    top: -150px;
-    width: 38px;
-font-size: 1px;
-/*/*text-decoration: none; */
-text-indent: -999999px;
-}
-a.bx-prev:hover {background: url ('../images/fletxa_esquerra.png') no-repeat; background-position:bottom; }
-
-div.center ul#slider li { width: 370px; height: 232px; overflow: hidden; }
-
-
-div.slide { background-image: url('gradient.png'); height: 300px; width: 672px;}
-div.software { height: 260px; width: 165px; float: left;}
+div.slide { height: 100%; width: 100%; background: #DFE6EB; }
+div.software { width: 30%; float: left;}
 div.description {
     float: left;
-    height: 260px;
-    margin-left: 30px;
-    padding: 10px;
-    width: 420px;
+    width: 64%;
+    padding: 3%;
 }
-div.description h2 { font-size: 30px; margin-bottom: 8px;text-align:left}
-div.text {text-align:left}
-a.download_button { display: block; background: #0270C7; padding: 3px 5px; color: #FFF; width: 100px; border-radius: 10px; font-size: 16px; text-decoration: none; margin: 10px;text-align:center  }
+div.description h2 { font-size: 25px; margin-bottom: 8px;text-align:left}
+div.text {text-align:left; font-size: 12px; }
+
