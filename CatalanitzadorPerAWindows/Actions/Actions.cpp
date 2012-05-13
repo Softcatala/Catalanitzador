@@ -30,6 +30,7 @@
 #include "Win32I18N.h"
 #include "Registry.h"
 #include "OpenOfficeAction.h"
+#include "AdobeReaderAction.h"
 
 Actions::Actions()
 {
@@ -94,7 +95,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new ChromeAction( _getNewRegistry()));
 	m_actions.push_back(new FirefoxAction( _getNewRegistry()));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner()));
-
+	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
 	_checkPrerequirements();
 }
 

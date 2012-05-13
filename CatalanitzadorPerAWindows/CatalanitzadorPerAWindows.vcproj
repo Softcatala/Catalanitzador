@@ -249,6 +249,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\AdobeReaderAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\AdobeReaderAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\ChromeAction.cpp"
 				>
 			</File>

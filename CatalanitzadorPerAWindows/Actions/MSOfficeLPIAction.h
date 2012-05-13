@@ -36,12 +36,6 @@ enum MSOfficeVersion
 	MSOffice2010
 };
 
-enum ExecutionStep
-{
-	ExecutionStepNone,
-	ExecutionStep1,
-	ExecutionStep2	
-};
 
 struct RegKeyVersion
 {
@@ -71,6 +65,13 @@ protected:
 		MSOfficeVersion _getVersionInstalled();
 
 private:
+
+		enum ExecutionStep
+		{
+			ExecutionStepNone,
+			ExecutionStep1,
+			ExecutionStep2	
+		};
 		
 		bool _isLangPackInstalled();
 		bool _isVersionInstalled(RegKeyVersion regkeys);

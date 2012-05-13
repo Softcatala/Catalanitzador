@@ -33,4 +33,5 @@ enum ActionID
 	Chrome = 7,
 	Firefox = 8,
 	OpenOffice = 9,
+	AcrobatReader = 10,
 };
