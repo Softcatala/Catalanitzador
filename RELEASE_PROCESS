@@ -2,23 +2,30 @@ Release process
 
 Steps to follow
 
-1. Upload release notes
+- Build all the software (Build All) to get the macros _DATE_ and _TIME_ update it
+
+- Sign the binary digitally
+(signtool sign /t http://timestamp.digicert.com /f ../certificat.pfx /p PASSWORD CatalanitzadorPerAlWindows.exe)
+
+- Run all the unit tests
+
+- Upload release notes
 www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows/Versio_1.0
 
-2. Upload binary to
+- Upload binary to
 ftp://ftp.softcatala.org/pub/softcatala/catalanitzador/
 
-3. Make it public at 
+- Make it public at 
 http://www.softcatala.org/wiki/Rebost:Catalanitzador_per_al_Windows
 
 updating the version
 
-4. Upload binary to 
+- Upload binary to 
 https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries/tree/master/releases
 
-5. Notify it to development mailing list
+- Notify it to development mailing list
 
-6. git tag
+- git tag
 
 git tag -m "X.Y.X tag" -a X_Y_X
 git push origin X_Y_X
