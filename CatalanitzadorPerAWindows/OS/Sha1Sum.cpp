@@ -72,7 +72,7 @@ void Sha1Sum::_compute()
     BYTE buffer[BUFSIZE];
     DWORD cbRead = 0;
     BYTE rgbHash[SHA1LEN];    
-    char digits[] = "0123456789abcdef";
+    wchar_t digits[] = L"0123456789abcdef";
     
 	m_sum.erase();
 	hFile = CreateFile(m_file.c_str(), GENERIC_READ,
