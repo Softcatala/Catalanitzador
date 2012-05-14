@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "AdobeReaderAction.h"
 #include "Url.h"
+#include "Runner.h"
 
 AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner)
 {
@@ -173,6 +174,23 @@ void AdobeReaderAction::_readUninstallGUID()
 		m_registry->Close();
 	}
 	g_log.Log(L"AdobeReaderAction::_readUninstallGUID: '%s'", (wchar_t *) m_GUID.c_str());
+}
+
+DWORD AdobeReaderAction::_getProcessID()
+{
+	Runner runner;
+	return runner.GetProcessID(wstring(L"AcroRd32.exe"));
+}
+
+bool AdobeReaderAction::IsExecuting()
+{
+	return _getProcessID() != 0;
+}
+
+void AdobeReaderAction::FinishExecution()
+{
+	Runner runner;
+	runner.RequestQuitToProcessID(_getProcessID());
 }
 
 bool AdobeReaderAction::IsNeed()

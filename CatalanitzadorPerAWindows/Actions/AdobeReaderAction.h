@@ -38,6 +38,8 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion() {return m_version.c_str();}
 		virtual void CheckPrerequirements(Action * action);
+		virtual bool IsExecuting();
+		virtual void FinishExecution();		
 
 protected:
 
@@ -60,6 +62,7 @@ private:
 		void _uninstall();
 		void _installVersion();
 		int _getMajorVersion();
+		DWORD _getProcessID();
 
 		wstring m_version;
 		wstring m_lang;
