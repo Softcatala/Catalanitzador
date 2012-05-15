@@ -22,6 +22,7 @@
 #include "Action.h"
 #include "IRunner.h"
 #include "IRegistry.h"
+#include "HideApplicationWindow.h"
 
 class _APICALL AdobeReaderAction : public Action
 {
@@ -70,6 +71,7 @@ private:
 		ExecutionStep m_executionStep;
 		IRunner* m_runner;
 		IRegistry* m_registry;
+		HideApplicationWindow m_hideApplicationWindow;
 
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];

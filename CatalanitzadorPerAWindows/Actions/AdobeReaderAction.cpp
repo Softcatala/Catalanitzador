@@ -226,6 +226,7 @@ void AdobeReaderAction::_uninstall()
 	m_executionStep = ExecutionStep1;
 	
 	g_log.Log(L"AdobeReaderAction::_uninstall '%s' with params '%s'", szApp, szParams);
+	m_hideApplicationWindow.Start();
 	m_runner->Execute(szApp, szParams);
 }
 
@@ -237,12 +238,15 @@ void AdobeReaderAction::_installVersion()
 	wcscpy_s(szApp, m_szFilename);
 	wcscat_s(szApp, L" /rs /sAll");
 	m_executionStep = ExecutionStep2;	
-	g_log.Log(L"AdobeReaderAction::Execute '%s' with params '%s'", szApp, szParams);
+	g_log.Log(L"AdobeReaderAction::Execute '%s'", szApp);
 	m_runner->Execute(NULL, szApp);
 }
 
 void AdobeReaderAction::Execute()
-{
+{	
+	int ids[] = {2, 8, 0xb, 0xa, NULL};
+
+	m_hideApplicationWindow.AddControlsID(ids);
 	SetStatus(InProgress);
 	_uninstall();
 }
@@ -265,9 +269,10 @@ ActionStatus AdobeReaderAction::GetStatus()
 				break;
 			case ExecutionStep1:
 			{
-				_installVersion();				
-				return InProgress;				
-			}				
+				m_hideApplicationWindow.Stop();
+				_installVersion();
+				return InProgress;
+			}
 			case ExecutionStep2:
 				break;
 			default:

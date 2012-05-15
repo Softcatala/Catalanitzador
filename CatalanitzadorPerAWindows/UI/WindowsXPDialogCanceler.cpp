@@ -140,7 +140,7 @@ VOID CALLBACK WindowsXPDialogCanceler::_timerWindowsXPProc(HWND hWndTimer, UINT 
 			break;
 		}
 
-		hWnd = FindWindowEx(NULL, hWnd, MAKEINTATOM(32770), NULL);
+		hWnd = FindWindowEx(NULL, hWnd, MAKEINTATOM(DIALOG_BOX_ATOM), NULL);
 	}	
 }
 

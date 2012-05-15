@@ -457,6 +457,14 @@
 			Name="UI"
 			>
 			<File
+				RelativePath=".\UI\HideApplicationWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UI\HideApplicationWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UI\WindowsXPDialogCanceler.cpp"
 				>
 			</File>
