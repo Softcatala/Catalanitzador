@@ -35,7 +35,7 @@ HideApplicationWindow::HideApplicationWindow()
 
 void HideApplicationWindow::Start()
 {	
-	m_nTimerID = SetTimer(NULL, TIMER_ID_XP, 50, _timerWindowsXPProc);
+	m_nTimerID = SetTimer(NULL, TIMER_ID_XP, 50, _timerProc);
 	s_timersIDsToObjs[m_nTimerID] = this;
 	g_log.Log(L"HideApplicationWindow::Start");
 }
@@ -97,7 +97,7 @@ bool HideApplicationWindow::_findControls(HWND hWnd)
 }
 
 
-VOID CALLBACK HideApplicationWindow::_timerWindowsXPProc(HWND hWndTimer, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK HideApplicationWindow::_timerProc(HWND hWndTimer, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {	
 	HWND hWnd;
 	map<int, HideApplicationWindow*>::iterator it;
@@ -121,7 +121,7 @@ VOID CALLBACK HideApplicationWindow::_timerWindowsXPProc(HWND hWndTimer, UINT uM
 			obj->Stop();
 			GetWindowText(hWnd, szText, sizeof(szText));
 			ShowWindow(hWnd,SW_HIDE);
-			g_log.Log(L"HideApplicationWindow::_timerWindowsXPProc. Found window title '%s', hwnd '%u', sent WM_SHOWWINDOW message", szText,
+			g_log.Log(L"HideApplicationWindow::_timerProc. Found window title '%s', hwnd '%u', sent WM_SHOWWINDOW message", szText,
 				(wchar_t*) hWndTimer);
 		}
 		hWnd = FindWindowEx(NULL, hWnd, MAKEINTATOM(DIALOG_BOX_ATOM), NULL);

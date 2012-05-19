@@ -36,7 +36,7 @@ public:
 private:		
 
 		bool _findControls(HWND hWnd);
-		static VOID CALLBACK _timerWindowsXPProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
+		static VOID CALLBACK _timerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
 
 		int m_nTimerID;		
 		vector <int> m_controlsID;
