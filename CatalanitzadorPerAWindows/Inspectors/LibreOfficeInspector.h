@@ -22,19 +22,19 @@
 #include "Inspector.h"
 #include "IRegistry.h"
 
-class _APICALL AdobeAcrobatInspector : public Inspector
+class _APICALL LibreOfficeInspector : public Inspector
 {
 public:
 
-		AdobeAcrobatInspector(IRegistry* registry);
+		LibreOfficeInspector(IRegistry* registry);
 
-		virtual int GetID() {return AcrobatInspector;};		
+		virtual InspectorID GetID() {return LibreOfficeInspectorID;}
 		virtual void Execute();
 
 private:
 		
-		void _enumVersions(vector <wstring>& versions);
-		void _enumInstalledLangs(vector <wstring>& versions);
+		void _readVersionInstalled();
 
 		IRegistry* m_registry;
+		wstring m_version;
 };

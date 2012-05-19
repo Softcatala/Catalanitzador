@@ -21,7 +21,7 @@
 #include "Inspectors.h"
 #include "IRegistry.h"
 #include "Registry.h"
-#include "AdobeAcrobatInspector.h"
+#include "LibreOfficeInspector.h"
 
 Inspectors::Inspectors()
 {
@@ -35,13 +35,25 @@ Inspectors::~Inspectors()
 		Inspector* inspector = m_Inspectors.at(i);
 		delete inspector;
 	}
-	m_Inspectors.clear();
+
+	for (unsigned int i = 0; i < m_objectsToDelete.size(); i++)
+	{
+		void* object = m_objectsToDelete.at(i);
+		delete object;
+	}
+}
+
+IRegistry* Inspectors::_getNewRegistry()
+{
+	IRegistry* registry;
+	registry = (IRegistry *)new Registry();
+	m_objectsToDelete.push_back(registry);
+	return registry;
 }
 
 void Inspectors::_buildListOfInspectors()
 {
-	// TODO: All these news are leaks
-	m_Inspectors.push_back(new AdobeAcrobatInspector((IRegistry *)new Registry()));
+	m_Inspectors.push_back(new LibreOfficeInspector(_getNewRegistry()));
 }
 
 void Inspectors::Execute()

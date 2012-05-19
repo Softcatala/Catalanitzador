@@ -24,5 +24,5 @@ enum InspectorID
 	// Do not modify these since they are used in the server side to identify 
 	// inspectors in a unique manner
 	NoInspector = 0,
-	AcrobatInspector = 1,	
+	LibreOfficeInspectorID = 1,	
 };

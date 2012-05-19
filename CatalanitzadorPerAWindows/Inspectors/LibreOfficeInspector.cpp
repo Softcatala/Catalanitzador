@@ -18,21 +18,22 @@
  */
 
 #include "stdafx.h"
-#include "AdobeAcrobatInspector.h"
+#include "LibreOfficeInspector.h"
 
-#define ACROBAT_REGKEY L"Software\\Adobe\\Acrobat Reader"
 
-AdobeAcrobatInspector::AdobeAcrobatInspector(IRegistry* registry)
+LibreOfficeInspector::LibreOfficeInspector(IRegistry* registry)
 {
 	m_registry = registry;
 }
 
-void AdobeAcrobatInspector::_enumVersions(vector <wstring>& versions)
+#define PROGRAM_REGKEY L"SOFTWARE\\LibreOffice\\LibreOffice"
+
+void LibreOfficeInspector::_readVersionInstalled()
 {
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, ACROBAT_REGKEY, false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
 	{
 		while (bKeys)
 		{
@@ -43,44 +44,18 @@ void AdobeAcrobatInspector::_enumVersions(vector <wstring>& versions)
 
 			if (bKeys)
 			{
-				versions.push_back(key);
+				m_version = key;
+				break;
 			}
 		}
 		m_registry->Close();
 	}
+	g_log.Log(L"LibreOfficeInspector::_readVersionInstalled '%s'", (wchar_t *) m_version.c_str());
+
+	m_KeyValues.push_back(InspectorKeyValue(L"version",m_version));
 }
 
-void AdobeAcrobatInspector::_enumInstalledLangs(vector <wstring>& versions)
-{
-	for (unsigned int i = 0; i < versions.size(); i++)
-	{
-		wstring key(ACROBAT_REGKEY);
-
-		key+=L"\\";
-		key+=versions[i];
-		key+=L"\\";
-		key+=L"Language";
-
-		if (m_registry->OpenKey(HKEY_CURRENT_USER, (wchar_t*)key.c_str(), false))
-		{
-			wchar_t szLang[2048];
-			wstring lang;
-
-			if (m_registry->GetString(L"UI", szLang, sizeof(szLang)))
-			{
-				lang = szLang;
-				m_KeyValues.push_back(InspectorKeyValue(versions[i], lang));
-			}
-
-			m_registry->Close();
-		}
-	}
-}
-
-void AdobeAcrobatInspector::Execute()
+void LibreOfficeInspector::Execute()
 {	
-	vector <wstring> versions;
-
-	_enumVersions(versions);
-	_enumInstalledLangs(versions);
+	_readVersionInstalled();
 }

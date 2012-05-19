@@ -645,14 +645,6 @@
 			Name="Inspectors"
 			>
 			<File
-				RelativePath=".\Inspectors\AdobeAcrobatInspector.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Inspectors\AdobeAcrobatInspector.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Inspectors\Inspector.cpp"
 				>
 			</File>
@@ -670,6 +662,14 @@
 			</File>
 			<File
 				RelativePath=".\Inspectors\Inspectors.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\LibreOfficeInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\LibreOfficeInspector.h"
 				>
 			</File>
 		</Filter>

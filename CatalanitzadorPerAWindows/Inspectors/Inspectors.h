@@ -20,6 +20,7 @@
 #pragma once
 
 #include "Inspector.h"
+#include "IRegistry.h"
 #include <vector>
 
 using namespace std;
@@ -35,7 +36,9 @@ class Inspectors
 		vector <Inspector *> GetInspectors() {return m_Inspectors; }
 
 	private:
-		void _buildListOfInspectors();		
+		void _buildListOfInspectors();
+		IRegistry* _getNewRegistry();
 
 		vector <Inspector *> m_Inspectors;
+		vector <void *> m_objectsToDelete;
 };
