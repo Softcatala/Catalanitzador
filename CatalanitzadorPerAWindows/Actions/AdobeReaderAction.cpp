@@ -80,7 +80,7 @@ void AdobeReaderAction::_enumVersions(vector <wstring>& versions)
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, ACROBAT_REGKEY, false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ACROBAT_REGKEY, false))
 	{
 		while (bKeys)
 		{
@@ -112,7 +112,7 @@ void AdobeReaderAction::_readInstalledLang()
 	key+=L"\\";
 	key+=L"Language";
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, (wchar_t*)key.c_str(), false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
 	{
 		wchar_t szLang[2048];
 
@@ -163,7 +163,7 @@ void AdobeReaderAction::_readUninstallGUID()
 	key+=L"\\";
 	key+=L"Installer";
 	
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, (wchar_t*)key.c_str(), false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
 	{
 		wchar_t szGUID[2048];
 
