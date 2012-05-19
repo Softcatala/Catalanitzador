@@ -1,4 +1,3 @@
-_findControls
 /* 
  * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
@@ -54,19 +53,12 @@ void HideApplicationWindow::Stop()
 
 void HideApplicationWindow::AddControlsID(int ids [])
 {
-	int* pIDs; 
-
-	pIDs = ids;
-
-	while (*pIDs != NULL)
+	for (int i = 0; ids[i] != NULL; i++)
 	{
-		m_controlsID.push_back(*pIDs);
+		m_controlsID.push_back(ids[i]);
 		m_controlsFounds.push_back(false);
-
-		pIDs++;
 	}
 }
-
 
 bool HideApplicationWindow::_findControls(HWND hWnd)
 {
@@ -89,7 +81,7 @@ bool HideApplicationWindow::_findControls(HWND hWnd)
 		{
 			if (m_controlsID.at(i) == id)
 			{
-				g_log.Log(L"HideApplicationWindow::_findControls. Found control %x", (wchar_t*) id);
+				g_log.Log(L"HideApplicationWindow::_findControls. Found control %x,  hwnd '%u", (wchar_t*) id, (wchar_t*) hWnd);
 				m_controlsFounds[i] = true;
 				break;
 			}
@@ -122,8 +114,6 @@ VOID CALLBACK HideApplicationWindow::_timerWindowsXPProc(HWND hWndTimer, UINT uM
 
 	while (hWnd)
 	{
-		hWnd = FindWindowEx(NULL, hWnd, MAKEINTATOM(DIALOG_BOX_ATOM), NULL);
-
 		if (obj->HideApplicationWindow::_findControls(hWnd))
 		{
 			wchar_t szText[2048];
@@ -131,7 +121,9 @@ VOID CALLBACK HideApplicationWindow::_timerWindowsXPProc(HWND hWndTimer, UINT uM
 			obj->Stop();
 			GetWindowText(hWnd, szText, sizeof(szText));
 			ShowWindow(hWnd,SW_HIDE);
-			g_log.Log(L"HideApplicationWindow::_timerWindowsXPProc. Found window title '%s', sent WM_SHOWWINDOW message",	szText);			
+			g_log.Log(L"HideApplicationWindow::_timerWindowsXPProc. Found window title '%s', hwnd '%u', sent WM_SHOWWINDOW message", szText,
+				(wchar_t*) hWndTimer);
 		}
+		hWnd = FindWindowEx(NULL, hWnd, MAKEINTATOM(DIALOG_BOX_ATOM), NULL);
 	}
 }
