@@ -54,7 +54,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual int GetID() { return IELPI;};
+		virtual ActionID GetID() { return IELPI;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();		
 		virtual void Execute();

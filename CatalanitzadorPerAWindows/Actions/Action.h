@@ -44,7 +44,7 @@ public:
 		virtual wchar_t* GetDescription() = 0;
 
 		// Unique ID that identifies the action
-		virtual int GetID() = 0;
+		virtual ActionID GetID() = 0;
 
 		// If the action needs to download files to be completed (like language packages) or can run without
 		// downloading files (changes in configuration). This is used to determine if Internet Connection is

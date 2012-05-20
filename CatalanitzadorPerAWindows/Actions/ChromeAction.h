@@ -35,7 +35,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual int GetID() { return Chrome;};
+		virtual ActionID GetID() { return Chrome;};
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();
