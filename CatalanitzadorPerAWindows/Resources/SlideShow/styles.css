@@ -264,6 +264,10 @@ hr.space {background:#fff;color:#fff;visibility:hidden;}
 .clearfix, .container {display:block;}
 .clear {clear:both;}
 
+html {
+overflow:hidden;
+}
+
 
 /* ---- Catalanitzador page styles ---- */
 
@@ -274,7 +278,7 @@ body {
     font-size: 14px;
     height: 100%;
     width: 100%;
-    background: #DFE6EB; 
+    background: #DFE6EB;
 }
 
 
