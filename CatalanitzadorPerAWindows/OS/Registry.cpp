@@ -38,6 +38,12 @@ bool Registry::OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 		bWriteAccess ? KEY_READ|KEY_WRITE:KEY_READ, &hKey) == ERROR_SUCCESS;
 }
 
+bool Registry::CreateKey(HKEY hBaseKey, wchar_t* sSubKey)
+{
+	return RegCreateKeyEx(hBaseKey, sSubKey, 0, 0, REG_OPTION_NON_VOLATILE,
+						  KEY_READ | KEY_WRITE,0, &hKey,0) == ERROR_SUCCESS;
+}
+
 bool Registry::SetDWORD(wchar_t* string, DWORD value)
 {	
 	return RegSetValueEx(hKey,string,0, REG_DWORD, (BYTE*)&value, sizeof (DWORD)) == ERROR_SUCCESS;

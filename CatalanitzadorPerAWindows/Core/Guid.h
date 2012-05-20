@@ -16,27 +16,28 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
-
+ 
 #pragma once
 
 #include "IRegistry.h"
+#include <string>
 
-class RegistryMock : public IRegistry
+using namespace std;
+
+class _APICALL Guid
 {
- public:
+	public:
+			Guid(IRegistry* registry);
+			wstring Get();
+			void Store();
 
-	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
-	MOCK_METHOD2(CreateKey, bool(HKEY, wchar_t*));
-	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
-	MOCK_METHOD2(SetMultiString, bool(wchar_t*, wchar_t*));	
-	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
-	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
-	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
-	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
+	private:
+
+			void _generate();
+			bool _read();
+			void _store();
+			
+			IRegistry* m_registry;
+			bool m_bReaded;
+			wstring m_guid;
 };
-
-ACTION_P(SetArgCharStringPar2, value) 
-{
-	wcscpy_s(arg1, 255, value);
-}

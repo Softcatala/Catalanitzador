@@ -33,12 +33,13 @@ class Serializer
 			void Close();
 			void StartAction();
 			void EndAction();
-			void _openHeader();
 			void CloseHeader();
 			ostream* GetStream() { return stream;}
 
 	private:
-			void _application();			
+			void _setSession();
+			void _openHeader();
+			void _application();
 
 			stringstream* stream;
 };

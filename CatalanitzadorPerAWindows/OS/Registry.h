@@ -28,6 +28,7 @@ public:
 		~Registry();
 
 		bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess);
+		bool CreateKey(HKEY hBaseKey, wchar_t* sSubKey);
 		bool SetString(wchar_t* string, wchar_t* value);
 		virtual bool SetMultiString(wchar_t* string, wchar_t* value);
 		bool SetDWORD(wchar_t* string, DWORD value);
