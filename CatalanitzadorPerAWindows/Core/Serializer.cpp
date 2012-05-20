@@ -24,15 +24,17 @@
 #include "Guid.h"
 #include "Registry.h"
 
+#include <fstream>
+
 Serializer::Serializer()
 {
 	OSVersion version;
-	stream = new stringstream();
+	m_stream = new stringstream();
 
 	_openHeader();
 	_application();
 	_setSession();
-	version.Serialize(stream);
+	version.Serialize(m_stream);
 }
 
 Serializer::~Serializer()
@@ -49,7 +51,7 @@ void Serializer::_setSession()
 
 	StringConversion::ToMultiByte(guid.Get().c_str(), guid_value);
 	sprintf_s (szText, "\t<session guid='%s' />\n", guid_value.c_str());
-	*stream << szText;
+	*m_stream << szText;
 	guid.Store();
 }
 
@@ -59,40 +61,61 @@ void Serializer::_application()
 
 	sprintf_s (szText, "\t<application MajorVersion='%u' MinorVersion='%u' Revision='%u' />\n", 
 		APP_MAJOR_VERSION, APP_MINOR_VERSION, APP_REVISION);
-	*stream << szText;
+	*m_stream << szText;
 }
 
 void Serializer::StartAction()
 {
-	*stream << "\t<actions>\n";
+	*m_stream << "\t<actions>\n";
 }
 
 void Serializer::EndAction()
 {
-	*stream << "\t</actions>\n";	
+	*m_stream << "\t</actions>\n";	
 }
 
 void Serializer::_openHeader()
 {
-	*stream << "<?xml version='1.0'?>\n";
-	*stream << "<execution>\n";
+	*m_stream << "<?xml version='1.0'?>\n";
+	*m_stream << "<execution>\n";
 }
 
 void Serializer::CloseHeader()
 {
-	*stream << "</execution>\n";
+	*m_stream << "</execution>\n";
 }
 
 void Serializer::Serialize(Serializable* serializable)
 {
-	serializable->Serialize(stream);
+	serializable->Serialize(m_stream);
 }
 
 void Serializer::Close()
 {
-	if (stream != NULL)
+	if (m_stream != NULL)
 	{
-		delete stream;
-		stream = NULL;
+		delete m_stream;
+		m_stream= NULL;
 	}
+}
+
+void Serializer::SaveToString(string& string)
+{
+	char szBuff[65535];
+
+	m_stream->seekg(0);
+	streambuf* rdbuf = m_stream->rdbuf();
+	memset(szBuff, 0, sizeof(szBuff));
+	rdbuf->sgetn(szBuff, sizeof(szBuff));
+	string = szBuff;	
+}
+
+void Serializer::SaveToFile(wstring file)
+{
+	string str;
+
+	SaveToString(str);
+	ofstream of((wchar_t* )file.c_str());
+	of.write(str.c_str(), str.size());
+	of.close();
 }

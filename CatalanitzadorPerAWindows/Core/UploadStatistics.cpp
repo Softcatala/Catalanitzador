@@ -20,11 +20,10 @@
 #include "stdafx.h"
 #include "UploadStatistics.h"
 #include "HttpFormInet.h"
-#include <fstream>
 
-UploadStatistics::UploadStatistics(ostream* stream)
+UploadStatistics::UploadStatistics(Serializer* serializer)
 {
-	m_stream = stream;
+	m_serializer = serializer;
 	m_hThread = NULL;
 }
 
@@ -39,33 +38,18 @@ UploadStatistics::~UploadStatistics()
 
 void UploadStatistics::UploadFile()
 {
-	char szBuff[65535];
+	string serialize;
 	char szVar[65535];
-	
-	streambuf* rdbuf = m_stream->rdbuf();
-	memset (szBuff, 0, sizeof(szBuff));
-	rdbuf->sgetn(szBuff, sizeof(szBuff));
+
+	m_serializer->SaveToString(serialize);
 
 	strcpy_s(szVar, "xml=");
-	strcat_s(szVar, szBuff);
-
-	// Dump XML to disc
-	wchar_t szXML[MAX_PATH];
-	GetTempPath(MAX_PATH, szXML);	
-	wcscat_s(szXML, L"results.xml");
-
-	ofstream of(szXML);
-	int size = strlen(szBuff);
-	of.write(szBuff, size);
-	of.close();
+	strcat_s(szVar, serialize.c_str());
 
 	// Send file
-	HttpFormInet access;
+	HttpFormInet access;	
 	bool rslt = access.PostForm(UPLOAD_URL, szVar);
-#if !_DEBUG
-	DeleteFile(szXML);
-#endif
-	g_log.Log (L"UploadStatistics::UploadFile result %u", (wchar_t *)rslt);	
+	g_log.Log(L"UploadStatistics::UploadFile result %u", (wchar_t *)rslt);	
 }
 
 DWORD UploadStatistics::_uploadXmlThread(LPVOID lpParam)

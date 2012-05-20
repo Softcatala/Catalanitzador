@@ -34,12 +34,15 @@ class Serializer
 			void StartAction();
 			void EndAction();
 			void CloseHeader();
-			ostream* GetStream() { return stream;}
+			ostream* GetStream() { return m_stream;}
+
+			void SaveToString(string& string);
+			void SaveToFile(wstring file);
 
 	private:
 			void _setSession();
 			void _openHeader();
 			void _application();
 
-			stringstream* stream;
+			stringstream* m_stream;
 };

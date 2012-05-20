@@ -43,6 +43,11 @@ FinishPropertyPageUI::~FinishPropertyPageUI()
 		delete m_uploadStatistics;
 		m_uploadStatistics = NULL;
 	}
+
+	if (m_xmlFile.size() > 0)
+	{
+		DeleteFile(m_xmlFile.c_str());
+	}
 }
 
 void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
@@ -77,22 +82,32 @@ void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
 	}
 }
+void FinishPropertyPageUI::_saveToDisk()
+{
+	wchar_t szXML[MAX_PATH];
+
+	GetTempPath(MAX_PATH, szXML);	
+	wcscat_s(szXML, L"results.xml");
+	m_xmlFile = szXML;
+	m_serializer->SaveToFile(m_xmlFile);
+}
 
 void FinishPropertyPageUI::_onInitDialog()
 {
 	if (*m_pbSendStats)
 	{
-		m_uploadStatistics = new UploadStatistics(m_serializer->GetStream());
+		m_uploadStatistics = new UploadStatistics(m_serializer);
 		m_uploadStatistics->StartUploadThread();
 	}
 
-	m_levelProgressBar = GetDlgItem (getHandle(), IDC_LEVEL_PROGRESSBAR);
+	m_levelProgressBar = GetDlgItem(getHandle(), IDC_LEVEL_PROGRESSBAR);
 	m_hFont = Window::CreateBoldFont(getHandle());
 	SendMessage(GetDlgItem (getHandle(), IDC_CONGRATULATIONS), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 	SendMessage(GetDlgItem (getHandle(), IDC_HELPSOCIALNETWORKS), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 	SendMessage(GetDlgItem (getHandle(), IDC_FEEDBACK), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	_setProgressBarLevelAndPercentage();
+	_saveToDisk();
 }
 
 void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()

@@ -43,6 +43,7 @@ private:
 		bool _isRebootNeed();
 		void _shutdown();
 		void _setProgressBarLevelAndPercentage();
+		void _saveToDisk();
 
 		HFONT m_hFont;
 		vector <Action *> * m_actions;
@@ -50,5 +51,5 @@ private:
 		BOOL* m_pbSendStats;
 		UploadStatistics * m_uploadStatistics;
 		HWND m_levelProgressBar;
-		
+		wstring m_xmlFile;
 };

@@ -20,12 +20,12 @@
 #pragma once
 
 #include "Serializable.h"
-#include <sstream>
+#include "Serializer.h"
 
 class UploadStatistics
 {
 	public:
-			UploadStatistics(ostream* stream);
+			UploadStatistics(Serializer* serializer);
 			~UploadStatistics();
 
 			void StartUploadThread();
@@ -36,6 +36,6 @@ class UploadStatistics
 
 			static DWORD WINAPI _uploadXmlThread(LPVOID lpParam);
 
-			ostream* m_stream;
+			Serializer* m_serializer;
 			HANDLE m_hThread;
 };
