@@ -721,6 +721,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OS\IWin32I18N.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OS\OSVersion.cpp"
 				>
 			</File>
