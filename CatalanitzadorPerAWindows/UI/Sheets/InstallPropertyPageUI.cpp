@@ -35,9 +35,6 @@ using namespace std;
 
 void InstallPropertyPageUI::_openURLInIE()
 {
-
-#ifdef _SLIDESHOW
-
 	HWND hX = GetDlgItem(getHandle (),IDC_INTERNETEXPLORER);
 
 	SendMessage(hX,AX_INPLACE,1,0);
@@ -51,7 +48,6 @@ void InstallPropertyPageUI::_openURLInIE()
 		wb->Navigate((BSTR)m_slideshow->GetURL().c_str(),0,0,0,0);
 		wb->Release();
 	}
-#endif
 }
 
 void InstallPropertyPageUI::_onInitDialog()

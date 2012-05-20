@@ -181,8 +181,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	finish.SetSendStats(&bSendStats);
 	finish.createPage(m_hInstance, IDD_FINISH, NULL);	
 	sheet.addPage(&finish);
-#ifdef _SLIDESHOW
 	slideshow.StartUnpackThread();
-#endif
+
 	sheet.runModal(m_hInstance, NULL, NULL);
 }
