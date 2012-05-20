@@ -19,11 +19,7 @@
 
 #include "stdafx.h"
 #include "InstallPropertyPageUI.h"
-#include "Actions.h"
-#include "Action.h"
 #include "PropertySheetUI.h"
-#include "Window.h"
-#include "resource.h"
 #include "OSVersion.h"
 #include "DownloadErrorDlgUI.h"
 #include "WindowsXPDialogCanceler.h"
