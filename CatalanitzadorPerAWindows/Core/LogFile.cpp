@@ -32,7 +32,7 @@ LogFile::~LogFile()
 	Close ();
 }
 
-void LogFile::Close ()
+void LogFile::Close()
 {
 	if (m_hLog != NULL)
 	{
@@ -107,7 +107,7 @@ void LogFile::_stringTime()
 	SYSTEMTIME systemTime;
 	wchar_t	szTime[128];
 
-	GetSystemTime(&systemTime);
+	GetLocalTime(&systemTime);
 
 	swprintf_s(szTime, L"%02u:%02u:%02u.%04u - ", systemTime.wHour, systemTime.wMinute, systemTime.wSecond,
 		systemTime.wMilliseconds);
