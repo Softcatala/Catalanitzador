@@ -67,7 +67,7 @@ void OpenOfficeAction::FinishExecution()
 {
 	HWND hwndTray; 
 		
-	hwndTray = FindWindow( LISTENER_WINDOWCLASS, NULL );
+	hwndTray = FindWindow( LISTENER_WINDOWCLASS, NULL);
 
     if (hwndTray)
 	{
@@ -149,7 +149,7 @@ void OpenOfficeAction::Execute()
 
 	wcscpy_s(szApp, m_szTempPathCAB);
 	wcscat_s(szApp, L"\\setup.exe /q");
-	status = InProgress;	
+	SetStatus(InProgress);
 	g_log.Log(L"OpenOfficeAction::Execute '%s' with params '%s'", szApp, szParams);
 	m_runner->Execute(NULL, szApp);
 }
@@ -359,11 +359,11 @@ ActionStatus OpenOfficeAction::GetStatus()
 				_setDefaultLanguage();
 			}
 
-			status = _isDefaultLanguage() ? Successful : FinishedWithError;
+			SetStatus(_isDefaultLanguage() ? Successful : FinishedWithError);
 		}
 		else
 		{
-			status = FinishedWithError;
+			SetStatus(FinishedWithError);
 		}
 		
 		g_log.Log(L"OpenOfficeAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
