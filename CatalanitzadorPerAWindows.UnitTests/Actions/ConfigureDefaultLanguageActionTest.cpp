@@ -101,12 +101,6 @@ TEST(WindowsLPIActionTest, _hasSpanishKeyboard_SecondTrue)
 	EXPECT_TRUE(defLanguageAction._hasSpanishKeyboard());
 }
 
-
-ACTION_P(ReadArgCharString, value)
-{
-	wcscpy_s(value, 255, arg1);
-}
-
 #define CATALAN_LANGCODE L"0403"
 #define ANOTHER_LANGCODE L"040a"
 

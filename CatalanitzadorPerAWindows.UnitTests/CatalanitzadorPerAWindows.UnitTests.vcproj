@@ -320,6 +320,10 @@
 			Name="Core"
 			>
 			<File
+				RelativePath=".\Core\GuidTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\HttpFormInetTest.cpp"
 				>
 			</File>

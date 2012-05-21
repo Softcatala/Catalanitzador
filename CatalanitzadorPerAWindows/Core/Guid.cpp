@@ -21,9 +21,6 @@
 #include "guid.h"
 #include "registry.h"
 
-#define CATALANITZADOR_REGKEY L"SOFTWARE\\Catalanitzador"
-#define GUID_REGKEY L"GUID"
-
 Guid::Guid(IRegistry* registry)
 {
 	m_bReaded = false;
@@ -48,6 +45,12 @@ wstring Guid::Get()
 void Guid::Store()
 {
 	bool bRslt;
+
+	assert(m_guid.size() > 0);
+
+	// If the value was readed we do not to stored it again, since we will be writting again the same
+	if (m_bReaded == true)
+		return;
 
 	bRslt = m_registry->CreateKey(HKEY_LOCAL_MACHINE, CATALANITZADOR_REGKEY);
 
