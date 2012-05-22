@@ -28,13 +28,7 @@
 
 Serializer::Serializer()
 {
-	OSVersion version;
 	m_stream = new stringstream();
-
-	_openHeader();
-	_application();
-	_setSession();
-	version.Serialize(m_stream);
 }
 
 Serializer::~Serializer()
@@ -74,8 +68,14 @@ void Serializer::EndAction()
 	*m_stream << "\t</actions>\n";	
 }
 
-void Serializer::_openHeader()
+void Serializer::OpenHeader()
 {
+	OSVersion version;
+
+	_application();
+	_setSession();
+	version.Serialize(m_stream);
+
 	*m_stream << "<?xml version='1.0'?>\n";
 	*m_stream << "<execution>\n";
 }
