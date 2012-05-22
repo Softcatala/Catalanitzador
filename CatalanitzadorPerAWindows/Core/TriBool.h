@@ -36,7 +36,7 @@ public:
 
 	TriBool() {value = Undefined;}
 	
-	bool IsUndefined() { return value == Undefined;}
+	bool IsUndefined() const { return value == Undefined;}
 	void SetUndefined() { value = Undefined;}
 	bool operator == (bool other);
 	void operator = (bool other);

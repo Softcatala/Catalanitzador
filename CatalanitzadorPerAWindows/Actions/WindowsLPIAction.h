@@ -34,10 +34,10 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() { return WindowsLPI;};
+		virtual ActionID GetID() const { return WindowsLPI;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
-		virtual bool IsRebootNeed();
+		virtual bool IsRebootNeed() const;
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);

@@ -36,7 +36,7 @@ class Serializer
 			void CloseHeader();
 			void StartAction();
 			void EndAction();			
-			ostream* GetStream() { return m_stream;}
+			ostream* GetStream() const { return m_stream;}
 
 			void SaveToString(string& string);
 			void SaveToFile(wstring file);

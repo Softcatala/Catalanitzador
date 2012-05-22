@@ -155,7 +155,7 @@ void ConfigureDefaultLanguageAction::CheckPrerequirements(Action * action)
 	}
 }
 
-bool ConfigureDefaultLanguageAction::IsRebootNeed()
+bool ConfigureDefaultLanguageAction::IsRebootNeed() const
 {
 	// Default language in Windows XP only changes after reboot
 	if (m_OSVersion->GetVersion() == WindowsXP)

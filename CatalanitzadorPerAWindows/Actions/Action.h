@@ -44,7 +44,7 @@ public:
 		virtual wchar_t* GetDescription() = 0;
 
 		// Unique ID that identifies the action
-		virtual ActionID GetID() = 0;
+		virtual ActionID GetID() const = 0;
 
 		// If the action needs to download files to be completed (like language packages) or can run without
 		// downloading files (changes in configuration). This is used to determine if Internet Connection is
@@ -55,7 +55,7 @@ public:
 		virtual bool IsNeed() = 0;
 
 		// If the user needs to reboot the PC after executing the action to make the changes effective
-		virtual bool IsRebootNeed() { return false;};
+		virtual bool IsRebootNeed() const { return false;}
 
 		// Get the status of the action
 		virtual ActionStatus GetStatus() { return status;}
@@ -82,7 +82,7 @@ public:
 
 		// An action may depend in another action to be selected to be able to execute it
 		// For example, Internet Explorer 6 language pack is part of the Windows language pack
-		virtual ActionID DependsOn() { return NoAction; };
+		virtual ActionID DependsOn() const { return NoAction; };
 
 		// If the action has license that the user needs to accept before installing
 		// contains the Windows resouce ID of the license text

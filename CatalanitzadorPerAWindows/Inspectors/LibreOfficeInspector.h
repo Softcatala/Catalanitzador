@@ -28,7 +28,7 @@ public:
 
 		LibreOfficeInspector(IRegistry* registry);
 
-		virtual InspectorID GetID() {return LibreOfficeInspectorID;}
+		virtual InspectorID GetID() const {return LibreOfficeInspectorID;}
 		virtual void Execute();
 
 private:

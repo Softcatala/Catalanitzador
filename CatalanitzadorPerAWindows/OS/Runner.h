@@ -25,9 +25,9 @@ class _APICALL Runner : IRunner
 {
 public:
 		bool Execute(wchar_t* program, wchar_t* params, bool b64bits = false);
-		bool IsRunning();
+		bool IsRunning() const;
 		void WaitUntilFinished();
-		DWORD GetProcessID(wstring name);
+		DWORD GetProcessID(wstring name) const;
 		bool RequestQuitToProcessID(DWORD processID);
 
 private:
