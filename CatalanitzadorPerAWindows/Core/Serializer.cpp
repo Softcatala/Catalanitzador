@@ -72,12 +72,12 @@ void Serializer::OpenHeader()
 {
 	OSVersion version;
 
+	*m_stream << "<?xml version='1.0'?>\n";
+	*m_stream << "<execution>\n";
+
 	_application();
 	_setSession();
 	version.Serialize(m_stream);
-
-	*m_stream << "<?xml version='1.0'?>\n";
-	*m_stream << "<execution>\n";
 }
 
 void Serializer::CloseHeader()
