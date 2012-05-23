@@ -60,7 +60,7 @@ void Guid::Store()
 		m_registry->Close();
 	}
 
-	g_log.Log(L"Gui::Store. Result '%u'", (wchar_t *) bRslt);
+	g_log.Log(L"Guid::Store. Result '%u'", (wchar_t *) bRslt);
 }
 
 void Guid::_generate()
@@ -74,7 +74,7 @@ void Guid::_generate()
 		m_guid = (wchar_t*) pszUuid;
 		RpcStringFree(&pszUuid);
 	}
-	g_log.Log(L"Gui::_generate '%s'", (wchar_t *) m_guid.c_str());
+	g_log.Log(L"Guid::_generate '%s'", (wchar_t *) m_guid.c_str());
 }
 
 bool Guid::_read()
@@ -85,12 +85,15 @@ bool Guid::_read()
 	{
 		wchar_t szGuid[2048];
 
-		m_registry->GetString(GUID_REGKEY, szGuid, sizeof(szGuid));		
+		if (m_registry->GetString(GUID_REGKEY, szGuid, sizeof(szGuid)))
+		{
+			m_guid = szGuid;
+			bRslt = !m_guid.empty();
+		}
 		m_registry->Close();
-		m_guid = szGuid;
-		bRslt = !m_guid.empty();
+		
 	}
-	g_log.Log(L"Gui::_read. Result %u, %s", (wchar_t*) bRslt, (wchar_t *) m_guid.c_str());
+	g_log.Log(L"Guid::_read. Result %u, '%s'", (wchar_t*) bRslt, (wchar_t *) m_guid.c_str());
 	return bRslt;
 }
 

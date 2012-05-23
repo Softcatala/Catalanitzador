@@ -16,8 +16,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
+
+#include "version.h"
  
 #define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
 
-
-#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
+#ifdef BETA_VERSION
+	#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser_dev.php"
+#else
+	#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
+#endif

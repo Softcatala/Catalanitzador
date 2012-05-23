@@ -32,7 +32,7 @@ class _APICALL Sha1Sum
 		    Sha1Sum(){}
 			Sha1Sum(wstring file);
 			void SetFile(wstring file) { m_file = file;}
-			wstring GetSum() { return m_sum;}
+			wstring GetSum() const { return m_sum;}
 			wstring ComputeforFile();
 			wstring ReadFromFile();
 			

@@ -56,7 +56,7 @@ bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 	return true;
 }
 
-bool Runner::IsRunning()
+bool Runner::IsRunning() const
 {
 	DWORD dwStatus;
 
@@ -69,7 +69,7 @@ void Runner::WaitUntilFinished()
 	WaitForSingleObject(pi.hProcess, INFINITE);
 }
 
-DWORD Runner::GetProcessID(wstring name)
+DWORD Runner::GetProcessID(wstring name) const
 {	
 	DWORD aProcesses[4096], cbNeeded, processID;
     

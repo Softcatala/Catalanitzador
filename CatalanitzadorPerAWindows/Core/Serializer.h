@@ -31,17 +31,18 @@ class Serializer
 
 			void Serialize(Serializable* serializable);
 			void Close();
-			void StartAction();
-			void EndAction();
+
+			void OpenHeader();
 			void CloseHeader();
-			ostream* GetStream() { return m_stream;}
+			void StartAction();
+			void EndAction();			
+			ostream* GetStream() const { return m_stream;}
 
 			void SaveToString(string& string);
 			void SaveToFile(wstring file);
 
 	private:
-			void _setSession();
-			void _openHeader();
+			void _setSession();			
 			void _application();
 
 			stringstream* m_stream;

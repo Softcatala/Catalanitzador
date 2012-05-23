@@ -54,13 +54,13 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() { return IELPI;};
+		virtual ActionID GetID() const { return IELPI;};
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();		
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
-		virtual ActionID DependsOn() { return WindowsLPI;};
+		virtual ActionID DependsOn() const { return WindowsLPI;};
 		virtual LPCWSTR GetLicenseID();
 
 		Prerequirements CheckPrerequirementsDependand(Action * action);
@@ -69,7 +69,7 @@ public:
 protected:
 
 		IEVersion _readIEVersion();
-		IEVersion _getIEVersion();	
+		IEVersion _getIEVersion();
 		void _setIEVersion(IEVersion version) {m_version = version;}
 
 private:

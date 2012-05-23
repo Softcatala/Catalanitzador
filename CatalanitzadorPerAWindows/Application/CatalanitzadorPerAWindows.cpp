@@ -53,6 +53,8 @@ void CatalanitzadorPerAWindows::Run()
 		return;
 
 	_initLog();
+	m_serializer.OpenHeader();
+
 	if (_supportedOS() == true && _hasAdminPermissionsDialog() == true)
 	{
 		OleInitialize(0);

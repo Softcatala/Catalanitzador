@@ -49,7 +49,7 @@ void UploadStatistics::UploadFile()
 	// Send file
 	HttpFormInet access;	
 	bool rslt = access.PostForm(UPLOAD_URL, szVar);
-	g_log.Log(L"UploadStatistics::UploadFile result %u", (wchar_t *)rslt);	
+	g_log.Log(L"UploadStatistics::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);	
 }
 
 DWORD UploadStatistics::_uploadXmlThread(LPVOID lpParam)

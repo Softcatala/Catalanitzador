@@ -55,7 +55,7 @@ class _APICALL Inspector : public Serializable
 public:
 		Inspector() {};
 		virtual ~Inspector() {};
-		virtual InspectorID GetID() = 0;
+		virtual InspectorID GetID() const = 0;
 		virtual vector <InspectorKeyValue> GetKeyValues() {return m_KeyValues;}
 		virtual void Execute() = 0;
 		virtual void Serialize(ostream* stream);

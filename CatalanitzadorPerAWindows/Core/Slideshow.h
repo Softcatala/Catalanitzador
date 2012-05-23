@@ -31,7 +31,7 @@ class Slideshow
 			void StartUnpackThread();
 			void UploadFile();
 			void WaitForThread();
-			wstring GetURL(){return m_URL; }
+			wstring GetURL() const {return m_URL; }
 
 	private:
 			void _unpackSlideShow();

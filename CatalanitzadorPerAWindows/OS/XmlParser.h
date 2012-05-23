@@ -44,8 +44,8 @@ public:
 		m_value = value;
 	}
 
-	wstring GetName() {return m_name; }
-	wstring GetValue() {return m_value; }
+	wstring GetName() const {return m_name; }
+	wstring GetValue() const {return m_value; }
 
 private:
 
@@ -72,16 +72,16 @@ public:
 		assert(m_itemPtr == NULL);
 		m_Name = name;
 	}
-	wstring GetName() {return m_Name; }
+	wstring GetName() const {return m_Name; }
 
 	void SetText(wstring text) 
 	{
 		assert(m_itemPtr == NULL);
 		m_Text = text;
 	}
-	wstring GetText() {return m_Text; }
+	wstring GetText() const {return m_Text; }
 
-	MSXML2::IXMLDOMElementPtr GetIXMLDOMElementPtr() { return m_itemPtr;}
+	MSXML2::IXMLDOMElementPtr GetIXMLDOMElementPtr() const { return m_itemPtr;}
 	void SetIXMLDOMElementPtr(MSXML2::IXMLDOMElementPtr itemPtr) { m_itemPtr = itemPtr;}
 	
 	vector <XmlNode>* GetChildren() {return &m_children; }
@@ -114,7 +114,7 @@ public:
 		bool Load(wstring file);
 		bool Save(wstring file);
 		void AppendNode(XmlNode node);
-		MSXML2::IXMLDOMDocumentPtr getDocument() {return m_domDocument;}
+		MSXML2::IXMLDOMDocumentPtr getDocument() const {return m_domDocument;}
 		
 private:
 		void _initialize();

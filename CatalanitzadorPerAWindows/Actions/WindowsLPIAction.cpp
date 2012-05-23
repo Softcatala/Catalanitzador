@@ -296,7 +296,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 	return status;
 }
 
-bool WindowsLPIAction::IsRebootNeed()
+bool WindowsLPIAction::IsRebootNeed() const
 {
 	return status == Successful;
 }
