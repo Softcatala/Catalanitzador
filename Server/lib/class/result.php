@@ -4,7 +4,8 @@
  * This class handles the xml results and create the entries in the database
  * @author Pau Iranzo <paugnu@gmail.com>
  */
-class result {
+class result 
+{
 
     var $MajorVersion;
     var $MinorVersion;
@@ -36,6 +37,7 @@ class result {
         $Bits = $db->escape( $this->Bits );
         $ProductType = $db->escape( $this->ProductType );
         $Name = $db->escape( $this->Name );
+        $guid = $db->escape( $this->guid);
 
         $applications_query = $db->get_var ( "SELECT ID FROM applications WHERE  MajorVersion = '$MajorVersion' AND MinorVersion = '$MinorVersion' AND Revision = '$Revision'");
         $operatings_query = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='$Name' AND Bits ='$Bits' ");
@@ -44,8 +46,7 @@ class result {
         //No log file at this moment
         $LogFile = '';
         
-        if ( !$applications_query )
-        {
+        if ( !$applications_query ){
             $db->query( "INSERT INTO applications 
                     ( MajorVersion, MinorVersion, Revision ) 
                     VALUES 
@@ -56,15 +57,12 @@ class result {
         else
              $ApplicationsID = $applications_query;
         
-        if ( !$operatings_query )
-        {
-            if( $id = $operatings_query_null )
-            {
+        if ( !$operatings_query ){
+            if( $id = $operatings_query_null ){
                 $db->query( "UPDATE operatings SET Name = '$Name' WHERE id = '$id'" );
                 $OperatingsID = $id;
             }
-            else
-            {
+            else{
                 $db->query( "INSERT INTO operatings 
                         ( OSMajorVersion, OSMinorVersion, SPMajorVersion, SPMinorVersion, SuiteMask, ProductType, Name, Bits ) 
                         VALUES 
@@ -77,9 +75,9 @@ class result {
             $OperatingsID = $operatings_query;
          
          $db->query( "INSERT INTO sessions 
-                ( Date, ApplicationsID, OperatingsID, LogFile ) 
+                ( Date, ApplicationsID, OperatingsID, LogFile, guid ) 
                 VALUES 
-                ( NOW(), '$ApplicationsID', '$OperatingsID', '$LogFile' )
+                ( NOW(), '$ApplicationsID', '$OperatingsID', '$LogFile', '$guid' )
                 " );
          $SessionID = $db->insert_id;
          
@@ -88,7 +86,7 @@ class result {
     }
     
     //This function adds a new action to a particular session after the session has been created
-    function add_action ( $SessionID, $ActionID, $Version, $Result)
+    function add_action($SessionID, $ActionID, $Version, $Result)
     {        
         global $db;
         
@@ -96,6 +94,18 @@ class result {
                 ( SessionID, ActionID, Version, Result ) 
                 VALUES 
                 ( '$SessionID', '$ActionID', '$Version', '$Result' )
+                " );
+    }
+
+    //This function adds a new inspector to a particular session after the session has been created
+    function add_inspector($SessionID, $InspectorID, $KeyVersion, $Value)
+    {        
+        global $db;
+        
+        $db->query( "INSERT INTO inspectors 
+                ( SessionID, InspectorID, KeyVersion, Value ) 
+                VALUES 
+                ( '$SessionID', '$InspectorID', '$KeyVersion', '$Value' )
                 " );
     }
 }
