@@ -40,16 +40,16 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
-		virtual void CheckPrerequirements(Action * action);
 		virtual bool IsExecuting();
 		virtual void FinishExecution();
+		virtual void CheckPrerequirements(Action * action);
 
 		void ParseLanguage(wstring regvalue);
 		void CreateJSONString(wstring &regvalue);
 		void AddCatalanToArrayAndRemoveOldIfExists();
 		vector <wstring> * GetLanguages() {return &m_languages;}
 
-private:
+private:		
 		
 		void _getFirstLanguage(wstring& regvalue);
 		void _readVersion();
@@ -58,6 +58,7 @@ private:
 		bool _writeLanguageCode(wstring langcode);
 		void _createRegistryStringTwoLangs(wstring &regvalue, float average);
 		bool _isChromeAppLocaleOk();
+		bool _isInstalled();
 
 		bool _findIntl(wstring,int&);
 		bool _findSemicolon(wstring,int&);
@@ -71,6 +72,6 @@ private:
 		wstring m_version;
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
-		bool isInstalled;
+		TriBool m_isInstalled;
 };
 

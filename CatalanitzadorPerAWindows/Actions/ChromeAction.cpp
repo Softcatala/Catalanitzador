@@ -32,7 +32,6 @@ enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 ChromeAction::ChromeAction(IRegistry* registry)
 {
 	m_registry = registry;
-	isInstalled = false;
 }
 
 wchar_t* ChromeAction::GetName()
@@ -357,7 +356,6 @@ bool ChromeAction::_writeLanguageCode(wstring langcode)
 	return ret;
 }
 
-
 void ChromeAction::_getFirstLanguage(wstring& jsonvalue)
 {
 	if(m_languages.size() > 0)
@@ -368,38 +366,20 @@ void ChromeAction::_getFirstLanguage(wstring& jsonvalue)
 
 bool ChromeAction::IsNeed()
 {
-	bool bNeed = true;
-	bool langcodeFound, localeOk = false;
+	bool bNeed;
 
-	wstring langcode, firstlang;
-	
-	langcodeFound = _readLanguageCode(langcode);
-	
-	if(isInstalled){
-		localeOk = _isChromeAppLocaleOk();
-		
-		if(langcodeFound) {
-			ParseLanguage(langcode);
-			_getFirstLanguage(firstlang);	
-		
-			bNeed = firstlang.compare(L"ca") != 0;
-			if(bNeed == false) {
-				status = AlreadyApplied;
-			}
-		} else {
-			if (localeOk) {
-				status = AlreadyApplied;
-				bNeed = false;
-			}
-		}
-	} else {
-		bNeed = false;
-		status = CannotBeApplied;
+	switch(GetStatus())
+	{
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
 	}
-	
-	g_log.Log(L"ChromeAction::IsNeed returns %u (first lang:%s), locale ok %u", 
-		(wchar_t *) bNeed, (wchar_t *) firstlang.c_str(),  (wchar_t *) localeOk);
-
+	g_log.Log(L"ChromeAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
 	return bNeed;
 }
 
@@ -451,6 +431,24 @@ void ChromeAction::_readVersion()
 	}	
 }
 
+bool ChromeAction::_isInstalled()
+{
+	if (m_isInstalled.IsUndefined())
+	{
+		wchar_t szInstallLocation[1024] = L"";
+
+		if (m_registry->OpenKey(HKEY_CURRENT_USER, ChromeRegistryPath, false))
+		{
+			m_registry->GetString(L"InstallLocation", szInstallLocation, sizeof(szInstallLocation));
+			m_registry->Close();
+		}
+
+		m_isInstalled = wcslen(szInstallLocation) > 0;
+	}
+
+	return m_isInstalled == true;
+}
+
 void ChromeAction::_readInstallLocation(wstring & path)
 {
 	wchar_t * szInstallLocation = NULL;
@@ -462,7 +460,6 @@ void ChromeAction::_readInstallLocation(wstring & path)
 		
 		if (m_registry->GetString(L"InstallLocation", szInstallLocation, sizeof(szInstallLocation)))
 		{
-			isInstalled = true;
 			path = szInstallLocation;
 			g_log.Log(L"ChromeAction::_readInstallLocation. Chrome version %s", szInstallLocation);
 			delete(szInstallLocation);
@@ -486,11 +483,6 @@ const wchar_t* ChromeAction::GetVersion()
 		_readVersion();
 	}
 	return m_version.c_str();
-}
-
-void ChromeAction::CheckPrerequirements(Action * action)
-{
-	_readVersion();
 }
 
 void ChromeAction::CreateJSONString(wstring &jsonvalue)
@@ -531,5 +523,33 @@ void ChromeAction::ParseLanguage(wstring value)
 	if (language.empty() == false)
 	{
 		m_languages.push_back(language);
+	}
+}
+
+void ChromeAction::CheckPrerequirements(Action * action)
+{	
+	bool langcodeFound, localeOk = false;
+	wstring langcode, firstlang;
+	
+	if (_isInstalled())
+	{
+		_readVersion();
+		langcodeFound = _readLanguageCode(langcode);
+		localeOk = _isChromeAppLocaleOk();
+		
+		if(langcodeFound) {
+			ParseLanguage(langcode);
+			_getFirstLanguage(firstlang);
+			
+			if(firstlang.compare(L"ca") == 0) {
+				SetStatus(AlreadyApplied);
+			}
+		} else {
+			if (localeOk) {
+				SetStatus(AlreadyApplied);
+			}
+		}
+	} else {
+		_setStatusNotInstalled();
 	}
 }
