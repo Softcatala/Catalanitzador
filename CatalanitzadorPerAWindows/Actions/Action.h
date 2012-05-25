@@ -105,6 +105,7 @@ public:
 
 protected:
 
+		void _setStatusNotInstalled();
 		bool _getFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data);
 		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);
 

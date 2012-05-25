@@ -238,7 +238,6 @@ void MSOfficeLPIAction::_readVersionInstalled()
 		m_MSVersion = MSOffice2003;		
 	} else {		
 		m_MSVersion = NoMSOffice;
-		_getStringFromResourceIDName(IDS_MSOFFICEACTION_NOOFFICE, szCannotBeApplied);
 	}
 
 	g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) GetVersion());
@@ -270,7 +269,7 @@ bool MSOfficeLPIAction::IsNeed()
 	{
 		if (_getVersionInstalled() == NoMSOffice)
 		{
-			SetStatus(NotInstalled);
+			_setStatusNotInstalled();
 		}
 		else
 		{

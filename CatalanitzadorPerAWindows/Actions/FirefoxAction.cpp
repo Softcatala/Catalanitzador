@@ -96,7 +96,7 @@ bool FirefoxAction::IsNeed()
 	}
 	else
 	{
-		SetStatus(NotInstalled);		
+		_setStatusNotInstalled();
 	}
 	
 	g_log.Log(L"FirefoxAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());

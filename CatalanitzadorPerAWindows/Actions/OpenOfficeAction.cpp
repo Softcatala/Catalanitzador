@@ -393,7 +393,7 @@ void OpenOfficeAction::CheckPrerequirements(Action * action)
 	}
 	else
 	{
-		SetStatus(NotInstalled);
+		_setStatusNotInstalled();
 		return;
 	}
 }

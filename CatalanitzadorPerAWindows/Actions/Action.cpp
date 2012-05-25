@@ -78,6 +78,12 @@ bool Action::_getFile(DownloadID downloadID, wstring file, ProgressStatus progre
 	return m_actionDownload.GetFile(downloadID, file, progress, data);
 }
 
+void Action::_setStatusNotInstalled()
+{
+	_getStringFromResourceIDName(IDS_APPLICATION_NOTINSTALLED, szCannotBeApplied);
+	SetStatus(NotInstalled);
+}
+
 void Action::SetStatus(ActionStatus value) 
 {
 	ActionStatus prev = status;
