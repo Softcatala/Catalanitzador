@@ -328,18 +328,20 @@ bool OpenOfficeAction::_isLangPackInstalled()
 
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
 	{
-		int i = 0;
 		wchar_t szFileName[MAX_PATH];
 
-		m_registry->GetString(L"path", szFileName, sizeof(szFileName));
+		if (m_registry->GetString(L"path", szFileName, sizeof(szFileName)))
+		{
+			int i;
+
+			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
+			
+			szFileName[i + 1] = NULL;
+			wcscat_s(szFileName, L"resource\\oooca.res");
+
+			bRslt = GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES;
+		}
 		m_registry->Close();
-
-		for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
-		
-		szFileName[i + 1] = NULL;
-		wcscat_s(szFileName, L"resource\\oooca.res");
-
-		bRslt = GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES;
 	}
 	g_log.Log(L"OpenOfficeAction::_isLangPackInstalled '%u'", (wchar_t *) bRslt);
 	return bRslt;
