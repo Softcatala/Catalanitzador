@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,11 +19,22 @@
 
 #pragma once
 
-enum InspectorID
+#include "Inspector.h"
+#include "IRegistry.h"
+
+class _APICALL SkypeInspector : public Inspector
 {
-	// Do not modify these since they are used in the server side to identify 
-	// inspectors in a unique manner
-	NoInspector = 0,
-	LibreOfficeInspectorID = 1,
-	SkypeID = 2,
+public:
+
+		SkypeInspector(IRegistry* registry);
+
+		virtual InspectorID GetID() const {return SkypeID;}
+		virtual void Execute();
+
+private:
+		
+		void _readLangInstalled();
+
+		IRegistry* m_registry;
+		wstring m_version;
 };

@@ -22,6 +22,7 @@
 #include "IRegistry.h"
 #include "Registry.h"
 #include "LibreOfficeInspector.h"
+#include "SkypeInspector.h"
 
 Inspectors::Inspectors()
 {
@@ -54,6 +55,7 @@ IRegistry* Inspectors::_getNewRegistry()
 void Inspectors::_buildListOfInspectors()
 {
 	m_Inspectors.push_back(new LibreOfficeInspector(_getNewRegistry()));
+	m_Inspectors.push_back(new SkypeInspector(_getNewRegistry()));
 }
 
 void Inspectors::Execute()

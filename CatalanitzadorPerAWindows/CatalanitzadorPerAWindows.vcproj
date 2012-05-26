@@ -680,6 +680,14 @@
 				RelativePath=".\Inspectors\LibreOfficeInspector.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Inspectors\SkypeInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\SkypeInspector.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="OS"
