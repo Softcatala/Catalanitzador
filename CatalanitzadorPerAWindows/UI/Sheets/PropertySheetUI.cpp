@@ -249,7 +249,7 @@ void PropertySheetUI::destroy(void)
 void PropertySheetUI::cleanup(void)
 {	
 	if (m_pages) {
-		delete m_pages;
+		delete[] m_pages;
 		m_pages = NULL;
 	}	
 }

@@ -103,8 +103,8 @@ DWORD Runner::GetProcessID(wstring name) const
 						break;
 					}
 				}
+				CloseHandle(hProcess);
 			}
-			CloseHandle(hProcess);
         }
     }
 	g_log.Log (L"Runner::IsProcessRunning. Process '%s' is running %u", (wchar_t *)name.c_str(), (wchar_t *)processID);
