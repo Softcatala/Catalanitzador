@@ -103,7 +103,7 @@ class result
         global $db;
         
         $db->query( "INSERT INTO inspectors 
-                ( SessionID, InspectorID, KeyVersion, Value ) 
+                ( SessionID, InspectorID, Key, Value ) 
                 VALUES 
                 ( '$SessionID', '$InspectorID', '$KeyVersion', '$Value' )
                 " );
