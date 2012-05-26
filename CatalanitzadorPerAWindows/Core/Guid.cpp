@@ -74,7 +74,7 @@ void Guid::_generate()
 		m_guid = (wchar_t*) pszUuid;
 		RpcStringFree(&pszUuid);
 	}
-	g_log.Log(L"Guid::_generate '%s'", (wchar_t *) m_guid.c_str());
+	g_log.Log(L"Guid::_generate. Guid: '%s'", (wchar_t *) m_guid.c_str());
 }
 
 bool Guid::_read()
@@ -93,7 +93,7 @@ bool Guid::_read()
 		m_registry->Close();
 		
 	}
-	g_log.Log(L"Guid::_read. Result %u, '%s'", (wchar_t*) bRslt, (wchar_t *) m_guid.c_str());
+	g_log.Log(L"Guid::_read. Result %u, guid: '%s'", (wchar_t*) bRslt, (wchar_t *) m_guid.c_str());
 	return bRslt;
 }
 

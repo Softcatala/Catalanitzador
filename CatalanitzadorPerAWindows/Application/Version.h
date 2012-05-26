@@ -23,5 +23,3 @@
 #define APP_REVISION			0
 #define STRING_VERSION			"1.1.0.0"
 
-#define BETA_VERSION 1
-

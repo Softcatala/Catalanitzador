@@ -21,8 +21,4 @@
  
 #define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
 
-#ifdef BETA_VERSION
-	#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser_dev.php"
-#else
-	#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
-#endif
+#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
