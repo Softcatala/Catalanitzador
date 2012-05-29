@@ -48,6 +48,11 @@ public:
 	public: using WindowsLPIAction::_isDefaultLanguage;
 	public: using WindowsLPIAction::_getDownloadID;
 
+	virtual bool _isWindowsValidated()
+	{
+		return true;
+	}
+
 };
 
 #define CreateWindowsLIPAction \

@@ -49,11 +49,11 @@ protected:
 		bool _isLangPackInstalled();
 		bool _isDefaultLanguage();
 		DownloadID _getDownloadID();
+		virtual bool _isWindowsValidated();
 
 private:
-
-		bool IsWindowsValidated();
-		bool _isWindowsValidated();
+		
+		bool _isWindowsXPValidated();
 		void _setDefaultLanguage();
 
 		wchar_t m_szFilename[MAX_PATH];

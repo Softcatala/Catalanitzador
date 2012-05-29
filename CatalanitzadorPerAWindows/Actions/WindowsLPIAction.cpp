@@ -84,7 +84,7 @@ DownloadID WindowsLPIAction::_getDownloadID()
 			// The Windows LPI for SP2 or higher checks if the the Windows is validated and fails if is not
 			// If the version of Windows is not validated, we switch back to the old language pack that does not
 			// do any validation
-			if (majorVersion >= 2 && IsWindowsValidated())
+			if (majorVersion >= 2 && _isWindowsValidated())
 			{
 				return DI_WINDOWSLPIACTION_XP_SP2;
 			}
@@ -355,8 +355,7 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 	}
 }
 
-
-bool WindowsLPIAction::IsWindowsValidated() 
+bool WindowsLPIAction::_isWindowsValidated() 
 {		
 	if (m_OSVersion->GetVersion() == WindowsXP)
 	{
@@ -369,7 +368,7 @@ bool WindowsLPIAction::IsWindowsValidated()
 			g_log.Log(L"WindowsLPIAction::IsWindowsValidated. Old XP");
 			return true;
 		}
-		return _isWindowsValidated();
+		return _isWindowsXPValidated();
 	}
 	else
 	{
@@ -381,7 +380,7 @@ bool WindowsLPIAction::IsWindowsValidated()
 #define FUNCTION_ID 0x1
 
 // Strategy: only says that is validated if we can really confirm it
-bool WindowsLPIAction::_isWindowsValidated()
+bool WindowsLPIAction::_isWindowsXPValidated()
 {
 	CLSID lcsid;
 	IDispatch* disp;
