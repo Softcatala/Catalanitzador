@@ -17,6 +17,13 @@ See: http://support.microsoft.com/kb/2005279
 
 Download and unzip Google Mocks 1.6 at libs/gmock and Google Test 1.6 at libs/gtest
 
+Before building the libraries, go to all the projects within the gmock solution a do the following steps: 
+
+- Go to the project properties -> Configuration Properties -> C++ Code Generation
+- Select "Multithreaded Debug Dll". 
+
+For gtest, this should be the default configuration, if it is not, do also the same steps.
+
 -- Git configuration for contribuing
 
 git should be setup to Unix line ending style:
