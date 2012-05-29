@@ -29,7 +29,7 @@ LogFile::LogFile()
 
 LogFile::~LogFile()
 {
-	Close ();
+	Close();
 }
 
 void LogFile::Close()
@@ -59,6 +59,7 @@ bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
 		_write(L"\r\n");
 	}
 	_writeCompileTime(appName);
+	_today();
 	return true;
 }
 
@@ -100,6 +101,18 @@ void LogFile::_writeCompileTime(wchar_t* appName)
 	StringConversion::ToWideChar(string(__TIME__), time);
 	
 	Log(L"%s. Compiled on %s - %s", appName, (wchar_t*) date.c_str(), (wchar_t*) time.c_str());
+}
+
+void LogFile::_today()
+{
+	SYSTEMTIME systemTime;
+	wchar_t	szTime[128];
+
+	GetLocalTime(&systemTime);
+
+	swprintf_s(szTime, L"Today is %04u/%02u/%02u", systemTime.wYear, systemTime.wMonth, systemTime.wDay);
+	_stringTime();
+	_writeLine(szTime);
 }
 
 void LogFile::_stringTime()
