@@ -102,13 +102,13 @@ void AdobeReaderAction::_enumVersions(vector <wstring>& versions)
 	}
 }
 
-void AdobeReaderAction::_readInstalledLang()
+void AdobeReaderAction::_readInstalledLang(wstring version)
 {
 	wstring key(ACROBAT_REGKEY);
 
 	// TODO: swprintf
 	key+=L"\\";
-	key+=m_version;
+	key+=version;
 	key+=L"\\";
 	key+=L"Language";
 
@@ -128,12 +128,12 @@ void AdobeReaderAction::_readVersionInstalled()
 {
 	vector <wstring> versions;
 
-	AdobeReaderAction::_enumVersions(versions);	
+	_enumVersions(versions);
 
 	if (versions.size() > 0)
 	{
 		m_version = versions[0];
-		_readInstalledLang();
+		_readInstalledLang(m_version);
 		_readUninstallGUID();
 	}
 	g_log.Log(L"AdobeReaderAction::_readVersionInstalled: version: '%s', lang: '%s', versions installed: '%u'", 
@@ -280,7 +280,7 @@ ActionStatus AdobeReaderAction::GetStatus()
 				break;
 		}
 
-		_readInstalledLang();
+		_readInstalledLang(m_version);
 
 		if (_isLangPackInstalled())
 		{

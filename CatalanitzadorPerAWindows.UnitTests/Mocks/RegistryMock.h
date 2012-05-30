@@ -41,7 +41,14 @@ ACTION_P(SetArgCharStringPar2, value)
 	wcscpy_s(arg1, 255, value);
 }
 
+ACTION_P(SetArgWStringPar2, value) 
+{
+	arg1 = value;
+}
+
 ACTION_P(ReadArgCharString, value)
 {
 	wcscpy_s(value, 255, arg1);
 }
+
+

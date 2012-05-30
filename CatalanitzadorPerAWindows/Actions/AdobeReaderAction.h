@@ -44,8 +44,10 @@ public:
 
 protected:
 
-		void _readVersionInstalled();
-		DownloadID _getDownloadID();
+		void _enumVersions(vector <wstring>& versions);
+		void _readInstalledLang(wstring version);
+
+		wstring m_lang;
 
 private:
 
@@ -55,18 +57,17 @@ private:
 			ExecutionStep1,
 			ExecutionStep2	
 		};
-
-		void _readInstalledLang();
-		void _enumVersions(vector <wstring>& versions);
+		
 		bool _isLangPackInstalled();
 		void _readUninstallGUID();
 		void _uninstall();
 		void _installVersion();
 		int _getMajorVersion();
 		DWORD _getProcessID();
+		void _readVersionInstalled();
+		DownloadID _getDownloadID();
 
 		wstring m_version;
-		wstring m_lang;
 		wstring m_GUID;
 		ExecutionStep m_executionStep;
 		IRunner* m_runner;
