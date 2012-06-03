@@ -61,10 +61,8 @@ private:
 		wstring m_version;
 		IRunner* m_runner;
 		IRegistry* m_registry;
-		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
 		wchar_t m_szTempPathCAB[MAX_PATH];
-		
 };
 
