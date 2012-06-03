@@ -39,7 +39,6 @@ void WelcomePropertyPageUI::_onInitDialog()
 {
 	HWND hWnd;
 	SystemRestore systemRestore;
-	bool bCanSystemRestore;
 
 	hWnd = GetDlgItem(getHandle(), IDC_WELCOME_TOAPP);
 	m_hFont = Window::CreateBoldFont(hWnd);
@@ -53,8 +52,7 @@ void WelcomePropertyPageUI::_onInitDialog()
 #if !_DEBUG
 	CheckDlgButton(getHandle(), IDC_SENDRESULTS, TRUE);
 #endif
-	bCanSystemRestore = systemRestore.Init();
-
+	
 	if (systemRestore.Init() == true)
 	{
 #if !_DEBUG
@@ -65,7 +63,6 @@ void WelcomePropertyPageUI::_onInitDialog()
 	{
 		EnableWindow(GetDlgItem(getHandle(), IDC_SYSTEMRESTORE), FALSE);
 	}
-
 	
 	SetFocus(getHandle());
 }
