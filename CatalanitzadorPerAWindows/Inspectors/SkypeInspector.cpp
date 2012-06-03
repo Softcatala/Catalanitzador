@@ -38,7 +38,7 @@ void SkypeInspector::_readLangInstalled()
 		m_registry->Close();
 	}
 
-	g_log.Log(L"SkypeInspector::_readVersionInstalled '%s'", (wchar_t *) m_version.c_str());
+	g_log.Log(L"SkypeInspector::_readLangInstalled '%s'", (wchar_t *) m_version.c_str());
 	m_KeyValues.push_back(InspectorKeyValue(L"lang", szLanguage));
 }
 
