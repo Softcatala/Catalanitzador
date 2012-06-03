@@ -75,7 +75,7 @@ void OpenOfficeAction::FinishExecution()
 	}
 }
 
-#define PROGRAM_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
+
 
 // TODO: You can several versions installed, just read first one for now
 void OpenOfficeAction::_readVersionInstalled()
@@ -83,7 +83,7 @@ void OpenOfficeAction::_readVersionInstalled()
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, OPENOFFICCE_PROGRAM_REGKEY, false))
 	{
 		while (bKeys)
 		{
@@ -322,7 +322,7 @@ bool OpenOfficeAction::_isLangPackInstalled()
 	wstring key;
 	bool bRslt = false;
 
-	key = PROGRAM_REGKEY;
+	key = OPENOFFICCE_PROGRAM_REGKEY;
 	key += L"\\";
 	key += m_version;
 
@@ -379,17 +379,17 @@ void OpenOfficeAction::CheckPrerequirements(Action * action)
 
 	if (m_version.size() > 0)
 	{
-		if (_isLangPackInstalled() == true)
-		{
-			SetStatus(AlreadyApplied);
-			return;
-		}
-
 		if (m_version != L"3.3")
 		{			
 			_getStringFromResourceIDName(IDS_OPENOFFICEACTION_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"OpenOfficeAction::CheckPrerequirements. Version not supported");
 			SetStatus(CannotBeApplied);
+			return;
+		}
+
+		if (_isLangPackInstalled() == true)
+		{
+			SetStatus(AlreadyApplied);
 			return;
 		}
 	}

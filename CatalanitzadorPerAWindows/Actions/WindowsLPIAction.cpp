@@ -118,7 +118,7 @@ bool WindowsLPIAction::IsDownloadNeed()
 	return _isLangPackInstalled() == false;
 }
 
-// The langpack may be installed by not selected
+// The langpack may be installed but not selected
 bool WindowsLPIAction::_isDefaultLanguage()
 {
 	if (m_OSVersion->GetVersion() == WindowsXP)

@@ -316,6 +316,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\OpenOfficeActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\WindowsLPIActionTest.cpp"
 				>
 			</File>
