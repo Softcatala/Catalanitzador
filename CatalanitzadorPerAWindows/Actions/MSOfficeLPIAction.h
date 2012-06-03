@@ -63,6 +63,7 @@ public:
 protected:
 		
 		MSOfficeVersion _getVersionInstalled();
+		bool _isLangPackInstalled();
 
 private:
 
@@ -73,7 +74,6 @@ private:
 			ExecutionStep2	
 		};
 		
-		bool _isLangPackInstalled();
 		bool _isVersionInstalled(RegKeyVersion regkeys);
 		void _readVersionInstalled();
 		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);
