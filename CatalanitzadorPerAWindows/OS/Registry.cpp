@@ -87,7 +87,6 @@ bool Registry::GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength)
 {
 	DWORD dwType;
 	DWORD dwLen = dwLength;
-	LONG lResult = RegQueryValueEx(hKey, sName, 0, &dwType, (BYTE*)pBuffer, &dwLen);
 	return RegQueryValueEx(hKey,sName,0,&dwType,(BYTE*)pBuffer,&dwLen) == ERROR_SUCCESS && dwType == REG_SZ;
 }
 
