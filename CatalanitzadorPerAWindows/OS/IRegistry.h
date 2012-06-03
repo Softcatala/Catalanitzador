@@ -28,6 +28,7 @@ class IRegistry
 {
 public:		
 		virtual bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess) = 0;
+		virtual bool OpenKeyNoWOWRedirect(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess) = 0;
 		virtual bool CreateKey(HKEY hBaseKey, wchar_t* sSubKey) = 0;
 		virtual bool SetString(wchar_t* string, wchar_t* value) = 0;
 		virtual bool SetMultiString(wchar_t* string, wchar_t* value) = 0;

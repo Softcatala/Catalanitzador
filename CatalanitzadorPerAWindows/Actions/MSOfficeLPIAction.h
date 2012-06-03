@@ -33,7 +33,8 @@ enum MSOfficeVersion
 	NoMSOffice,
 	MSOffice2003,
 	MSOffice2007,
-	MSOffice2010
+	MSOffice2010,
+	MSOffice2010_64
 };
 
 
@@ -59,6 +60,7 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion();
 		virtual LPCWSTR GetLicenseID();
+		virtual void CheckPrerequirements(Action * action);
 
 protected:
 		
@@ -74,7 +76,7 @@ private:
 			ExecutionStep2	
 		};
 		
-		bool _isVersionInstalled(RegKeyVersion regkeys);
+		bool _isVersionInstalled(RegKeyVersion regkeys, bool b64bits);
 		void _readVersionInstalled();
 		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);
 		bool _extractCabFile(wchar_t * file, wchar_t * path);

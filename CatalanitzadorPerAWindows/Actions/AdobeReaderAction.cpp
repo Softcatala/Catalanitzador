@@ -310,7 +310,7 @@ void AdobeReaderAction::CheckPrerequirements(Action * action)
 		int major = _getMajorVersion();
 		if (major != 9 && major != 10)
 		{
-			_getStringFromResourceIDName(IDS_ADOBEREADERACTION_NOTSUPPORTEDVERSION, szCannotBeApplied);
+			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"AdobeReaderAction::CheckPrerequirements. Version not supported");
 			SetStatus(CannotBeApplied);
 			return;

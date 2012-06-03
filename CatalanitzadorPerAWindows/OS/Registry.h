@@ -27,15 +27,16 @@ public:
 		Registry();
 		~Registry();
 
-		bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess);
-		bool CreateKey(HKEY hBaseKey, wchar_t* sSubKey);
-		bool SetString(wchar_t* string, wchar_t* value);
+		virtual bool OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess);
+		virtual bool OpenKeyNoWOWRedirect(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess);
+		virtual bool CreateKey(HKEY hBaseKey, wchar_t* sSubKey);
+		virtual bool SetString(wchar_t* string, wchar_t* value);
 		virtual bool SetMultiString(wchar_t* string, wchar_t* value);
-		bool SetDWORD(wchar_t* string, DWORD value);
-		bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength);
-		bool GetDWORD(wchar_t* sName, DWORD *value);
-		bool Close();
-		bool RegEnumKey(DWORD dwIndex, wstring& key);
+		virtual bool SetDWORD(wchar_t* string, DWORD value);
+		virtual bool GetString(wchar_t* sName, wchar_t* pBuffer, DWORD dwLength);
+		virtual bool GetDWORD(wchar_t* sName, DWORD *value);
+		virtual bool Close();
+		virtual bool RegEnumKey(DWORD dwIndex, wstring& key);
 
 private:
 

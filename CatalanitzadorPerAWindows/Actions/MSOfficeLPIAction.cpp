@@ -54,6 +54,7 @@ MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner)
 	m_MSVersion = MSOfficeUnKnown;
 	m_szFullFilename[0] = NULL;
 	m_szTempPath2003[0] = NULL;
+	m_szFilename[0] = NULL;
 	m_executionStep = ExecutionStepNone;
 	GetTempPath(MAX_PATH, m_szTempPath);
 }
@@ -109,7 +110,9 @@ const wchar_t* MSOfficeLPIAction::GetVersion()
 			return L"2007";
 		case MSOffice2010:
 			return L"2010";
-		default:
+		case MSOffice2010_64:
+			return L"2010_64bits";
+		default:			
 			return L"";
 	}
 }
@@ -140,15 +143,17 @@ void MSOfficeLPIAction::_removeOffice2003TempFiles()
 	RemoveDirectory(m_szTempPath2003);
 }
 
-bool MSOfficeLPIAction::_isVersionInstalled(RegKeyVersion regkeys)
+bool MSOfficeLPIAction::_isVersionInstalled(RegKeyVersion regkeys, bool b64bits)
 {
 	wchar_t szValue[1024];
 	wchar_t szKey[1024];
 	bool Installed = false;
 
 	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", regkeys.VersionNumber);
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
-	{
+
+	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, szKey, false) :
+		m_registry->OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
+	{	
 		if (m_registry->GetString(L"Path", szValue, sizeof (szValue)))
 		{
 			if (wcslen(szValue) > 0)
@@ -199,6 +204,7 @@ void MSOfficeLPIAction::_readIsLangPackInstalled()
 		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2003);
 		break;
 	default:
+		assert(false);
 		break;
 	}
 
@@ -227,16 +233,20 @@ void MSOfficeLPIAction::_readVersionInstalled()
 {
 	wstring version;
 
-	if (_isVersionInstalled(RegKeys2010))
+	if (_isVersionInstalled(RegKeys2010, false))
 	{
-		m_MSVersion = MSOffice2010;		
-	} else if (_isVersionInstalled(RegKeys2007))
+		m_MSVersion = MSOffice2010;
+	} else if (_isVersionInstalled(RegKeys2007, false))
 	{
-		m_MSVersion = MSOffice2007;		
-	} else if (_isVersionInstalled(RegKeys2003))
+		m_MSVersion = MSOffice2007;
+	} else if (_isVersionInstalled(RegKeys2003, false))
 	{
-		m_MSVersion = MSOffice2003;		
-	} else {		
+		m_MSVersion = MSOffice2003;
+	}else if (_isVersionInstalled(RegKeys2010, true))
+	{
+		m_MSVersion = MSOffice2010_64;
+	} else
+	{
 		m_MSVersion = NoMSOffice;
 	}
 
@@ -254,6 +264,7 @@ DownloadID  MSOfficeLPIAction::_getDownloadID()
 		case MSOffice2003:
 			return DI_MSOFFICEACTION_2003;
 		default:
+			assert(false);
 			break;
 	}
 	return DI_UNKNOWN;
@@ -263,22 +274,19 @@ bool MSOfficeLPIAction::IsNeed()
 {
 	bool bNeed;
 
-	bNeed = _isLangPackInstalled() == false && _getVersionInstalled() != NoMSOffice;
-
-	if (bNeed == false)
-	{
-		if (_getVersionInstalled() == NoMSOffice)
-		{
-			_setStatusNotInstalled();
-		}
-		else
-		{
-			SetStatus(AlreadyApplied);
-		}
+	switch(GetStatus())
+	{		
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
 	}
-
-	g_log.Log(L"MSOfficeLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
-	return bNeed;	
+	g_log.Log(L"MSOfficeLPIAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
+	return bNeed;
 }
 
 #define CONNECTOR_REGKEY L"SOFTWARE\\Microsoft\\Office\\Outlook\\Addins\\MSNCON.Addin.1"
@@ -500,3 +508,25 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 	return status;
 }
 	
+void MSOfficeLPIAction::CheckPrerequirements(Action * action) 
+{
+	if (_getVersionInstalled() == NoMSOffice)
+	{
+		_setStatusNotInstalled();
+		return;
+	}
+
+	if (_getVersionInstalled() == MSOffice2010_64)
+	{		
+		SetStatus(CannotBeApplied);
+		_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
+		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. Version not supported");		
+		return;
+	}
+
+	if (_isLangPackInstalled())
+	{
+		SetStatus(AlreadyApplied);
+		return;
+	}
+}

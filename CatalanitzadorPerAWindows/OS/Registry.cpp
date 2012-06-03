@@ -38,6 +38,14 @@ bool Registry::OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 		bWriteAccess ? KEY_READ|KEY_WRITE:KEY_READ, &hKey) == ERROR_SUCCESS;
 }
 
+bool Registry::OpenKeyNoWOWRedirect(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
+{
+	assert(hKey == NULL);
+
+	return RegOpenKeyEx(hBaseKey, sSubKey, 0,
+		KEY_WOW64_64KEY | (bWriteAccess ? KEY_READ|KEY_WRITE:KEY_READ), &hKey) == ERROR_SUCCESS;
+}
+
 bool Registry::CreateKey(HKEY hBaseKey, wchar_t* sSubKey)
 {
 	return RegCreateKeyEx(hBaseKey, sSubKey, 0, 0, REG_OPTION_NON_VOLATILE,

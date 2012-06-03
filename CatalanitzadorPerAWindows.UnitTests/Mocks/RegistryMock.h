@@ -24,8 +24,9 @@
 class RegistryMock : public IRegistry
 {
  public:
-
+	 
 	MOCK_METHOD3(OpenKey, bool(HKEY, wchar_t*, bool));
+	MOCK_METHOD3(OpenKeyNoWOWRedirect, bool(HKEY, wchar_t*, bool));
 	MOCK_METHOD2(CreateKey, bool(HKEY, wchar_t*));
 	MOCK_METHOD2(SetString, bool(wchar_t*, wchar_t*));
 	MOCK_METHOD2(SetMultiString, bool(wchar_t*, wchar_t*));	
