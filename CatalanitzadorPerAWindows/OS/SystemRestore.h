@@ -38,9 +38,6 @@ public:
 		
 private:
 
-	bool _initializeCOMSecurity();
-	void _fillExplicitAccessStructure(EXPLICIT_ACCESS& ea, LPTSTR name);
-
 	HMODULE m_hLibrary;
 	PFN_SETRESTOREPTW m_SetRestorePointW;
 	INT64 m_llSequenceNumber;
