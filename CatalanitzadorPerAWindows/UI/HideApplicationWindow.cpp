@@ -81,7 +81,7 @@ bool HideApplicationWindow::_findControls(HWND hWnd)
 		{
 			if (m_controlsID.at(i) == id)
 			{
-				g_log.Log(L"HideApplicationWindow::_findControls. Found control %x,  hwnd '%u", (wchar_t*) id, (wchar_t*) hWnd);
+				g_log.Log(L"HideApplicationWindow::_findControls. Found control '%x',  hwnd '%u'", (wchar_t*) id, (wchar_t*) hWnd);
 				m_controlsFounds[i] = true;
 				break;
 			}
