@@ -22,7 +22,7 @@
 
 #include "OpenOfficeAction.h"
 #include "Url.h"
-#include "XmlParser.h"
+
 
 OpenOfficeAction::OpenOfficeAction(IRegistry* registry, IRunner* runner)
 {
@@ -203,7 +203,7 @@ enum LanguageParsingState
 
 LanguageParsingState parsing_state = ItemOther;
 
-bool ReadNodeCallback(XmlNode node, void *data)
+bool OpenOfficeAction::_readNodeCallback(XmlNode node, void *data)
 {
 	vector <XmlAttribute>* attributes;
 	bool bIsItem;
@@ -310,7 +310,7 @@ bool OpenOfficeAction::_isDefaultLanguage()
 		g_log.Log(L"OpenOfficeAction::_isDefaultLanguage. Could not open '%s'", (wchar_t *) file.c_str());
 		return false;
 	}
-	parser.Parse(ReadNodeCallback, &lang_found);
+	parser.Parse(_readNodeCallback, &lang_found);
 	// TODO: We should look for != "ca" but right now we can only add Catalan if no language is present
 	bRslt = lang_found.size() != 0;
 	g_log.Log(L"OpenOfficeAction::_isDefaultLanguage. Preferences file '%s', isdefault %u", (wchar_t *)file.c_str(), (wchar_t *) bRslt);

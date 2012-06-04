@@ -22,6 +22,7 @@
 #include "OpenOfficeAction.h"
 #include "RegistryMock.h"
 #include "RunnerMock.h"
+#include "Application.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -40,7 +41,26 @@ public:
 	
 	public: 
 			
-			using OpenOfficeAction::_readVersionInstalled;
+		using OpenOfficeAction::_readVersionInstalled;
+		using OpenOfficeAction::_isDefaultLanguage;
+		using OpenOfficeAction::_setDefaultLanguage;
+
+		void SetFilename(wstring file) { m_filename = file; }
+
+	protected:
+
+		virtual void _getPreferencesFile(wstring& location)
+		{
+			assert(m_filename.size() > 0);
+
+			Application::GetExecutionLocation(location);
+			location += L"OpenOffice.org\\";
+			location += m_filename;
+		}
+
+	private:
+
+		wstring m_filename;
 };
 
 
@@ -59,7 +79,7 @@ void SetOpenOfficeVersion(RegistryMock& registryMockobj, wstring version)
 TEST(OpenOfficeActionTest, _readVersionInstalled)
 {
 	const wchar_t* OPENOFFICE_VERSION = L"3.3";
-	CreateOpenOfficeAction;	
+	CreateOpenOfficeAction;
 	
 	SetOpenOfficeVersion(registryMockobj, OPENOFFICE_VERSION);	
 	openofficeAction._readVersionInstalled();
@@ -69,18 +89,46 @@ TEST(OpenOfficeActionTest, _readVersionInstalled)
 TEST(OpenOfficeActionTest, CheckPrerequirements_NonSupportedVersion)
 {
 	const wchar_t* OPENOFFICE_VERSION = L"3.2";
-	CreateOpenOfficeAction;	
+	CreateOpenOfficeAction;
 	
 	SetOpenOfficeVersion(registryMockobj, OPENOFFICE_VERSION);	
 	openofficeAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(openofficeAction.GetStatus(), CannotBeApplied);
 }
 
-TEST(OpenOfficeActionTest, CheckPrerequirements_NotInstalled)
+TEST(OpenOfficeActionTest, _isDefaultLanguage_No)
 {
-	CreateOpenOfficeAction;	
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(OPENOFFICCE_PROGRAM_REGKEY), false)).WillRepeatedly(Return(false));
-	openofficeAction.CheckPrerequirements(NULL);
-	EXPECT_THAT(openofficeAction.GetStatus(), NotInstalled);
+	CreateOpenOfficeAction;
+
+	openofficeAction.SetFilename(L"registrymodifications_default_no.xcu");
+	EXPECT_FALSE(openofficeAction._isDefaultLanguage());
 }
+
+TEST(OpenOfficeActionTest, _isDefaultLanguage_Yes)
+{
+	CreateOpenOfficeAction;
+
+	openofficeAction.SetFilename(L"registrymodifications_default_yes.xcu");
+	EXPECT_TRUE(openofficeAction._isDefaultLanguage());
+}
+
+TEST(OpenOfficeActionTest, _setDefaultLanguage)
+{
+	wstring src, trg;
+	CreateOpenOfficeAction;
+	const wchar_t* TARGET_FILE = L"registrymodifications_modified.xcu";
+	
+	Application::GetExecutionLocation(src);
+	src += L"OpenOffice.org\\";
+	trg = src;
+
+	src += L"registrymodifications_default_no.xcu";
+	trg += TARGET_FILE;
+
+	CopyFile(src.c_str(), trg.c_str(), FALSE);
+	openofficeAction.SetFilename(TARGET_FILE);
+	openofficeAction._setDefaultLanguage();
+	EXPECT_TRUE(openofficeAction._isDefaultLanguage());
+	DeleteFile(trg.c_str());
+}
+

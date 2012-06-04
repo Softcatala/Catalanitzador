@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +25,7 @@
 #include "IRegistry.h"
 #include "OSVersion.h"
 #include "Runner.h"
+#include "XmlParser.h"
 
 #define OPENOFFICCE_PROGRAM_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
 
@@ -49,14 +50,15 @@ public:
 protected:
 
 		void _readVersionInstalled();
+		void _setDefaultLanguage();
+		bool _isDefaultLanguage();
+		virtual void _getPreferencesFile(wstring& location);
 
 private:				
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _removeCabTempFiles();
 		bool _isLangPackInstalled();
-		bool _isDefaultLanguage();
-		void _setDefaultLanguage();
-		void _getPreferencesFile(wstring& location);
+		static bool _readNodeCallback(XmlNode node, void *data);
 
 		wstring m_version;
 		IRunner* m_runner;

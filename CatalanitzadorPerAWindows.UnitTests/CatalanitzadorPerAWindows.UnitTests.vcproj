@@ -364,6 +364,10 @@
 			Name="Support"
 			>
 			<File
+				RelativePath=".\Support\Application.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Support\TempFile.h"
 				>
 			</File>

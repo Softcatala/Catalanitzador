@@ -21,6 +21,7 @@
 #include "Defines.h"
 #include "RegistryMock.h"
 #include "FirefoxAction.h"
+#include "Application.h"
 #include <iostream>
 #include <fstream>
 
@@ -30,7 +31,6 @@ using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::HasSubstr;
 
-void getExecutionLocation(wstring &location);
 
 #define SetLocale(registryMockobj, locale) \
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(true));  \
@@ -46,7 +46,7 @@ public:
 	protected:
 		virtual void _getProfileRootDir(wstring &location) 
 		{
-			getExecutionLocation(location);
+			Application::GetExecutionLocation(location);
 			location += L"Firefox\\";
 		}
 
@@ -61,24 +61,9 @@ public:
 	FirefoxActionForTest firefoxAction(&registryMockobjWin);
 
 
-void getExecutionLocation(wstring &location)
-{
-	HMODULE hModule;
-	wchar_t name[2048];
-	int i;
-
-	hModule = GetModuleHandle(NULL);
-	GetModuleFileName(hModule, name, sizeof(name));
-
-	for (i = wcslen(name); i > 0 && name[i] != '\\' ; i--);
-
-	name[i+1] = NULL;
-	location = name;
-}
-
 void getPrefsJSLocation(wstring &location)
 {
-	getExecutionLocation(location);
+	Application::GetExecutionLocation(location);
 	location+=L"Firefox\\Profiles\\0u5lxfv2.default\\prefs.js";
 }
 
