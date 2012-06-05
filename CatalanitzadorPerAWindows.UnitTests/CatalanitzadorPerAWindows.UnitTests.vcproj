@@ -296,6 +296,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\ChromeActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\ConfigureDefaultLanguageActionTest.cpp"
 				>
 			</File>

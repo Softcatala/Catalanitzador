@@ -23,8 +23,6 @@
 #include <fstream>
 #include <cstdio>
 
-#define ChromeRegistryPath L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome"
-
 enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 				InIntlBlock, InAcceptedKey, InAcceptedSemicolon, 
 				InAcceptedValue,EndParsing };
@@ -156,7 +154,7 @@ bool ChromeAction::_isChromeAppLocaleOk()
 
 		if(reader.is_open()) 
 		{
-			int currentState = NoState;			
+			int currentState = NoState;
 			int pos = 0;
 
 			while(!(getline(reader,line)).eof())
@@ -215,8 +213,7 @@ bool ChromeAction::_readLanguageCode(wstring& langcode)
 
 		if(reader.is_open()) 
 		{
-			int currentState = NoState;
-			
+			int currentState = NoState;			
 			int pos = 0;
 
 			while(!(getline(reader,line)).eof() && ret == false)
@@ -266,7 +263,7 @@ bool ChromeAction::_writeLanguageCode(wstring langcode)
 	wstring path_t;
 	_readInstallLocation(path_t);
 
-	if(path_t.empty() == false) 
+	if(path_t.empty() == false)
 	{
 		wifstream reader;
 		wofstream writer;
@@ -418,7 +415,7 @@ void ChromeAction::Execute()
 
 void ChromeAction::_readVersion()
 {
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, ChromeRegistryPath, false))
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, CHROME_REGISTRY_PATH, false))
 	{
 		wchar_t szVersion[1024];
 
@@ -435,15 +432,10 @@ bool ChromeAction::_isInstalled()
 {
 	if (m_isInstalled.IsUndefined())
 	{
-		wchar_t szInstallLocation[1024] = L"";
+		wstring path;
 
-		if (m_registry->OpenKey(HKEY_CURRENT_USER, ChromeRegistryPath, false))
-		{
-			m_registry->GetString(L"InstallLocation", szInstallLocation, sizeof(szInstallLocation));
-			m_registry->Close();
-		}
-
-		m_isInstalled = wcslen(szInstallLocation) > 0;
+		_readInstallLocation(path);
+		m_isInstalled = path.size() > 0;
 	}
 
 	return m_isInstalled == true;
@@ -451,27 +443,21 @@ bool ChromeAction::_isInstalled()
 
 void ChromeAction::_readInstallLocation(wstring & path)
 {
-	wchar_t * szInstallLocation = NULL;
 	path.erase();
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, ChromeRegistryPath, false))
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, CHROME_REGISTRY_PATH, false))
 	{
-		szInstallLocation = new wchar_t[1024];
+		wchar_t szLocation[MAX_PATH];
 		
-		if (m_registry->GetString(L"InstallLocation", szInstallLocation, sizeof(szInstallLocation)))
+		if (m_registry->GetString(L"InstallLocation", szLocation, sizeof(szLocation)))
 		{
-			path = szInstallLocation;
-			g_log.Log(L"ChromeAction::_readInstallLocation. Chrome version %s", szInstallLocation);
-			delete(szInstallLocation);
-			szInstallLocation = NULL;
-		} 
-		else 
-		{
-			delete(szInstallLocation);
-			szInstallLocation = NULL;
-		}
+			path = szLocation;
+			g_log.Log(L"ChromeAction::_readInstallLocation. InstallLocation %s", szLocation);		
+		}		
 		m_registry->Close();
-	} else {
+	} 
+	else 
+	{
 		g_log.Log(L"ChromeAction::_readInstallLocation - Chrome is not installed");
 	}
 }

@@ -21,16 +21,18 @@
 
 #include "Action.h"
 #include "IRegistry.h"
+#include "TriBool.h"
 
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
+#define CHROME_REGISTRY_PATH L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome"
+
 class _APICALL ChromeAction : public Action
 {
 public:
-		
 		ChromeAction(IRegistry* registry);
 
 		virtual wchar_t* GetName();
@@ -49,16 +51,19 @@ public:
 		void AddCatalanToArrayAndRemoveOldIfExists();
 		vector <wstring> * GetLanguages() {return &m_languages;}
 
+protected:
+		
+		void _readVersion();
+		bool _isInstalled();
+
 private:		
 		
 		void _getFirstLanguage(wstring& regvalue);
-		void _readVersion();
 		void _readInstallLocation(wstring& path);
 		bool _readLanguageCode(wstring& langcode);
 		bool _writeLanguageCode(wstring langcode);
 		void _createRegistryStringTwoLangs(wstring &regvalue, float average);
 		bool _isChromeAppLocaleOk();
-		bool _isInstalled();
 
 		bool _findIntl(wstring,int&);
 		bool _findSemicolon(wstring,int&);
