@@ -57,8 +57,8 @@ public:
 };
 
 #define CreateFirefoxAction \
-	RegistryMock registryMockobjWin; \
-	FirefoxActionForTest firefoxAction(&registryMockobjWin);
+	RegistryMock registryMockobj; \
+	FirefoxActionForTest firefoxAction(&registryMockobj);
 
 
 void getPrefsJSLocation(wstring &location)
