@@ -102,8 +102,7 @@ void CreateAcceptLanguage(wstring lang, wstring& accept)
 
 TEST(FirefoxActionTest, _readVersionAndLocale)
 {
-	RegistryMock registryMockobj; 
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+	CreateFirefoxAction;
 
 	SetLocale(registryMockobj, L"12.0 (ca)");
 
@@ -114,8 +113,7 @@ TEST(FirefoxActionTest, _readVersionAndLocale)
 
 TEST(FirefoxActionTest, IsNeed_CatalanLocale_EmptyAccept)
 {	
-	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+	CreateFirefoxAction;
 
 	SetLocale(registryMockobj, L"12.0 (ca)");	
 	GeneratePrefsJS(wstring());
@@ -127,8 +125,7 @@ TEST(FirefoxActionTest, IsNeed_CatalanLocale_EmptyAccept)
 TEST(FirefoxActionTest, IsNeed_CatalanLocale_DEAccept)
 {
 	wstring accept;
-	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+	CreateFirefoxAction;
 
 	SetLocale(registryMockobj, L"12.0 (ca)");
 	CreateAcceptLanguage(wstring(L"de"), accept);
@@ -141,8 +138,7 @@ TEST(FirefoxActionTest, IsNeed_CatalanLocale_DEAccept)
 TEST(FirefoxActionTest, IsNeed_FrenchLocale_Empty)
 {
 	wstring accept;
-	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+	CreateFirefoxAction;
 
 	SetLocale(registryMockobj, L"12.0 (fr)");	
 	GeneratePrefsJS(wstring(accept));
@@ -154,8 +150,7 @@ TEST(FirefoxActionTest, IsNeed_FrenchLocale_Empty)
 TEST(FirefoxActionTest, IsNeed_FrenchLocale_Catalan)
 {
 	wstring accept;
-	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+	CreateFirefoxAction;
 
 	SetLocale(registryMockobj, L"12.0 (fr)");
 	CreateAcceptLanguage(wstring(L"ca"), accept);
@@ -169,9 +164,8 @@ TEST(FirefoxActionTest, IsNeed_FrenchLocale_Catalan)
 
 TEST(FirefoxActionTest, Execute_CatalanLocale_DEAccept)
 {
-	wstring accept, langcode;
-	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+	CreateFirefoxAction;
+	wstring accept, langcode;	
 	vector <wstring> * languages;
 
 	SetLocale(registryMockobj, L"12.0 (ca)");
@@ -188,9 +182,8 @@ TEST(FirefoxActionTest, Execute_CatalanLocale_DEAccept)
 }
 
 TEST(FirefoxActionTest, Execute_FrenchLocale_Empty)
-{	
-	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+{
+	CreateFirefoxAction;
 	vector <wstring> * languages;
 
 	SetLocale(registryMockobj, L"12.0 (fr)");
@@ -206,10 +199,9 @@ TEST(FirefoxActionTest, Execute_FrenchLocale_Empty)
 }
 
 TEST(FirefoxActionTest, Execute_SpanishLocale_English)
-{	
+{
+	CreateFirefoxAction;
 	wstring accept;
-	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
 	vector <wstring> * languages;
 
 	SetLocale(registryMockobj, L"12.0 (es)");
