@@ -3,7 +3,8 @@ $(document).ready(function(){
                     mode: 'fade',
                     auto: true,
                     controls: false,
-                    speed: 20000
+                    speed: 2000,
+                    pause: 30000
                     });
 
   });
