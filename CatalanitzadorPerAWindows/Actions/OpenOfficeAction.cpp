@@ -361,7 +361,7 @@ ActionStatus OpenOfficeAction::GetStatus()
 				_setDefaultLanguage();
 			}
 
-			SetStatus(_isDefaultLanguage() ? Successful : FinishedWithError);
+			SetStatus(Successful);
 		}
 		else
 		{
