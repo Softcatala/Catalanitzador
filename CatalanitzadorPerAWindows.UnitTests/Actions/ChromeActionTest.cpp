@@ -106,3 +106,18 @@ TEST(ChromeActionTest, IsNeed_No_SpanishUI_NoAcceptLanguage)
 	EXPECT_TRUE(chromeAction.IsNeed());
 }
 
+TEST(ChromeActionTest, IsNeed_No_CatalanUI_NoAcceptLanguage)
+{
+	wstring location;
+	CreateChromeAction;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\CatalanUI_NoAcceptLanguage\\User Data\\";
+
+	SetVersion(registryMockobj, L"11.0");
+	SetLocation(registryMockobj, location.c_str());
+	chromeAction.CheckPrerequirements(NULL);
+	EXPECT_FALSE(chromeAction.IsNeed());
+	EXPECT_THAT(chromeAction.GetStatus(), AlreadyApplied);
+}
+
