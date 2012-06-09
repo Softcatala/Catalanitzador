@@ -20,7 +20,6 @@
  
 #pragma once
 
-#include <windows.h>
 #include "Serializer.h"
 #include "OSVersion.h"
 
