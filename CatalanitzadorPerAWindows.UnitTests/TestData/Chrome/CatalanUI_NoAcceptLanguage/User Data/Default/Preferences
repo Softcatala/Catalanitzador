@@ -1,0 +1,272 @@
+{
+   "backup": {
+      "_signature": "0Gr2zF2pZyHjNBfasqpTlP4P6v1zkrJrw90gVhpZ+f0=",
+      "_version": 3,
+      "browser": {
+         "show_home_button": false
+      },
+      "extensions": {
+         "ids": [ "ahfgeienlihckogmohjhadlkjgocpleb", "blpcfgokakmgnkcojhhkbfbldkacnbeo", "coobgpohoikkiipiblmjeljniedjpjpf", "pjkljhegncpnkpknbcohdijeoejaedia" ]
+      },
+      "homepage": "http://www.microsoft.com/isapi/redir.dll?prd=ie&pver=6&ar=msnhome",
+      "homepage_is_newtabpage": true,
+      "session": {
+         "restore_on_startup": 5
+      }
+   },
+   "browser": {
+      "window_placement": {
+         "bottom": 728,
+         "left": 10,
+         "maximized": false,
+         "right": 1014,
+         "top": 10,
+         "work_area_bottom": 738,
+         "work_area_left": 0,
+         "work_area_right": 1024,
+         "work_area_top": 0
+      }
+   },
+   "countryid_at_install": 17747,
+   "default_apps_install_state": 1,
+   "default_search_provider": {
+      "enabled": true,
+      "encodings": "UTF-8",
+      "icon_url": "http://www.google.com/favicon.ico",
+      "id": "2",
+      "instant_url": "{google:baseURL}webhp?{google:RLZ}sourceid=chrome-instant&{google:instantFieldTrialGroupParameter}ie={inputEncoding}{google:instantEnabledParameter}{searchTerms}",
+      "keyword": "google.com",
+      "name": "Google",
+      "prepopulate_id": "1",
+      "search_url": "{google:baseURL}search?{google:RLZ}{google:acceptedSuggestion}{google:originalQueryForSuggestion}{google:searchFieldtrialParameter}{google:instantFieldTrialGroupParameter}sourceid=chrome&ie={inputEncoding}&q={searchTerms}",
+      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}{google:instantFieldTrialGroupParameter}client=chrome&hl={language}&q={searchTerms}"
+   },
+   "dns_prefetching": {
+      "host_referral_list": [ 2, [ "http://tools.google.com/", [ "http://fonts.googleapis.com/", 2.6037003999999997, "http://themes.googleusercontent.com/", 2.6037003999999997, "http://tools.google.com/", 3.924981199999999, "http://www.google-analytics.com/", 2.6037003999999997, "http://www.google.com/", 3.2643407999999994 ] ] ],
+      "startup_list": [ 1, "http://fonts.googleapis.com/", "http://themes.googleusercontent.com/", "http://tools.google.com/", "http://www.google-analytics.com/", "http://www.google.com/" ]
+   },
+   "download": {
+      "directory_upgrade": true
+   },
+   "extensions": {
+      "autoupdate": {
+         "next_check": "12983418798261160"
+      },
+      "chrome_url_overrides": {
+         "bookmarks": [ "chrome-extension://eemcgdkfndhakfknompkggombfjjjeno/main.html" ]
+      },
+      "settings": {
+         "ahfgeienlihckogmohjhadlkjgocpleb": {
+            "active_permissions": {
+               "api": [ "appNotifications", "management", "webstorePrivate" ]
+            },
+            "app_launcher_ordinal": "n",
+            "page_ordinal": "n"
+         },
+         "blpcfgokakmgnkcojhhkbfbldkacnbeo": {
+            "ack_external": true,
+            "app_launcher_ordinal": "t",
+            "events": [ "experimental.extension.onInstalled" ],
+            "from_bookmark": true,
+            "from_webstore": false,
+            "install_time": "12983402094941596",
+            "location": 2,
+            "manifest": {
+               "app": {
+                  "launch": {
+                     "container": "tab",
+                     "web_url": "http://www.youtube.com/"
+                  },
+                  "web_content": {
+                     "enabled": true,
+                     "origin": "http://www.youtube.com"
+                  }
+               },
+               "description": "The world's most popular online video community.",
+               "icons": {
+                  "128": "128.png"
+               },
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC/HotmFlyuz5FaHaIbVBhhL4BwbcUtsfWwzgUMpZt5ZsLB2nW/Y5xwNkkPANYGdVsJkT2GPpRRIKBO5QiJ7jPMa3EZtcZHpkygBlQLSjMhdrAKevpKgIl6YTkwzNvExY6rzVDzeE9zqnIs33eppY4S5QcoALMxuSWlMKqgFQjHQIDAQAB",
+               "name": "YouTube",
+               "update_url": "http://clients2.google.com/service/update2/crx",
+               "version": "4.2"
+            },
+            "page_ordinal": "n",
+            "path": "blpcfgokakmgnkcojhhkbfbldkacnbeo\\4.2_0",
+            "state": 1
+         },
+         "coobgpohoikkiipiblmjeljniedjpjpf": {
+            "ack_external": true,
+            "app_launcher_ordinal": "x",
+            "events": [ "experimental.extension.onInstalled" ],
+            "from_bookmark": true,
+            "from_webstore": false,
+            "install_time": "12983402096369596",
+            "location": 2,
+            "manifest": {
+               "app": {
+                  "launch": {
+                     "web_url": "http://www.google.com/?source=search_app"
+                  },
+                  "urls": [ "*://www.google.com/?source=search_app", "*://www.google.com/search", "*://www.google.com/webhp", "*://www.google.com/imgres" ]
+               },
+               "current_locale": "es",
+               "default_locale": "en",
+               "description": "La forma m\u00E1s r\u00E1pida de buscar en la Web.",
+               "icons": {
+                  "128": "128.png",
+                  "16": "16.png",
+                  "32": "32.png",
+                  "48": "48.png"
+               },
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIiso3Loy5VJHL40shGhUl6it5ZG55XB9q/2EX6aa88jAxwPutbCgy5d9bm1YmBzLfSgpX4xcpgTU08ydWbd7b50fbkLsqWl1mRhxoqnN01kuNfv9Hbz9dWWYd+O4ZfD3L2XZs0wQqo0y6k64n+qeLkUMd1MIhf6MR8Xz1SOA8pwIDAQAB",
+               "name": "B\u00FAsqueda de Google",
+               "update_url": "http://clients2.google.com/service/update2/crx",
+               "version": "0.0.0.14"
+            },
+            "page_ordinal": "n",
+            "path": "coobgpohoikkiipiblmjeljniedjpjpf\\0.0.0.14_0",
+            "state": 1
+         },
+         "pjkljhegncpnkpknbcohdijeoejaedia": {
+            "ack_external": true,
+            "active_permissions": {
+               "api": [ "notifications" ]
+            },
+            "app_launcher_ordinal": "w",
+            "events": [ "experimental.extension.onInstalled" ],
+            "from_bookmark": true,
+            "from_webstore": false,
+            "install_time": "12983402096096596",
+            "location": 2,
+            "manifest": {
+               "app": {
+                  "launch": {
+                     "container": "tab",
+                     "web_url": "https://mail.google.com/mail/ca"
+                  },
+                  "urls": [ "*://mail.google.com/mail/ca" ]
+               },
+               "current_locale": "es",
+               "default_locale": "en",
+               "description": "Un servicio de correo electr\u00F3nico r\u00E1pido con menos spam y que permite realizar b\u00FAsquedas.",
+               "icons": {
+                  "128": "128.png",
+                  "24": "24.png",
+                  "48": "48.png"
+               },
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCuGglK43iAz3J9BEYK/Mz6ZhloIMMDqQSAaf3vJt4eHbTbSDsu4WdQ9dQDRcKlg8nwQdePBt0C3PSUBtiSNSS37Z3qEGfS7LCju3h6pI1Yr9MQtxw+jUa7kXXIS09VV73pEFUT/F7c6Qe8L5ZxgAcBvXBh1Fie63qb02I9XQ/CQIDAQAB",
+               "name": "Gmail",
+               "options_page": "https://mail.google.com/mail/ca/#settings",
+               "permissions": [ "notifications" ],
+               "update_url": "http://clients2.google.com/service/update2/crx",
+               "version": "6.1.3"
+            },
+            "page_ordinal": "n",
+            "path": "pjkljhegncpnkpknbcohdijeoejaedia\\6.1.3_0",
+            "state": 1
+         }
+      }
+   },
+   "homepage": "http://www.microsoft.com/isapi/redir.dll?prd=ie&pver=6&ar=msnhome",
+   "homepage_is_newtabpage": true,
+   "ntp": {
+      "promo_build": 4,
+      "promo_closed": false,
+      "promo_end": 1338933540.0,
+      "promo_feature_mask": 0,
+      "promo_group": 27,
+      "promo_group_max": 99,
+      "promo_group_timeslice": 0,
+      "promo_is_logged_in_to_plus": false,
+      "promo_line": "\u00A1Tu Chromebook sigue mejorando! \u003Ca href=\"https://support.google.com/chromeos/?p=ntp19\"\u003EObt\u00E9n m\u00E1s informaci\u00F3n sobre las \u00FAltimas funciones\u003C/a\u003E.",
+      "promo_platform": 8,
+      "promo_resource_cache_update": "1338928498.350596",
+      "promo_start": 1338321600.0,
+      "promo_views": 0,
+      "promo_views_max": 20
+   },
+   "plugins": {
+      "enabled_internal_pdf3": true,
+      "enabled_nacl": true,
+      "last_internal_directory": "C:\\Documents and Settings\\jordi.1664593885FF480\\Configuraci\u00F3n local\\Datos de programa\\Google\\Chrome\\Application\\19.0.1084.52",
+      "plugins_list": [ {
+         "enabled": true,
+         "name": "Remoting Viewer",
+         "path": "internal-remoting-viewer",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Remoting Viewer"
+      }, {
+         "enabled": true,
+         "name": "Native Client",
+         "path": "C:\\Documents and Settings\\jordi.1664593885FF480\\Configuraci\u00F3n local\\Datos de programa\\Google\\Chrome\\Application\\19.0.1084.52\\ppGoogleNaClPluginChrome.dll",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Native Client"
+      }, {
+         "enabled": true,
+         "name": "Chrome PDF Viewer",
+         "path": "C:\\Documents and Settings\\jordi.1664593885FF480\\Configuraci\u00F3n local\\Datos de programa\\Google\\Chrome\\Application\\19.0.1084.52\\pdf.dll",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Chrome PDF Viewer"
+      }, {
+         "enabled": true,
+         "name": "Shockwave Flash",
+         "path": "C:\\Documents and Settings\\jordi.1664593885FF480\\Configuraci\u00F3n local\\Datos de programa\\Google\\Chrome\\Application\\19.0.1084.52\\gcswf32.dll",
+         "version": "11,2,202,235"
+      }, {
+         "enabled": true,
+         "name": "Flash"
+      }, {
+         "enabled": true,
+         "name": "Microsoft\u00AE DRM",
+         "path": "C:\\Archivos de programa\\Windows Media Player\\npdrmv2.dll",
+         "version": "9.00.00.3250"
+      }, {
+         "enabled": true,
+         "name": "Microsoft\u00AE DRM",
+         "path": "C:\\Archivos de programa\\Windows Media Player\\npwmsdrm.dll",
+         "version": "9.00.00.3250"
+      }, {
+         "enabled": true,
+         "name": "Microsoft\u00AE DRM"
+      }, {
+         "enabled": true,
+         "name": "Windows Media Player Plug-in Dynamic Link Library",
+         "path": "C:\\Archivos de programa\\Windows Media Player\\npdsplay.dll",
+         "version": "3.0.2.628"
+      }, {
+         "enabled": true,
+         "name": "Windows Media Player"
+      }, {
+         "enabled": true,
+         "name": "Google Update",
+         "path": "C:\\Documents and Settings\\jordi.1664593885FF480\\Configuraci\u00F3n local\\Datos de programa\\Google\\Update\\1.3.21.111\\npGoogleUpdate3.dll",
+         "version": "1.3.21.111"
+      }, {
+         "enabled": true,
+         "name": "Google Update"
+      } ]
+   },
+   "profile": {
+      "avatar_index": 0,
+      "content_settings": {
+         "pref_version": 1
+      },
+      "created_by_version": "19.0.1084.52",
+      "exited_cleanly": true,
+      "name": "Primer usuario"
+   },
+   "session": {
+      "restore_on_startup_migrated": true
+   },
+   "sync_promo": {
+      "startup_count": 1,
+      "view_count": 1
+   }
+}
