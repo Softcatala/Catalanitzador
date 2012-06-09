@@ -111,7 +111,7 @@ DWORD Runner::GetProcessID(wstring name) const
     return processID;
 }
 
-BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
+BOOL CALLBACK Runner::EnumWindowsProc(HWND hWnd, LPARAM lParam)
 {	
 	DWORD processID;
 

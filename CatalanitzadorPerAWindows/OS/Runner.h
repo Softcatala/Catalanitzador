@@ -30,6 +30,8 @@ public:
 		DWORD GetProcessID(wstring name) const;
 		bool RequestQuitToProcessID(DWORD processID);
 
+		static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam);
+
 private:
 		PROCESS_INFORMATION pi;
 };
