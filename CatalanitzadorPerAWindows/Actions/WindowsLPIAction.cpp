@@ -125,20 +125,30 @@ bool WindowsLPIAction::_isDefaultLanguage()
 		return true;
 
 	wchar_t szPreferred[2048] =L"";	
-	wchar_t szPreferredPending[2048] =L"";	
+	wchar_t szPreferredPending[2048] =L"";
+	wchar_t szPreferredMachine[2048] =L"";
+	const int langCodeLen = wcslen(LANGUAGE_CODE);
 	
-	// Sets the language for the default user
+	// Gets the language for the default user
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", false))
 	{
 		m_registry->GetString(L"PreferredUILanguages", szPreferred, sizeof(szPreferred));
 		m_registry->GetString(L"PreferredUILanguagesPending", szPreferredPending, sizeof(szPreferredPending));
 		m_registry->Close();
 	}
-	g_log.Log(L"WindowsLPIAction::_isDefaultLanguage preferred lang '%s', preferred pending lang '%s'", 
-		szPreferred, szPreferredPending);
 
-	return (_wcsnicmp(szPreferred, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0) ||
-		(_wcsnicmp(szPreferredPending, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0);
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop\\MuiCached", false))
+	{
+		m_registry->GetString(L"MachinePreferredUILanguages", szPreferredMachine, sizeof(szPreferredMachine));
+		m_registry->Close();
+	}
+
+	g_log.Log(L"WindowsLPIAction::_isDefaultLanguage preferred lang '%s', preferred pending lang '%s', machine preferred '%s'",
+		szPreferred, szPreferredPending, szPreferredMachine);
+
+	return (_wcsnicmp(szPreferred, LANGUAGE_CODE, langCodeLen) == 0) ||
+		(_wcsnicmp(szPreferredPending, LANGUAGE_CODE, langCodeLen) == 0) ||
+		(_wcsnicmp(szPreferredMachine, LANGUAGE_CODE, langCodeLen) == 0);
 }
 
 // Checks if the Catalan language pack is already installed

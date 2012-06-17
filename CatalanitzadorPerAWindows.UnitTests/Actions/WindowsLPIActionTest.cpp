@@ -237,6 +237,7 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesYes)
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguages"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
@@ -253,6 +254,7 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesPendingYes)
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguages"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L""), Return(true)));
@@ -269,6 +271,7 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_No)
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguages"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"es-ES"), Return(true)));
@@ -279,13 +282,14 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_No)
 	EXPECT_FALSE(lipAction._isDefaultLanguage());
 }
 
-TEST(WindowsLPIActionTest, IsNeed_isDefaultLanguageNo)
+TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageNo)
 {	
 	CreateWindowsLIPAction;
 
 	//_isLangPackInstalled == true
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(false));
 
 	// No selected
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));	
@@ -298,21 +302,42 @@ TEST(WindowsLPIActionTest, IsNeed_isDefaultLanguageNo)
 	EXPECT_FALSE(lipAction.IsDownloadNeed());
 }
 
-TEST(WindowsLPIActionTest, IsNeed__isLangPackInstalledYes_isDefaultLanguageYes)
+TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYes)
 {	
 	CreateWindowsLIPAction;
 
-	//_isLangPackInstalled == false
+	//_isLangPackInstalled == true
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(false));
 
 	// No selected
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));	
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguages"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"es-ES"), Return(true)));
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguagesPending"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"es-ES"), Return(true)));
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
 
-	EXPECT_TRUE(lipAction.IsNeed());
-	EXPECT_TRUE(lipAction.IsDownloadNeed());
+	EXPECT_FALSE(lipAction.IsNeed());	
+}
+
+TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYesMachine)
+{	
+	CreateWindowsLIPAction;
+
+	//_isLangPackInstalled == true
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(true));
+
+	// No selected
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));	
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguages"),_ ,_)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguagesPending"),_ ,_)).WillRepeatedly(Return(false));
+
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"MachinePreferredUILanguages"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
+
+	EXPECT_FALSE(lipAction.IsNeed());
+	EXPECT_EQ(AlreadyApplied, lipAction.GetStatus());
 }
