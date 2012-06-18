@@ -137,6 +137,7 @@ bool WindowsLPIAction::_isDefaultLanguage()
 		m_registry->Close();
 	}
 
+	// In Windows 7, created new users do not have preferences and use the one reflected on MachinePreferredUILanguages
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop\\MuiCached", false))
 	{
 		m_registry->GetString(L"MachinePreferredUILanguages", szPreferredMachine, sizeof(szPreferredMachine));
