@@ -1,6 +1,6 @@
-Release process
+** Release process **
 
-Steps to follow
+Steps to follow when doing a release:
 
 - Build all the software (Build All) to get the macros _DATE_ and _TIME_ update it
 
@@ -8,6 +8,8 @@ Steps to follow
 (signtool sign /t http://timestamp.digicert.com /f ../certificat.pfx /p PASSWORD CatalanitzadorPerAlWindows.exe)
 
 - Run all the unit tests
+
+- Run the DownloadFilesChecker to check that all the files in the server are correct
 
 - Upload release notes
 www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows/Versio_1.0
