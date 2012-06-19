@@ -161,6 +161,17 @@ TEST(WindowsLPIActionTest, _isLangPackInstalled_7True)
 	EXPECT_TRUE(lipAction._isLangPackInstalled());
 }
 
+TEST(WindowsLPIActionTest, _isLangPackInstalledPending_7True)
+{	
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES"), false)).WillRepeatedly(Return(true));
+
+	EXPECT_TRUE(lipAction._isLangPackInstalled());
+}
+
 TEST(WindowsLPIActionTest, _isLangPackInstalled_7False)
 {	
 	CreateWindowsLIPAction;

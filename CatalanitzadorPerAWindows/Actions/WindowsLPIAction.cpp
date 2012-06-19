@@ -156,16 +156,14 @@ bool WindowsLPIAction::_isDefaultLanguage()
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
 bool WindowsLPIAction::_isLangPackInstalled()
 {	
-	bool bExists;
-
+	bool bExists = false;
 	OperatingVersion version = m_OSVersion->GetVersion();
 
 	if (version == WindowsXP)
 	{
-		bExists = false;
 		if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop\\", false))
 		{
-			wchar_t szValue[1024];		
+			wchar_t szValue[1024];
 
 			// MultiUILanguageId key is left behind
 			if (m_registry->GetString(L"MUILanguagePending", szValue, sizeof (szValue)))
@@ -177,10 +175,19 @@ bool WindowsLPIAction::_isLangPackInstalled()
 		}
 	}
 	else  //(version == WindowsVista) or 7
-	{		
-		bExists = m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false);
-		m_registry->Close();
-	}		
+	{
+		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false))
+		{
+			bExists = true;
+			m_registry->Close();
+		}
+		// If you install updates without rebooting, and then the language pack it gets registered in PendingInstall and not in the UILanguages key
+		else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES", false))
+		{
+			bExists = true;
+			m_registry->Close();
+		}
+	}
 	
 	g_log.Log (L"WindowsLPIAction::_isLangPackInstalled returns %u", (wchar_t*) bExists);
 	return bExists;
