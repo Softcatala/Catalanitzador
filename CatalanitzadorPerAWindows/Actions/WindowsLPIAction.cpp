@@ -328,6 +328,27 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 	WORD primary;
 	bool bLangOk;
 
+	if (m_OSVersion->IsWindows64Bits() == false)
+	{
+		if (m_OSVersion->GetVersion() != WindowsXP && m_OSVersion->GetVersion() != WindowsVista && m_OSVersion->GetVersion() != Windows7)
+		{
+			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
+			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");
+			SetStatus(CannotBeApplied);
+			return;
+		}
+	} 
+	else // 64 bits
+	{
+		if (m_OSVersion->GetVersion() != Windows7)
+		{
+			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
+			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");
+			SetStatus(CannotBeApplied);
+			return;
+		}
+	}
+
 	langid = m_win32I18N->GetSystemDefaultUILanguage();
 	primary = PRIMARYLANGID(langid);
 	
@@ -345,31 +366,8 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NOSPFR, szCannotBeApplied);
 		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Incorrect Windows base language found (langid %u)",
 			(wchar_t* )langid);
-		status = CannotBeApplied;
+		SetStatus(CannotBeApplied);
 		return;
-	}
-
-	if (m_OSVersion->IsWindows64Bits() == false)
-	{
-		if (m_OSVersion->GetVersion() != WindowsXP && m_OSVersion->GetVersion() != WindowsVista && m_OSVersion->GetVersion() != Windows7)
-		{
-			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
-			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version",
-				(wchar_t* )langid);
-			status = CannotBeApplied;
-			return;
-		}
-	} 
-	else // 64 bits
-	{
-		if (m_OSVersion->GetVersion() != Windows7)
-		{
-			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
-			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version",
-				(wchar_t* )langid);
-			status = CannotBeApplied;
-			return;
-		}
 	}
 }
 
