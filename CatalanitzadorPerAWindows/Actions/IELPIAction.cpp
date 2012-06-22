@@ -496,24 +496,20 @@ void IELPIAction::CheckPrerequirements(Action * action)
 
 	if (wcslen(szCannotBeApplied) > 0)
 	{
-		status = CannotBeApplied;
+		SetStatus(CannotBeApplied);
 	}
 	else
 	{
 		if (_getDownloadID() != DI_UNKNOWN)
 		{
-			if (_isLangPackInstalled() == false)
-			{		
-				status = Selected;
-			}
-			else
+			if (_isLangPackInstalled())
 			{
-				status = AlreadyApplied;
-			}		
+				SetStatus(AlreadyApplied);
+			}
 		}
 		else
 		{
-			status = CannotBeApplied;
+			SetStatus(CannotBeApplied);
 		}
 	}
 }
