@@ -46,7 +46,7 @@ wchar_t* FirefoxAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_FIREFOXACTION_DESCRIPTION, szDescription);
 }
 
-DWORD FirefoxAction::_getProcessID()
+vector <DWORD> FirefoxAction::_getProcessIDs()
 {
 	Runner runner;
 	return runner.GetProcessID(wstring(L"firefox.exe"));
@@ -54,13 +54,18 @@ DWORD FirefoxAction::_getProcessID()
 
 bool FirefoxAction::IsExecuting()
 {
-	return _getProcessID() != 0;
+	return _getProcessIDs().size() != 0;
 }
 
 void FirefoxAction::FinishExecution()
 {
-	Runner runner;
-	runner.RequestQuitToProcessID(_getProcessID());
+	vector <DWORD> processIDs = _getProcessIDs();
+
+	if (processIDs.size() > 0)
+	{
+		Runner runner;
+		runner.RequestCloseToProcessID(processIDs.at(0));
+	}
 }
 
 bool FirefoxAction::IsNeed()

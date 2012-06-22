@@ -72,7 +72,7 @@ private:
 		bool _findAcceptedValue(wstring,int&);
 		bool _findLanguageString(wstring,int &,wstring &);
 		bool _findAppLocaleKey(wstring line, int & pos);
-		DWORD _getProcessID();
+		vector <DWORD> _getProcessIDs();
 
 		wstring m_version;
 		IRegistry* m_registry;

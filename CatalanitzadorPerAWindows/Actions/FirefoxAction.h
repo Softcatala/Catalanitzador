@@ -66,7 +66,7 @@ private:
 		void _getProfilesIniLocation(wstring &location);
 		bool _getPreferencesFile(wstring &location);
 		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
-		DWORD _getProcessID();
+		vector <DWORD> _getProcessIDs();
 
 		IRegistry* m_registry;
 		vector <wstring> m_languages;

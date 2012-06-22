@@ -176,7 +176,7 @@ void AdobeReaderAction::_readUninstallGUID()
 	g_log.Log(L"AdobeReaderAction::_readUninstallGUID: '%s'", (wchar_t *) m_GUID.c_str());
 }
 
-DWORD AdobeReaderAction::_getProcessID()
+vector <DWORD> AdobeReaderAction::_getProcessIDs()
 {
 	Runner runner;
 	return runner.GetProcessID(wstring(L"AcroRd32.exe"));
@@ -184,13 +184,28 @@ DWORD AdobeReaderAction::_getProcessID()
 
 bool AdobeReaderAction::IsExecuting()
 {
-	return _getProcessID() != 0;
+	return _getProcessIDs().size() != 0;
 }
 
 void AdobeReaderAction::FinishExecution()
 {
 	Runner runner;
-	runner.RequestQuitToProcessID(_getProcessID());
+	vector <DWORD> processIDs = _getProcessIDs();
+
+	if (_getMajorVersion() == 9)
+	{
+		if (processIDs.size() > 0)
+		{			
+			runner.RequestCloseToProcessID(processIDs.at(0));
+		}		
+	}
+	else
+	{
+		for (unsigned int i = 0; i < processIDs.size(); i++)
+		{		
+			runner.RequestQuitToProcessID(processIDs.at(i));
+		}
+	}
 }
 
 bool AdobeReaderAction::IsNeed()

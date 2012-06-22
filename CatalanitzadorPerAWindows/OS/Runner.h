@@ -27,10 +27,12 @@ public:
 		bool Execute(wchar_t* program, wchar_t* params, bool b64bits = false);
 		bool IsRunning() const;
 		void WaitUntilFinished();
-		DWORD GetProcessID(wstring name) const;
+		vector <DWORD> GetProcessID(wstring name) const;
 		bool RequestQuitToProcessID(DWORD processID);
+		bool RequestCloseToProcessID(DWORD processID);
 
-		static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam);
+		static BOOL CALLBACK EnumWindowsProcClose(HWND hWnd, LPARAM lParam);
+		static BOOL CALLBACK EnumWindowsProcQuit(HWND hWnd, LPARAM lParam);
 
 private:
 		PROCESS_INFORMATION pi;

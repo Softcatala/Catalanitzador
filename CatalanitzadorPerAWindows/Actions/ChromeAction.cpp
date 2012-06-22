@@ -42,7 +42,7 @@ wchar_t* ChromeAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_CHROMEACTION_DESCRIPTION, szDescription);	
 }
 
-DWORD ChromeAction::_getProcessID()
+vector <DWORD> ChromeAction::_getProcessIDs()
 {
 	Runner runner;
 	return runner.GetProcessID(wstring(L"chrome.exe"));
@@ -50,13 +50,16 @@ DWORD ChromeAction::_getProcessID()
 
 bool ChromeAction::IsExecuting()
 {
-	return _getProcessID() != 0;
+	return _getProcessIDs().size() != 0;
 }
 
 void ChromeAction::FinishExecution()
 {
-	Runner runner;
-	runner.RequestQuitToProcessID(_getProcessID());
+	if (_getProcessIDs().size() > 0)
+	{
+		Runner runner;
+		runner.RequestCloseToProcessID(_getProcessIDs().at(0));
+	}
 }
 
 bool ChromeAction::_findIntl(wstring line, int & pos)

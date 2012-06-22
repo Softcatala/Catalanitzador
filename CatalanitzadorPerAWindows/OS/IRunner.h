@@ -20,6 +20,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 using namespace std;
 
 
@@ -29,6 +30,6 @@ public:
 		virtual bool Execute(wchar_t* program, wchar_t* params, bool b64bits = false) = 0;
 		virtual bool IsRunning() const = 0;
 		virtual void WaitUntilFinished() = 0;
-		virtual DWORD GetProcessID(wstring name) const = 0;
+		virtual vector <DWORD> GetProcessID(wstring name) const = 0;
 		virtual bool RequestQuitToProcessID(DWORD processID) = 0;
 };

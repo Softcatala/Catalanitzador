@@ -69,15 +69,16 @@ void Runner::WaitUntilFinished()
 	WaitForSingleObject(pi.hProcess, INFINITE);
 }
 
-DWORD Runner::GetProcessID(wstring name) const
-{	
+vector <DWORD> Runner::GetProcessID(wstring name) const
+{
+	vector <DWORD> processIDs;
 	DWORD aProcesses[4096], cbNeeded, processID;
     
 	processID = 0;
     if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))
     {
 		g_log.Log (L"Runner::IsProcessRunning. Error EnumProcesses");
-        return processID;
+        return processIDs;
     }
     
     for (unsigned int i = 0; i < cbNeeded / sizeof(DWORD); i++)
@@ -99,19 +100,38 @@ DWORD Runner::GetProcessID(wstring name) const
 
 					if (lstrcmpi(szProcessName, name.c_str()) ==0)
 					{
-						processID = aProcesses[i];
-						break;
+						processIDs.push_back(aProcesses[i]);						
 					}
 				}
 				CloseHandle(hProcess);
 			}
         }
     }
-	g_log.Log (L"Runner::IsProcessRunning. Process '%s' is running %u", (wchar_t *)name.c_str(), (wchar_t *)processID);
-    return processID;
+	g_log.Log (L"Runner::IsProcessRunning. Process name '%s' has %u processes", (wchar_t *)name.c_str(), (wchar_t *)processIDs.size());
+    return processIDs;
 }
 
-BOOL CALLBACK Runner::EnumWindowsProc(HWND hWnd, LPARAM lParam)
+BOOL CALLBACK Runner::EnumWindowsProcQuit(HWND hWnd, LPARAM lParam)
+{	
+	DWORD processID;
+
+	GetWindowThreadProcessId(hWnd, &processID);
+
+	if (processID == (DWORD) lParam)
+	{
+		PostMessage(hWnd, WM_QUIT, 0, 0);
+		return TRUE;
+	}
+	return TRUE;
+}
+
+bool Runner::RequestQuitToProcessID(DWORD processID)
+{
+	EnumWindows(EnumWindowsProcQuit, processID);
+	return true;
+}
+
+BOOL CALLBACK Runner::EnumWindowsProcClose(HWND hWnd, LPARAM lParam)
 {	
 	DWORD processID;
 
@@ -125,8 +145,8 @@ BOOL CALLBACK Runner::EnumWindowsProc(HWND hWnd, LPARAM lParam)
 	return TRUE;
 }
 
-bool Runner::RequestQuitToProcessID(DWORD processID)
+bool Runner::RequestCloseToProcessID(DWORD processID)
 {
-	EnumWindows(EnumWindowsProc, processID);
+	EnumWindows(EnumWindowsProcClose, processID);
 	return true;
 }

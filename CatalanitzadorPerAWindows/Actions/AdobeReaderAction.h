@@ -63,7 +63,7 @@ private:
 		void _uninstall();
 		void _installVersion();
 		int _getMajorVersion();
-		DWORD _getProcessID();
+		vector <DWORD> _getProcessIDs();
 		void _readVersionInstalled();
 		DownloadID _getDownloadID();
 
