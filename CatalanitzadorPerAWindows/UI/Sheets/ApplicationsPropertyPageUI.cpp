@@ -188,16 +188,28 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 	
 	ListView_SetImageList(hList, m_hImageList, LVSIL_SMALL);	
 }
+
+void ApplicationsPropertyPageUI::_insertActioninListView(Action *action, int &itemID)
+{
+	wstring name;
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.mask=LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
+
+	_getActionDisplayName(action, name);
+	item.iItem = itemID;
+	item.pszText = (LPWSTR) name.c_str();
+	item.lParam = (LPARAM) action;		
+	item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
+	ListView_InsertItem (m_hList, &item);
+	itemID++;
+}
  
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	int nItemId = 0;
-	wstring name;
+	map <Action *, bool>::iterator mapped_item;
 	m_hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
-
-	LVITEM item;
-	memset(&item,0,sizeof(item));
-	item.mask=LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 
 	if (m_availableActions->size() == 0)
 		return;
@@ -219,39 +231,37 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 			continue;
 
 		action->SetStatus(Selected);
-		_getActionDisplayName(action, name);		
-		item.iItem = nItemId;
-		item.pszText = (LPWSTR) name.c_str();
-		item.lParam = (LPARAM) action;		
-		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
-		ListView_InsertItem (m_hList, &item);		
-		nItemId++;
-
+		
+		_insertActioninListView(action, nItemId);
 		_processDependantItem(action);
 	}
 	
-	// Disabled items
+	// Items that cannot be applied
 	for (unsigned int i = 0; i < m_availableActions->size (); i++)
 	{		
 		Action* action = m_availableActions->at(i);
-		map <Action *, bool>::iterator disabled_item;
+		mapped_item = m_disabledActions.find((Action * const &)action);
 
-		disabled_item = m_disabledActions.find((Action * const &)action);
-
-		if (disabled_item->second == true)
-			continue;
+		if (mapped_item->second == true || action->GetStatus() == AlreadyApplied)
+			continue;		
 		
-		_getActionDisplayName(action, name);
-		item.iItem=nItemId;
-		item.pszText= (LPWSTR) name.c_str();
-		item.lParam = (LPARAM) action;		
-		item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
-		ListView_InsertItem(m_hList, &item);
-		nItemId++;
-
+		_insertActioninListView(action, nItemId);
 		_processDependantItem(action);
 	}
+
+	// Already applied
+	for (unsigned int i = 0; i < m_availableActions->size (); i++)
+	{		
+		Action* action = m_availableActions->at(i);
+		mapped_item = m_disabledActions.find((Action * const &)action);
+
+		if (mapped_item->second == true || action->GetStatus() != AlreadyApplied)
+			continue;		
 		
+		_insertActioninListView(action, nItemId);		
+		_processDependantItem(action);
+	}
+
 	ListView_SetItemState(m_hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
 	SetWindowLongPtr(m_hList, GWL_USERDATA, (LONG) this);
 	PreviousProc = (WNDPROC)SetWindowLongPtr(m_hList, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);

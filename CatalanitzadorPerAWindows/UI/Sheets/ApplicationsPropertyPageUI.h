@@ -51,6 +51,7 @@ private:
 		void _enableOrDisableLicenseControls();
 		void _getActionDisplayName(Action *action, wstring& name);
 		bool _checkRunningApps();
+		void _insertActioninListView(Action *action, int &itemID);
 
 		CheckedListView m_listview;
 		HWND m_hList;
