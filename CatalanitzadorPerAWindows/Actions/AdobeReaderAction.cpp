@@ -21,6 +21,7 @@
 #include "AdobeReaderAction.h"
 #include "Url.h"
 #include "Runner.h"
+#include "OSVersion.h"
 
 AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner)
 {
@@ -195,14 +196,23 @@ void AdobeReaderAction::FinishExecution()
 	if (_getMajorVersion() == 9)
 	{
 		if (processIDs.size() > 0)
-		{			
-			runner.RequestCloseToProcessID(processIDs.at(0));
-		}		
+		{
+			OSVersion version;
+
+			if (version.GetVersion() == WindowsXP)
+			{
+				// We have not found a mechanism to close the application
+			}
+			else // Windows Vista, 7 or better
+			{
+				runner.RequestCloseToProcessID(processIDs.at(0), false);
+			}
+		}
 	}
 	else
 	{
 		for (unsigned int i = 0; i < processIDs.size(); i++)
-		{		
+		{
 			runner.RequestQuitToProcessID(processIDs.at(i));
 		}
 	}

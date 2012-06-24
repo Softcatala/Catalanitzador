@@ -112,15 +112,13 @@ vector <DWORD> Runner::GetProcessID(wstring name) const
 }
 
 BOOL CALLBACK Runner::EnumWindowsProcQuit(HWND hWnd, LPARAM lParam)
-{	
+{
 	DWORD processID;
 
 	GetWindowThreadProcessId(hWnd, &processID);
-
 	if (processID == (DWORD) lParam)
 	{
-		PostMessage(hWnd, WM_QUIT, 0, 0);
-		return TRUE;
+		PostMessage(hWnd, WM_QUIT, 0, 0);		
 	}
 	return TRUE;
 }
@@ -131,22 +129,39 @@ bool Runner::RequestQuitToProcessID(DWORD processID)
 	return true;
 }
 
-BOOL CALLBACK Runner::EnumWindowsProcClose(HWND hWnd, LPARAM lParam)
+BOOL CALLBACK Runner::EnumWindowsProcCloseSend(HWND hWnd, LPARAM lParam)
 {	
 	DWORD processID;
 
 	GetWindowThreadProcessId(hWnd, &processID);
-
 	if (processID == (DWORD) lParam)
 	{
-		PostMessage(hWnd, WM_CLOSE, 0, 0);
-		return TRUE;
+		SendMessage(hWnd, WM_CLOSE, 0, 0);
 	}
 	return TRUE;
 }
 
-bool Runner::RequestCloseToProcessID(DWORD processID)
+BOOL CALLBACK Runner::EnumWindowsProcClosePost(HWND hWnd, LPARAM lParam)
+{	
+	DWORD processID;
+
+	GetWindowThreadProcessId(hWnd, &processID);
+	if (processID == (DWORD) lParam)
+	{
+		PostMessage(hWnd, WM_CLOSE, 0, 0);		
+	}
+	return TRUE;
+}
+
+bool Runner::RequestCloseToProcessID(DWORD processID, bool bPost)
 {
-	EnumWindows(EnumWindowsProcClose, processID);
+	if (bPost)
+	{
+		EnumWindows(EnumWindowsProcClosePost, processID);
+	}
+	else
+	{
+		EnumWindows(EnumWindowsProcCloseSend, processID);
+	}
 	return true;
 }

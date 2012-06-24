@@ -58,7 +58,7 @@ void ChromeAction::FinishExecution()
 	if (_getProcessIDs().size() > 0)
 	{
 		Runner runner;
-		runner.RequestCloseToProcessID(_getProcessIDs().at(0));
+		runner.RequestCloseToProcessID(_getProcessIDs().at(0), true);
 	}
 }
 

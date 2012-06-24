@@ -64,7 +64,7 @@ void FirefoxAction::FinishExecution()
 	if (processIDs.size() > 0)
 	{
 		Runner runner;
-		runner.RequestCloseToProcessID(processIDs.at(0));
+		runner.RequestCloseToProcessID(processIDs.at(0), true);
 	}
 }
 

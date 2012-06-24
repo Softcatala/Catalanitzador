@@ -29,9 +29,10 @@ public:
 		void WaitUntilFinished();
 		vector <DWORD> GetProcessID(wstring name) const;
 		bool RequestQuitToProcessID(DWORD processID);
-		bool RequestCloseToProcessID(DWORD processID);
+		bool RequestCloseToProcessID(DWORD processID, bool bPost);
 
-		static BOOL CALLBACK EnumWindowsProcClose(HWND hWnd, LPARAM lParam);
+		static BOOL CALLBACK EnumWindowsProcClosePost(HWND hWnd, LPARAM lParam);
+		static BOOL CALLBACK EnumWindowsProcCloseSend(HWND hWnd, LPARAM lParam);
 		static BOOL CALLBACK EnumWindowsProcQuit(HWND hWnd, LPARAM lParam);
 
 private:
