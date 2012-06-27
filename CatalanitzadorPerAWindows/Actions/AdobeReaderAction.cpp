@@ -201,7 +201,7 @@ void AdobeReaderAction::FinishExecution()
 
 			if (version.GetVersion() == WindowsXP)
 			{
-				// We have not found a mechanism to close the application
+				runner.TerminateProcessID(processIDs.at(0));
 			}
 			else // Windows Vista, 7 or better
 			{

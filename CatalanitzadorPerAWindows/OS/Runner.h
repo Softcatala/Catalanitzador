@@ -30,6 +30,7 @@ public:
 		vector <DWORD> GetProcessID(wstring name) const;
 		bool RequestQuitToProcessID(DWORD processID);
 		bool RequestCloseToProcessID(DWORD processID, bool bPost);
+		bool TerminateProcessID(DWORD processID);
 
 		static BOOL CALLBACK EnumWindowsProcClosePost(HWND hWnd, LPARAM lParam);
 		static BOOL CALLBACK EnumWindowsProcCloseSend(HWND hWnd, LPARAM lParam);

@@ -57,10 +57,17 @@ wchar_t* OpenOfficeAction::GetDescription()
 // message used to communicate with try icon process
 #define LISTENER_WINDOWCLASS    L"SO Listener Class"
 #define KILLTRAY_MESSAGE        L"SO KillTray"
+#define SOFFICE_PROCESSNAME		L"soffice.bin"
 
 bool OpenOfficeAction::IsExecuting()
 {
-	return (FindWindowEx(NULL, NULL, LISTENER_WINDOWCLASS, NULL) == NULL) ? false : true;
+	Runner runner;
+	bool bTray, bApp;
+
+	bTray = FindWindowEx(NULL, NULL, LISTENER_WINDOWCLASS, NULL) == NULL ? false : true;
+	bApp = runner.GetProcessID(wstring(SOFFICE_PROCESSNAME)).size() > 0;
+
+	return (bTray || bApp);
 }
 
 void OpenOfficeAction::FinishExecution()
@@ -73,8 +80,15 @@ void OpenOfficeAction::FinishExecution()
 	{
 		SendMessage(hwndTray, RegisterWindowMessage(KILLTRAY_MESSAGE), 0, 0);
 	}
-}
 
+	Runner runner;
+	vector <DWORD> processIDs = runner.GetProcessID(wstring(SOFFICE_PROCESSNAME));
+
+	for (unsigned int i = 0; i < processIDs.size(); i++)
+	{
+		runner.TerminateProcessID(processIDs.at(i));
+	}
+}
 
 
 // TODO: You can several versions installed, just read first one for now

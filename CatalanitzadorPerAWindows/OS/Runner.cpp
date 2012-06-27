@@ -165,3 +165,16 @@ bool Runner::RequestCloseToProcessID(DWORD processID, bool bPost)
 	}
 	return true;
 }
+
+bool Runner::TerminateProcessID(DWORD dwProcessId)
+{
+    DWORD dwDesiredAccess = PROCESS_TERMINATE;
+    BOOL bInheritHandle = FALSE;
+    HANDLE hProcess = OpenProcess(dwDesiredAccess, bInheritHandle, dwProcessId);
+    if (hProcess == NULL)
+        return false;
+
+    BOOL result = TerminateProcess(hProcess, 0);
+    CloseHandle(hProcess);
+    return result == TRUE;
+}
