@@ -28,5 +28,5 @@ public:
 		MOCK_METHOD0(WaitUntilFinished, void());
 		MOCK_CONST_METHOD1(GetProcessID, vector <DWORD>(wstring));
 		MOCK_METHOD1(RequestQuitToProcessID, bool(DWORD));
-		MOCK_METHOD1(RequestCloseToProcessID, bool(DWORD, bool));
+		MOCK_METHOD2(RequestCloseToProcessID, bool(DWORD, bool));
 };
