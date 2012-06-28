@@ -26,7 +26,7 @@ SkypeInspector::SkypeInspector(IRegistry* registry)
 	m_registry = registry;
 }
 
-#define PROGRAM_REGKEY L"Software\\Skype\\PluginManager"
+#define PROGRAM_REGKEY L"Software\\Skype\\Phone\\UI\\General"
 
 void SkypeInspector::_readLangInstalled()
 {
@@ -38,11 +38,67 @@ void SkypeInspector::_readLangInstalled()
 		m_registry->Close();
 	}
 
-	g_log.Log(L"SkypeInspector::_readLangInstalled '%s'", (wchar_t *) m_version.c_str());
+	g_log.Log(L"SkypeInspector::_readLangInstalled '%s'", szLanguage);
 	m_KeyValues.push_back(InspectorKeyValue(L"lang", szLanguage));
 }
 
 void SkypeInspector::Execute()
+{
+	_readVersion();
+	_readLangInstalled();	
+}
+
+bool SkypeInspector::_readFilePath(wstring &path)
+{
+	wchar_t szFile[1024];
+
+	path.empty();
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Software\\Skype\\Phone", false))
+	{
+		if (m_registry->GetString(L"SkypePath", szFile, sizeof(szFile)))
+		{
+			path = szFile;
+		}
+		m_registry->Close();
+	}	
+	g_log.Log(L"SkypeInspector::_readFilePath '%s'", (wchar_t *) path.c_str());
+	return path.size() > 0;
+}
+
+bool SkypeInspector::_readVersion()
 {	
-	_readLangInstalled();
+	wstring file;
+	DWORD dwLen, dwUnUsed;
+	LPTSTR lpVI = NULL;
+	wstring version;
+
+	_readFilePath(file);	
+	dwLen = GetFileVersionInfoSize(file.c_str(), &dwUnUsed);
+
+	if (dwLen > 0)
+	{
+		lpVI = (LPTSTR) GlobalAlloc(GPTR, dwLen);
+	}
+
+	if (lpVI != NULL)
+	{		
+		VS_FIXEDFILEINFO *lpFfi;
+		wchar_t szBuffer[2048];
+		UINT uLen = 0;
+
+		GetFileVersionInfo(file.c_str(), NULL, dwLen, lpVI);
+
+		if (VerQueryValue(lpVI , L"\\" , (LPVOID *)&lpFfi , &uLen))
+		{
+			swprintf_s(szBuffer, L"%d.%d.%d.%d", HIWORD(lpFfi->dwProductVersionMS), LOWORD(lpFfi->dwProductVersionMS), 
+				HIWORD(lpFfi->dwProductVersionLS), LOWORD(lpFfi->dwProductVersionLS));
+			version = szBuffer;
+		}
+
+		GlobalFree((HGLOBAL)lpVI);
+	}
+
+	g_log.Log(L"SkypeInspector::_readVersion version %s", (wchar_t*) version.c_str());
+	m_KeyValues.push_back(InspectorKeyValue(L"version", version.c_str()));
+	return version.size() > 0;
 }

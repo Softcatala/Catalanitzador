@@ -34,6 +34,8 @@ public:
 private:
 		
 		void _readLangInstalled();
+		bool _readVersion();
+		bool _readFilePath(wstring &path);
 
 		IRegistry* m_registry;
 		wstring m_version;
