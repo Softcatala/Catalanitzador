@@ -21,19 +21,23 @@
 
 #include "Inspector.h"
 #include "IRegistry.h"
+#include "XmlParser.h"
 
 class _APICALL LibreOfficeInspector : public Inspector
 {
 public:
-
 		LibreOfficeInspector(IRegistry* registry);
 
 		virtual InspectorID GetID() const {return LibreOfficeInspectorID;}
-		virtual void Execute();
-
+		virtual void Execute();		
+		
 private:
 		
 		void _readVersionInstalled();
+		void _readLanguage();
+		void _getPreferencesFile(wstring& location);
+		void _readLocale(wstring &locale);
+		static bool _readNodeCallback(XmlNode node, void *data);
 
 		IRegistry* m_registry;
 		wstring m_version;
