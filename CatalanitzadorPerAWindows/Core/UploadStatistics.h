@@ -29,11 +29,11 @@ class UploadStatistics
 			~UploadStatistics();
 
 			void StartUploadThread();
-			void UploadFile();
 			void WaitBeforeExit();
 
 	private:
 
+			void _uploadFile();
 			static DWORD WINAPI _uploadXmlThread(LPVOID lpParam);
 
 			Serializer* m_serializer;

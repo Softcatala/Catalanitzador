@@ -36,7 +36,7 @@ UploadStatistics::~UploadStatistics()
 	}
 }
 
-void UploadStatistics::UploadFile()
+void UploadStatistics::_uploadFile()
 {
 	string serialize;
 	char szVar[65535];
@@ -55,7 +55,7 @@ void UploadStatistics::UploadFile()
 DWORD UploadStatistics::_uploadXmlThread(LPVOID lpParam)
 {
 	UploadStatistics* stats = (UploadStatistics *) lpParam;
-	stats->UploadFile();
+	stats->_uploadFile();
 	return 0;
 }
 
