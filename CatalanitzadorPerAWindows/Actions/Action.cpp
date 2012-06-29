@@ -87,6 +87,10 @@ void Action::_setStatusNotInstalled()
 void Action::SetStatus(ActionStatus value) 
 {
 	ActionStatus prev = status;
+
+	if (status == value)
+		return;
+
 	status = value;
 
 	// Check which transitions are valid within the Status action state machine
