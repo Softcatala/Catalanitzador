@@ -38,6 +38,7 @@
 #define IELPI_IE9_7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu"
 #define IELPI_IE9_7_64BITS L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu"
 
+#define OPENOFFICE_32 L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab"
 #define OPENOFFICE_33 L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab"
 
 #define ADOBEREADER_95 L"http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe"
@@ -60,6 +61,7 @@ enum DownloadID
 	DI_IELPI_IE9_VISTA,
 	DI_IELPI_IE9_7,
 	DI_IELPI_IE9_7_64BITS,
+	DI_OPENOFFICE_32,
 	DI_OPENOFFICE_33,
 	DI_ADOBEREADER_95,
 	DI_ADOBEREADER_1010,

@@ -88,7 +88,7 @@ TEST(OpenOfficeActionTest, _readVersionInstalled)
 
 TEST(OpenOfficeActionTest, CheckPrerequirements_NonSupportedVersion)
 {
-	const wchar_t* OPENOFFICE_VERSION = L"3.2";
+	const wchar_t* OPENOFFICE_VERSION = L"3.1";
 	CreateOpenOfficeAction;
 	
 	SetOpenOfficeVersion(registryMockobj, OPENOFFICE_VERSION);	

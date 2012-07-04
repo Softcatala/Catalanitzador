@@ -136,12 +136,23 @@ bool OpenOfficeAction::IsNeed()
 	return bNeed;
 }
 
+DownloadID OpenOfficeAction::_getDownloadID()
+{
+	if (m_version==L"3.3")
+		return DI_OPENOFFICE_33;
+
+	if (m_version==L"3.2")
+		return DI_OPENOFFICE_32;
+
+	return DI_UNKNOWN;
+}
+
 bool OpenOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	GetTempPath(MAX_PATH, m_szFilename);
 	Url url(m_actionDownload.GetFileName(DI_OPENOFFICE_33));
 	wcscat_s(m_szFilename, url.GetFileName());	
-	return _getFile(DI_OPENOFFICE_33, m_szFilename, progress, data);	
+	return _getFile(_getDownloadID(), m_szFilename, progress, data);
 }
 
 void OpenOfficeAction::Execute()
@@ -252,7 +263,7 @@ bool OpenOfficeAction::_readNodeCallback(XmlNode node, void *data)
 		if (parsing_state == ItemLinguisticGeneral && attribute.GetName() == L"oor:name" && attribute.GetValue() == L"UILocale")
 		{
 			parsing_state = PropUILocale;
-		}		
+		}
 	}
 	
 	return true;
@@ -268,6 +279,7 @@ void OpenOfficeAction::_getPreferencesFile(wstring& location)
 }
 
 #define DEFAULT_LANGUAGE L"ca"
+
 
 void OpenOfficeAction::_setDefaultLanguage()
 {
@@ -393,7 +405,7 @@ void OpenOfficeAction::CheckPrerequirements(Action * action)
 
 	if (m_version.size() > 0)
 	{
-		if (m_version != L"3.3")
+		if (_getDownloadID() == DI_UNKNOWN)
 		{			
 			_getStringFromResourceIDName(IDS_OPENOFFICEACTION_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"OpenOfficeAction::CheckPrerequirements. Version not supported");

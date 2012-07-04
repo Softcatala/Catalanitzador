@@ -58,7 +58,9 @@ private:
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _removeCabTempFiles();
 		bool _isLangPackInstalled();
+		DownloadID _getDownloadID();
 		static bool _readNodeCallback(XmlNode node, void *data);
+
 
 		wstring m_version;
 		IRunner* m_runner;
