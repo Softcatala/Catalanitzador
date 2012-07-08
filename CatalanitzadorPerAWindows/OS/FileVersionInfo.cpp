@@ -23,9 +23,41 @@
 FileVersionInfo::FileVersionInfo(wstring file)
 {
 	m_file = file;
+	m_majorVersion = -1;
+	m_languageCode = -1;
 }
 
-bool FileVersionInfo::ReadVersion(wstring& version)
+wstring& FileVersionInfo::GetVersion()
+{	
+	if (m_version.size() == 0)
+	{
+		_readVersion();
+	}
+
+	return m_version;		
+}
+
+int FileVersionInfo::GetMajorVersion()
+{
+	if (m_majorVersion == -1)
+	{
+		_readVersion();
+	}
+
+	return m_majorVersion;
+}
+
+DWORD FileVersionInfo::GetLanguageCode()
+{
+	if (m_languageCode == -1)
+	{
+		_readLanguageCode();
+	}
+
+	return m_languageCode;
+}
+
+void FileVersionInfo::_readVersion()
 {	
 	DWORD dwLen, dwUnUsed;
 	LPTSTR lpVI = NULL;	
@@ -49,12 +81,45 @@ bool FileVersionInfo::ReadVersion(wstring& version)
 		{
 			swprintf_s(szBuffer, L"%d.%d.%d.%d", HIWORD(lpFfi->dwProductVersionMS), LOWORD(lpFfi->dwProductVersionMS), 
 				HIWORD(lpFfi->dwProductVersionLS), LOWORD(lpFfi->dwProductVersionLS));
-			version = szBuffer;
+			m_version = szBuffer;
+			m_majorVersion =  HIWORD(lpFfi->dwProductVersionMS);
 		}
 
 		GlobalFree((HGLOBAL)lpVI);
 	}
 
-	g_log.Log(L"FileVersionInfo::ReadVersion. File '%s' version '%s'", (wchar_t*) m_file.c_str(), (wchar_t*) version.c_str());	
-	return version.size() > 0;
+	g_log.Log(L"FileVersionInfo::ReadVersion. File '%s' version '%s'", (wchar_t*) m_file.c_str(), (wchar_t*) m_version.c_str());	
+}
+
+
+struct LANGCODEPAGE {
+	WORD wLanguage;
+	WORD wCodePage;
+} *lpTranslate;
+
+void FileVersionInfo::_readLanguageCode()
+{
+	DWORD dwLen, dwUnUsed;
+	LPTSTR lpVI = NULL;
+
+	dwLen = GetFileVersionInfoSize(m_file.c_str(), &dwUnUsed);
+
+	if (dwLen > 0)
+	{
+		lpVI = (LPTSTR) GlobalAlloc(GPTR, dwLen);
+	}	
+
+	if (lpVI != NULL)
+	{		
+		GetFileVersionInfo(m_file.c_str(), NULL, dwLen, lpVI);
+		unsigned int uLen;
+
+		VerQueryValue(lpVI,
+			L"\\VarFileInfo\\Translation", (LPVOID*)&lpTranslate,  &uLen);
+		
+		m_languageCode = lpTranslate->wLanguage;
+		GlobalFree((HGLOBAL)lpVI);
+	}
+
+	g_log.Log(L"FileVersionInfo::_readLanguageCode. File '%s' language '%u'", (wchar_t*) m_file.c_str(), (wchar_t*) m_languageCode);	
 }

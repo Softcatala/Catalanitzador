@@ -86,7 +86,7 @@ void WindowsLiveAction::_readVersionInstalled()
 
 	_getInstallerLocation(location);
 	FileVersionInfo fileVersion(location);
-	fileVersion.ReadVersion(m_version);
+	m_version = fileVersion.GetVersion();
 }
 
 void WindowsLiveAction::_getInstallerLocation(wstring& location)
@@ -136,16 +136,11 @@ ActionStatus WindowsLiveAction::GetStatus()
 
 int WindowsLiveAction::_getMajorVersion()
 {
-	size_t pos;
+	wstring location;
 
-	pos = m_version.find_first_of(L".", 0);
-
-	if (pos == string::npos)
-	{
-		return -1;
-	}
-
-	return _wtoi(m_version.substr(0, pos).c_str());
+	_getInstallerLocation(location);
+	FileVersionInfo fileVersion(location);
+	return fileVersion.GetMajorVersion();
 }
 
 #define LANG_REGKEY L"Software\\Microsoft\\Windows Live\\Common\\"
@@ -181,9 +176,8 @@ void WindowsLiveAction::CheckPrerequirements(Action * action)
 			SetStatus(AlreadyApplied);
 			return;
 		}
-
-		int major = _getMajorVersion();
-		if (major != 15)
+		
+		if (_getMajorVersion() != 15)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Version not supported");

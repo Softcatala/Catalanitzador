@@ -20,6 +20,7 @@
 #pragma once
 
 #include <string>
+#include <windows.h>
 
 using namespace std;
 
@@ -28,8 +29,18 @@ class _APICALL FileVersionInfo
 public:
 		FileVersionInfo(wstring file);
 
-		bool ReadVersion(wstring& version);
+		wstring& GetVersion();
+		int GetMajorVersion();
+		DWORD GetLanguageCode();
+
+protected:
+
+		void _readVersion();
+		void _readLanguageCode();
 
 private:
 		wstring	m_file;
+		wstring m_version;
+		int m_majorVersion;
+		DWORD m_languageCode;
 };

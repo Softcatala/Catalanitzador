@@ -24,6 +24,7 @@
 #include "OSVersion.h"
 #include "Url.h"
 #include "Winver.h"
+#include "FileVersionInfo.h"
 
 IELPIAction::IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
@@ -198,51 +199,18 @@ bool IELPIAction::_is64BitsPackage()
 	}
 }
 
-struct LANGANDCODEPAGE {
-	WORD wLanguage;
-	WORD wCodePage;
-} *lpTranslate;
-
 #define CATALAN_LANGCODE 0x403
 
 bool IELPIAction::_isLangPackInstalled()
 {
-	bool installed = false;
+	bool installed;
 	wchar_t szFile[MAX_PATH];
-	DWORD dwLen, dwUnUsed;
-	LPTSTR lpVI;
 
 	GetSystemDirectory(szFile, MAX_PATH);
 	wcscat_s(szFile, L"\\ca-es\\ieframe.dll.mui");
-	
-	dwLen = GetFileVersionInfoSize(szFile, &dwUnUsed);
 
-	if (dwLen == 0)
-	{
-		g_log.Log(L"IELPIAction::_isLangPackInstalled returns false. Cannot getfileinfo for %s", szFile);
-		return false;
-	}		
-
-	lpVI = (LPTSTR) GlobalAlloc(GPTR, dwLen);
-	if (lpVI != NULL)
-	{		
-		GetFileVersionInfo(szFile, NULL, dwLen, lpVI);
-		unsigned int uLen = sizeof(LANGANDCODEPAGE);
-
-		VerQueryValue(lpVI,
-			L"\\VarFileInfo\\Translation", (LPVOID*)&lpTranslate,  &uLen);
-		
-		VS_FIXEDFILEINFO *lpFfi;
-		VerQueryValue(lpVI , L"\\" , (LPVOID *)&lpFfi , &uLen);
-		WORD majorVersion = HIWORD (lpFfi->dwFileVersionMS);
-
-		installed = (_getIEVersion() == majorVersion && lpTranslate->wLanguage == CATALAN_LANGCODE);	
-
-		g_log.Log(L"IELPIAction::_isLangPackInstalled %s has version %u and language code %x", 
-			szFile, (wchar_t*) majorVersion, (wchar_t*) lpTranslate->wLanguage);
-		
-		GlobalFree((HGLOBAL)lpVI);
-	}
+	FileVersionInfo fileVersion(szFile);
+	installed = _getIEVersion() == fileVersion.GetMajorVersion() && fileVersion.GetLanguageCode() == CATALAN_LANGCODE;
 
 	g_log.Log(L"IELPIAction::_isLangPackInstalled returns %u", (wchar_t*) installed);
 	return installed;

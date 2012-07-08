@@ -26,15 +26,26 @@
 using ::testing::StrCaseEq;
 
 #define UNITTESTS_BINARY L"CatalanitzadorPerAlWindows.UnitTests.exe"
+#define LCID_CATALAN 1027
 
-TEST(FileVersionInfoTest, ReadVersion_testAgainstThisBinary)
+TEST(FileVersionInfoTest, _readVersion_testAgainstThisBinary)
 {
 	wstring version, binary;
 
 	StringConversion::ToWideChar(STRING_VERSION, binary);
 	FileVersionInfo fileVersionInfo(UNITTESTS_BINARY);
-	fileVersionInfo.ReadVersion(version);
+	version = fileVersionInfo.GetVersion();
 
 	EXPECT_THAT(version.c_str(), StrCaseEq(binary.c_str()));
+	EXPECT_THAT(fileVersionInfo.GetMajorVersion(), APP_MAJOR_VERSION);
 }
 
+TEST(FileVersionInfoTest, _readLanguageCode_testAgainstThisBinary)
+{
+	DWORD lang;
+	
+	FileVersionInfo fileVersionInfo(UNITTESTS_BINARY);
+	lang = fileVersionInfo.GetLanguageCode();
+	
+	EXPECT_THAT(lang, LCID_CATALAN);
+}
