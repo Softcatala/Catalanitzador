@@ -164,6 +164,7 @@ bool WindowsLiveAction::_isLangSelected()
 	return bSelected;
 }
 
+#define SUPPORTED_VERSION 15
 
 void WindowsLiveAction::CheckPrerequirements(Action * action)
 {
@@ -177,7 +178,7 @@ void WindowsLiveAction::CheckPrerequirements(Action * action)
 			return;
 		}
 		
-		if (_getMajorVersion() != 15)
+		if (_getMajorVersion() != SUPPORTED_VERSION)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Version not supported");
