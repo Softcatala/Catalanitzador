@@ -356,6 +356,10 @@
 			Name="OS"
 			>
 			<File
+				RelativePath=".\OS\FileVersionInfoTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OS\Sha1SumTest.cpp"
 				>
 			</File>

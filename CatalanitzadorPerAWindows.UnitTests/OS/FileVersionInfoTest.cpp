@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,22 +17,24 @@
  * 02111-1307, USA.
  */
 
-#pragma once
+#include "stdafx.h"
+#include "Defines.h"
+#include "FileVersionInfo.h"
+#include "StringConversion.h"
+#include "Version.h"
 
-enum ActionID
+using ::testing::StrCaseEq;
+
+#define UNITTESTS_BINARY L"CatalanitzadorPerAlWindows.UnitTests.exe"
+
+TEST(FileVersionInfoTest, ReadVersion_testAgainstThisBinary)
 {
-	// Do not modify these since they are used in the server side to identify 
-	// actions in a unique manner
-	NoAction = 0,
-	WindowsLPI = 1,
-	MSOfficeLPI = 2,
-	ConfigureLocale = 3,
-	IEAcceptLanguage = 4,
-	IELPI = 5,
-	ConfigureDefaultLanguage = 6,
-	Chrome = 7,
-	Firefox = 8,
-	OpenOffice = 9,
-	AcrobatReader = 10,
-	WindowsLive = 11,
-};
+	wstring version, binary;
+
+	StringConversion::ToWideChar(STRING_VERSION, binary);
+	FileVersionInfo fileVersionInfo(UNITTESTS_BINARY);
+	fileVersionInfo.ReadVersion(version);
+
+	EXPECT_THAT(version.c_str(), StrCaseEq(binary.c_str()));
+}
+

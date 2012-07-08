@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 #include "SkypeInspector.h"
-
+#include "FileVersionInfo.h"
 
 SkypeInspector::SkypeInspector(IRegistry* registry)
 {
@@ -68,35 +68,12 @@ bool SkypeInspector::_readFilePath(wstring &path)
 bool SkypeInspector::_readVersion()
 {	
 	wstring file;
-	DWORD dwLen, dwUnUsed;
-	LPTSTR lpVI = NULL;
 	wstring version;
 
-	_readFilePath(file);	
-	dwLen = GetFileVersionInfoSize(file.c_str(), &dwUnUsed);
+	_readFilePath(file);
 
-	if (dwLen > 0)
-	{
-		lpVI = (LPTSTR) GlobalAlloc(GPTR, dwLen);
-	}
-
-	if (lpVI != NULL)
-	{		
-		VS_FIXEDFILEINFO *lpFfi;
-		wchar_t szBuffer[2048];
-		UINT uLen = 0;
-
-		GetFileVersionInfo(file.c_str(), NULL, dwLen, lpVI);
-
-		if (VerQueryValue(lpVI , L"\\" , (LPVOID *)&lpFfi , &uLen))
-		{
-			swprintf_s(szBuffer, L"%d.%d.%d.%d", HIWORD(lpFfi->dwProductVersionMS), LOWORD(lpFfi->dwProductVersionMS), 
-				HIWORD(lpFfi->dwProductVersionLS), LOWORD(lpFfi->dwProductVersionLS));
-			version = szBuffer;
-		}
-
-		GlobalFree((HGLOBAL)lpVI);
-	}
+	FileVersionInfo fileVersion(file);
+	fileVersion.ReadVersion(version);	
 
 	g_log.Log(L"SkypeInspector::_readVersion version %s", (wchar_t*) version.c_str());
 	m_KeyValues.push_back(InspectorKeyValue(L"version", version.c_str()));

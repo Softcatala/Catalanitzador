@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,23 +16,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
-
+ 
 #pragma once
 
-enum ActionID
+#include <string>
+
+using namespace std;
+
+class _APICALL FileVersionInfo
 {
-	// Do not modify these since they are used in the server side to identify 
-	// actions in a unique manner
-	NoAction = 0,
-	WindowsLPI = 1,
-	MSOfficeLPI = 2,
-	ConfigureLocale = 3,
-	IEAcceptLanguage = 4,
-	IELPI = 5,
-	ConfigureDefaultLanguage = 6,
-	Chrome = 7,
-	Firefox = 8,
-	OpenOffice = 9,
-	AcrobatReader = 10,
-	WindowsLive = 11,
+public:
+		FileVersionInfo(wstring file);
+
+		bool ReadVersion(wstring& version);
+
+private:
+		wstring	m_file;
 };

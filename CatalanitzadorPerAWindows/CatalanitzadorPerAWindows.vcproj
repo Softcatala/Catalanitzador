@@ -321,6 +321,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\WindowsLiveAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\WindowsLiveAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\WindowsLPIAction.cpp"
 				>
 			</File>
@@ -706,6 +714,14 @@
 			</File>
 			<File
 				RelativePath=".\OS\DownloadInet.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\FileVersionInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\FileVersionInfo.h"
 				>
 			</File>
 			<File

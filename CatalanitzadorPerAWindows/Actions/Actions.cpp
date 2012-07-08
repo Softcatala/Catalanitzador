@@ -31,6 +31,7 @@
 #include "Registry.h"
 #include "OpenOfficeAction.h"
 #include "AdobeReaderAction.h"
+#include "WindowsLiveAction.h"
 
 Actions::Actions()
 {
@@ -88,6 +89,7 @@ void Actions::_buildListOfActions()
 {
 	m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
 	m_actions.push_back(new MSOfficeLPIAction( _getNewRegistry(), _getNewRunner()));
+	m_actions.push_back(new WindowsLiveAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new IEAcceptLanguagesAction( _getNewRegistry()));
 	m_actions.push_back(new ConfigureLocaleAction());
@@ -96,6 +98,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new FirefoxAction( _getNewRegistry()));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
+	
 	_checkPrerequirements();
 }
 
