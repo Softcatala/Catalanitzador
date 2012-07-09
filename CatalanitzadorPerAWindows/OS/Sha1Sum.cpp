@@ -64,7 +64,6 @@ wstring Sha1Sum::ReadFromFile()
 
 void Sha1Sum::_compute()
 {
-	DWORD dwStatus = 0;
     BOOL bResult = FALSE;
     HCRYPTPROV hProv = 0;
     HCRYPTHASH hHash = 0;
