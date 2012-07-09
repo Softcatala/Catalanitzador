@@ -93,7 +93,6 @@ void ConfigureDefaultLanguageAction::Execute()
 
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s(szApp, L"\\control.exe ");
-	status = InProgress;
 
 	if (m_OSVersion->GetVersion() == WindowsXP)
 	{
@@ -112,7 +111,7 @@ void ConfigureDefaultLanguageAction::Execute()
 	Resources::DumpResource(L"CONFIG_FILES", resource, szCfgFile);	
 	swprintf_s(szParams, L" intl.cpl,,/f:\"%s\"", szCfgFile);
 
-	status = InProgress;
+	SetStatus(InProgress);
 	g_log.Log(L"ConfigureDefaultLanguageAction::Execute '%s' with params '%s'", szApp, szParams);
 	m_runner->Execute(szApp, szParams);
 }
@@ -150,7 +149,7 @@ void ConfigureDefaultLanguageAction::CheckPrerequirements(Action * action)
 	{
 		_getStringFromResourceIDName(IDS_DEFLANGACTION_NOSPANISHKEYBOARD, szCannotBeApplied);
 		g_log.Log(L"ConfigureDefaultLanguageAction::CheckPrerequirements. No Spanish keyboard installed.");
-		status = CannotBeApplied;
+		SetStatus(CannotBeApplied);
 		return;
 	}
 }
@@ -225,11 +224,11 @@ ActionStatus ConfigureDefaultLanguageAction::GetStatus()
 
 		if (_isCatalanKeyboardActive())
 		{
-			status = Successful;	
+			SetStatus(Successful);
 		}
 		else
 		{
-			status = FinishedWithError;
+			SetStatus(FinishedWithError);
 		}
 		
 		g_log.Log(L"ConfigureDefaultLanguageAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
