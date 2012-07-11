@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\ActionGroup.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\ActionID.h"
 				>
 			</File>

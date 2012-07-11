@@ -133,6 +133,7 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 			{
 				pThis->_processClickOnItem(lvHitTestInfo.iItem);
 			}
+			break;
 		}
 		
 		case WM_KEYDOWN:
@@ -141,11 +142,12 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 			{
 				pThis->_processClickOnItem(ListView_GetSelectionMark(hWnd));
 			}
+			break;
 		}
-
 		default:
-			return CallWindowProc(pThis->PreviousProc, hWnd, uMsg, wParam, lParam);
+			break;
 	}
+	return CallWindowProc(pThis->PreviousProc, hWnd, uMsg, wParam, lParam);
 }
 
 void ApplicationsPropertyPageUI::_setBoldControls()
@@ -199,12 +201,28 @@ void ApplicationsPropertyPageUI::_insertActioninListView(Action *action, int &it
 	_getActionDisplayName(action, name);
 	item.iItem = itemID;
 	item.pszText = (LPWSTR) name.c_str();
-	item.lParam = (LPARAM) action;		
+	item.lParam = (LPARAM) action;
 	item.iImage = CheckedListView::GetImageIndex(action->GetStatus());
-	ListView_InsertItem (m_hList, &item);
+	ListView_InsertItem(m_hList, &item);
 	itemID++;
 }
- 
+
+// An index to ActionGroup
+// TODO: To move to resources
+static const wchar_t* groupNames [] = {L"None", L"Windows", L"Internet", L"Ofimàtica"};
+
+void ApplicationsPropertyPageUI::_insertGroupNameListView(ActionGroup group, int &itemID)
+{
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.mask=LVIF_TEXT;
+
+	item.iItem = itemID;
+	item.pszText = (LPWSTR) groupNames[(int)group];	
+	ListView_InsertItem(m_hList, &item);
+	itemID++;
+}
+
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	int nItemId = 0;
@@ -217,58 +235,46 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	_setBoldControls();
 
 	m_hImageList = m_listview.CreateCheckBoxImageList(m_hList);
+	
 	ListView_SetImageList(m_hList, m_hImageList, LVSIL_SMALL);
 	
-	// Enabled items
-	for (unsigned int i = 0; i < m_availableActions->size (); i++)
-	{		
-		Action* action = m_availableActions->at(i);
-		bool needed = action->IsNeed();
+	for (int g = 0 ;g < ActionGroupLast; g++)
+	{
+		bool bFirstHit = false;		
 
-		m_disabledActions.insert(ActionBool_Pair(action, needed));
+		for (unsigned int i = 0; i < m_availableActions->size (); i++)
+		{		
+			Action* action = m_availableActions->at(i);
 
-		if (needed == false)
-			continue;
+			if (action->GetGroup() != (ActionGroup)g)
+				continue;
 
-		action->SetStatus(Selected);
-		
-		_insertActioninListView(action, nItemId);
-		_processDependantItem(action);
-	}
-	
-	// Items that cannot be applied
-	for (unsigned int i = 0; i < m_availableActions->size (); i++)
-	{		
-		Action* action = m_availableActions->at(i);
-		mapped_item = m_disabledActions.find((Action * const &)action);
+			bool needed = action->IsNeed();
 
-		if (mapped_item->second == true || action->GetStatus() == AlreadyApplied)
-			continue;		
-		
-		_insertActioninListView(action, nItemId);
-		_processDependantItem(action);
-	}
+			if (bFirstHit == false)
+			{
+				_insertGroupNameListView((ActionGroup)g, nItemId);
+				bFirstHit = true;
+			}
 
-	// Already applied
-	for (unsigned int i = 0; i < m_availableActions->size (); i++)
-	{		
-		Action* action = m_availableActions->at(i);
-		mapped_item = m_disabledActions.find((Action * const &)action);
+			m_disabledActions.insert(ActionBool_Pair(action, needed));
 
-		if (mapped_item->second == true || action->GetStatus() != AlreadyApplied)
-			continue;		
-		
-		_insertActioninListView(action, nItemId);		
-		_processDependantItem(action);
-	}
+			if (needed)
+				action->SetStatus(Selected);			
+			
+			_insertActioninListView(action, nItemId);
+			_processDependantItem(action);
+		}
+	}	
 
-	ListView_SetItemState(m_hList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
+	ListView_SetItemState(m_hList, 1, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
 	SetWindowLongPtr(m_hList, GWL_USERDATA, (LONG) this);
 	PreviousProc = (WNDPROC)SetWindowLongPtr(m_hList, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);
 		
 	_setLegendControl();
 	_enableOrDisableLicenseControls();
 }
+
 
 NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
 {
@@ -279,34 +285,73 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 	{
 		LPNMLVCUSTOMDRAW lpNMLVCD = (LPNMLVCUSTOMDRAW)hdr;
 
+		// TODO: Switch
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_PREPAINT)
-		{
+		{			
 			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
+			g_log.Log(L"CDDS_PREPAINT");
 			return ReturnTrue;
 		}
 
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_ITEMPREPAINT)
 		{
-			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
-			map <Action *, bool>::iterator item;
+			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;	
 
-			item = m_disabledActions.find((Action * const &)action);
-
-			if (item->second == false)
+			if (action != NULL)
 			{
-				DWORD color = GetSysColor(COLOR_GRAYTEXT);
-				lpNMLVCD->clrText = color;
+				map <Action *, bool>::iterator item;
+
+				item = m_disabledActions.find((Action * const &)action);
+
+				if (item->second == false)
+				{
+					DWORD color = GetSysColor(COLOR_GRAYTEXT);
+					lpNMLVCD->clrText = color;
+				}
 			}
-			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_DODEFAULT);
+			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYPOSTPAINT);
+			g_log.Log(L"CDDS_ITEMPREPAINT");
+			return ReturnTrue;
+		}
+
+		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_ITEMPOSTPAINT)
+		{
+			RECT rect;
+			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
+
+			//Also:   ::SetViewportOrgEx(pCustomDraw->nmcd.hdc, m_nOffset, 0, NULL);
+			if (action != NULL)
+			{
+				ScrollDC(lpNMLVCD->nmcd.hdc, 10, 0, &lpNMLVCD->nmcd.rc,NULL, NULL, NULL);
+
+				rect.left = lpNMLVCD->nmcd.rc.left;
+				rect.right = lpNMLVCD->nmcd.rc.left + 10;
+				rect.top = lpNMLVCD->nmcd.rc.top;
+				rect.bottom = lpNMLVCD->nmcd.rc.bottom;
+				FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+			}
+			else
+			{
+				ScrollDC(lpNMLVCD->nmcd.hdc, -16, 0,  &lpNMLVCD->nmcd.rc,NULL, NULL, NULL);
+
+				/*rect.left = lpNMLVCD->nmcd.rc.left;
+				rect.right = lpNMLVCD->nmcd.rc.left - 16;
+				rect.top = lpNMLVCD->nmcd.rc.top;
+				rect.bottom = lpNMLVCD->nmcd.rc.bottom;
+				FillRect(lpNMLVCD->nmcd.hdc, &rect ,GetSysColorBrush(COLOR_WINDOW));*/
+			}
+			//::DrawFocusRect(lpNMLVCD->nmcd.hdc, &lpNMLVCD->nmcd.rc);
+
+			g_log.Log(L"CDDS_ITEMPOSTPAINT %u, %u",
+				(wchar_t *) lpNMLVCD->nmcd.rc.left, (wchar_t *) lpNMLVCD->nmcd.rc.top);
 			return ReturnTrue;
 		}
 		
 		return CallDefProc;
 	}
-
+	   
 	NMLISTVIEW *pListView = (NMLISTVIEW *)hdr;
-	    
-	if(pListView->hdr.code != LVN_ITEMCHANGED)
+	if (pListView->hdr.code != LVN_ITEMCHANGED)
 		return ReturnFalse;
 
 	_updateActionDescriptionAndReq((Action *)  pListView->lParam);
@@ -316,16 +361,17 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 {
 	int show;
+	bool isHeader = action == NULL;
 
 	SendDlgItemMessage (getHandle(), IDC_APPLICATION_DESCRIPTION,
 		WM_SETTEXT, (WPARAM) 0, 
-		(LPARAM) action->GetDescription());
+		isHeader ? NULL : (LPARAM) action->GetDescription());
 
 	SendDlgItemMessage (getHandle(), IDC_APPLICATION_MISSINGREQ,
 		WM_SETTEXT, (WPARAM) 0, 
-		(LPARAM) action->GetCannotNotBeApplied());
+		isHeader ? NULL : (LPARAM) action->GetCannotNotBeApplied());
 
-	show = *action->GetCannotNotBeApplied() != NULL ? SW_SHOWNORMAL: SW_HIDE;
+	show = isHeader ? FALSE : *action->GetCannotNotBeApplied() != NULL ? SW_SHOWNORMAL: SW_HIDE;
 	ShowWindow(GetDlgItem(getHandle(), IDC_APPLICATION_CANNOTBEAPPLIED_CAPTION), show);
 	ShowWindow(GetDlgItem(getHandle(), IDC_APPLICATION_MISSINGREQ), show);	
 }

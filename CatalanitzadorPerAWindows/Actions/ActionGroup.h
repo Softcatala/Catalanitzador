@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,27 +19,11 @@
 
 #pragma once
 
-#include "Action.h"
-#include "Runner.h"
-
-class ConfigureLocaleAction : public Action
+enum _APICALL ActionGroup
 {
-public:
-		ConfigureLocaleAction();
-		~ConfigureLocaleAction();
-
-		virtual wchar_t* GetName();
-		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return ConfigureLocale;};
-		virtual ActionGroup GetGroup() {return ActionGroupWindows;}
-		virtual bool IsDownloadNeed() {return false;}
-		virtual bool IsNeed();
-		virtual void Execute();
-		virtual ActionStatus GetStatus();
-private:
-		bool _isCatalanLocaleActive();		
-
-		wchar_t szCfgFile[MAX_PATH];
-		Runner m_runner;
+	ActionGroupNone,
+	ActionGroupWindows,
+	ActionGroupInternet,
+	ActionGroupOfficeAutomation,
+	ActionGroupLast // Keep this always as last element
 };
-

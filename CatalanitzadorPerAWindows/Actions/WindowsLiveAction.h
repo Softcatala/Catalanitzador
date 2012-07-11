@@ -31,6 +31,7 @@ public:
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
 		virtual ActionID GetID() const { return WindowsLive;};
+		virtual ActionGroup GetGroup() {return ActionGroupInternet;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute();
