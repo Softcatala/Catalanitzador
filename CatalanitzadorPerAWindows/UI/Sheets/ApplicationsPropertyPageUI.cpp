@@ -22,6 +22,8 @@
 #include "ShowLicensesDlgUI.h"
 #include "AppRunningDlgUI.h"
 
+#define PIXELS_TO_INDENT_ACTIONS 10
+
 ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
 {
 	m_hFont = NULL;
@@ -125,7 +127,7 @@ LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, 
 		case WM_LBUTTONDOWN:
 		{
 			LVHITTESTINFO lvHitTestInfo;
-			lvHitTestInfo.pt.x = LOWORD(lParam);
+			lvHitTestInfo.pt.x = LOWORD(lParam) - PIXELS_TO_INDENT_ACTIONS;
 			lvHitTestInfo.pt.y = HIWORD(lParam);
 			ListView_HitTest(hWnd, &lvHitTestInfo);
 
@@ -209,7 +211,7 @@ void ApplicationsPropertyPageUI::_insertActioninListView(Action *action, int &it
 
 // An index to ActionGroup
 // TODO: To move to resources
-static const wchar_t* groupNames [] = {L"None", L"Windows", L"Internet", L"Ofimàtica"};
+static const wchar_t* groupNames [] = {L"None", L"Windows", L"Aplicacions Internet", L"Aplicacions d'Ofimàtica"};
 
 void ApplicationsPropertyPageUI::_insertGroupNameListView(ActionGroup group, int &itemID)
 {
@@ -289,13 +291,12 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_PREPAINT)
 		{			
 			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
-			g_log.Log(L"CDDS_PREPAINT");
 			return ReturnTrue;
 		}
 
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_ITEMPREPAINT)
 		{
-			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;	
+			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
 
 			if (action != NULL)
 			{
@@ -309,8 +310,12 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 					lpNMLVCD->clrText = color;
 				}
 			}
+
+			RECT rect;
+			ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
+			FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+
 			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYPOSTPAINT);
-			g_log.Log(L"CDDS_ITEMPREPAINT");
 			return ReturnTrue;
 		}
 
@@ -318,35 +323,23 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 		{
 			RECT rect;
 			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
-
-			//Also:   ::SetViewportOrgEx(pCustomDraw->nmcd.hdc, m_nOffset, 0, NULL);
+			
 			if (action != NULL)
 			{
-				ScrollDC(lpNMLVCD->nmcd.hdc, 10, 0, &lpNMLVCD->nmcd.rc,NULL, NULL, NULL);
+				ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
+				ScrollDC(lpNMLVCD->nmcd.hdc, PIXELS_TO_INDENT_ACTIONS, 0, &rect, NULL, NULL, NULL);
 
-				rect.left = lpNMLVCD->nmcd.rc.left;
-				rect.right = lpNMLVCD->nmcd.rc.left + 10;
-				rect.top = lpNMLVCD->nmcd.rc.top;
-				rect.bottom = lpNMLVCD->nmcd.rc.bottom;
+				rect.right = rect.left + PIXELS_TO_INDENT_ACTIONS;
 				FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
 			}
 			else
 			{
-				ScrollDC(lpNMLVCD->nmcd.hdc, -16, 0,  &lpNMLVCD->nmcd.rc,NULL, NULL, NULL);
-
-				/*rect.left = lpNMLVCD->nmcd.rc.left;
-				rect.right = lpNMLVCD->nmcd.rc.left - 16;
-				rect.top = lpNMLVCD->nmcd.rc.top;
-				rect.bottom = lpNMLVCD->nmcd.rc.bottom;
-				FillRect(lpNMLVCD->nmcd.hdc, &rect ,GetSysColorBrush(COLOR_WINDOW));*/
+				int icon_size = GetSystemMetrics(SM_CXSMICON);
+				ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
+				ScrollDC(lpNMLVCD->nmcd.hdc, -icon_size, 0, &rect, NULL, NULL, NULL);	
 			}
-			//::DrawFocusRect(lpNMLVCD->nmcd.hdc, &lpNMLVCD->nmcd.rc);
-
-			g_log.Log(L"CDDS_ITEMPOSTPAINT %u, %u",
-				(wchar_t *) lpNMLVCD->nmcd.rc.left, (wchar_t *) lpNMLVCD->nmcd.rc.top);
 			return ReturnTrue;
 		}
-		
 		return CallDefProc;
 	}
 	   
@@ -357,6 +350,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 	_updateActionDescriptionAndReq((Action *)  pListView->lParam);
 	return ReturnTrue;
 }
+
 
 void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 {
@@ -453,12 +447,16 @@ bool ApplicationsPropertyPageUI::_onNext()
 		item.mask = LVIF_PARAM;
 
 		ListView_GetItem(m_hList, &item);
-		Action* action = (Action *) item.lParam;		
-		bSelected = action->GetStatus() == Selected;
-		g_log.Log(L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)bSelected);
+		Action* action = (Action *) item.lParam;
 
-		if (bSelected && action->IsDownloadNeed())
-			needInet = true;
+		if (action != NULL)
+		{
+			bSelected = action->GetStatus() == Selected;
+			g_log.Log(L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)bSelected);
+
+			if (bSelected && action->IsDownloadNeed())
+				needInet = true;
+		}
 	}
 
 	if (needInet && Inet::IsThereConnection() == false)
