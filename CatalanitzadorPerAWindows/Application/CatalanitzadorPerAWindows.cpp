@@ -32,6 +32,7 @@
 #include "Slideshow.h"
 #include "StringConversion.h"
 #include "Authorization.h"
+#include "SystemRestore.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -149,6 +150,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
 	Actions actions;
+	SystemRestore systemRestore;
 	Slideshow slideshow;
 	BOOL bSendStats = TRUE;
 	BOOL bSystemRestore = TRUE;
@@ -157,6 +159,9 @@ void CatalanitzadorPerAWindows::_createWizard()
 	bSendStats = FALSE;
 	bSystemRestore = FALSE;
 #endif
+
+	if (systemRestore.Init() == false)
+		bSystemRestore = FALSE;
 
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);

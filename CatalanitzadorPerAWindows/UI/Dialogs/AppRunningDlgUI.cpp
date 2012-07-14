@@ -25,55 +25,12 @@ AppRunningDlgUI::AppRunningDlgUI(wstring action_name)
 	m_action_name = action_name;
 }
 
-bool AppRunningDlgUI::Run(HWND hWnd)
+void AppRunningDlgUI::_onInitDialog()
 {
-	return DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_APPRUNNING),
-	          hWnd, reinterpret_cast<DLGPROC>(DlgProc), (LPARAM) this) == IDOK;
-}
-
-LRESULT AppRunningDlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
-{
-	switch(Msg)
-	{
-		case WM_INITDIALOG:
-		{
-			AppRunningDlgUI* pThis = (AppRunningDlgUI*) lParam;
-			wchar_t szMsg[MAX_LOADSTRING], szString[MAX_LOADSTRING];
+	wchar_t szMsg[MAX_LOADSTRING], szString[MAX_LOADSTRING];
 			
-			LoadString(GetModuleHandle(NULL), IDS_APPTOCLOSE, szString, MAX_LOADSTRING);
-			swprintf_s(szMsg, szString, pThis->m_action_name.c_str());
-			SetWindowText(GetDlgItem (hWndDlg, IDC_CLOSEAPP_MSG), szMsg);
-			Window::CenterWindow(hWndDlg);
-			return TRUE;
-		}
-
-		case WM_SYSCOMMAND:
-		{
-			// Support the closing button
-			if (wParam==SC_CLOSE)
-			{
-				SendMessage(hWndDlg, WM_COMMAND, IDCANCEL, 0L);
-				return TRUE;
-			}
-			break;
-		}
-
-		case WM_COMMAND:
-		{
-			switch(wParam)
-			{
-			case IDOK:
-				EndDialog(hWndDlg, IDOK);
-				return TRUE;
-			case IDCANCEL:
-				EndDialog(hWndDlg, IDCANCEL);
-				return TRUE;
-			}
-			break;
-		}
-
-	}
-
-	return FALSE;
+	LoadString(GetModuleHandle(NULL), IDS_APPTOCLOSE, szString, MAX_LOADSTRING);
+	swprintf_s(szMsg, szString, m_action_name.c_str());
+	SetWindowText(GetDlgItem (m_hWnd, IDC_CLOSEAPP_MSG), szMsg);
+	Window::CenterWindow(m_hWnd);	
 }
-

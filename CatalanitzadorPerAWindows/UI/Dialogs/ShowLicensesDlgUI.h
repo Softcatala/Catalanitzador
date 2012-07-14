@@ -19,24 +19,27 @@
  
 #pragma once
 
+#include "DlgUI.h"
 #include "Action.h"
 
 #include <vector>
 #include <map>
 using namespace std;
 
-class ShowLicensesDlgUI
+class ShowLicensesDlgUI : public DlgUI
 {
 public:	
 		ShowLicensesDlgUI();
 		~ShowLicensesDlgUI();
-		void Run(HWND hWnd);
+
+		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_SHOWLICENSES);}
+		virtual	void _onInitDialog();
+		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
 		void SetActions(vector <Action *> * value) { m_actions =  value;}
 
 private:
-		static void _setLicenseTextForItem(HWND hWndDlg, int index);
-		static LRESULT CALLBACK _dlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
-		void _fillActions(HWND hWndDlg);
+		void _setLicenseTextForItem(int index);		
+		void _fillActions();
 
 		HMODULE m_handle;
 		vector <Action *> * m_actions;

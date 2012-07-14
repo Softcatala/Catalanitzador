@@ -19,17 +19,21 @@
  
 #pragma once
 
-#include "DlgUI.h"
-#include <Action.h>
-
-class DownloadErrorDlgUI : public DlgUI
+class DlgUI
 {
 public:
-		DownloadErrorDlgUI(wstring action_name);
+		int Run(HWND hWnd);
+		virtual LPCTSTR GetResourceTemplate() = 0;
 
-		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_DOWNLOADERROR);}
-		virtual	void _onInitDialog();
+protected:
+
+		virtual	void _onInitDialog(){};
+		virtual void _onCommand(WPARAM wParam, LPARAM lParam){};
+		virtual int _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/){ return 0;}
+
+		HWND m_hWnd;
+
 private:
-				
-		wstring m_action_name;
+		
+		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);		
 };

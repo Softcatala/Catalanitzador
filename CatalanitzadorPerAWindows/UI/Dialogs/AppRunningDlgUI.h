@@ -19,16 +19,17 @@
  
 #pragma once
 
+#include "DlgUI.h"
 #include <Action.h>
 
-class AppRunningDlgUI
+class AppRunningDlgUI : public DlgUI
 {
 public:
 		AppRunningDlgUI(wstring action_name);
-
-		bool Run(HWND hWnd);
-private:
-		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
+		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_APPRUNNING);}
+		virtual	void _onInitDialog();
 		
+private:
+				
 		wstring m_action_name;
 };

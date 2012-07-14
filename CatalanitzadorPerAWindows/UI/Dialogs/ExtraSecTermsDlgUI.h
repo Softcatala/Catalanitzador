@@ -19,13 +19,18 @@
  
 #pragma once
 
-class ExtraSecTermsDlgUI
+#include "DlgUI.h"
+
+class ExtraSecTermsDlgUI : public DlgUI
 {
 public:
 		ExtraSecTermsDlgUI();
 		~ExtraSecTermsDlgUI();
+		
+		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_EXTRASECTERMS);}
+		virtual	void _onInitDialog();
+		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
 
-		void Run(HWND hWnd);
 		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
 
 private:

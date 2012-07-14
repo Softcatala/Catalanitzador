@@ -116,7 +116,7 @@ bool InstallPropertyPageUI::_download(Action* action)
 		if (action->Download((ProgressStatus)_downloadStatus, this) == false)
 		{
 			DownloadErrorDlgUI dlgError(action->GetName());
-			if (dlgError.Run(getHandle()) == false)
+			if (dlgError.Run(getHandle()) != IDOK)
 			{
 				bDownload = false;
 				bError = true;

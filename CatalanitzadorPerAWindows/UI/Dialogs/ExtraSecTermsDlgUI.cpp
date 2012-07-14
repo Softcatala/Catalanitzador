@@ -19,6 +19,7 @@
 
 #include <stdafx.h>
 #include "ExtraSecTermsDlgUI.h"
+#include "SystemRestore.h"
 
 ExtraSecTermsDlgUI::ExtraSecTermsDlgUI()
 {
@@ -34,59 +35,36 @@ ExtraSecTermsDlgUI::~ExtraSecTermsDlgUI()
 	}
 }
 
-void ExtraSecTermsDlgUI::Run(HWND hWnd)
+void ExtraSecTermsDlgUI::_onInitDialog()
 {
-	DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_EXTRASECTERMS),
-	          hWnd, reinterpret_cast<DLGPROC>(DlgProc), (LPARAM) this);
-}
+	HWND hWnd;
+	SystemRestore systemRestore;
 
-LRESULT ExtraSecTermsDlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
-{
-	switch(Msg)
+	hWnd = GetDlgItem(m_hWnd, IDC_WELCOME_ABOUTSECURITY);
+	m_hFont = Window::CreateBoldFont(m_hWnd);
+	SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
+
+	HANDLE handle = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_CHECKMARK), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS);	
+	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK1), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
+	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK2), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
+	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK3), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
+
+	Window::CenterWindow(m_hWnd);
+	
+	if (systemRestore.Init() == true)
 	{
-		case WM_INITDIALOG:
-		{
-			HWND hWnd;
-			ExtraSecTermsDlgUI* pThis = (ExtraSecTermsDlgUI*) lParam;
-
-			hWnd = GetDlgItem(hWndDlg, IDC_WELCOME_ABOUTSECURITY);
-			pThis->m_hFont = Window::CreateBoldFont(hWndDlg);
-			SendMessage(hWnd, WM_SETFONT, (WPARAM) pThis->m_hFont, TRUE);
-
-			HANDLE handle = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_CHECKMARK), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS);	
-			SendMessage(GetDlgItem(hWndDlg, IDC_BITMAPCHECK1), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
-			SendMessage(GetDlgItem(hWndDlg, IDC_BITMAPCHECK2), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
-			SendMessage(GetDlgItem(hWndDlg, IDC_BITMAPCHECK3), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
-
-			Window::CenterWindow(hWndDlg);
-			return TRUE;
-		}
-
-		case WM_SYSCOMMAND:  
-		{
-			// Support the closing button
-			if (wParam==SC_CLOSE)
-			{
-				SendMessage (hWndDlg, WM_COMMAND, IDOK, 0L);
-				return TRUE;
-			}
-			break;
-		}
-
-		case WM_COMMAND:
-		{
-			switch(wParam)
-			{
-			case IDOK:
-				//ExtraSecTermsDlgUI* pThis = (ExtraSecTermsDlgUI*) lParam;
-				//*pThis->m_pbSystemRestore = IsDlgButtonChecked(hWndDlg, IDC_SYSTEMRESTORE)==BST_CHECKED;
-				EndDialog(hWndDlg, 0);
-				return TRUE;
-			}
-			break;
-		}
+		CheckDlgButton(m_hWnd, IDC_SYSTEMRESTORE, *m_pbSystemRestore);
 	}
-
-	return FALSE;
+	else
+	{
+		EnableWindow(GetDlgItem(m_hWnd, IDC_SYSTEMRESTORE), FALSE);
+	}	
 }
 
+void ExtraSecTermsDlgUI::_onCommand(WPARAM wParam, LPARAM lParam)			
+{
+	if (wParam == IDOK)
+	{
+		*m_pbSystemRestore = IsDlgButtonChecked(m_hWnd, IDC_SYSTEMRESTORE)==BST_CHECKED;
+	}
+}

@@ -512,6 +512,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\UI\Dialogs\DlgUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\DlgUI.h"
+					>
+				</File>
+				<File
 					RelativePath=".\UI\Dialogs\DownloadErrorDlgUI.cpp"
 					>
 				</File>

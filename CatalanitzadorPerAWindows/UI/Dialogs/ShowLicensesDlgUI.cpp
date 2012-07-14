@@ -23,7 +23,7 @@
 
 ShowLicensesDlgUI::ShowLicensesDlgUI()
 {
-	m_handle = NULL;
+	m_handle = LoadLibrary(_T("Riched20.dll"));
 }
 
 ShowLicensesDlgUI::~ShowLicensesDlgUI()
@@ -34,25 +34,14 @@ ShowLicensesDlgUI::~ShowLicensesDlgUI()
 	}
 }
 
-void ShowLicensesDlgUI::Run(HWND hWnd)
-{
-	if (m_handle == NULL)
-	{
-		m_handle = LoadLibrary(_T("Riched20.dll"));
-	}
-
-	DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_SHOWLICENSES),
-	          hWnd, reinterpret_cast<DLGPROC>(_dlgProc), (LPARAM) this);
-}
-
-void ShowLicensesDlgUI::_setLicenseTextForItem(HWND hWndDlg, int index)
+void ShowLicensesDlgUI::_setLicenseTextForItem(int index)
 {
 	HWND hComboBox;
 	HWND hRichEdit;
 	Action* action;
 
-	hComboBox = GetDlgItem(hWndDlg, IDC_LICENSE_COMBO);
-	hRichEdit = GetDlgItem(hWndDlg, IDC_LICENSES_RICHEDIT);
+	hComboBox = GetDlgItem(m_hWnd, IDC_LICENSE_COMBO);
+	hRichEdit = GetDlgItem(m_hWnd, IDC_LICENSES_RICHEDIT);
 	action = (Action *) SendMessage(hComboBox, CB_GETITEMDATA, index, 0);
 	
 	wstring license;
@@ -64,13 +53,13 @@ void ShowLicensesDlgUI::_setLicenseTextForItem(HWND hWndDlg, int index)
 	SendMessage(hRichEdit, EM_SETSCROLLPOS, 0, (LPARAM)&point);
 }
 
-void ShowLicensesDlgUI::_fillActions(HWND hWndDlg)
+void ShowLicensesDlgUI::_fillActions()
 {
 	HWND hComboBox;
 	Action* action;
 	int index;
 	
-	hComboBox = GetDlgItem(hWndDlg, IDC_LICENSE_COMBO);
+	hComboBox = GetDlgItem(m_hWnd, IDC_LICENSE_COMBO);
 
 	for (unsigned int i = 0; i < m_actions->size (); i++)
 	{
@@ -83,58 +72,28 @@ void ShowLicensesDlgUI::_fillActions(HWND hWndDlg)
 	}
 }
 
-LRESULT ShowLicensesDlgUI::_dlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
-{
-	switch(Msg)
-	{
-		case WM_INITDIALOG:
-		{
-			ShowLicensesDlgUI* pThis = (ShowLicensesDlgUI*) lParam;
-			HWND hComboBox;
-			
-			pThis->_fillActions(hWndDlg);
+void ShowLicensesDlgUI::_onInitDialog()
+{	
+	HWND hComboBox;
 
-			hComboBox = GetDlgItem(hWndDlg, IDC_LICENSE_COMBO);
-			SendMessage(hComboBox, CB_SETCURSEL, 0, 0);
-			_setLicenseTextForItem(hWndDlg, 0);
-			return TRUE;
-		}
+	_fillActions();
 
-		case WM_SYSCOMMAND:  
-		{
-			// Support the closing button
-			if (wParam==SC_CLOSE)
-			{
-				SendMessage (hWndDlg, WM_COMMAND, IDOK, 0L);
-				return TRUE;
-			}
-			break;
-		}
-
-		case WM_COMMAND:
-		{
-			WORD wId = LOWORD(wParam);
-			WORD wNotifyCode = HIWORD(wParam);
-			
-			switch(wId)
-			{
-				case IDOK:
-					EndDialog(hWndDlg, 0);
-					return TRUE;
-
-				case IDC_LICENSE_COMBO:
-				{
-					if(wNotifyCode == CBN_SELCHANGE)
-					{
-						int item;
-
-						item = SendDlgItemMessage(hWndDlg, IDC_LICENSE_COMBO, CB_GETCURSEL, 0, 0);
-						_setLicenseTextForItem(hWndDlg, item);
-					}
-					break;
-				}
-			}
-		}
-	}
-	return FALSE;
+	hComboBox = GetDlgItem(m_hWnd, IDC_LICENSE_COMBO);
+	SendMessage(hComboBox, CB_SETCURSEL, 0, 0);
+	_setLicenseTextForItem(0);
 }
+
+void ShowLicensesDlgUI::_onCommand(WPARAM wParam, LPARAM lParam)
+{
+	WORD wId = LOWORD(wParam);
+	WORD wNotifyCode = HIWORD(wParam);
+
+	if (wId == IDC_LICENSE_COMBO && wNotifyCode == CBN_SELCHANGE)
+	{
+		int item;
+
+		item = SendDlgItemMessage(m_hWnd, IDC_LICENSE_COMBO, CB_GETCURSEL, 0, 0);
+		_setLicenseTextForItem(item);
+	}
+}
+

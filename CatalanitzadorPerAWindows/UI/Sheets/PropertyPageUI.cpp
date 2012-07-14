@@ -100,9 +100,7 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 					return TRUE;
 				}
 			case PSN_WIZFINISH:
-				pThis->_onFinish();
-				//PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
-				//pThis->getParent ()->destroy ();
+				pThis->_onFinish();				
 				break;
 			case PSN_SETACTIVE:
 				pThis->_sendSetButtonsMessage();
