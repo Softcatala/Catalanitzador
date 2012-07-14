@@ -213,17 +213,19 @@ void ApplicationsPropertyPageUI::_insertActioninListView(Action *action, int &it
 }
 
 // An index to ActionGroup
-// TODO: To move to resources
-static const wchar_t* groupNames [] = {L"None", L"Windows", L"Aplicacions Internet", L"Aplicacions d'Ofimàtica"};
+static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_INTERNET, IDS_GROUPNAME_OFFICE};
 
 void ApplicationsPropertyPageUI::_insertGroupNameListView(ActionGroup group, int &itemID)
 {
+	wchar_t szString[MAX_LOADSTRING];
 	LVITEM item;
 	memset(&item,0,sizeof(item));
 	item.mask=LVIF_TEXT;
 
+	
+	LoadString(GetModuleHandle(NULL), groupNames[(int)group], szString, MAX_LOADSTRING);
 	item.iItem = itemID;
-	item.pszText = (LPWSTR) groupNames[(int)group];	
+	item.pszText = szString;
 	ListView_InsertItem(m_hList, &item);
 	itemID++;
 }
