@@ -19,10 +19,6 @@
 
 #include <stdafx.h>
 #include "ApplicationSheetUI.h"
-#include "Windows.h"
-#include "AboutBoxDlgUI.h"
-
-#define IDM_ABOUTBOX 0x0010
 
 ApplicationSheetUI::ApplicationSheetUI()
 {
@@ -43,23 +39,11 @@ void ApplicationSheetUI::_onInitDialog()
 	m_hIcon = LoadIcon (hInstance, MAKEINTRESOURCE (IDI_CATALANITZADORPERAWINDOWS));
 	SendMessage(getHandle(), WM_SETICON, TRUE, (LPARAM) m_hIcon);
 	SendMessage(getHandle(), WM_SETICON, FALSE, (LPARAM) m_hIcon);
-	_disabeCloseButton();
+	_disableCloseButton();
 }
 
-void ApplicationSheetUI::_disabeCloseButton()
+void ApplicationSheetUI::_disableCloseButton()
 {
 	HMENU hMenu = GetSystemMenu(getHandle(), FALSE);	
 	EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 }
-
-int ApplicationSheetUI::_onSysCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
-{
-	if (wParam == IDM_ABOUTBOX)
-	{
-		AboutBoxDlgUI aboutDlg;
-		aboutDlg.Run(hWnd);
-		return 0;
-	}
-	return 1;
-}
-

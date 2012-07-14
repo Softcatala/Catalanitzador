@@ -18,70 +18,33 @@
  */
 
 #include <stdafx.h>
-#include <Commctrl.h>
+#include <commctrl.h>
 #include "AboutBoxDlgUI.h"
 #include "Version.h"
 #include "StringConversion.h"
 
-void AboutBoxDlgUI::Run(HWND hWnd)
+void AboutBoxDlgUI::_onInitDialog()
 {
-	DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_ABOUTBOX),
-	          hWnd, reinterpret_cast<DLGPROC>(DlgProc));
+	wstring date, time, version;
+	wchar_t szResource [MAX_LOADSTRING], szString [MAX_LOADSTRING];
+	HWND hWnd;
+	
+	hWnd = GetDlgItem(m_hWnd, IDC_CATALANITZADOR_VERSION);
+
+	StringConversion::ToWideChar(string(__DATE__), date);
+	StringConversion::ToWideChar(string(__TIME__), time);
+	StringConversion::ToWideChar(string(STRING_VERSION), version);			
+	
+	LoadString(GetModuleHandle(NULL), IDS_ABOUTDLG_VERSION, szResource, MAX_LOADSTRING);
+	swprintf_s(szString, szResource, version.c_str(), date.c_str(), time.c_str());
+	SetWindowText(hWnd, szString);
 }
 
-LRESULT AboutBoxDlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+int AboutBoxDlgUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/)
 {
-	switch(Msg)
+	if (hdr->code == NM_CLICK)
 	{
-		case WM_INITDIALOG:
-		{
-				wstring date, time, version;
-				wchar_t szResource [MAX_LOADSTRING], szString [MAX_LOADSTRING];
-				HWND hWnd;
-				
-				hWnd = GetDlgItem(hWndDlg, IDC_CATALANITZADOR_VERSION);
-
-				StringConversion::ToWideChar(string(__DATE__), date);
-				StringConversion::ToWideChar(string(__TIME__), time);
-				StringConversion::ToWideChar(string(STRING_VERSION), version);			
-				
-				LoadString(GetModuleHandle(NULL), IDS_ABOUTDLG_VERSION, szResource, MAX_LOADSTRING);
-				swprintf_s(szString, szResource, version.c_str(), date.c_str(), time.c_str());
-				SetWindowText(hWnd, szString);
-				return TRUE;
-		}
-
-		case WM_SYSCOMMAND:  
-		{
-			// Support the closing button
-			if (wParam==SC_CLOSE)
-			{
-				SendMessage (hWndDlg, WM_COMMAND, IDOK, 0L);
-				return TRUE;
-			}
-			break;
-		}
-
-		case WM_COMMAND:
-		{
-			switch(wParam)
-			{
-			case IDOK:
-				EndDialog(hWndDlg, 0);
-				return TRUE;
-			}
-			break;
-		}
-
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == NM_CLICK)
-			{
-				ShellExecute(NULL, L"open", APPLICATON_WEBSITE, NULL, NULL, SW_SHOWNORMAL);
-			}
-		}
+		ShellExecute(NULL, L"open", APPLICATON_WEBSITE, NULL, NULL, SW_SHOWNORMAL);
 	}
-
-	return FALSE;
+	return 0;
 }
-

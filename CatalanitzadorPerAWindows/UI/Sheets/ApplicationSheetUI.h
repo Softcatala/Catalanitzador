@@ -27,11 +27,10 @@ public:
 		ApplicationSheetUI();
 		~ApplicationSheetUI();
 
-		virtual	void _onInitDialog();
-		virtual int	_onSysCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);		
+		virtual	void _onInitDialog();		
 
 private:
-		void _disabeCloseButton();
+		void _disableCloseButton();
 
 		HICON m_hIcon;
 };

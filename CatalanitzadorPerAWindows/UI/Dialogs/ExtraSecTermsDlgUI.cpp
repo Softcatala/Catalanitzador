@@ -49,8 +49,6 @@ void ExtraSecTermsDlgUI::_onInitDialog()
 	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK2), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK3), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 
-	Window::CenterWindow(m_hWnd);
-	
 	if (systemRestore.Init() == true)
 	{
 		CheckDlgButton(m_hWnd, IDC_SYSTEMRESTORE, *m_pbSystemRestore);

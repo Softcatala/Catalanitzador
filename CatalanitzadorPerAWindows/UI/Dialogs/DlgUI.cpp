@@ -36,6 +36,7 @@ LRESULT DlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 			dlgUI->m_hWnd = hWndDlg;
 			dlgUI->_onInitDialog();
 			SetWindowLongPtr(hWndDlg,GWL_USERDATA, lParam);
+			Window::CenterWindow(hWndDlg);
 			return TRUE;
 		}
 
@@ -69,8 +70,10 @@ LRESULT DlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 
 		case WM_NOTIFY:
 		{
-			DlgUI* pThis  = (DlgUI *) GetWindowLongPtr(hWndDlg, GWL_USERDATA);
-			return pThis->_onNotify((LPNMHDR) lParam, wParam);
+			DlgUI* pThis = (DlgUI *) GetWindowLongPtr(hWndDlg, GWL_USERDATA);
+
+			if (pThis)
+				return pThis->_onNotify((LPNMHDR) lParam, wParam);
 		}
 	}
 

@@ -19,10 +19,16 @@
  
 #pragma once
 
-class AboutBoxDlgUI
+#include "DlgUI.h"
+
+class AboutBoxDlgUI : public DlgUI
 {
 public:
-		void Run(HWND hWnd);
+		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_ABOUTBOX);}
+
+		virtual	void _onInitDialog();		
+		virtual int _onNotify(LPNMHDR hdr, int iCtrlID);
+
 private:
 
 		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);		

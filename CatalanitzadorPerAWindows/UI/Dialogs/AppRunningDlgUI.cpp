@@ -31,6 +31,5 @@ void AppRunningDlgUI::_onInitDialog()
 			
 	LoadString(GetModuleHandle(NULL), IDS_APPTOCLOSE, szString, MAX_LOADSTRING);
 	swprintf_s(szMsg, szString, m_action_name.c_str());
-	SetWindowText(GetDlgItem (m_hWnd, IDC_CLOSEAPP_MSG), szMsg);
-	Window::CenterWindow(m_hWnd);	
+	SetWindowText(GetDlgItem (m_hWnd, IDC_CLOSEAPP_MSG), szMsg);	
 }

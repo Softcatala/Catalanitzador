@@ -23,6 +23,7 @@
 #include "PropertyPageUI.h"
 #include "PropertySheetUI.h"
 #include "ExtraSecTermsDlgUI.h"
+#include "AboutBoxDlgUI.h"
 
 WelcomePropertyPageUI::WelcomePropertyPageUI()
 {
@@ -70,9 +71,24 @@ NotificationResult WelcomePropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/
 {
 	if (hdr->code == NM_CLICK)
     {
-		ExtraSecTermsDlgUI extraSecTermsDlgUI;
-		extraSecTermsDlgUI.SetSystemRestore(m_pbSystemRestore);
-		extraSecTermsDlgUI.Run(getHandle());
-	}    
+		switch (hdr->idFrom)
+		{
+			case IDC_SYSLINK_ABOUT:	
+			{
+				AboutBoxDlgUI aboutDlg;
+				aboutDlg.Run(getHandle());
+				break;
+			}
+			case IDC_SYSLINK_SECTERMS:
+			{
+				ExtraSecTermsDlgUI extraSecTermsDlgUI;
+				extraSecTermsDlgUI.SetSystemRestore(m_pbSystemRestore);
+				extraSecTermsDlgUI.Run(getHandle());
+				break;
+			}
+			default:
+				break;
+		}
+	}
 	return ReturnFalse;
 }
