@@ -20,12 +20,20 @@
 #include "stdafx.h"
 #include "PropertyPageUI.h"
 #include "PropertySheetUI.h"
+#include "OSVersion.h"
 
 PropertyPageUI::PropertyPageUI()
 {
 	m_pfnDlgProc = s_pageWndProc;
 	m_hdle = NULL;
 	m_PageButtons = DefaultButtons;
+
+	OSVersion osversion;
+	m_bIsAero = osversion.GetVersion() != WindowsXP;
+
+#ifdef FORCE_NON_AERO
+	m_bIsAero = false;
+#endif
 }
 
 PropertyPageUI::~PropertyPageUI()
@@ -78,29 +86,45 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 		case WM_NOTIFY:
 		{
 			PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
+			pNMHDR = (NMHDR*)lParam;
 
-			pNMHDR = (NMHDR*)lParam;					
-			if (pNMHDR->code==PSN_KILLACTIVE)
+			switch (pNMHDR->code)
 			{
-				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
+			case PSN_KILLACTIVE:				
 				pThis->_onKillActive();
-			} else if (pNMHDR->code==PSN_WIZNEXT) {
-				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
+				break;
+			case PSN_WIZNEXT:				
 				if (pThis->_onNext() == false)
 				{
 					SetWindowLong(hWnd, DWL_MSGRESULT, -1);
 					return TRUE;
 				}
-			} else if (pNMHDR->code==PSN_WIZFINISH) {
+			case PSN_WIZFINISH:
 				pThis->_onFinish();
-				PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
-				pThis->getParent ()->destroy ();
-			} else if (pNMHDR->code==PSN_SETACTIVE) {
+				//PropertyPageUI *pThis = (PropertyPageUI *)GetWindowLong(hWnd,DWL_USER);
+				//pThis->getParent ()->destroy ();
+				break;
+			case PSN_SETACTIVE:
 				pThis->_sendSetButtonsMessage();
+				break;
+			case PSN_QUERYCANCEL:
+
+				bool cancel;
+				wchar_t szMessage [MAX_LOADSTRING];
+				wchar_t szCaption [MAX_LOADSTRING];
+
+				LoadString(GetModuleHandle(NULL), IDS_DOYOUWANTOCANCEL, szMessage, MAX_LOADSTRING);
+				LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+				cancel = (MessageBox(hWnd, szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) != IDYES);
+				SetWindowLong(hWnd, DWL_MSGRESULT, cancel ? TRUE: FALSE);
+				return TRUE;
+			default:
+				break;
 			}
 
-			if (pThis) {
-
+			if (pThis != NULL)
+			{
 				switch (pThis->_onNotify((LPNMHDR) lParam, wParam))
 				{
 					case ReturnTrue:						
@@ -110,8 +134,8 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 					case CallDefProc:
 						break;
 				}
+				break;
 			}
-			break;
 		}		
 		
 		case WM_COMMAND:
@@ -126,18 +150,15 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 						
 		default:
 			break;
-	}  
-        
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+	}
+	
+	return 0;
 }
 
-
-void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, LPWSTR pTitle)
+void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, WORD wRscIDAero, LPWSTR pTitle)
 {	
-	LPCTSTR lpTemplate = MAKEINTRESOURCE(wRscID);	
-	
-	m_page.pszTitle = pTitle;
-	
+	LPCTSTR lpTemplate = isAero() ? MAKEINTRESOURCE(wRscIDAero) : MAKEINTRESOURCE(wRscID);
+		
 	m_page.dwSize = sizeof(PROPSHEETPAGE);
 	m_page.dwFlags = PSP_DEFAULT;
 	m_page.hInstance = hInstance;
@@ -148,6 +169,10 @@ void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, LPWSTR pTitle)
 	m_page.lParam = (LPARAM) this;
 	m_page.pfnCallback = NULL;
 	m_page.pcRefParent  = NULL;
+	m_page.pszHeaderTitle = pTitle;
+
+	if (m_page.pszHeaderTitle != NULL)
+		m_page.dwFlags |= PSP_USEHEADERTITLE;   
 
 	m_hdle = CreatePropertySheetPage(&m_page);
 }

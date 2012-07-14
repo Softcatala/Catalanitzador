@@ -137,7 +137,7 @@ bool CatalanitzadorPerAWindows::_isAlreadyRunning()
         CloseHandle(m_hEvent);
         m_hEvent = NULL;        
         return true;
-    }    
+    }
     return false;
 }
 
@@ -153,14 +153,19 @@ void CatalanitzadorPerAWindows::_createWizard()
 	BOOL bSendStats = TRUE;
 	BOOL bSystemRestore = TRUE;
 
+#if _DEBUG
+	bSendStats = FALSE;
+	bSystemRestore = FALSE;
+#endif
+
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
-	welcome.createPage(m_hInstance, IDD_WELCOME, NULL);
+	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	welcome.SetSendStats(&bSendStats);
 	welcome.SetSystemRestore(&bSystemRestore);
 	sheet.addPage(&welcome);
 
-	applications.createPage(m_hInstance, IDD_APPLICATIONS, NULL);
+	applications.createPage(m_hInstance, IDD_APPLICATIONS, IDD_APPLICATIONS_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_APPLICATIONS));
 	applications.setParent(&sheet);
 	applications.setPageButtons(NextBackButtons);
 	vector <Action *> acts = actions.GetActions();
@@ -173,7 +178,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.SetSerializer(&m_serializer);
 	install.SetSlideshow(&slideshow);
 	install.SetSystemRestore(&bSystemRestore);
-	install.createPage(m_hInstance, IDD_INSTALL, NULL);
+	install.createPage(m_hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
 	sheet.addPage(&install);
 
 	finish.SetSerializer(&m_serializer);
@@ -181,9 +186,9 @@ void CatalanitzadorPerAWindows::_createWizard()
 	finish.SetActions(&acts);
 	finish.setPageButtons(FinishButtonOnly);
 	finish.SetSendStats(&bSendStats);
-	finish.createPage(m_hInstance, IDD_FINISH, NULL);	
+	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));
 	sheet.addPage(&finish);
 	slideshow.StartUnpackThread();
 
-	sheet.runModal(m_hInstance, NULL, NULL);
+	sheet.runModal(m_hInstance, NULL, (LPWSTR)IDS_WIZARD_TITLE);
 }

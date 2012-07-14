@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,24 +19,18 @@
  
 #pragma once
 
-#include "PropertyPageUI.h"
-
-class WelcomePropertyPageUI: public PropertyPageUI
+class ExtraSecTermsDlgUI
 {
 public:
-		WelcomePropertyPageUI();
-		~WelcomePropertyPageUI();
+		ExtraSecTermsDlgUI();
+		~ExtraSecTermsDlgUI();
 
-		void SetSendStats(BOOL *pbSendStats) { m_pbSendStats = pbSendStats;}
+		void Run(HWND hWnd);
 		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
-		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 
 private:
-		virtual void _onInitDialog();
-		virtual	bool _onNext();
-		
+		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 		HFONT		m_hFont;
-		BOOL*		m_pbSendStats;
 		BOOL*		m_pbSystemRestore;
 };

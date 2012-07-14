@@ -48,7 +48,7 @@ public:
 	PropertyPageUI();
 	~PropertyPageUI();
 	
-	void 						createPage(HINSTANCE hInstance, WORD wRscID, LPWSTR pTitle);	
+	void 						createPage(HINSTANCE hInstance, WORD wRscID, WORD wRscIDAero, LPWSTR pTitle);	
 	PROPSHEETPAGE*				getStruct(){return &m_page;}
 	HWND						getHandle(){return m_hWnd;}
 	PropertySheetUI*			getParent(){return m_sheet;}
@@ -69,7 +69,8 @@ public:
 	static int CALLBACK			s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam,LPARAM lParam);
 	void						setChanged (bool bChanged); // Unables or disables apply button
 	void						setPageButtons (PropertyPageButton buttons) { m_PageButtons = buttons; }
-	
+	bool						isAero() { return m_bIsAero;}
+
 private:
 		
 	PROPSHEETPAGE				m_page;
@@ -78,6 +79,6 @@ private:
 	PropertySheetUI*			m_sheet;
 	DLGPROC						m_pfnDlgProc;
 	PropertyPageButton			m_PageButtons;
-		
+	bool						m_bIsAero;		
 };
 

@@ -23,3 +23,5 @@
 #define APP_REVISION			1
 #define STRING_VERSION			"1.2.1.0"
 
+//#define FORCE_NON_AERO 1
+

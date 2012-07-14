@@ -520,6 +520,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\UI\Dialogs\ExtraSecTermsDlgUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\ExtraSecTermsDlgUI.h"
+					>
+				</File>
+				<File
 					RelativePath=".\UI\Dialogs\ShowLicensesDlgUI.cpp"
 					>
 				</File>

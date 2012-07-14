@@ -43,36 +43,27 @@ public:
 	
 	int							runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption);	
 	void 						addPage(PropertyPageUI* pPage);
-	PROPSHEETPAGE* 				_buildPageArray(void);	
-	static int CALLBACK			s_sheetWndProc(HWND hWnd, UINT msg, WPARAM wParam,LPARAM lParam);	
+	PROPSHEETPAGE* 				_buildPageArray(void);		
 	virtual	void				_onInitDialog(){};
 	virtual void 				destroy(void);
 	virtual void 				cleanup(void);
- 	HWND						getHandle(){return m_hWnd;}
-	
-	void						setCallBack(PFNPROPSHEETCALLBACK pCallback) {m_pCallback=pCallback;};
-	void						setDialogProc(DLGPROC pfnDlgProc){m_pfnDlgProc=pfnDlgProc;};		
-	void						setApplyButton(bool b){m_bApplyButton=b;};
-	void						setOkButton(bool b){m_bOkButton=b;};
-
-	virtual int					_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam){return 1;};
-	virtual int					_onSysCommand(HWND hWnd, WPARAM wParam, LPARAM lParam){return 1;};
-	virtual	void				_onOK(){}; 
-	virtual	void				_onApply(){};
+ 	HWND						getHandle(){return m_hWnd;}	
+	bool						isAero() { return m_bIsAero;}
+	static int CALLBACK			PropSheetProcedure(HWND hWnd, UINT uMsg, LPARAM lParam);
 	
 	int							m_nRslt;
+	vector <PropertyPageUI *>	m_vecPages;
+	HWND						m_hWnd;
+
 private:	
 	
-	HWND						m_hWnd;	
-	vector <PropertyPageUI *>	m_vecPages;
 	PROPSHEETHEADER				m_psh;	
 	PFNPROPSHEETCALLBACK		m_pCallback;
-	DLGPROC						m_pfnDlgProc;
-	WHICHPROC 					m_lpfnDefSheet; 
+	
 	bool						m_bApplyButton;
 	bool						m_bOkButton;	
-	PROPSHEETPAGE*				m_pages;
-	bool						m_modeless;
+	PROPSHEETPAGE*				m_pages;	
+	bool						m_bIsAero;
 	
 };
 
