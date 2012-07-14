@@ -93,6 +93,9 @@ void ApplicationsPropertyPageUI::_processClickOnItem(int nItem)
 
 	Action* action = (Action *) item.lParam;
 
+	if (action == NULL)
+		return;
+
 	switch (action->GetStatus()) {
 	case NotSelected:
 		action->SetStatus(Selected);

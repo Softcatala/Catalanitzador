@@ -107,15 +107,20 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 				break;
 			case PSN_QUERYCANCEL:
 
-				bool cancel;
+				bool cancel_exit;
 				wchar_t szMessage [MAX_LOADSTRING];
 				wchar_t szCaption [MAX_LOADSTRING];
 
 				LoadString(GetModuleHandle(NULL), IDS_DOYOUWANTOCANCEL, szMessage, MAX_LOADSTRING);
 				LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+				
+				cancel_exit = (MessageBox(hWnd, szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) != IDYES);
+				SetWindowLong(hWnd, DWL_MSGRESULT, cancel_exit ? TRUE: FALSE);
 
-				cancel = (MessageBox(hWnd, szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) != IDYES);
-				SetWindowLong(hWnd, DWL_MSGRESULT, cancel ? TRUE: FALSE);
+				if (cancel_exit == false)
+				{
+					PostQuitMessage(0);
+				}
 				return TRUE;
 			default:
 				break;
