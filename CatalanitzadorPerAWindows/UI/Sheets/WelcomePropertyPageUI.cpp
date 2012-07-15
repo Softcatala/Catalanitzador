@@ -54,7 +54,10 @@ void WelcomePropertyPageUI::_onInitDialog()
 	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK1), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK2), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK3), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
-		
+
+	handle = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_HORIZONTAL_LOGO), IMAGE_BITMAP, 0, 0, LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS);	
+	SendMessage(GetDlgItem(getHandle(), IDC_HORIZONTAL_LOGO), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);		
+	
 	hWnd = GetParent(getHandle());
 	SetFocus(getHandle());
 	SendMessage(hWnd, PSM_SETWIZBUTTONS, (WPARAM)0, (LPARAM)PSWIZB_NEXT);
