@@ -87,8 +87,7 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 	version = m_osVersion.GetVersion();
 
 	if (version == Windows2000 ||
-		version == WindowsXP64_2003 ||
-		version == Windows8)
+		version == WindowsXP64_2003)
 	{
 		id = IDS_NOTSUPPORTEDOS;
 	}
