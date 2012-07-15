@@ -66,7 +66,7 @@ void PropertySheetUI::addPage(PropertyPageUI* pPage)
 static PropertySheetUI* g_currentObject = NULL;
 
 int CALLBACK PropertySheetUI::PropSheetProcedure(HWND hWnd, UINT uMsg, LPARAM lParam)
-{	
+{
 	if (uMsg == PSCB_INITIALIZED)
 	{		
 		g_currentObject->m_hWnd = hWnd;				
@@ -78,8 +78,6 @@ int CALLBACK PropertySheetUI::PropSheetProcedure(HWND hWnd, UINT uMsg, LPARAM lP
 int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption)
 {
 	m_pages = _buildPageArray();
-		
-	m_nRslt = IDCANCEL;
 	g_currentObject = this;
 		
 	memset (&m_psh, 0, sizeof(PROPSHEETHEADER));
@@ -100,18 +98,7 @@ int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption
 	m_psh.dwFlags |= PSH_USECALLBACK;
         
 	m_psh.pszCaption = pCaption;
-	PropertySheet(&m_psh);
-	return m_nRslt;
-}
-
-void PropertySheetUI::destroy(void)
-{	
-	if (::IsWindow(m_hWnd))
-	{
-		DestroyWindow(m_hWnd);
-	}
-
-	cleanup();
+	return PropertySheet(&m_psh);	
 }
 
 void PropertySheetUI::cleanup(void)

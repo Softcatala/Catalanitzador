@@ -25,7 +25,6 @@
 PropertyPageUI::PropertyPageUI()
 {
 	m_pfnDlgProc = s_pageWndProc;
-	m_hdle = NULL;
 	m_PageButtons = DefaultButtons;
 
 	OSVersion osversion;
@@ -40,11 +39,6 @@ PropertyPageUI::~PropertyPageUI()
 {
 }
 
-void PropertyPageUI::setChanged (bool bChanged)
-{
-	HWND hWnd = GetParent(m_hWnd);
-	SendMessage(hWnd, bChanged ? PSM_CHANGED : PSM_UNCHANGED, (WPARAM)m_hWnd, 0);	
-}
 
 int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {	
@@ -148,7 +142,7 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 			if (pThis)
 				pThis->_onCommand(hWnd, wParam, lParam); 	
 
-			return 0; // Already processed			
+			return 0; // Already processed
 		}				
 						
 		default:
@@ -175,9 +169,9 @@ void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, WORD wRscIDAer
 	m_page.pszHeaderTitle = pTitle;
 
 	if (m_page.pszHeaderTitle != NULL)
-		m_page.dwFlags |= PSP_USEHEADERTITLE;   
+		m_page.dwFlags |= PSP_USEHEADERTITLE; 
 
-	m_hdle = CreatePropertySheetPage(&m_page);
+	CreatePropertySheetPage(&m_page);
 }
 
 void PropertyPageUI::_sendSetButtonsMessage()
@@ -204,5 +198,5 @@ void PropertyPageUI::_sendSetButtonsMessage()
 			break;
 	}
 
-	SendMessage (getParent()->getHandle (), PSM_SETWIZBUTTONS, 0, buttons);
+	SendMessage (getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, buttons);
 }

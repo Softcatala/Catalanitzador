@@ -20,7 +20,6 @@
 #pragma once
 
 #include <windows.h>
-#include <commctrl.h>
 
 class PropertySheetUI;
 
@@ -53,28 +52,28 @@ public:
 	HWND						getHandle(){return m_hWnd;}
 	PropertySheetUI*			getParent(){return m_sheet;}
 	void						setParent(PropertySheetUI* sheet){m_sheet = sheet; }
+	void						setDialogProc(DLGPROC pfnDlgProc){m_pfnDlgProc=pfnDlgProc;};		
+	void						setPageButtons (PropertyPageButton buttons) { m_PageButtons = buttons; }
+	bool						isAero() { return m_bIsAero;}
 
-	void						setDialogProc(DLGPROC pfnDlgProc){m_pfnDlgProc=pfnDlgProc;};	
+private:
+
+	static int CALLBACK			s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam,LPARAM lParam);
+
 	virtual	void				_onInitDialog(){};
 	virtual	void				_sendSetButtonsMessage();
-	virtual	void				_onKillActive(){}; 	
-	virtual	void				_onOK(){}; 		
-	virtual	void				_onApply(){}; 
+	virtual	void				_onKillActive(){};
+	virtual	void				_onOK(){};
+	virtual	void				_onApply(){};
 	virtual	bool				_onNext(){return true;};
 	virtual	void				_onFinish(){};
 	virtual	void				_onShowWindow(){};
 	virtual	void				_onTimer(){};
 	virtual void				_onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/){};
 	virtual NotificationResult	_onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/){ return ReturnFalse;};
-	static int CALLBACK			s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam,LPARAM lParam);
-	void						setChanged (bool bChanged); // Unables or disables apply button
-	void						setPageButtons (PropertyPageButton buttons) { m_PageButtons = buttons; }
-	bool						isAero() { return m_bIsAero;}
-
-private:
+	
 		
-	PROPSHEETPAGE				m_page;
-	HPROPSHEETPAGE	 			m_hdle;	
+	PROPSHEETPAGE				m_page;	
 	HWND						m_hWnd;
 	PropertySheetUI*			m_sheet;
 	DLGPROC						m_pfnDlgProc;

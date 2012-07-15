@@ -44,19 +44,16 @@ public:
 	int							runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption);	
 	void 						addPage(PropertyPageUI* pPage);
 	PROPSHEETPAGE* 				_buildPageArray(void);		
-	virtual	void				_onInitDialog(){};
-	virtual void 				destroy(void);
+	virtual	void				_onInitDialog(){};	
 	virtual void 				cleanup(void);
  	HWND						getHandle(){return m_hWnd;}	
 	bool						isAero() { return m_bIsAero;}
 	static int CALLBACK			PropSheetProcedure(HWND hWnd, UINT uMsg, LPARAM lParam);
-	
-	int							m_nRslt;
-	vector <PropertyPageUI *>	m_vecPages;
-	HWND						m_hWnd;
 
-private:	
+private:
 	
+	HWND						m_hWnd;
+	vector <PropertyPageUI *>	m_vecPages;
 	PROPSHEETHEADER				m_psh;	
 	PFNPROPSHEETCALLBACK		m_pCallback;
 	
