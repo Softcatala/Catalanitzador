@@ -115,11 +115,12 @@ void OSVersion::GetLogInfo(wchar_t * szString, int size)
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	GetVersionEx((OSVERSIONINFO*) &osvi);
 
-	swprintf_s(szString, size / sizeof (wchar_t), L"OS Info. OS version %u.%u, SP version %u.%u, SuiteMask %u, ProductType %u, 64 bit %s, name %s",
+	swprintf_s(szString, size / sizeof (wchar_t), L"OS Info. OS version %u.%u, SP version %u.%u, Build %u, SuiteMask %u, ProductType %u, 64 bit %s, name %s",
 		osvi.dwMajorVersion, 
 		osvi.dwMinorVersion,
 		osvi.wServicePackMajor,
 		osvi.wServicePackMinor,
+		osvi.dwBuildNumber,
 		osvi.wSuiteMask,
 		osvi.wProductType,
 		IsWindows64Bits() == true ? L"yes" : L"no",
