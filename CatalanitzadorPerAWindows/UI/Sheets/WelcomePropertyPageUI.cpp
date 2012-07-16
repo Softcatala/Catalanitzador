@@ -39,29 +39,39 @@ WelcomePropertyPageUI::~WelcomePropertyPageUI()
 	}
 }
 
-void WelcomePropertyPageUI::_onInitDialog()
-{
-	HWND hWnd;
-
-	if (isAero() == false)
-	{
-		hWnd = GetDlgItem(getHandle(), IDC_WELCOME_TOAPP);
-		m_hFont = Window::CreateBoldFont(hWnd);
-		SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
-	}
-
+void WelcomePropertyPageUI::_setTransparentBitmaps()
+{	
 	HANDLE handle = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_CHECKMARK), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS);	
 	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK1), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK2), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK3), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 
 	handle = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_HORIZONTAL_LOGO), IMAGE_BITMAP, 0, 0, LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS);	
-	SendMessage(GetDlgItem(getHandle(), IDC_HORIZONTAL_LOGO), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);		
-	
+	SendMessage(GetDlgItem(getHandle(), IDC_HORIZONTAL_LOGO), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
+}
+
+void WelcomePropertyPageUI::_initPropertySheet()
+{
+	HWND hWnd;
+
 	hWnd = GetParent(getHandle());
 	SetFocus(getHandle());
 	SendMessage(hWnd, PSM_SETWIZBUTTONS, (WPARAM)0, (LPARAM)PSWIZB_NEXT);
 	Window::CenterWindow(hWnd);
+}
+
+void WelcomePropertyPageUI::_onInitDialog()
+{
+	if (isAero() == false)
+	{
+		HWND hWnd = GetDlgItem(getHandle(), IDC_WELCOME_TOAPP);
+		m_hFont = Window::CreateBoldFont(hWnd);
+		SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
+	}
+
+	CheckDlgButton(getHandle(), IDC_SENDRESULTS, *m_pbSendStats);
+	_setTransparentBitmaps();
+	_initPropertySheet();	
 }
 
 bool WelcomePropertyPageUI::_onNext()

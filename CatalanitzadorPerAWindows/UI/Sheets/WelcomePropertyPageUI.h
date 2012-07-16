@@ -34,7 +34,8 @@ public:
 private:
 		virtual void _onInitDialog();
 		virtual	bool _onNext();
-		
+		void _setTransparentBitmaps();
+		void _initPropertySheet();
 
 		HFONT		m_hFont;
 		BOOL*		m_pbSendStats;
