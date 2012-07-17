@@ -1,6 +1,7 @@
-ï»¿/* 
- * Copyright (C) 2012 Jordi Mas i HernÃ ndez <jmas@softcatala.org>
- * 
+/*
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Joan Montané <joan@montane.cat>
+ *  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -19,13 +20,23 @@
 
 #pragma once
 
-enum InspectorID
+#include "Inspector.h"
+#include "IRegistry.h"
+
+class _APICALL WinRARInspector : public Inspector
 {
-	// Do not modify these since they are used in the server side to identify 
-	// inspectors in a unique manner
-	NoInspector = 0,
-	LibreOfficeInspectorID = 1,
-	SkypeID = 2,
-	PDFCreatorInspectorID = 3,
-	WinRARInspectorID = 4
+public:
+
+		WinRARInspector(IRegistry* registry);
+
+		virtual InspectorID GetID() const {return WinRARInspectorID;}
+		virtual void Execute();
+
+private:
+		
+		bool _readVersion();
+		bool _readFilePath(wstring &path);
+
+		IRegistry* m_registry;
+		wstring m_version;
 };
