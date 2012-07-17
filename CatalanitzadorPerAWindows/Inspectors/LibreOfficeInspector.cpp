@@ -1,6 +1,7 @@
-/* 
+/*
  * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
- * 
+ * Copyright (C) 2012 Joan Montané <joan@montane.cat>
+ *  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -60,6 +61,8 @@ void LibreOfficeInspector::Execute()
 {	
 	_readVersionInstalled();
 	_readLanguage();
+	_getUIFilesInstalled();
+	_getDictInstalled();
 }
 
 void LibreOfficeInspector::_getPreferencesFile(wstring& location)
@@ -168,3 +171,73 @@ void LibreOfficeInspector::_readLanguage()
 	m_KeyValues.push_back(InspectorKeyValue(L"lang",lang_found));
 }
 
+
+void LibreOfficeInspector::_getUIFilesInstalled()
+{
+	wstring key;
+	wchar_t szUIFound[20]=L"";
+
+	key = PROGRAM_REGKEY;
+	key += L"\\";
+	key += m_version;
+
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
+	{
+		wchar_t szFileName[MAX_PATH];
+
+		if (m_registry->GetString(L"path", szFileName, sizeof(szFileName)))
+		{
+			int i;
+
+			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
+			
+			szFileName[i + 1] = NULL;
+			wcscat_s(szFileName, L"resource\\svxca.res");
+
+			if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szUIFound, L"ca");
+
+			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '.' ; i--);
+			szFileName[i] = NULL;
+			wcscat_s(szFileName, L"-XV.res");
+			if(wcslen(szUIFound) > 1) wcscat_s(szUIFound, L";");
+			if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szUIFound, L"ca-XV");
+
+		}
+		m_registry->Close();
+	}
+	g_log.Log(L"LibreOfficeInspector::_getUIFilesInstalled '%s'", (wchar_t *) szUIFound);
+
+	m_KeyValues.push_back(InspectorKeyValue(L"ui_files",szUIFound));
+}
+
+void LibreOfficeInspector::_getDictInstalled()
+{
+	wstring key;
+	wchar_t szDictFound[10]=L"";
+
+	key = PROGRAM_REGKEY;
+	key += L"\\";
+	key += m_version;
+
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
+	{
+		wchar_t szFileName[MAX_PATH];
+
+		if (m_registry->GetString(L"path", szFileName, sizeof(szFileName)))
+		{
+			int i;
+
+			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
+			if (i>0) i--;
+			for (; i > 0 && szFileName[i] != '\\' ; i--);
+			szFileName[i + 1] = NULL;
+			wcscat_s(szFileName, L"share\\extensions\\dict-ca\\nul");
+
+			if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szDictFound, L"ca");
+		}
+		m_registry->Close();
+	}
+	g_log.Log(L"LibreOfficeInspector::_getDictInstalled '%s'", (wchar_t *) szDictFound);
+
+	m_KeyValues.push_back(InspectorKeyValue(L"dict_files",szDictFound));
+}

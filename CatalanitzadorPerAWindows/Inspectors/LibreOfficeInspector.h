@@ -35,6 +35,8 @@ private:
 		
 		void _readVersionInstalled();
 		void _readLanguage();
+		void _getUIFilesInstalled();
+		void _getDictInstalled();
 		void _getPreferencesFile(wstring& location);
 		void _readLocale(wstring &locale);
 		static bool _readNodeCallback(XmlNode node, void *data);
