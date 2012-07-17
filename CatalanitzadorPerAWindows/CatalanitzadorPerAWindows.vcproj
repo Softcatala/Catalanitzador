@@ -709,11 +709,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Inspectors\PDFCreatorInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\PDFCreatorInspector.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Inspectors\SkypeInspector.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Inspectors\SkypeInspector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\WinRARInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\WinRARInspector.h"
 				>
 			</File>
 		</Filter>

@@ -23,6 +23,8 @@
 #include "Registry.h"
 #include "LibreOfficeInspector.h"
 #include "SkypeInspector.h"
+#include "PDFCreatorInspector.h"
+#include "WinRARInspector.h"
 
 Inspectors::Inspectors()
 {
@@ -56,6 +58,8 @@ void Inspectors::_buildListOfInspectors()
 {
 	m_Inspectors.push_back(new LibreOfficeInspector(_getNewRegistry()));
 	m_Inspectors.push_back(new SkypeInspector(_getNewRegistry()));
+	m_Inspectors.push_back(new PDFCreatorInspector(_getNewRegistry()));
+	m_Inspectors.push_back(new WinRARInspector(_getNewRegistry()));
 }
 
 void Inspectors::Execute()
