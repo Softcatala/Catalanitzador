@@ -1,5 +1,6 @@
 /* 
  * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Joan Montané <joan@montane.cat>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,26 +22,21 @@
 
 #include "Inspector.h"
 #include "IRegistry.h"
-#include "XmlParser.h"
 
-class _APICALL LibreOfficeInspector : public Inspector
+class _APICALL PDFCreatorInspector : public Inspector
 {
 public:
-		LibreOfficeInspector(IRegistry* registry);
 
-		virtual InspectorID GetID() const {return LibreOfficeInspectorID;}
-		virtual void Execute();		
-		
+		PDFCreatorInspector(IRegistry* registry);
+
+		virtual InspectorID GetID() const {return PDFCreatorInspectorID;}
+		virtual void Execute();
+
 private:
 		
-		void _readVersionInstalled();
-		void _readLanguage();
-		void _getUIFilesInstalled();
-		void _getDictInstalled();
-		void _getPreferencesFile(wstring& location);
-		void _readLocale(wstring &locale);
-		static bool _readNodeCallback(XmlNode node, void *data);
-
+		void _readLangInstalled();
+		void _readVersion();
+		
 		IRegistry* m_registry;
 		wstring m_version;
 };

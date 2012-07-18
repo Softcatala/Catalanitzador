@@ -26,4 +26,6 @@ enum InspectorID
 	NoInspector = 0,
 	LibreOfficeInspectorID = 1,
 	SkypeID = 2,
+	PDFCreatorInspectorID = 3,
+	WinRARInspectorID = 4
 };
