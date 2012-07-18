@@ -28,6 +28,7 @@ WinRARInspector::WinRARInspector(IRegistry* registry)
 }
 
 #define PROGRAM_REGKEY L"Software\\WinRAR"
+#define ALT_PROGRAM_REGKEY L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\WinRAR archiver"
 
 
 void WinRARInspector::Execute()
@@ -40,15 +41,33 @@ bool WinRARInspector::_readFilePath(wstring &path)
 	wchar_t szFile[1024];
 
 	path.empty();
+	
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
 	{
-		if (m_registry->GetString(L"exe32", szFile, sizeof(szFile)))
+		if (m_registry->GetString(L"exe64", szFile, sizeof(szFile)))
 		{
 			path = szFile;
 		}
+		else if (m_registry->GetString(L"exe32", szFile, sizeof(szFile)))
+		{
+			path = szFile;
+		} 
 		m_registry->Close();
-
 	}
+	else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ALT_PROGRAM_REGKEY, false))
+	{
+		if (m_registry->GetString(L"UninstallString", szFile, sizeof(szFile)))
+		{
+			int i=0;
+			for (i = wcslen(szFile); i > 0 && szFile[i] != '\\' ; i--);
+			
+			szFile[i + 1] = NULL;
+			wcscat_s(szFile, L"WinRAR.exe");
+			path = szFile;
+		}
+		m_registry->Close();
+	} 
+	
 
 	g_log.Log(L"WinRARInspector::_readFilePath '%s'", (wchar_t *) path.c_str());
 	return path.size() > 0;
@@ -63,7 +82,8 @@ bool WinRARInspector::_readVersion()
 
 	FileVersionInfo fileVersion(file);
 	version = fileVersion.GetVersion();
-
+	
+	
 	g_log.Log(L"WinRARInspector::_readVersion version %s", (wchar_t*) version.c_str());
 	m_KeyValues.push_back(InspectorKeyValue(L"version", version.c_str()));
 	return version.size() > 0;
