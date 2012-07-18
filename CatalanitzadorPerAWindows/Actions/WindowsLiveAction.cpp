@@ -23,11 +23,25 @@
 #include "WindowsLiveAction.h"
 #include "Winver.h"
 #include "FileVersionInfo.h"
+#include "Url.h"
+
+#define MS_LIVE_ESSENTIALS_2009 14
+#define MS_LIVE_ESSENTIALS_2011 15
+#define CATALAN_WINLANGCODE 3
 
 WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner)
 {
 	m_registry = registry;
 	m_runner = runner;
+	m_szFilename[0]=NULL;
+}
+
+WindowsLiveAction::~WindowsLiveAction()
+{
+	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_szFilename);
+	}	
 }
 
 wchar_t* WindowsLiveAction::GetName()
@@ -62,7 +76,15 @@ bool WindowsLiveAction::IsNeed()
 
 bool WindowsLiveAction::Download(ProgressStatus progress, void *data)
 {
-	// The installer downloads the language packs. We indicate that the actions
+	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
+	{
+		GetTempPath(MAX_PATH, m_szFilename);
+		Url url(m_actionDownload.GetFileName(DI_MSLIVE2009));
+		wcscat_s(m_szFilename, url.GetFileName());	
+		return _getFile(DI_MSLIVE2009, m_szFilename, progress, data);
+	}
+
+	// The installer for Essentials 2011 downloads the language packs. We indicate that the actions
 	// downloads but is delagated to the installer (as this the internet connection
 	// detection is checked for this action)
 	return true;
@@ -105,12 +127,25 @@ void WindowsLiveAction::Execute()
 	wstring location;
 
 	_getInstallerLocation(location);
-	
-	wcscpy_s(szApp, location.c_str());
-	wcscat_s(szApp, L" -install -language:ca /quiet");
+
+	// Live Essential 2009 parameters: http://www.mydigitallife.info/windows-live-essentials-unattended-silent-setup-installation-switches/
+	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
+	{
+		wcscpy_s(szApp, m_szFilename);
+		// By selecting only Silverlight the installer will update only the installer apps
+		// instead of installing also new ones. This saves us to dectect which exact component
+		// is installed and uninstall it
+		wcscat_s(szApp, L" /AppSelect:Silverlight /quiet");		
+	}
+	else
+	{
+		wcscpy_s(szApp, location.c_str());
+		wcscat_s(szApp, L" -install -language:ca /quiet");
+	}
+
 	SetStatus(InProgress);
 	g_log.Log(L"WindowsLiveAction::Execute '%s' with params '%s'", szApp, szParams);
-	m_runner->Execute(NULL, szApp);	
+	m_runner->Execute(NULL, szApp);
 }
 
 ActionStatus WindowsLiveAction::GetStatus()
@@ -146,39 +181,66 @@ int WindowsLiveAction::_getMajorVersion()
 #define LANG_REGKEY L"Software\\Microsoft\\Windows Live\\Common\\"
 #define LANGUAGE_CODE L"CA"
 
-bool WindowsLiveAction::_isLangSelected()
+bool WindowsLiveAction::_isLangSelected2011()
 {
 	bool bSelected = false;
+	wchar_t szLanguage[MAX_PATH] = L"";
 
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, LANG_REGKEY, false))
 	{
-		wchar_t szLanguage[MAX_PATH];
-
 		if (m_registry->GetString(L"UserLanguage", szLanguage, sizeof(szLanguage)))
 		{
 			bSelected = _wcsnicmp(szLanguage, LANGUAGE_CODE, wcslen(LANGUAGE_CODE)) == 0;
 		}
 		m_registry->Close();
 	}
-
+	g_log.Log(L"WindowsLiveAction::_isLangSelected2011(). Language %s", szLanguage);
 	return bSelected;
 }
 
-#define SUPPORTED_VERSION 15
+bool WindowsLiveAction::_isLangSelected2009()
+{
+	wchar_t szPath[MAX_PATH];
+	wstring location;
+	DWORD langCode;
+
+	SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
+	location = szPath;
+	location += L"\\Windows Live\\Installer\\wlsres.dll";
+
+	FileVersionInfo fileVersion(location);
+	langCode = fileVersion.GetLanguageCode();
+
+	g_log.Log(L"WindowsLiveAction::_isLangSelected2009. Language '%u'", (wchar_t *)langCode);
+	return langCode == CATALAN_WINLANGCODE;
+}
+
+bool WindowsLiveAction::_isLangSelected()
+{
+	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
+	{
+		return _isLangSelected2009();
+	}
+
+	return _isLangSelected2011();
+}
 
 void WindowsLiveAction::CheckPrerequirements(Action * action)
-{
+{	
 	_readVersionInstalled();
 
 	if (m_version.size() > 0)
 	{
+		int majorVersion;
+
 		if (_isLangSelected() == true)
 		{
 			SetStatus(AlreadyApplied);
 			return;
 		}
 		
-		if (_getMajorVersion() != SUPPORTED_VERSION)
+		majorVersion = _getMajorVersion();
+		if (majorVersion != MS_LIVE_ESSENTIALS_2009 && majorVersion != MS_LIVE_ESSENTIALS_2011)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Version not supported");
