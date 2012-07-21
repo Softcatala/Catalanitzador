@@ -215,12 +215,14 @@ void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
 	}
 }
 
+#define SYSTEM_RESTORE_NAME L"Catalanitzador per al Windows"
+
 DWORD InstallPropertyPageUI::_systemRestoreThread(LPVOID lpParam)
 {
 	SystemRestore* systemRestore = (SystemRestore *) lpParam;
 	
 	systemRestore->Init();
-	systemRestore->Start(L"Catalanitzador per a Windows");
+	systemRestore->Start(SYSTEM_RESTORE_NAME);
 	return 0;
 }
 
