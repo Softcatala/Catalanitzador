@@ -150,7 +150,7 @@ DownloadID OpenOfficeAction::_getDownloadID()
 bool OpenOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	GetTempPath(MAX_PATH, m_szFilename);
-	Url url(m_actionDownload.GetFileName(DI_OPENOFFICE_33));
+	Url url(m_actionDownload.GetFileName(_getDownloadID()));
 	wcscat_s(m_szFilename, url.GetFileName());	
 	return _getFile(_getDownloadID(), m_szFilename, progress, data);
 }
