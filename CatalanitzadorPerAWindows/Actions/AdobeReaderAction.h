@@ -40,7 +40,8 @@ public:
 		virtual const wchar_t* GetVersion() {return m_version.c_str();}
 		virtual void CheckPrerequirements(Action * action);
 		virtual bool IsExecuting();
-		virtual void FinishExecution();		
+		virtual void FinishExecution();
+		bool IsIERunning();
 
 protected:
 

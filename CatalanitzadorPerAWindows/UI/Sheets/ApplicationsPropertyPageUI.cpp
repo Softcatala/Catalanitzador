@@ -21,6 +21,7 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "ShowLicensesDlgUI.h"
 #include "AppRunningDlgUI.h"
+#include "AdobeReaderAction.h"
 
 ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
 {
@@ -442,6 +443,13 @@ bool ApplicationsPropertyPageUI::_checkRunningApps()
 
 		if (action->GetStatus() != Selected)
 			continue;
+
+		if (action->GetID() == AcrobatReader)
+		{
+			AdobeReaderAction* readerAction = (AdobeReaderAction*) action;
+			if (readerAction->IsIERunning() == true)
+				return true;
+		}
 		
 		if (action->IsExecuting())
 		{		
