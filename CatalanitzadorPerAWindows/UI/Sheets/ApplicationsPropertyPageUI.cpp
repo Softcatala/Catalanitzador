@@ -23,8 +23,6 @@
 #include "AppRunningDlgUI.h"
 #include "AdobeReaderAction.h"
 
-#define PIXELS_TO_INDENT_ACTIONS 10
-
 ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
 {
 	m_hFont = NULL;	
@@ -73,7 +71,7 @@ void ApplicationsPropertyPageUI::_processDependantItem(Action* action)
 	}
 }
 
-void ApplicationsPropertyPageUI::_processClickOnItem(int nItem)
+void ApplicationsPropertyPageUI::ProcessClickOnItem(int nItem)
 {
 	Action* action = (Action *) m_listview.GetItemData(nItem);
 
@@ -99,41 +97,6 @@ void ApplicationsPropertyPageUI::_processClickOnItem(int nItem)
 	m_listview.SetItemText(nItem, name);
 	
 	_enableOrDisableLicenseControls();
-}
-
-LRESULT ApplicationsPropertyPageUI::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{	
-	ApplicationsPropertyPageUI *pThis = (ApplicationsPropertyPageUI *)GetWindowLong(hWnd,GWL_USERDATA);
-
-	switch (uMsg)
-	{
-		case WM_LBUTTONDBLCLK:
-		case WM_LBUTTONDOWN:
-		{
-			LVHITTESTINFO lvHitTestInfo;
-			lvHitTestInfo.pt.x = LOWORD(lParam) - PIXELS_TO_INDENT_ACTIONS;
-			lvHitTestInfo.pt.y = HIWORD(lParam);
-			ListView_HitTest(hWnd, &lvHitTestInfo);
-
-			if (lvHitTestInfo.flags & LVHT_ONITEMICON)
-			{
-				pThis->_processClickOnItem(lvHitTestInfo.iItem);
-			}
-			break;
-		}
-		
-		case WM_KEYDOWN:
-		{
-			if (wParam == VK_SPACE)
-			{
-				pThis->_processClickOnItem(ListView_GetSelectionMark(hWnd));
-			}
-			break;
-		}
-		default:
-			break;
-	}
-	return CallWindowProc(pThis->PreviousProc, hWnd, uMsg, wParam, lParam);
 }
 
 void ApplicationsPropertyPageUI::_setBoldControls()
@@ -189,6 +152,12 @@ void ApplicationsPropertyPageUI::_insertGroupNameListView(ActionGroup group, int
 	itemID++;
 }
 
+void ApplicationsPropertyPageUI::_onClickItemEvent(int nItem, void* data)
+{
+	ApplicationsPropertyPageUI* pThis = (ApplicationsPropertyPageUI*) data;
+	return pThis->ProcessClickOnItem(nItem);
+}
+
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	HWND hListWnd;
@@ -200,6 +169,9 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 	hListWnd = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
 	m_listview.InitControl(hListWnd);
+	m_listview.SetClickItem(_onClickItemEvent, this);
+	
+
 	_setBoldControls();
 	
 	for (int g = 0; g < ActionGroupLast; g++)
@@ -231,14 +203,10 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		}
 	}	
 
-	m_listview.SelectItem(1);
-	SetWindowLongPtr(hListWnd, GWL_USERDATA, (LONG) this);
-	PreviousProc = (WNDPROC)SetWindowLongPtr(hListWnd, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);
-		
+	m_listview.SelectItem(1);	
 	_setLegendControl();
 	_enableOrDisableLicenseControls();
 }
-
 
 NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
 {
@@ -259,6 +227,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_ITEMPREPAINT)
 		{
 			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
+			bool disabled = false;
 
 			if (action != NULL)
 			{
@@ -268,38 +237,18 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 
 				if (item->second == false)
 				{
-					DWORD color = GetSysColor(COLOR_GRAYTEXT);
-					lpNMLVCD->clrText = color;
+					disabled = true;
 				}
 			}
 
-			RECT rect;
-			ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
-			FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
-
+			m_listview.PreItemPaint(lpNMLVCD, disabled);
 			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYPOSTPAINT);
 			return ReturnTrue;
 		}
 
 		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_ITEMPOSTPAINT)
-		{
-			RECT rect;
-			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
-			
-			if (action != NULL)
-			{
-				ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
-				ScrollDC(lpNMLVCD->nmcd.hdc, PIXELS_TO_INDENT_ACTIONS, 0, &rect, NULL, NULL, NULL);
-
-				rect.right = rect.left + PIXELS_TO_INDENT_ACTIONS;
-				FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
-			}
-			else
-			{
-				int icon_size = GetSystemMetrics(SM_CXSMICON);
-				ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
-				ScrollDC(lpNMLVCD->nmcd.hdc, -icon_size, 0, &rect, NULL, NULL, NULL);	
-			}
+		{			
+			m_listview.PostItemPaint(lpNMLVCD, lpNMLVCD->nmcd.lItemlParam == NULL);
 			return ReturnTrue;
 		}
 		return CallDefProc;
@@ -312,7 +261,6 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 	_updateActionDescriptionAndReq((Action *)  pListView->lParam);
 	return ReturnTrue;
 }
-
 
 void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 {

@@ -32,17 +32,16 @@ public:
 		ApplicationsPropertyPageUI();
 		~ApplicationsPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
+		void ProcessClickOnItem(int nItem);
 
 private:
-
+	
 		void _updateActionDescriptionAndReq(Action* action);
 		virtual void _onInitDialog();
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 		virtual void _onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
 		virtual	bool _onNext();
 		void _showNoInternetConnectionDialog();
-		static LRESULT _listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-		void _processClickOnItem(int nItem);
 		void _setBoldControls();
 		void _setLegendControl();
 		void _processDependantItem(Action* action);
@@ -54,12 +53,12 @@ private:
 		void _insertActioninListView(Action *action, int &itemID);
 		void _insertGroupNameListView(ActionGroup group, int &itemID);
 		bool _anyActionNeedsInternetConnection();
+		static void _onClickItemEvent(int nItem, void* data);
 
 		CheckedListView m_listview;
 		CheckedListView m_listviewLegend;
 		vector <Action *> * m_availableActions;
 		typedef pair <Action *, bool> ActionBool_Pair;
-		map <Action *, bool> m_disabledActions;
-		WNDPROC PreviousProc;
+		map <Action *, bool> m_disabledActions;		
 		HFONT m_hFont;
 };

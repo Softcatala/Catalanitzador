@@ -25,6 +25,9 @@ void CheckedListView::InitControl(HWND hWnd)
 	m_hWnd = hWnd;
 	m_hImageList = CreateCheckBoxImageList(m_hWnd);
 	ListView_SetImageList(m_hWnd, m_hImageList, LVSIL_SMALL);
+
+	PreviousProc = (WNDPROC)SetWindowLongPtr(m_hWnd, GWLP_WNDPROC, (LONG_PTR) _listViewSubclassProc);		
+	SetWindowLongPtr(m_hWnd, GWL_USERDATA, (LONG) this);
 }
 
 LPARAM CheckedListView::GetItemData(int nItem)
@@ -223,3 +226,74 @@ ImageIndex CheckedListView::GetImageIndex(ActionStatus status)
 		return ImageIndexNone;
 	}
 }
+
+#define PIXELS_TO_INDENT_ACTIONS 10
+
+LRESULT CheckedListView::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{	
+	CheckedListView *pThis = (CheckedListView *)GetWindowLong(hWnd,GWL_USERDATA);
+
+	switch (uMsg)
+	{
+		case WM_LBUTTONDBLCLK:
+		case WM_LBUTTONDOWN:
+		{
+			LVHITTESTINFO lvHitTestInfo;
+			lvHitTestInfo.pt.x = LOWORD(lParam) - PIXELS_TO_INDENT_ACTIONS;
+			lvHitTestInfo.pt.y = HIWORD(lParam);
+			ListView_HitTest(hWnd, &lvHitTestInfo);
+
+			if (lvHitTestInfo.flags & LVHT_ONITEMICON)
+			{
+				pThis->m_onClickItem(lvHitTestInfo.iItem, pThis->m_clickData);
+			}
+			break;
+		}
+		
+		case WM_KEYDOWN:
+		{
+			if (wParam == VK_SPACE)
+			{
+				pThis->m_onClickItem(ListView_GetSelectionMark(hWnd), pThis->m_clickData);
+			}
+			break;
+		}
+		default:
+			break;
+	}
+	return CallWindowProc(pThis->PreviousProc, hWnd, uMsg, wParam, lParam);
+}
+
+void CheckedListView::PreItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool disabled)
+{
+	if (disabled)
+	{
+		DWORD color = GetSysColor(COLOR_GRAYTEXT);
+		lpNMLVCD->clrText = color;
+	}		
+
+	RECT rect;
+	ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
+	FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+}
+
+void CheckedListView::PostItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool groupName)
+{
+	RECT rect;
+
+	if (groupName)
+	{
+		int icon_size = GetSystemMetrics(SM_CXSMICON);
+		ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
+		ScrollDC(lpNMLVCD->nmcd.hdc, -icon_size, 0, &rect, NULL, NULL, NULL);		
+	}
+	else
+	{		
+		ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
+		ScrollDC(lpNMLVCD->nmcd.hdc, PIXELS_TO_INDENT_ACTIONS, 0, &rect, NULL, NULL, NULL);
+
+		rect.right = rect.left + PIXELS_TO_INDENT_ACTIONS;
+		FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+	}
+}
+
