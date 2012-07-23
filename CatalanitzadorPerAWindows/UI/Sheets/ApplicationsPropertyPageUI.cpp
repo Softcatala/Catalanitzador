@@ -21,6 +21,7 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "ShowLicensesDlgUI.h"
 #include "AppRunningDlgUI.h"
+#include "AdobeReaderAction.h"
 
 #define PIXELS_TO_INDENT_ACTIONS 10
 
@@ -491,6 +492,13 @@ bool ApplicationsPropertyPageUI::_checkRunningApps()
 
 		if (action->GetStatus() != Selected)
 			continue;
+
+		if (action->GetID() == AcrobatReader)
+		{
+			AdobeReaderAction* readerAction = (AdobeReaderAction*) action;
+			if (readerAction->IsIERunning() == true)
+				return true;
+		}
 		
 		if (action->IsExecuting())
 		{		

@@ -188,6 +188,23 @@ bool AdobeReaderAction::IsExecuting()
 	return _getProcessIDs().size() != 0;
 }
 
+bool AdobeReaderAction::IsIERunning()
+{
+	Runner runner;
+	vector <DWORD> processIDs;
+
+	processIDs = runner.GetProcessID(wstring(L"iexplore.exe"));
+	if (processIDs.size() > 0)
+	{
+		MessageBox(NULL,
+			L"Cal que tanqueu l'Internet Explorer completament per poder catalanitzar l'Adobe Reader.",
+			L"Catalanitzador per al Windows",
+			NULL);
+		return true;
+	}
+	return false;
+}
+
 void AdobeReaderAction::FinishExecution()
 {
 	Runner runner;
