@@ -69,7 +69,7 @@ void InstallPropertyPageUI::_onShowWindow()
 	}
 }
 
-const int BYTES_TO_MEGABYTES = 1024*1024;
+const float BYTES_TO_MEGABYTES = 1024*1024;
 
 struct DownloadData
 {
@@ -87,7 +87,7 @@ void InstallPropertyPageUI::_downloadStatus(int total, int current, void *data)
 	SendMessage(downloadData->pThis->hTaskProgressBar, PBM_SETPOS, current, 0);
 
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);
-	swprintf_s(szText, szString, downloadData->action->GetName(), current / BYTES_TO_MEGABYTES, total / BYTES_TO_MEGABYTES);
+	swprintf_s(szText, szString, downloadData->action->GetName(), ((float)current) / BYTES_TO_MEGABYTES, ((float)total) / BYTES_TO_MEGABYTES);
 	SendMessage(downloadData->pThis->hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 }
 
