@@ -20,6 +20,69 @@
 #include "stdafx.h"
 #include "CheckedListView.h"
 
+void CheckedListView::InitControl(HWND hWnd)
+{
+	m_hWnd = hWnd;
+	m_hImageList = CreateCheckBoxImageList(m_hWnd);
+	ListView_SetImageList(m_hWnd, m_hImageList, LVSIL_SMALL);
+}
+
+LPARAM CheckedListView::GetItemData(int nItem)
+{			
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.iItem = nItem;
+	item.mask = LVIF_PARAM;
+
+	ListView_GetItem(m_hWnd, &item);
+	return item.lParam;
+}
+
+void CheckedListView::SetItemText(int nItem, wstring text)
+{
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.iItem = nItem;
+	item.mask = LVIF_TEXT;
+	item.pszText = (LPWSTR) text.c_str();
+	ListView_SetItem(m_hWnd, &item);
+}
+
+void CheckedListView::SetItemImage(int nItem, ActionStatus status)
+{
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.iItem = nItem;
+	item.mask = LVIF_IMAGE;
+	item.iImage = CheckedListView::GetImageIndex(status);
+	ListView_SetItem(m_hWnd, &item);
+}
+
+void CheckedListView::InsertItem(wstring text, LPARAM parameter, ActionStatus status, int nItem)
+{
+	wstring name;
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.mask=LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
+	
+	item.iItem = nItem;
+	item.pszText = (LPWSTR) text.c_str();
+	item.lParam = (LPARAM) parameter;
+	item.iImage = CheckedListView::GetImageIndex(status);
+	ListView_InsertItem(m_hWnd, &item);	
+}
+
+void CheckedListView::InsertItem(wstring text, int itemID)
+{	
+	LVITEM item;
+	memset(&item,0,sizeof(item));
+	item.mask=LVIF_TEXT;
+	
+	item.iItem = itemID;
+	item.pszText = (LPWSTR) text.c_str();
+	ListView_InsertItem(m_hWnd, &item);	
+}
+
 int CheckedListView::_makeSquareRect(LPRECT src, LPRECT dst)
 {
     int Width  = src->right - src->left;

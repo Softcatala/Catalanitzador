@@ -22,6 +22,9 @@
 #include <CommCtrl.h>
 #include "ActionStatus.h"
 
+#include <string>
+using namespace std;
+
 enum CheckedColor
 {
 	CheckedColorBlack = RGB(0,0,0),
@@ -42,13 +45,24 @@ enum ImageIndex
 
 class CheckedListView
 {
-public:		
-		HIMAGELIST CreateCheckBoxImageList(HWND hWnd);
-
-		static ImageIndex GetImageIndex(ActionStatus status);
+public:
+		void InitControl(HWND hWnd);
+		int Count() {return ListView_GetItemCount(m_hWnd); }
+		LPARAM GetItemData(int nItem);
+		void SetItemImage(int nItem, ActionStatus status);
+		void SetItemText(int nItem, wstring text);
+		void SelectItem(int nItem) { ListView_SetItemState(m_hWnd, nItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);}
+		void InsertItem(wstring text, int nItem);
+		void InsertItem(wstring text, LPARAM parameter, ActionStatus image, int nItem);		
 		
 private:
+		HIMAGELIST CreateCheckBoxImageList(HWND hWnd);
 		int _makeSquareRect(LPRECT src, LPRECT dst);
 		void _createFrameBox(HDC dc, LPRECT r);
 		void _createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, CheckedColor color);
+		ImageIndex GetImageIndex(ActionStatus status);
+
+
+		HWND m_hWnd;
+		HIMAGELIST m_hImageList;
 };
