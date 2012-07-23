@@ -23,6 +23,8 @@
 #include "AppRunningDlgUI.h"
 #include "AdobeReaderAction.h"
 
+#define DEFAULT_SELECTEDITEM_INLISTVIEW 1
+
 ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
 {
 	m_hFont = NULL;	
@@ -117,10 +119,8 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 {
 	ActionStatus statuses [] = {Selected, AlreadyApplied, CannotBeApplied};
 	int resources [] = {IDS_LEGEND_SELECTED, IDS_LEGEND_ALREADYAPPLIED, IDS_LEGEND_CANNOT};
-	HWND hList;
 
-	hList = GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND);
-	m_listviewLegend.InitControl(hList);
+	m_listviewLegend.InitControl(GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND));
 	
 	for (int l = 0; l <sizeof(statuses) / sizeof(statuses[0]); l++)
 	{
@@ -128,7 +128,7 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 		
 		LoadString(GetModuleHandle(NULL), resources[l], szString, MAX_LOADSTRING);
 		m_listviewLegend.InsertItem(szString, NULL, statuses[l], l);
-	}	
+	}
 }
 
 void ApplicationsPropertyPageUI::_insertActioninListView(Action *action, int &itemID)
@@ -169,14 +169,11 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 	hListWnd = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
 	m_listview.InitControl(hListWnd);
-	m_listview.SetClickItem(_onClickItemEvent, this);
-	
-
-	_setBoldControls();
-	
+	m_listview.SetClickItem(_onClickItemEvent, this);	
+		
 	for (int g = 0; g < ActionGroupLast; g++)
 	{
-		bool bFirstHit = false;		
+		bool bFirstHit = false;
 
 		for (unsigned int i = 0; i < m_availableActions->size (); i++)
 		{		
@@ -196,14 +193,15 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 			m_disabledActions.insert(ActionBool_Pair(action, needed));
 
 			if (needed)
-				action->SetStatus(Selected);			
+				action->SetStatus(Selected);
 			
 			_insertActioninListView(action, nItemId);
 			_processDependantItem(action);
 		}
-	}	
+	}
 
-	m_listview.SelectItem(1);	
+	m_listview.SelectItem(DEFAULT_SELECTEDITEM_INLISTVIEW);
+	_setBoldControls();
 	_setLegendControl();
 	_enableOrDisableLicenseControls();
 }
@@ -211,49 +209,44 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
 {
 	if(hdr->idFrom != IDC_APPLICATIONSLIST)
-		return ReturnFalse;
-
+		return ReturnFalse;	
 	if (hdr->code == NM_CUSTOMDRAW)
 	{
 		LPNMLVCUSTOMDRAW lpNMLVCD = (LPNMLVCUSTOMDRAW)hdr;
 
-		// TODO: Switch
-		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_PREPAINT)
-		{			
-			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
-			return ReturnTrue;
-		}
-
-		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_ITEMPREPAINT)
+		switch (lpNMLVCD->nmcd.dwDrawStage)
 		{
-			Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
-			bool disabled = false;
+			case CDDS_PREPAINT:	
+				SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
+				return ReturnTrue;
 
-			if (action != NULL)
+			case CDDS_ITEMPREPAINT:
 			{
-				map <Action *, bool>::iterator item;
+				Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
+				bool disabled = false;
 
-				item = m_disabledActions.find((Action * const &)action);
-
-				if (item->second == false)
+				if (action != NULL)
 				{
-					disabled = true;
+					map <Action *, bool>::iterator item;
+					item = m_disabledActions.find((Action * const &)action);
+
+					if (item->second == false)				
+						disabled = true;				
 				}
+
+				m_listview.PreItemPaint(lpNMLVCD, disabled);
+				SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYPOSTPAINT);
+				return ReturnTrue;
 			}
 
-			m_listview.PreItemPaint(lpNMLVCD, disabled);
-			SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYPOSTPAINT);
-			return ReturnTrue;
+			case CDDS_ITEMPOSTPAINT:		
+				m_listview.PostItemPaint(lpNMLVCD, lpNMLVCD->nmcd.lItemlParam == NULL);
+				return ReturnTrue;
+			default:
+				return CallDefProc;
 		}
-
-		if (lpNMLVCD->nmcd.dwDrawStage == CDDS_ITEMPOSTPAINT)
-		{			
-			m_listview.PostItemPaint(lpNMLVCD, lpNMLVCD->nmcd.lItemlParam == NULL);
-			return ReturnTrue;
-		}
-		return CallDefProc;
 	}
-	   
+
 	NMLISTVIEW *pListView = (NMLISTVIEW *)hdr;
 	if (pListView->hdr.code != LVN_ITEMCHANGED)
 		return ReturnFalse;
