@@ -472,6 +472,26 @@
 				RelativePath=".\Core\Url.h"
 				>
 			</File>
+			<Filter
+				Name="Configuration"
+				>
+				<File
+					RelativePath=".\Core\Configuration\Configuration.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationLatest.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationXmlParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationXmlParser.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="UI"

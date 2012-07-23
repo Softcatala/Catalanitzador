@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+	<compatibility>
+		<!-- Minimum version need from the Catalanitzador to process this file -->
+		<version>1.2.0</version>
+	</compatibility>
+	
+	<latest>
+		<version>1.2.1</version>
+		<URL><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></URL>
+		<FallbackURL1>http://udl.cat/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</FallbackURL1>
+		<FallbackURL2>http://upf.edu/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</FallbackURL2>
+	</latest>
+
+</configuration>

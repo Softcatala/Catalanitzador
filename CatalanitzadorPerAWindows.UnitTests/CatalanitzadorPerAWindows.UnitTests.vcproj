@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support;;$(SolutionDir)CatalanitzadorPerAWindows\UI"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAWindows\UI;;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -351,6 +351,14 @@
 				RelativePath=".\Core\UrlTest.cpp"
 				>
 			</File>
+			<Filter
+				Name="Configuration"
+				>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationXmlParserTest.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="OS"
