@@ -94,6 +94,5 @@ void ConfigurationXmlParser::Parse()
 
 	m_configurationBlock = ConfigurationBlockNone;
 	parser.Parse(_readNodeCallback, this);
-	wstring v = m_configuration.GetLatest().GetVersion();
 }
 
