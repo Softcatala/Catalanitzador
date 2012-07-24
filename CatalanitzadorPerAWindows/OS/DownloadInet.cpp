@@ -20,9 +20,13 @@
 #include "stdafx.h"
 #include "DownloadInet.h"
 #include "Window.h"
+#include "Url.h"
 
 #define ERROR_SERVER_ERROR 500
 #define ERROR_FILE_NOTFOUND 404
+
+#define DEFAULT_FTP_USERNAME L"anonymous"
+#define DEFAULT_FTP_PASSWORD L"anonymous@catalanitzador"
 
 int DownloadInet::_getFileSize(HINTERNET hRemoteFile)
 {
@@ -48,27 +52,46 @@ int DownloadInet::_getStatusCode(HINTERNET hRemoteFile)
 	return ERROR_FILE_NOTFOUND;
 }
 
+#define FTP_SCHEME L"ftp"
+
 bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
 {
+	HINTERNET hFtp = NULL;
 	HINTERNET hRemoteFile;
 	HANDLE hWrite;
 	DWORD dwRead, dwWritten;
 	int nTotal, nCurrent;
+	bool ftp;
 	
-	hRemoteFile = InternetOpenUrl(hInternet, URL, NULL, 0,
-		INTERNET_FLAG_RELOAD, // TODO: Debug only, prevents local caching
-		0);
+	Url url(URL);
+	ftp = wcscmp(url.GetScheme(), FTP_SCHEME) == 0;
+ 
+	if (ftp)
+	{
+		hFtp = InternetConnect(hInternet, url.GetHostname(),
+			0, DEFAULT_FTP_USERNAME, DEFAULT_FTP_PASSWORD, INTERNET_SERVICE_FTP,0,0);
+
+		hRemoteFile = FtpOpenFile(hFtp, url.GetPathAndFileName() + 1, GENERIC_READ, FTP_TRANSFER_TYPE_BINARY,0);
+	}
+	else
+	{
+		hRemoteFile = InternetOpenUrl(hInternet, URL, NULL, 0,
+			INTERNET_FLAG_RELOAD, // TODO: Debug only, prevents local caching
+			0);
+	}
 
 	if (hRemoteFile == 0)	
 		return false;	
 
-	int status = _getStatusCode(hRemoteFile);
-
-	if (status == ERROR_FILE_NOTFOUND || status == ERROR_SERVER_ERROR)
+	if (ftp == false)
 	{
-		g_log.Log(L"DownloadInet::GetFile. Error '%u' getting '%s'", (wchar_t *) status, URL);
-		InternetCloseHandle(hRemoteFile);
-		return false;
+		int status = _getStatusCode(hRemoteFile);
+		if (status == ERROR_FILE_NOTFOUND || status == ERROR_SERVER_ERROR)
+		{
+			g_log.Log(L"DownloadInet::GetFile. Error '%u' getting '%s'", (wchar_t *) status, URL);
+			InternetCloseHandle(hRemoteFile);
+			return false;
+		}
 	}
 	
 	hWrite = CreateFile(file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -81,7 +104,16 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 		
 	BYTE buffer[32768];
 
-	nTotal = _getFileSize(hRemoteFile);
+	if (ftp)
+	{
+		DWORD lpdwFileSizeHigh, lpdwFileSizeLow;
+		lpdwFileSizeLow = FtpGetFileSize(hRemoteFile, &lpdwFileSizeHigh);
+		nTotal = lpdwFileSizeLow;
+	}
+	else
+	{
+		nTotal = _getFileSize(hRemoteFile);
+	}
 	nCurrent = 0;
 
 	while (InternetReadFile(hRemoteFile, buffer, sizeof (buffer) - 1, &dwRead))
@@ -100,6 +132,10 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 
 		WriteFile(hWrite, buffer, dwRead, &dwWritten, NULL);
 	}
+
+	if (hFtp != NULL)
+		InternetCloseHandle(hFtp);
+
 	CloseHandle(hWrite);
 	InternetCloseHandle(hRemoteFile);
 	return true;

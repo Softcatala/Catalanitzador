@@ -44,6 +44,8 @@ void Url::_extractpath(wchar_t* url)
 	m_components.dwUrlPathLength = sizeof(m_path);
 	m_components.lpszExtraInfo = szExtraInfo;
 	m_components.dwExtraInfoLength = sizeof(szExtraInfo);
+	m_components.lpszScheme = m_lpszScheme;
+	m_components.dwSchemeLength = sizeof(m_lpszScheme);
 
 	rslt = InternetCrackUrl(url, url != NULL ? wcslen(url) : 0, ICU_ESCAPE, &m_components);
 

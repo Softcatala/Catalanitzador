@@ -32,6 +32,7 @@ public:
 		wchar_t * GetFileName() {return m_filename;}
 		wchar_t * GetPathAndFileName() {return m_path;}
 		wchar_t * GetHostname(){return m_hostname;}
+		wchar_t * GetScheme(){return m_lpszScheme;}
 		static void EncodeParameter(wstring parameter, wstring& encoded);
 
 private:
@@ -42,4 +43,5 @@ private:
 		wchar_t m_filename[1024];
 		wchar_t m_hostname[1024];
 		wchar_t m_path[1024];
+		wchar_t m_lpszScheme[1024];
 };

@@ -54,5 +54,11 @@ TEST(UrlTest, GetHostname)
 	Url url (L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe");
 
 	EXPECT_THAT(url.GetHostname(), StrCaseEq(L"www.softcatala.org"));
+}
 
+TEST(UrlTest, GetScheme)
+{
+	Url url (L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe");
+
+	EXPECT_THAT(url.GetScheme(), StrCaseEq(L"http"));
 }
