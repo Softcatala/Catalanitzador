@@ -127,29 +127,27 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 		wchar_t szString [MAX_LOADSTRING];
 		
 		LoadString(GetModuleHandle(NULL), resources[l], szString, MAX_LOADSTRING);
-		m_listviewLegend.InsertItem(szString, NULL, statuses[l], l);
+		m_listviewLegend.InsertItem(szString, NULL, statuses[l]);
 	}
 }
 
-void ApplicationsPropertyPageUI::_insertActioninListView(Action *action, int &itemID)
+void ApplicationsPropertyPageUI::_insertActioninListView(Action *action)
 {
 	wstring name;
 	_getActionDisplayName(action, name);
 
-	m_listview.InsertItem(name, (LPARAM) action, action->GetStatus(), itemID);
-	itemID++;
+	m_listview.InsertItem(name, (LPARAM) action, action->GetStatus());
 }
 
 // An index to ActionGroup
 static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_INTERNET, IDS_GROUPNAME_OFFICE};
 
-void ApplicationsPropertyPageUI::_insertGroupNameListView(ActionGroup group, int &itemID)
+void ApplicationsPropertyPageUI::_insertGroupNameListView(ActionGroup group)
 {
 	wchar_t szString[MAX_LOADSTRING];
 
 	LoadString(GetModuleHandle(NULL), groupNames[(int)group], szString, MAX_LOADSTRING);
-	m_listview.InsertItem(szString, itemID);
-	itemID++;
+	m_listview.InsertItem(szString);	
 }
 
 void ApplicationsPropertyPageUI::_onClickItemEvent(int nItem, void* data)
@@ -161,7 +159,6 @@ void ApplicationsPropertyPageUI::_onClickItemEvent(int nItem, void* data)
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	HWND hListWnd;
-	int nItemId = 0;
 	map <Action *, bool>::iterator mapped_item;	
 
 	if (m_availableActions->size() == 0)
@@ -186,7 +183,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 			if (bFirstHit == false)
 			{
-				_insertGroupNameListView((ActionGroup)g, nItemId);
+				_insertGroupNameListView((ActionGroup)g);
 				bFirstHit = true;
 			}
 
@@ -195,7 +192,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 			if (needed)
 				action->SetStatus(Selected);
 			
-			_insertActioninListView(action, nItemId);
+			_insertActioninListView(action);
 			_processDependantItem(action);
 		}
 	}
@@ -230,8 +227,8 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 					map <Action *, bool>::iterator item;
 					item = m_disabledActions.find((Action * const &)action);
 
-					if (item->second == false)				
-						disabled = true;				
+					if (item->second == false)		
+						disabled = true;			
 				}
 
 				m_listview.PreItemPaint(lpNMLVCD, disabled);
@@ -376,7 +373,7 @@ void ApplicationsPropertyPageUI::_showNoInternetConnectionDialog()
 	LoadString(GetModuleHandle(NULL), IDS_NOINETACCESS, szMessage, MAX_LOADSTRING);
 	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 
-	MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);	
+	MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);
 }
 
 bool ApplicationsPropertyPageUI::_checkRunningApps()

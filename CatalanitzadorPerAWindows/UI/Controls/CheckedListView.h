@@ -46,14 +46,16 @@ enum ImageIndex
 class CheckedListView
 {
 public:
+		CheckedListView();
+
 		void InitControl(HWND hWnd);
 		int Count() {return ListView_GetItemCount(m_hWnd); }
 		LPARAM GetItemData(int nItem);
 		void SetItemImage(int nItem, ActionStatus status);
 		void SetItemText(int nItem, wstring text);
 		void SelectItem(int nItem) { ListView_SetItemState(m_hWnd, nItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);}
-		void InsertItem(wstring text, int nItem);
-		void InsertItem(wstring text, LPARAM parameter, ActionStatus image, int nItem);
+		void InsertItem(wstring text);
+		void InsertItem(wstring text, LPARAM parameter, ActionStatus image);
 
 		void PreItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool disabled);
 		void PostItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool groupName);
@@ -73,6 +75,7 @@ private:
 		HWND m_hWnd;
 		HIMAGELIST m_hImageList;
 		WNDPROC PreviousProc;
+		int m_itemID;
 
 		OnClickItem m_onClickItem;
 		void *m_clickData;

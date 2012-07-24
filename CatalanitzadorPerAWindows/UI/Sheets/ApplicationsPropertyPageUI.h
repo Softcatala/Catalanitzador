@@ -50,8 +50,8 @@ private:
 		void _enableOrDisableLicenseControls();
 		void _getActionDisplayName(Action *action, wstring& name);
 		bool _checkRunningApps();
-		void _insertActioninListView(Action *action, int &itemID);
-		void _insertGroupNameListView(ActionGroup group, int &itemID);
+		void _insertActioninListView(Action *action);
+		void _insertGroupNameListView(ActionGroup group);
 		bool _anyActionNeedsInternetConnection();
 		static void _onClickItemEvent(int nItem, void* data);
 

@@ -20,6 +20,11 @@
 #include "stdafx.h"
 #include "CheckedListView.h"
 
+CheckedListView::CheckedListView()
+{
+	m_itemID = 0;
+}
+
 void CheckedListView::InitControl(HWND hWnd)
 {
 	m_hWnd = hWnd;
@@ -61,29 +66,24 @@ void CheckedListView::SetItemImage(int nItem, ActionStatus status)
 	ListView_SetItem(m_hWnd, &item);
 }
 
-void CheckedListView::InsertItem(wstring text, LPARAM parameter, ActionStatus status, int nItem)
+void CheckedListView::InsertItem(wstring text, LPARAM parameter, ActionStatus status)
 {
 	wstring name;
 	LVITEM item;
 	memset(&item,0,sizeof(item));
 	item.mask=LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 	
-	item.iItem = nItem;
+	item.iItem = m_itemID;
 	item.pszText = (LPWSTR) text.c_str();
 	item.lParam = (LPARAM) parameter;
 	item.iImage = CheckedListView::GetImageIndex(status);
-	ListView_InsertItem(m_hWnd, &item);	
+	ListView_InsertItem(m_hWnd, &item);
+	m_itemID++;
 }
 
-void CheckedListView::InsertItem(wstring text, int itemID)
+void CheckedListView::InsertItem(wstring text)
 {	
-	LVITEM item;
-	memset(&item,0,sizeof(item));
-	item.mask=LVIF_TEXT;
-	
-	item.iItem = itemID;
-	item.pszText = (LPWSTR) text.c_str();
-	ListView_InsertItem(m_hWnd, &item);	
+	InsertItem(text, (LPARAM) NULL, (ActionStatus) 0);
 }
 
 int CheckedListView::_makeSquareRect(LPRECT src, LPRECT dst)
