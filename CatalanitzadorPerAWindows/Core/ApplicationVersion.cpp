@@ -78,9 +78,6 @@ bool ApplicationVersion::operator > (ApplicationVersion other)
 
 	for (unsigned int i = 0; i < GetComponents().size(); i++)
 	{
-		wstring a= GetComponents().at(i);
-		wstring b= other.GetComponents().at(i);
-
 		if (GetComponents().at(i) == other.GetComponents().at(i))
 			continue;
 		
