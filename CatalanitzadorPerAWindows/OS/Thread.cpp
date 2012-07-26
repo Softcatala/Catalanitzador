@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,28 +18,41 @@
  */
  
 #include "stdafx.h"
-#include "UploadStatistics.h"
-#include "HttpFormInet.h"
+#include "Thread.h"
 
-UploadStatistics::UploadStatistics(Serializer* serializer)
+#define DEFAULT_MILISECONDS_FORWAIT 10000
+
+Thread::Thread()
 {
-	m_serializer = serializer;
+	m_hThread = NULL;
+	SetWaitTime(DEFAULT_MILISECONDS_FORWAIT);
 }
 
-
-void UploadStatistics::OnStart()
+Thread::~Thread()
 {
-	string serialize;
-	char szVar[65535];
-
-	m_serializer->SaveToString(serialize);
-
-	strcpy_s(szVar, "xml=");
-	strcat_s(szVar, serialize.c_str());
-
-	// Send file
-	HttpFormInet access;	
-	bool rslt = access.PostForm(UPLOAD_URL, szVar);
-	g_log.Log(L"UploadStatistics::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);	
+	if (m_hThread != NULL)
+	{
+		CloseHandle(m_hThread);
+		m_hThread = NULL;
+	}
 }
 
+void Thread::Start()
+{
+	assert(m_hThread == NULL);
+
+	m_hThread = CreateThread(NULL, 0, _callbackThread, this, 0, NULL);
+}
+
+DWORD WINAPI Thread::_callbackThread(LPVOID lpParam)
+{
+	Thread* pThis = (Thread *) lpParam;
+	pThis->OnStart();
+	return 0;
+}
+
+void Thread::Wait()
+{
+	if (m_hThread != NULL)
+		WaitForSingleObject(m_hThread, m_nMilliseconds);
+}

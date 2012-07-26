@@ -101,13 +101,13 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 	UploadStatistics uploadStatistics(&m_serializer);
 
 	m_serializer.CloseHeader();
-	uploadStatistics.StartUploadThread();
+	uploadStatistics.Start();
 
 	g_log.Log (L"Show unsupported OS dialog");
 	LoadString(GetModuleHandle(NULL), id, szMessage, MAX_LOADSTRING);
 	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
 	MessageBox(NULL, szMessage, szCaption, MB_OK | MB_ICONINFORMATION);
-	uploadStatistics.WaitBeforeExit();
+	uploadStatistics.Wait();
 	return false;
 }
 
@@ -192,7 +192,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	finish.SetSendStats(&bSendStats);
 	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));
 	sheet.addPage(&finish);
-	slideshow.StartUnpackThread();
+	slideshow.Start();
 
 	sheet.runModal(m_hInstance, NULL, (LPWSTR)IDS_WIZARD_TITLE);
 }

@@ -19,24 +19,24 @@
  
 #pragma once
 
+#include "Thread.h"
+
 #include <vector>
 using namespace std;
 
-class Slideshow
+class Slideshow : public Thread
 {
 	public:
 			Slideshow();
 			~Slideshow();
 
-			void StartUnpackThread();
-			void UploadFile();
-			void WaitForThread();
+			virtual void OnStart();
+			void UploadFile();			
 			wstring GetURL() const {return m_URL; }
 
 	private:
 			void _unpackSlideShow();
-			void _createURL();
-			static DWORD WINAPI _unpackThread(LPVOID lpParam);
+			void _createURL();			
 			
 			vector <wstring> m_tempFiles;
 			wstring m_URL;

@@ -43,8 +43,8 @@ void InstallPropertyPageUI::_openURLInIE()
 	IWebBrowser2* wb = 0;
 	SendMessage(hX,AX_QUERYINTERFACE,(WPARAM)&IID_IWebBrowser2,(LPARAM)&wb);
 	if (wb)
-	{
-		m_slideshow->WaitForThread();
+	{		
+		m_slideshow->Wait();
 		wb->Navigate((BSTR)m_slideshow->GetURL().c_str(),0,0,0,0);
 		wb->Release();
 	}

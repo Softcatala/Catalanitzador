@@ -21,21 +21,15 @@
 
 #include "Serializable.h"
 #include "Serializer.h"
+#include "Thread.h"
 
-class UploadStatistics
+class UploadStatistics : public Thread
 {
 	public:
-			UploadStatistics(Serializer* serializer);
-			~UploadStatistics();
+			UploadStatistics(Serializer* serializer);			
 
-			void StartUploadThread();
-			void WaitBeforeExit();
+			virtual void OnStart();
 
 	private:
-
-			void _uploadFile();
-			static DWORD WINAPI _uploadXmlThread(LPVOID lpParam);
-
-			Serializer* m_serializer;
-			HANDLE m_hThread;
+			Serializer* m_serializer;			
 };

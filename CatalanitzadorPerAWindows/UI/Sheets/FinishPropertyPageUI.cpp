@@ -98,7 +98,7 @@ void FinishPropertyPageUI::_onInitDialog()
 	if (*m_pbSendStats)
 	{
 		m_uploadStatistics = new UploadStatistics(m_serializer);
-		m_uploadStatistics->StartUploadThread();
+		m_uploadStatistics->Start();
 	}
 
 	m_levelProgressBar = GetDlgItem(getHandle(), IDC_LEVEL_PROGRESSBAR);
@@ -190,7 +190,7 @@ void FinishPropertyPageUI::_onFinish()
 		}
 	}	
 	if (m_uploadStatistics!= NULL)
-		m_uploadStatistics->WaitBeforeExit();
+		m_uploadStatistics->Wait();
 }
 
 void FinishPropertyPageUI::_shutdown()

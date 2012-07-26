@@ -26,18 +26,11 @@
 
 Slideshow::Slideshow()
 {
-	m_hThread = NULL;
 	_createURL();
 }
 
 Slideshow::~Slideshow()
 {
-	if (m_hThread != NULL)
-	{
-		CloseHandle(m_hThread);
-		m_hThread = NULL;
-	}
-
 	for (unsigned int i = 0; i < m_tempFiles.size(); i++)
 	{
 		DeleteFile(m_tempFiles[i].c_str());
@@ -53,7 +46,7 @@ void Slideshow::_createURL()
 	m_URL = url;
 }
 
-void Slideshow::_unpackSlideShow()
+void Slideshow::OnStart()
 {
 	vector <wstring> resources;
 	wchar_t tempPath[MAX_PATH];
@@ -69,23 +62,4 @@ void Slideshow::_unpackSlideShow()
 		Resources::DumpResource(SLIDESHOW_RSCTYPE, resources[i].c_str(), (wchar_t *)file.c_str());
 		m_tempFiles.push_back(wstring(file));
 	}
-}
-
-DWORD Slideshow::_unpackThread(LPVOID lpParam)
-{
-	Slideshow* stats = (Slideshow *) lpParam;
-	stats->_unpackSlideShow();
-	return 0;
-}
-
-void Slideshow::StartUnpackThread()
-{
-	m_hThread = CreateThread(NULL, 0, _unpackThread, this, 0, NULL);
-}
-
-void Slideshow::WaitForThread()
-{
-	// In case the user exists the app very quickly, give time the upload to complete
-	if (m_hThread != NULL)
-		WaitForSingleObject(m_hThread, 10000);
 }

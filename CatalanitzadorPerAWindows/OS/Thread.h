@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,29 +17,25 @@
  * 02111-1307, USA.
  */
  
-#include "stdafx.h"
-#include "UploadStatistics.h"
-#include "HttpFormInet.h"
+#pragma once
 
-UploadStatistics::UploadStatistics(Serializer* serializer)
+#include <windows.h>
+
+class _APICALL Thread
 {
-	m_serializer = serializer;
-}
 
+public:
+			Thread();
+			~Thread();
 
-void UploadStatistics::OnStart()
-{
-	string serialize;
-	char szVar[65535];
+			void Start();
+			void Wait();
+			void SetWaitTime(int nMilliseconds) {m_nMilliseconds = nMilliseconds;}
+			virtual void OnStart() = 0;
 
-	m_serializer->SaveToString(serialize);
+private:
+			static DWORD WINAPI _callbackThread(LPVOID lpParam);
 
-	strcpy_s(szVar, "xml=");
-	strcat_s(szVar, serialize.c_str());
-
-	// Send file
-	HttpFormInet access;	
-	bool rslt = access.PostForm(UPLOAD_URL, szVar);
-	g_log.Log(L"UploadStatistics::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);	
-}
-
+			HANDLE m_hThread;
+			int m_nMilliseconds;
+};

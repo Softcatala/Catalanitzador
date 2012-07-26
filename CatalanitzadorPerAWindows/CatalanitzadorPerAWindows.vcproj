@@ -853,6 +853,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OS\Thread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OS\Thread.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OS\Win32I18N.h"
 				>
 			</File>
