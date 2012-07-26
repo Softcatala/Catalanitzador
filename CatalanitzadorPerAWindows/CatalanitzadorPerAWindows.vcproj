@@ -393,6 +393,14 @@
 			Name="Core"
 			>
 			<File
+				RelativePath=".\Core\ApplicationVersion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\ApplicationVersion.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\Defines.h"
 				>
 			</File>
