@@ -82,12 +82,13 @@ void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
 	}
 }
+
 void FinishPropertyPageUI::_saveToDisk()
 {
 	wchar_t szXML[MAX_PATH];
 
 	GetTempPath(MAX_PATH, szXML);	
-	wcscat_s(szXML, L"results.xml");
+	wcscat_s(szXML, L"statistics.xml");
 	m_xmlFile = szXML;
 	m_serializer->SaveToFile(m_xmlFile);
 }
