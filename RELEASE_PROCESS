@@ -12,7 +12,7 @@ Steps to follow when doing a release:
 - Run the DownloadFilesChecker to check that all the files in the server are correct
 
 - Upload release notes
-www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows/Versio_1.0
+www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows/Versio_X.Y
 
 - Upload binary to
 ftp://ftp.softcatala.org/pub/softcatala/catalanitzador/
