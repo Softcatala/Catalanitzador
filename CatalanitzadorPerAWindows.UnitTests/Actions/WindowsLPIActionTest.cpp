@@ -90,10 +90,13 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsXPFrench)
 TEST(WindowsLPIActionTest, CheckPrerequirements_Windows7French)
 {
 	CreateWindowsLIPAction;
+	vector <LANGID> ids;
 
+	ids.push_back(US_LOCALE);
+	ids.push_back(FRENCH_LOCALE);
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(FRENCH_LOCALE));
+	EXPECT_CALL(win32I18NMockobj, EnumUILanguages()).Times(1).WillRepeatedly(Return(ids));
 	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());

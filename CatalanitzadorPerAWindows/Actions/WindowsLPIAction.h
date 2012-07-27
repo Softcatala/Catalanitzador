@@ -56,6 +56,7 @@ private:
 		
 		bool _isWindowsXPValidated();
 		void _setDefaultLanguage();
+		bool _isASupportedSystemLanguage();
 
 		wchar_t m_szFilename[MAX_PATH];
 		IRunner* m_runner;

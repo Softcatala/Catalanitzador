@@ -20,10 +20,32 @@
 #pragma once
 
 #include <windows.h>
+#include <vector>
+using namespace std;
 
 class Win32I18N
 {
 public:
 		virtual LANGID GetSystemDefaultUILanguage(void) { return ::GetSystemDefaultUILanguage (); }
+
+private:
+		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam)
+		{
+			vector <LANGID>* langs = (vector <LANGID>*) lParam;
+			LANGID langid;
+
+			langid = (LANGID)wcstol(lpUILanguageString, NULL, 16);
+			langs->push_back(langid);
+			return TRUE;
+		}
+
+public:
+		virtual vector <LANGID> EnumUILanguages(void)
+		{
+			vector <LANGID> langs;
+
+			::EnumUILanguages(Win32I18N::_enumUILanguagesProc, MUI_LANGUAGE_ID, (LONG_PTR)&langs);
+			return langs;
+		}
 };
 

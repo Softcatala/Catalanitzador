@@ -319,15 +319,43 @@ bool WindowsLPIAction::IsRebootNeed() const
 	return status == Successful;
 }
 
-#define SPANISH_LOCALEID 0x0A
-#define FRENCH_LOCALEID 0x0c
+#define SPANISH_LOCALEID 0x0C0A
+#define FRENCH_LOCALEID 0x040C
 
-void WindowsLPIAction::CheckPrerequirements(Action * action) 
+bool WindowsLPIAction::_isASupportedSystemLanguage()
 {
-	LANGID langid;
-	WORD primary;
-	bool bLangOk;
+	bool bLangOk = false;
+	
+	if (m_OSVersion->GetVersion() == WindowsXP)
+	{
+		LANGID langid;
+		WORD primary;
 
+		langid = m_win32I18N->GetSystemDefaultUILanguage();
+		primary = PRIMARYLANGID(langid);
+
+		bLangOk = (primary == PRIMARYLANGID(SPANISH_LOCALEID));
+		g_log.Log(L"WindowsLPIAction::_isASupportedSystemLanguage. Language ID: %x", (wchar_t* )langid);
+	}
+	else
+	{
+		vector <LANGID> langIDs;
+		langIDs = m_win32I18N->EnumUILanguages();
+
+		for (unsigned int i = 0; i < langIDs.size(); i++)
+		{
+			if (langIDs.at(i) == SPANISH_LOCALEID || langIDs.at(i) == FRENCH_LOCALEID)
+			{				
+				bLangOk = true;
+			}
+			g_log.Log(L"WindowsLPIAction::_isASupportedSystemLanguage. Language ID: %x", (wchar_t* )langIDs.at(i));
+		}
+	}
+	return bLangOk;
+}
+
+void WindowsLPIAction::CheckPrerequirements(Action * action)
+{
 	if (m_OSVersion->IsWindows64Bits() == false)
 	{
 		if (m_OSVersion->GetVersion() != WindowsXP && m_OSVersion->GetVersion() != WindowsVista && m_OSVersion->GetVersion() != Windows7)
@@ -349,23 +377,10 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 		}
 	}
 
-	langid = m_win32I18N->GetSystemDefaultUILanguage();
-	primary = PRIMARYLANGID(langid);
-	
-	if (m_OSVersion->GetVersion() == WindowsXP)
-	{
-		bLangOk = (primary == SPANISH_LOCALEID);
-	}
-	else
-	{
-		bLangOk = (primary == SPANISH_LOCALEID || primary == FRENCH_LOCALEID);
-	}
-
-	if (bLangOk == false)
+	if (_isASupportedSystemLanguage() == false)
 	{
 		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NOSPFR, szCannotBeApplied);
-		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Incorrect Windows base language found (langid %u)",
-			(wchar_t* )langid);
+		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported base language");
 		SetStatus(CannotBeApplied);
 		return;
 	}

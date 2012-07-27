@@ -21,9 +21,14 @@
 
 #include <windows.h>
 
+#include <windows.h>
+#include <vector>
+using namespace std;
+
 class IWin32I18N
 {
 public:
 		virtual LANGID GetSystemDefaultUILanguage(void) = 0;
+		virtual vector <LANGID> EnumUILanguages(void) = 0;
 };
 
