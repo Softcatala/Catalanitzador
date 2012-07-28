@@ -576,6 +576,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\UI\Dialogs\DownloadNewVersionDlgUI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Dialogs\DownloadNewVersionDlgUI.h"
+					>
+				</File>
+				<File
 					RelativePath=".\UI\Dialogs\ExtraSecTermsDlgUI.cpp"
 					>
 				</File>

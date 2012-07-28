@@ -74,6 +74,18 @@ LRESULT DlgUI::DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 
 			if (pThis)
 				return pThis->_onNotify((LPNMHDR) lParam, wParam);
+
+			break;
+		}
+
+		case WM_TIMER:
+		{
+			DlgUI* pThis = (DlgUI *) GetWindowLongPtr(hWndDlg, GWL_USERDATA);
+
+			if (pThis)
+				pThis->_onTimer();
+			
+			break;
 		}
 	}
 

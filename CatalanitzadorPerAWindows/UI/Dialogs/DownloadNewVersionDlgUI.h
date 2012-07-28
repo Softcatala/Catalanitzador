@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,23 +19,28 @@
  
 #pragma once
 
-#include "IRunner.h"
+#include "DlgUI.h"
 
-class _APICALL Runner : IRunner
+#include <string>
+using namespace std;
+
+
+class DownloadNewVersionDlgUI : public DlgUI
 {
 public:
-		bool Execute(wchar_t* program, wchar_t* params, bool b64bits = false);
-		bool IsRunning() const;
-		void WaitUntilFinished();
-		vector <DWORD> GetProcessID(wstring name) const;
-		bool RequestQuitToProcessID(DWORD processID);
-		bool RequestCloseToProcessID(DWORD processID, bool bPost);
-		bool TerminateProcessID(DWORD processID);
+		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_DOWNLOADNEWVERSION);}
 
-private:
-		static BOOL CALLBACK EnumWindowsProcClosePost(HWND hWnd, LPARAM lParam);
-		static BOOL CALLBACK EnumWindowsProcCloseSend(HWND hWnd, LPARAM lParam);
-		static BOOL CALLBACK EnumWindowsProcQuit(HWND hWnd, LPARAM lParam);
+		virtual	void _onInitDialog();
+		virtual	void _onTimer();
+		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
+		void OnDownloadStatus(int total, int current);
 
-		PROCESS_INFORMATION pi;
+private:	
+		void _downloadFile();
+		static void _downloadStatus(int total, int current, void *data);
+
+		HWND m_hProgressBar;
+		HWND m_hDescription;
+		wstring m_filename;
+		BOOL m_bCancelled;
 };

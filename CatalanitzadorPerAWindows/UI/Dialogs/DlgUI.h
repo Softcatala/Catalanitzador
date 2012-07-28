@@ -30,6 +30,7 @@ protected:
 		virtual	void _onInitDialog(){};
 		virtual void _onCommand(WPARAM wParam, LPARAM lParam){};
 		virtual int _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/){ return 0;}
+		virtual	void _onTimer() {};
 
 		HWND m_hWnd;
 

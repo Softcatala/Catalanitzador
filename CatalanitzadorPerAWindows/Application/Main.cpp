@@ -24,6 +24,7 @@
 #include "Defines.h"
 #include "LogFile.h"
 #include "CatalanitzadorPerAWindows.h"
+#include "StringConversion.h"
 
 LogFile g_log;
 
@@ -33,6 +34,9 @@ int CALLBACK WinMain(HINSTANCE hInstance,
                      int       nCmdShow)
 {	
 	CatalanitzadorPerAWindows app(hInstance);
-	app.Run();	
+	wstring commandLine;
+
+	StringConversion::ToWideChar(lpCmdLine, commandLine);
+	app.Run(commandLine);
 	return TRUE;
 }

@@ -25,6 +25,7 @@
 #include "ExtraSecTermsDlgUI.h"
 #include "AboutBoxDlgUI.h"
 #include "ConfigurationInstance.h"
+#include "DownloadNewVersionDlgUI.h"
 
 WelcomePropertyPageUI::WelcomePropertyPageUI()
 {
@@ -79,6 +80,22 @@ void WelcomePropertyPageUI::_onInitDialog()
 
 bool WelcomePropertyPageUI::_onNext()
 {
+	if (ConfigurationInstance::Get().GetLatest().IsRunningInstanceUpToDate() == false)
+	{
+		wchar_t szMessage [MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];
+
+		LoadString(GetModuleHandle(NULL), IDS_WANT_TOUSE_NEWVERSION, szMessage, MAX_LOADSTRING);
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+		if (MessageBox(getHandle(), szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) == IDYES)
+		{			
+			DownloadNewVersionDlgUI downloadNewVersionDlgUI;
+			downloadNewVersionDlgUI.Run(getHandle());
+			return false;
+		}
+	}
+
 	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;	
 	return true;
 }

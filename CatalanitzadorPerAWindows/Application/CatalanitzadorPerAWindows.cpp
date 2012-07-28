@@ -38,6 +38,7 @@ CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
 	m_hInstance = hInstance;
 	m_hEvent = NULL;
+	m_bRunningCheck = TRUE;
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -48,8 +49,28 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 		CloseHandle(m_hEvent);
 }
 
-void CatalanitzadorPerAWindows::Run()
+#define COMMAND_DELIMITER L" "
+
+void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 {
+	wchar_t* pch, *next;	
+
+	pch = wcstok_s((wchar_t*)commandLine.c_str(), COMMAND_DELIMITER, &next);
+	while (pch != NULL)
+	{
+		if (_wcsicmp(pch, L"/norunningcheck") == 0)
+		{
+			m_bRunningCheck = FALSE;
+		}
+
+		pch = wcstok_s(NULL, COMMAND_DELIMITER, &next);
+	}
+}
+
+void CatalanitzadorPerAWindows::Run(wstring commandLine)
+{
+	_processCommandLine(commandLine);
+
 	if (_isAlreadyRunning() == true)
 		return;
 
@@ -132,10 +153,13 @@ bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
 
 bool CatalanitzadorPerAWindows::_isAlreadyRunning()
 {
+	if (m_bRunningCheck == FALSE)
+		return false;
+
     m_hEvent = CreateEvent(NULL, TRUE, FALSE, L"Catalanitzador");
     if (GetLastError() == ERROR_ALREADY_EXISTS) {
         CloseHandle(m_hEvent);
-        m_hEvent = NULL;        
+        m_hEvent = NULL;
         return true;
     }
     return false;

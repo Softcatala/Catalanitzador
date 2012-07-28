@@ -23,6 +23,9 @@
 #include "Serializer.h"
 #include "OSVersion.h"
 
+#include <string>
+using namespace std;
+
 class CatalanitzadorPerAWindows
 {
 	
@@ -30,7 +33,7 @@ public:
 		CatalanitzadorPerAWindows(HINSTANCE hInstance);
 		~CatalanitzadorPerAWindows();
 
-		void Run();
+		void Run(wstring commandLine);
 
 private:
 
@@ -39,9 +42,11 @@ private:
 		void _createWizard();
 		bool _isAlreadyRunning();
 		bool _hasAdminPermissionsDialog();
+		void _processCommandLine(wstring commandLine);
 
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;
 		Serializer m_serializer;
 		OSVersion m_osVersion;
+		BOOL m_bRunningCheck;
 };
