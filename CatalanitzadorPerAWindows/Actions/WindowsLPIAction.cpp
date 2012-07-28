@@ -436,11 +436,11 @@ bool WindowsLPIAction::_isWindowsXPValidated()
 
 	DISPPARAMS dispparamsNoArgs = {NULL, NULL, 0, 0};
 
-	HRESULT hr = disp->Invoke(FUNCTION_ID, IID_NULL,
-                               LOCALE_SYSTEM_DEFAULT, 
-                               DISPATCH_METHOD,
-                               &dispparamsNoArgs, &dispRes,
-                               pExcepInfo, puArgErr);
+	disp->Invoke(FUNCTION_ID, IID_NULL,
+		LOCALE_SYSTEM_DEFAULT,
+		DISPATCH_METHOD,
+		&dispparamsNoArgs, &dispRes,
+		pExcepInfo, puArgErr);
 
 	disp->Release();
 
