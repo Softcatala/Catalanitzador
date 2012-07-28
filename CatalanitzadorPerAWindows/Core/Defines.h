@@ -8,3 +8,5 @@
    #define _APICALL  __declspec(dllimport)
 #endif 
 
+// Disable STL warnings to reduce noise
+#pragma warning(disable:4251)
