@@ -34,9 +34,9 @@ const float BYTES_TO_MEGABYTES = 1024*1024;
 void DownloadNewVersionDlgUI::_onInitDialog()
 {
 	m_bCancelled = FALSE;
-	m_hProgressBar = GetDlgItem (m_hWnd, IDC_UPDATEAPPLICATION_PROGRESSBAR);
-	m_hDescription = GetDlgItem (m_hWnd, IDC_UPDATEAPPLICATION_DESCRIPTION);
-	SetTimer(m_hWnd, TIMER_ID, 500, NULL);
+	m_hProgressBar = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_PROGRESSBAR);
+	m_hDescription = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_DESCRIPTION);
+	SetTimer(getHandle(), TIMER_ID, 500, NULL);
 }
 
 void DownloadNewVersionDlgUI::OnDownloadStatus(int total, int current)
@@ -77,14 +77,14 @@ void DownloadNewVersionDlgUI::_downloadFile()
 
 void DownloadNewVersionDlgUI::_onTimer()
 {
-	KillTimer(m_hWnd, TIMER_ID);	
+	KillTimer(getHandle(), TIMER_ID);	
 	_downloadFile();
 
 	if (m_bCancelled == FALSE)
 	{
 		Runner runner;
 		runner.Execute((wchar_t *)m_filename.c_str(), L"/NoRunningCheck", false);
-		PostMessage(m_hWnd, WM_QUIT, 0, 0);
+		PostMessage(getHandle(), WM_QUIT, 0, 0);
 	}
 }
 

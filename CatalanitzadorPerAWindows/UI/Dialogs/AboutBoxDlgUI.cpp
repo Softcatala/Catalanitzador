@@ -29,7 +29,7 @@ void AboutBoxDlgUI::_onInitDialog()
 	wchar_t szResource [MAX_LOADSTRING], szString [MAX_LOADSTRING];
 	HWND hWnd;
 	
-	hWnd = GetDlgItem(m_hWnd, IDC_CATALANITZADOR_VERSION);
+	hWnd = GetDlgItem(getHandle(), IDC_CATALANITZADOR_VERSION);
 
 	StringConversion::ToWideChar(string(__DATE__), date);
 	StringConversion::ToWideChar(string(__TIME__), time);

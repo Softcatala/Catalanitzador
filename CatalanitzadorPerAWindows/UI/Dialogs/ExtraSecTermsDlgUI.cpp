@@ -40,22 +40,22 @@ void ExtraSecTermsDlgUI::_onInitDialog()
 	HWND hWnd;
 	SystemRestore systemRestore;
 
-	hWnd = GetDlgItem(m_hWnd, IDC_WELCOME_ABOUTSECURITY);
-	m_hFont = Window::CreateBoldFont(m_hWnd);
+	hWnd = GetDlgItem(getHandle(), IDC_WELCOME_ABOUTSECURITY);
+	m_hFont = Window::CreateBoldFont(getHandle());
 	SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	HANDLE handle = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_CHECKMARK), IMAGE_BITMAP, 16, 16, LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS);	
-	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK1), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
-	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK2), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
-	SendMessage(GetDlgItem(m_hWnd, IDC_BITMAPCHECK3), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
+	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK1), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
+	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK2), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
+	SendMessage(GetDlgItem(getHandle(), IDC_BITMAPCHECK3), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM) handle);
 
 	if (systemRestore.Init() == true)
 	{
-		CheckDlgButton(m_hWnd, IDC_SYSTEMRESTORE, *m_pbSystemRestore);
+		CheckDlgButton(getHandle(), IDC_SYSTEMRESTORE, *m_pbSystemRestore);
 	}
 	else
 	{
-		EnableWindow(GetDlgItem(m_hWnd, IDC_SYSTEMRESTORE), FALSE);
+		EnableWindow(GetDlgItem(getHandle(), IDC_SYSTEMRESTORE), FALSE);
 	}	
 }
 
@@ -63,6 +63,6 @@ void ExtraSecTermsDlgUI::_onCommand(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == IDOK)
 	{
-		*m_pbSystemRestore = IsDlgButtonChecked(m_hWnd, IDC_SYSTEMRESTORE)==BST_CHECKED;
+		*m_pbSystemRestore = IsDlgButtonChecked(getHandle(), IDC_SYSTEMRESTORE)==BST_CHECKED;
 	}
 }

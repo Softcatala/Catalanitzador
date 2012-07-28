@@ -40,8 +40,8 @@ void ShowLicensesDlgUI::_setLicenseTextForItem(int index)
 	HWND hRichEdit;
 	Action* action;
 
-	hComboBox = GetDlgItem(m_hWnd, IDC_LICENSE_COMBO);
-	hRichEdit = GetDlgItem(m_hWnd, IDC_LICENSES_RICHEDIT);
+	hComboBox = GetDlgItem(getHandle(), IDC_LICENSE_COMBO);
+	hRichEdit = GetDlgItem(getHandle(), IDC_LICENSES_RICHEDIT);
 	action = (Action *) SendMessage(hComboBox, CB_GETITEMDATA, index, 0);
 	
 	wstring license;
@@ -59,7 +59,7 @@ void ShowLicensesDlgUI::_fillActions()
 	Action* action;
 	int index;
 	
-	hComboBox = GetDlgItem(m_hWnd, IDC_LICENSE_COMBO);
+	hComboBox = GetDlgItem(getHandle(), IDC_LICENSE_COMBO);
 
 	for (unsigned int i = 0; i < m_actions->size (); i++)
 	{
@@ -78,7 +78,7 @@ void ShowLicensesDlgUI::_onInitDialog()
 
 	_fillActions();
 
-	hComboBox = GetDlgItem(m_hWnd, IDC_LICENSE_COMBO);
+	hComboBox = GetDlgItem(getHandle(), IDC_LICENSE_COMBO);
 	SendMessage(hComboBox, CB_SETCURSEL, 0, 0);
 	_setLicenseTextForItem(0);
 }
@@ -92,7 +92,7 @@ void ShowLicensesDlgUI::_onCommand(WPARAM wParam, LPARAM lParam)
 	{
 		int item;
 
-		item = SendDlgItemMessage(m_hWnd, IDC_LICENSE_COMBO, CB_GETCURSEL, 0, 0);
+		item = SendDlgItemMessage(getHandle(), IDC_LICENSE_COMBO, CB_GETCURSEL, 0, 0);
 		_setLicenseTextForItem(item);
 	}
 }

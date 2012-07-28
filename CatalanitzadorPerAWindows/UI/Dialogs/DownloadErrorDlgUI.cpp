@@ -31,6 +31,6 @@ void DownloadErrorDlgUI::_onInitDialog()
 				
 	LoadString(GetModuleHandle(NULL), IDS_DOWNLOADERROR_ACTION, szString, MAX_LOADSTRING);
 	swprintf_s(szMsg, szString, m_action_name.c_str());
-	SetWindowText(GetDlgItem (m_hWnd, IDC_STATIC_ACTION), szMsg);
-	Window::CenterWindow(m_hWnd);
+	SetWindowText(GetDlgItem(getHandle(), IDC_STATIC_ACTION), szMsg);
+	Window::CenterWindow(getHandle());
 }
