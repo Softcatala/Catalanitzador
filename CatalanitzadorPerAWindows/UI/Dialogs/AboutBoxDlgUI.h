@@ -28,8 +28,4 @@ public:
 
 		virtual	void _onInitDialog();		
 		virtual int _onNotify(LPNMHDR hdr, int iCtrlID);
-
-private:
-
-		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);		
 };
