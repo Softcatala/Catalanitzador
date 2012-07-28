@@ -90,3 +90,20 @@ bool ApplicationVersion::operator < (ApplicationVersion other)
 {
 	return !(*this > other);
 }
+
+bool ApplicationVersion::operator >= (ApplicationVersion other)
+{
+	if (*this > other)
+		return true;
+
+	return *this == other;
+}
+
+
+bool ApplicationVersion::operator <= (ApplicationVersion other)
+{
+	if (*this < other)
+		return true;
+
+	return *this == other;
+}

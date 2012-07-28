@@ -34,6 +34,8 @@ class _APICALL ApplicationVersion
 			bool operator!= (ApplicationVersion other);
 			bool operator > (ApplicationVersion other);
 			bool operator < (ApplicationVersion other);
+			bool operator >= (ApplicationVersion other);
+			bool operator <= (ApplicationVersion other);
 
 	private:
 
