@@ -33,7 +33,7 @@ void AboutBoxDlgUI::_onInitDialog()
 
 	StringConversion::ToWideChar(string(__DATE__), date);
 	StringConversion::ToWideChar(string(__TIME__), time);
-	StringConversion::ToWideChar(string(STRING_VERSION), version);			
+	StringConversion::ToWideChar(string(STRING_VERSION_RESOURCES), version);			
 	
 	LoadString(GetModuleHandle(NULL), IDS_ABOUTDLG_VERSION, szResource, MAX_LOADSTRING);
 	swprintf_s(szString, szResource, version.c_str(), date.c_str(), time.c_str());

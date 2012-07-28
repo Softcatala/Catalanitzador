@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,13 +17,30 @@
  * 02111-1307, USA.
  */
  
+#pragma once
 
-#define APP_MAJOR_VERSION		1
-#define APP_MINOR_VERSION		3
-#define APP_REVISION			0
+#include "Thread.h"
+#include "Configuration.h"
+#include <string>
+#include <vector>
 
-#define STRING_VERSION				"1.3.0"
-#define STRING_VERSION_RESOURCES	"1.3.0.0"
+using namespace std;
 
-//#define FORCE_NON_AERO 1
+class ConfigurationDownload : public Thread
+{
+	public:			
+			
+			virtual void OnStart();
 
+	private:
+
+			wstring _getApplicationEmbeddedConfigurationSha1();
+			bool _isEmmbeddedSha1EqualToRemote(wstring sha1_url, wstring sha1_file);
+			bool _isConfigurationCompatibleWithAppVersion(Configuration configuration);
+			bool _getFile(wstring surl);
+			bool _downloadRemoteSha1();
+			void _setFileName();
+
+			wstring m_filename;
+			wstring m_donwloadSha1sum;
+};

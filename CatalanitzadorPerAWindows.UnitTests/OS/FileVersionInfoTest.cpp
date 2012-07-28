@@ -32,7 +32,7 @@ TEST(FileVersionInfoTest, _readVersion_testAgainstThisBinary)
 {
 	wstring version, binary;
 
-	StringConversion::ToWideChar(STRING_VERSION, binary);
+	StringConversion::ToWideChar(STRING_VERSION_RESOURCES, binary);
 	FileVersionInfo fileVersionInfo(UNITTESTS_BINARY);
 	version = fileVersionInfo.GetVersion();
 

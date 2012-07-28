@@ -24,6 +24,7 @@
 #include "PropertySheetUI.h"
 #include "ExtraSecTermsDlgUI.h"
 #include "AboutBoxDlgUI.h"
+#include "ConfigurationInstance.h"
 
 WelcomePropertyPageUI::WelcomePropertyPageUI()
 {
@@ -58,6 +59,8 @@ void WelcomePropertyPageUI::_initPropertySheet()
 	SetFocus(getHandle());
 	SendMessage(hWnd, PSM_SETWIZBUTTONS, (WPARAM)0, (LPARAM)PSWIZB_NEXT);
 	Window::CenterWindow(hWnd);
+
+	m_configurationDownload.Start();
 }
 
 void WelcomePropertyPageUI::_onInitDialog()

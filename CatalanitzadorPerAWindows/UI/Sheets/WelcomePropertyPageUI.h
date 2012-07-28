@@ -20,6 +20,7 @@
 #pragma once
 
 #include "PropertyPageUI.h"
+#include "ConfigurationDownload.h"
 
 class WelcomePropertyPageUI: public PropertyPageUI
 {
@@ -40,4 +41,5 @@ private:
 		HFONT		m_hFont;
 		BOOL*		m_pbSendStats;
 		BOOL*		m_pbSystemRestore;
+		ConfigurationDownload m_configurationDownload;
 };

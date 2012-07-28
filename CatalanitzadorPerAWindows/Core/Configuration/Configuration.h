@@ -27,6 +27,8 @@ using namespace std;
 class Configuration
 {
 	public:
+			Configuration() {}
+
 			ConfigurationLatest& GetLatest() {return m_latest;}
 			void SetLatest(ConfigurationLatest latest) {m_latest = latest;}
 

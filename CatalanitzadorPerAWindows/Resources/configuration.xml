@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+	<compatibility>
+		<!-- Minimum version Catalanitzador version required to process this file --> 
+		<version>1.2.0</version>
+	</compatibility>
+	
+	<latest>
+		<version>1.2.2</version>
+		<URL><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe&id=5643&mirall=softcatala2&versio=1.22&so=win32]]></URL>
+		<FallbackURL1>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL1>
+		<FallbackURL2>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL2>
+	</latest>
+
+</configuration>

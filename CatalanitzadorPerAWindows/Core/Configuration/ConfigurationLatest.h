@@ -18,6 +18,9 @@
  */
  
 #pragma once
+#include "ApplicationVersion.h"
+#include "StringConversion.h"
+#include "Version.h"
 
 #include <string>
 #include <vector>
@@ -33,7 +36,19 @@ class _APICALL ConfigurationLatest
 		vector <wstring>& GetUrls() {return m_urls;}
 		void AddUrl(wstring url) {m_urls.push_back(url);}
 
+		bool IsRunningInstanceUpToDate()
+		{
+			wstring app_version;
+			StringConversion::ToWideChar(STRING_VERSION,app_version);
+
+			ApplicationVersion latestVersion(GetVersion());
+			ApplicationVersion runningAppVersion(app_version);
+
+			return runningAppVersion >= latestVersion;
+		}
+
 	private:
+
 		wstring m_version;
 		vector <wstring> m_urls;
 };

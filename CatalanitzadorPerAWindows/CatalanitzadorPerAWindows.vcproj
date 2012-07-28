@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(ProjectDir);OS"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)Core\Configuration;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(ProjectDir);OS"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(ProjectDir);OS"
+				AdditionalIncludeDirectories="$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI\Sheets;$(ProjectDir)Core;$(ProjectDir)UI\;$(ProjectDir)Core;$(ProjectDir)UI\Dialogs;$(ProjectDir)Core;$(ProjectDir)Core\Configuration;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(ProjectDir);OS"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -485,6 +485,26 @@
 				>
 				<File
 					RelativePath=".\Core\Configuration\Configuration.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationDownload.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationDownload.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationEmbedded.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationEmbedded.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationInstance.h"
 					>
 				</File>
 				<File
