@@ -25,12 +25,12 @@
 
 using namespace std;
 
-class _APICALL ConfigurationXmlParser
+class _APICALL ConfigurationRemoteXmlParser
 {
 	public:
-			ConfigurationXmlParser(wstring file);
+			ConfigurationRemoteXmlParser(wstring file);
 			void Parse();
-			Configuration& GetConfiguration() {return m_configuration;}
+			ConfigurationRemote& GetConfiguration() {return m_configuration;}
 
 	private:
 		
@@ -49,5 +49,5 @@ class _APICALL ConfigurationXmlParser
 			
 			ConfigurationBlock m_configurationBlock;
 			wstring m_file;
-			Configuration m_configuration;
+			ConfigurationRemote m_configuration;
 };

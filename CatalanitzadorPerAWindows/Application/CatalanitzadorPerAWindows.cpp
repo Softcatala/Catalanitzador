@@ -33,6 +33,7 @@
 #include "StringConversion.h"
 #include "Authorization.h"
 #include "SystemRestore.h"
+#include "ConfigurationInstance.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -61,6 +62,12 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 		if (_wcsicmp(pch, L"/norunningcheck") == 0)
 		{
 			m_bRunningCheck = FALSE;
+		} else if (_wcsicmp(pch, L"/useaerolook") == 0)
+		{
+			ConfigurationInstance::Get().SetAeroEnabled(true);
+		} else if (_wcsicmp(pch, L"/useclassiclook") == 0)
+		{
+			ConfigurationInstance::Get().SetAeroEnabled(false);
 		}
 
 		pch = wcstok_s(NULL, COMMAND_DELIMITER, &next);

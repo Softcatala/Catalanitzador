@@ -19,14 +19,14 @@
  
 #pragma once
 
-#include "Configuration.h"
+#include "ConfigurationRemote.h"
 
-class ConfigurationEmbedded
+class ConfigurationRemoteEmbedded
 {
 	public:
 			void Load();
 			wstring GetSha1Sum() {return m_sha1sum;}
-			Configuration GetConfiguration() {return m_configuration;}
+			ConfigurationRemote GetConfiguration() {return m_configuration;}
 
 	private:
 
@@ -34,5 +34,5 @@ class ConfigurationEmbedded
 			void _readConfiguration(wstring file);
 
 			wstring m_sha1sum;
-			Configuration m_configuration;
+			ConfigurationRemote m_configuration;
 };

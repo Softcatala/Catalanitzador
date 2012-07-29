@@ -80,7 +80,7 @@ void WelcomePropertyPageUI::_onInitDialog()
 
 bool WelcomePropertyPageUI::_onNext()
 {
-	if (ConfigurationInstance::Get().GetLatest().IsRunningInstanceUpToDate() == false)
+	if (ConfigurationInstance::Get().GetRemote().GetLatest().IsRunningInstanceUpToDate() == false)
 	{
 		wchar_t szMessage [MAX_LOADSTRING];
 		wchar_t szCaption [MAX_LOADSTRING];
@@ -96,7 +96,9 @@ bool WelcomePropertyPageUI::_onNext()
 		}
 	}
 
-	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;	
+	bool bAero = ConfigurationInstance::Get().GetAeroEnabled();
+
+	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;
 	return true;
 }
 

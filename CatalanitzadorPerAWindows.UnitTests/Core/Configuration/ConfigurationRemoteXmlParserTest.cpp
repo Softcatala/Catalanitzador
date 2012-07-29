@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "ConfigurationXmlParser.h"
+#include "ConfigurationRemoteXmlParser.h"
 #include "Application.h"
 
 using ::testing::StrCaseEq;
@@ -30,12 +30,12 @@ void _getConfigurationFileLocation(wstring &location)
 	location+=L"Application\\configuration.xml";
 }
 
-TEST(ConfigurationXmlParserTest, GetCompatibility)
+TEST(ConfigurationRemoteXmlParserTest, GetCompatibility)
 {
 	wstring file, version;
 
  	_getConfigurationFileLocation(file);
-	ConfigurationXmlParser configurationXmlParser(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(file);
 	configurationXmlParser.Parse();
 
 	version = configurationXmlParser.GetConfiguration().GetCompatibility();
@@ -46,13 +46,13 @@ TEST(ConfigurationXmlParserTest, GetCompatibility)
 #define LATEST_FALLBACK1 L"http://udl.cat/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe"
 #define LATEST_FALLBACK2 L"http://upf.edu/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe"
 
-TEST(ConfigurationXmlParserTest, GetLatest)
+TEST(ConfigurationRemoteXmlParserTest, GetLatest)
 {
 	wstring file, version;
 	vector <wstring> urls;
 
  	_getConfigurationFileLocation(file);
-	ConfigurationXmlParser configurationXmlParser(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(file);
 	configurationXmlParser.Parse();
 
 	version = configurationXmlParser.GetConfiguration().GetLatest().GetVersion();

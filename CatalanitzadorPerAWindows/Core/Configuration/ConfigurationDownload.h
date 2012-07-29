@@ -20,7 +20,7 @@
 #pragma once
 
 #include "Thread.h"
-#include "Configuration.h"
+#include "ConfigurationRemote.h"
 #include <string>
 #include <vector>
 
@@ -36,7 +36,7 @@ class ConfigurationDownload : public Thread
 
 			wstring _getApplicationEmbeddedConfigurationSha1();
 			bool _isEmmbeddedSha1EqualToRemote(wstring sha1_url, wstring sha1_file);
-			bool _isConfigurationCompatibleWithAppVersion(Configuration configuration);
+			bool _isConfigurationCompatibleWithAppVersion(ConfigurationRemote configuration);
 			bool _getFile(wstring surl);
 			bool _downloadRemoteSha1();
 			void _setFileName();

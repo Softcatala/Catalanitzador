@@ -22,21 +22,15 @@
 
 #include "PropertySheetUI.h"
 #include "PropertyPageUI.h"
-#include "OSVersion.h"
+#include "ConfigurationInstance.h"
 
 #define ID_APPLY_NOW	0x3021
 #define ID_APPLY		0x3021
 
 PropertySheetUI::PropertySheetUI()
 {
-	m_pages = NULL;
-
-	OSVersion osversion;
-	m_bIsAero = osversion.GetVersion() != WindowsXP;
-
-#ifdef FORCE_NON_AERO
-	m_bIsAero = false;
-#endif
+	m_pages = NULL;	
+	m_bIsAero = ConfigurationInstance::Get().GetAeroEnabled();
 }
 
 PROPSHEETPAGE* PropertySheetUI::_buildPageArray()

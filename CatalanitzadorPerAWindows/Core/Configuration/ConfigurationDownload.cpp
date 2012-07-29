@@ -23,9 +23,9 @@
 #include "Sha1Sum.h"
 #include "Url.h"
 #include "ConfigurationInstance.h"   
-#include "ConfigurationEmbedded.h"
+#include "ConfigurationRemoteEmbedded.h"
 #include "ApplicationVersion.h"
-#include "ConfigurationXmlParser.h"
+#include "ConfigurationRemoteXmlParser.h"
 #include "StringConversion.h"
 
 #define SHA1_EXTESION L".sha1"
@@ -33,7 +33,7 @@
 
 wstring ConfigurationDownload::_getApplicationEmbeddedConfigurationSha1()
 {
-	ConfigurationEmbedded configurationEmbedded;
+	ConfigurationRemoteEmbedded configurationEmbedded;
 	configurationEmbedded.Load();
 	return configurationEmbedded.GetSha1Sum();
 }
@@ -98,7 +98,7 @@ void ConfigurationDownload::OnStart()
 	if (_getFile(REMOTE_CONFIGURATION_URL) == false)
 		return;
 
-	ConfigurationXmlParser configurationXmlParser(m_filename);
+	ConfigurationRemoteXmlParser configurationXmlParser(m_filename);
 	configurationXmlParser.Parse();
 	
 	if (_isConfigurationCompatibleWithAppVersion(configurationXmlParser.GetConfiguration()) == false)
@@ -106,11 +106,11 @@ void ConfigurationDownload::OnStart()
 		return;
 	}
 	
-	ConfigurationInstance::Set(configurationXmlParser.GetConfiguration());
+	ConfigurationInstance::Get().SetRemote(configurationXmlParser.GetConfiguration());
 	g_log.Log(L"ConfigurationDownload::OnStart. Using remote configuration file");
 }
 
-bool ConfigurationDownload::_isConfigurationCompatibleWithAppVersion(Configuration configuration)
+bool ConfigurationDownload::_isConfigurationCompatibleWithAppVersion(ConfigurationRemote configuration)
 {
 	wstring app_version;
 	StringConversion::ToWideChar(STRING_VERSION,app_version);

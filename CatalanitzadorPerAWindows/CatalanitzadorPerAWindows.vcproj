@@ -496,14 +496,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Core\Configuration\ConfigurationEmbedded.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Core\Configuration\ConfigurationEmbedded.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Core\Configuration\ConfigurationInstance.h"
 					>
 				</File>
@@ -512,11 +504,23 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Core\Configuration\ConfigurationXmlParser.cpp"
+					RelativePath=".\Core\Configuration\ConfigurationRemote.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Core\Configuration\ConfigurationXmlParser.h"
+					RelativePath=".\Core\Configuration\ConfigurationRemoteEmbedded.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationRemoteEmbedded.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationRemoteXmlParser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationRemoteXmlParser.h"
 					>
 				</File>
 			</Filter>

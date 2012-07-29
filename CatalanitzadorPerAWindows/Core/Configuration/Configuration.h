@@ -19,7 +19,9 @@
  
 #pragma once
 
-#include "ConfigurationLatest.h"
+#include "ConfigurationRemote.h"
+#include "TriBool.h"
+#include "OSVersion.h"
 #include <string>
 
 using namespace std;
@@ -27,16 +29,31 @@ using namespace std;
 class Configuration
 {
 	public:
-			Configuration() {}
+			ConfigurationRemote& GetRemote() {return m_remote;}
+			void SetRemote(ConfigurationRemote remote) {m_remote = remote;}
 
-			ConfigurationLatest& GetLatest() {return m_latest;}
-			void SetLatest(ConfigurationLatest latest) {m_latest = latest;}
+			// Application Configuraiton
+			
+			void SetAeroEnabled(bool bUseAero) 
+			{ 
+				m_useAero = bUseAero; 
+			}
 
-			wstring& GetCompatibility() {return m_compatibility;}
-			void SetCompatibility(wstring compatibility) {m_compatibility = compatibility;}
+			bool GetAeroEnabled()
+			{
+				if (m_useAero.IsUndefined())
+				{
+					bool bIsAero;
+					OSVersion osversion;
+
+					bIsAero = osversion.GetVersion() != WindowsXP;
+					return bIsAero;
+				}
+				return m_useAero == true;
+			}
 
 	private:
 
-			ConfigurationLatest m_latest;
-			wstring m_compatibility;
+			ConfigurationRemote m_remote;
+			TriBool m_useAero;
 };

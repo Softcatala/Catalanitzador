@@ -21,18 +21,14 @@
 #include "PropertyPageUI.h"
 #include "PropertySheetUI.h"
 #include "OSVersion.h"
+#include "ConfigurationInstance.h"
 
 PropertyPageUI::PropertyPageUI()
 {
 	m_pfnDlgProc = s_pageWndProc;
 	m_PageButtons = DefaultButtons;
 
-	OSVersion osversion;
-	m_bIsAero = osversion.GetVersion() != WindowsXP;
-
-#ifdef FORCE_NON_AERO
-	m_bIsAero = false;
-#endif
+	m_bIsAero = ConfigurationInstance::Get().GetAeroEnabled();
 }
 
 PropertyPageUI::~PropertyPageUI()

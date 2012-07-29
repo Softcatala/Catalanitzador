@@ -359,7 +359,11 @@
 				Name="Configuration"
 				>
 				<File
-					RelativePath=".\Core\Configuration\ConfigurationXmlParserTest.cpp"
+					RelativePath=".\Core\Configuration\ConfigurationLatestTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationRemoteXmlParserTest.cpp"
 					>
 				</File>
 			</Filter>

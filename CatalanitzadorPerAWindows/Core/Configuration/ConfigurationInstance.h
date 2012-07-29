@@ -20,26 +20,34 @@
 #pragma once
 
 #include "Configuration.h"
-#include "ConfigurationEmbedded.h"
+#include "ConfigurationRemoteEmbedded.h"
 
 static bool g_bInit = false;
 static Configuration g_configuration;
 
 class _APICALL ConfigurationInstance
 {
-public:	
+private:
+		
 		static void Init()
 		{
-			if (g_bInit)
-				return;
-
-			ConfigurationEmbedded configurationEmbedeed;
+			ConfigurationRemoteEmbedded configurationEmbedeed;
 			configurationEmbedeed.Load();
-			g_configuration = configurationEmbedeed.GetConfiguration();
+			g_configuration.SetRemote(configurationEmbedeed.GetConfiguration());
 			g_bInit = true;
 		}
 public:
 
-		static Configuration Get() { return g_configuration;}
-		static void Set(Configuration configuration) {g_configuration = configuration;}
+		static Configuration& Get() 
+		{
+			if (g_bInit == false)
+				Init();
+
+			return g_configuration;
+		}
+
+		static void Set(Configuration configuration) 
+		{
+			g_configuration = configuration;
+		}
 };

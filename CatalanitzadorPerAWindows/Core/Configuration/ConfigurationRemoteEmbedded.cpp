@@ -19,12 +19,12 @@
 
 #include "stdafx.h"
 
-#include "ConfigurationEmbedded.h"
+#include "ConfigurationRemoteEmbedded.h"
 #include "Resources.h"
 #include "Sha1Sum.h"
-#include "ConfigurationXmlParser.h"
+#include "ConfigurationRemoteXmlParser.h"
  
-void ConfigurationEmbedded::Load()
+void ConfigurationRemoteEmbedded::Load()
 {
 	wchar_t szFilename[MAX_PATH];
 
@@ -36,16 +36,16 @@ void ConfigurationEmbedded::Load()
 	_getSha1Sum(szFilename);
 }
 
-void ConfigurationEmbedded::_getSha1Sum(wstring file)
+void ConfigurationRemoteEmbedded::_getSha1Sum(wstring file)
 {
 	Sha1Sum sha1sum(file);
 	sha1sum.ComputeforFile();
 	m_sha1sum = sha1sum.GetSum();
 }
 
- void ConfigurationEmbedded::_readConfiguration(wstring file)
+ void ConfigurationRemoteEmbedded::_readConfiguration(wstring file)
 {
-	ConfigurationXmlParser configurationXmlParser(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(file);
 	configurationXmlParser.Parse();
 	m_configuration = configurationXmlParser.GetConfiguration();
 }

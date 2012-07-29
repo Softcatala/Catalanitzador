@@ -19,22 +19,22 @@
 
 #include "stdafx.h"
 #include <Shlobj.h>
-#include "ConfigurationXmlParser.h"
+#include "ConfigurationRemoteXmlParser.h"
 
 
-ConfigurationXmlParser::ConfigurationXmlParser(wstring file)
+ConfigurationRemoteXmlParser::ConfigurationRemoteXmlParser(wstring file)
 {
 	m_file = file;
 }
 
-bool ConfigurationXmlParser::_readNodeCallback(XmlNode node, void *data)
+bool ConfigurationRemoteXmlParser::_readNodeCallback(XmlNode node, void *data)
 {
-	ConfigurationXmlParser* pThis = (ConfigurationXmlParser *)data;
+	ConfigurationRemoteXmlParser* pThis = (ConfigurationRemoteXmlParser *)data;
 	pThis->ParseNode(node);
 	return true;
 }
 
-void ConfigurationXmlParser::ParseNode(XmlNode node)
+void ConfigurationRemoteXmlParser::ParseNode(XmlNode node)
 {
 	switch (m_configurationBlock)
 	{
@@ -60,7 +60,7 @@ void ConfigurationXmlParser::ParseNode(XmlNode node)
 	}
 }
 
-void ConfigurationXmlParser::ParseBlockCompatibility(XmlNode node)
+void ConfigurationRemoteXmlParser::ParseBlockCompatibility(XmlNode node)
 {
 	if (node.GetName().compare(L"version")==0)
 	{
@@ -70,7 +70,7 @@ void ConfigurationXmlParser::ParseBlockCompatibility(XmlNode node)
 
 #define FALLBACK_URL L"FallbackURL"
 
-void ConfigurationXmlParser::ParseBlockLatest(XmlNode node)
+void ConfigurationRemoteXmlParser::ParseBlockLatest(XmlNode node)
 {
 	if (node.GetName().compare(L"version")==0)
 	{
@@ -82,7 +82,7 @@ void ConfigurationXmlParser::ParseBlockLatest(XmlNode node)
 	} 
 }
 
-void ConfigurationXmlParser::Parse()
+void ConfigurationRemoteXmlParser::Parse()
 {
 	XmlParser parser;	
 	
