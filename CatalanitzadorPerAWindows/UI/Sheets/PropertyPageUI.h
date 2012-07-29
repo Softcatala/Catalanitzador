@@ -53,8 +53,7 @@ public:
 	PropertySheetUI*			getParent(){return m_sheet;}
 	void						setParent(PropertySheetUI* sheet){m_sheet = sheet; }
 	void						setDialogProc(DLGPROC pfnDlgProc){m_pfnDlgProc=pfnDlgProc;};		
-	void						setPageButtons (PropertyPageButton buttons) { m_PageButtons = buttons; }
-	bool						isAero() { return m_bIsAero;}
+	void						setPageButtons (PropertyPageButton buttons) { m_PageButtons = buttons; }	
 
 private:
 
@@ -78,6 +77,5 @@ private:
 	PropertySheetUI*			m_sheet;
 	DLGPROC						m_pfnDlgProc;
 	PropertyPageButton			m_PageButtons;
-	bool						m_bIsAero;		
 };
 

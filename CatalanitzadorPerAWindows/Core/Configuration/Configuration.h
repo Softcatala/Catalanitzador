@@ -22,9 +22,6 @@
 #include "ConfigurationRemote.h"
 #include "TriBool.h"
 #include "OSVersion.h"
-#include <string>
-
-using namespace std;
 
 class Configuration
 {

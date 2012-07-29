@@ -22,14 +22,13 @@
 #include "Thread.h"
 #include "ConfigurationRemote.h"
 #include <string>
-#include <vector>
 
 using namespace std;
 
 class ConfigurationDownload : public Thread
 {
-	public:			
-			
+	public:
+
 			virtual void OnStart();
 
 	private:

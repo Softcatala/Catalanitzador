@@ -20,8 +20,6 @@
 #pragma once
 
 #include "ConfigurationLatest.h"
-#include "TriBool.h"
-#include "OSVersion.h"
 #include <string>
 
 using namespace std;

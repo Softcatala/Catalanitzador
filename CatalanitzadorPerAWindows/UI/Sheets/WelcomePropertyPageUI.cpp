@@ -66,7 +66,7 @@ void WelcomePropertyPageUI::_initPropertySheet()
 
 void WelcomePropertyPageUI::_onInitDialog()
 {
-	if (isAero() == false)
+	if (ConfigurationInstance::Get().GetAeroEnabled() == false)
 	{
 		HWND hWnd = GetDlgItem(getHandle(), IDC_WELCOME_TOAPP);
 		m_hFont = Window::CreateBoldFont(hWnd);

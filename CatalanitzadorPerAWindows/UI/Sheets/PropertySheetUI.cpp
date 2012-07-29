@@ -29,8 +29,7 @@
 
 PropertySheetUI::PropertySheetUI()
 {
-	m_pages = NULL;	
-	m_bIsAero = ConfigurationInstance::Get().GetAeroEnabled();
+	m_pages = NULL;
 }
 
 PROPSHEETPAGE* PropertySheetUI::_buildPageArray()
@@ -78,7 +77,7 @@ int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption
 	m_psh.dwSize = sizeof(PROPSHEETHEADER);
 	m_psh.dwFlags = PSH_PROPSHEETPAGE | PSH_WIZARD;
 
-	if (isAero())
+	if (ConfigurationInstance::Get().GetAeroEnabled())
 		m_psh.dwFlags |= PSH_AEROWIZARD;
 
 	m_psh.hwndParent = hParent;

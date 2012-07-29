@@ -27,8 +27,6 @@ PropertyPageUI::PropertyPageUI()
 {
 	m_pfnDlgProc = s_pageWndProc;
 	m_PageButtons = DefaultButtons;
-
-	m_bIsAero = ConfigurationInstance::Get().GetAeroEnabled();
 }
 
 PropertyPageUI::~PropertyPageUI()
@@ -150,7 +148,7 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 
 void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, WORD wRscIDAero, LPWSTR pTitle)
 {	
-	LPCTSTR lpTemplate = isAero() ? MAKEINTRESOURCE(wRscIDAero) : MAKEINTRESOURCE(wRscID);
+	LPCTSTR lpTemplate = ConfigurationInstance::Get().GetAeroEnabled() ? MAKEINTRESOURCE(wRscIDAero) : MAKEINTRESOURCE(wRscID);
 		
 	m_page.dwSize = sizeof(PROPSHEETPAGE);
 	m_page.dwFlags = PSP_DEFAULT;
