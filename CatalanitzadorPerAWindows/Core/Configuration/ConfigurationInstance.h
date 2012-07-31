@@ -21,6 +21,7 @@
 
 #include "Configuration.h"
 #include "ConfigurationRemoteEmbedded.h"
+#include "OSVersion.h"
 
 static bool g_bInit = false;
 static Configuration g_configuration;

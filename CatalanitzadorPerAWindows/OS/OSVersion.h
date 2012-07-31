@@ -25,7 +25,7 @@
 using namespace std;
 
 
-class OSVersion : public IOSVersion
+class _APICALL OSVersion : public IOSVersion
 {
 public:
 		OSVersion();

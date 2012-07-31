@@ -25,5 +25,3 @@
 #define STRING_VERSION				"1.3.0"
 #define STRING_VERSION_RESOURCES	"1.3.0.0"
 
-//#define FORCE_NON_AERO 1
-

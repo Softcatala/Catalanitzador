@@ -19,6 +19,7 @@
  
 #pragma once
 
+#include <windows.h>
 #include <ostream>
 
 using namespace std;

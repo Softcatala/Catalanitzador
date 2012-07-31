@@ -21,11 +21,15 @@
 
 #include "ConfigurationRemote.h"
 #include "TriBool.h"
+#include "IOSVersion.h"
 #include "OSVersion.h"
 
 class Configuration
 {
 	public:
+			Configuration() {m_OSVersion = new OSVersion(); }
+			Configuration(IOSVersion* version) {m_OSVersion = version;}
+
 			ConfigurationRemote& GetRemote() {return m_remote;}
 			void SetRemote(ConfigurationRemote remote) {m_remote = remote;}
 
@@ -40,11 +44,7 @@ class Configuration
 			{
 				if (m_useAero.IsUndefined())
 				{
-					bool bIsAero;
-					OSVersion osversion;
-
-					bIsAero = osversion.GetVersion() != WindowsXP;
-					return bIsAero;
+					return m_OSVersion->GetVersion() != WindowsXP;					
 				}
 				return m_useAero == true;
 			}
@@ -53,4 +53,5 @@ class Configuration
 
 			ConfigurationRemote m_remote;
 			TriBool m_useAero;
+			IOSVersion* m_OSVersion;
 };
