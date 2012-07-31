@@ -33,7 +33,7 @@ class Configuration
 			ConfigurationRemote& GetRemote() {return m_remote;}
 			void SetRemote(ConfigurationRemote remote) {m_remote = remote;}
 
-			// Application Configuraiton
+			// Application Configuration
 			
 			void SetAeroEnabled(bool bUseAero) 
 			{ 
