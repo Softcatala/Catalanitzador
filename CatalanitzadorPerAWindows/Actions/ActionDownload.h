@@ -32,7 +32,7 @@
 #include <vector>
 using namespace std;
 
-#define SHA1_EXTESION L".sha1"
+#define SHA1_EXTENSION L".sha1"
 
 
 class Download

@@ -58,8 +58,8 @@ bool ActionDownload::GetAssociatedFileSha1Sum(DownloadID downloadID, wstring sha
 	bool bRslt;
 
 	sha1_url = GetFileName(downloadID);
-	sha1_file += SHA1_EXTESION;
-	sha1_url += SHA1_EXTESION;
+	sha1_file += SHA1_EXTENSION;
+	sha1_url += SHA1_EXTENSION;
 
 	bRslt = inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
 	g_log.Log(L"ActionDownload::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
