@@ -344,6 +344,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\SerializerTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\StringConversionTest.cpp"
 				>
 			</File>

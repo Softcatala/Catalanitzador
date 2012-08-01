@@ -23,7 +23,7 @@
 #include "Serializable.h"
 #include <sstream>
 
-class Serializer
+class _APICALL Serializer
 {
 	public:
 			Serializer();
@@ -35,14 +35,13 @@ class Serializer
 			void OpenHeader();
 			void CloseHeader();
 			void StartAction();
-			void EndAction();			
+			void EndAction();
 			ostream* GetStream() const { return m_stream;}
 
 			void SaveToString(string& string);
 			void SaveToFile(wstring file);
 
 	private:
-			void _setSession();			
 			void _application();
 
 			stringstream* m_stream;

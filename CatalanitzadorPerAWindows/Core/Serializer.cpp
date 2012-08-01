@@ -21,8 +21,6 @@
 #include "Serializer.h"
 #include "OSVersion.h"
 #include "Version.h"
-#include "Guid.h"
-#include "Registry.h"
 
 #include <fstream>
 
@@ -34,10 +32,6 @@ Serializer::Serializer()
 Serializer::~Serializer()
 {
 	Close();
-}
-
-void Serializer::_setSession()
-{
 }
 
 void Serializer::_application()
@@ -67,7 +61,6 @@ void Serializer::OpenHeader()
 	*m_stream << "<execution>\n";
 
 	_application();
-	_setSession();
 	version.Serialize(m_stream);
 }
 
