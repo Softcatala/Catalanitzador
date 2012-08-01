@@ -112,12 +112,7 @@ void ConfigurationDownload::OnStart()
 
 bool ConfigurationDownload::_isConfigurationCompatibleWithAppVersion(ConfigurationRemote configuration)
 {
-	wstring app_version;
-	StringConversion::ToWideChar(STRING_VERSION,app_version);
-
 	ApplicationVersion configurationVersion(configuration.GetCompatibility());
-	ApplicationVersion runningAppVersion(app_version);
-
-	return runningAppVersion >= configurationVersion;
+	return ConfigurationInstance::Get().GetVersion() >= configurationVersion;
 }
 

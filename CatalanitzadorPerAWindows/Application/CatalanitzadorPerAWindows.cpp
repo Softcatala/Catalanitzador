@@ -34,12 +34,28 @@
 #include "Authorization.h"
 #include "SystemRestore.h"
 #include "ConfigurationInstance.h"
+#include "guid.h"
+#include "Registry.h"
+#include "ApplicationVersion.h"
+
+#define COMMAND_DELIMITER L' '
+#define VERSION_PARAMETER L"/version"
+#define NORUNNING_PARAMETER L"/NoRunningCheck"
+#define USEAEROLOOK_PARAMETER L"/UseAeroLook"
+#define USECLASSICLOOK_PARAMETER L"/UseClassicLook"
+#define HELP_PARAMETER L"/Help"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
 	m_hInstance = hInstance;
 	m_hEvent = NULL;
-	m_bRunningCheck = TRUE;
+	m_bRunningCheck = true;
+
+	NORUNNING_PARAMETER_LEN = wcslen(NORUNNING_PARAMETER);
+	VERSION_PARAMETER_LEN = wcslen(VERSION_PARAMETER);
+	USEAEROLOOK_PARAMETER_LEN = wcslen(USEAEROLOOK_PARAMETER);
+	USECLASSICLOOK_PARAMETER_LEN = wcslen(USECLASSICLOOK_PARAMETER);
+	HELP_PARAMETER_LEN = wcslen(HELP_PARAMETER);
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -50,27 +66,53 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 		CloseHandle(m_hEvent);
 }
 
-#define COMMAND_DELIMITER L" "
+#define HELP_TEXT L"Sintaxis d'ús:\n\n\
+/version:X.Y.Z - Fa creure al Catalanitzador que és la versió indicada \n\
+/NoRunningCheck- No comprovis si ja s'està executant \n\
+/UseAeroLook - Usa l'aspecte Aero \n\
+/UseClassicLook - Usa l'aspecte clàssic \n"
 
 void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 {
-	wchar_t* pch, *next;	
+	wchar_t* pch;
+	
+	pch = (wchar_t*) commandLine.c_str();
 
-	pch = wcstok_s((wchar_t*)commandLine.c_str(), COMMAND_DELIMITER, &next);
-	while (pch != NULL)
+	while (*pch != NULL)
 	{
-		if (_wcsicmp(pch, L"/norunningcheck") == 0)
+		if (_wcsnicmp(pch, NORUNNING_PARAMETER, NORUNNING_PARAMETER_LEN) == 0)
 		{
-			m_bRunningCheck = FALSE;
-		} else if (_wcsicmp(pch, L"/useaerolook") == 0)
+			m_bRunningCheck = false;
+			pch += NORUNNING_PARAMETER_LEN;
+		} else if (_wcsnicmp(pch, USEAEROLOOK_PARAMETER, USEAEROLOOK_PARAMETER_LEN) == 0)
 		{
 			ConfigurationInstance::Get().SetAeroEnabled(true);
-		} else if (_wcsicmp(pch, L"/useclassiclook") == 0)
+			pch += USEAEROLOOK_PARAMETER_LEN;
+		} else if (_wcsnicmp(pch, USECLASSICLOOK_PARAMETER, USECLASSICLOOK_PARAMETER_LEN) == 0)
 		{
 			ConfigurationInstance::Get().SetAeroEnabled(false);
+			pch += USECLASSICLOOK_PARAMETER_LEN;
 		}
+		else if (_wcsnicmp(pch, HELP_PARAMETER, HELP_PARAMETER_LEN) == 0)
+		{
+			MessageBox(NULL, HELP_TEXT, NULL, NULL);
+			exit(0);
+		}
+		else if (_wcsnicmp(pch, VERSION_PARAMETER, VERSION_PARAMETER_LEN) == 0)
+		{
+			wchar_t version[32];
+			wchar_t* start, *end;
 
-		pch = wcstok_s(NULL, COMMAND_DELIMITER, &next);
+			start = pch;
+			start += wcslen(VERSION_PARAMETER) + 1;
+			end = wcschr(start, L' ');
+			wcsncpy_s(version, start, end-start);
+			ConfigurationInstance::Get().SetVersion(ApplicationVersion(version));
+
+			if (end != NULL)
+				pch = end;
+		}
+		pch++;
 	}
 }
 
@@ -82,8 +124,15 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 		return;
 
 	_initLog();
-	m_serializer.OpenHeader();
 
+	Registry registry;
+	Guid guid(&registry);
+	guid.Get();
+
+	m_serializer.OpenHeader();
+	m_serializer.Serialize(&guid);
+	guid.Store();
+	
 	if (_supportedOS() == true && _hasAdminPermissionsDialog() == true)
 	{
 		OleInitialize(0);
@@ -95,11 +144,8 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 void CatalanitzadorPerAWindows::_initLog()
 {
 	wchar_t szApp[1024];
-	wstring version;
 
-	StringConversion::ToWideChar(string(STRING_VERSION), version);
-
-	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", version.c_str());
+	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", STRING_VERSION);
 	g_log.CreateLog(L"CatalanitzadorPerAlWindows.log",szApp);
 	
 	wchar_t szOSInfo [2048];
@@ -160,7 +206,7 @@ bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
 
 bool CatalanitzadorPerAWindows::_isAlreadyRunning()
 {
-	if (m_bRunningCheck == FALSE)
+	if (m_bRunningCheck == false)
 		return false;
 
     m_hEvent = CreateEvent(NULL, TRUE, FALSE, L"Catalanitzador");

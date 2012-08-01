@@ -26,7 +26,7 @@
 #include <string>
 using namespace std;
 
-class CatalanitzadorPerAWindows
+class _APICALL CatalanitzadorPerAWindows
 {
 	
 public:
@@ -35,18 +35,28 @@ public:
 
 		void Run(wstring commandLine);
 
+protected:
+
+		void _processCommandLine(wstring commandLine);
+
+		bool m_bRunningCheck;
+
 private:
 
 		void _initLog();
 		bool _supportedOS();
 		void _createWizard();
 		bool _isAlreadyRunning();
-		bool _hasAdminPermissionsDialog();
-		void _processCommandLine(wstring commandLine);
+		bool _hasAdminPermissionsDialog();		
 
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;
 		Serializer m_serializer;
-		OSVersion m_osVersion;
-		BOOL m_bRunningCheck;
+		OSVersion m_osVersion;		
+
+		int NORUNNING_PARAMETER_LEN;
+		int VERSION_PARAMETER_LEN;
+		int USEAEROLOOK_PARAMETER_LEN;
+		int USECLASSICLOOK_PARAMETER_LEN;
+		int HELP_PARAMETER_LEN;
 };

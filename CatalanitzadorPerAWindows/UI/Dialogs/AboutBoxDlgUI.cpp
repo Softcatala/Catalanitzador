@@ -22,6 +22,7 @@
 #include "AboutBoxDlgUI.h"
 #include "Version.h"
 #include "StringConversion.h"
+#include "ConfigurationInstance.h"
 
 void AboutBoxDlgUI::_onInitDialog()
 {
@@ -33,7 +34,9 @@ void AboutBoxDlgUI::_onInitDialog()
 
 	StringConversion::ToWideChar(string(__DATE__), date);
 	StringConversion::ToWideChar(string(__TIME__), time);
-	StringConversion::ToWideChar(string(STRING_VERSION_RESOURCES), version);			
+	StringConversion::ToWideChar(string(STRING_VERSION_RESOURCES), version);
+
+	version = ConfigurationInstance::Get().GetVersion().GetString();
 	
 	LoadString(GetModuleHandle(NULL), IDS_ABOUTDLG_VERSION, szResource, MAX_LOADSTRING);
 	swprintf_s(szString, szResource, version.c_str(), date.c_str(), time.c_str());

@@ -24,7 +24,7 @@
 #include "OSVersion.h"
 
 static bool g_bInit = false;
-static Configuration g_configuration;
+static Configuration* g_pConfiguration;
 
 class _APICALL ConfigurationInstance
 {
@@ -32,9 +32,10 @@ private:
 		
 		static void Init()
 		{
+			g_pConfiguration = new Configuration();
 			ConfigurationRemoteEmbedded configurationEmbedeed;
 			configurationEmbedeed.Load();
-			g_configuration.SetRemote(configurationEmbedeed.GetConfiguration());
+			g_pConfiguration->SetRemote(configurationEmbedeed.GetConfiguration());
 			g_bInit = true;
 		}
 public:
@@ -44,11 +45,11 @@ public:
 			if (g_bInit == false)
 				Init();
 
-			return g_configuration;
+			return *g_pConfiguration;
 		}
 
 		static void Set(Configuration configuration) 
 		{
-			g_configuration = configuration;
+			g_pConfiguration = &configuration;
 		}
 };

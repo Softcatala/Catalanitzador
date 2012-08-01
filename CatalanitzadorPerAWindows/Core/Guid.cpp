@@ -20,25 +20,23 @@
 #include "stdafx.h"
 #include "guid.h"
 #include "registry.h"
+#include "StringConversion.h"
 
 Guid::Guid(IRegistry* registry)
 {
 	m_bReaded = false;
-	m_registry = registry;	
+	m_registry = registry;
+
+	m_bReaded = _read();
+
+	if (m_bReaded == false)
+	{
+		_generate();
+	}
 }
 
 wstring Guid::Get()
-{
-	if (m_guid.empty())
-	{
-		m_bReaded = _read();
-
-		if (m_bReaded == false)
-		{
-			_generate();
-		}
-	}
-
+{	
 	return m_guid;
 }
 
@@ -96,4 +94,15 @@ bool Guid::_read()
 	g_log.Log(L"Guid::_read. Result %u, guid: '%s'", (wchar_t*) bRslt, (wchar_t *) m_guid.c_str());
 	return bRslt;
 }
+
+void Guid::Serialize(ostream* stream)
+{	
+	char szText [1024];	
+	string guid_value;
+
+	StringConversion::ToMultiByte(m_guid.c_str(), guid_value);
+	sprintf_s (szText, "\t<session guid='%s' />\n", guid_value.c_str());
+	*stream << szText;
+}
+
 

@@ -38,15 +38,6 @@ Serializer::~Serializer()
 
 void Serializer::_setSession()
 {
-	char szText [1024];
-	Registry registry;
-	Guid guid(&registry);
-	string guid_value;
-
-	StringConversion::ToMultiByte(guid.Get().c_str(), guid_value);
-	sprintf_s (szText, "\t<session guid='%s' />\n", guid_value.c_str());
-	*m_stream << szText;
-	guid.Store();
 }
 
 void Serializer::_application()

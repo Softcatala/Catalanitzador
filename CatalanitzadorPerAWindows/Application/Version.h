@@ -22,6 +22,6 @@
 #define APP_MINOR_VERSION		3
 #define APP_REVISION			0
 
-#define STRING_VERSION				"1.3.0"
+#define STRING_VERSION				L"1.3.0"
 #define STRING_VERSION_RESOURCES	"1.3.0.0"
 

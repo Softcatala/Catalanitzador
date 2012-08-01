@@ -37,6 +37,8 @@ class _APICALL ApplicationVersion
 			bool operator >= (ApplicationVersion other);
 			bool operator <= (ApplicationVersion other);
 
+			wstring GetString() {return m_version;}
+
 	private:
 
 			vector <wstring> GetComponents(wstring version);

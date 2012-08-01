@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,32 +17,14 @@
  * 02111-1307, USA.
  */
  
-#pragma once
 
-#include "IRegistry.h"
-#include "Serializable.h"
-#include <string>
+#include <stdafx.h>
 
-using namespace std;
+#include "ConfigurationLatest.h"
+#include "ConfigurationInstance.h"
 
-#define CATALANITZADOR_REGKEY L"SOFTWARE\\Catalanitzador"
-#define GUID_REGKEY L"GUID"
-
-class _APICALL Guid : public Serializable
+bool ConfigurationLatest::IsRunningInstanceUpToDate()
 {
-	public:
-			Guid(IRegistry* registry);
-			wstring Get();
-			void Store();
-			virtual void Serialize(ostream* stream);
-
-	private:
-
-			void _generate();
-			bool _read();
-			void _store();
-			
-			IRegistry* m_registry;
-			bool m_bReaded;
-			wstring m_guid;
-};
+	ApplicationVersion latestVersion(GetVersion());
+	return ConfigurationInstance::Get().GetVersion() >= latestVersion;
+}

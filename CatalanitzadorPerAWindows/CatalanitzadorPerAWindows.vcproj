@@ -500,6 +500,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Core\Configuration\ConfigurationLatest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Core\Configuration\ConfigurationLatest.h"
 					>
 				</File>

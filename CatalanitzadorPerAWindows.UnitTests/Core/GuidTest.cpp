@@ -33,13 +33,13 @@ using ::testing::DoAll;
 TEST(GuidTest, readGuidFromRegistry)
 {
 	RegistryMock registryMockobj;
-	Guid guidTest(&registryMockobj);
 	
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(CATALANITZADOR_REGKEY), false)).WillRepeatedly(Return(true));
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(GUID_REGKEY),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(GUID_SAMPLE), Return(true)));
 
+	Guid guidTest(&registryMockobj);
 	EXPECT_THAT(guidTest.Get(), StrCaseEq(GUID_SAMPLE));
 }
 

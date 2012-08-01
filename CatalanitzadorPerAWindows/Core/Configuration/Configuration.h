@@ -23,18 +23,25 @@
 #include "TriBool.h"
 #include "IOSVersion.h"
 #include "OSVersion.h"
+#include "ApplicationVersion.h"
 
 class Configuration
 {
 	public:
-			Configuration() {m_OSVersion = new OSVersion(); }
-			Configuration(IOSVersion* version) {m_OSVersion = version;}
+			Configuration() :m_version(STRING_VERSION)
+			{
+				m_OSVersion = new OSVersion();
+			}
 
-			ConfigurationRemote& GetRemote() {return m_remote;}
+			Configuration(IOSVersion* version) :m_version(STRING_VERSION)
+			{
+				m_OSVersion = version;
+			}
+
+			ConfigurationRemote& GetRemote() { return m_remote; }
 			void SetRemote(ConfigurationRemote remote) {m_remote = remote;}
 
-			// Application Configuration
-			
+			// Application Configuration	
 			void SetAeroEnabled(bool bUseAero) 
 			{ 
 				m_useAero = bUseAero; 
@@ -44,9 +51,19 @@ class Configuration
 			{
 				if (m_useAero.IsUndefined())
 				{
-					return m_OSVersion->GetVersion() != WindowsXP;					
+					return m_OSVersion->GetVersion() != WindowsXP;
 				}
 				return m_useAero == true;
+			}
+
+			ApplicationVersion GetVersion()
+			{
+				return m_version;
+			}
+
+			void SetVersion(ApplicationVersion version)
+			{
+				m_version = version;
 			}
 
 	private:
@@ -54,4 +71,5 @@ class Configuration
 			ConfigurationRemote m_remote;
 			TriBool m_useAero;
 			IOSVersion* m_OSVersion;
+			ApplicationVersion m_version;
 };
