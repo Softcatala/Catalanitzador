@@ -64,7 +64,7 @@ bool Runner::IsRunning() const
 	return dwStatus == STILL_ACTIVE;
 }
 
-void Runner::WaitUntilFinished()
+void Runner::WaitUntilFinished() const
 {
 	WaitForSingleObject(pi.hProcess, INFINITE);
 }

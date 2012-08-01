@@ -48,7 +48,7 @@ public:
 		virtual ActionID GetID() const = 0;
 
 		// How we visually will group this action
-		virtual ActionGroup GetGroup() {return ActionGroupNone;}
+		virtual ActionGroup GetGroup() const {return ActionGroupNone;}
 
 		// If the action needs to download files to be completed (like language packages) or can run without
 		// downloading files (changes in configuration). This is used to determine if Internet Connection is
