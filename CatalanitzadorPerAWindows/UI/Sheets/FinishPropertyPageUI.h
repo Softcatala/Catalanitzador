@@ -40,6 +40,7 @@ private:
 		virtual void _onInitDialog();
 		virtual	void _onFinish();
 		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
+		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 		bool _isRebootNeed();
 		void _shutdown();
 		void _setProgressBarLevelAndPercentage();
