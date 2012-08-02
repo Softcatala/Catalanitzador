@@ -25,30 +25,10 @@
 #include "IRegistry.h"
 #include "IOSVersion.h"
 
-
-enum IEVersion
-{
-	IEUnread = -1,
-	IEUnknown = 0,
-	IE6 = 6,
-	IE7 = 7,
-	IE8 = 8,
-	IE9 = 9,
-};
-
-enum Prerequirements
-{
-	PrerequirementsOk,
-	AppliedInWinLPI,
-	NeedsWinLPI,
-	NoLangPackAvailable,
-	UnknownIEVersion,
-};
-
-
 class _APICALL IELPIAction : public Action
 {
-public:
+public:	
+
 		IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
 		~IELPIAction();
 
@@ -64,14 +44,32 @@ public:
 		virtual ActionID DependsOn() const { return WindowsLPI;};
 		virtual LPCWSTR GetLicenseID();
 
-		Prerequirements CheckPrerequirementsDependand(Action * action);
-		Prerequirements CheckPrerequirements();
+		enum Prerequirements
+		{
+			PrerequirementsOk,
+			AppliedInWinLPI,
+			NeedsWinLPI,
+			NoLangPackAvailable,
+			UnknownIEVersion,
+		};
+
+		enum IEVersion
+		{
+			IEUnread = -1,
+			IEUnknown = 0,
+			IE6 = 6,
+			IE7 = 7,
+			IE8 = 8,
+			IE9 = 9,
+		};
 
 protected:
 
 		IEVersion _readIEVersion();
 		IEVersion _getIEVersion();
 		void _setIEVersion(IEVersion version) {m_version = version;}
+		Prerequirements _checkPrerequirementsDependand(Action * action);
+		Prerequirements _checkPrerequirements();
 
 private:
 

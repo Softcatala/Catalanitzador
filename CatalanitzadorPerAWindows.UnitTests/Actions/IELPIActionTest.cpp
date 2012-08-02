@@ -42,6 +42,8 @@ public:
 	public: using IELPIAction::_readIEVersion;
 	public: using IELPIAction::_getIEVersion;
 	public: using IELPIAction::_setIEVersion;
+	public: using IELPIAction::_checkPrerequirements;
+	public: using IELPIAction::_checkPrerequirementsDependand;
 
 };
 
@@ -64,108 +66,120 @@ TEST(IELPIActionTest, _readIEVersion)
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Microsoft\\Internet Explorer"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Version"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"8.0"), Return(true)));
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"8.0.6001.19272"), Return(true)));
 
 	lipAction._readIEVersion();
-	EXPECT_THAT(lipAction._getIEVersion(), IE8);
+	EXPECT_THAT(lipAction._getIEVersion(), IELPIAction::IE8);
 }
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE6_WindowsXP)
+TEST(IELPIActionTest, _readIEVersion_IEUnknown)
+{
+	CreateIELPIAction;
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Microsoft\\Internet Explorer"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Version"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(L"5.0"), Return(true)));
+
+	lipAction._readIEVersion();
+	EXPECT_THAT(lipAction._getIEVersion(), IELPIAction::IEUnknown);
+}
+
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE6_WindowsXP)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	lipAction._setIEVersion(IE6);
+	lipAction._setIEVersion(IELPIAction::IE6);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), AppliedInWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
 }
 
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE7_WindowsXP)
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE7_WindowsXP)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	lipAction._setIEVersion(IE7);
+	lipAction._setIEVersion(IELPIAction::IE7);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), NeedsWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
 }
 
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE7_WindowsVista)
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE7_WindowsVista)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
-	lipAction._setIEVersion(IE7);
+	lipAction._setIEVersion(IELPIAction::IE7);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), AppliedInWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
 }
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE8_WindowsXP)
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE8_WindowsXP)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	lipAction._setIEVersion(IE8);
+	lipAction._setIEVersion(IELPIAction::IE8);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), NeedsWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
 }
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE8_WindowsVista)
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE8_WindowsVista)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
-	lipAction._setIEVersion(IE8);
+	lipAction._setIEVersion(IELPIAction::IE8);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), NeedsWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
 }
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE8_Windows7)
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE8_Windows7)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
-	lipAction._setIEVersion(IE8);
+	lipAction._setIEVersion(IELPIAction::IE8);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), AppliedInWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
 }
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE9_WindowsVista)
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE9_WindowsVista)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
-	lipAction._setIEVersion(IE9);
+	lipAction._setIEVersion(IELPIAction::IE9);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), NeedsWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
 }
 
-TEST(IELPIActionTest, CheckPrerequirementsDependand_IE9_Windows7)
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE9_Windows7)
 {
 	CreateIELPIAction;
 	CreateWindowsLIPAction;
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
-	lipAction._setIEVersion(IE9);
+	lipAction._setIEVersion(IELPIAction::IE9);
 
-	EXPECT_THAT(lipAction.CheckPrerequirementsDependand(&winLIPAction), NeedsWinLPI);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
 }
 
 TEST(IELPIActionTest, CheckPrerequirements_UnknownIEVersion)
 {
 	CreateIELPIAction;
 
-	lipAction._setIEVersion(IEUnknown);
-	EXPECT_THAT(lipAction.CheckPrerequirements(), UnknownIEVersion);
+	lipAction._setIEVersion(IELPIAction::IEUnknown);
+	EXPECT_THAT(lipAction._checkPrerequirements(), IELPIAction::UnknownIEVersion);
 }
 
 TEST(IELPIActionTest, CheckPrerequirements_Windows7_64bits_IE8)
@@ -175,8 +189,8 @@ TEST(IELPIActionTest, CheckPrerequirements_Windows7_64bits_IE8)
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
 
-	lipAction._setIEVersion(IE8);
-	EXPECT_THAT(lipAction.CheckPrerequirements(), PrerequirementsOk);
+	lipAction._setIEVersion(IELPIAction::IE8);
+	EXPECT_THAT(lipAction._checkPrerequirements(), IELPIAction::PrerequirementsOk);
 }
 
 TEST(IELPIActionTest, CheckPrerequirements_Windows7_64bits_IE9)
@@ -186,6 +200,18 @@ TEST(IELPIActionTest, CheckPrerequirements_Windows7_64bits_IE9)
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
 
-	lipAction._setIEVersion(IE9);
-	EXPECT_THAT(lipAction.CheckPrerequirements(), PrerequirementsOk);
+	lipAction._setIEVersion(IELPIAction::IE9);
+	EXPECT_THAT(lipAction._checkPrerequirements(), IELPIAction::PrerequirementsOk);
+}
+
+TEST(IELPIActionTest, CheckPrerequirements_WindowsXP_IE5)
+{
+	CreateIELPIAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+
+	lipAction._setIEVersion(IELPIAction::IEUnknown);
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(lipAction.GetStatus(), CannotBeApplied);
 }
