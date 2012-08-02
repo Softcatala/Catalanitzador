@@ -40,7 +40,8 @@ bool WinRARInspector::_readFilePath(wstring &path)
 	wchar_t szFile[1024];
 
 	path.empty();
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false) ||
+     m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
 	{
 		if (m_registry->GetString(L"exe32", szFile, sizeof(szFile)))
 		{
