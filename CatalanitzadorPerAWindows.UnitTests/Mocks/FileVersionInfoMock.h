@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,31 +16,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
 
 #include "IFileVersionInfo.h"
 
-using namespace std;
-
-class _APICALL FileVersionInfo : IFileVersionInfo
+class FileVersionInfoMock : public IFileVersionInfo
 {
-public:	
-		FileVersionInfo();
+ public:
 
-		virtual void SetFilename(wstring file) { m_file = file; };
-		virtual wstring& GetVersion();
-		virtual int GetMajorVersion();
-		virtual DWORD GetLanguageCode();
-
-protected:
-
-		void _readVersion();
-		void _readLanguageCode();
-
-private:
-		wstring	m_file;
-		wstring m_version;
-		int m_majorVersion;
-		DWORD m_languageCode;
+		MOCK_METHOD1(SetFilename, void(wstring));
+		MOCK_METHOD0(GetVersion, wstring&(void));
+		MOCK_METHOD0(GetMajorVersion, int());
+		MOCK_METHOD0(GetLanguageCode, DWORD());
 };

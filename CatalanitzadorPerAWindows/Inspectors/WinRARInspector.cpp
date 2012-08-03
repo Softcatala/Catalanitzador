@@ -62,7 +62,8 @@ bool WinRARInspector::_readVersion()
 
 	_readFilePath(file);
 
-	FileVersionInfo fileVersion(file);
+	FileVersionInfo fileVersion;
+	fileVersion.SetFilename(file);
 	version = fileVersion.GetVersion();
 
 	g_log.Log(L"WinRARInspector::_readVersion version %s", (wchar_t*) version.c_str());

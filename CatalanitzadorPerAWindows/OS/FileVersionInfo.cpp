@@ -20,21 +20,20 @@
 #include "stdafx.h"
 #include "FileVersionInfo.h"
 
-FileVersionInfo::FileVersionInfo(wstring file)
+FileVersionInfo::FileVersionInfo()
 {
-	m_file = file;
 	m_majorVersion = -1;
 	m_languageCode = -1;
 }
 
 wstring& FileVersionInfo::GetVersion()
-{	
+{
 	if (m_version.size() == 0)
 	{
 		_readVersion();
 	}
 
-	return m_version;		
+	return m_version;
 }
 
 int FileVersionInfo::GetMajorVersion()
@@ -60,7 +59,9 @@ DWORD FileVersionInfo::GetLanguageCode()
 void FileVersionInfo::_readVersion()
 {	
 	DWORD dwLen, dwUnUsed;
-	LPTSTR lpVI = NULL;	
+	LPTSTR lpVI = NULL;
+
+	assert(m_file.size() >0);
 	
 	dwLen = GetFileVersionInfoSize(m_file.c_str(), &dwUnUsed);
 
@@ -101,6 +102,8 @@ void FileVersionInfo::_readLanguageCode()
 {
 	DWORD dwLen, dwUnUsed;
 	LPTSTR lpVI = NULL;
+
+	assert(m_file.size() >0);
 
 	dwLen = GetFileVersionInfoSize(m_file.c_str(), &dwUnUsed);
 

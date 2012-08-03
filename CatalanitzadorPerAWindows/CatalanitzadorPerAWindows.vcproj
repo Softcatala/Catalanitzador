@@ -825,6 +825,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OS\IFileVersionInfo.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OS\Inet.cpp"
 				>
 			</File>

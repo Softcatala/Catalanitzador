@@ -272,6 +272,10 @@
 			Name="Mocks"
 			>
 			<File
+				RelativePath=".\Mocks\FileVersionInfoMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\OSVersionMock.h"
 				>
 			</File>
@@ -321,6 +325,10 @@
 			</File>
 			<File
 				RelativePath=".\Actions\OpenOfficeActionTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\WindowsLiveActionTest.cpp"
 				>
 			</File>
 			<File

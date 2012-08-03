@@ -22,17 +22,17 @@
 
 #include "WindowsLiveAction.h"
 #include "Winver.h"
-#include "FileVersionInfo.h"
 #include "Url.h"
 
 #define MS_LIVE_ESSENTIALS_2009 14
 #define MS_LIVE_ESSENTIALS_2011 15
 #define CATALAN_WINLANGCODE 3
 
-WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner)
+WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo)
 {
 	m_registry = registry;
 	m_runner = runner;
+	m_fileVersionInfo = fileVersionInfo;
 	m_szFilename[0]=NULL;
 }
 
@@ -84,8 +84,8 @@ bool WindowsLiveAction::Download(ProgressStatus progress, void *data)
 		return _getFile(DI_MSLIVE2009, m_szFilename, progress, data);
 	}
 
-	// The installer for Essentials 2011 downloads the language packs. We indicate that the actions
-	// downloads but is delagated to the installer (as this the internet connection
+	// The installer for Essentials 2011 downloads the language packs. We indicate that the action
+	// downloads, but it is delagated to the installer (as this the internet connection
 	// detection is checked for this action)
 	return true;
 }
@@ -106,9 +106,9 @@ void WindowsLiveAction::_readVersionInstalled()
 
 	wstring location;
 
-	_getInstallerLocation(location);
-	FileVersionInfo fileVersion(location);
-	m_version = fileVersion.GetVersion();
+	_getInstallerLocation(location);	
+	m_fileVersionInfo->SetFilename(location);
+	m_version = m_fileVersionInfo->GetVersion();
 }
 
 void WindowsLiveAction::_getInstallerLocation(wstring& location)
@@ -174,8 +174,8 @@ int WindowsLiveAction::_getMajorVersion()
 	wstring location;
 
 	_getInstallerLocation(location);
-	FileVersionInfo fileVersion(location);
-	return fileVersion.GetMajorVersion();
+	m_fileVersionInfo->SetFilename(location);
+	return m_fileVersionInfo->GetMajorVersion();
 }
 
 #define LANG_REGKEY L"Software\\Microsoft\\Windows Live\\Common\\"
@@ -207,9 +207,9 @@ bool WindowsLiveAction::_isLangSelected2009()
 	SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
 	location = szPath;
 	location += L"\\Windows Live\\Installer\\wlsres.dll";
-
-	FileVersionInfo fileVersion(location);
-	langCode = fileVersion.GetLanguageCode();
+	
+	m_fileVersionInfo->SetFilename(location);
+	langCode = m_fileVersionInfo->GetLanguageCode();
 
 	g_log.Log(L"WindowsLiveAction::_isLangSelected2009. Language '%u'", (wchar_t *)langCode);
 	return langCode == CATALAN_WINLANGCODE;

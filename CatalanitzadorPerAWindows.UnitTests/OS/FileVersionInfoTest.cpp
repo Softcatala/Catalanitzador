@@ -33,7 +33,8 @@ TEST(FileVersionInfoTest, _readVersion_testAgainstThisBinary)
 	wstring version, binary;
 
 	StringConversion::ToWideChar(STRING_VERSION_RESOURCES, binary);
-	FileVersionInfo fileVersionInfo(UNITTESTS_BINARY);
+	FileVersionInfo fileVersionInfo;
+	fileVersionInfo.SetFilename(UNITTESTS_BINARY);
 	version = fileVersionInfo.GetVersion();
 
 	EXPECT_THAT(version.c_str(), StrCaseEq(binary.c_str()));
@@ -44,7 +45,8 @@ TEST(FileVersionInfoTest, _readLanguageCode_testAgainstThisBinary)
 {
 	DWORD lang;
 	
-	FileVersionInfo fileVersionInfo(UNITTESTS_BINARY);
+	FileVersionInfo fileVersionInfo;
+	fileVersionInfo.SetFilename(UNITTESTS_BINARY);
 	lang = fileVersionInfo.GetLanguageCode();
 	
 	EXPECT_THAT(lang, LCID_CATALAN);

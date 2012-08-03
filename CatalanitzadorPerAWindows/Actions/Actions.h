@@ -24,6 +24,7 @@
 #include "IWin32I18N.h"
 #include "IRegistry.h"
 #include "IRunner.h"
+#include "IFileVersionInfo.h"
 
 #include <vector>
 
@@ -43,6 +44,7 @@ class Actions
 		IRegistry* _getNewRegistry();
 		IRunner* _getNewRunner();
 		IWin32I18N* _getNewWin32I18N();
+		IFileVersionInfo* _getFileVersionInfo();
 
 		vector <Action *> m_actions;
 		vector <void *> m_objectsToDelete;

@@ -20,13 +20,14 @@
 #pragma once
 
 #include "Action.h"
-#include "Runner.h"
+#include "IRunner.h"
 #include "IRegistry.h"
+#include "IFileVersionInfo.h"
 
 class _APICALL WindowsLiveAction : public Action
 {
 public:
-		WindowsLiveAction(IRegistry* registry, IRunner* runner);
+		WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo);
 		~WindowsLiveAction();
 
 		virtual wchar_t* GetName();
@@ -39,18 +40,22 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
 		virtual const wchar_t* GetVersion();
+
+protected:
+		
+		int _getMajorVersion();
+		bool _isLangSelected();
 		
 private:
 		
-		void _getInstallerLocation(wstring& location);
-		void _readVersionInstalled();
-		int _getMajorVersion();
-		bool _isLangSelected();
+		void _getInstallerLocation(wstring& location);		
 		bool _isLangSelected2011();
 		bool _isLangSelected2009();
+		void _readVersionInstalled();
 
 		IRunner* m_runner;
 		IRegistry* m_registry;
+		IFileVersionInfo* m_fileVersionInfo;
 
 		wstring m_version;
 		wchar_t m_szFilename[MAX_PATH];

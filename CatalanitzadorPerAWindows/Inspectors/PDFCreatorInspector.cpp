@@ -20,7 +20,6 @@
 
 #include "stdafx.h"
 #include "PDFCreatorInspector.h"
-#include "FileVersionInfo.h"
 
 PDFCreatorInspector::PDFCreatorInspector(IRegistry* registry)
 {

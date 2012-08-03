@@ -209,7 +209,8 @@ bool IELPIAction::_isLangPackInstalled()
 	GetSystemDirectory(szFile, MAX_PATH);
 	wcscat_s(szFile, L"\\ca-es\\ieframe.dll.mui");
 
-	FileVersionInfo fileVersion(szFile);
+	FileVersionInfo fileVersion;
+	fileVersion.SetFilename(szFile);
 	installed = _getIEVersion() == fileVersion.GetMajorVersion() && fileVersion.GetLanguageCode() == CATALAN_LANGCODE;
 
 	g_log.Log(L"IELPIAction::_isLangPackInstalled returns %u", (wchar_t*) installed);
