@@ -354,7 +354,7 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 				case IE6:
 					return AppliedInWinLPI;
 				case IE7:
-				case IE8:				
+				case IE8:
 					if (WindowsLPISelected == false)
 					{
 						return NeedsWinLPI;
@@ -363,40 +363,37 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 				default:
 					break;
 			}
-			break;
 		case WindowsVista: // Includes IE 7
 			switch (_getIEVersion())
 			{
 				case IE7:
-					return AppliedInWinLPI;					
+					return AppliedInWinLPI;
 				case IE8:
-				case IE9:				
+				case IE9:
 					if (WindowsLPISelected == false)
-					{						
+					{
 						return NeedsWinLPI;
 					}
 					break;
 				default:
 					break;
 			}
-			break;
 		case Windows7: // Includes IE 8
 			switch (_getIEVersion())
 			{
 				case IE8:
-					return AppliedInWinLPI;					
+					return AppliedInWinLPI;
 				case IE9:				
 					if (WindowsLPISelected == false)
-					{						
+					{
 						return NeedsWinLPI;
 					}
 					break;
 				default:
 					break;
 			}
-			break;
 		default: //	Windows2008, Windows2008R2 and others
-			return NoLangPackAvailable;			
+			return NoLangPackAvailable;
 	}
 
 	return PrerequirementsOk;
