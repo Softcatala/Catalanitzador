@@ -39,21 +39,32 @@ using ::testing::HasSubstr;
 
 class FirefoxActionForTest : public FirefoxAction
 {
-public:
+	public:
 
-	FirefoxActionForTest (IRegistry* registry) : FirefoxAction(registry) {};	
+		FirefoxActionForTest(IRegistry* registry) : FirefoxAction(registry) { m_bNoRootLocation =  false;};
+		void SetNoRootLocation(bool bNoRootLocation) {m_bNoRootLocation = bNoRootLocation;}
 
 	protected:
+
 		virtual void _getProfileRootDir(wstring &location) 
 		{
+			if (m_bNoRootLocation)
+			{
+				location.empty();
+				return;
+			}
+
 			Application::GetExecutionLocation(location);
 			location += L"Firefox\\";
-		}
+		}		
 
-	public: using FirefoxAction::_readVersionAndLocale;
-	public: using FirefoxAction::_getLocale;
-	public: using FirefoxAction::_getLanguages;
+		public: using FirefoxAction::_readVersionAndLocale;
+		public: using FirefoxAction::_getLocale;
+		public: using FirefoxAction::_getLanguages;
 
+	private:
+
+		bool m_bNoRootLocation;
 };
 
 #define CreateFirefoxAction \
@@ -159,6 +170,18 @@ TEST(FirefoxActionTest, IsNeed_FrenchLocale_Catalan)
 	EXPECT_FALSE(firefoxAction.IsNeed());
 	EXPECT_EQ(firefoxAction.GetStatus(), AlreadyApplied);
 }
+
+TEST(FirefoxActionTest, IsNeed_NotInstalled)
+{
+	CreateFirefoxAction;
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(false));
+	firefoxAction.SetNoRootLocation(true);
+
+	EXPECT_FALSE(firefoxAction.IsNeed());
+	EXPECT_EQ(firefoxAction.GetStatus(), NotInstalled);
+}
+
 
 // Execute
 
