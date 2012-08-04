@@ -140,6 +140,11 @@ function get_actions_data($action_id) {
 
 function print_char($action_id,$small,$nice) {
 	?>
+		jQuery('#<?=$small?>_versions').after('<div id="<?=$small?>_versions_installedonly" '+
+			'style="height: 300px; margin: 0"></div>');
+		<?php 
+		// chart with not-installed
+		?>
 		<?=$small?>Char = new Highcharts.Chart({
 				chart: {
 						renderTo: '<?=$small?>_versions',
@@ -165,11 +170,56 @@ function print_char($action_id,$small,$nice) {
 										enabled: true,
 										color: '#000000',
 										connectorColor: '#000000'
+								},
+								events : { 
+									click: function(event) { 
+										change_plots('<?=$small?>_versions');
+										} 
 								}
 						}
 				},
 				series: [{ type: 'pie', name: "Versions de<?=$nice?>", data: [<?php 
 					print_action_data(get_action_stats($action_id));
+				?>]}]
+		});	
+		<?php 
+		// chart with only installed stats
+		?>
+		<?=$small?>InstalledOnlyChar = new Highcharts.Chart({
+				chart: {
+						renderTo: '<?=$small?>_versions_installedonly',
+						plotBackgroundColor: null,
+						plotBorderWidth: null,
+						plotShadow: false
+				},
+				title: {
+						text: "Versions de<?=$nice?>"
+				},
+				tooltip: {
+						formatter: function() {
+								return '<b>'+ this.point.name +'</b><br />'
+								+ 'Total: ' + this.y + ' (' +
+								(Math.round(this.percentage*100)/100.0) +'%)';
+						}
+				},
+				plotOptions: {
+						pie: {
+								allowPointSelect: true,
+								cursor: 'pointer',
+								dataLabels: {
+										enabled: true,
+										color: '#000000',
+										connectorColor: '#000000'
+								},
+								events : { 
+									click: function(event) { 
+										change_plots('<?=$small?>_versions');
+										} 
+								}
+						}
+				},
+				series: [{ type: 'pie', name: "Versions de<?=$nice?>", data: [<?php 
+					print_action_data(get_action_stats($action_id),false);
 				?>]}]
 		});	
 	<?php
@@ -225,7 +275,8 @@ function get_action_stats($action_id) {
 	$v = get_version_filter();
 
 	if(in_array($action_id,$subversions)) {
-		$tversion = "SUBSTRING(Version,1,LOCATE('.',Version,LOCATE('.',Version)+1)-1)";
+		//$tversion = "SUBSTRING(Version,1,LOCATE('.',Version,LOCATE('.',Version)+1)-1)";
+		$tversion = "IF(LOCATE('.',Version,LOCATE('.',Version)+1)=0,Version,SUBSTRING(Version,1,LOCATE('.',Version,LOCATE('.',Version)+1)-1))";
 	} else {
 		$tversion = "Version";
 	}
@@ -247,13 +298,46 @@ function get_action_stats($action_id) {
 
 
 
-function print_action_data($action_count) {
+function print_action_data($action_count,$notinstalled=true) {
 	$i = 0;
 	foreach ( $action_count as $n=>$action ) {
 		if($i!=0) echo ','; 
+		if($n=='') {
+			if(!$notinstalled) continue;
+			$n = 'Sense programa';
+		}
 		$i++;
-		if($n=='') $n = 'Sense programa';
 		echo '["',$n,'", ',$action,']';
 	}
+}
+
+/*********** inspectors *************/
+function get_inspectors_data($id) {
+	
+	if(!is_int($id)) return array();
+	global $db;
+	$_data = array();
+	$sql = "select count(SessionID) as Total, InspectorID, KeyVersion, Value from inspectors where InspectorId = $id group by InspectorID, KeyVersion, Value;";
+	$results = $db->get_results($sql);
+	
+	$lastKey = '';
+		
+	foreach($results as $result) {
+		
+			$key = $result->KeyVersion;
+		
+			if($key != $lastKey) {
+				$_data[$key] = array();
+				$_data[$key]['total'] = 0;
+				$_data[$key]['data'] = array();
+			}
+			
+			$_data[$key]['total'] += $result->Total;
+			$_data[$key]['data'][$result->Value] = $result->Total;
+			
+			$lastKey = $key;
+	}
+	echo '<!-- x-'; print_r($_data); echo ' -x -->';
+	return $_data;
 }
 ?>
