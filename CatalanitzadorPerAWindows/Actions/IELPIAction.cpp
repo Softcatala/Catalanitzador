@@ -363,6 +363,7 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 				default:
 					break;
 			}
+			break;
 		case WindowsVista: // Includes IE 7
 			switch (_getIEVersion())
 			{
@@ -378,6 +379,7 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 				default:
 					break;
 			}
+			break;
 		case Windows7: // Includes IE 8
 			switch (_getIEVersion())
 			{
@@ -392,6 +394,7 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 				default:
 					break;
 			}
+			break;
 		default: //	Windows2008, Windows2008R2 and others
 			return NoLangPackAvailable;
 	}
