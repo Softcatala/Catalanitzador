@@ -139,15 +139,23 @@ function get_actions_data($action_id) {
 }
 
 function print_char($action_id,$small,$nice) {
-	?>
-		jQuery('#<?=$small?>_versions').after('<div id="<?=$small?>_versions_installedonly" '+
-			'style="height: 300px; margin: 0"></div>');
-		<?php 
-		// chart with not-installed
+	
+	$idAllStats = $small.'_versions';
+	$idInstalledOnly = $idAllStats.'_installedonly';
+	
+	
+	echo "jQuery('#$idAllStats').after('<div id=\"$idInstalledOnly\"",
+	 ' style="height: 300px; margin: 0"></div>',"');";
+	
+	print_javascript_chart($idAllStats,$nice,$action_id,true);
+	print_javascript_chart($idInstalledOnly,$nice,$action_id,false);
+}
+
+function print_javascript_chart($id,$nice,$action_id,$allStats) {
 		?>
-		<?=$small?>Char = new Highcharts.Chart({
+		<?=$id?>Chart = new Highcharts.Chart({
 				chart: {
-						renderTo: '<?=$small?>_versions',
+						renderTo: '<?=$id?>',
 						plotBackgroundColor: null,
 						plotBorderWidth: null,
 						plotShadow: false
@@ -173,53 +181,13 @@ function print_char($action_id,$small,$nice) {
 								},
 								events : { 
 									click: function(event) { 
-										change_plots('<?=$small?>_versions');
+										change_plots('<?=str_replace('_installedonly','',$id)?>');
 										} 
 								}
 						}
 				},
 				series: [{ type: 'pie', name: "Versions de<?=$nice?>", data: [<?php 
-					print_action_data(get_action_stats($action_id));
-				?>]}]
-		});	
-		<?php 
-		// chart with only installed stats
-		?>
-		<?=$small?>InstalledOnlyChar = new Highcharts.Chart({
-				chart: {
-						renderTo: '<?=$small?>_versions_installedonly',
-						plotBackgroundColor: null,
-						plotBorderWidth: null,
-						plotShadow: false
-				},
-				title: {
-						text: "Versions de<?=$nice?>"
-				},
-				tooltip: {
-						formatter: function() {
-								return '<b>'+ this.point.name +'</b><br />'
-								+ 'Total: ' + this.y + ' (' +
-								(Math.round(this.percentage*100)/100.0) +'%)';
-						}
-				},
-				plotOptions: {
-						pie: {
-								allowPointSelect: true,
-								cursor: 'pointer',
-								dataLabels: {
-										enabled: true,
-										color: '#000000',
-										connectorColor: '#000000'
-								},
-								events : { 
-									click: function(event) { 
-										change_plots('<?=$small?>_versions');
-										} 
-								}
-						}
-				},
-				series: [{ type: 'pie', name: "Versions de<?=$nice?>", data: [<?php 
-					print_action_data(get_action_stats($action_id),false);
+					print_action_data(get_action_stats($action_id),$allStats);
 				?>]}]
 		});	
 	<?php
@@ -337,7 +305,6 @@ function get_inspectors_data($id) {
 			
 			$lastKey = $key;
 	}
-	echo '<!-- x-'; print_r($_data); echo ' -x -->';
 	return $_data;
 }
 ?>
