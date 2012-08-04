@@ -9,7 +9,8 @@ global $db;
 $actions = array( 
 	0 => 'NoAction', 1 => 'WindowsLPI', 2 => 'MSOfficeLPI', 3 => 'ConfigureLocale', 
 	4 =>'IEAcceptLanguage', 5 => 'IELPI', 6 => 'ConfigureDefaultLanguage', 
-	7 => 'Chrome', 8=>'Firefox', 9 => 'OpenOffice', 10=>'AcrobatReader'
+	7 => 'Chrome', 8=>'Firefox', 9 => 'OpenOffice', 10=>'AcrobatReader',
+	11 => 'Windows Live'
 	);
 
 $subversions = array();
@@ -26,11 +27,12 @@ $action_status = array(
 	6 => 'FinishedWithError',	// End up with error
 	7 => 'NotInstalled'		// Software is not installed
 );
-                            
+$action_to_hide = array ( 1, 4);                            
 // OS
 $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Windows XP x64",
 	"5.1" => "Windows XP", "5.0" => "Windows 2000");
 
+$inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "WinRAR");
 
 ?><!DOCTYPE HTML>
 <html>
@@ -85,6 +87,18 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 						cursor: pointer;
 					}
 				</style>
+				<script>
+				jQuery(document).ready(function(){
+					jQuery('div').filter(function() {
+						return this.id.match(/installedonly/);
+					}).hide();
+				});
+				
+				function change_plots(str) {
+					jQuery('#'+str).toggle();
+					jQuery('#'+str+'_installedonly').toggle();
+				}
+				</script>
         </head>
         <body>
 				<h1>Estadístiques del <a href="http://catalanitzador.softcatala.org" 
@@ -234,6 +248,7 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 						<?php
 							echo '<th>TOTAL</th>';
 							foreach($action_status as $status_id => $status_name) {
+								if(in_array($status_id,$action_to_hide)) continue;
 								echo '<th colspan="2">',$status_name,'</th>';
 							}
 						?>
@@ -249,14 +264,16 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 								$results = array_fill(0,sizeof($action_status),0);
 								$total = 0;
 								
-								if($res != NULL) {								
+								if($res != NULL) {						
 									foreach($res as $k => $result) {
 										$results[$result->Result]=$result->total;
 										$total += $result->total;
 									}
 								}
+								echo '<!-- '; print_r($res); print_r($results); print_r($action_status); echo ' -->';
 								echo '<td>',$total,'</td>';
 								foreach($results as $i => $num) {
+									if(in_array($i,$action_to_hide)) continue;
 									echo '<td style="text-align:right">',
 										($num==0)?0:number_format(round($num*100/$total,2),2),
 										"% </td><td>($num)</td>";
@@ -395,5 +412,57 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 	<script type="text/javascript">
 		<?php print_char(8,'firefox',"l Firefox"); ?>
 	</script>
-	</body>
+	<h2>Versions de l'OpenOffice</h2>
+	<div id="ooo_versions" style="height: 300px; margin: 0 auto"></div>
+	<script type="text/javascript">
+		<?php print_char(9,'ooo'," l'OpenOffice"); ?>
+	</script>
+	<h2>Versions de l'Adobe Reader</h2>
+	<div id="adobereader_versions" style="height: 300px; margin: 0 auto"></div>
+	<script type="text/javascript">
+		<?php print_char(10,'adobereader'," l'Adobe Reader"); ?>
+	</script>
+	<h2>Versions del Windows Live Essential</h2>
+	<div id="windowslive_versions" style="height: 300px; margin: 0 auto"></div>
+	<script type="text/javascript">
+		<?php print_char(11,'windowslive',"l Windows Live"); ?>
+	</script>
+	<h2>Inspectors</h2>
+	<em>
+		Els inspectors són mòduls del Catalanitzador que comproven si hi ha un 
+		programa instal·lat i la versió del mateix, per tal de servir com a guia
+		prioritzada per al desenvolupament del Catalanitzador
+	</em>
+	<?php
+		
+		foreach($inspectors as $id => $inspector) {
+			$inspector_data = get_inspectors_data($id);
+			
+			echo "<h3>$inspector</h3>";
+			$keys = sizeof($inspector_data);
+			echo "<table><thead><tr>";
+			
+			foreach($inspector_data as $key=>$keyValues) {
+				echo "<th>$key</th>";
+			}
+			echo "</tr></thead><tbody><tr>";
+			foreach($inspector_data as $key=>$keyValues) {
+				echo "<td style='vertical-align:top;';>";
+				echo "<table><tbody>";
+				$total_occurrences = $keyValues['total'];
+				foreach($keyValues['data'] as $keyValue=>$keyCount) {
+					if(empty($keyValue)) $keyValue = '-';
+					
+					echo "<tr><td style='border:0;text-align:left;font-weight:strong;width:40%'>",
+						$keyValue,"</td>","<td style='border:0;text-align:right;width:30%'>",
+						$keyCount,"</td><td style='border:0;text-align:right;width:30%'>",
+						number_format(round($keyCount*100/$total_occurrences,2),2),"%</td></tr>";
+				}
+				echo "</tbody></table>";
+				
+				echo "</td>";
+			}
+			echo "</tr></tbody></table>";
+		}
+	?>
 </html>
