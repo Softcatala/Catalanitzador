@@ -94,14 +94,19 @@ bool IEAcceptLanguagesAction::_isCurrentLanguageOk(wstring& firstlang)
 bool IEAcceptLanguagesAction::IsNeed()
 {
 	bool bNeed;
-	wstring firstlang;
 
-	bNeed = _isCurrentLanguageOk(firstlang) == false;
-
-	if (bNeed == false)
-		status = AlreadyApplied;
-
-	g_log.Log(L"IEAcceptLanguagesAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
+	switch(GetStatus())
+	{		
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
+	}
+	g_log.Log(L"IEAcceptLanguagesAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
 	return bNeed;
 }
 
@@ -136,9 +141,9 @@ void IEAcceptLanguagesAction::Execute()
 	_writeLanguageCode(regvalue);
 	
 	if (_isCurrentLanguageOk(regvalue) == true)
-		status = Successful;
+		SetStatus(Successful);
 	else
-		status = FinishedWithError;
+		SetStatus(FinishedWithError);
 
 	g_log.Log(L"IEAcceptLanguagesAction::Execute returns %s", status == Successful ? L"Successful" : L"FinishedWithError");
 }
@@ -168,8 +173,14 @@ const wchar_t* IEAcceptLanguagesAction::GetVersion()
 }
 
 void IEAcceptLanguagesAction::CheckPrerequirements(Action * action)
-{
+{	
+	wstring firstlang;
+
 	_readVersion();
+	if (_isCurrentLanguageOk(firstlang))
+	{
+		SetStatus(AlreadyApplied);
+	}	
 }
 
 void IEAcceptLanguagesAction::_createRegistryStringTwoLangs(wstring &regvalue, float average)

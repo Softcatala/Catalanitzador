@@ -43,53 +43,69 @@ public:
 
 };
 
-
 #define CreateIEAcceptLanguagesAction \
 	RegistryMock registryMockobj; \
 	IEAcceptLanguagesActionTest IEAction(&registryMockobj);
 
+void SetInternetExplorerVersion(RegistryMock& registryMockobj, wchar_t* version)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Microsoft\\Internet Explorer"), false)).WillRepeatedly(Return(true));	
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Version"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(version), Return(true)));
+}
+
+void SetAcceptLanguage(RegistryMock& registryMockobj, wchar_t* language)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Internet Explorer\\International"), false)).WillRepeatedly(Return(true));	
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(true)));
+}
+
+TEST(IEAcceptLanguagesActionTest, GetVersion)
+{
+	CreateIEAcceptLanguagesAction;
+	wchar_t* VERSION = L"7.11.5";
+	
+	SetInternetExplorerVersion(registryMockobj, VERSION);	
+	EXPECT_THAT(IEAction.GetVersion(), StrCaseEq(VERSION));
+}
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanOnly)
 {
-	CreateIEAcceptLanguagesAction;	
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Internet Explorer\\International"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
+	CreateIEAcceptLanguagesAction;
 
+	SetAcceptLanguage(registryMockobj, L"ca-ES");
+	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	IEAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(IEAction.IsNeed());
 }
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanAndSpanish)
 {
-	CreateIEAcceptLanguagesAction;	
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Internet Explorer\\International"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES,es-ES;q=0.5"), Return(true)));
+	CreateIEAcceptLanguagesAction;
 
+	SetAcceptLanguage(registryMockobj, L"ca-ES,es-ES;q=0.5");
+	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	IEAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(IEAction.IsNeed());
 }
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_EnglishSpanishCatalan)
 {
-	CreateIEAcceptLanguagesAction;	
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Internet Explorer\\International"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"en-US,es-ES;q=0.7,ca-ES;q=0.3"), Return(true)));
+	CreateIEAcceptLanguagesAction;
 
+	SetAcceptLanguage(registryMockobj, L"en-US,es-ES;q=0.7,ca-ES;q=0.3");
+	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	IEAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(IEAction.IsNeed());
 }
 
 TEST(IEAcceptLanguagesActionTest, IsNeeded_SpanishOnly)
 {
 	CreateIEAcceptLanguagesAction;	
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Internet Explorer\\International"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"AcceptLanguage"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"es-ES"), Return(true)));
 
+	SetAcceptLanguage(registryMockobj, L"es-ES");
+	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	IEAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(IEAction.IsNeed());
 }
 
