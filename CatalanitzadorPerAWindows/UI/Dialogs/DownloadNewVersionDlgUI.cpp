@@ -26,13 +26,14 @@
 #include "Url.h"
 
 #define TIMER_ID 912
-#define FILENAME L"CatalanitzadorPerAlWindows.exe"
 #define PROGRAM_NAME L"Catalanitzador per al Windows"
 
 const float BYTES_TO_MEGABYTES = 1024*1024;
 
 void DownloadNewVersionDlgUI::_onInitDialog()
 {
+	m_pUpdateAction = new CatalanitzadorUpdateAction((IRunner *)new Runner());
+
 	m_bCancelled = FALSE;
 	m_hProgressBar = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_PROGRESSBAR);
 	m_hDescription = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_DESCRIPTION);
@@ -40,7 +41,7 @@ void DownloadNewVersionDlgUI::_onInitDialog()
 }
 
 void DownloadNewVersionDlgUI::OnDownloadStatus(int total, int current)
-{	
+{
 	wchar_t szString[MAX_LOADSTRING];
 	wchar_t szText[MAX_LOADSTRING];
 
@@ -58,32 +59,16 @@ void DownloadNewVersionDlgUI::_downloadStatus(int total, int current, void *data
 	pThis->OnDownloadStatus(total, current);	
 }
 
-void DownloadNewVersionDlgUI::_downloadFile()
-{
-	DownloadInet downloadInet;
-	Configuration configuration = ConfigurationInstance::Get();
-	wstring surl;
-
-	// TODO: Implement re-try for other mirrors
-	surl = configuration.GetRemote().GetLatest().GetUrls().at(0);
-
-	wchar_t szFilename[MAX_PATH];
-	GetTempPath(MAX_PATH, szFilename);
-	wcscat_s(szFilename, FILENAME);
-	m_filename = szFilename;
-
-	downloadInet.GetFile((wchar_t *)surl.c_str(), (wchar_t *)m_filename.c_str(), _downloadStatus, this);
-}
-
 void DownloadNewVersionDlgUI::_onTimer()
 {
-	KillTimer(getHandle(), TIMER_ID);	
-	_downloadFile();
+	KillTimer(getHandle(), TIMER_ID);
+	
+	m_pUpdateAction->Download(_downloadStatus, this);
 
-	if (m_bCancelled == FALSE)
+	if (m_bCancelled)
 	{
-		Runner runner;
-		runner.Execute((wchar_t *)m_filename.c_str(), L"/NoRunningCheck", false);
+		m_pUpdateAction->Execute();
+		// After executing the new version of the application, quit the current instance
 		PostMessage(getHandle(), WM_QUIT, 0, 0);
 	}
 }

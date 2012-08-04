@@ -22,6 +22,7 @@
 
 #include "Serializer.h"
 #include "OSVersion.h"
+#include "Actions.h"
 
 #include <string>
 using namespace std;
@@ -38,8 +39,9 @@ public:
 protected:
 
 		void _processCommandLine(wstring commandLine);
-
+		
 		bool m_bRunningCheck;
+		Actions m_actions;
 
 private:
 
@@ -47,7 +49,8 @@ private:
 		bool _supportedOS();
 		void _createWizard();
 		bool _isAlreadyRunning();
-		bool _hasAdminPermissionsDialog();		
+		bool _hasAdminPermissionsDialog();
+		void _createCatalanitzadorUpdateAction(wstring version);
 
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;

@@ -20,6 +20,7 @@
 #pragma once
 
 #include "DlgUI.h"
+#include "CatalanitzadorUpdateAction.h"
 
 #include <string>
 using namespace std;
@@ -35,12 +36,11 @@ public:
 		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
 		void OnDownloadStatus(int total, int current);
 
-private:	
-		void _downloadFile();
+private:		
 		static void _downloadStatus(int total, int current, void *data);
 
+		CatalanitzadorUpdateAction* m_pUpdateAction;
 		HWND m_hProgressBar;
-		HWND m_hDescription;
-		wstring m_filename;
-		BOOL m_bCancelled;
+		HWND m_hDescription;		
+		bool m_bCancelled;
 };

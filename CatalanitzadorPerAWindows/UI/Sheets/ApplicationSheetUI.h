@@ -21,16 +21,25 @@
 
 #include "PropertySheetUI.h"
 
+#include "Action.h"
+#include <vector>
+using namespace std;
+
 class ApplicationSheetUI: public PropertySheetUI
 {
 public:
 		ApplicationSheetUI();
 		~ApplicationSheetUI();
 
-		virtual	void _onInitDialog();		
+		virtual	void _onInitDialog();
+
+		void SetActions(vector <Action *> * value) { m_actions =  value;}
+		vector <Action *> * GetActions() { return m_actions;}
+		
 
 private:
 		void _disableCloseButton();
 
 		HICON m_hIcon;
+		vector <Action *> * m_actions;
 };

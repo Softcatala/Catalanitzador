@@ -26,17 +26,15 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "WelcomePropertyPageUI.h"
 #include "ApplicationSheetUI.h"
-#include "Actions.h"
-#include "Version.h"
 #include "ActiveX.h"
 #include "Slideshow.h"
-#include "StringConversion.h"
 #include "Authorization.h"
-#include "SystemRestore.h"
 #include "ConfigurationInstance.h"
 #include "guid.h"
 #include "Registry.h"
 #include "ApplicationVersion.h"
+#include "CatalanitzadorUpdateAction.h"
+#include "Runner.h"
 
 #define COMMAND_DELIMITER L' '
 #define VERSION_PARAMETER L"/version"
@@ -72,6 +70,18 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 /UseAeroLook - Usa l'aspecte Aero \n\
 /UseClassicLook - Usa l'aspecte clàssic \n"
 
+void CatalanitzadorPerAWindows::_createCatalanitzadorUpdateAction(wstring version)
+{
+	if (version.size() == 0)
+		return;
+
+	CatalanitzadorUpdateAction* action;
+	
+	action = (CatalanitzadorUpdateAction *)m_actions.GetActionFromID(CatalanitzadorUpdate);
+	action->SetVersion(version);
+	action->SetStatus(Successful);
+}
+
 void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 {
 	wchar_t* pch;
@@ -84,6 +94,23 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 		{
 			m_bRunningCheck = false;
 			pch += NORUNNING_PARAMETER_LEN;
+
+			if (wcslen(pch) > 0)
+			{
+				wchar_t version[32];
+				wchar_t* start, *end;
+
+				pch++;
+				start = pch;
+				end = wcschr(start, L' ');
+				if (end == NULL) end = pch +  wcslen(start);
+
+				wcsncpy_s(version, start, end - start);
+				_createCatalanitzadorUpdateAction(version);
+
+				pch = end;
+			}			
+
 		} else if (_wcsnicmp(pch, USEAEROLOOK_PARAMETER, USEAEROLOOK_PARAMETER_LEN) == 0)
 		{
 			ConfigurationInstance::Get().SetAeroEnabled(true);
@@ -102,17 +129,24 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 		{
 			wchar_t version[32];
 			wchar_t* start, *end;
+			
+			pch += VERSION_PARAMETER_LEN;			
 
-			start = pch;
-			start += wcslen(VERSION_PARAMETER) + 1;
-			end = wcschr(start, L' ');
-			wcsncpy_s(version, start, end-start);
-			ConfigurationInstance::Get().SetVersion(ApplicationVersion(version));
+			if (wcslen(pch) > 0)
+			{
+				pch++;
+				start = pch;
+				end = wcschr(start, L' ');
+				if (end == NULL) end = pch +  wcslen(start);
 
-			if (end != NULL)
+				wcsncpy_s(version, start, end - start);
+				ConfigurationInstance::Get().SetVersion(ApplicationVersion(version));
+
 				pch = end;
+			}
 		}
-		pch++;
+		else
+			pch++;
 	}
 }
 
@@ -225,7 +259,6 @@ void CatalanitzadorPerAWindows::_createWizard()
 	ApplicationsPropertyPageUI applications;
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
-	Actions actions;
 	SystemRestore systemRestore;
 	Slideshow slideshow;
 	BOOL bSendStats = TRUE;
@@ -239,18 +272,21 @@ void CatalanitzadorPerAWindows::_createWizard()
 	if (systemRestore.Init() == false)
 		bSystemRestore = FALSE;
 
+	vector <Action *> acts = m_actions.GetActions();
+	
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
-	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	welcome.SetSendStats(&bSendStats);
 	welcome.SetSystemRestore(&bSystemRestore);
+	welcome.SetActions(&acts);
+	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	sheet.addPage(&welcome);
 
 	applications.createPage(m_hInstance, IDD_APPLICATIONS, IDD_APPLICATIONS_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_APPLICATIONS));
 	applications.setParent(&sheet);
 	applications.setPageButtons(NextBackButtons);
-	vector <Action *> acts = actions.GetActions();
-	applications.SetActions(&acts);	
+	
+	applications.SetActions(&acts);
 	sheet.addPage(&applications);
 
 	install.setParent(&sheet);
@@ -263,11 +299,11 @@ void CatalanitzadorPerAWindows::_createWizard()
 	sheet.addPage(&install);
 
 	finish.SetSerializer(&m_serializer);
-	finish.setParent(&sheet);
-	finish.SetActions(&acts);
+	finish.setParent(&sheet);	
 	finish.setPageButtons(FinishButtonOnly);
 	finish.SetSendStats(&bSendStats);
-	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));
+	finish.SetActions(&acts);
+	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));	
 	sheet.addPage(&finish);
 	slideshow.Start();
 

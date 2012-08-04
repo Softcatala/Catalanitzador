@@ -35,4 +35,5 @@ enum ActionID
 	OpenOffice = 9,
 	AcrobatReader = 10,
 	WindowsLive = 11,
+	CatalanitzadorUpdate = 12,
 };

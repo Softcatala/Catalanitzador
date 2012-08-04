@@ -261,6 +261,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\CatalanitzadorUpdateAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\CatalanitzadorUpdateAction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\ChromeAction.cpp"
 				>
 			</File>

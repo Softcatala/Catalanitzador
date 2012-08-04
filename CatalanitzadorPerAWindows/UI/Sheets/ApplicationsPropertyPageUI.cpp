@@ -176,7 +176,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 		{		
 			Action* action = m_availableActions->at(i);
 
-			if (action->GetGroup() != (ActionGroup)g)
+			if (action->GetGroup() == ActionGroupNone || action->GetGroup() != (ActionGroup)g)
 				continue;
 
 			bool needed = action->IsNeed();

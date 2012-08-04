@@ -97,7 +97,7 @@ void Action::SetStatus(ActionStatus value)
 	switch (prev)
 	{
 		case NotSelected:
-			assert(status == CannotBeApplied || status == Selected || status == AlreadyApplied || status == NotInstalled);
+			assert(status == CannotBeApplied || status == Selected || status == AlreadyApplied || status == NotInstalled || status == Successful);
 			break;
 		case Selected:
 			assert(status == InProgress || status == NotSelected);

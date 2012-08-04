@@ -33,6 +33,7 @@
 #include "AdobeReaderAction.h"
 #include "WindowsLiveAction.h"
 #include "FileVersionInfo.h"
+#include "CatalanitzadorUpdateAction.h"
 
 Actions::Actions()
 {
@@ -107,8 +108,20 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new FirefoxAction( _getNewRegistry()));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
-	
+	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner()));
+
 	_checkPrerequirements();
+}
+
+Action * Actions::GetActionFromID(ActionID actionID)
+{
+	for (unsigned int i = 0; i < m_actions.size(); i++)
+	{		
+		if (m_actions.at(i)->GetID() == actionID)
+			return m_actions.at(i);
+	}
+	assert(false);
+	return NULL;
 }
 
 void Actions::_checkPrerequirements()

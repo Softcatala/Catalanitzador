@@ -36,6 +36,7 @@ public:
 			using CatalanitzadorPerAWindows::_processCommandLine;
 
 			bool GetRunningCheck() {return m_bRunningCheck;}
+			Actions& GetActions() {return m_actions; }
 
 };
 
@@ -78,6 +79,35 @@ TEST(CatalanitzadorPerAWindowsTest, _RunningCheck)
 	EXPECT_TRUE(catalanitzadorPerAWindows.GetRunningCheck());
 	catalanitzadorPerAWindows._processCommandLine(parameters);
 	EXPECT_FALSE(catalanitzadorPerAWindows.GetRunningCheck());
+}
+
+TEST(CatalanitzadorPerAWindowsTest, _RunningCheckWithVersion)
+{
+	const wchar_t* VERSION = L"0.1.3";
+	wstring version_found;
+
+	wstring parameters(L"/norunningcheck:");
+	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
+
+	parameters+= VERSION;
+
+	EXPECT_TRUE(catalanitzadorPerAWindows.GetRunningCheck());
+	catalanitzadorPerAWindows._processCommandLine(parameters);
+	EXPECT_FALSE(catalanitzadorPerAWindows.GetRunningCheck());
+
+	vector <Action *>  actions = catalanitzadorPerAWindows.GetActions().GetActions();
+	
+	for (unsigned int i = 0; i < actions.size(); i++)
+	{
+		if (actions.at(i)->GetID() != CatalanitzadorUpdate)
+			continue;
+
+		version_found = actions.at(i)->GetVersion();
+		break;
+	}
+
+	// By checking the version we also are checking the the action was added to the list
+	EXPECT_THAT(version_found, StrCaseEq(VERSION));
 }
 
 

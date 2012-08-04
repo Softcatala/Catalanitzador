@@ -36,6 +36,8 @@ class Actions
 		Actions();
 		~Actions();
 		vector <Action *> GetActions() {return m_actions; }
+		Action* GetActionFromID(ActionID actionID);
+
 	private:
 		void _buildListOfActions();
 		void _checkPrerequirements();

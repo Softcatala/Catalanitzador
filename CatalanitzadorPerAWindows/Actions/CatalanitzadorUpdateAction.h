@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,11 +19,29 @@
 
 #pragma once
 
-enum _APICALL ActionGroup
+#include "Action.h"
+#include "IRunner.h"
+
+class _APICALL CatalanitzadorUpdateAction : public Action
 {
-	ActionGroupNone, // Used for actions not shown to the user
-	ActionGroupWindows,
-	ActionGroupInternet,
-	ActionGroupOfficeAutomation,
-	ActionGroupLast // Keep this always as last element
+public:
+		CatalanitzadorUpdateAction(IRunner* runner);		
+
+		virtual wchar_t* GetName();
+		virtual wchar_t* GetDescription();
+		virtual ActionID GetID() const { return CatalanitzadorUpdate;};
+		virtual ActionGroup GetGroup() const {return ActionGroupNone;}
+		virtual bool Download(ProgressStatus progress, void *data);
+		virtual bool IsNeed();
+		virtual void Execute();
+		virtual const wchar_t* GetVersion() {return m_version.c_str();}
+
+		void SetVersion(wstring version) { m_version = version;}
+
+private:
+
+		IRunner* m_runner;
+		wstring m_version;
+		wstring m_filename;
 };
+

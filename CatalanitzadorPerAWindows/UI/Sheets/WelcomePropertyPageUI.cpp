@@ -78,26 +78,68 @@ void WelcomePropertyPageUI::_onInitDialog()
 	_initPropertySheet();	
 }
 
-bool WelcomePropertyPageUI::_onNext()
+Action* WelcomePropertyPageUI::_getCatalanitzadorAction() const
 {
-	if (ConfigurationInstance::Get().GetRemote().GetLatest().IsRunningInstanceUpToDate() == false)
+	for (unsigned int i = 0; i < m_actions->size(); i++)
 	{
-		wchar_t szMessage [MAX_LOADSTRING];
-		wchar_t szCaption [MAX_LOADSTRING];
+		Action* action = m_actions->at(i);
 
-		LoadString(GetModuleHandle(NULL), IDS_WANT_TOUSE_NEWVERSION, szMessage, MAX_LOADSTRING);
-		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
-
-		if (MessageBox(getHandle(), szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) == IDYES)
-		{			
-			DownloadNewVersionDlgUI downloadNewVersionDlgUI;
-			downloadNewVersionDlgUI.Run(getHandle());
-			return false;
+		if (action->GetID() == CatalanitzadorUpdate)
+		{
+			return action;
 		}
 	}
+	assert(false);
+	return NULL;
+}
 
-	bool bAero = ConfigurationInstance::Get().GetAeroEnabled();
+bool WelcomePropertyPageUI::_doesUserWantToUpdate()
+{
+	wchar_t szMessage [MAX_LOADSTRING];
+	wchar_t szCaption [MAX_LOADSTRING];		
 
+	LoadString(GetModuleHandle(NULL), IDS_WANT_TOUSE_NEWVERSION, szMessage, MAX_LOADSTRING);
+	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+
+	return MessageBox(getHandle(), szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) == IDYES;
+}
+
+void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAction)
+{
+	ActionStatus status = Selected;
+
+	if (ConfigurationInstance::Get().GetRemote().GetLatest().IsRunningInstanceUpToDate() == false)
+	{
+		if (_doesUserWantToUpdate())
+		{
+			DownloadNewVersionDlgUI downloadNewVersionDlgUI;
+			// TODO: Review cancel
+			if (downloadNewVersionDlgUI.Run(getHandle()) == IDCANCEL)
+			{
+				status = NotSelected;
+			}
+		}		
+		else
+		{
+			status = NotSelected;
+		}
+	}
+	else
+	{
+		status = AlreadyApplied;
+	}
+	
+	catalanitzadorAction->SetStatus(status);
+}
+bool WelcomePropertyPageUI::_onNext()
+{
+	Action* catalanitzadorAction = _getCatalanitzadorAction();
+
+	if (catalanitzadorAction->GetStatus() != Successful)
+	{
+		_updateCatalanitzadorAction(catalanitzadorAction);
+	}
+	
 	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;
 	return true;
 }
