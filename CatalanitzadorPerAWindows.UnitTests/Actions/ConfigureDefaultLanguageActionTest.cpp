@@ -31,6 +31,10 @@ using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
 
+#define CATALAN_LANGCODE L"0403"
+#define SPANISH_LANGCODE L"040a"
+#define SLOVAK_LANGCODE L"041B"
+
 class ConfigureDefaultLanguageActionTest : public ConfigureDefaultLanguageAction
 {
 public:
@@ -49,62 +53,62 @@ public:
 	RunnerMock runnerMock; \
 	ConfigureDefaultLanguageActionTest defLanguageAction(&osVersionExMock, &registryMockobj, &runnerMock);
 
+void SetKeyboardLayout(RegistryMock& registryMockobj, wchar_t* lang)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Keyboard Layout\\Preload"), false)).WillRepeatedly(Return(true));	
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(lang), Return(true)));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"2"),_ ,_)).
+		WillRepeatedly(Return(false));
+}
 
-TEST(WindowsLPIActionTest, _isCatalanKeyboardActive_True)
+TEST(ConfigureDefaultLanguageActionTest, _isCatalanKeyboardActive_True)
 {
 	CreateConfigureDefaultLanguageAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Keyboard Layout\\Preload"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0403"), Return(true)));	
+	SetKeyboardLayout(registryMockobj, CATALAN_LANGCODE);
 	
 	EXPECT_TRUE(defLanguageAction._isCatalanKeyboardActive());
 }
 
-TEST(WindowsLPIActionTest, _isCatalanKeyboardActive_False)
+TEST(ConfigureDefaultLanguageActionTest, _isCatalanKeyboardActive_False)
 {
 	CreateConfigureDefaultLanguageAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Keyboard Layout\\Preload"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));	
+	SetKeyboardLayout(registryMockobj, SPANISH_LANGCODE);
 	
 	EXPECT_FALSE(defLanguageAction._isCatalanKeyboardActive());
 }
 
-TEST(WindowsLPIActionTest, _hasSpanishKeyboard_True)
+TEST(ConfigureDefaultLanguageActionTest, _hasSpanishKeyboard_True)
 {
 	CreateConfigureDefaultLanguageAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Keyboard Layout\\Preload"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));	
+	SetKeyboardLayout(registryMockobj, SPANISH_LANGCODE);
 	
 	EXPECT_TRUE(defLanguageAction._hasSpanishKeyboard());
 }
 
-TEST(WindowsLPIActionTest, _hasSpanishKeyboard_SecondTrue)
+TEST(ConfigureDefaultLanguageActionTest, _hasSpanishKeyboard_SecondTrue)
 {
 	CreateConfigureDefaultLanguageAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Keyboard Layout\\Preload"), false)).WillRepeatedly(Return(true));	
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0400"), Return(true)));	
+		WillRepeatedly(DoAll(SetArgCharStringPar2(SLOVAK_LANGCODE), Return(true)));	
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"2"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"040a"), Return(true)));
+		WillRepeatedly(DoAll(SetArgCharStringPar2(SPANISH_LANGCODE), Return(true)));
 	
 	EXPECT_TRUE(defLanguageAction._hasSpanishKeyboard());
 }
 
-#define CATALAN_LANGCODE L"0403"
-#define ANOTHER_LANGCODE L"040a"
 
-TEST(WindowsLPIActionTest, MakeCatalanActiveKeyboard_XP)
+TEST(ConfigureDefaultLanguageActionTest, MakeCatalanActiveKeyboard_XP)
 {
 	CreateConfigureDefaultLanguageAction;
 
@@ -112,10 +116,10 @@ TEST(WindowsLPIActionTest, MakeCatalanActiveKeyboard_XP)
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Keyboard Layout\\Preload"), true)).WillRepeatedly(Return(true));	
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(ANOTHER_LANGCODE), Return(true)));	
+		WillRepeatedly(DoAll(SetArgCharStringPar2(SPANISH_LANGCODE), Return(true)));	
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"2"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"0400"), Return(true)));
+		WillRepeatedly(DoAll(SetArgCharStringPar2(SLOVAK_LANGCODE), Return(true)));
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"3"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(CATALAN_LANGCODE), Return(true)));
@@ -131,5 +135,40 @@ TEST(WindowsLPIActionTest, MakeCatalanActiveKeyboard_XP)
 	defLanguageAction._makeCatalanActiveKeyboard();
 
 	EXPECT_THAT(lang1, StrCaseEq(CATALAN_LANGCODE));
-	EXPECT_THAT(lang3, StrCaseEq(ANOTHER_LANGCODE));
+	EXPECT_THAT(lang3, StrCaseEq(SPANISH_LANGCODE));
+}
+
+TEST(ConfigureDefaultLanguageActionTest, _isNeeded_True_AlreadyApplied)
+{
+	CreateConfigureDefaultLanguageAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	SetKeyboardLayout(registryMockobj, CATALAN_LANGCODE);
+	
+	defLanguageAction.CheckPrerequirements(NULL);
+	EXPECT_FALSE(defLanguageAction.IsNeed());
+	EXPECT_THAT(defLanguageAction.GetStatus(), AlreadyApplied);
+}
+
+TEST(ConfigureDefaultLanguageActionTest, _isNeeded_False_CannotBeApplied)
+{
+	CreateConfigureDefaultLanguageAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	SetKeyboardLayout(registryMockobj, SLOVAK_LANGCODE);
+	
+	defLanguageAction.CheckPrerequirements(NULL);
+	EXPECT_FALSE(defLanguageAction.IsNeed());
+	EXPECT_THAT(defLanguageAction.GetStatus(), CannotBeApplied);
+}
+
+TEST(ConfigureDefaultLanguageActionTest, _isNeeded_True)
+{
+	CreateConfigureDefaultLanguageAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	SetKeyboardLayout(registryMockobj, SPANISH_LANGCODE);
+	
+	defLanguageAction.CheckPrerequirements(NULL);
+	EXPECT_TRUE(defLanguageAction.IsNeed());	
 }

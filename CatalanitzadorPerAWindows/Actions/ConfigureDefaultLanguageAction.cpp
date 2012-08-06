@@ -21,6 +21,10 @@
 #include "ConfigureDefaultLanguageAction.h"
 #include "Resources.h"
 
+#define CATALAN_LANGCODE L"0403"
+#define SPANISH_LANGCODE L"040a"
+#define SPANISH_MODERN_LANGCODE L"0c0a"
+
 ConfigureDefaultLanguageAction::ConfigureDefaultLanguageAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
 	m_registry = registry;
@@ -56,8 +60,7 @@ bool ConfigureDefaultLanguageAction::_isCatalanKeyboardActive()
 	{
 		if (m_registry->GetString(L"1", szValue, sizeof (szValue)))
 		{
-			// 0403 locale code for CA-ES
-			if (wcsstr(szValue, L"0403") != NULL)
+			if (wcsstr(szValue, CATALAN_LANGCODE) != NULL)
 				bCatalanActive = true;
 		}
 		m_registry->Close();
@@ -67,18 +70,21 @@ bool ConfigureDefaultLanguageAction::_isCatalanKeyboardActive()
 }
 
 bool ConfigureDefaultLanguageAction::IsNeed()
-{	
-	if (status == CannotBeApplied)
-		return false;
-
+{
 	bool bNeed;
 
-	bNeed = _isCatalanKeyboardActive() == false;
-
-	if (bNeed == false)
-		status = AlreadyApplied;
-
-	g_log.Log(L"ConfigureDefaultLanguageAction::IsNeed returns %u", (wchar_t *) bNeed);
+	switch(GetStatus())
+	{		
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
+	}
+	g_log.Log(L"ConfigureDefaultLanguageAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
 	return bNeed;
 }
 
@@ -130,7 +136,7 @@ bool ConfigureDefaultLanguageAction::_hasSpanishKeyboard()
 			if (m_registry->GetString(szNum, szValue, sizeof (szValue)) == false)
 				break;			
 
-			if (wcsstr(szValue, L"040a") != NULL ||wcsstr(szValue, L"0c0a") != NULL)
+			if (wcsstr(szValue, SPANISH_LANGCODE) != NULL ||wcsstr(szValue, SPANISH_MODERN_LANGCODE) != NULL)
 			{
 				bSpanishActive = true;
 				break;
@@ -145,12 +151,19 @@ bool ConfigureDefaultLanguageAction::_hasSpanishKeyboard()
 
 void ConfigureDefaultLanguageAction::CheckPrerequirements(Action * action)
 {
-	if (_isCatalanKeyboardActive() == false && _hasSpanishKeyboard() == false)
+	if (_isCatalanKeyboardActive())
 	{
-		_getStringFromResourceIDName(IDS_DEFLANGACTION_NOSPANISHKEYBOARD, szCannotBeApplied);
-		g_log.Log(L"ConfigureDefaultLanguageAction::CheckPrerequirements. No Spanish keyboard installed.");
-		SetStatus(CannotBeApplied);
-		return;
+		SetStatus(AlreadyApplied);
+	}
+	else
+	{
+		if (_hasSpanishKeyboard() == false)
+		{
+			_getStringFromResourceIDName(IDS_DEFLANGACTION_NOSPANISHKEYBOARD, szCannotBeApplied);
+			g_log.Log(L"ConfigureDefaultLanguageAction::CheckPrerequirements. No Spanish keyboard installed.");
+			SetStatus(CannotBeApplied);
+			return;
+		}
 	}
 }
 
@@ -180,7 +193,7 @@ void ConfigureDefaultLanguageAction::_makeCatalanActiveKeyboard()
 			if (m_registry->GetString(szNum, szValue, sizeof (szValue)) == false)
 				break;		
 
-			if (wcsstr(szValue, L"0403") != NULL)
+			if (wcsstr(szValue, CATALAN_LANGCODE) != NULL)
 			{
 				nCatIndex = i;
 				break;
