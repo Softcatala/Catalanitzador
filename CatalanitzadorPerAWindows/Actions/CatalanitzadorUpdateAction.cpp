@@ -21,7 +21,6 @@
 #include <stdio.h>
 
 #include "CatalanitzadorUpdateAction.h"
-#include "Runner.h"
 #include "ConfigurationInstance.h"
 #include "Runner.h"
 
@@ -66,7 +65,7 @@ bool CatalanitzadorUpdateAction::Download(ProgressStatus progress, void *data)
 	return true;
 }
 
-#define PARAMETER_NOCHECK L""
+#define PARAMETER_NOCHECK L"/NoRunningCheck:"
 
 void CatalanitzadorUpdateAction::Execute()
 {
