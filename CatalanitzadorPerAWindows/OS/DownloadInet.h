@@ -21,7 +21,7 @@
 
 #include "Inet.h"
 
-typedef void (*ProgressStatus)(int nTotal, int nCurrent, void *data);
+typedef bool (*ProgressStatus)(int nTotal, int nCurrent, void *data);
 
 class _APICALL DownloadInet : public Inet
 {

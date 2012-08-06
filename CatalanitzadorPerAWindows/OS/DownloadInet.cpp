@@ -125,7 +125,8 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 
 		if (progress != NULL)
 		{
-			progress (nTotal, nCurrent, data);
+			if (progress (nTotal, nCurrent, data) == false)
+				break;
 		}
 
 		Window::ProcessMessages();
@@ -138,6 +139,6 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 
 	CloseHandle(hWrite);
 	InternetCloseHandle(hRemoteFile);
-	return true;
+	return dwRead == 0;
 }
 

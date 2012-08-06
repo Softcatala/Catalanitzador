@@ -34,10 +34,10 @@ public:
 		virtual	void _onInitDialog();
 		virtual	void _onTimer();
 		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
-		void OnDownloadStatus(int total, int current);
+		bool OnDownloadStatus(int total, int current);
 
 private:		
-		static void _downloadStatus(int total, int current, void *data);
+		static bool _downloadStatus(int total, int current, void *data);
 
 		CatalanitzadorUpdateAction* m_pUpdateAction;
 		HWND m_hProgressBar;

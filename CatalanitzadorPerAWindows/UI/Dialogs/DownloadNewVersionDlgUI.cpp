@@ -40,7 +40,7 @@ void DownloadNewVersionDlgUI::_onInitDialog()
 	SetTimer(getHandle(), TIMER_ID, 500, NULL);
 }
 
-void DownloadNewVersionDlgUI::OnDownloadStatus(int total, int current)
+bool DownloadNewVersionDlgUI::OnDownloadStatus(int total, int current)
 {
 	wchar_t szString[MAX_LOADSTRING];
 	wchar_t szText[MAX_LOADSTRING];
@@ -51,12 +51,14 @@ void DownloadNewVersionDlgUI::OnDownloadStatus(int total, int current)
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);
 	swprintf_s(szText, szString, PROGRAM_NAME, ((float)current) / BYTES_TO_MEGABYTES, ((float)total) / BYTES_TO_MEGABYTES);
 	SendMessage(m_hDescription, WM_SETTEXT, 0, (LPARAM) szText);
+
+	return m_bCancelled == false;
 }
 
-void DownloadNewVersionDlgUI::_downloadStatus(int total, int current, void *data)
+bool DownloadNewVersionDlgUI::_downloadStatus(int total, int current, void *data)
 {
 	DownloadNewVersionDlgUI* pThis = (DownloadNewVersionDlgUI *) data;
-	pThis->OnDownloadStatus(total, current);	
+	return pThis->OnDownloadStatus(total, current);
 }
 
 void DownloadNewVersionDlgUI::_onTimer()
@@ -65,7 +67,7 @@ void DownloadNewVersionDlgUI::_onTimer()
 	
 	m_pUpdateAction->Download(_downloadStatus, this);
 
-	if (m_bCancelled)
+	if (m_bCancelled == false)
 	{
 		m_pUpdateAction->Execute();
 		// After executing the new version of the application, quit the current instance
