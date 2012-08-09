@@ -16,15 +16,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
 
-#include <stdafx.h>
+#include "stdafx.h"
+#include "ConfigurationFileActionDownloads.h"
 
-#include "ConfigurationLatest.h"
-#include "ConfigurationInstance.h"
-
-bool ConfigurationLatest::IsRunningInstanceUpToDate()
+ConfigurationFileActionDownload& ConfigurationFileActionDownloads::GetFileDownloadForVersion(ApplicationVersion version)
 {
-	ApplicationVersion latestVersion(GetVersion());
-	return ConfigurationInstance::Get().GetVersion() >= latestVersion;
+	for (unsigned int i = 0; i < m_fileActionsDownload.size(); i++)
+	{
+		if (m_fileActionsDownload.at(i).GetMinVersion() >= version &&
+			m_fileActionsDownload.at(i).GetMinVersion() <= version)
+		{
+			return m_fileActionsDownload.at(i); 
+		}
+	}
+	assert(false);
+	return m_fileActionsDownload.at(0);
 }
+

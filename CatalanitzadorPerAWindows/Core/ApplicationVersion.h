@@ -27,11 +27,12 @@ using namespace std;
 class _APICALL ApplicationVersion
 {
 	public:
+			ApplicationVersion() {}
 			ApplicationVersion(wstring version) { m_version = version;}
 			vector <wstring> GetComponents();
 
-			bool operator== (ApplicationVersion other);
-			bool operator!= (ApplicationVersion other);
+			bool operator == (ApplicationVersion other);
+			bool operator != (ApplicationVersion other);
 			bool operator > (ApplicationVersion other);
 			bool operator < (ApplicationVersion other);
 			bool operator >= (ApplicationVersion other);

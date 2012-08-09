@@ -4,14 +4,42 @@
 
 	<compatibility>
 		<!-- Minimum version Catalanitzador version required to process this file --> 
-		<version>1.2.0</version>
+		<version>1.3.0</version>
 	</compatibility>
-	
-	<latest>
-		<version>1.2.2</version>
-		<URL><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe&id=5643&mirall=softcatala2&versio=1.22&so=win32]]></URL>
-		<FallbackURL1>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL1>
-		<FallbackURL2>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL2>
-	</latest>
-
+	<actions>
+		<!-- Catalanitzador's latest version -->
+		<action>
+	 		<id>12</id>
+	 		<version>
+	  			<min_version>1.2.2</min_version>
+	  			<max_version>1.2.2</max_version>
+	  			<URL><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe&id=5643&mirall=softcatala2&versio=1.22&so=win32]]></URL>
+				<FallbackURL1>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL1>
+				<FallbackURL2>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL2>
+	  		</version>
+	 		<version>
+	  			<min_version>3.3</min_version>
+	  			<max_version>3.3</max_version>
+	  			<FallbackURL1></FallbackURL1>
+				<FallbackURL2></FallbackURL2>
+	  		</version>
+		</action>
+		<!-- OpenOffice.org -->
+		<action>
+	 		<id>9</id>
+	 		<version>
+	  			<min_version>3.2</min_version>
+	  			<max_version>3.2</max_version>
+	  			<URL><![CDATA[http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0]]></URL>
+	  			<FallbackURL1></FallbackURL1>
+				<FallbackURL2></FallbackURL2>
+	  		</version>
+	 		<version>
+	  			<min_version>3.3</min_version>
+	  			<max_version>3.3</max_version>
+	  			<FallbackURL1></FallbackURL1>
+				<FallbackURL2></FallbackURL2>
+	  		</version>
+		</action>
+	</actions>
 </configuration>

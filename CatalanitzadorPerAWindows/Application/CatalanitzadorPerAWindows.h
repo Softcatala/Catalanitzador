@@ -23,6 +23,7 @@
 #include "Serializer.h"
 #include "OSVersion.h"
 #include "Actions.h"
+#include "DownloadManager.h"
 
 #include <string>
 using namespace std;
@@ -55,7 +56,8 @@ private:
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;
 		Serializer m_serializer;
-		OSVersion m_osVersion;		
+		OSVersion m_osVersion;
+		DownloadManager m_downloadManager;
 
 		int NORUNNING_PARAMETER_LEN;
 		int VERSION_PARAMETER_LEN;

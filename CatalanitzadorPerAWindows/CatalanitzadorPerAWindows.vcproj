@@ -413,6 +413,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\DownloadManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\DownloadManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\Guid.cpp"
 				>
 			</File>
@@ -504,15 +512,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Core\Configuration\ConfigurationFileActionDownload.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationFileActionDownloads.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Core\Configuration\ConfigurationFileActionDownloads.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Core\Configuration\ConfigurationInstance.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Core\Configuration\ConfigurationLatest.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Core\Configuration\ConfigurationLatest.h"
 					>
 				</File>
 				<File

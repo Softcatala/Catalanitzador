@@ -35,8 +35,9 @@
 #include "FileVersionInfo.h"
 #include "CatalanitzadorUpdateAction.h"
 
-Actions::Actions()
+Actions::Actions(DownloadManager downloadManager)
 {
+	m_downloadManager = downloadManager;
 	_buildListOfActions();
 }
 
@@ -106,7 +107,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new ChromeAction( _getNewRegistry()));
 	m_actions.push_back(new FirefoxAction( _getNewRegistry()));
-	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner()));
+	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), &m_downloadManager));
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner()));
 

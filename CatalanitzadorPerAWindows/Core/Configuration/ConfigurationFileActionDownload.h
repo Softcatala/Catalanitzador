@@ -19,29 +19,30 @@
  
 #pragma once
 
-#include "ConfigurationFileActionDownloads.h"
 #include "ActionID.h"
+#include "ApplicationVersion.h"
 #include <string>
 
 using namespace std;
 
-class ConfigurationRemote
+class ConfigurationFileActionDownload
 {
 	public:
+			ConfigurationFileActionDownload() {}
+
+			ApplicationVersion& GetMaxVersion() {return m_maxVersion;}
+			void SetMaxVersion(ApplicationVersion version) {m_maxVersion = version;}
+
+			ApplicationVersion& GetMinVersion() {return m_minVersion;}
+			void SetMinVersion(ApplicationVersion version) {m_minVersion = version;}
 	
-			wstring& GetCompatibility() {return m_compatibility;}
-			void SetCompatibility(wstring compatibility) {m_compatibility = compatibility;}
-
-			vector <ConfigurationFileActionDownloads>& GetFileActionsDownloads() {return m_fileActionsDownloads;}
-
-			int AddFileActionDownloads(ConfigurationFileActionDownloads fileDownloads)
-			{
-				m_fileActionsDownloads.push_back(fileDownloads);
-				return m_fileActionsDownloads.size() - 1;
-			}
+			vector <wstring>& GetUrls() {return m_urls;}
+			void AddUrl(wstring url) {m_urls.push_back(url);}
 
 	private:
-			
-			wstring m_compatibility;
-			vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
+
+			ActionID m_actionID;
+			ApplicationVersion m_maxVersion;
+			ApplicationVersion m_minVersion;
+			vector <wstring> m_urls;
 };

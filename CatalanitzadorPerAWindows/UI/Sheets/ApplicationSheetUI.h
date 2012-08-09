@@ -20,6 +20,7 @@
 #pragma once
 
 #include "PropertySheetUI.h"
+#include "DownloadManager.h"
 
 #include "Action.h"
 #include <vector>
@@ -35,11 +36,13 @@ public:
 
 		void SetActions(vector <Action *> * value) { m_actions =  value;}
 		vector <Action *> * GetActions() { return m_actions;}
-		
+		DownloadManager GetDownloadManager() { return m_downloadManager;}
+		void SetDownloadManager(DownloadManager downloadManager) { m_downloadManager = downloadManager;}		
 
 private:
 		void _disableCloseButton();
 
 		HICON m_hIcon;
 		vector <Action *> * m_actions;
+		DownloadManager m_downloadManager;
 };

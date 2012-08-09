@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "ConfigurationLatest.h"
+/*#include "ConfigurationLatest.h"
 
 using ::testing::StrCaseEq;
 
@@ -60,3 +60,4 @@ TEST(ConfigurationLatestTest, IsRunningInstanceUpToDate)
 	EXPECT_TRUE(configurationLatest.IsRunningInstanceUpToDate());
 }
 
+*/

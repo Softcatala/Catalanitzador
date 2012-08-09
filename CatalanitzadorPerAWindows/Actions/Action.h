@@ -25,6 +25,7 @@
 #include "ActionGroup.h"
 #include "ActionDownload.h"
 #include "StringConversion.h"
+#include "DownloadManager.h"
 
 #include <vector>
 using namespace std;

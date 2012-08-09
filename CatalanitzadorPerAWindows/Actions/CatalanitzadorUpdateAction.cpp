@@ -54,7 +54,7 @@ bool CatalanitzadorUpdateAction::Download(ProgressStatus progress, void *data)
 	wstring surl;
 
 	// TODO: Implement re-try for other mirrors
-	surl = configuration.GetRemote().GetLatest().GetUrls().at(0);
+	//surl = configuration.GetRemote().GetLatest().GetUrls().at(0);
 
 	wchar_t szFilename[MAX_PATH];
 	GetTempPath(MAX_PATH, szFilename);

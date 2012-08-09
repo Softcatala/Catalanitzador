@@ -39,14 +39,10 @@ TEST(ConfigurationRemoteXmlParserTest, GetCompatibility)
 	configurationXmlParser.Parse();
 
 	version = configurationXmlParser.GetConfiguration().GetCompatibility();
-	EXPECT_THAT(version, StrCaseEq(L"1.2.0"));
+	EXPECT_THAT(version, StrCaseEq(L"1.3.0"));
 }
 
-#define LATEST_URL1 L"http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0"
-#define LATEST_FALLBACK1 L"http://udl.cat/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe"
-#define LATEST_FALLBACK2 L"http://upf.edu/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe"
-
-TEST(ConfigurationRemoteXmlParserTest, GetLatest)
+TEST(ConfigurationRemoteXmlParserTest, GetFileActionsDownloads)
 {
 	wstring file, version;
 	vector <wstring> urls;
@@ -55,13 +51,46 @@ TEST(ConfigurationRemoteXmlParserTest, GetLatest)
 	ConfigurationRemoteXmlParser configurationXmlParser(file);
 	configurationXmlParser.Parse();
 
-	version = configurationXmlParser.GetConfiguration().GetLatest().GetVersion();
-	EXPECT_THAT(version, StrCaseEq(L"1.2.1"));
+	EXPECT_THAT(configurationXmlParser.GetConfiguration().GetFileActionsDownloads().size(), 3);
+}
 
-	urls = configurationXmlParser.GetConfiguration().GetLatest().GetUrls();
+#define OPENOFFICEACTION_INDEX 1
+#define VERSION32_INDEX 0
+#define VERSION33_INDEX 1
+
+#define OO32_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0"
+#define OO32_FALLBACK1 L"ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab"
+#define OO32_FALLBACK2 L"ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab"
+
+#define OO33_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0"
+#define OO33_FALLBACK1 L"ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab"
+#define OO33_FALLBACK2 L"ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab"
+
+TEST(ConfigurationRemoteXmlParserTest, GetAction)
+{
+	ConfigurationFileActionDownloads downloads;
+	ConfigurationFileActionDownload download32, download33;
+	wstring file;
+
+ 	_getConfigurationFileLocation(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(file);
+	configurationXmlParser.Parse();
+
+	downloads = configurationXmlParser.GetConfiguration().GetFileActionsDownloads().at(OPENOFFICEACTION_INDEX);
+	download32 = downloads.GetFileActionDownloadCollection().at(VERSION32_INDEX);
+	download33 = downloads.GetFileActionDownloadCollection().at(VERSION33_INDEX);
+
+	EXPECT_THAT(downloads.GetFileActionDownloadCollection().size(), 2);
 	
-	EXPECT_THAT(urls.size(), 3);
-	EXPECT_THAT(urls[0], StrCaseEq(LATEST_URL1));
-	EXPECT_THAT(urls[1], StrCaseEq(LATEST_FALLBACK1));
-	EXPECT_THAT(urls[2], StrCaseEq(LATEST_FALLBACK2));
+	EXPECT_TRUE(download32.GetMinVersion() == ApplicationVersion(L"3.2.0"));
+	EXPECT_TRUE(download32.GetMaxVersion() == ApplicationVersion(L"3.2.99"));
+	EXPECT_THAT(download32.GetUrls().at(0), StrCaseEq(OO32_URL));
+	EXPECT_THAT(download32.GetUrls().at(1), StrCaseEq(OO32_FALLBACK1));
+	EXPECT_THAT(download32.GetUrls().at(2), StrCaseEq(OO32_FALLBACK2));
+
+	EXPECT_TRUE(download33.GetMinVersion() == ApplicationVersion(L"3.3"));
+	EXPECT_TRUE(download33.GetMaxVersion() == ApplicationVersion(L"3.3"));
+	EXPECT_THAT(download33.GetUrls().at(0), StrCaseEq(OO33_URL));
+	EXPECT_THAT(download33.GetUrls().at(1), StrCaseEq(OO33_FALLBACK1));
+	EXPECT_THAT(download33.GetUrls().at(2), StrCaseEq(OO33_FALLBACK2));
 }

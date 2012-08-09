@@ -36,8 +36,8 @@ class OpenOfficeActionTest : public OpenOfficeAction
 {
 public:
 	
-	OpenOfficeActionTest::OpenOfficeActionTest(IRegistry* registry, IRunner* runner)
-		: OpenOfficeAction(registry, runner) {};
+	OpenOfficeActionTest::OpenOfficeActionTest(IRegistry* registry, IRunner* runner, DownloadManager *downloadManager)
+		: OpenOfficeAction(registry, runner, downloadManager) {};
 	
 	public: 
 			
@@ -67,7 +67,7 @@ public:
 #define CreateOpenOfficeAction \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	OpenOfficeActionTest openofficeAction(&registryMockobj, &runnerMock);
+	OpenOfficeActionTest openofficeAction(&registryMockobj, &runnerMock, new DownloadManager());
 
 void SetOpenOfficeVersion(RegistryMock& registryMockobj, wstring version)
 {

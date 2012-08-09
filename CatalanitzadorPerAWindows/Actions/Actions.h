@@ -25,6 +25,7 @@
 #include "IRegistry.h"
 #include "IRunner.h"
 #include "IFileVersionInfo.h"
+#include "DownloadManager.h"
 
 #include <vector>
 
@@ -33,7 +34,7 @@ using namespace std;
 class Actions
 {
     public:
-		Actions();
+		Actions(DownloadManager downloadManager);
 		~Actions();
 		vector <Action *> GetActions() {return m_actions; }
 		Action* GetActionFromID(ActionID actionID);
@@ -50,4 +51,5 @@ class Actions
 
 		vector <Action *> m_actions;
 		vector <void *> m_objectsToDelete;
+		DownloadManager m_downloadManager;
 };

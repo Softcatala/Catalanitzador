@@ -104,16 +104,31 @@ bool WelcomePropertyPageUI::_doesUserWantToUpdate()
 	return MessageBox(getHandle(), szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) == IDYES;
 }
 
+bool IsRunningInstanceUpToDate()
+{
+	vector <ConfigurationFileActionDownloads> m_fileActionsDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();
+	for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
+	{
+		if (m_fileActionsDownloads.at(i).GetActionID() == CatalanitzadorUpdate)
+		{
+			ConfigurationFileActionDownload fileActionDownload;
+			fileActionDownload = m_fileActionsDownloads.at(i).GetFileActionDownloadCollection()[0];
+			return ConfigurationInstance::Get().GetVersion() >= fileActionDownload.GetMaxVersion();			
+		}
+	}
+	assert(false);
+	return true;	
+}
+
 void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAction)
 {
 	ActionStatus status = Selected;
 
-	if (ConfigurationInstance::Get().GetRemote().GetLatest().IsRunningInstanceUpToDate() == false)
+	if (IsRunningInstanceUpToDate() == false)
 	{
 		if (_doesUserWantToUpdate())
 		{
 			DownloadNewVersionDlgUI downloadNewVersionDlgUI;
-			// TODO: Review cancel
 			if (downloadNewVersionDlgUI.Run(getHandle()) == IDCANCEL)
 			{
 				status = NotSelected;

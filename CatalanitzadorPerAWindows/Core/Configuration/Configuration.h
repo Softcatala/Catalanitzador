@@ -23,6 +23,7 @@
 #include "TriBool.h"
 #include "IOSVersion.h"
 #include "OSVersion.h"
+#include "Version.h"
 #include "ApplicationVersion.h"
 
 class Configuration

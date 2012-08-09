@@ -32,7 +32,7 @@
 class _APICALL OpenOfficeAction : public Action
 {
 public:
-		OpenOfficeAction(IRegistry* registry, IRunner* runner);
+		OpenOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager *downloadManager);
 		~OpenOfficeAction();
 
 		virtual wchar_t* GetName();
@@ -66,6 +66,7 @@ private:
 		wstring m_version;
 		IRunner* m_runner;
 		IRegistry* m_registry;
+		DownloadManager* m_downloadManager;
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
 		wchar_t m_szTempPathCAB[MAX_PATH];

@@ -16,29 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
-#include "ApplicationVersion.h"
-#include "Version.h"
 
-#include <string>
-#include <vector>
+#include "stdafx.h"
 
-using namespace std;
-
-class _APICALL ConfigurationLatest
-{
-	public:
-		wstring& GetVersion() {return m_version;}
-		void SetVersion(wstring version) {m_version = version;}
-
-		vector <wstring>& GetUrls() {return m_urls;}
-		void AddUrl(wstring url) {m_urls.push_back(url);}
-
-		bool IsRunningInstanceUpToDate();
-
-	private:
-
-		wstring m_version;
-		vector <wstring> m_urls;
-};

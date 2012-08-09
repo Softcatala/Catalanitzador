@@ -20,28 +20,31 @@
 #pragma once
 
 #include "ConfigurationFileActionDownloads.h"
-#include "ActionID.h"
+#include "ApplicationVersion.h"
 #include <string>
 
 using namespace std;
 
-class ConfigurationRemote
+
+class _APICALL DownloadManager
 {
 	public:
-	
-			wstring& GetCompatibility() {return m_compatibility;}
-			void SetCompatibility(wstring compatibility) {m_compatibility = compatibility;}
-
-			vector <ConfigurationFileActionDownloads>& GetFileActionsDownloads() {return m_fileActionsDownloads;}
-
-			int AddFileActionDownloads(ConfigurationFileActionDownloads fileDownloads)
-			{
-				m_fileActionsDownloads.push_back(fileDownloads);
-				return m_fileActionsDownloads.size() - 1;
-			}
-
-	private:
 			
-			wstring m_compatibility;
+			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version)
+			{
+				for (unsigned i = 0; i < m_fileActionsDownloads.size(); i++)
+				{
+					if (m_fileActionsDownloads.at(i).GetActionID() == actionID)
+					{
+						return m_fileActionsDownloads.at(i).GetFileDownloadForVersion(version);
+					}
+				}
+
+				//assert(false);
+				return m_fileActionsDownloads.at(0).GetFileDownloadForVersion(version);				
+			}
+	private:
+
 			vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
+			int m_fallbackIndex;			
 };

@@ -43,8 +43,10 @@ void ConfigurationRemoteXmlParser::ParseNode(XmlNode node)
 		case ConfigurationBlockCompatibility:
 			ParseBlockCompatibility(node);
 			break;
-		case ConfigurationBlockLatest:
-			ParseBlockLatest(node);
+		case ConfigurationBlockActions:
+			ParseBlockActions(node);
+		//case ConfigurationBlockAction:
+		//	ParseBlockAction(node);
 			break;
 		default:
 			break;
@@ -53,11 +55,11 @@ void ConfigurationRemoteXmlParser::ParseNode(XmlNode node)
 	if (node.GetName().compare(L"compatibility")==0)
 	{
 		m_configurationBlock = ConfigurationBlockCompatibility;
-	} 
-	else if (node.GetName().compare(L"latest")==0)
-	{
-		m_configurationBlock = ConfigurationBlockLatest;
 	}
+	else if (node.GetName().compare(L"actions")==0)
+	{
+		m_configurationBlock = ConfigurationBlockActions;
+	}	
 }
 
 void ConfigurationRemoteXmlParser::ParseBlockCompatibility(XmlNode node)
@@ -70,16 +72,50 @@ void ConfigurationRemoteXmlParser::ParseBlockCompatibility(XmlNode node)
 
 #define FALLBACK_URL L"FallbackURL"
 
-void ConfigurationRemoteXmlParser::ParseBlockLatest(XmlNode node)
+void ConfigurationRemoteXmlParser::ParseBlockActions(XmlNode node)
 {
-	if (node.GetName().compare(L"version")==0)
+	if (node.GetName().compare(L"action")==0)
 	{
-		m_configuration.GetLatest().SetVersion(node.GetText());
+		ConfigurationFileActionDownloads fileDownloads;
+		int index;
+
+		index = m_configuration.AddFileActionDownloads(fileDownloads);
+		m_pFileActionDownloads = &m_configuration.GetFileActionsDownloads().at(index);
+	}
+
+	ParseBlockAction(node);
+}
+
+
+void ConfigurationRemoteXmlParser::ParseBlockAction(XmlNode node)
+{
+	if (node.GetName().compare(L"id")==0)
+	{
+		ActionID actionID = (ActionID) _wtoi(node.GetText().c_str());
+		m_pFileActionDownloads->SetActionID(actionID);
+	} 
+	else if (node.GetName().compare(L"version")==0)
+	{
+		ConfigurationFileActionDownload fileDownload;
+		int index;
+
+		index  = m_pFileActionDownloads->AddFileActionDownload(fileDownload);
+		m_pFileActionDownload = &m_pFileActionDownloads->GetFileActionDownloadCollection().at(index);
+	}
+	else if (node.GetName().compare(L"min_version")==0)
+	{
+		ApplicationVersion version(node.GetText());
+		m_pFileActionDownload->SetMinVersion(version);
+	} 
+	else if (node.GetName().compare(L"max_version")==0)
+	{
+		ApplicationVersion version(node.GetText());
+		m_pFileActionDownload->SetMaxVersion(version);
 	}
 	else if (node.GetName().compare(L"URL")==0 || node.GetName().compare(0, wcslen(FALLBACK_URL), FALLBACK_URL)==0)
 	{
-		m_configuration.GetLatest().AddUrl(node.GetText());
-	} 
+		m_pFileActionDownload->AddUrl(node.GetText());
+	}
 }
 
 void ConfigurationRemoteXmlParser::Parse()
