@@ -19,7 +19,6 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "RegistryMock.h"
 #include "Guid.h"
 
 using ::testing::Return;

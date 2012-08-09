@@ -20,7 +20,6 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "IEAcceptLanguagesAction.h"
-#include "RegistryMock.h"
 
 using ::testing::Return;
 using ::testing::_;

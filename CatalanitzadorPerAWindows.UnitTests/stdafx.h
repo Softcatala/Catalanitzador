@@ -11,7 +11,15 @@
 #include "gmock/gmock.h"
 #include <stdio.h>
 #include <tchar.h>
+#include <iostream>
+#include <fstream>
 
+#include "RegistryMock.h"
+#include "RunnerMock.h"
+#include "OSVersionMock.h"
+#include "Win32I18NMock.h"
+#include "FileVersionInfoMock.h"
+#include "TempFile.h"
 
 
 // TODO: reference additional headers your program requires here

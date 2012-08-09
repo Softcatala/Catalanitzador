@@ -20,9 +20,7 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "XmlParser.h"
-#include "TempFile.h"
 
-#include <fstream>
 
 using ::testing::StrCaseEq;
 

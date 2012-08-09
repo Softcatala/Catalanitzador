@@ -21,9 +21,6 @@
 #include "Defines.h"
 #include "WindowsLPIAction.h"
 #include "ActionStatus.h"
-#include "RegistryMock.h"
-#include "OSVersionMock.h"
-#include "RunnerMock.h"
 #include "ConfigureDefaultLanguageAction.h"
 
 using ::testing::Return;

@@ -20,9 +20,6 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "MSOfficeLPIAction.h"
-#include "OSVersionMock.h"
-#include "RunnerMock.h"
-#include "RegistryMock.h"
 
 using ::testing::Return;
 using ::testing::_;

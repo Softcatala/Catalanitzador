@@ -22,10 +22,6 @@
 #include "IELPIAction.h"
 #include "WindowsLPIAction.h"
 #include "ActionStatus.h"
-#include "RegistryMock.h"
-#include "OSVersionMock.h"
-#include "RunnerMock.h"
-#include "Win32I18NMock.h"
 
 using ::testing::Return;
 using ::testing::_;

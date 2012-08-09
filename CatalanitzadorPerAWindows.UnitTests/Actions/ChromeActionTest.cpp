@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "RegistryMock.h"
+
 #include "ChromeAction.h"
 #include "Application.h"
 

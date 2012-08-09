@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "IWin32I18N.h"
 
 class Win32I18NMock : public IWin32I18N
 {

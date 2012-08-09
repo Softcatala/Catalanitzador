@@ -19,11 +19,8 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "RegistryMock.h"
 #include "FirefoxAction.h"
 #include "Application.h"
-#include <iostream>
-#include <fstream>
 
 using ::testing::Return;
 using ::testing::_;

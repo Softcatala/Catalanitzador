@@ -20,9 +20,6 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "WindowsLiveAction.h"
-#include "RegistryMock.h"
-#include "RunnerMock.h"
-#include "FileVersionInfoMock.h"
 
 using ::testing::Return;
 using ::testing::_;

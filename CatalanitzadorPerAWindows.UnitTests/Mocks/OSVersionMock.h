@@ -19,6 +19,8 @@
 
 #pragma once
 
+#include "IOSVersion.h"
+
 class OSVersionMock : public IOSVersion
 {
  public:

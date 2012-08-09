@@ -20,7 +20,6 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "Configuration.h"
-#include "OsVersionMock.h"
 
 using ::testing::StrCaseEq;
 using ::testing::Return;

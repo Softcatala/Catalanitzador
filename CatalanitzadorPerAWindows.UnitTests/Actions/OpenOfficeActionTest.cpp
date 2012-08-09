@@ -20,8 +20,6 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "OpenOfficeAction.h"
-#include "RegistryMock.h"
-#include "RunnerMock.h"
 #include "Application.h"
 
 using ::testing::Return;

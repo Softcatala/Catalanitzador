@@ -20,8 +20,7 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "AdobeReaderAction.h"
-#include "RegistryMock.h"
-#include "RunnerMock.h"
+
 
 using ::testing::Return;
 using ::testing::_;

@@ -20,9 +20,6 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "Sha1Sum.h"
-#include "TempFile.h"
-
-#include <fstream>
 
 using ::testing::StrCaseEq;
 
