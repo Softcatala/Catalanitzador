@@ -75,10 +75,8 @@ private:
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		HideApplicationWindow m_hideApplicationWindow;
-
-		wchar_t m_szFullFilename[MAX_PATH];
+		
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
-		
 };
 

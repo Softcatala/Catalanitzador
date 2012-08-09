@@ -74,7 +74,6 @@ protected:
 private:
 
 		DownloadID _getDownloadID();
-		DownloadID _getDownloadIDIE7();
 		DownloadID _getDownloadIDIE8();
 		DownloadID _getDownloadIDIE9();
 		bool _isLangPackInstalled();

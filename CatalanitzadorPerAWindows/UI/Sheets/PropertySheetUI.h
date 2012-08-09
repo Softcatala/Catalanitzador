@@ -50,14 +50,10 @@ public:
 	static int CALLBACK			PropSheetProcedure(HWND hWnd, UINT uMsg, LPARAM lParam);
 
 private:
-	
+
 	HWND						m_hWnd;
 	vector <PropertyPageUI *>	m_vecPages;
-	PROPSHEETHEADER				m_psh;	
-	PFNPROPSHEETCALLBACK		m_pCallback;
-	
-	bool						m_bApplyButton;
-	bool						m_bOkButton;	
+	PROPSHEETHEADER				m_psh;
 	PROPSHEETPAGE*				m_pages;
 };
 

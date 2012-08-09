@@ -31,14 +31,12 @@ class Slideshow : public Thread
 			~Slideshow();
 
 			virtual void OnStart();
-			void UploadFile();			
+			void UploadFile();
 			wstring GetURL() const {return m_URL; }
 
-	private:
-			void _unpackSlideShow();
-			void _createURL();			
+	private:			
+			void _createURL();
 			
 			vector <wstring> m_tempFiles;
 			wstring m_URL;
-			HANDLE m_hThread;
 };

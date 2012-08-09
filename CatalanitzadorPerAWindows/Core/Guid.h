@@ -40,7 +40,6 @@ class _APICALL Guid : public Serializable
 
 			void _generate();
 			bool _read();
-			void _store();
 			
 			IRegistry* m_registry;
 			bool m_bReaded;

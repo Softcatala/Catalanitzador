@@ -32,7 +32,6 @@
 FirefoxAction::FirefoxAction(IRegistry* registry)
 {
 	m_registry = registry;
-	szVersionAscii[0] = NULL;
 	m_CachedLanguageCode = false;
 }
 

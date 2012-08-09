@@ -58,8 +58,7 @@ private:
 		void _readLanguageCode(wstring& langcode);
 		bool _writeLanguageCode(wstring langcode);
 		void _createRegistryStringTwoLangs(wstring &regvalue, float average);	
-
-		char szVersionAscii[128];
+		
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
 		wstring m_version;

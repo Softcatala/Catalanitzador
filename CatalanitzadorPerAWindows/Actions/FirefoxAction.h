@@ -71,7 +71,6 @@ private:
 
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
-		char szVersionAscii[128];
 		wstring m_locale;
 		wstring m_version;
 		bool m_CachedLanguageCode;

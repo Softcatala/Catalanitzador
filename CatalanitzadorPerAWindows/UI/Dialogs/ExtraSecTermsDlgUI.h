@@ -34,7 +34,6 @@ public:
 		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
 
 private:
-		static LRESULT CALLBACK DlgProc(HWND hWndDlg, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 		HFONT		m_hFont;
 		BOOL*		m_pbSystemRestore;

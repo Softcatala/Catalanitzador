@@ -38,5 +38,4 @@ private:
 		void _readVersion();
 		
 		IRegistry* m_registry;
-		wstring m_version;
 };
