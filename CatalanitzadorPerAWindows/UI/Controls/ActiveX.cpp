@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <windows.h>
 #include <comdef.h>
 #include <exdisp.h>
 #include <oledlg.h>

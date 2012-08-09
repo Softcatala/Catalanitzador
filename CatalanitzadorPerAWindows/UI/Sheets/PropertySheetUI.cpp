@@ -18,7 +18,6 @@
  */
 
 #include "stdafx.h"
-#include <windows.h>
 
 #include "PropertySheetUI.h"
 #include "PropertyPageUI.h"

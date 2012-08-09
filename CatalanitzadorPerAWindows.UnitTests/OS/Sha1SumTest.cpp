@@ -20,7 +20,6 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "Sha1Sum.h"
-#include <windows.h>
 #include "TempFile.h"
 
 #include <fstream>
