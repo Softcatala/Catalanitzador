@@ -22,7 +22,6 @@
 #include <windows.h>
 #include "Serializable.h"
 #include "InspectorID.h"
-#include "StringConversion.h"
 
 #include <vector>
 

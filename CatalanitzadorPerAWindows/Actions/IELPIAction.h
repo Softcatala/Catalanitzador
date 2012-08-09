@@ -21,7 +21,6 @@
 
 #include "Action.h"
 #include "Runner.h"
-#include "OSVersion.h"
 #include "IRegistry.h"
 #include "IOSVersion.h"
 

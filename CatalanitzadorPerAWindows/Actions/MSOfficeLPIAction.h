@@ -23,8 +23,6 @@
 #include "IRunner.h"
 #include "IOSVersion.h"
 #include "IRegistry.h"
-#include "OSVersion.h"
-#include "Runner.h"
 #include "TriBool.h"
 
 enum MSOfficeVersion

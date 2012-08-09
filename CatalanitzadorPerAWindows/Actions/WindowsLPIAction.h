@@ -20,11 +20,10 @@
 #pragma once
 
 #include "Action.h"
-#include "Runner.h"
+#include "IRunner.h"
 #include "IRegistry.h"
 #include "IWin32I18N.h"
 #include "IOSVersion.h"
-#include "OSVersion.h"
 
 class _APICALL WindowsLPIAction : public Action
 {
