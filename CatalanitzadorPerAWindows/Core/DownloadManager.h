@@ -46,5 +46,4 @@ class _APICALL DownloadManager
 	private:
 
 			vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
-			int m_fallbackIndex;			
 };

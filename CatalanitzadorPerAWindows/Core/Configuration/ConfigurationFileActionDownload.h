@@ -41,7 +41,6 @@ class ConfigurationFileActionDownload
 
 	private:
 
-			ActionID m_actionID;
 			ApplicationVersion m_maxVersion;
 			ApplicationVersion m_minVersion;
 			vector <wstring> m_urls;
