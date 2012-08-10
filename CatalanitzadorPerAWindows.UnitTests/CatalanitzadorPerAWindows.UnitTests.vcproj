@@ -371,7 +371,7 @@
 				Name="Configuration"
 				>
 				<File
-					RelativePath=".\Core\Configuration\ConfigurationLatestTest.cpp"
+					RelativePath=".\Core\Configuration\ConfigurationFileActionDownloadTest.cpp"
 					>
 				</File>
 				<File
