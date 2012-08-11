@@ -25,6 +25,8 @@
 
 using namespace std;
 
+static ConfigurationFileActionDownload s_empty;
+
 class ConfigurationRemote
 {
 	public:
@@ -39,9 +41,21 @@ class ConfigurationRemote
 				m_fileActionsDownloads.push_back(fileDownloads);
 				return m_fileActionsDownloads.size() - 1;
 			}
+			
+			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version)
+			{
+				for (unsigned i = 0; i < m_fileActionsDownloads.size(); i++)
+				{
+					if (m_fileActionsDownloads.at(i).GetActionID() == actionID)
+					{
+						return m_fileActionsDownloads.at(i).GetFileDownloadForVersion(version);
+					}
+				}	
+				return s_empty;
+			}
 
 	private:
 			
 			wstring m_compatibility;
-			vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
+			vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;	
 };

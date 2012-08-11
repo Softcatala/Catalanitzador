@@ -25,10 +25,18 @@
 
 using namespace std;
 
+
 class ConfigurationFileActionDownload
 {
 	public:
 			ConfigurationFileActionDownload() {}
+
+			bool IsEmpty()
+			{
+				return m_urls.size() == 0 &&
+					m_maxVersion.GetString().empty() &&
+					m_minVersion.GetString().empty();
+			}
 
 			ApplicationVersion& GetMaxVersion() {return m_maxVersion;}
 			void SetMaxVersion(ApplicationVersion version) {m_maxVersion = version;}
@@ -45,3 +53,5 @@ class ConfigurationFileActionDownload
 			ApplicationVersion m_minVersion;
 			vector <wstring> m_urls;
 };
+
+

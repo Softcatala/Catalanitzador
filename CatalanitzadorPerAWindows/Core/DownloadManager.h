@@ -21,29 +21,21 @@
 
 #include "ConfigurationFileActionDownloads.h"
 #include "ApplicationVersion.h"
+#include "DownloadInet.h"
+#include "Sha1Sum.h"
+
 #include <string>
-
 using namespace std;
-
 
 class _APICALL DownloadManager
 {
-	public:
-			
-			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version)
-			{
-				for (unsigned i = 0; i < m_fileActionsDownloads.size(); i++)
-				{
-					if (m_fileActionsDownloads.at(i).GetActionID() == actionID)
-					{
-						return m_fileActionsDownloads.at(i).GetFileDownloadForVersion(version);
-					}
-				}
-
-				//assert(false);
-				return m_fileActionsDownloads.at(0).GetFileDownloadForVersion(version);				
-			}
+	public:		
+		
+		bool GetFile(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data);		
+		
 	private:
 
-			vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
+		bool _getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_file, Sha1Sum &sha1sum);
+
+		vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
 };

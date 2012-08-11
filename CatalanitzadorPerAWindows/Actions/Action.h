@@ -37,6 +37,7 @@ class _APICALL Action : public Serializable
 {
 public:
 		Action();
+		Action(DownloadManager* downloadManager);
 		virtual ~Action(){};
 
 		// Get the name of action
@@ -113,11 +114,13 @@ protected:
 		void _setStatusNotInstalled();
 		bool _getFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data);
 		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);
+		bool _doesDownloadExist();
 
 		TCHAR szName[MAX_LOADSTRING];
 		TCHAR szDescription[MAX_LOADSTRING];
 		TCHAR szCannotBeApplied[MAX_LOADSTRING];
 		ActionStatus status;
 		ActionDownload m_actionDownload;
+		DownloadManager* m_downloadManager;
 };
 

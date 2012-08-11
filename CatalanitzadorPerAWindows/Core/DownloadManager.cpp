@@ -18,4 +18,50 @@
  */
 
 #include "stdafx.h"
+#include "DownloadManager.h"
+#define SHA1_EXTENSION L".sha1"
 
+
+bool DownloadManager::_getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_file, Sha1Sum &sha1sum)
+{	
+	DownloadInet inetacccess;
+	bool bRslt;
+
+	sha1_file += SHA1_EXTENSION;
+	sha1_url += SHA1_EXTENSION;
+
+	bRslt = inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
+	g_log.Log(L"ActionDownload::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
+
+	sha1sum.SetFile(sha1_file);
+	sha1sum.ReadFromFile();
+	DeleteFile(sha1_file.c_str());
+	return sha1sum.GetSum().empty() == false;
+}
+
+bool DownloadManager::GetFile(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data)
+{
+	DownloadInet inetacccess;
+	Sha1Sum sha1_computed(file), sha1_read;
+	wstring url;
+	bool bRslt;
+
+	for (unsigned index = 0; index < configuration.GetUrls().size(); index++)
+	{
+		url = configuration.GetUrls().at(index);
+		bRslt = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
+		g_log.Log(L"ActionDownload::GetFile '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
+
+		if (bRslt == false)
+			continue;
+
+		// If cannot get the sha1 file, we cannot verify the download and report it as incorrect
+		if (_getAssociatedFileSha1Sum(url, (wchar_t *)file.c_str(), sha1_read) == false)
+			continue;
+		
+		sha1_computed.ComputeforFile();
+		if (sha1_computed == sha1_read)
+			return true;
+	}
+	return false;
+}

@@ -20,6 +20,8 @@
 #include "stdafx.h"
 #include "ConfigurationFileActionDownloads.h"
 
+static ConfigurationFileActionDownload s_empty;
+
 ConfigurationFileActionDownload& ConfigurationFileActionDownloads::GetFileDownloadForVersion(ApplicationVersion version)
 {
 	for (unsigned int i = 0; i < m_fileActionsDownload.size(); i++)
@@ -27,10 +29,8 @@ ConfigurationFileActionDownload& ConfigurationFileActionDownloads::GetFileDownlo
 		if (m_fileActionsDownload.at(i).GetMinVersion() >= version &&
 			m_fileActionsDownload.at(i).GetMinVersion() <= version)
 		{
-			return m_fileActionsDownload.at(i); 
+			return m_fileActionsDownload.at(i);
 		}
-	}
-	assert(false);
-	return m_fileActionsDownload.at(0);
+	}	
+	return s_empty;
 }
-

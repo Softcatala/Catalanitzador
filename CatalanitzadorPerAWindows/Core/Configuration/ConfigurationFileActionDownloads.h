@@ -38,6 +38,7 @@ class ConfigurationFileActionDownloads
 	
 			vector <ConfigurationFileActionDownload>& GetFileActionDownloadCollection() {return m_fileActionsDownload;}
 			ConfigurationFileActionDownload& GetFileDownloadForVersion(ApplicationVersion version);
+			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version);
 
 			int AddFileActionDownload(ConfigurationFileActionDownload fileDownload)
 			{
@@ -45,8 +46,10 @@ class ConfigurationFileActionDownloads
 				return m_fileActionsDownload.size() - 1;
 			}
 
+
 	private:
 
 			ActionID m_actionID;
 			vector <ConfigurationFileActionDownload> m_fileActionsDownload;
+			ConfigurationFileActionDownload m_fileActionsDownloadEmpty;
 };
