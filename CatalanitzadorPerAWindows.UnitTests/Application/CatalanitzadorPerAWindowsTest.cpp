@@ -42,7 +42,7 @@ public:
 
 #define FORCED_VERSION L"4.3.2"
 
-TEST(CatalanitzadorPerAWindowsTest, _processCommandLine)
+TEST(CatalanitzadorPerAWindowsTest, Version)
 {
 	wstring version(L"/version:");
 
@@ -111,7 +111,7 @@ TEST(CatalanitzadorPerAWindowsTest, _RunningCheckWithVersion)
 }
 
 
-TEST(CatalanitzadorPerAWindowsTest, NoConfigurationDownload)
+TEST(CatalanitzadorPerAWindowsTest, _NoConfigurationDownload)
 {
 	wstring parameters(L"/NoConfigurationDownload");	
 	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
