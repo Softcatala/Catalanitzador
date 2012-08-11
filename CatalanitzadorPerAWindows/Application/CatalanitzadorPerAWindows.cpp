@@ -44,7 +44,7 @@
 #define HELP_PARAMETER L"/Help"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
-: m_actions(m_downloadManager)
+: m_actions(&m_downloadManager)
 {
 	m_hInstance = hInstance;
 	m_hEvent = NULL;

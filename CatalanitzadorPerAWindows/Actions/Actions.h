@@ -34,7 +34,7 @@ using namespace std;
 class Actions
 {
     public:
-		Actions(DownloadManager downloadManager);
+		Actions(DownloadManager* downloadManager);
 		~Actions();
 		vector <Action *> GetActions() {return m_actions; }
 		Action* GetActionFromID(ActionID actionID);
@@ -51,5 +51,5 @@ class Actions
 
 		vector <Action *> m_actions;
 		vector <void *> m_objectsToDelete;
-		DownloadManager m_downloadManager;
+		DownloadManager* m_pDownloadManager;
 };
