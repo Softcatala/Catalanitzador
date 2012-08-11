@@ -111,3 +111,12 @@ TEST(CatalanitzadorPerAWindowsTest, _RunningCheckWithVersion)
 }
 
 
+TEST(CatalanitzadorPerAWindowsTest, NoConfigurationDownload)
+{
+	wstring parameters(L"/NoConfigurationDownload");	
+	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
+	
+	catalanitzadorPerAWindows._processCommandLine(parameters);
+	EXPECT_FALSE(ConfigurationInstance::Get().GetDownloadConfiguration());
+}
+

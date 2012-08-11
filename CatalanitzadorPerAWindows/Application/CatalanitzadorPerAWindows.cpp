@@ -41,6 +41,7 @@
 #define NORUNNING_PARAMETER L"/NoRunningCheck"
 #define USEAEROLOOK_PARAMETER L"/UseAeroLook"
 #define USECLASSICLOOK_PARAMETER L"/UseClassicLook"
+#define NOCONFIGURATIONDOWNLOAD_PARAMETER L"NoConfigurationDownload"
 #define HELP_PARAMETER L"/Help"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
@@ -55,6 +56,7 @@ CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 	USEAEROLOOK_PARAMETER_LEN = wcslen(USEAEROLOOK_PARAMETER);
 	USECLASSICLOOK_PARAMETER_LEN = wcslen(USECLASSICLOOK_PARAMETER);
 	HELP_PARAMETER_LEN = wcslen(HELP_PARAMETER);
+	NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN = wcslen(NOCONFIGURATIONDOWNLOAD_PARAMETER);
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -69,7 +71,8 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 /version:X.Y.Z - Fa creure al Catalanitzador que és la versió indicada \n\
 /NoRunningCheck- No comprovis si ja s'està executant \n\
 /UseAeroLook - Usa l'aspecte Aero \n\
-/UseClassicLook - Usa l'aspecte clàssic \n"
+/UseClassicLook - Usa l'aspecte clàssic \n\
+/NoConfigurationDownload - No baixis la configuració del servidor \n"
 
 void CatalanitzadorPerAWindows::_createCatalanitzadorUpdateAction(wstring version)
 {
@@ -126,6 +129,11 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 			MessageBox(NULL, HELP_TEXT, NULL, NULL);
 			exit(0);
 		}
+		else if (_wcsnicmp(pch, NOCONFIGURATIONDOWNLOAD_PARAMETER, NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN) == 0)
+		{
+			ConfigurationInstance::Get().SetDownloadConfiguration(false);
+			pch += NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN;
+		}		
 		else if (_wcsnicmp(pch, VERSION_PARAMETER, VERSION_PARAMETER_LEN) == 0)
 		{
 			wchar_t version[32];

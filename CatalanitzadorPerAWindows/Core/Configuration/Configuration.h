@@ -32,11 +32,13 @@ class Configuration
 			Configuration() :m_version(STRING_VERSION)
 			{
 				m_OSVersion = new OSVersion();
+				m_downloadConfiguration = true;
 			}
 
 			Configuration(IOSVersion* version) :m_version(STRING_VERSION)
 			{
 				m_OSVersion = version;
+				m_downloadConfiguration = true;
 			}
 
 			ConfigurationRemote& GetRemote() { return m_remote; }
@@ -67,10 +69,21 @@ class Configuration
 				m_version = version;
 			}
 
+			bool GetDownloadConfiguration()
+			{
+				return m_downloadConfiguration;
+			}
+
+			void SetDownloadConfiguration(bool downloadConfiguration)
+			{
+				m_downloadConfiguration = downloadConfiguration;
+			}
+
 	private:
 
 			ConfigurationRemote m_remote;
 			TriBool m_useAero;
 			IOSVersion* m_OSVersion;
 			ApplicationVersion m_version;
+			bool m_downloadConfiguration;
 };

@@ -88,6 +88,12 @@ bool ConfigurationDownload::_getFile(wstring surl)
 
 void ConfigurationDownload::OnStart()
 {
+	if (ConfigurationInstance::Get().GetDownloadConfiguration() == false)
+	{
+		g_log.Log(L"ConfigurationDownload::OnStart. Do not download the configuration");
+		return;
+	}
+
 	_setFileName();
 	if (_downloadRemoteSha1() == false)
 		return;
