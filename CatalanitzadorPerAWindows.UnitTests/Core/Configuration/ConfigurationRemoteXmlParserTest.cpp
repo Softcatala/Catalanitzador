@@ -51,7 +51,7 @@ TEST(ConfigurationRemoteXmlParserTest, GetFileActionsDownloads)
 	ConfigurationRemoteXmlParser configurationXmlParser(file);
 	configurationXmlParser.Parse();
 
-	EXPECT_THAT(configurationXmlParser.GetConfiguration().GetFileActionsDownloads().size(), 3);
+	EXPECT_THAT(configurationXmlParser.GetConfiguration().GetFileActionsDownloads().size(), 2);
 }
 
 #define OPENOFFICEACTION_INDEX 1
@@ -87,9 +87,11 @@ TEST(ConfigurationRemoteXmlParserTest, GetAction)
 	EXPECT_THAT(download32.GetUrls().at(0), StrCaseEq(OO32_URL));
 	EXPECT_THAT(download32.GetUrls().at(1), StrCaseEq(OO32_FALLBACK1));
 	EXPECT_THAT(download32.GetUrls().at(2), StrCaseEq(OO32_FALLBACK2));
+	EXPECT_THAT(download32.GetFilename(), StrCaseEq(L"openoffice32-langpack.cab"));
 
 	EXPECT_TRUE(download33.GetMinVersion() == ApplicationVersion(L"3.3"));
 	EXPECT_TRUE(download33.GetMaxVersion() == ApplicationVersion(L"3.3"));
+	EXPECT_THAT(download33.GetFilename(), StrCaseEq(L"openoffice33-langpack.cab"));
 	EXPECT_THAT(download33.GetUrls().at(0), StrCaseEq(OO33_URL));
 	EXPECT_THAT(download33.GetUrls().at(1), StrCaseEq(OO33_FALLBACK1));
 	EXPECT_THAT(download33.GetUrls().at(2), StrCaseEq(OO33_FALLBACK2));

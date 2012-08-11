@@ -112,6 +112,10 @@ void ConfigurationRemoteXmlParser::ParseBlockAction(XmlNode node)
 		ApplicationVersion version(node.GetText());
 		m_pFileActionDownload->SetMaxVersion(version);
 	}
+	else if (node.GetName().compare(L"filename")==0)
+	{		
+		m_pFileActionDownload->SetFilename(node.GetText());
+	}
 	else if (node.GetName().compare(L"URL")==0 || node.GetName().compare(0, wcslen(FALLBACK_URL), FALLBACK_URL)==0)
 	{
 		m_pFileActionDownload->AddUrl(node.GetText());

@@ -43,6 +43,9 @@ class ConfigurationFileActionDownload
 
 			ApplicationVersion& GetMinVersion() {return m_minVersion;}
 			void SetMinVersion(ApplicationVersion version) {m_minVersion = version;}
+
+			wstring& GetFilename() {return m_filename;}
+			void SetFilename(wstring filename) {m_filename = filename;}
 	
 			vector <wstring>& GetUrls() {return m_urls;}
 			void AddUrl(wstring url) {m_urls.push_back(url);}
@@ -51,6 +54,7 @@ class ConfigurationFileActionDownload
 
 			ApplicationVersion m_maxVersion;
 			ApplicationVersion m_minVersion;
+			wstring m_filename;
 			vector <wstring> m_urls;
 };
 
