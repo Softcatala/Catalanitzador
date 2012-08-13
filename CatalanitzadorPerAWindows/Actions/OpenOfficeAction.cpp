@@ -140,12 +140,11 @@ bool OpenOfficeAction::IsNeed()
 
 bool OpenOfficeAction::Download(ProgressStatus progress, void *data)
 {
-	wstring filename;
-	
+	wstring filename;	
 	ConfigurationFileActionDownload downloadVersion;
-	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));	
 
-	GetTempPath(MAX_PATH, m_szFilename);		
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));
+	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
 
 	return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);

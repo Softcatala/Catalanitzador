@@ -128,7 +128,7 @@ void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAc
 	{
 		if (_doesUserWantToUpdate())
 		{
-			DownloadNewVersionDlgUI downloadNewVersionDlgUI;
+			DownloadNewVersionDlgUI downloadNewVersionDlgUI(_getCatalanitzadorAction());
 			if (downloadNewVersionDlgUI.Run(getHandle()) == IDCANCEL)
 			{
 				status = NotSelected;

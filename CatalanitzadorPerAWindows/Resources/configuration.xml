@@ -4,16 +4,17 @@
 
 	<compatibility>
 		<!-- Minimum version Catalanitzador version required to process this file --> 
-		<version>1.3.0</version>
+		<version>1.0.0</version>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
 		<action>
 	 		<id>12</id>
 	 		<version>
-	  			<min_version>1.2.2</min_version>
+	 			<!-- It does not depend on a minimum version -->
+	  			<min_version>0.0.0</min_version>
 	  			<max_version>1.2.2</max_version>
-	  			<URL><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe&id=5643&mirall=softcatala2&versio=1.22&so=win32]]></URL>
+	  			<URL><![CDATA[http://baixades.softcatala.org/?id=5643&mirall=softcatala2&versio=1.22&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe]]></URL>
 				<FallbackURL1>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL1>
 				<FallbackURL2>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</FallbackURL2>
 				<filename>CatalanitzadorPerAlWindows.exe</filename>
@@ -26,7 +27,7 @@
 	 		<version>
 	  			<min_version>3.2</min_version>
 	  			<max_version>3.2</max_version>
-	  			<URL><![CDATA[zhttp://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0]]></URL>
+	  			<URL><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0]]></URL>
 	  			<FallbackURL1>ftp://ftp.udl.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab</FallbackURL1>
 				<FallbackURL2>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab</FallbackURL2>
 				<filename>openoffice32-langpack.cab</filename>

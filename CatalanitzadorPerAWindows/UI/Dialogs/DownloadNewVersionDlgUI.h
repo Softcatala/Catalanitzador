@@ -20,7 +20,7 @@
 #pragma once
 
 #include "DlgUI.h"
-#include "CatalanitzadorUpdateAction.h"
+#include "Action.h"
 
 #include <string>
 using namespace std;
@@ -29,6 +29,8 @@ using namespace std;
 class DownloadNewVersionDlgUI : public DlgUI
 {
 public:
+		DownloadNewVersionDlgUI(Action* pUpdateAction) {m_pUpdateAction = pUpdateAction;}
+
 		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_DOWNLOADNEWVERSION);}
 
 		virtual	void _onInitDialog();
@@ -39,7 +41,7 @@ public:
 private:		
 		static bool _downloadStatus(int total, int current, void *data);
 
-		CatalanitzadorUpdateAction* m_pUpdateAction;
+		Action* m_pUpdateAction;
 		HWND m_hProgressBar;
 		HWND m_hDescription;		
 		bool m_bCancelled;

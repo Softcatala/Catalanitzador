@@ -161,12 +161,11 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 
 void CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
-	_processCommandLine(commandLine);
-
 	if (_isAlreadyRunning() == true)
 		return;
 
 	_initLog();
+	_processCommandLine(commandLine);
 
 	Registry registry;
 	Guid guid(&registry);

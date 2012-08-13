@@ -26,10 +26,9 @@
 
 #define FILENAME L"CatalanitzadorPerAlWindows.exe"
 
-CatalanitzadorUpdateAction::CatalanitzadorUpdateAction(IRunner* runner)
+CatalanitzadorUpdateAction::CatalanitzadorUpdateAction(IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_runner = runner;
-	SetVersion(ConfigurationInstance::Get().GetVersion().GetString());
 }
 
 wchar_t* CatalanitzadorUpdateAction::GetName()
@@ -49,20 +48,14 @@ bool CatalanitzadorUpdateAction::IsNeed()
 
 bool CatalanitzadorUpdateAction::Download(ProgressStatus progress, void *data)
 {
-	DownloadInet downloadInet;
-	Configuration configuration = ConfigurationInstance::Get();
-	wstring surl;
-
-	// TODO: Implement re-try for other mirrors
-	//surl = configuration.GetRemote().GetLatest().GetUrls().at(0);
-
 	wchar_t szFilename[MAX_PATH];
-	GetTempPath(MAX_PATH, szFilename);
-	wcscat_s(szFilename, FILENAME);
+	ConfigurationFileActionDownload downloadVersion;
+	
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));
+	GetTempPath(MAX_PATH, szFilename);	
+	wcscat_s(szFilename, downloadVersion.GetFilename().c_str());
 	m_filename = szFilename;
-
-	downloadInet.GetFile((wchar_t *)surl.c_str(), (wchar_t *)m_filename.c_str(), progress, data);
-	return true;
+	return m_downloadManager->GetFile(downloadVersion, szFilename, progress, data);
 }
 
 #define PARAMETER_NOCHECK L"/NoRunningCheck:"
@@ -73,4 +66,15 @@ void CatalanitzadorUpdateAction::Execute()
 
 	parameter += GetVersion();
 	m_runner->Execute((wchar_t *)m_filename.c_str(), (wchar_t *)parameter.c_str(), false);
+}
+
+
+const wchar_t* CatalanitzadorUpdateAction::GetVersion()
+{
+	if (m_version.empty() == false)
+	{
+		return m_version.c_str();
+	}
+
+	return ConfigurationInstance::Get().GetVersion().GetString().c_str();
 }

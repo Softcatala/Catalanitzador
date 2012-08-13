@@ -28,7 +28,7 @@
 
 using namespace std;
 
-class ConfigurationFileActionDownloads
+class _APICALL ConfigurationFileActionDownloads
 {
 	public:
 			ConfigurationFileActionDownloads() {}
@@ -38,14 +38,12 @@ class ConfigurationFileActionDownloads
 	
 			vector <ConfigurationFileActionDownload>& GetFileActionDownloadCollection() {return m_fileActionsDownload;}
 			ConfigurationFileActionDownload& GetFileDownloadForVersion(ApplicationVersion version);
-			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version);
 
 			int AddFileActionDownload(ConfigurationFileActionDownload fileDownload)
 			{
 				m_fileActionsDownload.push_back(fileDownload);
 				return m_fileActionsDownload.size() - 1;
 			}
-
 
 	private:
 

@@ -25,7 +25,7 @@
 class _APICALL CatalanitzadorUpdateAction : public Action
 {
 public:
-		CatalanitzadorUpdateAction(IRunner* runner);		
+		CatalanitzadorUpdateAction(IRunner* runner, DownloadManager* downloadManager);
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -34,14 +34,13 @@ public:
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute();
-		virtual const wchar_t* GetVersion() {return m_version.c_str();}
-
-		void SetVersion(wstring version) { m_version = version;}
+		virtual const wchar_t* GetVersion();
+		virtual void SetVersion(wstring version) {m_version = version;}
 
 private:
-
+	
 		IRunner* m_runner;
-		wstring m_version;
 		wstring m_filename;
+		wstring m_version;
 };
 

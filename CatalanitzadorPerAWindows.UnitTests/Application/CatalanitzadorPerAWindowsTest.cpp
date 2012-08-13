@@ -42,7 +42,7 @@ public:
 
 #define FORCED_VERSION L"4.3.2"
 
-TEST(CatalanitzadorPerAWindowsTest, Version)
+TEST(CatalanitzadorPerAWindowsTest, _Version)
 {
 	wstring version(L"/version:");
 
@@ -92,7 +92,9 @@ TEST(CatalanitzadorPerAWindowsTest, _RunningCheckWithVersion)
 	parameters+= VERSION;
 
 	EXPECT_TRUE(catalanitzadorPerAWindows.GetRunningCheck());
+	
 	catalanitzadorPerAWindows._processCommandLine(parameters);
+	
 	EXPECT_FALSE(catalanitzadorPerAWindows.GetRunningCheck());
 
 	vector <Action *>  actions = catalanitzadorPerAWindows.GetActions().GetActions();

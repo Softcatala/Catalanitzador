@@ -59,7 +59,7 @@ class Configuration
 				return m_useAero == true;
 			}
 
-			ApplicationVersion GetVersion()
+			ApplicationVersion& GetVersion()
 			{
 				return m_version;
 			}

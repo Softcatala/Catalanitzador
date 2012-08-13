@@ -371,6 +371,10 @@
 				Name="Configuration"
 				>
 				<File
+					RelativePath=".\Core\Configuration\ConfigurationFileActionDownloadsTest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Core\Configuration\ConfigurationFileActionDownloadTest.cpp"
 					>
 				</File>

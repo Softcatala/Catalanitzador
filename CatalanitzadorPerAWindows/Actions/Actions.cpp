@@ -109,7 +109,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new FirefoxAction( _getNewRegistry()));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
-	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner()));
+	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
 
 	_checkPrerequirements();
 }

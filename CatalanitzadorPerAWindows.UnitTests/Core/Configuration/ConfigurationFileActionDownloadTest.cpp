@@ -26,7 +26,7 @@ using ::testing::StrCaseEq;
 #define MIN_VERSION L"1.2.0"
 #define MAX_VERSION L"1.2.1"
 
-TEST(ConfigurationLatestTest, GetSetMinVersion)
+TEST(ConfigurationFileActionDownloadTest, GetSetMinVersion)
 {	
 	ConfigurationFileActionDownload fileActionDownload;
 	fileActionDownload.SetMinVersion(ApplicationVersion(MIN_VERSION));
@@ -34,7 +34,7 @@ TEST(ConfigurationLatestTest, GetSetMinVersion)
 	EXPECT_TRUE(fileActionDownload.GetMinVersion() == ApplicationVersion(MIN_VERSION));
 }
 
-TEST(ConfigurationLatestTest, GetSetMaxVersion)
+TEST(ConfigurationFileActionDownloadTest, GetSetMaxVersion)
 {	
 	ConfigurationFileActionDownload fileActionDownload;
 	fileActionDownload.SetMaxVersion(ApplicationVersion(MAX_VERSION));
@@ -46,7 +46,7 @@ TEST(ConfigurationLatestTest, GetSetMaxVersion)
 #define LATEST_URL1 L"http://url1.com"
 #define LATEST_URL2 L"http://url1.com"
 
-TEST(ConfigurationLatestTest, GetSetURL)
+TEST(ConfigurationFileActionDownloadTest, GetSetURL)
 {	
 	ConfigurationFileActionDownload fileActionDownload;
 	fileActionDownload.AddUrl(LATEST_URL1);
@@ -57,3 +57,9 @@ TEST(ConfigurationLatestTest, GetSetURL)
 	EXPECT_THAT(fileActionDownload.GetUrls()[1], StrCaseEq(LATEST_URL2));
 }
 
+TEST(ConfigurationFileActionDownloadTest, IsEmpty)
+{	
+	ConfigurationFileActionDownload fileActionDownload;
+	
+	EXPECT_TRUE(fileActionDownload.IsEmpty());
+}

@@ -26,8 +26,8 @@ ConfigurationFileActionDownload& ConfigurationFileActionDownloads::GetFileDownlo
 {
 	for (unsigned int i = 0; i < m_fileActionsDownload.size(); i++)
 	{
-		if (m_fileActionsDownload.at(i).GetMinVersion() >= version &&
-			m_fileActionsDownload.at(i).GetMinVersion() <= version)
+		if (version >= m_fileActionsDownload.at(i).GetMinVersion() &&
+			version <= m_fileActionsDownload.at(i).GetMaxVersion())
 		{
 			return m_fileActionsDownload.at(i);
 		}

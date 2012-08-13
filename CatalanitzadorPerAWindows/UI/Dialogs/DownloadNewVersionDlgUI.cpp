@@ -32,8 +32,6 @@ const float BYTES_TO_MEGABYTES = 1024*1024;
 
 void DownloadNewVersionDlgUI::_onInitDialog()
 {
-	m_pUpdateAction = new CatalanitzadorUpdateAction((IRunner *)new Runner());
-
 	m_bCancelled = FALSE;
 	m_hProgressBar = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_PROGRESSBAR);
 	m_hDescription = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_DESCRIPTION);
