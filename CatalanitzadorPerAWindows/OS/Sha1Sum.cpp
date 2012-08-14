@@ -48,12 +48,14 @@ wstring Sha1Sum::ReadFromFile()
 	{
 		if (ReadFile(hFile, sha1, SHA1LEN, &cbRead, NULL) == TRUE)
 		{
-			int i = 0;
-			for (i = 0; i < SHA1LEN && isspace(sha1[i]) == false; i++);
+			if (cbRead == SHA1LEN)
+			{
+				int i = 0;
+				for (i = 0; i < SHA1LEN && isspace(sha1[i]) == false; i++);
 
-			sha1[i] = NULL;
-
-			StringConversion::ToWideChar(sha1, m_sum);			
+				sha1[i] = NULL;
+				StringConversion::ToWideChar(sha1, m_sum);
+			}
 		}
 		CloseHandle(hFile);
 	}

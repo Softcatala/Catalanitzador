@@ -89,3 +89,16 @@ TEST(Sha1SumTest, NotEqualOperator)
 	
 	EXPECT_TRUE(sha1!=sha2);
 }
+
+TEST(Sha1SumTest, EmptyFile)
+{
+	wstring computed;
+	TempFile file;
+
+	ofstream of(file.GetFileName().c_str());
+	of.close();
+
+	Sha1Sum sha1(file.GetFileName().c_str());
+	sha1.ReadFromFile();
+	EXPECT_TRUE(sha1.GetSum().empty());
+}
