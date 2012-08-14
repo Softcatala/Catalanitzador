@@ -116,7 +116,7 @@ void ConfigurationRemoteXmlParser::ParseBlockAction(XmlNode node)
 	{		
 		m_pFileActionDownload->SetFilename(node.GetText());
 	}
-	else if (node.GetName().compare(L"url")==0 || node.GetName().compare(0, wcslen(URL_N), URL_N)==0)
+	else if (node.GetName().compare(0, wcslen(URL_N), URL_N)==0)
 	{
 		m_pFileActionDownload->AddUrl(node.GetText());
 	}
