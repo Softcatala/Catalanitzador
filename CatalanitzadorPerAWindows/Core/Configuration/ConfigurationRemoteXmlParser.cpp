@@ -71,6 +71,7 @@ void ConfigurationRemoteXmlParser::ParseBlockCompatibility(XmlNode node)
 }
 
 #define URL_N L"url_"
+#define URL_SHA1_N L"sha1_url_"
 
 void ConfigurationRemoteXmlParser::ParseBlockActions(XmlNode node)
 {
@@ -119,6 +120,13 @@ void ConfigurationRemoteXmlParser::ParseBlockAction(XmlNode node)
 	else if (node.GetName().compare(0, wcslen(URL_N), URL_N)==0)
 	{
 		m_pFileActionDownload->AddUrl(node.GetText());
+	} 
+	else if (node.GetName().compare(0, wcslen(URL_SHA1_N), URL_SHA1_N)==0)
+	{
+		wstring index;
+
+		index = node.GetName().substr(wcslen(URL_SHA1_N));
+		m_pFileActionDownload->SetSha1Url(_wtoi(index.c_str()) - 1, node.GetText());
 	}
 }
 

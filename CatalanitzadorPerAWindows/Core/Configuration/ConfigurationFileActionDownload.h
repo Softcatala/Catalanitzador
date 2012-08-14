@@ -22,9 +22,11 @@
 #include "ActionID.h"
 #include "ApplicationVersion.h"
 #include <string>
+#include <assert.h>
 
 using namespace std;
 
+#define SHA1_EXTENSION L".sha1"
 
 class _APICALL ConfigurationFileActionDownload
 {
@@ -48,7 +50,18 @@ class _APICALL ConfigurationFileActionDownload
 			void SetFilename(wstring filename) {m_filename = filename;}
 	
 			vector <wstring>& GetUrls() {return m_urls;}
-			void AddUrl(wstring url) {m_urls.push_back(url);}
+			void AddUrl(wstring url)
+			{
+				m_urls.push_back(url);
+				m_sha1_urls.push_back(url + SHA1_EXTENSION);
+			}
+
+			vector <wstring>& GetSha1Urls() {return m_sha1_urls;}
+			void SetSha1Url(unsigned int index, wstring url)
+			{
+				assert(index <= m_sha1_urls.size());
+				m_sha1_urls[index] = url;
+			}
 
 	private:
 
@@ -56,6 +69,7 @@ class _APICALL ConfigurationFileActionDownload
 			ApplicationVersion m_minVersion;
 			wstring m_filename;
 			vector <wstring> m_urls;
+			vector <wstring> m_sha1_urls;
 };
 
 
