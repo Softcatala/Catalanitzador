@@ -38,6 +38,7 @@ class _APICALL ConfigurationFileActionDownloads
 	
 			vector <ConfigurationFileActionDownload>& GetFileActionDownloadCollection() {return m_fileActionsDownload;}
 			ConfigurationFileActionDownload& GetFileDownloadForVersion(ApplicationVersion version);
+			ConfigurationFileActionDownload& GetFileDownloadForVersion(wstring version);
 
 			int AddFileActionDownload(ConfigurationFileActionDownload fileDownload)
 			{

@@ -48,7 +48,7 @@ protected:
 
 		bool _isLangPackInstalled();
 		bool _isDefaultLanguage();
-		DownloadID _getDownloadID();
+		wchar_t* _getDownloadID();
 		virtual bool _isWindowsValidated();
 
 private:

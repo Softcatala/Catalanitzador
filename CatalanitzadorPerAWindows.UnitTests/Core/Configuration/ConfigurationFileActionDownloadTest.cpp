@@ -63,3 +63,23 @@ TEST(ConfigurationFileActionDownloadTest, IsEmpty)
 	
 	EXPECT_TRUE(fileActionDownload.IsEmpty());
 }
+
+#define FILENAME_TEST L"file.bin"
+
+TEST(ConfigurationFileActionDownloadTest, GetSetFilename)
+{
+	ConfigurationFileActionDownload fileActionDownload;
+	fileActionDownload.SetFilename(FILENAME_TEST);
+
+	EXPECT_THAT(fileActionDownload.GetFilename(), StrCaseEq(FILENAME_TEST));
+}
+
+#define VERSION_TEST L"XP"
+
+TEST(ConfigurationFileActionDownloadTest, GetSetVersion)
+{
+	ConfigurationFileActionDownload fileActionDownload;
+	fileActionDownload.SetVersion(VERSION_TEST);
+
+	EXPECT_THAT(fileActionDownload.GetVersion(), StrCaseEq(VERSION_TEST));
+}

@@ -44,11 +44,23 @@ class ConfigurationRemote
 			
 			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version)
 			{
-				for (unsigned i = 0; i < m_fileActionsDownloads.size(); i++)
+				for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
 				{
 					if (m_fileActionsDownloads.at(i).GetActionID() == actionID)
 					{
 						return m_fileActionsDownloads.at(i).GetFileDownloadForVersion(version);
+					}
+				}	
+				return s_empty;
+			}
+
+			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, wstring version)
+			{
+				for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
+				{
+					if (m_fileActionsDownloads.at(i).GetActionID() == actionID)
+					{
+						return m_fileActionsDownloads.at(i).GetFileDownloadForVersion(version);						
 					}
 				}	
 				return s_empty;

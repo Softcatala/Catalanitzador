@@ -10,19 +10,19 @@
 		<!-- Catalanitzador's latest version -->
 		<action>
 	 		<id>12</id>
-	 		<version>
+	 		<download>
 	  			<min_version>1.2.2</min_version>
 	  			<max_version>1.2.2</max_version>
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe&id=5643&mirall=softcatala2&versio=1.22&so=win32]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe.sha1</sha1_url_1>
 				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_3>
-	  		</version>	 		
+	  		</download>	 		
 		</action>
 		<!-- OpenOffice.org -->
 		<action>
 	 		<id>9</id>
-	 		<version>
+	 		<download>
 	  			<min_version>3.2.0</min_version>
 	  			<max_version>3.2.99</max_version>
 	  			<url_1><![CDATA[http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
@@ -30,8 +30,8 @@
 	  			<url_2>ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab</url_3>
 				<filename>openoffice32-langpack.cab</filename>
-	  		</version>
-	 		<version>
+	  		</download>
+	 		<download>
 	  			<min_version>3.3</min_version>
 	  			<max_version>3.3</max_version>
 	  			<url_1><![CDATA[http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
@@ -39,7 +39,7 @@
 	  			<url_2>ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab</url_3>
 				<filename>openoffice33-langpack.cab</filename>
-	  		</version>
+	  		</download>
 		</action>		
 	</actions>
 </configuration>

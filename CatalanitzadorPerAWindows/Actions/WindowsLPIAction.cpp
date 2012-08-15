@@ -18,13 +18,13 @@
  */
 
 #include "stdafx.h"
-#include <stdio.h>
 
 #include "WindowsLPIAction.h"
 #include "OSVersion.h"
 #include "Runner.h"
 #include "Url.h"
 #include "Resources.h"
+#include "ConfigurationInstance.h"
 
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
@@ -71,7 +71,7 @@ LPCWSTR WindowsLPIAction::GetLicenseID()
 	return NULL;
 }
 
-DownloadID WindowsLPIAction::_getDownloadID()
+wchar_t* WindowsLPIAction::_getDownloadID()
 {
 	OperatingVersion version = m_OSVersion->GetVersion();
 
@@ -86,29 +86,29 @@ DownloadID WindowsLPIAction::_getDownloadID()
 			// do any validation
 			if (majorVersion >= 2 && _isWindowsValidated())
 			{
-				return DI_WINDOWSLPIACTION_XP_SP2;
+				return L"XP2";
 			}
 			else
 			{
-				return DI_WINDOWSLPIACTION_XP;
+				return L"XP";
 			}
 		}
 
-		case WindowsVista:		
-			return DI_WINDOWSLPIACTION_VISTA;
+		case WindowsVista:
+			return L"Vista";
 		case Windows7:
 			if (m_OSVersion->IsWindows64Bits())
 			{
-				return DI_WINDOWSLPIACTION_7_64BITS;
+				return L"Win7_64";
 			}
 			else
 			{
-				return DI_WINDOWSLPIACTION_7;
+				return L"Win7_32";
 			}
 		default:
 			break;
 	}
-	return DI_UNKNOWN;
+	return NULL;
 }
 
 #define LANGUAGE_CODE L"ca-ES"
@@ -200,7 +200,7 @@ bool WindowsLPIAction::IsNeed()
 	
 	bool bNeed = false;
 
-	if (_getDownloadID() != DI_UNKNOWN)
+	if (_getDownloadID() != NULL)
 	{		
 		if (_isLangPackInstalled() == false || _isDefaultLanguage() == false)
 		{
@@ -224,11 +224,14 @@ bool WindowsLPIAction::IsNeed()
 
 bool WindowsLPIAction::Download(ProgressStatus progress, void *data)
 {
-	GetTempPath(MAX_PATH, m_szFilename);
+	wstring filename;	
+	ConfigurationFileActionDownload downloadVersion;
 
-	Url url(m_actionDownload.GetFileName(_getDownloadID()));
-	wcscat_s(m_szFilename, url.GetFileName());
-	return _getFile(_getDownloadID(), m_szFilename, progress, data);
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
+	GetTempPath(MAX_PATH, m_szFilename);
+	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
+
+	return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);
 }
 
 void WindowsLPIAction::Execute()

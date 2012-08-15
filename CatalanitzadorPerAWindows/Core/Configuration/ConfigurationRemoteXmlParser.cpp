@@ -95,7 +95,7 @@ void ConfigurationRemoteXmlParser::ParseBlockAction(XmlNode node)
 		ActionID actionID = (ActionID) _wtoi(node.GetText().c_str());
 		m_pFileActionDownloads->SetActionID(actionID);
 	} 
-	else if (node.GetName().compare(L"version")==0)
+	else if (node.GetName().compare(L"download")==0)
 	{
 		ConfigurationFileActionDownload fileDownload;
 		int index;
@@ -107,11 +107,15 @@ void ConfigurationRemoteXmlParser::ParseBlockAction(XmlNode node)
 	{
 		ApplicationVersion version(node.GetText());
 		m_pFileActionDownload->SetMinVersion(version);
-	} 
+	}
 	else if (node.GetName().compare(L"max_version")==0)
 	{
 		ApplicationVersion version(node.GetText());
 		m_pFileActionDownload->SetMaxVersion(version);
+	}
+	else if (node.GetName().compare(L"version")==0)
+	{
+		m_pFileActionDownload->SetVersion(node.GetText());
 	}
 	else if (node.GetName().compare(L"filename")==0)
 	{		

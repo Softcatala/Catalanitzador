@@ -31,6 +31,18 @@ ConfigurationFileActionDownload& ConfigurationFileActionDownloads::GetFileDownlo
 		{
 			return m_fileActionsDownload.at(i);
 		}
-	}	
+	}
+	return s_empty;
+}
+
+ConfigurationFileActionDownload& ConfigurationFileActionDownloads::GetFileDownloadForVersion(wstring version)
+{
+	for (unsigned int i = 0; i < m_fileActionsDownload.size(); i++)
+	{
+		if (version == m_fileActionsDownload.at(i).GetVersion())
+		{
+			return m_fileActionsDownload.at(i);
+		}
+	}
 	return s_empty;
 }

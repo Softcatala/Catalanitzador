@@ -48,6 +48,9 @@ class _APICALL ConfigurationFileActionDownload
 
 			wstring& GetFilename() {return m_filename;}
 			void SetFilename(wstring filename) {m_filename = filename;}
+
+			wstring& GetVersion() {return m_version;}
+			void SetVersion(wstring version) {m_version = version;}
 	
 			vector <wstring>& GetUrls() {return m_urls;}
 			void AddUrl(wstring url)
@@ -68,6 +71,7 @@ class _APICALL ConfigurationFileActionDownload
 			ApplicationVersion m_maxVersion;
 			ApplicationVersion m_minVersion;
 			wstring m_filename;
+			wstring m_version;
 			vector <wstring> m_urls;
 			vector <wstring> m_sha1_urls;
 };

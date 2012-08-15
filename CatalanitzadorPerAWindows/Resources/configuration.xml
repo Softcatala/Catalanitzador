@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
-
 	<compatibility>
-		<!-- Minimum version Catalanitzador version required to process this file --> 
+		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
 		<action>
 	 		<id>12</id>
-	 		<version>
+	 		<download>
 	 			<!-- It does not depend on a minimum version -->
 	  			<min_version>0.0.0</min_version>
 	  			<max_version>1.2.2</max_version>
@@ -19,13 +18,58 @@
 				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_3>
 				<filename>CatalanitzadorPerAlWindows.exe</filename>
-	  		</version>
-
+	  		</download>
+		</action>
+		
+		<!-- Windows LPI -->
+		<action>
+	 		<id>1</id>
+	 		<download>
+	 			<version>XP</version>	  			
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi</url_3>
+				<filename>LIPsetup.msi</filename>
+	  		</download>
+	  		<download>
+	 			<version>XP2</version>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi</url_3>
+				<filename>LIPsetup.msi</filename>
+	  		</download>
+	  		<download>
+	 			<version>Vista</version>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3511&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc.msi.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_3>
+				<filename>lip_ca-es.mlc</filename>
+	  		</download>
+	  		<download>
+	 			<version>Win7_32</version>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
+	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_3>
+				<filename>LIP_ca-ES-32bit.mlc</filename>
+	  		</download>
+	  		<download>
+	 			<version>Win7_64</version>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>	  			
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_3>
+				<filename>LIP_ca-ES-64bit.mlc</filename>
+	  		</download>
 		</action>
 		<!-- OpenOffice.org -->
 		<action>
 	 		<id>9</id>
-	 		<version>
+	 		<download>
 	  			<min_version>3.2</min_version>
 	  			<max_version>3.2</max_version>
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
@@ -33,8 +77,8 @@
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab</url_3>
 				<filename>openoffice32-langpack.cab</filename>
-	  		</version>
-	 		<version>
+	  		</download>
+	 		<download>
 	  			<min_version>3.3</min_version>
 	  			<max_version>3.3</max_version>
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
@@ -42,7 +86,7 @@
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab</url_3>
 				<filename>openoffice33-langpack.cab</filename>
-	  		</version>
+	  		</download>
 		</action>
 	</actions>
 </configuration>
