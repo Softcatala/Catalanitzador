@@ -24,6 +24,7 @@
 #include "IOSVersion.h"
 #include "OSVersion.h"
 #include "Version.h"
+#include "RemoteURLs.h"
 #include "ApplicationVersion.h"
 
 class Configuration
