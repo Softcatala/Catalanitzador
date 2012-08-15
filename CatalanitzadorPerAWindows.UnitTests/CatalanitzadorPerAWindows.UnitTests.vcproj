@@ -300,6 +300,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\CatalanitzadorUpdateActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\ChromeActionTest.cpp"
 				>
 			</File>

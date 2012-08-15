@@ -18,13 +18,8 @@
  */
 
 #include "stdafx.h"
-#include <stdio.h>
-
 #include "CatalanitzadorUpdateAction.h"
 #include "ConfigurationInstance.h"
-#include "Runner.h"
-
-#define FILENAME L"CatalanitzadorPerAlWindows.exe"
 
 CatalanitzadorUpdateAction::CatalanitzadorUpdateAction(IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
@@ -33,12 +28,14 @@ CatalanitzadorUpdateAction::CatalanitzadorUpdateAction(IRunner* runner, Download
 
 wchar_t* CatalanitzadorUpdateAction::GetName()
 {
-	return L"";
+	szName[0] = NULL;
+	return szName;
 }
 
 wchar_t* CatalanitzadorUpdateAction::GetDescription()
 {
-	return L"";
+	szDescription[0] = NULL;
+	return szDescription;
 }
 
 bool CatalanitzadorUpdateAction::IsNeed()
@@ -67,7 +64,6 @@ void CatalanitzadorUpdateAction::Execute()
 	parameter += GetVersion();
 	m_runner->Execute((wchar_t *)m_filename.c_str(), (wchar_t *)parameter.c_str(), false);
 }
-
 
 const wchar_t* CatalanitzadorUpdateAction::GetVersion()
 {
