@@ -122,3 +122,14 @@ TEST(CatalanitzadorPerAWindowsTest, _NoConfigurationDownload)
 	EXPECT_FALSE(ConfigurationInstance::Get().GetDownloadConfiguration());
 }
 
+#define DEFINED_URL L"http://www.softcatala.org/pub/catalanitzador/configuration_test.xml"
+
+TEST(CatalanitzadorPerAWindowsTest, _ConfigurationDownloadUrl)
+{
+	wstring parameters(L"/ConfigurationDownloadUrl:");
+	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
+
+	parameters+=DEFINED_URL;	
+	catalanitzadorPerAWindows._processCommandLine(parameters);
+	EXPECT_THAT(ConfigurationInstance::Get().GetDownloadConfigurationUrl(), StrCaseEq(DEFINED_URL));
+}

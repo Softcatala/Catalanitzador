@@ -33,12 +33,14 @@ class Configuration
 			{
 				m_OSVersion = new OSVersion();
 				m_downloadConfiguration = true;
+				SetDownloadConfigurationUrl(REMOTE_CONFIGURATION_URL);
 			}
 
 			Configuration(IOSVersion* version) :m_version(STRING_VERSION)
 			{
 				m_OSVersion = version;
 				m_downloadConfiguration = true;
+				SetDownloadConfigurationUrl(REMOTE_CONFIGURATION_URL);
 			}
 
 			ConfigurationRemote& GetRemote() { return m_remote; }
@@ -79,6 +81,16 @@ class Configuration
 				m_downloadConfiguration = downloadConfiguration;
 			}
 
+			wstring GetDownloadConfigurationUrl()
+			{
+				return m_downloadConfigurationUrl;
+			}
+
+			void SetDownloadConfigurationUrl(wstring downloadConfigurationUrl)
+			{
+				m_downloadConfigurationUrl = downloadConfigurationUrl;
+			}
+
 	private:
 
 			ConfigurationRemote m_remote;
@@ -86,4 +98,5 @@ class Configuration
 			IOSVersion* m_OSVersion;
 			ApplicationVersion m_version;
 			bool m_downloadConfiguration;
+			wstring m_downloadConfigurationUrl;
 };

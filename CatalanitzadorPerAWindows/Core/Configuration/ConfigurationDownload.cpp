@@ -29,7 +29,6 @@
 #include "StringConversion.h"
 
 #define SHA1_EXTENSION L".sha1"
-#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/beta/catalanitzador/configuration.xml"
 
 wstring ConfigurationDownload::_getApplicationEmbeddedConfigurationSha1()
 {
@@ -44,8 +43,9 @@ bool ConfigurationDownload::_downloadRemoteSha1()
 	DownloadInet inetacccess;
 	bool bRslt;
 	wstring sha1_file(m_filename);
-	wstring sha1_url(REMOTE_CONFIGURATION_URL);
+	wstring sha1_url;
 	
+	sha1_url = ConfigurationInstance::Get().GetDownloadConfigurationUrl();
 	sha1_file += SHA1_EXTENSION;
 	sha1_url += SHA1_EXTENSION;
 
@@ -62,7 +62,7 @@ bool ConfigurationDownload::_downloadRemoteSha1()
 void ConfigurationDownload::_setFileName()
 {
 	wchar_t szFilename[MAX_PATH];
-	Url url(REMOTE_CONFIGURATION_URL);
+	Url url(ConfigurationInstance::Get().GetDownloadConfigurationUrl());
 
 	GetTempPath(MAX_PATH, szFilename);
 	wcscat_s(szFilename, url.GetFileName());
@@ -100,8 +100,8 @@ void ConfigurationDownload::OnStart()
 
 	if (_getApplicationEmbeddedConfigurationSha1() == m_donwloadSha1sum)
 		return;
-
-	if (_getFile(REMOTE_CONFIGURATION_URL) == false)
+	
+	if (_getFile(ConfigurationInstance::Get().GetDownloadConfigurationUrl()) == false)
 		return;
 
 	ConfigurationRemoteXmlParser configurationXmlParser(m_filename);

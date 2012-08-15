@@ -41,7 +41,8 @@
 #define NORUNNING_PARAMETER L"/NoRunningCheck"
 #define USEAEROLOOK_PARAMETER L"/UseAeroLook"
 #define USECLASSICLOOK_PARAMETER L"/UseClassicLook"
-#define NOCONFIGURATIONDOWNLOAD_PARAMETER L"NoConfigurationDownload"
+#define NOCONFIGURATIONDOWNLOAD_PARAMETER L"/NoConfigurationDownload"
+#define CONFIGURATIONDOWNLOADURL_PARAMETER L"/ConfigurationDownloadUrl"
 #define HELP_PARAMETER L"/Help"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
@@ -57,6 +58,7 @@ CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 	USECLASSICLOOK_PARAMETER_LEN = wcslen(USECLASSICLOOK_PARAMETER);
 	HELP_PARAMETER_LEN = wcslen(HELP_PARAMETER);
 	NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN = wcslen(NOCONFIGURATIONDOWNLOAD_PARAMETER);
+	CONFIGURATIONDOWNLOADURL_PARAMETER_LEN = wcslen(CONFIGURATIONDOWNLOADURL_PARAMETER);
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -72,7 +74,8 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 /NoRunningCheck- No comprovis si ja s'està executant \n\
 /UseAeroLook - Usa l'aspecte Aero \n\
 /UseClassicLook - Usa l'aspecte clàssic \n\
-/NoConfigurationDownload - No baixis la configuració del servidor \n"
+/NoConfigurationDownload - No baixis la configuració del servidor \n\
+/ConfigurationDownloadUrl:url - Usa aquesta URL per baixar la configuració \n"
 
 void CatalanitzadorPerAWindows::_createCatalanitzadorUpdateAction(wstring version)
 {
@@ -150,6 +153,26 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 
 				wcsncpy_s(version, start, end - start);
 				ConfigurationInstance::Get().SetVersion(ApplicationVersion(version));
+
+				pch = end;
+			}
+		}
+		else if (_wcsnicmp(pch, CONFIGURATIONDOWNLOADURL_PARAMETER, CONFIGURATIONDOWNLOADURL_PARAMETER_LEN) == 0)
+		{
+			wchar_t url[128];
+			wchar_t* start, *end;
+			
+			pch += CONFIGURATIONDOWNLOADURL_PARAMETER_LEN;
+
+			if (wcslen(pch) > 0)
+			{
+				pch++;
+				start = pch;
+				end = wcschr(start, L' ');
+				if (end == NULL) end = pch +  wcslen(start);
+
+				wcsncpy_s(url, start, end - start);
+				ConfigurationInstance::Get().SetDownloadConfigurationUrl(url);
 
 				pch = end;
 			}
