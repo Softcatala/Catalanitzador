@@ -52,6 +52,7 @@ private:
 		bool _isAlreadyRunning();
 		bool _hasAdminPermissionsDialog();
 		void _createCatalanitzadorUpdateAction(wstring version);
+		bool _readCommandLineParameter(wchar_t** commandline, wstring& parameter);
 
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;

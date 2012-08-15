@@ -89,6 +89,31 @@ void CatalanitzadorPerAWindows::_createCatalanitzadorUpdateAction(wstring versio
 	action->SetStatus(Successful);
 }
 
+bool CatalanitzadorPerAWindows::_readCommandLineParameter(wchar_t** pcommandline, wstring& parameter)
+{
+	wchar_t* original = *pcommandline;
+	wchar_t* commandline = *pcommandline;
+
+	if (wcslen(commandline) > 0)
+	{
+		wchar_t szParameter[1024];
+		wchar_t* start, *end;
+
+		commandline++;
+		start = commandline;
+		end = wcschr(start, L' ');
+
+		if (end == NULL)
+			end = commandline + wcslen(start);
+
+		wcsncpy_s(szParameter, start, end - start);
+		commandline = end;
+		parameter = szParameter;
+		*pcommandline = commandline;
+	}		
+	return commandline != original;
+}
+
 void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 {
 	wchar_t* pch;
@@ -99,24 +124,14 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 	{
 		if (_wcsnicmp(pch, NORUNNING_PARAMETER, NORUNNING_PARAMETER_LEN) == 0)
 		{
+			wstring version;
+
 			m_bRunningCheck = false;
 			pch += NORUNNING_PARAMETER_LEN;
-
-			if (wcslen(pch) > 0)
+			if (_readCommandLineParameter(&pch, version))
 			{
-				wchar_t version[32];
-				wchar_t* start, *end;
-
-				pch++;
-				start = pch;
-				end = wcschr(start, L' ');
-				if (end == NULL) end = pch +  wcslen(start);
-
-				wcsncpy_s(version, start, end - start);
 				_createCatalanitzadorUpdateAction(version);
-
-				pch = end;
-			}			
+			}
 
 		} else if (_wcsnicmp(pch, USEAEROLOOK_PARAMETER, USEAEROLOOK_PARAMETER_LEN) == 0)
 		{
@@ -139,42 +154,22 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 		}		
 		else if (_wcsnicmp(pch, VERSION_PARAMETER, VERSION_PARAMETER_LEN) == 0)
 		{
-			wchar_t version[32];
-			wchar_t* start, *end;
+			wstring version;
 			
-			pch += VERSION_PARAMETER_LEN;			
-
-			if (wcslen(pch) > 0)
+			pch += VERSION_PARAMETER_LEN;
+			if (_readCommandLineParameter(&pch, version))
 			{
-				pch++;
-				start = pch;
-				end = wcschr(start, L' ');
-				if (end == NULL) end = pch +  wcslen(start);
-
-				wcsncpy_s(version, start, end - start);
 				ConfigurationInstance::Get().SetVersion(ApplicationVersion(version));
-
-				pch = end;
 			}
 		}
 		else if (_wcsnicmp(pch, CONFIGURATIONDOWNLOADURL_PARAMETER, CONFIGURATIONDOWNLOADURL_PARAMETER_LEN) == 0)
 		{
-			wchar_t url[128];
-			wchar_t* start, *end;
+			wstring url;
 			
 			pch += CONFIGURATIONDOWNLOADURL_PARAMETER_LEN;
-
-			if (wcslen(pch) > 0)
+			if (_readCommandLineParameter(&pch, url))
 			{
-				pch++;
-				start = pch;
-				end = wcschr(start, L' ');
-				if (end == NULL) end = pch +  wcslen(start);
-
-				wcsncpy_s(url, start, end - start);
 				ConfigurationInstance::Get().SetDownloadConfigurationUrl(url);
-
-				pch = end;
 			}
 		}
 		else
