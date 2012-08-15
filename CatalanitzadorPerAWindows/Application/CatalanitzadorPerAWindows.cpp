@@ -144,7 +144,10 @@ void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
 		}
 		else if (_wcsnicmp(pch, HELP_PARAMETER, HELP_PARAMETER_LEN) == 0)
 		{
-			MessageBox(NULL, HELP_TEXT, NULL, NULL);
+			wchar_t szCaption [MAX_LOADSTRING];
+
+			LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+			MessageBox(NULL, HELP_TEXT, szCaption, MB_OK | MB_ICONINFORMATION);
 			exit(0);
 		}
 		else if (_wcsnicmp(pch, NOCONFIGURATIONDOWNLOAD_PARAMETER, NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN) == 0)
