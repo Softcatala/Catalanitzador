@@ -24,12 +24,6 @@ ActionDownload::ActionDownload()
 {
 	m_downloads.resize(DI_LENGTH - 1);
 
-	m_downloads[DI_IELPI_IE7] = Download(wstring(IELPI_IE7), 4756);
-	m_downloads[DI_IELPI_IE8_XP] = Download(wstring(IELPI_IE8_XP), 4755);
-	m_downloads[DI_IELPI_IE8_VISTA] = Download(wstring(IELPI_IE8_VISTA), 5721);
-	m_downloads[DI_IELPI_IE9_VISTA] = Download(wstring(IELPI_IE9_VISTA), 5721);
-	m_downloads[DI_IELPI_IE9_7] = Download(wstring(IELPI_IE9_7), 5722);
-	m_downloads[DI_IELPI_IE9_7_64BITS] = Download(wstring(IELPI_IE9_7_64BITS), 5722);
 	m_downloads[DI_ADOBEREADER_95] = Download(wstring(ADOBEREADER_95), 4712);
 	m_downloads[DI_ADOBEREADER_1010] = Download(wstring(ADOBEREADER_1010), 4712);
 	m_downloads[DI_MSLIVE2009] = Download(wstring(MSLIVE2009), 4442);

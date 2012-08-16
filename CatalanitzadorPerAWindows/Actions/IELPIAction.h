@@ -72,9 +72,9 @@ protected:
 
 private:
 
-		DownloadID _getDownloadID();
-		DownloadID _getDownloadIDIE8();
-		DownloadID _getDownloadIDIE9();
+		wchar_t* _getDownloadID();
+		wchar_t* _getDownloadIDIE8();
+		wchar_t* _getDownloadIDIE9();
 		bool _isLangPackInstalled();
 		bool _is64BitsPackage();
 		bool _createTempDirectory();

@@ -75,7 +75,7 @@
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5199&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/office2010/LanguageInterfacePack-x86-ca-es.exe</url_3>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_3>
 				<filename>LanguageInterfacePack-x86-ca-es.exe</filename>
 	  		</download>
 	  		<download>
@@ -103,6 +103,60 @@
 				<filename>OutlookConnector-cat.exe</filename>
 	  		</download> 		
 		</action>
+		
+	
+		<!-- Internet Explorer LIP -->
+		<action>
+	 		<id>5</id>
+	 		<download>
+	  			<version>IE7</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4756&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe</url_3>
+				<filename>ie7lip-x86-CAT.exe</filename>
+	  		</download>
+	  		<download>
+	  			<version>IE8_XP</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4755&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe</url_3>
+				<filename>IE8-WindowsXP-x86-CAT.exe</filename>
+	  		</download>
+	  		<download>
+	  			<version>IE8_VISTA</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_3>
+				<filename>IE8-Windows6.0-LanguagePack-x86-CAT.msu</filename>
+	  		</download>
+	  		<download>
+	  			<version>IE9_VISTA</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_3>
+				<filename>IE9-Windows6.0-LanguagePack-x86-cat.msu</filename>
+	  		</download>
+	  		<download>
+	  			<version>IE9_7</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_3>
+				<filename>IE9-Windows6.1-LanguagePack-x86-cat.msu</filename>
+	  		</download>
+	  		<download>
+	  			<version>IE9_7_64</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_3>
+				<filename>IE9-Windows6.1-LanguagePack-x64-cat.msu</filename>
+	  		</download>
+	  	</action>	
 		
 		<!-- OpenOffice.org -->
 		<action>

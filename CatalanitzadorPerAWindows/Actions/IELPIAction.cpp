@@ -18,13 +18,13 @@
  */
 
 #include "stdafx.h"
-#include <stdio.h>
 
 #include "IELPIAction.h"
 #include "OSVersion.h"
 #include "Url.h"
 #include "Winver.h"
 #include "FileVersionInfo.h"
+#include "ConfigurationInstance.h"
 
 IELPIAction::IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
@@ -133,12 +133,12 @@ IELPIAction::IEVersion IELPIAction::_readIEVersion()
 	return version;
 }
 
-DownloadID IELPIAction::_getDownloadID()
+wchar_t* IELPIAction::_getDownloadID()
 {
 	switch (_getIEVersion())
 	{
 		case IE7:
-			return DI_IELPI_IE7;
+			return L"IE7";
 		case IE8:
 			return _getDownloadIDIE8();
 		case IE9:
@@ -147,42 +147,42 @@ DownloadID IELPIAction::_getDownloadID()
 			break;
 	}
 
-	return DI_UNKNOWN;
+	return NULL;
 }
 
-DownloadID IELPIAction::_getDownloadIDIE8()
+wchar_t* IELPIAction::_getDownloadIDIE8()
 {
 	switch (m_OSVersion->GetVersion())
 	{
 		case WindowsXP:
-			return DI_IELPI_IE8_XP;
+			return L"IE8_XP";
 		case WindowsVista:
-			return DI_IELPI_IE8_VISTA;
+			return L"IE8_VISTA";
 		default:
 			break;
 	}
-	return DI_UNKNOWN;
+	return NULL;
 }
 
-DownloadID IELPIAction::_getDownloadIDIE9()
+wchar_t* IELPIAction::_getDownloadIDIE9()
 {
 	switch (m_OSVersion->GetVersion())
 	{
 		case WindowsVista:
-			return DI_IELPI_IE9_VISTA;
+			return L"IE9_VISTA";
 		case Windows7:
 			if (m_OSVersion->IsWindows64Bits())
 			{
-				return DI_IELPI_IE9_7_64BITS;
+				return L"IE9_7_64";
 			}
 			else
 			{
-				return DI_IELPI_IE9_7;
+				return L"IE9_7";
 			}
 		default:
 			break;
 	}
-	return DI_UNKNOWN;
+	return NULL;
 }
 
 bool IELPIAction::_is64BitsPackage()
@@ -259,13 +259,16 @@ bool IELPIAction::_createTempDirectory()
 bool IELPIAction::Download(ProgressStatus progress, void *data)
 {
 	if (_createTempDirectory() == false)
-		return false;
-	
-	Url url(m_actionDownload.GetFileName(_getDownloadID()));
-	wcscpy_s(m_filename, m_szTempDir);
-	wcscat_s(m_filename, L"\\");
-	wcscat_s(m_filename, url.GetFileName());	
-	return _getFile(_getDownloadID(), m_filename, progress, data);
+		return false;	
+
+	wstring filename;	
+	ConfigurationFileActionDownload downloadVersion;
+
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), _getDownloadID());
+	GetTempPath(MAX_PATH, m_filename);
+	wcscat_s(m_filename, downloadVersion.GetFilename().c_str());
+
+	return m_downloadManager->GetFile(downloadVersion, m_filename, progress, data);
 }
 
 void IELPIAction::Execute()
@@ -458,7 +461,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 	}
 	else
 	{
-		if (_getDownloadID() != DI_UNKNOWN)
+		if (_getDownloadID() != NULL)
 		{
 			if (_isLangPackInstalled())
 			{
