@@ -180,6 +180,44 @@
 				<filename>openoffice33-langpack.cab</filename>
 	  		</download>
 		</action>
+		
+		<!-- Acrobat Reader -->
+		<action>
+	 		<id>10</id>
+	 		<download>
+	  			<min_version>9.0</min_version>
+	  			<max_version>9.99</max_version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>	  			
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe</url_3>
+				<filename>AdbeRdr950_ca_ES.exe</filename>
+	  		</download>
+	 		<download>
+	  			<min_version>10.0</min_version>
+	  			<max_version>10.0</max_version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</url_3>
+				<filename>AdbeRdr1010_ca_ES.exe</filename>
+	  		</download>
+		</action>
+		
+		<!-- Windows Live -->
+		<action>
+	 		<id>11</id>
+	 		<download>
+	  			<min_version>14</min_version>
+	  			<max_version>14</max_version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe&id=4442&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe</url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe</url_3>
+				<filename>wlsetup-all-2009-ca-14.0.8117.416.exe</filename>
+	  		</download>
+		</action>
 
 	</actions>
 </configuration>

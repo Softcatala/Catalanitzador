@@ -23,7 +23,6 @@
 #include "ActionStatus.h"
 #include "ActionID.h"
 #include "ActionGroup.h"
-#include "ActionDownload.h"
 #include "StringConversion.h"
 #include "DownloadManager.h"
 
@@ -112,7 +111,6 @@ public:
 protected:
 
 		void _setStatusNotInstalled();
-		bool _getFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data);
 		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);
 		bool _doesDownloadExist();
 
@@ -120,7 +118,6 @@ protected:
 		TCHAR szDescription[MAX_LOADSTRING];
 		TCHAR szCannotBeApplied[MAX_LOADSTRING];
 		ActionStatus status;
-		ActionDownload m_actionDownload;
 		DownloadManager* m_downloadManager;
 };
 

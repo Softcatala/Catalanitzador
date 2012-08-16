@@ -22,6 +22,7 @@
 #include "Url.h"
 #include "Runner.h"
 #include "OSVersion.h"
+#include "ConfigurationInstance.h"
 
 AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner)
 {
@@ -51,27 +52,16 @@ wchar_t* AdobeReaderAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_ADOBEREADERCTION_DESCRIPTION, szDescription);	
 }
 
-DownloadID AdobeReaderAction::_getDownloadID()
-{
-	switch (_getMajorVersion())
-	{
-		case 9:
-			return DI_ADOBEREADER_95;
-		case 10:
-			return DI_ADOBEREADER_1010;
-		default:
-			assert(false);
-			return DI_ADOBEREADER_1010;
-	}
-}
-
 bool AdobeReaderAction::Download(ProgressStatus progress, void *data)
-{
-	GetTempPath(MAX_PATH, m_szFilename);
+{	
+	wstring filename;
+	ConfigurationFileActionDownload downloadVersion;
 
-	Url url(m_actionDownload.GetFileName(_getDownloadID()));
-	wcscat_s(m_szFilename, url.GetFileName());	
-	return _getFile(_getDownloadID(), m_szFilename, progress, data);	
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));
+	GetTempPath(MAX_PATH, m_szFilename);
+	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
+
+	return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);
 }
 
 #define ACROBAT_REGKEY L"Software\\Adobe\\Acrobat Reader"
