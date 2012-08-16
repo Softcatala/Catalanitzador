@@ -24,10 +24,6 @@ ActionDownload::ActionDownload()
 {
 	m_downloads.resize(DI_LENGTH - 1);
 
-	m_downloads[DI_MSOFFICEACTION_2010] = Download(wstring(MSOFFICEACTION_2010), 5199);
-	m_downloads[DI_MSOFFICEACTION_2007] = Download(wstring(MSOFFICEACTION_2007), 3481);
-	m_downloads[DI_MSOFFICEACTION_2003] = Download(wstring(MSOFFICEACTION_2003), 3444);
-	m_downloads[DI_MSOFFICEACTION_OUTLOOK_CONNECTOR] = Download(wstring(MSOFFICEACTION_OUTLOOK_CONNECTOR), 5845);
 	m_downloads[DI_IELPI_IE7] = Download(wstring(IELPI_IE7), 4756);
 	m_downloads[DI_IELPI_IE8_XP] = Download(wstring(IELPI_IE8_XP), 4755);
 	m_downloads[DI_IELPI_IE8_VISTA] = Download(wstring(IELPI_IE8_VISTA), 5721);

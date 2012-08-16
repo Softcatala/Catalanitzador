@@ -18,13 +18,12 @@
  */
 
 #include "stdafx.h"
-#include <stdio.h>
 #include <Shlobj.h>
 
 #include "MSOfficeLPIAction.h"
 #include "Runner.h"
 #include "Url.h"
-
+#include "ConfigurationInstance.h"
 
 RegKeyVersion RegKeys2003 = 
 {
@@ -112,7 +111,7 @@ const wchar_t* MSOfficeLPIAction::GetVersion()
 			return L"2010";
 		case MSOffice2010_64:
 			return L"2010_64bits";
-		default:			
+		default:
 			return L"";
 	}
 }
@@ -253,21 +252,19 @@ void MSOfficeLPIAction::_readVersionInstalled()
 	g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) GetVersion());
 }
 
-DownloadID  MSOfficeLPIAction::_getDownloadID()
+wchar_t*  MSOfficeLPIAction::_getDownloadID()
 {
 	switch (_getVersionInstalled())
 	{
-		case MSOffice2010:
-			return DI_MSOFFICEACTION_2010;
-		case MSOffice2007:
-			return DI_MSOFFICEACTION_2007;
 		case MSOffice2003:
-			return DI_MSOFFICEACTION_2003;
+			return L"2003";
+		case MSOffice2007:
+			return L"2007";
+		case MSOffice2010:
+			return L"2010_32";
 		default:
-			assert(false);
-			break;
+			return NULL;
 	}
-	return DI_UNKNOWN;
 }
 
 bool MSOfficeLPIAction::IsNeed()
@@ -321,22 +318,22 @@ bool MSOfficeLPIAction::_needsInstallConnector()
 bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 {
 	bool bFile1, bFile2;
+	ConfigurationFileActionDownload downloadVersion;
 
-	if (_getDownloadID() != DI_UNKNOWN)
-	{
-		Url url(m_actionDownload.GetFileName(_getDownloadID()));
-		wcscpy_s(m_szFilename, url.GetFileName());
-	}
-
+	assert(_getDownloadID() != NULL);
+	
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));	
+	wcscpy_s(m_szFilename, downloadVersion.GetFilename().c_str());
 	wcscpy_s(m_szFullFilename, m_szTempPath);
-	wcscat_s(m_szFullFilename, m_szFilename);
-	bFile1 = _getFile(_getDownloadID(), m_szFullFilename, progress, data);
+	wcscat_s(m_szFullFilename, m_szFilename);	
+	bFile1 = m_downloadManager->GetFile(downloadVersion, m_szFullFilename, progress, data);
 
 	if (_needsInstallConnector())
 	{
+		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(L"OutlookHotmailConnector"));
 		m_connectorFile = m_szTempPath;
-		m_connectorFile += L"OutlookConnector-cat.exe";
-		bFile2 = _getFile(DI_MSOFFICEACTION_OUTLOOK_CONNECTOR, m_connectorFile.c_str(), progress, data);		
+		m_connectorFile += downloadVersion.GetFilename().c_str();		
+		bFile2 = m_downloadManager->GetFile(downloadVersion, m_connectorFile, progress, data);
 		return bFile1 == true && bFile2 == true;
 	}
 	else

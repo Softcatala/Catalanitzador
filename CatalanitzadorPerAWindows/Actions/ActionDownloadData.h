@@ -19,12 +19,6 @@
 
 #pragma once
 
-
-#define MSOFFICEACTION_2010 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe"
-#define MSOFFICEACTION_2007 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe"
-#define MSOFFICEACTION_2003 L"http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab"
-#define MSOFFICEACTION_OUTLOOK_CONNECTOR L"http://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe"
-
 #define IELPI_IE7 L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe"
 #define IELPI_IE8_XP L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe"
 #define IELPI_IE8_VISTA L"http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu"
@@ -39,10 +33,6 @@
 
 enum DownloadID
 {
-	DI_MSOFFICEACTION_2010,
-	DI_MSOFFICEACTION_2007,
-	DI_MSOFFICEACTION_2003,
-	DI_MSOFFICEACTION_OUTLOOK_CONNECTOR,	
 	DI_IELPI_IE7,
 	DI_IELPI_IE8_XP,
 	DI_IELPI_IE8_VISTA,

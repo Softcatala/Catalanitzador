@@ -59,13 +59,51 @@
 	  		</download>
 	  		<download>
 	 			<version>Win7_64</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>	  			
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_3>
 				<filename>LIP_ca-ES-64bit.mlc</filename>
 	  		</download>
 		</action>
+		
+		<!-- Microsoft Office -->
+		<action>
+	 		<id>2</id>
+	 		<download>
+	  			<version>2010_32</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5199&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/office2010/LanguageInterfacePack-x86-ca-es.exe</url_3>
+				<filename>LanguageInterfacePack-x86-ca-es.exe</filename>
+	  		</download>
+	  		<download>
+	  			<version>2007</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3481&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe]]></url_1>	 			
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2007/office2007-lip.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2007/office2007-lip.exe</url_3>
+				<filename>office2007-lip.exe</filename>
+	  		</download>
+	  		<download>
+	  			<version>2003</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3444&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab]]></url_1>	 			
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2003/office2003-lip.cab</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2003/office2003-lip.cab</url_3>
+				<filename>office2003-lip.cab</filename>
+	  		</download>
+	  		<download>
+	  			<version>OutlookHotmailConnector</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5845&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe</url_3>
+				<filename>OutlookConnector-cat.exe</filename>
+	  		</download> 		
+		</action>
+		
 		<!-- OpenOffice.org -->
 		<action>
 	 		<id>9</id>
@@ -88,5 +126,6 @@
 				<filename>openoffice33-langpack.cab</filename>
 	  		</download>
 		</action>
+
 	</actions>
 </configuration>
