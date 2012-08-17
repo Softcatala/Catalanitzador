@@ -1,5 +1,6 @@
-ï»¿/* 
- * Copyright (C) 2012 Jordi Mas i HernÃ ndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Joan Montané <joan@montane.cat>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,14 +20,22 @@
 
 #pragma once
 
-enum InspectorID
+#include "Inspector.h"
+#include "IRegistry.h"
+
+class _APICALL ITunesInspector : public Inspector
 {
-	// Do not modify these since they are used in the server side to identify 
-	// inspectors in a unique manner
-	NoInspector = 0,
-	LibreOfficeInspectorID = 1,
-	SkypeID = 2,
-	PDFCreatorInspectorID = 3,
-	WinRARInspectorID = 4,
-	ITunesInspectorID = 5
+public:
+
+		ITunesInspector(IRegistry* registry);
+
+		virtual InspectorID GetID() const {return ITunesInspectorID;}
+		virtual void Execute();
+
+private:
+		
+		void _readLangInstalled();
+		void _readVersion();
+		
+		IRegistry* m_registry;
 };
