@@ -785,6 +785,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Inspectors\ITunesInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Inspectors\ITunesInspector.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Inspectors\LibreOfficeInspector.cpp"
 				>
 			</File>
