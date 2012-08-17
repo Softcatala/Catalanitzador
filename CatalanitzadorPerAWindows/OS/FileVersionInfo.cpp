@@ -28,31 +28,19 @@ FileVersionInfo::FileVersionInfo()
 
 wstring& FileVersionInfo::GetVersion()
 {
-	if (m_version.size() == 0)
-	{
-		_readVersion();
-	}
-
+	_readVersion();
 	return m_version;
 }
 
 int FileVersionInfo::GetMajorVersion()
 {
-	if (m_majorVersion == -1)
-	{
-		_readVersion();
-	}
-
+	_readVersion();
 	return m_majorVersion;
 }
 
 DWORD FileVersionInfo::GetLanguageCode()
 {
-	if (m_languageCode == -1)
-	{
-		_readLanguageCode();
-	}
-
+	_readLanguageCode();
 	return m_languageCode;
 }
 
