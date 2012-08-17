@@ -23,6 +23,7 @@
 #include "WindowsLiveAction.h"
 #include "Winver.h"
 #include "Url.h"
+#include "ConfigurationInstance.h"
 
 #define MS_LIVE_ESSENTIALS_2009 14
 #define MS_LIVE_ESSENTIALS_2011 15
@@ -77,11 +78,16 @@ bool WindowsLiveAction::IsNeed()
 bool WindowsLiveAction::Download(ProgressStatus progress, void *data)
 {
 	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
-	{
+	{	
+		ConfigurationFileActionDownload downloadVersion;
+		wchar_t version[32];
+
+		swprintf_s(version, L"%u", MS_LIVE_ESSENTIALS_2009);
+		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(version));
 		GetTempPath(MAX_PATH, m_szFilename);
-		Url url(m_actionDownload.GetFileName(DI_MSLIVE2009));
-		wcscat_s(m_szFilename, url.GetFileName());	
-		return _getFile(DI_MSLIVE2009, m_szFilename, progress, data);
+		wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
+
+		return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);
 	}
 
 	// The installer for Essentials 2011 downloads the language packs. We indicate that the action

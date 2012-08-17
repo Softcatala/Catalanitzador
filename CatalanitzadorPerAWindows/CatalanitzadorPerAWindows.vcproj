@@ -221,18 +221,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Actions\ActionDownload.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Actions\ActionDownload.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Actions\ActionDownloadData.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Actions\ActionGroup.h"
 				>
 			</File>

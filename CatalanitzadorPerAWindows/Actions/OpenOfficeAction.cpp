@@ -140,7 +140,7 @@ bool OpenOfficeAction::IsNeed()
 
 bool OpenOfficeAction::Download(ProgressStatus progress, void *data)
 {
-	wstring filename;	
+	wstring filename;
 	ConfigurationFileActionDownload downloadVersion;
 
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));

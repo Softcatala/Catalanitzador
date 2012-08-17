@@ -13,7 +13,7 @@
 	 			<!-- It does not depend on a minimum version -->
 	  			<min_version>0.0.0</min_version>
 	  			<max_version>1.2.2</max_version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5643&mirall=softcatala2&versio=1.22&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5643&mirall=catalanitzador&versio=1.22&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe.sha1</sha1_url_1>
 				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_3>
@@ -26,7 +26,7 @@
 	 		<id>1</id>
 	 		<download>
 	 			<version>XP</version>	  			
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi</url_3>
@@ -34,7 +34,7 @@
 	  		</download>
 	  		<download>
 	 			<version>XP2</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi]]></url_1>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi</url_3>
@@ -42,7 +42,7 @@
 	  		</download>
 	  		<download>
 	 			<version>Vista</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3511&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc]]></url_1>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3511&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc.msi.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_3>
@@ -50,7 +50,7 @@
 	  		</download>
 	  		<download>
 	 			<version>Win7_32</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
 	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_2>
@@ -59,7 +59,7 @@
 	  		</download>
 	  		<download>
 	 			<version>Win7_64</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_3>
@@ -72,7 +72,7 @@
 	 		<id>2</id>
 	 		<download>
 	  			<version>2010_32</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5199&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5199&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_3>
@@ -80,7 +80,7 @@
 	  		</download>
 	  		<download>
 	  			<version>2007</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3481&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe]]></url_1>	 			
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3481&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2007/office2007-lip.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2007/office2007-lip.exe</url_3>
@@ -88,7 +88,7 @@
 	  		</download>
 	  		<download>
 	  			<version>2003</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3444&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab]]></url_1>	 			
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3444&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2003/office2003-lip.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2003/office2003-lip.cab</url_3>
@@ -96,7 +96,7 @@
 	  		</download>
 	  		<download>
 	  			<version>OutlookHotmailConnector</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5845&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5845&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe</url_3>
@@ -110,7 +110,7 @@
 	 		<id>5</id>
 	 		<download>
 	  			<version>IE7</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4756&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4756&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe</url_3>
@@ -118,7 +118,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE8_XP</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4755&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4755&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe</url_3>
@@ -126,7 +126,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE8_VISTA</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_3>
@@ -134,7 +134,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_VISTA</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_3>
@@ -142,7 +142,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_7</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_3>
@@ -150,7 +150,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_7_64</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=softcatala2&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_3>
@@ -178,6 +178,44 @@
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab</url_3>
 				<filename>openoffice33-langpack.cab</filename>
+	  		</download>
+		</action>
+		
+		<!-- Acrobat Reader -->
+		<action>
+	 		<id>10</id>
+	 		<download>
+	  			<min_version>9.0</min_version>
+	  			<max_version>9.5</max_version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe</url_3>
+				<filename>AdbeRdr950_ca_ES.exe</filename>
+	  		</download>
+	 		<download>
+	  			<min_version>10.0</min_version>
+	  			<max_version>10.0</max_version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</url_3>
+				<filename>AdbeRdr1010_ca_ES.exe</filename>
+	  		</download>
+		</action>
+		
+		<!-- Windows Live -->
+		<action>
+	 		<id>11</id>
+	 		<download>
+	  			<min_version>14</min_version>
+	  			<max_version>14</max_version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe&id=4442&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe</url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe</url_3>
+				<filename>wlsetup-all-2009-ca-14.0.8117.416.exe</filename>
 	  		</download>
 		</action>
 

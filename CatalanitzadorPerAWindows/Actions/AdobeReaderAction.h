@@ -48,6 +48,7 @@ protected:
 
 		void _enumVersions(vector <wstring>& versions);
 		void _readInstalledLang(wstring version);
+		int _getMajorVersion();		
 
 		wstring m_lang;
 
@@ -64,10 +65,8 @@ private:
 		void _readUninstallGUID();
 		void _uninstall();
 		void _installVersion();
-		int _getMajorVersion();
 		vector <DWORD> _getProcessIDs();
-		void _readVersionInstalled();
-		DownloadID _getDownloadID();
+		void _readVersionInstalled();		
 
 		wstring m_version;
 		wstring m_GUID;

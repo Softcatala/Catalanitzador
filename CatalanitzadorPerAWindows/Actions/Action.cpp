@@ -81,11 +81,6 @@ Action* Action::AnotherActionDependsOnMe(vector <Action *> * allActions)
 	return NULL;
 }
 
-bool Action::_getFile(DownloadID downloadID, wstring file, ProgressStatus progress, void *data)
-{	
-	return m_actionDownload.GetFile(downloadID, file, progress, data);
-}
-
 void Action::_setStatusNotInstalled()
 {
 	_getStringFromResourceIDName(IDS_APPLICATION_NOTINSTALLED, szCannotBeApplied);
