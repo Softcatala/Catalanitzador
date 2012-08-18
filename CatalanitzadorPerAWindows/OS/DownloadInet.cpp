@@ -71,7 +71,7 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 		hFtp = InternetConnect(hInternet, url.GetHostname(),
 			0, DEFAULT_FTP_USERNAME, DEFAULT_FTP_PASSWORD, INTERNET_SERVICE_FTP,0,0);
 
-		hRemoteFile = FtpOpenFile(hFtp, url.GetPathAndFileName() + 1, GENERIC_READ, FTP_TRANSFER_TYPE_BINARY,0);
+		hRemoteFile = FtpOpenFile(hFtp, url.GetPathAndFileName(), GENERIC_READ, FTP_TRANSFER_TYPE_BINARY,0);
 	}
 	else
 	{
