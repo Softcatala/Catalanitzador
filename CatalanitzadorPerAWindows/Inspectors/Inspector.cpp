@@ -21,9 +21,6 @@
 #include "Inspector.h"
 #include "StringConversion.h"
 
-#include <fstream>
-#include <iostream>
-
 void Inspector::Serialize(ostream* stream)
 {
 	wchar_t szText[1024];

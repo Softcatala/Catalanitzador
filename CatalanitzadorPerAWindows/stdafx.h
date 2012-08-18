@@ -28,6 +28,8 @@
 #include <tchar.h>
 #include <string.h>
 #include <assert.h>
+#include <fstream>
+#include <cstdio>
 
 extern LogFile g_log;
 

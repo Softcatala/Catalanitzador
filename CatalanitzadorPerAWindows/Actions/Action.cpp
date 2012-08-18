@@ -22,9 +22,6 @@
 #include "Resources.h"
 #include "ConfigurationInstance.h"
 
-#include <fstream>
-#include <iostream>
-
 Action::Action()
 {
 	status = NotSelected;

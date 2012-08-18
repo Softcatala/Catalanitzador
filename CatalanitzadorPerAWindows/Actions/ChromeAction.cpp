@@ -20,8 +20,7 @@
 #include "stdafx.h"
 #include "ChromeAction.h"
 #include "Runner.h"
-#include <fstream>
-#include <cstdio>
+
 
 enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 				InIntlBlock, InAcceptedKey, InAcceptedSemicolon, 

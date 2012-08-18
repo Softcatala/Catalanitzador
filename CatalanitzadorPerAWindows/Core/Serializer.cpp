@@ -22,8 +22,6 @@
 #include "OSVersion.h"
 #include "Version.h"
 
-#include <fstream>
-
 Serializer::Serializer()
 {
 	m_stream = new stringstream();
