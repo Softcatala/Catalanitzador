@@ -33,18 +33,39 @@ XmlParser::~XmlParser()
 	_uninitialize();
 }
 
-void XmlParser::_parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node)
-{
-	MSXML2::IXMLDOMNamedNodeMapPtr attributes;
-	BSTR bstrItemText, bstrItemNode, attrName;
+/*
+		<id>12</id>
+		We are only interested in the text from the next text node
+*/
 
-	pIDOMNode->get_nodeName(&bstrItemNode);						 
-	pIDOMNode->get_text(&bstrItemText);
-	attributes = pIDOMNode->attributes;
-
-	node.SetName(wstring(bstrItemNode));
-	node.SetText(wstring(bstrItemText));
 	
+void XmlParser::_parseNodeGetText(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node)
+{	
+	MSXML2::IXMLDOMNode* ppFirstChild;
+	BSTR bstrNodeType;
+
+	pIDOMNode->get_firstChild(&ppFirstChild);
+	
+	if (ppFirstChild == NULL)
+		return;
+	
+	ppFirstChild->get_nodeTypeString(&bstrNodeType);
+
+	if (lstrcmp((LPCTSTR)bstrNodeType, (LPCTSTR)L"text") == 0 ||
+		(lstrcmp((LPCTSTR)bstrNodeType, (LPCTSTR)L"cdatasection") == 0))
+	{
+		BSTR bstrItemText;
+
+		ppFirstChild->get_text(&bstrItemText);
+		node.SetText(wstring(bstrItemText));
+	}
+}
+
+void XmlParser::_parseNodeGetAttributes(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node)
+{
+	MSXML2::IXMLDOMNamedNodeMapPtr attributes = pIDOMNode->attributes;
+	BSTR attrName;
+
 	for (int i = 0; i < attributes->Getlength(); i++)
 	{
 		MSXML2::IXMLDOMNodePtr atrr = attributes->Getitem(i);
@@ -61,12 +82,23 @@ void XmlParser::_parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node)
 	}
 }
 
+void XmlParser::_parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node)
+{	
+	BSTR bstrItemNode;
+	
+	pIDOMNode->get_nodeName(&bstrItemNode);
+	node.SetName(wstring(bstrItemNode));
+
+	_parseNodeGetText(pIDOMNode, node);
+	_parseNodeGetAttributes(pIDOMNode, node);
+}
+
 void XmlParser::Parse(NodeCallback callback, void *data)
 {
 	MSXML2::IXMLDOMNodeListPtr NodeListPtr;
 	BSTR strFindText  = L" ";
 	MSXML2::IXMLDOMNode *pIDOMNode = NULL;
-	BSTR bstrNodeType;	
+	BSTR bstrNodeType;
 
 	assert(m_domDocument != NULL);
 
@@ -181,7 +213,7 @@ void XmlNode::_createElement()
 	for (unsigned int i = 0; i < m_attributes.size(); i++)
 	{
 		m_itemPtr->setAttribute(m_attributes[i].GetName().c_str(),
-			m_attributes[i].GetValue().c_str());				
+			m_attributes[i].GetValue().c_str());
 	}	
 }
 

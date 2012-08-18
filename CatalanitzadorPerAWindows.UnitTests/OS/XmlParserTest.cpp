@@ -26,25 +26,25 @@ using ::testing::StrCaseEq;
 
 void _createXmlFile(TempFile& tempfile)
 {
-	char szBuff[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><parent><child1>value</child1><child2 attr=\"valattr\"></child2></parent>";
+	char szBuff[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><parent><child1>value</child1><child2 attr=\"valattr\">text_child2</child2></parent>";
 
 	ofstream of(tempfile.GetFileName().c_str());
 	int size = strlen(szBuff);
 	of.write(szBuff, size);
 	of.close();
 }
-bool ReadTagsCallback(XmlNode node, void *data)
+bool _readTagsCallback(XmlNode node, void *data)
 {
-	vector <wstring>* found;	
+	vector <XmlNode>* found;
 
-	found = (vector <wstring>*) data;	
-	found->push_back(node.GetName());		
+	found = (vector <XmlNode>*) data;
+	found->push_back(node);
 	return true;
 }
 
 TEST(XmlParserTest, ParseFile)
 {	
-	vector <wstring> found;
+	vector <XmlNode> found;
 	TempFile tempfile;
 	bool bRslt;
 
@@ -54,12 +54,49 @@ TEST(XmlParserTest, ParseFile)
 	bRslt = parser.Load(tempfile.GetFileName());
 	EXPECT_TRUE(bRslt);
 
-	parser.Parse(ReadTagsCallback, &found);
+	parser.Parse(_readTagsCallback, &found);
 
 	EXPECT_THAT(found.size(), 3);
-	EXPECT_THAT(found[0], StrCaseEq(L"parent"));
-	EXPECT_THAT(found[1], StrCaseEq(L"child1"));
-	EXPECT_THAT(found[2], StrCaseEq(L"child2"));	
+	EXPECT_THAT(found[0].GetName(), StrCaseEq(L"parent"));
+	EXPECT_THAT(found[1].GetName(), StrCaseEq(L"child1"));
+	EXPECT_THAT(found[2].GetName(), StrCaseEq(L"child2"));
+}
+
+TEST(XmlParserTest, ParseFileText)
+{	
+	vector <XmlNode> found;
+	TempFile tempfile;
+	bool bRslt;
+
+	_createXmlFile(tempfile);
+
+	XmlParser parser;
+	bRslt = parser.Load(tempfile.GetFileName());
+	EXPECT_TRUE(bRslt);
+
+	parser.Parse(_readTagsCallback, &found);
+	EXPECT_TRUE(found[0].GetText().empty());
+	EXPECT_THAT(found[1].GetText(), StrCaseEq(L"value"));
+}
+
+TEST(XmlParserTest, ParseFileAttributes)
+{	
+	vector <XmlNode> found;
+	TempFile tempfile;
+	bool bRslt;
+
+	_createXmlFile(tempfile);
+
+	XmlParser parser;
+	bRslt = parser.Load(tempfile.GetFileName());
+	EXPECT_TRUE(bRslt);
+
+	parser.Parse(_readTagsCallback, &found);
+	
+	EXPECT_THAT(found[2].GetName(), StrCaseEq(L"child2"));
+	EXPECT_THAT(found[2].GetAttributes()->size(), 1);
+	EXPECT_THAT(found[2].GetAttributes()->at(0).GetName(), StrCaseEq(L"attr"));
+	EXPECT_THAT(found[2].GetAttributes()->at(0).GetValue(), StrCaseEq(L"valattr"));
 }
 
 #define DEFAULT_LANGUAGE L"ca"
@@ -87,7 +124,7 @@ void _generateXmlNodes(XmlParser& parser, TempFile& tempfile)
 
 TEST(XmlParserTest, Save)
 {
-	vector <wstring> found;
+	vector <XmlNode> found;
 	TempFile tempfile;
 	bool bRslt;
 
@@ -97,12 +134,12 @@ TEST(XmlParserTest, Save)
 	XmlParser parserRead;
 
 	bRslt = parserRead.Load(tempfile.GetFileName());
-	parserRead.Parse(ReadTagsCallback, &found);
+	parserRead.Parse(_readTagsCallback, &found);
 	EXPECT_TRUE(bRslt);
 
 	EXPECT_THAT(found.size(), 3);
-	EXPECT_THAT(found[0], StrCaseEq(L"item"));
-	EXPECT_THAT(found[1], StrCaseEq(L"prop"));
-	EXPECT_THAT(found[2], StrCaseEq(L"value"));	
+	EXPECT_THAT(found[0].GetName(), StrCaseEq(L"item"));
+	EXPECT_THAT(found[1].GetName(), StrCaseEq(L"prop"));
+	EXPECT_THAT(found[2].GetName(), StrCaseEq(L"value"));
 }
 

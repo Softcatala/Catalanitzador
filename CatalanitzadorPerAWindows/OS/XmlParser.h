@@ -120,6 +120,8 @@ private:
 		void _initialize();
 		void _uninitialize();
 		void _parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
+		void _parseNodeGetText(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
+		void _parseNodeGetAttributes(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
 		void _processNode(XmlNode& node);
 
 		MSXML2::IXMLDOMDocumentPtr m_domDocument;
