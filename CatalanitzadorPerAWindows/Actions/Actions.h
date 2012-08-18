@@ -39,9 +39,10 @@ class Actions
 		vector <Action *> GetActions() {return m_actions; }
 		Action* GetActionFromID(ActionID actionID);
 
+		void CheckPrerequirements();
+
 	private:
-		void _buildListOfActions();
-		void _checkPrerequirements();
+		void _buildListOfActions();		
 
 		IOSVersion* _getNewOSVersion();
 		IRegistry* _getNewRegistry();

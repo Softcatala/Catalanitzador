@@ -22,6 +22,7 @@
 #include "PropertyPageUI.h"
 #include "ConfigurationDownload.h"
 #include "Action.h"
+#include "Actions.h"
 
 #include <vector>
 
@@ -35,7 +36,7 @@ public:
 
 		void SetSendStats(BOOL *pbSendStats) { m_pbSendStats = pbSendStats;}
 		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
-		void SetActions(vector <Action *> * value) { m_actions = value;}
+		void SetActions(Actions* pActions) { m_pActions = pActions;}
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);		
 
 private:
@@ -43,13 +44,12 @@ private:
 		virtual	bool _onNext();
 		void _setTransparentBitmaps();
 		void _initPropertySheet();
-		Action* _getCatalanitzadorAction() const;		
 		void _updateCatalanitzadorAction(Action* action);
 		bool _doesUserWantToUpdate();
 
 		HFONT		m_hFont;
 		BOOL*		m_pbSendStats;
 		BOOL*		m_pbSystemRestore;
-		vector <Action *> * m_actions;
+		Actions*	m_pActions;
 		ConfigurationDownload m_configurationDownload;
 };

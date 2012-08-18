@@ -269,6 +269,7 @@ bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
 
 bool CatalanitzadorPerAWindows::_isAlreadyRunning()
 {
+	return false;
 	if (m_bRunningCheck == false)
 		return false;
 
@@ -307,7 +308,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	welcome.setPageButtons(NextButton);
 	welcome.SetSendStats(&bSendStats);
 	welcome.SetSystemRestore(&bSystemRestore);
-	welcome.SetActions(&acts);
+	welcome.SetActions(&m_actions);
 	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	sheet.addPage(&welcome);
 

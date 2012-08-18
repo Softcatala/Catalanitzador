@@ -110,8 +110,6 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
-
-	_checkPrerequirements();
 }
 
 Action * Actions::GetActionFromID(ActionID actionID)
@@ -125,7 +123,7 @@ Action * Actions::GetActionFromID(ActionID actionID)
 	return NULL;
 }
 
-void Actions::_checkPrerequirements()
+void Actions::CheckPrerequirements()
 {
 	for (unsigned int i = 0; i < m_actions.size(); i++)
 	{		

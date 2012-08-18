@@ -21,6 +21,11 @@
 #include "Defines.h"
 #include "CatalanitzadorUpdateAction.h"
 #include "RunnerMock.h"
+#include "ConfigurationRemote.h"
+#include "ConfigurationInstance.h"
+#include "ConfigurationFileActionDownload.h"
+#include "ConfigurationFileActionDownloads.h"
+
 
 using ::testing::Return;
 using ::testing::_;
@@ -53,3 +58,51 @@ TEST(CatalanitzadorUpdateActionTest, Execute)
 
 	catalanitzadorAction.Execute();
 }
+
+TEST(CatalanitzadorUpdateActionTest, CheckPrerequirements_AlreadyApplied)
+{	
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads fileActionDownloads;
+	ConfigurationFileActionDownload fileActionDownload, fileActionDownloadResult;
+	const wchar_t* VERSION_REQ = L"1.2.3";
+
+	CreateCatalanitzadorUpdate;
+	
+	
+	fileActionDownload.SetMinVersion(ApplicationVersion(L"0.0.0"));
+	fileActionDownload.SetMaxVersion(ApplicationVersion(VERSION_REQ));
+	fileActionDownloads.SetActionID(CatalanitzadorUpdate);
+	fileActionDownloads.AddFileActionDownload(fileActionDownload);	
+	remote.AddFileActionDownloads(fileActionDownloads);
+
+	ConfigurationInstance::Get().SetVersion(ApplicationVersion(VERSION_REQ));
+	ConfigurationInstance::Get().SetRemote(remote);
+	catalanitzadorAction.CheckPrerequirements(NULL);
+
+	EXPECT_THAT(catalanitzadorAction.GetStatus(), AlreadyApplied);
+	EXPECT_FALSE(catalanitzadorAction.IsNeed());
+}
+
+TEST(CatalanitzadorUpdateActionTest, CheckPrerequirements_IsNeeded)
+{	
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads fileActionDownloads;
+	ConfigurationFileActionDownload fileActionDownload, fileActionDownloadResult;
+	const wchar_t* VERSION_LATEST = L"1.2.3";
+	const wchar_t* VERSION_PROG = L"1.2.0";
+
+	CreateCatalanitzadorUpdate;
+	
+	fileActionDownload.SetMinVersion(ApplicationVersion(L"0.0.0"));
+	fileActionDownload.SetMaxVersion(ApplicationVersion(VERSION_LATEST));
+	fileActionDownloads.SetActionID(CatalanitzadorUpdate);
+	fileActionDownloads.AddFileActionDownload(fileActionDownload);	
+	remote.AddFileActionDownloads(fileActionDownloads);
+
+	ConfigurationInstance::Get().SetVersion(ApplicationVersion(VERSION_PROG));
+	ConfigurationInstance::Get().SetRemote(remote);
+	catalanitzadorAction.CheckPrerequirements(NULL);
+	
+	EXPECT_TRUE(catalanitzadorAction.IsNeed());
+}
+

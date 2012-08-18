@@ -32,7 +32,7 @@ const float BYTES_TO_MEGABYTES = 1024*1024;
 
 void DownloadNewVersionDlgUI::_onInitDialog()
 {
-	m_bCancelled = FALSE;
+	m_bCancelled = false;
 	m_hProgressBar = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_PROGRESSBAR);
 	m_hDescription = GetDlgItem (getHandle(), IDC_UPDATEAPPLICATION_DESCRIPTION);
 	SetTimer(getHandle(), TIMER_ID, 500, NULL);
@@ -77,6 +77,6 @@ void DownloadNewVersionDlgUI::_onCommand(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == IDCANCEL)
 	{
-		m_bCancelled = TRUE;
+		m_bCancelled = true;
 	}
 }

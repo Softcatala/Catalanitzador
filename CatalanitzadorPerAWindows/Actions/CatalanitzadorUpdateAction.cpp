@@ -24,23 +24,37 @@
 CatalanitzadorUpdateAction::CatalanitzadorUpdateAction(IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_runner = runner;
+	szName[0] = NULL;
+	szDescription[0] = NULL;
 }
 
 wchar_t* CatalanitzadorUpdateAction::GetName()
 {
-	szName[0] = NULL;
 	return szName;
 }
 
 wchar_t* CatalanitzadorUpdateAction::GetDescription()
 {
-	szDescription[0] = NULL;
 	return szDescription;
 }
 
 bool CatalanitzadorUpdateAction::IsNeed()
 {
- 	return true;
+	bool bNeed;
+
+	switch(GetStatus())
+	{
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
+	}
+	g_log.Log(L"CatalanitzadorUpdateAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
+	return bNeed;
 }
 
 bool CatalanitzadorUpdateAction::Download(ProgressStatus progress, void *data)
@@ -62,6 +76,7 @@ void CatalanitzadorUpdateAction::Execute()
 	wstring parameter(PARAMETER_NOCHECK);
 
 	parameter += GetVersion();
+	g_log.Log(L"CatalanitzadorUpdateAction::Execute '%s' with params '%s'", (wchar_t *)m_filename.c_str(), (wchar_t *)parameter.c_str());
 	m_runner->Execute((wchar_t *)m_filename.c_str(), (wchar_t *)parameter.c_str(), false);
 }
 
@@ -73,4 +88,31 @@ const wchar_t* CatalanitzadorUpdateAction::GetVersion()
 	}
 
 	return ConfigurationInstance::Get().GetVersion().GetString().c_str();
+}
+
+bool CatalanitzadorUpdateAction::_isRunningInstanceUpToDate()
+{
+	vector <ConfigurationFileActionDownloads> m_fileActionsDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();
+	for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
+	{
+		if (m_fileActionsDownloads.at(i).GetActionID() == CatalanitzadorUpdate)
+		{
+			if (m_fileActionsDownloads.at(i).GetFileActionDownloadCollection().size() > 0)
+			{
+				ConfigurationFileActionDownload fileActionDownload;
+				fileActionDownload = m_fileActionsDownloads.at(i).GetFileActionDownloadCollection()[0];
+				return ConfigurationInstance::Get().GetVersion() >= fileActionDownload.GetMaxVersion();			
+			}
+		}
+	}
+	return true;
+}
+
+void CatalanitzadorUpdateAction::CheckPrerequirements(Action * action)
+{
+	if (_isRunningInstanceUpToDate())
+	{
+		SetStatus(AlreadyApplied);
+		return;
+	}
 }

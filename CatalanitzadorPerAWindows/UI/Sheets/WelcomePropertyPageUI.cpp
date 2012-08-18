@@ -78,21 +78,6 @@ void WelcomePropertyPageUI::_onInitDialog()
 	_initPropertySheet();	
 }
 
-Action* WelcomePropertyPageUI::_getCatalanitzadorAction() const
-{
-	for (unsigned int i = 0; i < m_actions->size(); i++)
-	{
-		Action* action = m_actions->at(i);
-
-		if (action->GetID() == CatalanitzadorUpdate)
-		{
-			return action;
-		}
-	}
-	assert(false);
-	return NULL;
-}
-
 bool WelcomePropertyPageUI::_doesUserWantToUpdate()
 {
 	wchar_t szMessage [MAX_LOADSTRING];
@@ -104,57 +89,37 @@ bool WelcomePropertyPageUI::_doesUserWantToUpdate()
 	return MessageBox(getHandle(), szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) == IDYES;
 }
 
-bool IsRunningInstanceUpToDate()
-{
-	vector <ConfigurationFileActionDownloads> m_fileActionsDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();
-	for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
-	{
-		if (m_fileActionsDownloads.at(i).GetActionID() == CatalanitzadorUpdate)
-		{
-			ConfigurationFileActionDownload fileActionDownload;
-			fileActionDownload = m_fileActionsDownloads.at(i).GetFileActionDownloadCollection()[0];
-			return ConfigurationInstance::Get().GetVersion() >= fileActionDownload.GetMaxVersion();			
-		}
-	}
-	assert(false);
-	return true;	
-}
-
 void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAction)
 {
-	ActionStatus status = Selected;
+	catalanitzadorAction->CheckPrerequirements(NULL);
 
-	if (IsRunningInstanceUpToDate() == false)
+	if (catalanitzadorAction->IsNeed() == true)
 	{
 		if (_doesUserWantToUpdate())
 		{
-			DownloadNewVersionDlgUI downloadNewVersionDlgUI(_getCatalanitzadorAction());
+			DownloadNewVersionDlgUI downloadNewVersionDlgUI(m_pActions->GetActionFromID(CatalanitzadorUpdate));
 			if (downloadNewVersionDlgUI.Run(getHandle()) == IDCANCEL)
 			{
-				status = NotSelected;
+				catalanitzadorAction->SetStatus(NotSelected);
 			}
 		}		
 		else
 		{
-			status = NotSelected;
-		}
-	}
-	else
-	{
-		status = AlreadyApplied;
-	}
-	
-	catalanitzadorAction->SetStatus(status);
+			catalanitzadorAction->SetStatus(NotSelected);			
+		}	
+	}	
 }
+
 bool WelcomePropertyPageUI::_onNext()
 {
-	Action* catalanitzadorAction = _getCatalanitzadorAction();
+	Action* catalanitzadorAction = m_pActions->GetActionFromID(CatalanitzadorUpdate);
 
 	if (catalanitzadorAction->GetStatus() != Successful)
 	{
 		_updateCatalanitzadorAction(catalanitzadorAction);
 	}
 	
+	m_pActions->CheckPrerequirements();
 	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;
 	return true;
 }
