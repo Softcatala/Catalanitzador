@@ -45,8 +45,9 @@ void ConfigurationRemoteXmlParser::ParseNode(XmlNode node)
 			break;
 		case ConfigurationBlockActions:
 			ParseBlockActions(node);
-		//case ConfigurationBlockAction:
-		//	ParseBlockAction(node);
+			break;
+		case ConfigurationBlockDownload:
+			ParseBlockDownload(node);
 			break;
 		default:
 			break;
@@ -59,7 +60,25 @@ void ConfigurationRemoteXmlParser::ParseNode(XmlNode node)
 	else if (node.GetName().compare(L"actions")==0)
 	{
 		m_configurationBlock = ConfigurationBlockActions;
-	}	
+	} 
+	else if (node.GetName().compare(L"action")==0)
+	{		
+		ConfigurationFileActionDownloads fileDownloads;
+		int index;
+
+		index = m_configuration.AddFileActionDownloads(fileDownloads);
+		m_pFileActionDownloads = &m_configuration.GetFileActionsDownloads().at(index);
+		m_configurationBlock = ConfigurationBlockActions;
+	} 
+	else if (node.GetName().compare(L"download")==0)
+	{
+		ConfigurationFileActionDownload fileDownload;
+		int index;
+
+		index  = m_pFileActionDownloads->AddFileActionDownload(fileDownload);
+		m_pFileActionDownload = &m_pFileActionDownloads->GetFileActionDownloadCollection().at(index);
+		m_configurationBlock = ConfigurationBlockDownload;
+	}
 }
 
 void ConfigurationRemoteXmlParser::ParseBlockCompatibility(XmlNode node)
@@ -75,35 +94,16 @@ void ConfigurationRemoteXmlParser::ParseBlockCompatibility(XmlNode node)
 
 void ConfigurationRemoteXmlParser::ParseBlockActions(XmlNode node)
 {
-	if (node.GetName().compare(L"action")==0)
-	{
-		ConfigurationFileActionDownloads fileDownloads;
-		int index;
-
-		index = m_configuration.AddFileActionDownloads(fileDownloads);
-		m_pFileActionDownloads = &m_configuration.GetFileActionsDownloads().at(index);
-	}
-
-	ParseBlockAction(node);
-}
-
-
-void ConfigurationRemoteXmlParser::ParseBlockAction(XmlNode node)
-{
 	if (node.GetName().compare(L"id")==0)
 	{
 		ActionID actionID = (ActionID) _wtoi(node.GetText().c_str());
 		m_pFileActionDownloads->SetActionID(actionID);
-	} 
-	else if (node.GetName().compare(L"download")==0)
-	{
-		ConfigurationFileActionDownload fileDownload;
-		int index;
-
-		index  = m_pFileActionDownloads->AddFileActionDownload(fileDownload);
-		m_pFileActionDownload = &m_pFileActionDownloads->GetFileActionDownloadCollection().at(index);
 	}
-	else if (node.GetName().compare(L"min_version")==0)
+}
+
+void ConfigurationRemoteXmlParser::ParseBlockDownload(XmlNode node)
+{
+	if (node.GetName().compare(L"min_version")==0)
 	{
 		ApplicationVersion version(node.GetText());
 		m_pFileActionDownload->SetMinVersion(version);

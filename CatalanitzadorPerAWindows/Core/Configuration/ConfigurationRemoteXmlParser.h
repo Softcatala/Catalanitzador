@@ -39,13 +39,13 @@ class _APICALL ConfigurationRemoteXmlParser
 				ConfigurationBlockNone,
 				ConfigurationBlockCompatibility,
 				ConfigurationBlockActions,
-				ConfigurationBlockAction
+				ConfigurationBlockDownload
 			};
 
 			void ParseNode(XmlNode node);
 			void ParseBlockCompatibility(XmlNode node);
 			void ParseBlockActions(XmlNode node);
-			void ParseBlockAction(XmlNode node);
+			void ParseBlockDownload(XmlNode node);
 
 			static bool _readNodeCallback(XmlNode node, void *data);
 			
