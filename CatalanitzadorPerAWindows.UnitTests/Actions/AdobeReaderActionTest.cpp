@@ -21,7 +21,6 @@
 #include "Defines.h"
 #include "AdobeReaderAction.h"
 
-
 using ::testing::Return;
 using ::testing::_;
 using ::testing::StrCaseEq;
@@ -40,7 +39,7 @@ public:
 	public: 
 			using AdobeReaderAction::_enumVersions;	
 			using AdobeReaderAction::_readInstalledLang;
-			using AdobeReaderAction::_getMajorVersion;			
+			using AdobeReaderAction::_getMajorVersion;
 
 			wstring GetLanguage() {return m_lang;}
 };
@@ -51,17 +50,35 @@ public:
 	RunnerMock runnerMock; \
 	AdobeReaderActionTest adobeAction(&registryMockobj, &runnerMock);
 
+void _setMockForVersion(RegistryMock& registryMockobj, const wchar_t* version)
+{
+	wchar_t szKeyName[2048];
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(wstring(version)), Return(true)));
+	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
+
+	swprintf_s(szKeyName, L"Software\\Adobe\\Acrobat Reader\\%s\\Installer", version);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(szKeyName), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"ENU_GUID"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L""), Return(false)));	
+}
+
+void _setMockForLanguage(RegistryMock& registryMockobj, const wchar_t* version, const wchar_t* language)
+{
+	wchar_t szKeyName[2048];
+
+	swprintf_s(szKeyName, L"Software\\Adobe\\Acrobat Reader\\%s\\Language", version);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(szKeyName), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UI"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(true)));
+}
 
 TEST(AdobeReaderActionTest, _enumVersions_95)
 {
 	const wchar_t* ADOBEREADER_VERSION = L"9.5";
-	CreateAdobeReaderAction;
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(wstring(ADOBEREADER_VERSION)), Return(true)));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
-
 	vector <wstring> versions;
+
+	CreateAdobeReaderAction;
+	_setMockForVersion(registryMockobj, ADOBEREADER_VERSION);	
 	adobeAction._enumVersions(versions);
 
 	EXPECT_EQ(1, versions.size());
@@ -74,9 +91,8 @@ TEST(AdobeReaderActionTest, _readInstalledLang_CAT)
 	const wchar_t* ADOBEREADER_VERSION = L"9.5";
 	const wchar_t* LANGCODE = L"CAT";
 	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader\\9.5\\Language"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UI"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(LANGCODE), Return(true)));
-
+	_setMockForLanguage(registryMockobj, ADOBEREADER_VERSION, LANGCODE);
+	
 	adobeAction._readInstalledLang(wstring(ADOBEREADER_VERSION));
 	
 	EXPECT_THAT(adobeAction.GetLanguage(), StrCaseEq(LANGCODE));
@@ -88,19 +104,25 @@ TEST(AdobeReaderActionTest, IsNeed_No_AlreadyApplied)
 	const wchar_t* ADOBEREADER_VERSION = L"9.5";
 	const wchar_t* LANGCODE = L"CAT";
 
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(wstring(ADOBEREADER_VERSION)), Return(true)));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader\\9.5\\Language"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UI"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(LANGCODE), Return(true)));
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader\\9.5\\Installer"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"ENU_GUID"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L""), Return(false)));
+	_setMockForVersion(registryMockobj, ADOBEREADER_VERSION);
+	_setMockForLanguage(registryMockobj, ADOBEREADER_VERSION, LANGCODE);
 	
 	adobeAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(adobeAction.GetStatus(), AlreadyApplied);
 	EXPECT_FALSE(adobeAction.IsNeed());
+}
+
+TEST(AdobeReaderActionTest, IsNeed_Yes)
+{
+	CreateAdobeReaderAction;
+	const wchar_t* ADOBEREADER_VERSION = L"9.5";
+	const wchar_t* LANGCODE = L"ESP";
+
+	_setMockForVersion(registryMockobj, ADOBEREADER_VERSION);
+	_setMockForLanguage(registryMockobj, ADOBEREADER_VERSION, LANGCODE);
+	adobeAction.CheckPrerequirements(NULL);
+
+	EXPECT_TRUE(adobeAction.IsNeed());
 }
 
 TEST(AdobeReaderActionTest, IsNeed_No_NotInstalled)
@@ -120,10 +142,7 @@ TEST(AdobeReaderActionTest, IsNeed_No_CannotBeApplied)
 	CreateAdobeReaderAction;
 	const wchar_t* ADOBEREADER_VERSION = L"8.0";
 
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(wstring(ADOBEREADER_VERSION)), Return(true)));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
-
+	_setMockForVersion(registryMockobj, ADOBEREADER_VERSION);
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader\\8.0\\Language"), false)).WillRepeatedly(Return(false));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader\\8.0\\Installer"), false)).WillRepeatedly(Return(false));
 	
@@ -138,18 +157,9 @@ TEST(AdobeReaderActionTest, _getMajorVersion)
 	const wchar_t* ADOBEREADER_VERSION = L"9.5";
 	const wchar_t* LANGCODE = L"CAT";
 
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(wstring(ADOBEREADER_VERSION)), Return(true)));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader\\9.5\\Language"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UI"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(LANGCODE), Return(true)));
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader\\9.5\\Installer"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"ENU_GUID"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L""), Return(false)));
-	
+	_setMockForVersion(registryMockobj, ADOBEREADER_VERSION);
+	_setMockForLanguage(registryMockobj, ADOBEREADER_VERSION, LANGCODE);
 	adobeAction.CheckPrerequirements(NULL);
+
 	EXPECT_THAT(adobeAction._getMajorVersion(), 9);
 }
-
-
