@@ -24,15 +24,18 @@
 class ConfigurationRemoteEmbedded
 {
 	public:
+
+			~ConfigurationRemoteEmbedded();
 			void Load();
 			wstring GetSha1Sum() {return m_sha1sum;}
 			ConfigurationRemote GetConfiguration() {return m_configuration;}
 
 	private:
 
-			void _getSha1Sum(wstring file);
-			void _readConfiguration(wstring file);
+			void _getSha1Sum();
+			void _readConfiguration();
 
 			wstring m_sha1sum;
+			wstring m_filename;
 			ConfigurationRemote m_configuration;
 };

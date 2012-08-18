@@ -63,7 +63,7 @@ bool CatalanitzadorUpdateAction::Download(ProgressStatus progress, void *data)
 	ConfigurationFileActionDownload downloadVersion;
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));
-	GetTempPath(MAX_PATH, szFilename);	
+	GetTempPath(MAX_PATH, szFilename);
 	wcscat_s(szFilename, downloadVersion.GetFilename().c_str());
 	m_filename = szFilename;
 	return m_downloadManager->GetFile(downloadVersion, szFilename, progress, data);

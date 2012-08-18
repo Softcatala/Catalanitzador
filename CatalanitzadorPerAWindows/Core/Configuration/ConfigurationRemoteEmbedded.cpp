@@ -23,29 +23,38 @@
 #include "Resources.h"
 #include "Sha1Sum.h"
 #include "ConfigurationRemoteXmlParser.h"
+
+ConfigurationRemoteEmbedded::~ConfigurationRemoteEmbedded()
+{
+	if (m_filename.size() > 0  && GetFileAttributes(m_filename.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_filename.c_str());
+	}
+}
  
 void ConfigurationRemoteEmbedded::Load()
 {
 	wchar_t szFilename[MAX_PATH];
 
 	GetTempPath(MAX_PATH, szFilename);
-	wcscat_s(szFilename, L"embedded_configuration.xml");	
+	wcscat_s(szFilename, L"embedded_configuration.xml");
+	m_filename = szFilename;
 	Resources::DumpResource(L"APPLICATION_CONFXML", MAKEINTRESOURCE(IDR_APPLICATION_CONFXML), szFilename);
 
-	_readConfiguration(szFilename);
-	_getSha1Sum(szFilename);
+	_readConfiguration();
+	_getSha1Sum();
 }
 
-void ConfigurationRemoteEmbedded::_getSha1Sum(wstring file)
+void ConfigurationRemoteEmbedded::_getSha1Sum()
 {
-	Sha1Sum sha1sum(file);
+	Sha1Sum sha1sum(m_filename);
 	sha1sum.ComputeforFile();
 	m_sha1sum = sha1sum.GetSum();
 }
 
- void ConfigurationRemoteEmbedded::_readConfiguration(wstring file)
+ void ConfigurationRemoteEmbedded::_readConfiguration()
 {
-	ConfigurationRemoteXmlParser configurationXmlParser(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(m_filename);
 	configurationXmlParser.Parse();
 	m_configuration = configurationXmlParser.GetConfiguration();
 }
