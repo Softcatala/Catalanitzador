@@ -27,7 +27,6 @@
 #include "WelcomePropertyPageUI.h"
 #include "ApplicationSheetUI.h"
 #include "ActiveX.h"
-#include "Slideshow.h"
 #include "Authorization.h"
 #include "ConfigurationInstance.h"
 #include "guid.h"
@@ -290,7 +289,6 @@ void CatalanitzadorPerAWindows::_createWizard()
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
 	SystemRestore systemRestore;
-	Slideshow slideshow;
 	BOOL bSendStats = TRUE;
 	BOOL bSystemRestore = TRUE;
 
@@ -323,8 +321,8 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.setPageButtons(CancelButtonOnly);
 	install.SetActions(&acts);
 	install.SetSerializer(&m_serializer);
-	install.SetSlideshow(&slideshow);
 	install.SetSystemRestore(&bSystemRestore);
+	install.StartSlideShowUnpack();
 	install.createPage(m_hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
 	sheet.addPage(&install);
 
@@ -335,7 +333,6 @@ void CatalanitzadorPerAWindows::_createWizard()
 	finish.SetActions(&acts);
 	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));	
 	sheet.addPage(&finish);
-	slideshow.Start();
 
 	sheet.runModal(m_hInstance, NULL, (LPWSTR)IDS_WIZARD_TITLE);
 }

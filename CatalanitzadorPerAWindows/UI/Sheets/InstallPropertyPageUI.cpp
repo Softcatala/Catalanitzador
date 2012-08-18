@@ -44,8 +44,8 @@ void InstallPropertyPageUI::_openURLInIE()
 	SendMessage(hX,AX_QUERYINTERFACE,(WPARAM)&IID_IWebBrowser2,(LPARAM)&wb);
 	if (wb)
 	{		
-		m_slideshow->Wait();
-		wb->Navigate((BSTR)m_slideshow->GetURL().c_str(),0,0,0,0);
+		m_slideshow.Wait();
+		wb->Navigate((BSTR)m_slideshow.GetURL().c_str(),0,0,0,0);
 		wb->Release();
 	}
 }
@@ -56,7 +56,6 @@ void InstallPropertyPageUI::_onInitDialog()
 	hTaskProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TASK);
 	hDescription = GetDlgItem (getHandle(), IDC_INSTALL_DESCRIPTION);
 	ShowWindowOnce = FALSE;
-
 	_openURLInIE();
 }
 

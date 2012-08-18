@@ -33,8 +33,8 @@ class InstallPropertyPageUI: public PropertyPageUI
 public:		
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 		void SetActions(vector <Action *> * value) { m_actions = value;}
-		void SetSlideshow(Slideshow* slideshow) { m_slideshow = slideshow;}
 		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
+		void StartSlideShowUnpack() { m_slideshow.Start();}
 		
 private:
 		virtual void _onInitDialog();
@@ -61,6 +61,6 @@ private:
 		Serializer* m_serializer;
 		int m_selActions;
 		int m_downloads;
-		Slideshow* m_slideshow;
+		Slideshow m_slideshow;
 		BOOL* m_pbSystemRestore;
 };
