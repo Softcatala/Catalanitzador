@@ -21,7 +21,7 @@
 
 #include <windows.h>
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 8192
 
 class LogFile
 {
