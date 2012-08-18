@@ -53,11 +53,12 @@ protected:
 		void _setDefaultLanguage();
 		bool _isDefaultLanguage();
 		virtual void _getPreferencesFile(wstring& location);
+		virtual bool _isLangPackInstalled();
 
 private:				
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _removeCabTempFiles();
-		bool _isLangPackInstalled();
+		
 		static bool _readNodeCallback(XmlNode node, void *data);
 
 		wstring m_version;

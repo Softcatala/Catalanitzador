@@ -400,17 +400,17 @@ void OpenOfficeAction::CheckPrerequirements(Action * action)
 
 	if (m_version.size() > 0)
 	{
+		if (_isLangPackInstalled() == true)
+		{
+			SetStatus(AlreadyApplied);
+			return;
+		}
+
 		if (_doesDownloadExist() == false)
 		{			
 			_getStringFromResourceIDName(IDS_OPENOFFICEACTION_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"OpenOfficeAction::CheckPrerequirements. Version not supported");
 			SetStatus(CannotBeApplied);
-			return;
-		}
-
-		if (_isLangPackInstalled() == true)
-		{
-			SetStatus(AlreadyApplied);
 			return;
 		}
 	}

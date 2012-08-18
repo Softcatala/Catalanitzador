@@ -56,6 +56,11 @@ public:
 			location += m_filename;
 		}
 
+		virtual bool _isLangPackInstalled()
+		{
+			return false;
+		}
+
 	private:
 
 		wstring m_filename;
