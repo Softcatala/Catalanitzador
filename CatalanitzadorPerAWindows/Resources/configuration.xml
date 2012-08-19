@@ -43,7 +43,7 @@
 	  		<download>
 	 			<version>Vista</version>
 	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3511&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc]]></url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc.msi.sha1</sha1_url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_3>
 				<filename>lip_ca-es.mlc</filename>
@@ -51,7 +51,6 @@
 	  		<download>
 	 			<version>Win7_32</version>
 	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
-	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_3>
