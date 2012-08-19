@@ -32,17 +32,24 @@ ITunesInspector::ITunesInspector(IRegistry* registry)
 void ITunesInspector::_readLangInstalled()
 {
 	wchar_t szLanguage[1024] = L"";
-
-	if ( m_registry->OpenKey(HKEY_CURRENT_USER, PROGRAM_REGKEY, false) && m_registry->GetString(L"LangID", szLanguage, sizeof(szLanguage)))
+	bool found = false;
+	
+	if ( m_registry->OpenKey(HKEY_CURRENT_USER, PROGRAM_REGKEY, false))
 	{
-		m_registry->Close();	
+		m_registry->GetString(L"LangID", szLanguage, sizeof(szLanguage));
+		if (wcslen(szLanguage) > 0){
+			found = true;
+		}
+		m_registry->Close();
 	}
-	else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false) && m_registry->GetString(L"InstalledLangID", szLanguage, sizeof(szLanguage)))
+	
+	if ( (!found) && ( m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false)) )
 	{
+		m_registry->GetString(L"InstalledLangID", szLanguage, sizeof(szLanguage));
 		m_registry->Close();	
 	}
 	
-	g_log.Log(L"ITunes::_readLangInstalled '%s'", szLanguage);
+	g_log.Log(L"ITunesInspector::_readLangInstalled '%s'", szLanguage);
 	m_KeyValues.push_back(InspectorKeyValue(L"lang", szLanguage));
 	
 }
@@ -62,6 +69,6 @@ void ITunesInspector::_readVersion()
 		m_registry->Close();
 	}
 	
-	g_log.Log(L"ITunes::_readVersionInstalled '%s'", szVersion);
+	g_log.Log(L"ITunesInspector::_readVersionInstalled '%s'", szVersion);
 	m_KeyValues.push_back(InspectorKeyValue(L"version", szVersion));		
 }
