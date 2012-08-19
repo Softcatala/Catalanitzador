@@ -62,6 +62,7 @@ public:
 
 		typedef void (*OnClickItem)(int nItem, void* data);
 		void SetClickItem(OnClickItem item, void* data) { m_onClickItem = item; m_clickData = data;}
+		void Invalidate() const {InvalidateRect(m_hWnd, NULL, TRUE);}
 				
 private:
 
