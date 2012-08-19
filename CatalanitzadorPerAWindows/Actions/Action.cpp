@@ -107,10 +107,10 @@ void Action::SetStatus(ActionStatus value)
 			assert(status == CannotBeApplied || status == Selected || status == AlreadyApplied || status == NotInstalled || status == Successful);
 			break;
 		case Selected:
-			assert(status == InProgress || status == NotSelected);
+			assert(status == InProgress || status == NotSelected || status == CannotBeApplied);
 			break;
 		case CannotBeApplied:
-			assert(false);
+			assert(status == NotSelected || status == Selected);
 			break;
 		case AlreadyApplied:
 			assert(false);

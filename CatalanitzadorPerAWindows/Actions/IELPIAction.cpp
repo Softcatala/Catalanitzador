@@ -418,10 +418,15 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirements()
 
 void IELPIAction::CheckPrerequirements(Action * action)
 {
-	szCannotBeApplied[0] = NULL;
-
 	Prerequirements pre;
+	ActionStatus status;
 
+	if (GetStatus() == CannotBeApplied)
+		status = Selected;
+	else
+		status = GetStatus();
+
+	szCannotBeApplied[0] = NULL;
 	pre = _checkPrerequirements();
 
 	if (pre != PrerequirementsOk)	
@@ -457,7 +462,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 
 	if (wcslen(szCannotBeApplied) > 0)
 	{
-		SetStatus(CannotBeApplied);
+		status = CannotBeApplied;
 	}
 	else
 	{
@@ -465,12 +470,13 @@ void IELPIAction::CheckPrerequirements(Action * action)
 		{
 			if (_isLangPackInstalled())
 			{
-				SetStatus(AlreadyApplied);
+				status = AlreadyApplied;
 			}
 		}
 		else
 		{
-			SetStatus(CannotBeApplied);
+			status = CannotBeApplied;
 		}
 	}
+	SetStatus(status);
 }
