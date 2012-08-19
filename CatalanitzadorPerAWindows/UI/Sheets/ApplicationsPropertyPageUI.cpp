@@ -68,7 +68,7 @@ void ApplicationsPropertyPageUI::_processDependantItem(Action* action)
 		if (itemAction == dependant)
 		{
 			m_listview.SetItemImage(i, itemAction->GetStatus());
-			m_disabledActions[dependant] = bNeed;
+			m_disabledActions[dependant] = dependant->IsNeed();
 			break;
 		}
 	}
