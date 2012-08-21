@@ -37,11 +37,6 @@ public:
 
 		void Run(wstring commandLine);
 
-protected:
-		
-		bool m_bRunningCheck;
-		Actions m_actions;
-
 private:
 
 		void _initLog();
@@ -55,4 +50,5 @@ private:
 		Serializer m_serializer;
 		OSVersion m_osVersion;
 		DownloadManager m_downloadManager;
+		Actions m_actions;
 };

@@ -44,6 +44,7 @@ CommandLine::CommandLine(Actions* pActions)
 {
 	m_pActions = pActions;
 
+	m_bRunningCheck = true;
 	NORUNNING_PARAMETER_LEN = wcslen(NORUNNING_PARAMETER);
 	VERSION_PARAMETER_LEN = wcslen(VERSION_PARAMETER);
 	USEAEROLOOK_PARAMETER_LEN = wcslen(USEAEROLOOK_PARAMETER);
@@ -65,7 +66,7 @@ void CommandLine::_createCatalanitzadorUpdateAction(wstring version)
 	action->SetStatus(Successful);
 }
 
-void CommandLine::Process(wstring commandLine, bool& bRunningCheck)
+void CommandLine::Process(wstring commandLine)
 {
 	wchar_t* pch;
 	
@@ -77,7 +78,7 @@ void CommandLine::Process(wstring commandLine, bool& bRunningCheck)
 		{
 			wstring version;
 
-			bRunningCheck = false;
+			m_bRunningCheck = false;
 			pch += NORUNNING_PARAMETER_LEN;
 			if (_readCommandLineParameter(&pch, version))
 			{

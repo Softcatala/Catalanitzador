@@ -40,7 +40,6 @@ CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
 	m_hInstance = hInstance;
 	m_hEvent = NULL;
-	m_bRunningCheck = true;
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -53,14 +52,17 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 
 void CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
-	if (_isAlreadyRunning() == true)
-		return;
-
 	Registry registry;
 	CommandLine commandLineProcessor(&m_actions);
 
 	_initLog();
-	commandLineProcessor.Process(commandLine, m_bRunningCheck);
+	commandLineProcessor.Process(commandLine);
+	
+	if (commandLineProcessor.GetRunningCheck() == true)
+	{
+		if (_isAlreadyRunning() == true)
+			return;	
+	}
 
 	Guid guid(&registry);
 	guid.Get();
@@ -142,11 +144,9 @@ bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
 
 bool CatalanitzadorPerAWindows::_isAlreadyRunning()
 {
-	if (m_bRunningCheck == false)
-		return false;
-
-    m_hEvent = CreateEvent(NULL, TRUE, FALSE, L"Catalanitzador");
-    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+	m_hEvent = CreateEvent(NULL, TRUE, FALSE, L"Catalanitzador");
+    if (GetLastError() == ERROR_ALREADY_EXISTS) 
+	{
         CloseHandle(m_hEvent);
         m_hEvent = NULL;
         return true;

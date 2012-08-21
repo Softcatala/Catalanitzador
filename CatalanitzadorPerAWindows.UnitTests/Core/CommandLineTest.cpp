@@ -29,49 +29,44 @@ using ::testing::StrCaseEq;
 
 TEST(CommandLineTest, _Version)
 {
-	bool running;
 	wstring version(L"/version:");
 
 	version += FORCED_VERSION;
 	CommandLine commandLine(NULL);
-	commandLine.Process(version, running);
+	commandLine.Process(version);
 
 	EXPECT_THAT(ConfigurationInstance::Get().GetVersion().GetString(), StrCaseEq(FORCED_VERSION));
 }
 
 TEST(CommandLineTest, _UseAeroLook)
-{
-	bool running;
+{	
 	wstring parameters(L"/UseAeroLook");
 	
 	CommandLine commandLine(NULL);
-	commandLine.Process(parameters, running);
+	commandLine.Process(parameters);
 	EXPECT_TRUE(ConfigurationInstance::Get().GetAeroEnabled());
 }
 
 TEST(CommandLineTest, _UseClassicLook)
-{
-	bool running;
+{	
 	wstring parameters(L"/UseClassicLook");
 	
 	CommandLine commandLine(NULL);
-	commandLine.Process(parameters, running);
+	commandLine.Process(parameters);
 	EXPECT_FALSE(ConfigurationInstance::Get().GetAeroEnabled());
 }
 
 TEST(CommandLineTest, _RunningCheck)
-{
-	bool running = true;
+{	
 	wstring parameters(L"/norunningcheck");	
 	CommandLine commandLine(NULL);
 	
-	commandLine.Process(parameters, running);
-	EXPECT_FALSE(running);
+	commandLine.Process(parameters);
+	EXPECT_FALSE(commandLine.GetRunningCheck());
 }
 
 TEST(CommandLineTest, _RunningCheckWithVersion)
-{
-	bool running = true;
+{	
 	const wchar_t* VERSION = L"0.1.3";
 	wstring version_found;
 	Actions acts(NULL);
@@ -82,11 +77,11 @@ TEST(CommandLineTest, _RunningCheckWithVersion)
 
 	parameters+= VERSION;
 
-	EXPECT_TRUE(running);
+	EXPECT_TRUE(commandLine.GetRunningCheck());
 	
-	commandLine.Process(parameters, running);
+	commandLine.Process(parameters);
 	
-	EXPECT_FALSE(running);
+	EXPECT_FALSE(commandLine.GetRunningCheck());
 	
 	for (unsigned int i = 0; i < actions.size(); i++)
 	{
@@ -104,11 +99,10 @@ TEST(CommandLineTest, _RunningCheckWithVersion)
 
 TEST(CommandLineTest, _NoConfigurationDownload)
 {
-	bool running = true;
 	wstring parameters(L"/NoConfigurationDownload");
 	CommandLine commandLine(NULL);
 	
-	commandLine.Process(parameters, running);
+	commandLine.Process(parameters);
 	EXPECT_FALSE(ConfigurationInstance::Get().GetDownloadConfiguration());
 }
 
@@ -116,11 +110,10 @@ TEST(CommandLineTest, _NoConfigurationDownload)
 
 TEST(CommandLineTest, _ConfigurationDownloadUrl)
 {
-	bool running;
 	wstring parameters(L"/ConfigurationDownloadUrl:");
 	CommandLine commandLine(NULL);
 
 	parameters+=DEFINED_URL;	
-	commandLine.Process(parameters, running);
+	commandLine.Process(parameters);
 	EXPECT_THAT(ConfigurationInstance::Get().GetDownloadConfigurationUrl(), StrCaseEq(DEFINED_URL));
 }

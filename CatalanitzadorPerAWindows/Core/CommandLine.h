@@ -30,14 +30,16 @@ class _APICALL CommandLine
 {
 	public:
 			CommandLine(Actions* pActions);
-			void Process(wstring commandLine, bool& bRunningCheck);
+			void Process(wstring commandLine);
+			bool GetRunningCheck() const {return m_bRunningCheck;}
 			
 	private:
 
 			Actions* m_pActions;
 			void _createCatalanitzadorUpdateAction(wstring version);
 			bool _readCommandLineParameter(wchar_t** pcommandline, wstring& parameter);
-
+			
+			bool m_bRunningCheck;
 			int NORUNNING_PARAMETER_LEN;
 			int VERSION_PARAMETER_LEN;
 			int USEAEROLOOK_PARAMETER_LEN;
