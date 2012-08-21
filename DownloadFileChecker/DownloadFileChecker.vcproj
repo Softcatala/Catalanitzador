@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application"
+				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -220,6 +220,18 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="Resources"
+			>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Resources\CatalanitzadorPerAWindows.rc"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Resources\resource.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
