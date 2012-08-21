@@ -264,7 +264,6 @@ void AdobeReaderAction::_uninstall()
 
 void AdobeReaderAction::_installVersion()
 {
-	wchar_t szParams[MAX_PATH] = L"";
 	wchar_t szApp[MAX_PATH] = L"";	
 
 	wcscpy_s(szApp, m_szFilename);
