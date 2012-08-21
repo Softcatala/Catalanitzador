@@ -52,7 +52,7 @@ void HttpFormInet::UrlFormEncode(string variables, string& encoded)
 		else
 		{
 			char string [16];
-			sprintf(string, "%%%X", *pos);
+			sprintf_s(string, "%%%X", *pos);
 			encoded += string;
 		}
 
