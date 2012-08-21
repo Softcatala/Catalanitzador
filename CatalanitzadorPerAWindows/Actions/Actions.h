@@ -31,7 +31,7 @@
 
 using namespace std;
 
-class Actions
+class _APICALL Actions
 {
     public:
 		Actions(DownloadManager* downloadManager);

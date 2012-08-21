@@ -20,84 +20,73 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "CatalanitzadorPerAWindows.h"
+#include "CommandLine.h"
 #include "ConfigurationInstance.h"
 
 using ::testing::StrCaseEq;
 
-class CatalanitzadorPerAWindowsTest : public CatalanitzadorPerAWindows
-{
-public:
-	
-	CatalanitzadorPerAWindowsTest() 
-		: CatalanitzadorPerAWindows(GetModuleHandle(NULL)) {}
-	
-	public:
-			using CatalanitzadorPerAWindows::_processCommandLine;
-
-			bool GetRunningCheck() {return m_bRunningCheck;}
-			Actions& GetActions() {return m_actions; }
-
-};
-
 #define FORCED_VERSION L"4.3.2"
 
-TEST(CatalanitzadorPerAWindowsTest, _Version)
+TEST(CommandLineTest, _Version)
 {
+	bool running;
 	wstring version(L"/version:");
 
 	version += FORCED_VERSION;
-	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
-	catalanitzadorPerAWindows._processCommandLine(version);
+	CommandLine commandLine(NULL);
+	commandLine.Process(version, running);
 
 	EXPECT_THAT(ConfigurationInstance::Get().GetVersion().GetString(), StrCaseEq(FORCED_VERSION));
 }
 
-TEST(CatalanitzadorPerAWindowsTest, _UseAeroLook)
+TEST(CommandLineTest, _UseAeroLook)
 {
+	bool running;
 	wstring parameters(L"/UseAeroLook");
 	
-	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
-	catalanitzadorPerAWindows._processCommandLine(parameters);
+	CommandLine commandLine(NULL);
+	commandLine.Process(parameters, running);
 	EXPECT_TRUE(ConfigurationInstance::Get().GetAeroEnabled());
 }
 
-TEST(CatalanitzadorPerAWindowsTest, _UseClassicLook)
+TEST(CommandLineTest, _UseClassicLook)
 {
+	bool running;
 	wstring parameters(L"/UseClassicLook");
 	
-	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
-	catalanitzadorPerAWindows._processCommandLine(parameters);
+	CommandLine commandLine(NULL);
+	commandLine.Process(parameters, running);
 	EXPECT_FALSE(ConfigurationInstance::Get().GetAeroEnabled());
 }
 
-TEST(CatalanitzadorPerAWindowsTest, _RunningCheck)
+TEST(CommandLineTest, _RunningCheck)
 {
+	bool running = true;
 	wstring parameters(L"/norunningcheck");	
-	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
-
-	EXPECT_TRUE(catalanitzadorPerAWindows.GetRunningCheck());
-	catalanitzadorPerAWindows._processCommandLine(parameters);
-	EXPECT_FALSE(catalanitzadorPerAWindows.GetRunningCheck());
+	CommandLine commandLine(NULL);
+	
+	commandLine.Process(parameters, running);
+	EXPECT_FALSE(running);
 }
 
-TEST(CatalanitzadorPerAWindowsTest, _RunningCheckWithVersion)
+TEST(CommandLineTest, _RunningCheckWithVersion)
 {
+	bool running = true;
 	const wchar_t* VERSION = L"0.1.3";
 	wstring version_found;
+	Actions acts(NULL);
+	vector <Action *>  actions = acts.GetActions();
 
 	wstring parameters(L"/norunningcheck:");
-	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
+	CommandLine commandLine(&acts);
 
 	parameters+= VERSION;
 
-	EXPECT_TRUE(catalanitzadorPerAWindows.GetRunningCheck());
+	EXPECT_TRUE(running);
 	
-	catalanitzadorPerAWindows._processCommandLine(parameters);
+	commandLine.Process(parameters, running);
 	
-	EXPECT_FALSE(catalanitzadorPerAWindows.GetRunningCheck());
-
-	vector <Action *>  actions = catalanitzadorPerAWindows.GetActions().GetActions();
+	EXPECT_FALSE(running);
 	
 	for (unsigned int i = 0; i < actions.size(); i++)
 	{
@@ -113,23 +102,25 @@ TEST(CatalanitzadorPerAWindowsTest, _RunningCheckWithVersion)
 }
 
 
-TEST(CatalanitzadorPerAWindowsTest, _NoConfigurationDownload)
+TEST(CommandLineTest, _NoConfigurationDownload)
 {
-	wstring parameters(L"/NoConfigurationDownload");	
-	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
+	bool running = true;
+	wstring parameters(L"/NoConfigurationDownload");
+	CommandLine commandLine(NULL);
 	
-	catalanitzadorPerAWindows._processCommandLine(parameters);
+	commandLine.Process(parameters, running);
 	EXPECT_FALSE(ConfigurationInstance::Get().GetDownloadConfiguration());
 }
 
 #define DEFINED_URL L"http://www.softcatala.org/pub/catalanitzador/configuration_test.xml"
 
-TEST(CatalanitzadorPerAWindowsTest, _ConfigurationDownloadUrl)
+TEST(CommandLineTest, _ConfigurationDownloadUrl)
 {
+	bool running;
 	wstring parameters(L"/ConfigurationDownloadUrl:");
-	CatalanitzadorPerAWindowsTest catalanitzadorPerAWindows;
+	CommandLine commandLine(NULL);
 
 	parameters+=DEFINED_URL;	
-	catalanitzadorPerAWindows._processCommandLine(parameters);
+	commandLine.Process(parameters, running);
 	EXPECT_THAT(ConfigurationInstance::Get().GetDownloadConfigurationUrl(), StrCaseEq(DEFINED_URL));
 }

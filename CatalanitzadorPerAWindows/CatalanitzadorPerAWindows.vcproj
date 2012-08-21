@@ -397,6 +397,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\CommandLine.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\CommandLine.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\Defines.h"
 				>
 			</File>

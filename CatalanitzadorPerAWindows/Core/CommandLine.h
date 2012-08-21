@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,42 +17,34 @@
  * 02111-1307, USA.
  */
  
- 
 #pragma once
 
-#include "Serializer.h"
-#include "OSVersion.h"
-#include "Actions.h"
-#include "DownloadManager.h"
-
 #include <string>
+#include <vector>
+
+#include "Actions.h"
+
 using namespace std;
 
-class _APICALL CatalanitzadorPerAWindows
+class _APICALL CommandLine
 {
+	public:
+			CommandLine(Actions* pActions);
+			void Process(wstring commandLine, bool& bRunningCheck);
+			
+	private:
+
+			Actions* m_pActions;
+			void _createCatalanitzadorUpdateAction(wstring version);
+			bool _readCommandLineParameter(wchar_t** pcommandline, wstring& parameter);
+
+			int NORUNNING_PARAMETER_LEN;
+			int VERSION_PARAMETER_LEN;
+			int USEAEROLOOK_PARAMETER_LEN;
+			int USECLASSICLOOK_PARAMETER_LEN;
+			int NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN;
+			int CONFIGURATIONDOWNLOADURL_PARAMETER_LEN;
+			int HELP_PARAMETER_LEN;
 	
-public:
-		CatalanitzadorPerAWindows(HINSTANCE hInstance);
-		~CatalanitzadorPerAWindows();
 
-		void Run(wstring commandLine);
-
-protected:
-		
-		bool m_bRunningCheck;
-		Actions m_actions;
-
-private:
-
-		void _initLog();
-		bool _supportedOS();
-		void _createWizard();
-		bool _isAlreadyRunning();
-		bool _hasAdminPermissionsDialog();
-		
-		HINSTANCE m_hInstance;
-		HANDLE m_hEvent;
-		Serializer m_serializer;
-		OSVersion m_osVersion;
-		DownloadManager m_downloadManager;
 };

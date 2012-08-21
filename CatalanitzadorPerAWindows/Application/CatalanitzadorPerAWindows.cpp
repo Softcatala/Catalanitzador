@@ -28,21 +28,12 @@
 #include "ApplicationSheetUI.h"
 #include "ActiveX.h"
 #include "Authorization.h"
-#include "ConfigurationInstance.h"
 #include "guid.h"
 #include "Registry.h"
 #include "ApplicationVersion.h"
-#include "CatalanitzadorUpdateAction.h"
 #include "Runner.h"
+#include "CommandLine.h"
 
-#define COMMAND_DELIMITER L' '
-#define VERSION_PARAMETER L"/version"
-#define NORUNNING_PARAMETER L"/NoRunningCheck"
-#define USEAEROLOOK_PARAMETER L"/UseAeroLook"
-#define USECLASSICLOOK_PARAMETER L"/UseClassicLook"
-#define NOCONFIGURATIONDOWNLOAD_PARAMETER L"/NoConfigurationDownload"
-#define CONFIGURATIONDOWNLOADURL_PARAMETER L"/ConfigurationDownloadUrl"
-#define HELP_PARAMETER L"/Help"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 : m_actions(&m_downloadManager)
@@ -50,14 +41,6 @@ CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 	m_hInstance = hInstance;
 	m_hEvent = NULL;
 	m_bRunningCheck = true;
-
-	NORUNNING_PARAMETER_LEN = wcslen(NORUNNING_PARAMETER);
-	VERSION_PARAMETER_LEN = wcslen(VERSION_PARAMETER);
-	USEAEROLOOK_PARAMETER_LEN = wcslen(USEAEROLOOK_PARAMETER);
-	USECLASSICLOOK_PARAMETER_LEN = wcslen(USECLASSICLOOK_PARAMETER);
-	HELP_PARAMETER_LEN = wcslen(HELP_PARAMETER);
-	NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN = wcslen(NOCONFIGURATIONDOWNLOAD_PARAMETER);
-	CONFIGURATIONDOWNLOADURL_PARAMETER_LEN = wcslen(CONFIGURATIONDOWNLOADURL_PARAMETER);
 }
 
 CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
@@ -68,126 +51,17 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 		CloseHandle(m_hEvent);
 }
 
-#define HELP_TEXT L"Sintaxis d'ús:\n\n\
-/version:X.Y.Z - Fa creure al Catalanitzador que és la versió indicada \n\
-/NoRunningCheck- No comprovis si ja s'està executant \n\
-/UseAeroLook - Usa l'aspecte Aero \n\
-/UseClassicLook - Usa l'aspecte clàssic \n\
-/NoConfigurationDownload - No baixis la configuració del servidor \n\
-/ConfigurationDownloadUrl:url - Usa aquesta URL per baixar la configuració \n"
-
-void CatalanitzadorPerAWindows::_createCatalanitzadorUpdateAction(wstring version)
-{
-	if (version.size() == 0)
-		return;
-
-	CatalanitzadorUpdateAction* action;
-	
-	action = (CatalanitzadorUpdateAction *)m_actions.GetActionFromID(CatalanitzadorUpdate);
-	action->SetVersion(version);
-	action->SetStatus(Successful);
-}
-
-bool CatalanitzadorPerAWindows::_readCommandLineParameter(wchar_t** pcommandline, wstring& parameter)
-{
-	wchar_t* original = *pcommandline;
-	wchar_t* commandline = *pcommandline;
-
-	if (wcslen(commandline) > 0)
-	{
-		wchar_t szParameter[1024];
-		wchar_t* start, *end;
-
-		commandline++;
-		start = commandline;
-		end = wcschr(start, L' ');
-
-		if (end == NULL)
-			end = commandline + wcslen(start);
-
-		wcsncpy_s(szParameter, start, end - start);
-		commandline = end;
-		parameter = szParameter;
-		*pcommandline = commandline;
-	}		
-	return commandline != original;
-}
-
-void CatalanitzadorPerAWindows::_processCommandLine(wstring commandLine)
-{
-	wchar_t* pch;
-	
-	pch = (wchar_t*) commandLine.c_str();
-
-	while (*pch != NULL)
-	{
-		if (_wcsnicmp(pch, NORUNNING_PARAMETER, NORUNNING_PARAMETER_LEN) == 0)
-		{
-			wstring version;
-
-			m_bRunningCheck = false;
-			pch += NORUNNING_PARAMETER_LEN;
-			if (_readCommandLineParameter(&pch, version))
-			{
-				_createCatalanitzadorUpdateAction(version);
-			}
-
-		} else if (_wcsnicmp(pch, USEAEROLOOK_PARAMETER, USEAEROLOOK_PARAMETER_LEN) == 0)
-		{
-			ConfigurationInstance::Get().SetAeroEnabled(true);
-			pch += USEAEROLOOK_PARAMETER_LEN;
-		} else if (_wcsnicmp(pch, USECLASSICLOOK_PARAMETER, USECLASSICLOOK_PARAMETER_LEN) == 0)
-		{
-			ConfigurationInstance::Get().SetAeroEnabled(false);
-			pch += USECLASSICLOOK_PARAMETER_LEN;
-		}
-		else if (_wcsnicmp(pch, HELP_PARAMETER, HELP_PARAMETER_LEN) == 0)
-		{
-			wchar_t szCaption [MAX_LOADSTRING];
-
-			LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
-			MessageBox(NULL, HELP_TEXT, szCaption, MB_OK | MB_ICONINFORMATION);
-			exit(0);
-		}
-		else if (_wcsnicmp(pch, NOCONFIGURATIONDOWNLOAD_PARAMETER, NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN) == 0)
-		{
-			ConfigurationInstance::Get().SetDownloadConfiguration(false);
-			pch += NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN;
-		}		
-		else if (_wcsnicmp(pch, VERSION_PARAMETER, VERSION_PARAMETER_LEN) == 0)
-		{
-			wstring version;
-			
-			pch += VERSION_PARAMETER_LEN;
-			if (_readCommandLineParameter(&pch, version))
-			{
-				ConfigurationInstance::Get().SetVersion(ApplicationVersion(version));
-			}
-		}
-		else if (_wcsnicmp(pch, CONFIGURATIONDOWNLOADURL_PARAMETER, CONFIGURATIONDOWNLOADURL_PARAMETER_LEN) == 0)
-		{
-			wstring url;
-			
-			pch += CONFIGURATIONDOWNLOADURL_PARAMETER_LEN;
-			if (_readCommandLineParameter(&pch, url))
-			{
-				ConfigurationInstance::Get().SetDownloadConfigurationUrl(url);
-			}
-		}
-		else
-			pch++;
-	}
-}
-
 void CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
 	if (_isAlreadyRunning() == true)
 		return;
 
-	_initLog();
-	_processCommandLine(commandLine);
-
 	Registry registry;
+	CommandLine commandLineProcessor(&m_actions);
+
+	_initLog();
+	commandLineProcessor.Process(commandLine, m_bRunningCheck);
+
 	Guid guid(&registry);
 	guid.Get();
 
@@ -268,7 +142,6 @@ bool CatalanitzadorPerAWindows::_hasAdminPermissionsDialog()
 
 bool CatalanitzadorPerAWindows::_isAlreadyRunning()
 {
-	return false;
 	if (m_bRunningCheck == false)
 		return false;
 

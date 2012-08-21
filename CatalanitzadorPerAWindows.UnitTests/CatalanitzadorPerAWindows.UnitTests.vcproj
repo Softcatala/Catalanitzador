@@ -348,6 +348,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\CommandLineTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\GuidTest.cpp"
 				>
 			</File>
@@ -421,14 +425,6 @@
 			</File>
 			<File
 				RelativePath=".\Support\TempFile.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Application"
-			>
-			<File
-				RelativePath=".\Application\CatalanitzadorPerAWindowsTest.cpp"
 				>
 			</File>
 		</Filter>
