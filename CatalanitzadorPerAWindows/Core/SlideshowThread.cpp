@@ -21,7 +21,7 @@
 #include "SlideshowThread.h"
 #include "Resources.h"
 
-#define SlideshowThread_RSCTYPE L"SlideshowThread_FILES"
+#define SLIDESHOW_RSCTYPE L"SLIDESHOW_FILES"
 #define INDEX_FILE L"index.html"
 
 SlideshowThread::SlideshowThread()
@@ -53,13 +53,13 @@ void SlideshowThread::OnStart()
 	wstring file;
 
 	GetTempPath(MAX_PATH, tempPath);
-	Resources::EnumResources(SlideshowThread_RSCTYPE, resources);
+	Resources::EnumResources(SLIDESHOW_RSCTYPE, resources);
 
 	for (unsigned i = 0; i < resources.size(); i++)
 	{
 		file = tempPath;
 		file += resources[i].substr(1, resources[i].size() -2);	
-		Resources::DumpResource(SlideshowThread_RSCTYPE, resources[i].c_str(), (wchar_t *)file.c_str());
+		Resources::DumpResource(SLIDESHOW_RSCTYPE, resources[i].c_str(), (wchar_t *)file.c_str());
 		m_tempFiles.push_back(wstring(file));
 	}
 }
