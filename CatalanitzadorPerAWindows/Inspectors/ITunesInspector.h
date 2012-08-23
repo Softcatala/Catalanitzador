@@ -33,7 +33,7 @@ public:
 		virtual void Execute();
 
 private:
-		
+		void _enumInstalledSoftware(vector <wstring>& apps);
 		void _readLangInstalled();
 		void _readVersion();
 		
