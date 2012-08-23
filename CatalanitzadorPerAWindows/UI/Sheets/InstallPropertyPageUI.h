@@ -23,7 +23,7 @@
 #include "Action.h"
 #include "Serializer.h"
 #include "SlideShow.h"
-#include "SystemRestore.h"
+#include "SystemRestoreThread.h"
 
 #include <vector>
 using namespace std;
@@ -50,8 +50,7 @@ private:
 		void _setTaskMarqueeMode(bool enable);
 		void _waitExecutionComplete(Action* action);
 		void _openURLInIE();
-		void _systemRestore(SystemRestore& systemRestore);
-		static DWORD WINAPI _systemRestoreThread(LPVOID lpParam);
+		void _systemRestore(SystemRestoreThread& systemRestore);
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;

@@ -19,25 +19,17 @@
  
 #pragma once
 
-#include <windows.h>
+#include "Thread.h"
+#include "SystemRestore.h"
 
-class _APICALL Thread
+class SystemRestoreThread : public Thread
 {
+	public:
 
-public:
-			Thread();
-			~Thread();
-
-			void Start();
-			void SetWaitTime(int nMilliseconds) {m_nMilliseconds = nMilliseconds;}
+			virtual void OnStart();
 			virtual void Wait();
-			virtual void OnStart() = 0;
-protected:
-			HANDLE m_hThread;
+			void End();	
 
-private:
-			static DWORD WINAPI _callbackThread(LPVOID lpParam);
-
-			
-			int m_nMilliseconds;
+	private:
+			SystemRestore m_systemRestore;
 };

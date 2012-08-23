@@ -17,27 +17,34 @@
  * 02111-1307, USA.
  */
  
-#pragma once
+#include "stdafx.h"
+#include "SystemRestoreThread.h"
 
-#include <windows.h>
+#define SYSTEM_RESTORE_NAME L"Catalanitzador per al Windows"
 
-class _APICALL Thread
+void SystemRestoreThread::OnStart()
 {
+	m_systemRestore.Init();
+	m_systemRestore.Start(SYSTEM_RESTORE_NAME);		
+}
 
-public:
-			Thread();
-			~Thread();
+void SystemRestoreThread::Wait()
+{
+	DWORD dwStatus;
 
-			void Start();
-			void SetWaitTime(int nMilliseconds) {m_nMilliseconds = nMilliseconds;}
-			virtual void Wait();
-			virtual void OnStart() = 0;
-protected:
-			HANDLE m_hThread;
+	while (true)
+	{		
+		GetExitCodeThread(m_hThread, &dwStatus);
+		if (dwStatus != STILL_ACTIVE)
+			break;
 
-private:
-			static DWORD WINAPI _callbackThread(LPVOID lpParam);
+		Window::ProcessMessages();
+		Sleep(50);
+		Window::ProcessMessages();
+	}	
+}
 
-			
-			int m_nMilliseconds;
-};
+void SystemRestoreThread::End()
+{
+	m_systemRestore.End();
+}

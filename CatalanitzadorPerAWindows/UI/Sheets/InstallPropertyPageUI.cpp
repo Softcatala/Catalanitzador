@@ -35,12 +35,10 @@ using namespace std;
 
 void InstallPropertyPageUI::_openURLInIE()
 {
+	IWebBrowser2* wb = 0;
 	HWND hX = GetDlgItem(getHandle (),IDC_INTERNETEXPLORER);
 
-	SendMessage(hX,AX_INPLACE,1,0);
-	
-	// Navigate
-	IWebBrowser2* wb = 0;
+	SendMessage(hX,AX_INPLACE, 1,0);
 	SendMessage(hX,AX_QUERYINTERFACE,(WPARAM)&IID_IWebBrowser2,(LPARAM)&wb);
 	if (wb)
 	{		
@@ -115,7 +113,6 @@ bool InstallPropertyPageUI::_download(Action* action)
 		return true;
 
 	_setTaskMarqueeMode(false);
-
 
 	Window::ProcessMessages();
 
@@ -214,47 +211,23 @@ void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
 	}
 }
 
-#define SYSTEM_RESTORE_NAME L"Catalanitzador per al Windows"
-
-DWORD InstallPropertyPageUI::_systemRestoreThread(LPVOID lpParam)
-{
-	SystemRestore* systemRestore = (SystemRestore *) lpParam;
-	
-	systemRestore->Init();
-	systemRestore->Start(SYSTEM_RESTORE_NAME);
-	return 0;
-}
-
-void InstallPropertyPageUI::_systemRestore(SystemRestore& systemRestore)
+void InstallPropertyPageUI::_systemRestore(SystemRestoreThread& systemRestore)
 {
 	wchar_t szText[MAX_LOADSTRING];
-	HANDLE hThread;
-	DWORD dwStatus;
-
+		
 	_setTaskMarqueeMode(true);
-	
+
 	LoadString(GetModuleHandle(NULL), IDS_CREATINGSYSTEMRESTORE, szText, MAX_LOADSTRING);
 	SendMessage(hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 
-	hThread = CreateThread(NULL, 0, _systemRestoreThread, &systemRestore, 0, NULL);
-
-	while (true)
-	{		
-		GetExitCodeThread(hThread, &dwStatus);
-		if (dwStatus != STILL_ACTIVE)
-			break;
-
-		Window::ProcessMessages();
-		Sleep(50);
-		Window::ProcessMessages();
-	}
+	systemRestore.Start();
+	systemRestore.Wait();
 	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
-	CloseHandle(hThread);
 }
 
 void InstallPropertyPageUI::_onTimer()
 {
-	SystemRestore systemRestore;
+	SystemRestoreThread systemRestore;
 	Action* action;
 	WindowsXPDialogCanceler dialogCanceler;
 	int cnt;

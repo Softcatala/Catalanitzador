@@ -33,6 +33,7 @@
 #include "ApplicationVersion.h"
 #include "Runner.h"
 #include "CommandLine.h"
+#include "SystemRestore.h"
 
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)

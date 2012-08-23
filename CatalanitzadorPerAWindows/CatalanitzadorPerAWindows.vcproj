@@ -469,6 +469,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\SystemRestoreThread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\SystemRestoreThread.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\TriBool.cpp"
 				>
 			</File>
