@@ -18,7 +18,6 @@
  */
 
 #include "stdafx.h"
-#include <Shlobj.h>
 
 #include "MSOfficeLPIAction.h"
 #include "Runner.h"

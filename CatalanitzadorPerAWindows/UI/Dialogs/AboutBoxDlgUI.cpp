@@ -18,7 +18,6 @@
  */
 
 #include <stdafx.h>
-#include <commctrl.h>
 #include "AboutBoxDlgUI.h"
 #include "Version.h"
 #include "StringConversion.h"

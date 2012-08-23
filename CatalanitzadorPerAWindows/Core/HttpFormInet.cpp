@@ -18,7 +18,6 @@
  */
  
 #include "stdafx.h"
-#include <wchar.h>
 #include "HttpFormInet.h"
 #include "Url.h"
 

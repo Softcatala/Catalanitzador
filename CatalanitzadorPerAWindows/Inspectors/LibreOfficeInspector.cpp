@@ -19,7 +19,6 @@
  */
 
 #include "stdafx.h"
-#include <Shlobj.h>
 #include "LibreOfficeInspector.h"
 
 

@@ -18,7 +18,6 @@
  */
 
 #include "stdafx.h"
-#include <Shlobj.h>
 
 #include "WindowsLiveAction.h"
 #include "Winver.h"

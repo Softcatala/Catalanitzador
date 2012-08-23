@@ -20,6 +20,8 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
 #include <windows.h>
+#include <commctrl.h>
+#include <Shlobj.h>
 
 // C RunTime Header Files
 #include <stdlib.h>
@@ -30,6 +32,7 @@
 #include <assert.h>
 #include <fstream>
 #include <cstdio>
+
 
 extern LogFile g_log;
 

@@ -18,7 +18,6 @@
  */
 
 #include "stdafx.h"
-#include <Shlobj.h>
 
 #include "OpenOfficeAction.h"
 #include "Url.h"

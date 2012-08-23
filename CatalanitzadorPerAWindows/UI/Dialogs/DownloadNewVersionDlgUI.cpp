@@ -21,7 +21,6 @@
 #include "DownloadNewVersionDlgUI.h"
 #include "DownloadInet.h"
 #include "ConfigurationInstance.h"
-#include <CommCtrl.h>
 #include "Runner.h"
 #include "Url.h"
 
