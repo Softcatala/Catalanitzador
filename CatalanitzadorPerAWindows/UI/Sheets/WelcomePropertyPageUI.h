@@ -20,7 +20,7 @@
 #pragma once
 
 #include "PropertyPageUI.h"
-#include "ConfigurationDownload.h"
+#include "ConfigurationDownloadThread.h"
 #include "Action.h"
 #include "Actions.h"
 
@@ -51,5 +51,5 @@ private:
 		BOOL*		m_pbSendStats;
 		BOOL*		m_pbSystemRestore;
 		Actions*	m_pActions;
-		ConfigurationDownload m_configurationDownload;
+		ConfigurationDownloadThread m_configurationDownload;
 };

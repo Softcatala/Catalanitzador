@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 #include "DownloadInet.h"
-#include "ConfigurationDownload.h"
+#include "ConfigurationDownloadThread.h"
 #include "Sha1Sum.h"
 #include "Url.h"
 #include "ConfigurationInstance.h"   
@@ -30,14 +30,14 @@
 
 #define SHA1_EXTENSION L".sha1"
 
-wstring ConfigurationDownload::_getApplicationEmbeddedConfigurationSha1()
+wstring ConfigurationDownloadThread::_getApplicationEmbeddedConfigurationSha1()
 {
 	ConfigurationRemoteEmbedded configurationEmbedded;
 	configurationEmbedded.Load();
 	return configurationEmbedded.GetSha1Sum();
 }
 
-bool ConfigurationDownload::_downloadRemoteSha1()
+bool ConfigurationDownloadThread::_downloadRemoteSha1()
 {
 	Sha1Sum sha1sum;
 	DownloadInet inetacccess;
@@ -50,7 +50,7 @@ bool ConfigurationDownload::_downloadRemoteSha1()
 	sha1_url += SHA1_EXTENSION;
 
 	bRslt = inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
-	g_log.Log(L"ConfigurationDownload::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
+	g_log.Log(L"ConfigurationDownloadThread::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
 
 	sha1sum.SetFile(sha1_file);
 	sha1sum.ReadFromFile();
@@ -59,7 +59,7 @@ bool ConfigurationDownload::_downloadRemoteSha1()
 	return sha1sum.GetSum().empty() == false;
 }
 
-void ConfigurationDownload::_setFileName()
+void ConfigurationDownloadThread::_setFileName()
 {
 	wchar_t szFilename[MAX_PATH];
 	Url url(ConfigurationInstance::Get().GetDownloadConfigurationUrl());
@@ -69,7 +69,7 @@ void ConfigurationDownload::_setFileName()
 	m_filename = szFilename;
 }
 
-bool ConfigurationDownload::_getFile(wstring surl)
+bool ConfigurationDownloadThread::_getFile(wstring surl)
 {	
 	DownloadInet inetacccess;
 	Url url(surl);
@@ -77,7 +77,7 @@ bool ConfigurationDownload::_getFile(wstring surl)
 	
 	Sha1Sum sha1_computed(m_filename);
 	bRslt = inetacccess.GetFile((wchar_t *)surl.c_str(), (wchar_t*) m_filename.c_str(), NULL, NULL);
-	g_log.Log(L"ConfigurationDownload::_getFile '%s' is %u", (wchar_t *) surl.c_str(), (wchar_t *) bRslt);
+	g_log.Log(L"ConfigurationDownloadThread::_getFile '%s' is %u", (wchar_t *) surl.c_str(), (wchar_t *) bRslt);
 
 	if (bRslt == false)
 		return false;	
@@ -86,11 +86,11 @@ bool ConfigurationDownload::_getFile(wstring surl)
 	return sha1_computed.GetSum() == m_donwloadSha1sum;
 }
 
-void ConfigurationDownload::OnStart()
+void ConfigurationDownloadThread::OnStart()
 {
 	if (ConfigurationInstance::Get().GetDownloadConfiguration() == false)
 	{
-		g_log.Log(L"ConfigurationDownload::OnStart. Do not download the configuration");
+		g_log.Log(L"ConfigurationDownloadThread::OnStart. Do not download the configuration");
 		return;
 	}
 
@@ -113,10 +113,10 @@ void ConfigurationDownload::OnStart()
 	}
 	
 	ConfigurationInstance::Get().SetRemote(configurationXmlParser.GetConfiguration());
-	g_log.Log(L"ConfigurationDownload::OnStart. Using remote configuration file");
+	g_log.Log(L"ConfigurationDownloadThread::OnStart. Using remote configuration file");
 }
 
-bool ConfigurationDownload::_isConfigurationCompatibleWithAppVersion(ConfigurationRemote configuration)
+bool ConfigurationDownloadThread::_isConfigurationCompatibleWithAppVersion(ConfigurationRemote configuration)
 {
 	ApplicationVersion configurationVersion(configuration.GetCompatibility());
 	return ConfigurationInstance::Get().GetVersion() >= configurationVersion;

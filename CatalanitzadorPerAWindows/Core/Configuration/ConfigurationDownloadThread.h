@@ -25,7 +25,7 @@
 
 using namespace std;
 
-class ConfigurationDownload : public Thread
+class ConfigurationDownloadThread : public Thread
 {
 	public:
 

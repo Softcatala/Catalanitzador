@@ -508,11 +508,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Core\Configuration\ConfigurationDownload.cpp"
+					RelativePath=".\Core\Configuration\ConfigurationDownloadThread.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Core\Configuration\ConfigurationDownload.h"
+					RelativePath=".\Core\Configuration\ConfigurationDownloadThread.h"
 					>
 				</File>
 				<File
