@@ -111,7 +111,7 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 
 	wchar_t szMessage [MAX_LOADSTRING];
 	wchar_t szCaption [MAX_LOADSTRING];
-	UploadStatistics uploadStatistics(&m_serializer);
+	UploadStatisticsThread uploadStatistics(&m_serializer);
 
 	m_serializer.CloseHeader();
 	uploadStatistics.Start();

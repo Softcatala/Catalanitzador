@@ -18,18 +18,18 @@
  */
  
 #include "stdafx.h"
-#include "Slideshow.h"
+#include "SlideshowThread.h"
 #include "Resources.h"
 
-#define SLIDESHOW_RSCTYPE L"SLIDESHOW_FILES"
+#define SlideshowThread_RSCTYPE L"SlideshowThread_FILES"
 #define INDEX_FILE L"index.html"
 
-Slideshow::Slideshow()
+SlideshowThread::SlideshowThread()
 {
 	_createURL();
 }
 
-Slideshow::~Slideshow()
+SlideshowThread::~SlideshowThread()
 {
 	for (unsigned int i = 0; i < m_tempFiles.size(); i++)
 	{
@@ -37,7 +37,7 @@ Slideshow::~Slideshow()
 	}
 }
 
-void Slideshow::_createURL()
+void SlideshowThread::_createURL()
 {
 	wchar_t tempPath[MAX_PATH], url[MAX_PATH];
 	GetTempPath(MAX_PATH, tempPath);
@@ -46,20 +46,20 @@ void Slideshow::_createURL()
 	m_URL = url;
 }
 
-void Slideshow::OnStart()
+void SlideshowThread::OnStart()
 {
 	vector <wstring> resources;
 	wchar_t tempPath[MAX_PATH];
 	wstring file;
 
 	GetTempPath(MAX_PATH, tempPath);
-	Resources::EnumResources(SLIDESHOW_RSCTYPE, resources);
+	Resources::EnumResources(SlideshowThread_RSCTYPE, resources);
 
 	for (unsigned i = 0; i < resources.size(); i++)
 	{
 		file = tempPath;
 		file += resources[i].substr(1, resources[i].size() -2);	
-		Resources::DumpResource(SLIDESHOW_RSCTYPE, resources[i].c_str(), (wchar_t *)file.c_str());
+		Resources::DumpResource(SlideshowThread_RSCTYPE, resources[i].c_str(), (wchar_t *)file.c_str());
 		m_tempFiles.push_back(wstring(file));
 	}
 }

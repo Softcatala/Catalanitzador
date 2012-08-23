@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,17 +19,24 @@
  
 #pragma once
 
-#include "Serializable.h"
-#include "Serializer.h"
 #include "Thread.h"
 
-class UploadStatistics : public Thread
+#include <vector>
+using namespace std;
+
+class SlideshowThread : public Thread
 {
 	public:
-			UploadStatistics(Serializer* serializer);			
+			SlideshowThread();
+			~SlideshowThread();
 
 			virtual void OnStart();
+			void UploadFile();
+			wstring GetURL() const {return m_URL; }
 
-	private:
-			Serializer* m_serializer;			
+	private:			
+			void _createURL();
+			
+			vector <wstring> m_tempFiles;
+			wstring m_URL;
 };

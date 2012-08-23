@@ -22,7 +22,7 @@
 #include "PropertyPageUI.h"
 #include "Action.h"
 #include "Serializer.h"
-#include "SlideShow.h"
+#include "SlideshowThread.h"
 #include "SystemRestoreThread.h"
 
 #include <vector>
@@ -60,6 +60,6 @@ private:
 		Serializer* m_serializer;
 		int m_selActions;
 		int m_downloads;
-		Slideshow m_slideshow;
+		SlideshowThread m_slideshow;
 		BOOL* m_pbSystemRestore;
 };

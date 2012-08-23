@@ -22,7 +22,7 @@
 #include "Action.h"
 #include "PropertyPageUI.h"
 #include "Serializer.h"
-#include "UploadStatistics.h"
+#include "UploadStatisticsThread.h"
 
 #include <vector>
 using namespace std;
@@ -50,7 +50,7 @@ private:
 		vector <Action *> * m_actions;
 		Serializer* m_serializer;
 		BOOL* m_pbSendStats;
-		UploadStatistics * m_uploadStatistics;
+		UploadStatisticsThread * m_uploadStatistics;
 		HWND m_levelProgressBar;
 		wstring m_xmlFile;
 };

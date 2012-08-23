@@ -453,11 +453,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\Slideshow.cpp"
+				RelativePath=".\Core\SlideshowThread.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Core\Slideshow.h"
+				RelativePath=".\Core\SlideshowThread.h"
 				>
 			</File>
 			<File
@@ -485,11 +485,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\UploadStatistics.cpp"
+				RelativePath=".\Core\UploadStatisticsThread.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Core\UploadStatistics.h"
+				RelativePath=".\Core\UploadStatisticsThread.h"
 				>
 			</File>
 			<File

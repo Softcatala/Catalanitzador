@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,26 +17,29 @@
  * 02111-1307, USA.
  */
  
-#pragma once
+#include "stdafx.h"
+#include "UploadStatisticsThread.h"
+#include "HttpFormInet.h"
 
-#include "Thread.h"
-
-#include <vector>
-using namespace std;
-
-class Slideshow : public Thread
+UploadStatisticsThread::UploadStatisticsThread(Serializer* serializer)
 {
-	public:
-			Slideshow();
-			~Slideshow();
+	m_serializer = serializer;
+}
 
-			virtual void OnStart();
-			void UploadFile();
-			wstring GetURL() const {return m_URL; }
 
-	private:			
-			void _createURL();
-			
-			vector <wstring> m_tempFiles;
-			wstring m_URL;
-};
+void UploadStatisticsThread::OnStart()
+{
+	string serialize;
+	char szVar[65535];
+
+	m_serializer->SaveToString(serialize);
+
+	strcpy_s(szVar, "xml=");
+	strcat_s(szVar, serialize.c_str());
+
+	// Send file
+	HttpFormInet access;	
+	bool rslt = access.PostForm(UPLOAD_URL, szVar);
+	g_log.Log(L"UploadStatisticsThread::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);	
+}
+

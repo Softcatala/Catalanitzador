@@ -17,29 +17,19 @@
  * 02111-1307, USA.
  */
  
-#include "stdafx.h"
-#include "UploadStatistics.h"
-#include "HttpFormInet.h"
+#pragma once
 
-UploadStatistics::UploadStatistics(Serializer* serializer)
+#include "Serializable.h"
+#include "Serializer.h"
+#include "Thread.h"
+
+class UploadStatisticsThread : public Thread
 {
-	m_serializer = serializer;
-}
+	public:
+			UploadStatisticsThread(Serializer* serializer);			
 
+			virtual void OnStart();
 
-void UploadStatistics::OnStart()
-{
-	string serialize;
-	char szVar[65535];
-
-	m_serializer->SaveToString(serialize);
-
-	strcpy_s(szVar, "xml=");
-	strcat_s(szVar, serialize.c_str());
-
-	// Send file
-	HttpFormInet access;	
-	bool rslt = access.PostForm(UPLOAD_URL, szVar);
-	g_log.Log(L"UploadStatistics::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);	
-}
-
+	private:
+			Serializer* m_serializer;			
+};

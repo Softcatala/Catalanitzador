@@ -97,7 +97,7 @@ void FinishPropertyPageUI::_onInitDialog()
 {
 	if (*m_pbSendStats)
 	{
-		m_uploadStatistics = new UploadStatistics(m_serializer);
+		m_uploadStatistics = new UploadStatisticsThread(m_serializer);
 		m_uploadStatistics->Start();
 	}
 
