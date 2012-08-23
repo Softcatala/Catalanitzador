@@ -27,10 +27,6 @@
 #include "ActiveX.h"
 #include <exdisp.h>
 
-#include <stdio.h>
-#include <vector>
-using namespace std;
-
 #define TIMER_ID 1714
 
 void InstallPropertyPageUI::_openURLInIE()
