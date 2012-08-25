@@ -1,5 +1,20 @@
 <?php
 /**** SESSIONS ****/
+function get_total_sessions() {
+	global $db;
+
+	return $db->get_var("select count(sessions.ID) from sessions;");
+}
+
+function get_unique_sessions() {
+	global $db;
+
+	$noguid = $db->get_var("select count(distinct guid) from sessions where guid != ''");
+	$guid = $db->get_var("select count(sessions.ID) from sessions where guid = ''");
+
+	return $guid + $noguid;
+}
+
 function get_stacked_sessions() {
 	
 	global $db;

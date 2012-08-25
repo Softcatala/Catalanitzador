@@ -32,7 +32,7 @@ $action_to_hide = array ( 1, 4);
 $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Windows XP x64",
 	"5.1" => "Windows XP", "5.0" => "Windows 2000");
 
-$inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "WinRAR");
+$inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "WinRAR", 5=>"iTunes");
 
 ?><!DOCTYPE HTML>
 <html>
@@ -151,11 +151,12 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 					</div>
 					<h2>Dades totals d'ús</h2>
 					Última actualització de les dades: <em><?=date('H:j:s d/m/Y')?></em>
-					<?php
-						$total_sessions = $db->get_var("select count(sessions.ID) from sessions;");
-					?>
 					<ul>
-						<li><strong>Sessions:</strong> <?=$total_sessions?>
+						<li><strong>Sessions:</strong> 
+							<?php echo get_total_sessions(); ?>
+							<span style="color:#666666">
+							<?php echo " (",get_unique_sessions()," GUID únics)"; ?>
+							</span>
 						<div id="stackedarea"></div>
 						<script type="text/javascript">
 	var stackedsessions;
