@@ -3,14 +3,26 @@
 function get_total_sessions() {
 	global $db;
 
-	return $db->get_var("select count(sessions.ID) from sessions;");
+	$v = get_version_filter();
+
+	if(!empty($v)) {
+		$where = ' where ApplicationsID = '.$v;
+	}
+	
+	return $db->get_var("select count(sessions.ID) from sessions $where");
 }
 
 function get_unique_sessions() {
 	global $db;
 
-	$noguid = $db->get_var("select count(distinct guid) from sessions where guid != ''");
-	$guid = $db->get_var("select count(sessions.ID) from sessions where guid = ''");
+	$v = get_version_filter();
+
+	if(!empty($v)) {
+		$where = ' where ApplicationsID = '.$v;
+	}
+
+	$noguid = $db->get_var("select count(distinct guid) from sessions $where and guid != ''");
+	$guid = $db->get_var("select count(sessions.ID) from sessions $where and guid = ''");
 
 	return $guid + $noguid;
 }
