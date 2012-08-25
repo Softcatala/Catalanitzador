@@ -34,6 +34,14 @@ core.autocrlf=input
 
 Additionally remember to set 'user.name' and 'user.email' variables
 
+Imagine your name is John Smith and your email is johnsmith@myserver.com you will write the following:
+
+$ git config --global core.autocrlf input
+
+$ git config --global user.name "John Smith"
+
+$ git config --global user.email johnsmith@myserver.com
+
 -- Binary files
 
 The git repository with the binary files is located at: https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries
