@@ -36,4 +36,5 @@ enum ActionID
 	AcrobatReader = 10,
 	WindowsLive = 11,
 	CatalanitzadorUpdate = 12,
+	Skype = 13,
 };
