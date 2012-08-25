@@ -40,6 +40,13 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
                 <title>Estadístiques Catalanitzador per al Windows</title>
 		<link rel="stylesheet" href="style.css">
 
+		<?php
+			if(get_query_string()!='') {
+				echo '<meta name="robots" content="noindex">';
+			}
+		?>
+
+
                 <!-- 1. Add these JavaScript inclusions in the head of your page -->
                 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
                 <script type="text/javascript" src="/js/highcharts.js"></script>
@@ -124,6 +131,7 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 		<br />
 		<div id="link_menu">
 			<a href="<?=get_query_string('show','')?>">Resum</a>
+			<a href="<?=get_query_string('show','versions')?>">Versions</a>
 			<a href="<?=get_query_string('show','inspectors')?>">Inspectors</a>
 		</div>
 <?php
@@ -133,6 +141,10 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 		switch($_GET['show']) {
 			case 'inspectors':
 				$show = 'inspectors';
+				break;
+			case 'versions':
+				$show = 'versions';
+				break;
 		}
 	}
 	

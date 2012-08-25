@@ -1,6 +1,6 @@
 <?php
 /** WEB **/
-function get_query_string($key,$val) {
+function get_query_string($key='',$val='') {
 		$queryString = array();
 		$queryString = $_GET;
 		$queryString[$key] = $val;
@@ -10,9 +10,13 @@ function get_query_string($key,$val) {
 				unset($queryString[$key]);
 		}
 
-		$queryString = "?".htmlspecialchars(http_build_query($queryString),ENT_QUOTES);
-		
-		return $queryString;
+		$queryString = htmlspecialchars(http_build_query($queryString),ENT_QUOTES);
+
+		if($queryString == '') {
+			return;
+		}
+
+		return '?'.$queryString;
 }
 
 /**** SESSIONS ****/
