@@ -159,6 +159,8 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 						<div id="stackedarea"></div>
 						<script type="text/javascript">
 	var stackedsessions;
+	var colors = ['#4572A7','#AA4643','#89A54E','#80699B','#3D96AE','#DB843D','#92A8CD','#A47D7C','#B5CA92'];
+	
 	$(document).ready(function() {
 		stackedsessions = new Highcharts.Chart({
 			chart: {
@@ -181,16 +183,25 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 				labels: {
 					formatter: function() {
 						return this.value;
+					},
+					style : {
+						color: colors[0]
 					}
 				}
 			},{
 				title: {
-					text: 'Sessions'
+					text: 'Sessions',
+                                        style: {
+                                                color: colors[1]
+                                        }
 				},
 				labels: {
 					formatter: function() {
 						return this.value;
-					}
+					},
+                                        style: {
+                                                color: colors[1]
+                                        }
 				},
 				opposite : true
 			}],
@@ -232,7 +243,7 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 						
 					}
 				?>],
-				yAxis: 1
+				yAxis: 0
 			},{
 				type: 'area',
 				name: 'Sessions',
@@ -246,7 +257,7 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 						echo "[Date.UTC($dt[0],",($dt[1]-1),",$dt[2]),",$result->total,"]";
 					} 
 				?>],
-				yAxis:2				
+				yAxis:1			
 			}]
 		});
 	});
