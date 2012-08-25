@@ -24,6 +24,8 @@ Before building the libraries, go to all the projects within the gmock solution 
 
 For gtest, this should be the default configuration, if it is not, do also the same steps.
 
+For gtest, build using the gtest-md.sln solution.
+
 -- Git configuration for contribuing
 
 git should be setup to Unix line ending style:
