@@ -183,7 +183,7 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 						return this.value;
 					}
 				},
-				oposite : true
+				opposite : true
 			},{
 				title: {
 					text: 'Sessions'
