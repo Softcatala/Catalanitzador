@@ -182,8 +182,7 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 					formatter: function() {
 						return this.value;
 					}
-				},
-				opposite : true
+				}
 			},{
 				title: {
 					text: 'Sessions'
@@ -192,8 +191,9 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 					formatter: function() {
 						return this.value;
 					}
-				}
-			},],
+				},
+				opposite : true
+			}],
 			tooltip: {
 				shared : true
 			},
