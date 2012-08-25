@@ -1,22 +1,40 @@
 <?php
 /** WEB **/
+function css_is_active($str='') {
+	if(isset($_GET['show'])) {
+		if($_GET['show'] == $str) {
+			return 'active ';		
+		} else {
+			return '';
+		}
+	} else {
+		if($str == '') {
+			return 'active';
+		}
+	}
+	return '';
+}
+
 function get_query_string($key='',$val='') {
 		$queryString = array();
 		$queryString = $_GET;
 		$queryString[$key] = $val;
 
-		foreach($queryString as $key=>$val) {
-			if(empty($queryString[$key]))
-				unset($queryString[$key]);
+		$toRemove = array();
+
+		foreach($queryString as $k=>$v) {
+			if($queryString[$k]=='') {
+				$toRemove[] = $k;
+			}
 		}
 
-		$queryString = htmlspecialchars(http_build_query($queryString),ENT_QUOTES);
-
-		if($queryString == '') {
-			return;
+		foreach($toRemove as $i=>$k) {
+			unset($queryString[$k]);
 		}
 
-		return '?'.$queryString;
+		$qString = htmlspecialchars(http_build_query($queryString),ENT_QUOTES);
+
+		return '?'.$qString;
 }
 
 /**** SESSIONS ****/
@@ -334,12 +352,22 @@ function get_inspectors_data($id) {
 	if(!is_int($id)) return array();
 	global $db;
 	$_data = array();
-	$sql = "select count(SessionID) as Total, InspectorID, KeyVersion, Value from inspectors where InspectorId = $id group by InspectorID, KeyVersion, Value;";
+
+	$v = get_version_filter();
+
+        if(!empty($v)) {
+                $where = ' where ApplicationsID = '.$v;
+        } else {
+		$where = ' where 1 = 1';
+	}
+	
+	$sql = "select count(SessionID) as Total, InspectorID, KeyVersion, Value from inspectors,sessions $where and sessions.ID = SessionId and InspectorId = $id group by InspectorID, KeyVersion, Value;";
 	$results = $db->get_results($sql);
 	
 	$lastKey = '';
-		
-	foreach($results as $result) {
+
+	if(is_array($results)) {
+		foreach($results as $result) {
 		
 			$key = $result->KeyVersion;
 		
@@ -353,6 +381,7 @@ function get_inspectors_data($id) {
 			$_data[$key]['data'][$result->Value] = $result->Total;
 			
 			$lastKey = $key;
+		}
 	}
 	return $_data;
 }

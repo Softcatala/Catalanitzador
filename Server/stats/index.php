@@ -82,8 +82,11 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 		<div class="last_update">
 			Última actualització de les dades: <em><?=date('H:j:s d/m/Y')?></em>
 		</div>
+		<div id="menu">
+			<a href="<?=get_query_string('show','')?>" class="<?=css_is_active('')?>">Resum</a><a href="<?=get_query_string('show','versions')?>" class="<?=css_is_active('versions')?>">Versions</a><a href="<?=get_query_string('show','inspectors')?>" class="<?=css_is_active('inspectors')?>">Inspectors</a>
+		</div>
 		<div id="totals" style="witdh:800px;margin:0 auto"> <div>
-			<h2>Versions d'ús del catalanitzador</h2>
+			<h2>Versions del Catalanitzador</h2>
 			<table id="application_version">
 				<thead>
 					<tr>
@@ -93,7 +96,7 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 				foreach($version_data[0] as $ID => $version) {
 					$v = str_replace('.','',$version);
 					if($_GET['v'] == $v) {
-						$style = ' style="background-color:#CCFFCC" ';
+						$style = ' class="active" ';
 						$vselected = true;
 					} else {
 						$style = '';
@@ -109,7 +112,7 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 					echo '<th style="background-color:#CCFFCC">';
 				}
 						
-				echo '<a href="?">TOTES</a></th></tr></thead><tbody><tr>';
+				echo '<a href="',get_query_string('v',''),'">TOTES</a></th></tr></thead><tbody><tr>';
 				$total_v = 0;
 				foreach($version_data[0] as $ID => $version) {
 					echo '<td>';
@@ -129,11 +132,6 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 			</table>
 		</div>
 		<br />
-		<div id="link_menu">
-			<a href="<?=get_query_string('show','')?>">Resum</a>
-			<a href="<?=get_query_string('show','versions')?>">Versions</a>
-			<a href="<?=get_query_string('show','inspectors')?>">Inspectors</a>
-		</div>
 <?php
 	$show = 'default';
 

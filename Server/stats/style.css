@@ -8,7 +8,7 @@ table {
 	margin-left: auto;
 	margin-right: auto;
 }
-table th {
+table th, #menu a {
 	border-width: 1px;
 	padding: 8px;
 	border-style: solid;
@@ -32,4 +32,10 @@ table td {
 	position: absolute;
 	top: 5px;
 	right: 5px;
+}
+#menu a {
+	margin-left: -1px;
+}
+table th.active, #menu a.active {
+	background-color:#CCFFCC;
 }

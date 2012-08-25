@@ -15,8 +15,9 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 		foreach($inspectors as $id => $inspector) {
 			$inspector_data = get_inspectors_data($id);
 			
-			echo "<h3>$inspector</h3>";
 			$keys = sizeof($inspector_data);
+			if($keys == 0) continue;
+			echo "<h3>$inspector</h3>";
 			echo "<table><thead><tr>";
 			
 			foreach($inspector_data as $key=>$keyValues) {
