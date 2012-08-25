@@ -3,7 +3,7 @@
 						<li><strong>Sessions:</strong> 
 							<?php echo get_total_sessions(); ?>
 							<span style="color:#666666">
-							<?php echo " (",get_unique_sessions()," GUID únics)"; ?>
+							<?php echo " (",get_unique_sessions()," usuaris únics)"; ?>
 							</span>
 						<div id="stackedarea"></div>
 						<script type="text/javascript">

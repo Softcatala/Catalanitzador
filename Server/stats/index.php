@@ -55,37 +55,6 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 
                 <!-- 2. Add the JavaScript to initialize the chart on document ready -->
                 
-				<style type="text/css">
-					table {
-						font-family: verdana,arial,sans-serif;
-						font-size:11px;
-						color:#333333;
-						border-width: 1px;
-						border-color: #666666;
-						border-collapse: collapse;
-						margin-left: auto;
-						margin-right: auto;
-					}
-					table th {
-						border-width: 1px;
-						padding: 8px;
-						border-style: solid;
-						border-color: #666666;
-						background-color: #dedede;
-					}
-					table td {
-						border-width: 1px;
-						padding: 8px;
-						border-style: solid;
-						border-color: #666666;
-						background-color: #ffffff;
-					}
-					#action_results_button {
-						font-size: 1.5em;
-						font-weigth:bold;
-						cursor: pointer;
-					}
-				</style>
 				<script>
 				jQuery(document).ready(function(){
 					jQuery('div').filter(function() {
@@ -107,49 +76,56 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 			Última actualització de les dades: <em><?=date('H:j:s d/m/Y')?></em>
 		</div>
 		<div id="totals" style="witdh:800px;margin:0 auto"> <div>
-					<h2>Versions d'ús del catalanitzador</h2>
-					<table id="application_version">
-						<thead>
-							<tr>
-					<?php
-						$version_data = get_versions();
-						$vselected = false;
-						foreach($version_data[0] as $ID => $version) {
-							$v = str_replace('.','',$version);
-							if($_GET['v'] == $v) {
-								$style = ' style="background-color:#CCFFCC" ';
-								$vselected = true;
-							} else {
-								$style = '';
-							}
-							echo '<th ',$style,'><a href="?v=',$v,'">',$version,'</a></th>';
-						}
+			<h2>Versions d'ús del catalanitzador</h2>
+			<table id="application_version">
+				<thead>
+					<tr>
+			<?php
+				$version_data = get_versions();
+				$vselected = false;
+				foreach($version_data[0] as $ID => $version) {
+					$v = str_replace('.','',$version);
+					if($_GET['v'] == $v) {
+						$style = ' style="background-color:#CCFFCC" ';
+						$vselected = true;
+					} else {
+						$style = '';
+					}
+					echo '<th ',$style,'><a href="';
+					echo get_query_string('v',$v);
+					echo '">',$version,'</a></th>';
+				}
+					
+				if($vselected) {
+					echo '<th>';
+				} else {
+					echo '<th style="background-color:#CCFFCC">';
+				}
 						
-						if($vselected) {
-							echo '<th>';
-						} else {
-							echo '<th style="background-color:#CCFFCC">';
-						}
-						
-						echo '<a href="?">TOTES</a></th></tr></thead><tbody><tr>';
-						$total_v = 0;
-						foreach($version_data[0] as $ID => $version) {
-							echo '<td>';
-							if(isset($version_data[1][$ID])) {
-								echo $version_data[1][$ID];
-								$total_v += $version_data[1][$ID];
-							} else {
-								echo 0;
-							}
-							echo '</td>';
-						}
-						echo '<td>',$total_v,'</td>';
-						
-					?>
-							</tr>
-						</tbody>
-					</table>
-					</div>
+				echo '<a href="?">TOTES</a></th></tr></thead><tbody><tr>';
+				$total_v = 0;
+				foreach($version_data[0] as $ID => $version) {
+					echo '<td>';
+					if(isset($version_data[1][$ID])) {
+						echo $version_data[1][$ID];
+						$total_v += $version_data[1][$ID];
+					} else {
+						echo 0;
+					}
+					echo '</td>';
+				}
+				echo '<td>',$total_v,'</td>';
+					
+			?>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+		<div id="link_menu">
+			<a href="<?=get_query_string('show','')?>">Resum</a>
+			<a href="<?=get_query_string('show','inspectors')?>">Inspectors</a>
+		</div>
 <?php
 	$show = 'default';
 

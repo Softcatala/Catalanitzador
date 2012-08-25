@@ -1,3 +1,33 @@
+table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+}
+table th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+#action_results_button {
+	font-size: 1.5em;
+	font-weigth:bold;
+	cursor: pointer;
+}
+
 .last_update {
 	position: absolute;
 	top: 5px;

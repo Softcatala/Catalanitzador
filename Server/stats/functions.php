@@ -1,4 +1,20 @@
 <?php
+/** WEB **/
+function get_query_string($key,$val) {
+		$queryString = array();
+		$queryString = $_GET;
+		$queryString[$key] = $val;
+
+		foreach($queryString as $key=>$val) {
+			if(empty($queryString[$key]))
+				unset($queryString[$key]);
+		}
+
+		$queryString = "?".htmlspecialchars(http_build_query($queryString),ENT_QUOTES);
+		
+		return $queryString;
+}
+
 /**** SESSIONS ****/
 function get_total_sessions() {
 	global $db;
@@ -19,6 +35,8 @@ function get_unique_sessions() {
 
 	if(!empty($v)) {
 		$where = ' where ApplicationsID = '.$v;
+	} else {
+		$where = ' where 1 = 1 ';
 	}
 
 	$noguid = $db->get_var("select count(distinct guid) from sessions $where and guid != ''");
