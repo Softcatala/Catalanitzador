@@ -10,7 +10,7 @@ $actions = array(
 	0 => 'NoAction', 1 => 'WindowsLPI', 2 => 'MSOfficeLPI', 3 => 'ConfigureLocale', 
 	4 =>'IEAcceptLanguage', 5 => 'IELPI', 6 => 'ConfigureDefaultLanguage', 
 	7 => 'Chrome', 8=>'Firefox', 9 => 'OpenOffice', 10=>'AcrobatReader',
-	11 => 'Windows Live'
+	11 => 'Windows Live', 12 => 'CatalanitzadorUpdate', 13 => 'Skype'
 	);
 
 $subversions = array();
@@ -174,7 +174,16 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 					enabled: "Data"
 				}
 			},
-			yAxis: {
+			yAxis: [{
+				title: {
+					text: 'Sessions acumulades'
+				},
+				labels: {
+					formatter: function() {
+						return this.value;
+					}
+				}
+			},{
 				title: {
 					text: 'Sessions'
 				},
@@ -183,7 +192,7 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 						return this.value;
 					}
 				}
-			},
+			},],
 			tooltip: {
 				shared : true
 			},
