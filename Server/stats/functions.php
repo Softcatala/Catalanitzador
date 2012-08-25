@@ -1,4 +1,7 @@
 <?php
+
+$cache_results = array();
+
 /** WEB **/
 function css_is_active($str='') {
 	if(isset($_GET['show'])) {
@@ -41,17 +44,33 @@ function get_query_string($key='',$val='') {
 function get_total_sessions() {
 	global $db;
 
+	global $cache_results;
+
+	if(isset($cache_results['get_total_sessions'])) {
+		return $cache_results['get_total_sessions'];
+	}
+
 	$v = get_version_filter();
 
 	if(!empty($v)) {
 		$where = ' where ApplicationsID = '.$v;
 	}
 	
-	return $db->get_var("select count(sessions.ID) from sessions $where");
+	$total = $db->get_var("select count(sessions.ID) from sessions $where");
+
+	$cache_results['get_total_sessions'] = $total;
+
+	return $total;
 }
 
 function get_unique_sessions() {
 	global $db;
+
+	global $cache_results;
+
+	if(isset($cache_results['get_unique_sessions'])) {
+		return $cache_results['get_unique_sessions'];
+	}
 
 	$v = get_version_filter();
 
@@ -64,7 +83,17 @@ function get_unique_sessions() {
 	$noguid = $db->get_var("select count(distinct guid) from sessions $where and guid != ''");
 	$guid = $db->get_var("select count(sessions.ID) from sessions $where and guid = ''");
 
-	return $guid + $noguid;
+	$total = $guid + $noguid;
+
+	$cache_results['get_unique_results'] = $total;
+
+	return $total;
+}
+
+function get_unique_sessions_percent() {
+	$total = get_unique_sessions() * 100/ get_total_sessions();
+
+	return sprintf("%1\$.2f",$total);
 }
 
 function get_stacked_sessions() {

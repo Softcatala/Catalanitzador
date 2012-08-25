@@ -1,9 +1,10 @@
 					<h2>Dades totals d'ús</h2>
 					<ul>
 						<li><strong>Sessions:</strong> 
-							<?php echo get_total_sessions(); ?>
+							<?php echo get_total_sessions(); ?> 
 							<span style="color:#666666">
-							<?php echo " (",get_unique_sessions()," usuaris únics)"; ?>
+							<?php echo "(",get_unique_sessions()," / ",get_unique_sessions_percent();
+							      echo "% usuaris únics)"; ?>
 							</span>
 						<div id="stackedarea"></div>
 						<script type="text/javascript">
