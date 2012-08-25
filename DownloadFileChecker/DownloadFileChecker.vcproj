@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application"
+				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
