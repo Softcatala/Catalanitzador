@@ -245,8 +245,8 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 						
 						echo "[Date.UTC($dt[0],",($dt[1]-1),",$dt[2]),",$result->total,"]";
 					} 
-				?>,
-				yAxis:2 ]
+				?>],
+				yAxis:2				
 			}]
 		});
 	});
