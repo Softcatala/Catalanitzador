@@ -38,7 +38,7 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
         <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                 <title>Estadístiques Catalanitzador per al Windows</title>
-
+		<link rel="stylesheet" href="style.css">
 
                 <!-- 1. Add these JavaScript inclusions in the head of your page -->
                 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -100,11 +100,13 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 				</script>
         </head>
         <body>
-				<h1>Estadístiques del <a href="http://catalanitzador.softcatala.org" 
-					title="Catalanitzador per al Windows">Catalanitzador</a> de 
-					<a href="http://www.softcatala.org">Softcatalà</a></h1>
-				<div id="totals" style="witdh:800px;margin:0 auto">
-					<div>
+		<h1>Estadístiques del <a href="http://catalanitzador.softcatala.org" 
+			title="Catalanitzador per al Windows">Catalanitzador</a> de 
+		<a href="http://www.softcatala.org">Softcatalà</a></h1>
+		<div class="last_update">
+			Última actualització de les dades: <em><?=date('H:j:s d/m/Y')?></em>
+		</div>
+		<div id="totals" style="witdh:800px;margin:0 auto"> <div>
 					<h2>Versions d'ús del catalanitzador</h2>
 					<table id="application_version">
 						<thead>
@@ -148,7 +150,6 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 						</tbody>
 					</table>
 					</div>
-					Última actualització de les dades: <em><?=date('H:j:s d/m/Y')?></em>
 <?php
 	$show = 'default';
 
