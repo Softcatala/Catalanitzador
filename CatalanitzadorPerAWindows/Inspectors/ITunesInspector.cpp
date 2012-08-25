@@ -65,7 +65,7 @@ void ITunesInspector::_enumInstalledSoftware(vector <wstring>& apps)
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, UNINSTALL_REGKEY, false))
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, UNINSTALL_REGKEY, false))
 	{
 		while (bKeys)
 		{
