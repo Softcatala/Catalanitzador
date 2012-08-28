@@ -24,6 +24,8 @@
 #include "ConfigurationFileActionDownloads.h"
 #include "ConfigurationInstance.h"
 
+LogFile g_log;
+
 wstring bin_file(L"download.bin");
 wstring sha1_file(L"download.sha1");
 

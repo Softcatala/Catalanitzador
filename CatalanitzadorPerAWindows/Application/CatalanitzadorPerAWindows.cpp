@@ -17,7 +17,7 @@
  * 02111-1307, USA.
  */
 
-#include <stdafx.h>
+#include "stdafx.h"
 #include "CatalanitzadorPerAWindows.h"
 #include "PropertyPageUI.h"
 #include "InstallPropertyPageUI.h"

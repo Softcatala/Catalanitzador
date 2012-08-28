@@ -5,6 +5,12 @@
 
 #pragma once
 
+#include "targetver.h"
+
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+
+
+
 // Cross cutting concerns
 
 #include "Defines.h"
@@ -21,6 +27,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <Shlobj.h>
+#include <Wincrypt.h>
 
 // C RunTime Header Files
 #include <stdlib.h>

@@ -19,7 +19,7 @@
  
 #pragma once
 
-class _APICALL TriBool
+class TriBool
 {
 
 private:

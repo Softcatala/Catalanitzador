@@ -23,7 +23,7 @@
 #include "Inspector.h"
 #include "IRegistry.h"
 
-class _APICALL WinRARInspector : public Inspector
+class WinRARInspector : public Inspector
 {
 public:
 

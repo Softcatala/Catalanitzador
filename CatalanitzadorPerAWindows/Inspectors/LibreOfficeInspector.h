@@ -23,7 +23,7 @@
 #include "IRegistry.h"
 #include "XmlParser.h"
 
-class _APICALL LibreOfficeInspector : public Inspector
+class LibreOfficeInspector : public Inspector
 {
 public:
 		LibreOfficeInspector(IRegistry* registry);

@@ -27,7 +27,7 @@
 
 using namespace std;
 
-class _APICALL InspectorKeyValue
+class InspectorKeyValue
 {
 
 public:

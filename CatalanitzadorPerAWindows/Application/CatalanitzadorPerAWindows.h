@@ -20,6 +20,7 @@
  
 #pragma once
 
+#include "stdafx.h"
 #include "Serializer.h"
 #include "OSVersion.h"
 #include "Actions.h"
@@ -28,7 +29,7 @@
 #include <string>
 using namespace std;
 
-class _APICALL CatalanitzadorPerAWindows
+class CatalanitzadorPerAWindows
 {
 	
 public:

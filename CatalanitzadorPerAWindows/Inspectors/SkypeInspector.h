@@ -22,7 +22,7 @@
 #include "Inspector.h"
 #include "IRegistry.h"
 
-class _APICALL SkypeInspector : public Inspector
+class SkypeInspector : public Inspector
 {
 public:
 

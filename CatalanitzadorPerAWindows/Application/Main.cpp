@@ -20,7 +20,6 @@
 
 #include <windows.h>
 
-#define CATALANITZADOR_CREATE_SHARED_LIBRARY 1
 #include "Defines.h"
 #include "LogFile.h"
 #include "CatalanitzadorPerAWindows.h"

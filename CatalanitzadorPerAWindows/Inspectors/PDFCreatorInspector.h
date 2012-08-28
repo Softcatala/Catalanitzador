@@ -23,7 +23,7 @@
 #include "Inspector.h"
 #include "IRegistry.h"
 
-class _APICALL PDFCreatorInspector : public Inspector
+class PDFCreatorInspector : public Inspector
 {
 public:
 

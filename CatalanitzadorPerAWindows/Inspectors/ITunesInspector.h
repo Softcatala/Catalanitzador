@@ -23,7 +23,7 @@
 #include "Inspector.h"
 #include "IRegistry.h"
 
-class _APICALL ITunesInspector : public Inspector
+class ITunesInspector : public Inspector
 {
 public:
 

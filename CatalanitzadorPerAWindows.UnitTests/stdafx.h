@@ -20,6 +20,8 @@
 #include "Win32I18NMock.h"
 #include "FileVersionInfoMock.h"
 #include "TempFile.h"
+#include "LogFile.h"
 
+LogFile g_log;
 
 // TODO: reference additional headers your program requires here

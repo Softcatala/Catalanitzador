@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib  CatalanitzadorPerAlWindows.lib"
+				AdditionalDependencies="wininet.lib  CatalanitzadorPerAWindows.Library.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)Debug"
 				GenerateDebugInformation="true"
@@ -119,7 +119,7 @@
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib  CatalanitzadorPerAlWindows.lib"
+				AdditionalDependencies="wininet.lib  CatalanitzadorPerAWindows.Library.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)Release"
 				GenerateDebugInformation="true"
