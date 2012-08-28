@@ -23,7 +23,7 @@
 
 using namespace std;
 
-class _APICALL FileVersionInfo : IFileVersionInfo
+class FileVersionInfo : IFileVersionInfo
 {
 public:	
 		FileVersionInfo();

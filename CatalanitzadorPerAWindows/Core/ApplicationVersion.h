@@ -24,7 +24,7 @@
 
 using namespace std;
 
-class _APICALL ApplicationVersion
+class ApplicationVersion
 {
 	public:
 			ApplicationVersion() {}

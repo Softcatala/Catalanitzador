@@ -43,7 +43,7 @@ struct RegKeyVersion
 	bool InstalledLangMapKeyIsDWord;
 };
 
-class _APICALL MSOfficeLPIAction : public Action
+class MSOfficeLPIAction : public Action
 {
 public:
 		MSOfficeLPIAction(IRegistry* registry, IRunner* runner);

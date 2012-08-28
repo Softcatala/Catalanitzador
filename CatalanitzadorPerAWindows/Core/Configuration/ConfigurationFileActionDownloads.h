@@ -28,7 +28,7 @@
 
 using namespace std;
 
-class _APICALL ConfigurationFileActionDownloads
+class ConfigurationFileActionDownloads
 {
 	public:
 			ConfigurationFileActionDownloads() {}

@@ -28,7 +28,7 @@ using namespace std;
 
 #define SHA1_EXTENSION L".sha1"
 
-class _APICALL ConfigurationFileActionDownload
+class ConfigurationFileActionDownload
 {
 	public:
 			ConfigurationFileActionDownload() {}

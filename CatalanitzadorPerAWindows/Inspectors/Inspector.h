@@ -49,7 +49,7 @@ private:
 	wstring m_value;
 };
 
-class _APICALL Inspector : public Serializable
+class Inspector : public Serializable
 {
 public:
 		Inspector() {};

@@ -28,7 +28,7 @@
 
 #define OPENOFFICCE_PROGRAM_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
 
-class _APICALL OpenOfficeAction : public Action
+class OpenOfficeAction : public Action
 {
 public:
 		OpenOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager *downloadManager);

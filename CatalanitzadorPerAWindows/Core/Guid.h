@@ -28,7 +28,7 @@ using namespace std;
 #define CATALANITZADOR_REGKEY L"SOFTWARE\\Catalanitzador"
 #define GUID_REGKEY L"GUID"
 
-class _APICALL Guid : public Serializable
+class Guid : public Serializable
 {
 	public:
 			Guid(IRegistry* registry);

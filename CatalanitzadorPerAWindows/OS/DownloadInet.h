@@ -23,7 +23,7 @@
 
 typedef bool (*ProgressStatus)(int nTotal, int nCurrent, void *data);
 
-class _APICALL DownloadInet : public Inet
+class DownloadInet : public Inet
 {
 public:
 		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);		

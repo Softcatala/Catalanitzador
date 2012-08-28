@@ -27,7 +27,7 @@
 
 using namespace std;
 
-class _APICALL IEAcceptLanguagesAction : public Action
+class IEAcceptLanguagesAction : public Action
 {
 public:
 		

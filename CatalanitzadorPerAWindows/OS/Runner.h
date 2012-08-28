@@ -21,7 +21,7 @@
 
 #include "IRunner.h"
 
-class _APICALL Runner : IRunner
+class Runner : IRunner
 {
 public:
 		bool Execute(wchar_t* program, wchar_t* params, bool b64bits = false);

@@ -23,7 +23,7 @@
 #include "StringConversion.h"
 
 #include <Windows.h>
-#include <WinInet.h>
+//#include <WinInet.h>
 #include <string>
 #import <msxml3.dll>
 #include <vector>
@@ -32,7 +32,7 @@ using namespace std;
 using namespace MSXML2;
 
 
-class _APICALL XmlAttribute
+class XmlAttribute
 {
 public:
 
@@ -53,7 +53,7 @@ private:
 	wstring m_value;
 };
 
-class _APICALL XmlNode
+class XmlNode
 {
 public:
 
@@ -105,7 +105,7 @@ private:
 
 typedef bool (*NodeCallback)(XmlNode node, void *data);
 
-class _APICALL XmlParser
+class XmlParser
 {
 public:
 		XmlParser();

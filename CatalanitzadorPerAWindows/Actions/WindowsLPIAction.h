@@ -25,7 +25,7 @@
 #include "IWin32I18N.h"
 #include "IOSVersion.h"
 
-class _APICALL WindowsLPIAction : public Action
+class WindowsLPIAction : public Action
 {
 public:
 		WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);

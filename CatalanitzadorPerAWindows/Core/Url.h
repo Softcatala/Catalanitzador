@@ -24,7 +24,7 @@
 #include <string>
 using namespace std;
 
-class _APICALL Url
+class Url
 {
 public:
 		Url(wchar_t* url);

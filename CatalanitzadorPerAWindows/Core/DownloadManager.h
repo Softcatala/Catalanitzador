@@ -27,7 +27,7 @@
 #include <string>
 using namespace std;
 
-class _APICALL DownloadManager
+class DownloadManager
 {
 	public:		
 		

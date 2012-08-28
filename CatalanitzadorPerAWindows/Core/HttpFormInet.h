@@ -23,7 +23,7 @@
 #include <string>
 using namespace std;
 
-class _APICALL HttpFormInet : public Inet
+class HttpFormInet : public Inet
 {
 public:
 		bool PostForm(wchar_t* URL, char* variables);

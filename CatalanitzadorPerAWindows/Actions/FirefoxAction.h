@@ -29,7 +29,7 @@
 
 using namespace std;
 
-class _APICALL FirefoxAction : public Action
+class FirefoxAction : public Action
 {
 public:
 		FirefoxAction (IRegistry* registry);

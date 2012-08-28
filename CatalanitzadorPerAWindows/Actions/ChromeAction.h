@@ -30,7 +30,7 @@ using namespace std;
 
 #define CHROME_REGISTRY_PATH L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome"
 
-class _APICALL ChromeAction : public Action
+class ChromeAction : public Action
 {
 public:
 		ChromeAction(IRegistry* registry);

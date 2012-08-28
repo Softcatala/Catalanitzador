@@ -23,7 +23,7 @@
 #include <Windows.h>
 #include <WinInet.h>
 
-class _APICALL Inet 
+class Inet 
 {
 public:
 		Inet();

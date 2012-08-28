@@ -26,7 +26,7 @@ using namespace std;
 #define BUFSIZE 4096
 #define SHA1LEN 40
 
-class _APICALL Sha1Sum
+class Sha1Sum
 {
 	public:	
 		    Sha1Sum(){}

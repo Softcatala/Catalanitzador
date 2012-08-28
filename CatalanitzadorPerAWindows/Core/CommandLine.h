@@ -26,7 +26,7 @@
 
 using namespace std;
 
-class _APICALL CommandLine
+class CommandLine
 {
 	public:
 			CommandLine(Actions* pActions);

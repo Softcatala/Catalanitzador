@@ -25,7 +25,7 @@
 #include "IOSVersion.h"
 #include "OSVersion.h"
 
-class _APICALL ConfigureDefaultLanguageAction : public Action
+class ConfigureDefaultLanguageAction : public Action
 {
 public:
 		ConfigureDefaultLanguageAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);

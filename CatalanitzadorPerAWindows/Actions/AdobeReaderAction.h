@@ -24,7 +24,7 @@
 #include "IRegistry.h"
 #include "HideApplicationWindow.h"
 
-class _APICALL AdobeReaderAction : public Action
+class AdobeReaderAction : public Action
 {
 public:
 		AdobeReaderAction(IRegistry* registry, IRunner* runner);

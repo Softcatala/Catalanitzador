@@ -24,7 +24,7 @@
 #include "IRegistry.h"
 #include "IFileVersionInfo.h"
 
-class _APICALL WindowsLiveAction : public Action
+class WindowsLiveAction : public Action
 {
 public:
 		WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo);

@@ -19,7 +19,7 @@
 
 #pragma once
 
-enum _APICALL ActionStatus
+enum ActionStatus
 {
 	// Do not modify these since they are used in the server side to identify 
 	// action status in a unique manner

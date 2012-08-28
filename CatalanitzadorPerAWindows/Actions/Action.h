@@ -32,7 +32,7 @@ using namespace std;
 //
 // This abstract class defines the action interface for all actions
 //
-class _APICALL Action : public Serializable
+class Action : public Serializable
 {
 public:
 		Action();

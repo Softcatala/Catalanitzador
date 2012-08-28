@@ -21,7 +21,7 @@
 
 #include "IRegistry.h"
 
-class _APICALL Registry : public IRegistry
+class Registry : public IRegistry
 {
 public:
 		Registry();

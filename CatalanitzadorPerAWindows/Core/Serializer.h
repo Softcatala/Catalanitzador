@@ -23,7 +23,7 @@
 #include "Serializable.h"
 #include <sstream>
 
-class _APICALL Serializer
+class Serializer
 {
 	public:
 			Serializer();

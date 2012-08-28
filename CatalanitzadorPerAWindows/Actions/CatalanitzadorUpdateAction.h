@@ -22,7 +22,7 @@
 #include "Action.h"
 #include "IRunner.h"
 
-class _APICALL CatalanitzadorUpdateAction : public Action
+class CatalanitzadorUpdateAction : public Action
 {
 public:
 		CatalanitzadorUpdateAction(IRunner* runner, DownloadManager* downloadManager);

@@ -23,7 +23,7 @@
 
 using namespace std;
 
-class _APICALL StringConversion
+class StringConversion
 {
 	public:	
 		    static void ToMultiByte(wstring src, string& target);

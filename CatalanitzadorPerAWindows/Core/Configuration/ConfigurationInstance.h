@@ -26,7 +26,7 @@
 static bool g_bInit = false;
 static Configuration* g_pConfiguration;
 
-class _APICALL ConfigurationInstance
+class ConfigurationInstance
 {
 private:
 		

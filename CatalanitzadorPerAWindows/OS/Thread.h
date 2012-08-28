@@ -21,7 +21,7 @@
 
 #include <windows.h>
 
-class _APICALL Thread
+class Thread
 {
 
 public:

@@ -24,7 +24,7 @@
 #include "IRegistry.h"
 #include "IOSVersion.h"
 
-class _APICALL IELPIAction : public Action
+class IELPIAction : public Action
 {
 public:	
 

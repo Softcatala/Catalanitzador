@@ -25,7 +25,7 @@
 
 using namespace std;
 
-class _APICALL ConfigurationRemoteXmlParser
+class ConfigurationRemoteXmlParser
 {
 	public:
 			ConfigurationRemoteXmlParser(wstring file);

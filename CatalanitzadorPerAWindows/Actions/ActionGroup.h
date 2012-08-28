@@ -19,7 +19,7 @@
 
 #pragma once
 
-enum _APICALL ActionGroup
+enum ActionGroup
 {
 	ActionGroupNone, // Used for actions not shown to the user
 	ActionGroupWindows,
