@@ -21,6 +21,7 @@
 
 #include "Action.h"
 #include "IRegistry.h"
+#include "InternetExplorerVersion.h"
 
 #include <vector>
 #include <algorithm>
@@ -54,7 +55,6 @@ private:
 		bool _isCurrentLanguageOk(wstring& firstlang);
 		void _getCurrentLanguage(wstring& lang);
 		void _getFirstLanguage(wstring& regvalue);
-		void _readVersion();
 		void _readLanguageCode(wstring& langcode);
 		bool _writeLanguageCode(wstring langcode);
 		void _createRegistryStringTwoLangs(wstring &regvalue, float average);	
@@ -62,5 +62,6 @@ private:
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
 		wstring m_version;
+		InternetExplorerVersion m_explorerVersion;
 };
 

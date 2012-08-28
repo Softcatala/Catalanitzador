@@ -23,6 +23,7 @@
 #include "Runner.h"
 #include "IRegistry.h"
 #include "IOSVersion.h"
+#include "InternetExplorerVersion.h"
 
 class IELPIAction : public Action
 {
@@ -52,21 +53,9 @@ public:
 			UnknownIEVersion,
 		};
 
-		enum IEVersion
-		{
-			IEUnread = -1,
-			IEUnknown = 0,
-			IE6 = 6,
-			IE7 = 7,
-			IE8 = 8,
-			IE9 = 9,
-		};
-
 protected:
-
-		IEVersion _readIEVersion();
-		IEVersion _getIEVersion();
-		void _setIEVersion(IEVersion version) {m_version = version;}
+		
+		virtual InternetExplorerVersion::IEVersion _getIEVersion();		
 		Prerequirements _checkPrerequirementsDependand(Action * action);
 		Prerequirements _checkPrerequirements();
 
@@ -81,10 +70,10 @@ private:
 		bool _wasInstalled();
 
 		wchar_t m_filename[MAX_PATH];
-		wchar_t m_szTempDir[MAX_PATH];
-		IEVersion m_version;
+		wchar_t m_szTempDir[MAX_PATH];		
 		IRunner* m_runner;
-		IRegistry* m_registry;		
+		IRegistry* m_registry;
 		IOSVersion* m_OSVersion;
+		InternetExplorerVersion m_explorerVersion;
 };
 

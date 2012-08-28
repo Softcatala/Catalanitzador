@@ -64,7 +64,8 @@ TEST(IEAcceptLanguagesActionTest, GetVersion)
 	CreateIEAcceptLanguagesAction;
 	wchar_t* VERSION = L"7.11.5";
 	
-	SetInternetExplorerVersion(registryMockobj, VERSION);	
+	SetInternetExplorerVersion(registryMockobj, VERSION);
+	const wchar_t *p = IEAction.GetVersion();
 	EXPECT_THAT(IEAction.GetVersion(), StrCaseEq(VERSION));
 }
 

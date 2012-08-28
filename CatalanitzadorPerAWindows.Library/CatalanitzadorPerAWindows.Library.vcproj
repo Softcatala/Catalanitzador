@@ -231,6 +231,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAWindows\OS\InternetExplorerVersion.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\OS\InternetExplorerVersion.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAWindows\OS\IOSVersion.h"
 				>
 			</File>

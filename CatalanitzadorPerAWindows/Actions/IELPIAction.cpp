@@ -26,15 +26,14 @@
 #include "FileVersionInfo.h"
 #include "ConfigurationInstance.h"
 
-IELPIAction::IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
+IELPIAction::IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner) : m_explorerVersion(registry)
 {
 	m_registry = registry;	
 	m_OSVersion = OSVersion;
 	m_runner = runner;
 
 	m_filename[0] = NULL;
-	m_szTempDir[0] = NULL;
-	m_version = IEUnread;
+	m_szTempDir[0] = NULL;	
 }
 
 IELPIAction::~IELPIAction()
@@ -64,11 +63,11 @@ LPCWSTR IELPIAction::GetLicenseID()
 {
 	switch (_getIEVersion())
 	{
-		case IE7:
+		case InternetExplorerVersion::IE7:
 			return MAKEINTRESOURCE(IDR_LICENSE_IE7);
-		case IE8:
+		case InternetExplorerVersion::IE8:
 			return MAKEINTRESOURCE(IDR_LICENSE_IE8);
-		case IE9:
+		case InternetExplorerVersion::IE9:
 			return MAKEINTRESOURCE(IDR_LICENSE_IE9);
 		default:
 			break;
@@ -76,78 +75,26 @@ LPCWSTR IELPIAction::GetLicenseID()
 	return NULL;
 }
 
-IELPIAction::IEVersion IELPIAction::_getIEVersion()
-{
-	if (m_version == IEUnread)
-	{
-		m_version = _readIEVersion();
-	}
-	return m_version;
-}
-
-IELPIAction::IEVersion IELPIAction::_readIEVersion()
-{
-	IEVersion version;	
-	wchar_t szVersion[255] = L"";
-	wchar_t szMajorVersion[255];
-	unsigned int cnt;
-	
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Internet Explorer", false))
-	{		
-		m_registry->GetString(L"Version", szVersion, sizeof(szVersion));
-	}
-	m_registry->Close();
-	
-	// read the first part of the number
-	for (cnt = 0; cnt < wcslen(szVersion) && (szVersion[cnt] >= L'0' && szVersion[cnt] <= L'9'); cnt++);
-	
-	if (cnt == 0)
-	{
-		version = IEUnknown;
-	}
-	else
-	{
-		wcsncpy_s(szMajorVersion, szVersion, cnt);
-
-		switch (_wtoi(szMajorVersion))
-		{
-			case 6:
-				version = IE6;
-				break;
-			case 7:
-				version = IE7;
-				break;
-			case 8:
-				version = IE8;
-				break;
-			case 9:
-				version = IE9;
-				break;
-			default:
-				version = IEUnknown;
-				break;
-		}
-	}
-
-	g_log.Log(L"IELPIAction::_readIEVersion returns IE '%u'", (wchar_t *) version);
-	return version;
-}
-
 wchar_t* IELPIAction::_getDownloadID()
 {
 	switch (_getIEVersion())
 	{
-		case IE7:
+		case InternetExplorerVersion::IE7:
 			return L"IE7";
-		case IE8:
+		case InternetExplorerVersion::IE8:
 			return _getDownloadIDIE8();
-		case IE9:
+		case InternetExplorerVersion::IE9:
 			return _getDownloadIDIE9();
 		default:
 			break;
 	}
 
 	return NULL;
+}
+
+InternetExplorerVersion::IEVersion IELPIAction::_getIEVersion()
+{
+	return m_explorerVersion.GetVersion();
 }
 
 wchar_t* IELPIAction::_getDownloadIDIE8()
@@ -277,13 +224,13 @@ void IELPIAction::Execute()
 
 	switch (_getIEVersion())
 	{
-	case IE7:
+	case InternetExplorerVersion::IE7:
 		{
 			wcscpy_s(szParams, m_filename);
 			wcscat_s(szParams, L" /quiet /norestart");
 			break;
 		}
-	case IE8:
+	case InternetExplorerVersion::IE8:
 		if (m_OSVersion->GetVersion() == WindowsXP)
 		{
 			wcscpy_s(szParams, m_filename);
@@ -297,7 +244,7 @@ void IELPIAction::Execute()
 			wcscat_s(szParams, L" /quiet /norestart");
 		}
 		break;
-	case IE9:		
+	case InternetExplorerVersion::IE9:
 			GetSystemDirectory(szParams, MAX_PATH);
 			wcscat_s(szParams, L"\\wusa.exe ");
 			wcscat_s(szParams, m_filename);
@@ -336,7 +283,7 @@ ActionStatus IELPIAction::GetStatus()
 bool IELPIAction::_wasInstalled()
 {
 	// Could not find a way to tell if it went well
-	if (_getIEVersion() == IE8 && m_OSVersion->GetVersion() == WindowsXP)
+	if (_getIEVersion() == InternetExplorerVersion::IE8 && m_OSVersion->GetVersion() == WindowsXP)
 	{
 		return true;
 	}
@@ -354,10 +301,10 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 		case WindowsXP: // Includes IE 6
 			switch (_getIEVersion())
 			{
-				case IE6:
+				case InternetExplorerVersion::IE6:
 					return AppliedInWinLPI;
-				case IE7:
-				case IE8:
+				case InternetExplorerVersion::IE7:
+				case InternetExplorerVersion::IE8:
 					if (WindowsLPISelected == false)
 					{
 						return NeedsWinLPI;
@@ -370,10 +317,10 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 		case WindowsVista: // Includes IE 7
 			switch (_getIEVersion())
 			{
-				case IE7:
+				case InternetExplorerVersion::IE7:
 					return AppliedInWinLPI;
-				case IE8:
-				case IE9:
+				case InternetExplorerVersion::IE8:
+				case InternetExplorerVersion::IE9:
 					if (WindowsLPISelected == false)
 					{
 						return NeedsWinLPI;
@@ -386,9 +333,9 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 		case Windows7: // Includes IE 8
 			switch (_getIEVersion())
 			{
-				case IE8:
+				case InternetExplorerVersion::IE8:
 					return AppliedInWinLPI;
-				case IE9:				
+				case InternetExplorerVersion::IE9:
 					if (WindowsLPISelected == false)
 					{
 						return NeedsWinLPI;
@@ -407,10 +354,10 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 
 IELPIAction::Prerequirements IELPIAction::_checkPrerequirements()
 {
-	if (_getIEVersion() == IEUnknown)
+	if (_getIEVersion() == InternetExplorerVersion::IEUnknown)
 		return UnknownIEVersion;
 		
-	if (m_OSVersion->IsWindows64Bits() && _getIEVersion() != IE9 && _getIEVersion() != IE8)
+	if (m_OSVersion->IsWindows64Bits() && _getIEVersion() != InternetExplorerVersion::IE9 && _getIEVersion() != InternetExplorerVersion::IE8)
 		return UnknownIEVersion;
 
 	return PrerequirementsOk;

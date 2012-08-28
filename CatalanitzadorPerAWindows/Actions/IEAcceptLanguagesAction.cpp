@@ -21,7 +21,7 @@
 #include "IEAcceptLanguagesAction.h"
 #include <math.h>
 
-IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry)
+IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry): m_explorerVersion(registry)
 {
 	m_registry = registry;
 }
@@ -148,27 +148,11 @@ void IEAcceptLanguagesAction::Execute()
 	g_log.Log(L"IEAcceptLanguagesAction::Execute returns %s", status == Successful ? L"Successful" : L"FinishedWithError");
 }
 
-void IEAcceptLanguagesAction::_readVersion()
-{
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Internet Explorer", false))
-	{
-		wchar_t szVersion[1024];
-
-		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
-		{
-			m_version = szVersion;
-			g_log.Log(L"IEAcceptLanguagesAction::_readVersion. IE version %s", szVersion);
-		}
-		m_registry->Close();
-	}	
-}
-
 const wchar_t* IEAcceptLanguagesAction::GetVersion()
 {
-	if (m_version.length() == 0)
-	{
-		_readVersion();
-	}
+	if (m_version.size() == 0)
+		m_version = m_explorerVersion.GetVersionString();
+
 	return m_version.c_str();
 }
 
@@ -176,7 +160,6 @@ void IEAcceptLanguagesAction::CheckPrerequirements(Action * action)
 {	
 	wstring firstlang;
 
-	_readVersion();
 	if (_isCurrentLanguageOk(firstlang))
 	{
 		SetStatus(AlreadyApplied);
