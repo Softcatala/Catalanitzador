@@ -30,6 +30,15 @@
 
 #define SHA1_EXTENSION L".sha1"
 
+
+ConfigurationDownloadThread::~ConfigurationDownloadThread()
+{	
+	if (m_filename.size() > 0  && GetFileAttributes(m_filename.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_filename.c_str());
+	}
+}
+
 wstring ConfigurationDownloadThread::_getApplicationEmbeddedConfigurationSha1()
 {
 	ConfigurationRemoteEmbedded configurationEmbedded;

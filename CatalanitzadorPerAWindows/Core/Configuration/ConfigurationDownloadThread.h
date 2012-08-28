@@ -28,6 +28,8 @@ using namespace std;
 class ConfigurationDownloadThread : public Thread
 {
 	public:
+			
+			~ConfigurationDownloadThread();
 
 			virtual void OnStart();
 
