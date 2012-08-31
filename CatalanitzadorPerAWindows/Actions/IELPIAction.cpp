@@ -344,6 +344,14 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 				default:
 					break;
 			}
+		case Windows8: // Includes IE 10
+			switch (_getIEVersion())
+			{
+				case InternetExplorerVersion::IE10:
+					return AppliedInWinLPI;
+				default:
+					break;
+			}
 			break;
 		default: //	Windows2008, Windows2008R2 and others
 			return NoLangPackAvailable;
