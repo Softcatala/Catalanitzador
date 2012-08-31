@@ -20,9 +20,10 @@
 #include "stdafx.h"
 #include "InternetExplorerVersion.h"
 
-InternetExplorerVersion::InternetExplorerVersion(IRegistry* registry)
+InternetExplorerVersion::InternetExplorerVersion(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
 {
 	m_registry = registry;
+	m_fileVersionInfo = fileVersionInfo;
 	m_version = IEUnread;
 }
 
@@ -37,14 +38,13 @@ InternetExplorerVersion::IEVersion InternetExplorerVersion::GetVersion()
 
 wstring InternetExplorerVersion::GetVersionString()
 {	
-	wchar_t szVersion[255] = L"";
-	
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Internet Explorer", false))
-	{		
-		m_registry->GetString(L"Version", szVersion, sizeof(szVersion));
-	}
-	m_registry->Close();
-	return wstring(szVersion);
+	wchar_t szPath[255] = L"";
+
+	SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
+	wcscat_s(szPath, L"\\Internet Explorer\\iexplore.exe");
+
+	m_fileVersionInfo->SetFilename(szPath);
+	return m_fileVersionInfo->GetVersion();	
 }
 
 InternetExplorerVersion::IEVersion InternetExplorerVersion::_readIEVersion()
@@ -80,6 +80,9 @@ InternetExplorerVersion::IEVersion InternetExplorerVersion::_readIEVersion()
 				break;
 			case 9:
 				version = IE9;
+				break;
+			case 10:
+				version = IE10;
 				break;
 			default:
 				version = IEUnknown;

@@ -26,7 +26,7 @@
 #include "FileVersionInfo.h"
 #include "ConfigurationInstance.h"
 
-IELPIAction::IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner) : m_explorerVersion(registry)
+IELPIAction::IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo) : m_explorerVersion(registry, fileVersionInfo)
 {
 	m_registry = registry;	
 	m_OSVersion = OSVersion;

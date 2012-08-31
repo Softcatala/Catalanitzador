@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "IEAcceptLanguagesAction.h"
+#include "FileVersionInfo.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -32,8 +33,8 @@ class IEAcceptLanguagesActionTest : public IEAcceptLanguagesAction
 {
 public:
 
-	IEAcceptLanguagesActionTest::IEAcceptLanguagesActionTest(IRegistry* registry)
-		: IEAcceptLanguagesAction(registry) {};
+	IEAcceptLanguagesActionTest::IEAcceptLanguagesActionTest(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
+		: IEAcceptLanguagesAction(registry, fileVersionInfo) {};
 
 	public: using IEAcceptLanguagesAction::_parseLanguage;
 	public: using IEAcceptLanguagesAction::_createRegistryString;
@@ -44,7 +45,8 @@ public:
 
 #define CreateIEAcceptLanguagesAction \
 	RegistryMock registryMockobj; \
-	IEAcceptLanguagesActionTest IEAction(&registryMockobj);
+	FileVersionInfo fileversionInfo; \
+	IEAcceptLanguagesActionTest IEAction(&registryMockobj, (IFileVersionInfo *)&fileversionInfo);
 
 void SetInternetExplorerVersion(RegistryMock& registryMockobj, wchar_t* version)
 {

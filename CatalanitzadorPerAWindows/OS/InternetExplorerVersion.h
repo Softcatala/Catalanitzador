@@ -20,13 +20,14 @@
 #pragma once
 
 #include "IRegistry.h"
+#include "IFileVersionInfo.h"
 
 
 class InternetExplorerVersion
 {
 public:
 
-		InternetExplorerVersion(IRegistry* registry);
+		InternetExplorerVersion(IRegistry* registry, IFileVersionInfo* fileVersionInfo);
 
 		enum IEVersion
 		{
@@ -36,6 +37,7 @@ public:
 			IE7 = 7,
 			IE8 = 8,
 			IE9 = 9,
+			IE10 = 10,
 		};
 
 
@@ -47,5 +49,6 @@ private:
 		IEVersion _readIEVersion();
 
 		IRegistry* m_registry;
+		IFileVersionInfo* m_fileVersionInfo;
 		IEVersion m_version;
 };

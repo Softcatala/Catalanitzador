@@ -24,12 +24,13 @@
 #include "IRegistry.h"
 #include "IOSVersion.h"
 #include "InternetExplorerVersion.h"
+#include "IFileVersionInfo.h"
 
 class IELPIAction : public Action
 {
 public:	
 
-		IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
+		IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo);
 		~IELPIAction();
 
 		virtual wchar_t* GetName();

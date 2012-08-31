@@ -21,6 +21,7 @@
 
 #include "Action.h"
 #include "IRegistry.h"
+#include "IFileVersionInfo.h"
 #include "InternetExplorerVersion.h"
 
 #include <vector>
@@ -32,7 +33,7 @@ class IEAcceptLanguagesAction : public Action
 {
 public:
 		
-		IEAcceptLanguagesAction(IRegistry* registry);
+		IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo);
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();

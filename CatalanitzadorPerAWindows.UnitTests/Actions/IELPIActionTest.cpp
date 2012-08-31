@@ -22,6 +22,7 @@
 #include "IELPIAction.h"
 #include "WindowsLPIAction.h"
 #include "ActionStatus.h"
+#include "FileVersionInfo.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -32,8 +33,8 @@ class IELPIActionTest : public IELPIAction
 {
 public:
 
-	IELPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner) :
-		  IELPIAction(OSVersion, registry, runner) {}
+	IELPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo) :
+		  IELPIAction(OSVersion, registry, runner, fileVersionInfo) {}
 	
 	public: using IELPIAction::_checkPrerequirements;
 	public: using IELPIAction::_checkPrerequirementsDependand;
@@ -58,7 +59,8 @@ protected:
 	RegistryMock registryMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	IELPIActionTest lipAction(&osVersionExMock, &registryMockobj, &runnerMock);
+	FileVersionInfo fileversionInfo; \
+	IELPIActionTest lipAction(&osVersionExMock, &registryMockobj, &runnerMock, (IFileVersionInfo *)&fileversionInfo);
 
 #define CreateWindowsLIPAction \
 	RegistryMock registryMockobjWin; \
