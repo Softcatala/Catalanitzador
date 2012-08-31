@@ -64,16 +64,16 @@
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_3>
 				<filename>LIP_ca-ES-64bit.mlc</filename>
 	  		</download>
-      <download>
-      <version>Win8_32</version>
-      <url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc</url_1>
-      <filename>ca_windows_8_language_interface_pack_x86_922134.mlc</filename>
-      </download>
-      <download>
-        <version>Win8_64</version>
-        <url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc</url_1>
-        <filename>ca_windows_8_language_interface_pack_x64_922126.mlc</filename>
-      </download>
+      			<download>
+      				<version>Win8_32</version>
+      				<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc</url_1>
+      				<filename>ca_windows_8_language_interface_pack_x86_922134.mlc</filename>
+      			</download>
+      			<download>
+        			<version>Win8_64</version>
+        			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc</url_1>
+        			<filename>ca_windows_8_language_interface_pack_x64_922126.mlc</filename>
+      			</download>
 		</action>
 		
 		<!-- Microsoft Office -->
