@@ -366,6 +366,9 @@ ActionStatus WindowsLPIAction::GetStatus()
 
 bool WindowsLPIAction::IsRebootNeed() const
 {
+	if (m_OSVersion->GetVersion() == Windows8)
+		return false;
+
 	return status == Successful;
 }
 
