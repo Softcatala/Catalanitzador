@@ -26,6 +26,8 @@
 #include "Resources.h"
 #include "ConfigurationInstance.h"
 
+#include <sstream>
+
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	m_registry = registry;
@@ -104,6 +106,15 @@ wchar_t* WindowsLPIAction::_getDownloadID()
 			else
 			{
 				return L"Win7_32";
+			}
+		case Windows8:
+			if (m_OSVersion->IsWindows64Bits())
+			{
+				return L"Win8_64";
+			}
+			else
+			{
+				return L"Win8_32";
 			}
 		default:
 			break;
@@ -297,6 +308,41 @@ void WindowsLPIAction::_setDefaultLanguage()
 	}
 }
 
+#define SCRIPT_NAME L"lang.ps1"
+
+void WindowsLPIAction::_setLanguagePanelWin8()
+{
+	if (m_OSVersion->GetVersion() != Windows8)
+		return true;
+
+	string script;
+	script = "$1 = New-WinUserLanguageList ca\r\n";
+	script += "$1 += Get-WinUserLanguageList\r\n"; 
+	script += "Set-WinUserLanguageList $1 -Force\r\n";
+	
+	wchar_t szScript[MAX_PATH];
+
+	GetTempPath(MAX_PATH, szScript);
+	wcscat_s(szScript, SCRIPT_NAME);
+
+	ofstream of(szScript);
+	of.write(script.c_str(), script.size());
+	of.close();
+	
+	Runner runner;
+	wstring params;
+	wchar_t szTool[MAX_PATH];
+
+	GetSystemDirectory(szTool, MAX_PATH);
+	wcscat_s(szTool, L"\\WindowsPowerShell\\v1.0\\powershell.exe");
+
+	params = L" -ExecutionPolicy remotesigned ";
+	params+= szScript;
+
+	runner.Execute(szTool, (wchar_t *)params.c_str());
+	g_log.Log(L"WindowsLPIAction::_setLanguagePanelWin8 '%s' with params '%s'", szTool,	(wchar_t *) params.c_str());
+}
+
 ActionStatus WindowsLPIAction::GetStatus()
 {
 	if (status == InProgress)
@@ -306,6 +352,7 @@ ActionStatus WindowsLPIAction::GetStatus()
 
 		if (_isLangPackInstalled()) {
 			status = Successful;
+			_setLanguagePanelWin8();
 			_setDefaultLanguage();
 		}
 		else {
@@ -328,6 +375,9 @@ bool WindowsLPIAction::IsRebootNeed() const
 bool WindowsLPIAction::_isASupportedSystemLanguage()
 {
 	bool bLangOk = false;
+
+	if (m_OSVersion->GetVersion() == Windows8)
+		return true;
 	
 	if (m_OSVersion->GetVersion() == WindowsXP)
 	{
@@ -361,7 +411,10 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 {
 	if (m_OSVersion->IsWindows64Bits() == false)
 	{
-		if (m_OSVersion->GetVersion() != WindowsXP && m_OSVersion->GetVersion() != WindowsVista && m_OSVersion->GetVersion() != Windows7)
+		if (m_OSVersion->GetVersion() != WindowsXP
+			&& m_OSVersion->GetVersion() != WindowsVista
+			&& m_OSVersion->GetVersion() != Windows7
+			&& m_OSVersion->GetVersion() != Windows8)
 		{
 			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
 			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");

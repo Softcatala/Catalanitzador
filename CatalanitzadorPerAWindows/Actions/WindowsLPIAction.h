@@ -43,6 +43,7 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 		virtual LPCWSTR GetLicenseID();
 		virtual bool IsDownloadNeed();
+		
 
 protected:
 
@@ -53,6 +54,7 @@ protected:
 
 private:
 		
+		void _setLanguagePanelWin8();
 		bool _isWindowsXPValidated();
 		void _setDefaultLanguage();
 		bool _isASupportedSystemLanguage();
