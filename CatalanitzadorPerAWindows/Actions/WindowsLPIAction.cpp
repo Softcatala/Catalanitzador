@@ -313,7 +313,7 @@ void WindowsLPIAction::_setDefaultLanguage()
 void WindowsLPIAction::_setLanguagePanelWin8()
 {
 	if (m_OSVersion->GetVersion() != Windows8)
-		return true;
+		return;
 
 	string script;
 	script = "$1 = New-WinUserLanguageList ca\r\n";
