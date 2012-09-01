@@ -427,7 +427,7 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 	} 
 	else // 64 bits
 	{
-		if (m_OSVersion->GetVersion() != Windows7  && m_OSVersion->GetVersion() != Windows7)
+		if (m_OSVersion->GetVersion() != Windows7 && m_OSVersion->GetVersion() != Windows8)
 		{
 			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
 			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");
