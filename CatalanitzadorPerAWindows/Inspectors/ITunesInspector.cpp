@@ -27,7 +27,7 @@ ITunesInspector::ITunesInspector(IRegistry* registry)
 }
 
 #define PROGRAM_REGKEY L"Software\\Apple Computer, Inc.\\iTunes"
-#define PROGRAM_UNINSTALL_REGKEY L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{6AD9F5F3-5BD0-4000-BD9C-B536CF86D988}"
+#define UNINSTALL_REGKEY L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
 
 void ITunesInspector::_readLangInstalled()
 {
@@ -60,15 +60,62 @@ void ITunesInspector::Execute()
 	_readLangInstalled();	
 }
 
+void ITunesInspector::_enumInstalledSoftware(vector <wstring>& apps)
+{
+	bool bKeys = true;
+	DWORD dwIndex = 0;
+
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, UNINSTALL_REGKEY, false))
+	{
+		while (bKeys)
+		{
+			wstring key;
+			
+			bKeys = m_registry->RegEnumKey(dwIndex, key);
+			dwIndex++;
+
+			if (bKeys)
+			{
+				apps.push_back(key);
+			}
+		}
+	}
+	m_registry->Close();
+}
+
+
 void ITunesInspector::_readVersion()
 {	
+	vector <wstring> apps;
+	wchar_t szName[1024] = L"";
 	wchar_t szVersion[1024] = L"";
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_UNINSTALL_REGKEY, false))
+	bool bFound = false;
+
+	_enumInstalledSoftware(apps);
+
+	int i=0;
+	while (i < apps.size() && (!bFound) )
 	{
-		m_registry->GetString(L"DisplayVersion", szVersion, sizeof(szVersion));
-		m_registry->Close();
+		wstring szFirstKey = UNINSTALL_REGKEY;
+		wstring szSecondKey = L"\\"+ apps[i];
+		wstring szKey = szFirstKey + szSecondKey;
+
+		i++;
+
+		if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)szKey.c_str(), false))
+		{
+			m_registry->GetString(L"DisplayName", szName, sizeof(szName));
+
+			if (!wcscmp(szName, L"iTunes"))
+			{
+				m_registry->GetString(L"DisplayVersion", szVersion, sizeof(szVersion));
+				bFound = true;
+			}
+			m_registry->Close();
+		}
 	}
 	
 	g_log.Log(L"ITunesInspector::_readVersionInstalled '%s'", szVersion);
 	m_KeyValues.push_back(InspectorKeyValue(L"version", szVersion));		
 }
+
