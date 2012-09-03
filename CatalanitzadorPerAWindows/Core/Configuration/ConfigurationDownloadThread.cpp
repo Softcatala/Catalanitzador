@@ -120,6 +120,12 @@ void ConfigurationDownloadThread::OnStart()
 	{
 		return;
 	}
+
+	if (configurationXmlParser.GetConfiguration().GetDateTime().QuadPart >=
+		ConfigurationInstance::Get().GetRemote().GetDateTime().QuadPart)
+	{
+		g_log.Log(L"ConfigurationDownloadThread::OnStart. Remote file is no newer than embedded");
+	}
 	
 	ConfigurationInstance::Get().SetRemote(configurationXmlParser.GetConfiguration());
 	g_log.Log(L"ConfigurationDownloadThread::OnStart. Using remote configuration file");

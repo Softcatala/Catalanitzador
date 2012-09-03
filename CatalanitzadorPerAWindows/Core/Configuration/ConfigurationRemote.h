@@ -34,6 +34,9 @@ class ConfigurationRemote
 			wstring& GetCompatibility() {return m_compatibility;}
 			void SetCompatibility(wstring compatibility) {m_compatibility = compatibility;}
 
+			_LARGE_INTEGER GetDateTime() {return m_datetime;}
+			void SetDateTime(_LARGE_INTEGER datetime) {m_datetime = datetime;}
+
 			vector <ConfigurationFileActionDownloads>& GetFileActionsDownloads() {return m_fileActionsDownloads;}
 
 			int AddFileActionDownloads(ConfigurationFileActionDownloads fileDownloads)
@@ -69,5 +72,6 @@ class ConfigurationRemote
 	private:
 			
 			wstring m_compatibility;
+			_LARGE_INTEGER m_datetime;
 			vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;	
 };

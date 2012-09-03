@@ -4,6 +4,8 @@
 	<compatibility>
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
+		<!-- Last time that the file was edited -->
+		<date>2012-08-31T20:40:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->

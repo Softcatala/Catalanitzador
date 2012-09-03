@@ -100,3 +100,17 @@ TEST(ConfigurationRemoteXmlParserTest, GetAction)
 	EXPECT_THAT(download33.GetSha1Urls().at(0), StrCaseEq(OO33_SHA1_URL));
 	EXPECT_THAT(download33.GetFilename(), StrCaseEq(L"openoffice33-langpack.cab"));
 }
+
+TEST(ConfigurationRemoteXmlParserTest, GetDateTime)
+{
+	wstring file;
+	_LARGE_INTEGER datetime;
+
+ 	_getConfigurationFileLocation(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(file);
+	configurationXmlParser.Parse();
+
+	datetime = configurationXmlParser.GetConfiguration().GetDateTime();
+	EXPECT_THAT(datetime.HighPart, 30246840);
+	EXPECT_THAT(datetime.LowPart, 3392655360);
+}
