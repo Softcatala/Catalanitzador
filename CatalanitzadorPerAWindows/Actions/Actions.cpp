@@ -101,7 +101,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
 	m_actions.push_back(new MSOfficeLPIAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new WindowsLiveAction( _getNewRegistry(), _getNewRunner(), _getFileVersionInfo()));
-	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner(), _getFileVersionInfo()));
+	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo()));
 	m_actions.push_back(new IEAcceptLanguagesAction( _getNewRegistry(), _getFileVersionInfo()));
 	m_actions.push_back(new ConfigureLocaleAction());
 	m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));

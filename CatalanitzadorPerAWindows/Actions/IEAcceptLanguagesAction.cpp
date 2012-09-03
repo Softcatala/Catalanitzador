@@ -21,7 +21,7 @@
 #include "IEAcceptLanguagesAction.h"
 #include <math.h>
 
-IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo): m_explorerVersion(registry, fileVersionInfo)
+IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo): m_explorerVersion(fileVersionInfo)
 {
 	m_registry = registry;
 }

@@ -21,7 +21,6 @@
 
 #include "Action.h"
 #include "Runner.h"
-#include "IRegistry.h"
 #include "IOSVersion.h"
 #include "InternetExplorerVersion.h"
 #include "IFileVersionInfo.h"
@@ -30,7 +29,7 @@ class IELPIAction : public Action
 {
 public:	
 
-		IELPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo);
+		IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo);
 		~IELPIAction();
 
 		virtual wchar_t* GetName();
@@ -73,7 +72,6 @@ private:
 		wchar_t m_filename[MAX_PATH];
 		wchar_t m_szTempDir[MAX_PATH];		
 		IRunner* m_runner;
-		IRegistry* m_registry;
 		IOSVersion* m_OSVersion;
 		InternetExplorerVersion m_explorerVersion;
 };

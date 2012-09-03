@@ -23,6 +23,7 @@
 #include "FileVersionInfo.h"
 
 using ::testing::Return;
+using ::testing::ReturnRefOfCopy;
 using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
@@ -45,13 +46,13 @@ public:
 
 #define CreateIEAcceptLanguagesAction \
 	RegistryMock registryMockobj; \
-	FileVersionInfo fileversionInfo; \
+	FileVersionInfoMock fileversionInfo; \
 	IEAcceptLanguagesActionTest IEAction(&registryMockobj, (IFileVersionInfo *)&fileversionInfo);
 
-void SetInternetExplorerVersion(RegistryMock& registryMockobj, wchar_t* version)
+void SetInternetExplorerVersion(FileVersionInfoMock& fileVersionInfoMock, wchar_t* version)
 {
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Microsoft\\Internet Explorer"), false)).WillRepeatedly(Return(true));	
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Version"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(version), Return(true)));
+	wstring s(version);
+	EXPECT_CALL(fileVersionInfoMock, GetVersion()).WillRepeatedly(ReturnRefOfCopy(s));
 }
 
 void SetAcceptLanguage(RegistryMock& registryMockobj, wchar_t* language)
@@ -66,7 +67,7 @@ TEST(IEAcceptLanguagesActionTest, GetVersion)
 	CreateIEAcceptLanguagesAction;
 	wchar_t* VERSION = L"7.11.5";
 	
-	SetInternetExplorerVersion(registryMockobj, VERSION);
+	SetInternetExplorerVersion(fileversionInfo, VERSION);
 	const wchar_t *p = IEAction.GetVersion();
 	EXPECT_THAT(IEAction.GetVersion(), StrCaseEq(VERSION));
 }
@@ -76,7 +77,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanOnly)
 	CreateIEAcceptLanguagesAction;
 
 	SetAcceptLanguage(registryMockobj, L"ca-ES");
-	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	SetInternetExplorerVersion(fileversionInfo, L"8.0");
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(IEAction.IsNeed());
 }
@@ -86,7 +87,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanAndSpanish)
 	CreateIEAcceptLanguagesAction;
 
 	SetAcceptLanguage(registryMockobj, L"ca-ES,es-ES;q=0.5");
-	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	SetInternetExplorerVersion(fileversionInfo, L"8.0");
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(IEAction.IsNeed());
 }
@@ -96,7 +97,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_EnglishSpanishCatalan)
 	CreateIEAcceptLanguagesAction;
 
 	SetAcceptLanguage(registryMockobj, L"en-US,es-ES;q=0.7,ca-ES;q=0.3");
-	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	SetInternetExplorerVersion(fileversionInfo, L"8.0");
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(IEAction.IsNeed());
 }
@@ -106,7 +107,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_SpanishOnly)
 	CreateIEAcceptLanguagesAction;	
 
 	SetAcceptLanguage(registryMockobj, L"es-ES");
-	SetInternetExplorerVersion(registryMockobj, L"8.0");
+	SetInternetExplorerVersion(fileversionInfo, L"8.0");
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(IEAction.IsNeed());
 }

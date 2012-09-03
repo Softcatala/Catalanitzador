@@ -33,8 +33,8 @@ class IELPIActionTest : public IELPIAction
 {
 public:
 
-	IELPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo) :
-		  IELPIAction(OSVersion, registry, runner, fileVersionInfo) {}
+	IELPIActionTest(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo) :
+		  IELPIAction(OSVersion, runner, fileVersionInfo) {}
 	
 	public: using IELPIAction::_checkPrerequirements;
 	public: using IELPIAction::_checkPrerequirementsDependand;
@@ -56,11 +56,10 @@ protected:
 };
 
 #define CreateIELPIAction \
-	RegistryMock registryMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
 	FileVersionInfo fileversionInfo; \
-	IELPIActionTest lipAction(&osVersionExMock, &registryMockobj, &runnerMock, (IFileVersionInfo *)&fileversionInfo);
+	IELPIActionTest lipAction(&osVersionExMock, &runnerMock, (IFileVersionInfo *)&fileversionInfo);
 
 #define CreateWindowsLIPAction \
 	RegistryMock registryMockobjWin; \

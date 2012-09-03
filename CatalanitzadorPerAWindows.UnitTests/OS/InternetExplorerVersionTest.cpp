@@ -19,42 +19,30 @@
 
 #include "stdafx.h"
 #include "Defines.h"
-#include "RegistryMock.h"
+#include "FileVersionInfoMock.h"
 #include "InternetExplorerVersion.h"
 
-using ::testing::StrCaseEq;
-using ::testing::Return;
+using ::testing::ReturnRef;
 using ::testing::_;
-using ::testing::DoAll;
-
 
 #define CreateIEVersion \
-	RegistryMock registryMockobj; \
-	InternetExplorerVersion IEVersion(&registryMockobj);
-
-/*
-
-Uncomment and fix when implementation is decided
+	FileVersionInfoMock fileversionInfo; \
+	InternetExplorerVersion IEVersion(&fileversionInfo);
 
 TEST(InternetExplorerVersionTest, _readIEVersion)
 {
 	CreateIEVersion;
+	wstring version(L"8.0.6001.19272");
 
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Microsoft\\Internet Explorer"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Version"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"8.0.6001.19272"), Return(true)));
-	
+	EXPECT_CALL(fileversionInfo, GetVersion()).WillRepeatedly(ReturnRef(version));
 	EXPECT_THAT(IEVersion.GetVersion(), InternetExplorerVersion::IE8);
 }
 
 TEST(InternetExplorerVersionTest, _readIEVersion_IEUnknown)
 {
 	CreateIEVersion;
+	wstring version(L"5.0");
 
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Microsoft\\Internet Explorer"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Version"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"5.0"), Return(true)));
-
+	EXPECT_CALL(fileversionInfo, GetVersion()).WillRepeatedly(ReturnRef(version));
 	EXPECT_THAT(IEVersion.GetVersion(), InternetExplorerVersion::IEUnknown);
 }
-*/

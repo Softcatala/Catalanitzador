@@ -20,9 +20,8 @@
 #include "stdafx.h"
 #include "InternetExplorerVersion.h"
 
-InternetExplorerVersion::InternetExplorerVersion(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
+InternetExplorerVersion::InternetExplorerVersion(IFileVersionInfo* fileVersionInfo)
 {
-	m_registry = registry;
 	m_fileVersionInfo = fileVersionInfo;
 	m_version = IEUnread;
 }
