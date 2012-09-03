@@ -93,7 +93,7 @@ void ITunesInspector::_readVersion()
 
 	_enumInstalledSoftware(apps);
 
-	int i=0;
+	unsigned int i=0;
 	while (i < apps.size() && (!bFound) )
 	{
 		wstring szFirstKey = UNINSTALL_REGKEY;
