@@ -647,6 +647,70 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Inspectors"
+			>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\InspectorID.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspectors.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspectors.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\ITunesInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\ITunesInspector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\LibreOfficeInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\LibreOfficeInspector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\PDFCreatorInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\PDFCreatorInspector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\SkypeInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\SkypeInspector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\WinRARInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\WinRARInspector.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
