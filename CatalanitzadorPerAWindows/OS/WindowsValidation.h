@@ -26,7 +26,7 @@ class WindowsValidation
 public:
 		WindowsValidation(IOSVersion* OSVersion);
 
-		bool IsWindowsValidated();
+		static bool IsWindowsValidated();
 
 private:
 		bool _isWindowsXPValidated();

@@ -20,15 +20,10 @@
 #include "stdafx.h"
 #include "WindowsValidation.h"
 
-WindowsValidation::WindowsValidation(IOSVersion* OSVersion)
-{
-	m_OSVersion = OSVersion;	
-}
-
 #define FUNCTION_ID 0x1
 
 // Strategy: only says that is validated if we can really confirm it
-bool WindowsValidation::_isWindowsXPValidated()
+bool WindowsValidation::IsWindowsValidated()
 {
 	CLSID lcsid;
 	IDispatch* disp;
@@ -65,26 +60,3 @@ bool WindowsValidation::_isWindowsXPValidated()
 	g_log.Log(L"WindowsValidation::IsWindowsValidated. Result: '%s', passed %u", dispRes.bstrVal,  (wchar_t *)bRslt);
 	return bRslt;
 }
-
-bool WindowsValidation::IsWindowsValidated() 
-{		
-	if (m_OSVersion->GetVersion() == WindowsXP)
-	{
-		DWORD dwservicePack;
-
-		dwservicePack = m_OSVersion->GetServicePackVersion();
-	
-		if (HIWORD(dwservicePack) < 2)
-		{
-			g_log.Log(L"WindowsValidation::IsWindowsValidated. Old XP");
-			return true;
-		}
-		return _isWindowsXPValidated();
-	}
-	else
-	{
-		g_log.Log(L"WindowsValidation::IsWindowsValidated. No XP");
-		return true;
-	}
-}
-

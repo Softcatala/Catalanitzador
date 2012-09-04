@@ -446,9 +446,26 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 	}
 }
 
-bool WindowsLPIAction::_isWindowsValidated() 
-{		
-	WindowsValidation validation(m_OSVersion);
-	return validation.IsWindowsValidated();
+bool WindowsLPIAction::_isWindowsValidated()
+{
+	if (m_OSVersion->GetVersion() == WindowsXP)
+	{
+		DWORD dwservicePack;
+
+		dwservicePack = m_OSVersion->GetServicePackVersion();
+	
+		if (HIWORD(dwservicePack) < 2)
+		{
+			g_log.Log(L"IsWindowsValidated::IsWindowsValidated. Old XP");
+			return true;
+		}
+		 
+		return WindowsValidation::IsWindowsValidated();
+	}
+	else
+	{
+		g_log.Log(L"IsWindowsValidated::IsWindowsValidated. No XP");
+		return true;
+	}
 }
 
