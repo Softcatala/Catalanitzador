@@ -225,7 +225,7 @@ bool WindowsLPIAction::IsNeed()
 	}
 	else
 	{
-		status = CannotBeApplied;
+		SetStatus(CannotBeApplied);
 		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDVERSION, szCannotBeApplied);
 		g_log.Log(L"WindowsLPIAction::IsNeed. Unsupported Windows version");
 	}
@@ -351,13 +351,15 @@ ActionStatus WindowsLPIAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (_isLangPackInstalled()) {
+		if (_isLangPackInstalled()) 
+		{
 			status = Successful;
 			_setLanguagePanelWin8();
 			_setDefaultLanguage();
 		}
-		else {
-			status = FinishedWithError;			
+		else
+		{
+			SetStatus(FinishedWithError);
 		}
 		
 		g_log.Log(L"WindowsLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
