@@ -323,6 +323,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAWindows\OS\WindowsValidation.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\OS\WindowsValidation.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAWindows\OS\Wow64.cpp"
 				>
 			</File>
