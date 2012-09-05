@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "Actions.h"
 #include "WindowsLPIAction.h"
+#include "Windows8LPIAction.h"
 #include "IEAcceptLanguagesAction.h"
 #include "ConfigureLocaleAction.h"
 #include "ConfigureDefaultLanguageAction.h"
@@ -98,7 +99,17 @@ IFileVersionInfo* Actions::_getFileVersionInfo()
 
 void Actions::_buildListOfActions()
 {
-	m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
+	OSVersion osversion;
+
+	if (osversion.GetVersion() == Windows8)
+	{
+		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
+	}
+	else
+	{
+		m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
+	}
+	
 	m_actions.push_back(new MSOfficeLPIAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new WindowsLiveAction( _getNewRegistry(), _getNewRunner(), _getFileVersionInfo()));
 	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo()));

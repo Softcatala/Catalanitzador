@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,11 +25,11 @@
 #include "IWin32I18N.h"
 #include "IOSVersion.h"
 
-class WindowsLPIAction : public Action
+class Windows8LPIAction : public Action
 {
 public:
-		WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
-		~WindowsLPIAction();
+		Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
+		~Windows8LPIAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -49,14 +49,12 @@ protected:
 
 		bool _isLangPackInstalled();
 		bool _isDefaultLanguage();
-		wchar_t* _getDownloadID();
-		virtual bool _isWindowsValidated();
+		wchar_t* _getDownloadID();	
 
 private:
 		
-		//bool _isWindowsXPValidated();
-		void _setDefaultLanguage();
-		bool _isASupportedSystemLanguage();
+		void _setLanguagePanelWin8();		
+		void _setDefaultLanguage();		
 
 		wchar_t m_szFilename[MAX_PATH];
 		IRunner* m_runner;

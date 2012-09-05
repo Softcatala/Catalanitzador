@@ -627,6 +627,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Actions\Windows8LPIAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Actions\Windows8LPIAction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAWindows\Actions\WindowsLiveAction.cpp"
 				>
 			</File>
