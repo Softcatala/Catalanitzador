@@ -75,7 +75,7 @@ void WelcomePropertyPageUI::_onInitDialog()
 
 	CheckDlgButton(getHandle(), IDC_SENDRESULTS, *m_pbSendStats);
 	_setTransparentBitmaps();
-	_initPropertySheet();	
+	_initPropertySheet();
 }
 
 bool WelcomePropertyPageUI::_doesUserWantToUpdate()
@@ -113,6 +113,10 @@ void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAc
 bool WelcomePropertyPageUI::_onNext()
 {
 	Action* catalanitzadorAction = m_pActions->GetActionFromID(CatalanitzadorUpdate);
+
+	// Disable Next button after has been click to prevent user clicking twice
+	SendMessage (getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, PSWIZB_BACK);
+	Window::ProcessMessages();
 
 	if (catalanitzadorAction->GetStatus() != Successful)
 	{
