@@ -72,9 +72,12 @@ bool SkypeInspector::_readVersion()
 
 	_readFilePath(file);
 
-	FileVersionInfo fileVersion;
-	fileVersion.SetFilename(file);
-	version = fileVersion.GetVersion();
+	if (file.size() > 0)
+	{
+		FileVersionInfo fileVersion;
+		fileVersion.SetFilename(file);
+		version = fileVersion.GetVersion();
+	}
 
 	g_log.Log(L"SkypeInspector::_readVersion version %s", (wchar_t*) version.c_str());
 	m_KeyValues.push_back(InspectorKeyValue(L"version", version.c_str()));
