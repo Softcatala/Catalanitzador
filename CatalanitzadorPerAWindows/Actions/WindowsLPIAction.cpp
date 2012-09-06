@@ -27,8 +27,6 @@
 #include "ConfigurationInstance.h"
 #include "WindowsValidation.h"
 
-#include <sstream>
-
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	m_registry = registry;
