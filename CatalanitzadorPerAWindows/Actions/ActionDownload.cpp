@@ -44,6 +44,8 @@ ActionDownload::ActionDownload()
 	m_downloads[DI_ADOBEREADER_95] = Download(wstring(ADOBEREADER_95), 4712);
 	m_downloads[DI_ADOBEREADER_1010] = Download(wstring(ADOBEREADER_1010), 4712);
 	m_downloads[DI_MSLIVE2009] = Download(wstring(MSLIVE2009), 4442);
+	m_downloads[DI_MSLIVE2011] = Download(wstring(MSLIVE2011), 4442);
+	m_downloads[DI_MSLIVE2012] = Download(wstring(MSLIVE2012), 4442);
 }
 
 wstring ActionDownload::GetFileName(DownloadID downloadID)

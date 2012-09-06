@@ -45,6 +45,8 @@
 #define ADOBEREADER_1010 L"http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe"
 
 #define MSLIVE2009 L"http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2009-ca-14.0.8117.416.exe"
+#define MSLIVE2011 L"http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2011-ca-15.4.3555.308.exe"
+#define MSLIVE2012 L"http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3503.0728.exe"
 
 enum DownloadID
 {
@@ -68,6 +70,8 @@ enum DownloadID
 	DI_ADOBEREADER_95,
 	DI_ADOBEREADER_1010,
 	DI_MSLIVE2009,
+	DI_MSLIVE2011,
+	DI_MSLIVE2012,
 	DI_UNKNOWN,
 	DI_LENGTH,
 };

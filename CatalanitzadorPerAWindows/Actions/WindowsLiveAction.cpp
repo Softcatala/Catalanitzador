@@ -27,6 +27,7 @@
 
 #define MS_LIVE_ESSENTIALS_2009 14
 #define MS_LIVE_ESSENTIALS_2011 15
+#define MS_LIVE_ESSENTIALS_2012 16
 #define CATALAN_WINLANGCODE 3
 
 WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner)
@@ -76,18 +77,28 @@ bool WindowsLiveAction::IsNeed()
 
 bool WindowsLiveAction::Download(ProgressStatus progress, void *data)
 {
-	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
+	DownloadID downloadID;
+
+	switch (_getMajorVersion())
 	{
-		GetTempPath(MAX_PATH, m_szFilename);
-		Url url(m_actionDownload.GetFileName(DI_MSLIVE2009));
-		wcscat_s(m_szFilename, url.GetFileName());	
-		return _getFile(DI_MSLIVE2009, m_szFilename, progress, data);
+		case MS_LIVE_ESSENTIALS_2009:
+			downloadID = DI_MSLIVE2009;
+			break;
+		case MS_LIVE_ESSENTIALS_2011:
+			downloadID = DI_MSLIVE2011;
+			break;
+		case MS_LIVE_ESSENTIALS_2012:
+			downloadID = DI_MSLIVE2012;
+			break;
+		default:
+			assert(false);
+			return false;
 	}
 
-	// The installer for Essentials 2011 downloads the language packs. We indicate that the actions
-	// downloads but is delagated to the installer (as this the internet connection
-	// detection is checked for this action)
-	return true;
+	GetTempPath(MAX_PATH, m_szFilename);
+	Url url(m_actionDownload.GetFileName(downloadID));
+	wcscat_s(m_szFilename, url.GetFileName());
+	return _getFile(downloadID, m_szFilename, progress, data);	
 }
 
 const wchar_t* WindowsLiveAction::GetVersion()
@@ -128,21 +139,13 @@ void WindowsLiveAction::Execute()
 
 	_getInstallerLocation(location);
 
-	// Live Essential 2009 parameters: http://www.mydigitallife.info/windows-live-essentials-unattended-silent-setup-installation-switches/
-	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
-	{
-		wcscpy_s(szApp, m_szFilename);
-		// By selecting only Silverlight the installer will update only the installer apps
-		// instead of installing also new ones. This saves us to dectect which exact component
-		// is installed and uninstall it
-		wcscat_s(szApp, L" /AppSelect:Silverlight /quiet");		
-	}
-	else
-	{
-		wcscpy_s(szApp, location.c_str());
-		wcscat_s(szApp, L" -install -language:ca /quiet");
-	}
-
+	// Live Essential 2009/2010/2011 parameters: http://www.mydigitallife.info/windows-live-essentials-unattended-silent-setup-installation-switches/
+	wcscpy_s(szApp, m_szFilename);
+	// By selecting only Silverlight the installer will update only the installer apps
+	// instead of installing also new ones. This saves us to dectect which exact component
+	// is installed and uninstall it
+	wcscat_s(szApp, L" /AppSelect:Silverlight /quiet");		
+	
 	SetStatus(InProgress);
 	g_log.Log(L"WindowsLiveAction::Execute '%s' with params '%s'", szApp, szParams);
 	m_runner->Execute(NULL, szApp);
@@ -194,7 +197,7 @@ bool WindowsLiveAction::_isLangSelected2011()
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"WindowsLiveAction::_isLangSelected2011(). Language %s", szLanguage);
+	g_log.Log(L"WindowsLiveAction::_isLangSelected2011. Language %s", szLanguage);
 	return bSelected;
 }
 
@@ -240,7 +243,7 @@ void WindowsLiveAction::CheckPrerequirements(Action * action)
 		}
 		
 		majorVersion = _getMajorVersion();
-		if (majorVersion != MS_LIVE_ESSENTIALS_2009 && majorVersion != MS_LIVE_ESSENTIALS_2011)
+		if (majorVersion != MS_LIVE_ESSENTIALS_2009 && majorVersion != MS_LIVE_ESSENTIALS_2011 && majorVersion != MS_LIVE_ESSENTIALS_2012)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Version not supported");
