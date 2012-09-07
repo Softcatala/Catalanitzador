@@ -24,6 +24,7 @@
 #include "IRegistry.h"
 #include "IWin32I18N.h"
 #include "IOSVersion.h"
+#include <algorithm>
 
 class Windows8LPIAction : public Action
 {
@@ -47,15 +48,20 @@ public:
 
 protected:
 
-		bool _isLangPackInstalled();
-		bool _isDefaultLanguage();
+		bool _isLangPackInstalled();	
 		wchar_t* _getDownloadID();	
 
 private:
 		
-		void _setLanguagePanelWin8();		
-		void _setDefaultLanguage();		
+		bool _isDefaultLanguage();
+		void _setDefaultLanguage();
+		void _setLanguagePanelWin8();
+		bool _isLanguagePanelWin8First();
+		void _readLanguageCode(wstring& languages);
+		void _parseLanguage(wstring regvalue);
+		void _getFirstLanguage(wstring& regvalue);
 
+		vector <wstring> m_languages;
 		wchar_t m_szFilename[MAX_PATH];
 		IRunner* m_runner;
 		IRegistry* m_registry;
