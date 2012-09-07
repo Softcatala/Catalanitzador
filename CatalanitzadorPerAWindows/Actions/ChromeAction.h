@@ -56,12 +56,12 @@ protected:
 		
 		void _readVersion();
 		bool _isInstalled();
+		bool _readLanguageCode(wstring& langcode);
 
 private:		
 		
 		void _getFirstLanguage(wstring& regvalue);
 		void _readInstallLocation(wstring& path);
-		bool _readLanguageCode(wstring& langcode);
 		bool _writeLanguageCode(wstring langcode);
 		void _createRegistryStringTwoLangs(wstring &regvalue, float average);
 		bool _isChromeAppLocaleOk();

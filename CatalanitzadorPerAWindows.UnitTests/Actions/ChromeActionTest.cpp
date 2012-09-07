@@ -19,9 +19,9 @@
 
 #include "stdafx.h"
 #include "Defines.h"
+#include "Application.h"
 
 #include "ChromeAction.h"
-#include "Application.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -39,6 +39,7 @@ public:
 
 		using ChromeAction::_readVersion;
 		using ChromeAction::_isInstalled;
+		using ChromeAction::_readLanguageCode;
 };
 
 #define CreateChromeAction \
@@ -121,3 +122,30 @@ TEST(ChromeActionTest, IsNeed_No_CatalanUI_NoAcceptLanguage)
 	EXPECT_THAT(chromeAction.GetStatus(), AlreadyApplied);
 }
 
+TEST(ChromeActionTest, _readLanguageCode_Empty)
+{
+	wstring location, langcodes;
+	CreateChromeAction;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\CatalanUI_NoAcceptLanguage\\User Data\\";
+
+	SetLocation(registryMockobj, location.c_str());
+	chromeAction._readLanguageCode(langcodes);
+	
+	EXPECT_TRUE(langcodes.empty());
+}
+
+TEST(ChromeActionTest, _readLanguageCode_ES_DE_BR)
+{
+	wstring location, langcodes;
+	CreateChromeAction;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\SpanishUI_AcceptLanguage_es_de_br\\User Data\\";
+
+	SetLocation(registryMockobj, location.c_str());
+	chromeAction._readLanguageCode(langcodes);
+
+	EXPECT_THAT(langcodes, StrCaseEq(L"es,de,br"));
+}
