@@ -144,11 +144,6 @@ void Windows8LPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
-
-	if (_isLanguagePanelWin8First() == false)
-	{
-		_setLanguagePanelWin8();
-	}
 	
 	if (_isLangPackInstalled() == false)
 	{
@@ -162,6 +157,12 @@ void Windows8LPIAction::Execute()
 		g_log.Log(L"Windows8LPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
 		m_runner->Execute(lpkapp, szParams, m_OSVersion->IsWindows64Bits());
 	}
+
+	if (_isLanguagePanelWin8First() == false)
+	{
+		_setLanguagePanelWin8();
+	}
+
 	SetStatus(InProgress);
 }
 
@@ -328,24 +329,22 @@ bool Windows8LPIAction::IsRebootNeed() const
 // The key PreferredUILanguagesPending did not work as expected
 void Windows8LPIAction::_setDefaultLanguage()
 {
-	if (m_OSVersion->GetVersion() == WindowsXP)
-		return;
-	
 	// Sets the language for the default user
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
 		m_registry->SetString(L"PreferredUILanguages", L"ca-ES");
+		m_registry->SetMultiString(L"PreferredUILanguagesPending", L"ca-ES");
 		m_registry->Close();
-		g_log.Log(L"WindowsLPIAction::_setDefaultLanguage current user done");
+		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage current user done");
 	}
 
 	// Sets the language for all users
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\Settings", true) == TRUE)
+	/*if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\Settings", true) == TRUE)
 	{
 		m_registry->SetMultiString(L"PreferredUILanguages", L"ca-ES");
 		m_registry->Close();
-		g_log.Log(L"WindowsLPIAction::_setDefaultLanguage all users done");
-	}
+		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage all users done");
+	}*/
 }
 
 void Windows8LPIAction::CheckPrerequirements(Action * action)
