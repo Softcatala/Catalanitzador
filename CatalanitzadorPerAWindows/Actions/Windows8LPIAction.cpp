@@ -58,12 +58,11 @@ wchar_t* Windows8LPIAction::GetDescription()
 
 LPCWSTR Windows8LPIAction::GetLicenseID()
 {
-	// If the package is installed, no need to accept license
+	// If the package is installed, no need to accept the license
 	if (_isLangPackInstalled() == true)
 		return NULL;
-
-	// TODO: Win 8
-	return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSVISTA);	
+	
+	return MAKEINTRESOURCE(IDR_LICENSE_WINDOWS8);
 }
 
 wchar_t* Windows8LPIAction::_getDownloadID()
@@ -333,6 +332,7 @@ void Windows8LPIAction::_setDefaultLanguage()
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
 		m_registry->SetString(L"PreferredUILanguages", L"ca-ES");
+		// Needed since the panel forces it to other languages
 		m_registry->SetMultiString(L"PreferredUILanguagesPending", L"ca-ES");
 		m_registry->Close();
 		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage current user done");
