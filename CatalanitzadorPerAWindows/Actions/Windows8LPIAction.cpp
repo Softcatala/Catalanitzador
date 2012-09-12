@@ -304,7 +304,7 @@ ActionStatus Windows8LPIAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (_isLangPackInstalled() && isLanguagePanelWin8First() && _isDefaultLanguage())
+		if (_isLangPackInstalled() && _isLanguagePanelWin8First() && _isDefaultLanguage())
 		{
 			SetStatus(Successful);
 		}
