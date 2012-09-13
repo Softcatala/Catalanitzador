@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "WindowsLiveAction.h"
+#include "ConfigurationInstance.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -87,7 +88,7 @@ TEST(WindowsLiveActionTest, _isLangSelected_2011_No)
 	wstring VERSION_STRING = L"15.0.1";
 	const int VERSION = 15;
 
-	CreateWindowsLiveAction;	
+	CreateWindowsLiveAction;
 	
 	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
 	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(VERSION_STRING));
@@ -103,21 +104,20 @@ TEST(WindowsLiveActionTest, _isLangSelected_2011_No)
 
 TEST(WindowsLiveActionTest, _isLangSelected_2009_Yes)
 {
-	const wchar_t* CATALAN_LANG = L"CA";
 	wstring VERSION_STRING = L"14.0.1.4";
 	const int VERSION = 14;
 	const int CATALAN_WINLANGCODE = 3;
 
-	CreateWindowsLiveAction;	
+	CreateWindowsLiveAction;
 	
 	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
 	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(VERSION_STRING));
 	EXPECT_CALL(fileVersionInfoMockobj, GetMajorVersion()).WillRepeatedly(Return(VERSION));
-	EXPECT_CALL(fileVersionInfoMockobj, GetLanguageCode()).WillRepeatedly(Return(CATALAN_WINLANGCODE));	
+	EXPECT_CALL(fileVersionInfoMockobj, GetLanguageCode()).WillRepeatedly(Return(CATALAN_WINLANGCODE));
 	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(lipAction._isLangSelected());
-	EXPECT_THAT(lipAction.GetStatus(), AlreadyApplied);	
+	EXPECT_THAT(lipAction.GetStatus(), AlreadyApplied);
 }
 
 TEST(WindowsLiveActionTest, _isLangSelected_2009_No)
@@ -137,3 +137,4 @@ TEST(WindowsLiveActionTest, _isLangSelected_2009_No)
 	EXPECT_FALSE(lipAction._isLangSelected());
 	EXPECT_THAT(lipAction.GetStatus(), NotSelected);	
 }
+

@@ -19,16 +19,38 @@
  
 #pragma once
 
+#include <stdafx.h>
 #include "Configuration.h"
+#include "ConfigurationInstance.h"
+#include "ConfigurationRemoteEmbedded.h"
 
-class ConfigurationInstance
+static bool g_bInit = false;
+static Configuration* g_pConfiguration;
+
+void ConfigurationInstance::Init()
 {
-public:
+	g_pConfiguration = new Configuration();
+	ConfigurationRemoteEmbedded configurationEmbedeed;
+	configurationEmbedeed.Load();
+	g_pConfiguration->SetRemote(configurationEmbedeed.GetConfiguration());
+	g_bInit = true;
+}
 
-		static Configuration& Get();
-		static void Reset();
-		static void Set(Configuration configuration);
+Configuration& ConfigurationInstance::Get()
+{
+	if (g_bInit == false)
+		Init();
 
-private:		
-		static void Init();		
-};
+	return *g_pConfiguration;
+}
+
+void ConfigurationInstance::Reset()
+{
+	g_bInit = false;
+}
+
+void ConfigurationInstance::Set(Configuration configuration)
+{
+	g_pConfiguration = &configuration;
+}
+

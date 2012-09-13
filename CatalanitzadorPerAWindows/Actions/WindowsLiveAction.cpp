@@ -26,6 +26,7 @@
 
 #define MS_LIVE_ESSENTIALS_2009 14
 #define MS_LIVE_ESSENTIALS_2011 15
+#define MS_LIVE_ESSENTIALS_2012 16
 #define CATALAN_WINLANGCODE 3
 
 WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo)
@@ -76,23 +77,14 @@ bool WindowsLiveAction::IsNeed()
 
 bool WindowsLiveAction::Download(ProgressStatus progress, void *data)
 {
-	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
-	{	
-		ConfigurationFileActionDownload downloadVersion;
-		wchar_t version[32];
+	ConfigurationFileActionDownload downloadVersion;
+	wchar_t version[32];
 
-		swprintf_s(version, L"%u", MS_LIVE_ESSENTIALS_2009);
-		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(version));
-		GetTempPath(MAX_PATH, m_szFilename);
-		wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
-
-		return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);
-	}
-
-	// The installer for Essentials 2011 downloads the language packs. We indicate that the action
-	// downloads, but it is delagated to the installer (as this the internet connection
-	// detection is checked for this action)
-	return true;
+	swprintf_s(version, L"%u", _getMajorVersion());
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(version));
+	GetTempPath(MAX_PATH, m_szFilename);
+	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
+	return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);
 }
 
 const wchar_t* WindowsLiveAction::GetVersion()
@@ -133,20 +125,12 @@ void WindowsLiveAction::Execute()
 
 	_getInstallerLocation(location);
 
-	// Live Essential 2009 parameters: http://www.mydigitallife.info/windows-live-essentials-unattended-silent-setup-installation-switches/
-	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
-	{
-		wcscpy_s(szApp, m_szFilename);
-		// By selecting only Silverlight the installer will update only the installer apps
-		// instead of installing also new ones. This saves us to dectect which exact component
-		// is installed and uninstall it
-		wcscat_s(szApp, L" /AppSelect:Silverlight /quiet");		
-	}
-	else
-	{
-		wcscpy_s(szApp, location.c_str());
-		wcscat_s(szApp, L" -install -language:ca /quiet");
-	}
+	// Live Essential 2009/2010/2011 parameters: http://www.mydigitallife.info/windows-live-essentials-unattended-silent-setup-installation-switches/
+	wcscpy_s(szApp, m_szFilename);
+	// By selecting only Silverlight the installer will update only the installer apps
+	// instead of installing also new ones. This saves us to dectect which exact component
+	// is installed and uninstall it
+	wcscat_s(szApp, L" /AppSelect:Silverlight /quiet");	
 
 	SetStatus(InProgress);
 	g_log.Log(L"WindowsLiveAction::Execute '%s' with params '%s'", szApp, szParams);
@@ -199,7 +183,7 @@ bool WindowsLiveAction::_isLangSelected2011()
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"WindowsLiveAction::_isLangSelected2011(). Language %s", szLanguage);
+	g_log.Log(L"WindowsLiveAction::_isLangSelected2011. Language %s", szLanguage);
 	return bSelected;
 }
 
@@ -233,19 +217,21 @@ bool WindowsLiveAction::_isLangSelected()
 void WindowsLiveAction::CheckPrerequirements(Action * action)
 {	
 	_readVersionInstalled();
-
+	
 	if (m_version.size() > 0)
-	{
-		int majorVersion;
-
+	{	
 		if (_isLangSelected() == true)
 		{
 			SetStatus(AlreadyApplied);
 			return;
 		}
 		
-		majorVersion = _getMajorVersion();
-		if (majorVersion != MS_LIVE_ESSENTIALS_2009 && majorVersion != MS_LIVE_ESSENTIALS_2011)
+		wchar_t version[32];
+		ConfigurationFileActionDownload downloadVersion;
+
+		swprintf_s(version, L"%u", _getMajorVersion());
+		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(version));
+		if (downloadVersion.IsEmpty())
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Version not supported");

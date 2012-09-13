@@ -118,13 +118,15 @@ void ConfigurationDownloadThread::OnStart()
 	
 	if (_isConfigurationCompatibleWithAppVersion(configurationXmlParser.GetConfiguration()) == false)
 	{
+		g_log.Log(L"ConfigurationDownloadThread::OnStart. File not compatible with application");
 		return;
 	}
 
-	if (configurationXmlParser.GetConfiguration().GetDateTime().QuadPart >=
+	if (configurationXmlParser.GetConfiguration().GetDateTime().QuadPart <
 		ConfigurationInstance::Get().GetRemote().GetDateTime().QuadPart)
 	{
 		g_log.Log(L"ConfigurationDownloadThread::OnStart. Remote file is no newer than embedded");
+		return;
 	}
 	
 	ConfigurationInstance::Get().SetRemote(configurationXmlParser.GetConfiguration());

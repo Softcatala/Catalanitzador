@@ -30,6 +30,12 @@ static ConfigurationFileActionDownload s_empty;
 class ConfigurationRemote
 {
 	public:
+
+			ConfigurationRemote()
+			{
+				_LARGE_INTEGER li = {0};
+				SetDateTime(li);
+			}
 	
 			wstring& GetCompatibility() {return m_compatibility;}
 			void SetCompatibility(wstring compatibility) {m_compatibility = compatibility;}

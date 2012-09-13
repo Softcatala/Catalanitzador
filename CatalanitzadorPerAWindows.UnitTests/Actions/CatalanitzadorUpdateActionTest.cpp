@@ -39,7 +39,17 @@ using ::testing::HasSubstr;
 
 #define VERSION L"3.2.1"
 
-TEST(CatalanitzadorUpdateActionTest, SetGetVersion)
+class CatalanitzadorUpdateActionTest: public testing::Test
+{
+protected:
+
+	virtual void TearDown()
+	{
+		ConfigurationInstance::Reset();
+	}
+};
+
+TEST_F(CatalanitzadorUpdateActionTest, SetGetVersion)
 {
 	CreateCatalanitzadorUpdate;
 
@@ -47,7 +57,7 @@ TEST(CatalanitzadorUpdateActionTest, SetGetVersion)
 	EXPECT_THAT(catalanitzadorAction.GetVersion(), StrCaseEq(VERSION));
 }
 
-TEST(CatalanitzadorUpdateActionTest, Execute)
+TEST_F(CatalanitzadorUpdateActionTest, Execute)
 {
 	CreateCatalanitzadorUpdate;
 
@@ -59,7 +69,7 @@ TEST(CatalanitzadorUpdateActionTest, Execute)
 	catalanitzadorAction.Execute();
 }
 
-TEST(CatalanitzadorUpdateActionTest, CheckPrerequirements_AlreadyApplied)
+TEST_F(CatalanitzadorUpdateActionTest, CheckPrerequirements_AlreadyApplied)
 {	
 	ConfigurationRemote remote;
 	ConfigurationFileActionDownloads fileActionDownloads;
@@ -83,7 +93,7 @@ TEST(CatalanitzadorUpdateActionTest, CheckPrerequirements_AlreadyApplied)
 	EXPECT_FALSE(catalanitzadorAction.IsNeed());
 }
 
-TEST(CatalanitzadorUpdateActionTest, CheckPrerequirements_IsNeeded)
+TEST_F(CatalanitzadorUpdateActionTest, CheckPrerequirements_IsNeeded)
 {	
 	ConfigurationRemote remote;
 	ConfigurationFileActionDownloads fileActionDownloads;
