@@ -387,6 +387,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Core\Configuration\ConfigurationRemoteTest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Core\Configuration\ConfigurationRemoteXmlParserTest.cpp"
 					>
 				</File>

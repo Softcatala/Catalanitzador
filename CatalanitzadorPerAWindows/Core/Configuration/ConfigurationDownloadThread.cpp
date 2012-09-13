@@ -122,8 +122,7 @@ void ConfigurationDownloadThread::OnStart()
 		return;
 	}
 
-	if (configurationXmlParser.GetConfiguration().GetDateTime().QuadPart <
-		ConfigurationInstance::Get().GetRemote().GetDateTime().QuadPart)
+	if (configurationXmlParser.GetConfiguration().IsOlderThan(ConfigurationInstance::Get().GetRemote()))
 	{
 		g_log.Log(L"ConfigurationDownloadThread::OnStart. Remote file is no newer than embedded");
 		return;

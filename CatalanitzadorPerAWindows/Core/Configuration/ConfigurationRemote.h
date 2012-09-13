@@ -25,18 +25,11 @@
 
 using namespace std;
 
-static ConfigurationFileActionDownload s_empty;
-
 class ConfigurationRemote
 {
 	public:
-
-			ConfigurationRemote()
-			{
-				_LARGE_INTEGER li = {0};
-				SetDateTime(li);
-			}
-	
+			ConfigurationRemote();
+			
 			wstring& GetCompatibility() {return m_compatibility;}
 			void SetCompatibility(wstring compatibility) {m_compatibility = compatibility;}
 
@@ -45,36 +38,12 @@ class ConfigurationRemote
 
 			vector <ConfigurationFileActionDownloads>& GetFileActionsDownloads() {return m_fileActionsDownloads;}
 
-			int AddFileActionDownloads(ConfigurationFileActionDownloads fileDownloads)
-			{
-				m_fileActionsDownloads.push_back(fileDownloads);
-				return m_fileActionsDownloads.size() - 1;
-			}
+			int AddFileActionDownloads(ConfigurationFileActionDownloads fileDownloads);			
+			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version);
+			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, wstring version);
+
+			bool IsOlderThan(ConfigurationRemote other);
 			
-			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, ApplicationVersion version)
-			{
-				for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
-				{
-					if (m_fileActionsDownloads.at(i).GetActionID() == actionID)
-					{
-						return m_fileActionsDownloads.at(i).GetFileDownloadForVersion(version);
-					}
-				}	
-				return s_empty;
-			}
-
-			ConfigurationFileActionDownload& GetDownloadForActionID(ActionID actionID, wstring version)
-			{
-				for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
-				{
-					if (m_fileActionsDownloads.at(i).GetActionID() == actionID)
-					{
-						return m_fileActionsDownloads.at(i).GetFileDownloadForVersion(version);						
-					}
-				}	
-				return s_empty;
-			}
-
 	private:
 			
 			wstring m_compatibility;

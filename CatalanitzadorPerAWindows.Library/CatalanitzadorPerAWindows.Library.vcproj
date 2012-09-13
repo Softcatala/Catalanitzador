@@ -498,6 +498,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemote.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemote.h"
 					>
 				</File>
