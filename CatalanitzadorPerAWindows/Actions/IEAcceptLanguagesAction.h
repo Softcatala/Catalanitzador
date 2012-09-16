@@ -23,6 +23,7 @@
 #include "IRegistry.h"
 #include "IFileVersionInfo.h"
 #include "InternetExplorerVersion.h"
+#include "IOSVersion.h"
 
 #include <vector>
 #include <algorithm>
@@ -33,7 +34,7 @@ class IEAcceptLanguagesAction : public Action
 {
 public:
 		
-		IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo);
+		IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion);
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -64,5 +65,6 @@ private:
 		vector <wstring> m_languages;
 		wstring m_version;
 		InternetExplorerVersion m_explorerVersion;
+		IOSVersion* m_OSVersion;
 };
 

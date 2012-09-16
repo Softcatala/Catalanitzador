@@ -34,8 +34,8 @@ class IEAcceptLanguagesActionTest : public IEAcceptLanguagesAction
 {
 public:
 
-	IEAcceptLanguagesActionTest::IEAcceptLanguagesActionTest(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
-		: IEAcceptLanguagesAction(registry, fileVersionInfo) {};
+	IEAcceptLanguagesActionTest::IEAcceptLanguagesActionTest(IRegistry* registry, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion)
+		: IEAcceptLanguagesAction(registry, fileVersionInfo, OSVersion) {};
 
 	public: using IEAcceptLanguagesAction::_parseLanguage;
 	public: using IEAcceptLanguagesAction::_createRegistryString;
@@ -47,7 +47,8 @@ public:
 #define CreateIEAcceptLanguagesAction \
 	RegistryMock registryMockobj; \
 	FileVersionInfoMock fileversionInfo; \
-	IEAcceptLanguagesActionTest IEAction(&registryMockobj, (IFileVersionInfo *)&fileversionInfo);
+	OSVersionMock osVersionExMock; \
+	IEAcceptLanguagesActionTest IEAction(&registryMockobj, (IFileVersionInfo *)&fileversionInfo, (IOSVersion *) &osVersionExMock);
 
 void SetInternetExplorerVersion(FileVersionInfoMock& fileVersionInfoMock, wchar_t* version)
 {

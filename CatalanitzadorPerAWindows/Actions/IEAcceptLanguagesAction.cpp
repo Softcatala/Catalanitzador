@@ -21,9 +21,10 @@
 #include "IEAcceptLanguagesAction.h"
 #include <math.h>
 
-IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo): m_explorerVersion(fileVersionInfo)
+IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion): m_explorerVersion(fileVersionInfo)
 {
 	m_registry = registry;
+	m_OSVersion = OSVersion;
 }
 
 wchar_t* IEAcceptLanguagesAction::GetName()
@@ -159,6 +160,14 @@ const wchar_t* IEAcceptLanguagesAction::GetVersion()
 void IEAcceptLanguagesAction::CheckPrerequirements(Action * action)
 {	
 	wstring firstlang;
+
+	if (m_OSVersion->GetVersion() == Windows8)
+	{
+		_getStringFromResourceIDName(IDS_IEACCEPTEDLANGUAGESACTION_WINDOWS8, szCannotBeApplied);
+		g_log.Log(L"IEAcceptLanguagesAction::CheckPrerequirements. Applied with language pack.");
+		SetStatus(CannotBeApplied);
+		return;
+	}
 
 	if (_isCurrentLanguageOk(firstlang))
 	{
