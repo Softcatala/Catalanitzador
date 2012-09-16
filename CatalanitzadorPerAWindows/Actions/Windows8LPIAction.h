@@ -60,6 +60,7 @@ private:
 		void _readLanguageCode(wstring& languages);
 		void _parseLanguage(wstring regvalue);
 		void _getFirstLanguage(wstring& regvalue);
+		bool _isAlreadyApplied();
 
 		vector <wstring> m_languages;
 		wchar_t m_szFilename[MAX_PATH];

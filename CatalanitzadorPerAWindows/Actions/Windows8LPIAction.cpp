@@ -157,11 +157,6 @@ void Windows8LPIAction::Execute()
 		m_runner->Execute(lpkapp, szParams, m_OSVersion->IsWindows64Bits());
 	}
 
-	if (_isLanguagePanelWin8First() == false)
-	{
-		_setLanguagePanelWin8();
-	}
-
 	SetStatus(InProgress);
 }
 
@@ -199,6 +194,17 @@ void Windows8LPIAction::_setLanguagePanelWin8()
 	DeleteFile(szScript);
 }
 
+bool Windows8LPIAction::_isAlreadyApplied()
+{
+	bool panel, langpack, deflang;
+
+	panel = _isLanguagePanelWin8First();
+	langpack = _isLangPackInstalled();
+	deflang = _isDefaultLanguage();
+
+	return panel && langpack && deflang;
+}
+
 bool Windows8LPIAction::_isLanguagePanelWin8First()
 {
 	bool bRslt;
@@ -210,7 +216,7 @@ bool Windows8LPIAction::_isLanguagePanelWin8First()
 	_getFirstLanguage(firstlang);
 
 	bRslt = firstlang.compare(L"ca") == 0;
-	g_log.Log(L"Windows8LPIAction::_isLanguagePanelWin8First '%u'", (wchar_t *) bRslt);
+	g_log.Log(L"Windows8LPIAction::_isLanguagePanelWin8First '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) firstlang.c_str());
 	return bRslt;
 }
 
@@ -254,6 +260,7 @@ void Windows8LPIAction::_readLanguageCode(wstring& languages)
 {
 	wchar_t szValue[1024];
 
+	m_languages.clear();
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\International\\User Profile", false))
 	{
 		if (m_registry->GetString(L"Languages", szValue, sizeof (szValue)))
@@ -304,7 +311,15 @@ ActionStatus Windows8LPIAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (_isLangPackInstalled() && _isLanguagePanelWin8First() && _isDefaultLanguage())
+		
+		if (_isLanguagePanelWin8First() == false)
+		{
+			_setLanguagePanelWin8();
+		}
+
+		_setDefaultLanguage();
+		
+		if (_isAlreadyApplied())
 		{
 			SetStatus(Successful);
 		}
@@ -312,7 +327,6 @@ ActionStatus Windows8LPIAction::GetStatus()
 		{
 			SetStatus(FinishedWithError);
 		}
-		_setDefaultLanguage();
 		
 		g_log.Log(L"Windows8LPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
@@ -320,8 +334,8 @@ ActionStatus Windows8LPIAction::GetStatus()
 }
 
 bool Windows8LPIAction::IsRebootNeed() const
-{	
-	return false;
+{
+	return status == Successful;
 }
 
 // After the language package is installed we need to set Catalan as default language
@@ -349,8 +363,6 @@ void Windows8LPIAction::_setDefaultLanguage()
 
 void Windows8LPIAction::CheckPrerequirements(Action * action)
 {
-	bool panel, langpack, deflang;
-
 	if (_getDownloadID() == NULL)
 	{
 		SetStatus(CannotBeApplied);
@@ -358,12 +370,8 @@ void Windows8LPIAction::CheckPrerequirements(Action * action)
 		g_log.Log(L"Windows8LPIAction::IsNeed. Unsupported Windows version");
 		return;
 	}
-	
-	panel = _isLanguagePanelWin8First();
-	langpack = _isLangPackInstalled();
-	deflang = _isDefaultLanguage();
 
-	if (panel && langpack && deflang)
+	if (_isAlreadyApplied())
 	{
 		SetStatus(AlreadyApplied);
 	}
