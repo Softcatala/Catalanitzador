@@ -48,12 +48,12 @@ Windows8LPIAction::~Windows8LPIAction()
 
 wchar_t* Windows8LPIAction::GetName()
 {
-	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NAME, szName);
+	return _getStringFromResourceIDName(IDS_WINDOWS8LPIACTION_NAME, szName);
 }
 
 wchar_t* Windows8LPIAction::GetDescription()
 {
-	return _getStringFromResourceIDName(IDS_WINDOWSLPIACTION_DESCRIPTION, szDescription);
+	return _getStringFromResourceIDName(IDS_WINDOWS8LPIACTION_DESCRIPTION, szDescription);
 }
 
 LPCWSTR Windows8LPIAction::GetLicenseID()
