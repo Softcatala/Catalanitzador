@@ -39,6 +39,9 @@ void AdobeReaderAction::_initProcessNames()
 {
 	_addExecutionProcess(ExecutionProcess(L"AcroRd32.exe", L"", true));
 	_addExecutionProcess(ExecutionProcess(L"iexplore.exe", L"Internet Explorer", false));
+
+	//See: http://answers.microsoft.com/en-us/windows/forum/windows_xp-windows_programs/when-trying-to-install-adobe-acrobat-x-get-error/c8a03501-e160-4dac-b983-ae19f9a973bc
+	_addExecutionProcess(ExecutionProcess(L"searchfilterhost.exe", L"Microsoft Windows Search", false));
 }
 
 AdobeReaderAction::~AdobeReaderAction()
