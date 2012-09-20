@@ -7,7 +7,9 @@ Steps to follow when doing a release:
 - Sign the binary digitally
 (signtool sign /t http://timestamp.digicert.com /f ../certificat.pfx /p PASSWORD CatalanitzadorPerAlWindows.exe)
 
-- Run all the unit tests
+- Run all the unit tests (release mode)
+
+- Upload the new configuration.xml file
 
 - Run the DownloadFilesChecker to check that all the files in the server are correct
 
