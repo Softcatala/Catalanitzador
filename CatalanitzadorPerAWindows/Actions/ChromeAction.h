@@ -22,6 +22,7 @@
 #include "Action.h"
 #include "IRegistry.h"
 #include "TriBool.h"
+#include "ActionExecution.h"
 
 #include <vector>
 #include <algorithm>
@@ -30,7 +31,7 @@ using namespace std;
 
 #define CHROME_REGISTRY_PATH L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome"
 
-class ChromeAction : public Action
+class ChromeAction : public Action, public ActionExecution
 {
 public:
 		ChromeAction(IRegistry* registry);
@@ -43,8 +44,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
-		virtual bool IsExecuting();
-		virtual void FinishExecution();
+		virtual void FinishExecution(ExecutionProcess process);
 		virtual void CheckPrerequirements(Action * action);
 
 		void ParseLanguage(wstring regvalue);
@@ -73,7 +73,6 @@ private:
 		bool _findAcceptedValue(wstring,int&);
 		bool _findLanguageString(wstring,int &,wstring &);
 		bool _findAppLocaleKey(wstring line, int & pos);
-		vector <DWORD> _getProcessIDs();
 
 		wstring m_version;
 		IRegistry* m_registry;

@@ -535,6 +535,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionExecution.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionExecution.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionGroup.h"
 				>
 			</File>
@@ -592,6 +600,10 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAWindows\Actions\ConfigureLocaleAction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Actions\ExecutionProcess.h"
 				>
 			</File>
 			<File

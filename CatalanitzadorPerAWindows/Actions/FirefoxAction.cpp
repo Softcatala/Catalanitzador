@@ -32,6 +32,8 @@ FirefoxAction::FirefoxAction(IRegistry* registry)
 {
 	m_registry = registry;
 	m_CachedLanguageCode = false;
+
+	_addExecutionProcess(ExecutionProcess(L"firefox.exe", L"", true));
 }
 
 wchar_t* FirefoxAction::GetName()
@@ -44,20 +46,9 @@ wchar_t* FirefoxAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_FIREFOXACTION_DESCRIPTION, szDescription);
 }
 
-vector <DWORD> FirefoxAction::_getProcessIDs()
+void FirefoxAction::FinishExecution(ExecutionProcess process)
 {
-	Runner runner;
-	return runner.GetProcessID(wstring(L"firefox.exe"));
-}
-
-bool FirefoxAction::IsExecuting()
-{
-	return _getProcessIDs().size() != 0;
-}
-
-void FirefoxAction::FinishExecution()
-{
-	vector <DWORD> processIDs = _getProcessIDs();
+	vector <DWORD> processIDs = _getProcessIDs(process.GetName());
 
 	if (processIDs.size() > 0)
 	{

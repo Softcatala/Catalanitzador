@@ -23,13 +23,14 @@
 #include "Runner.h"
 #include "IRegistry.h"
 #include "IOSVersion.h"
+#include "ActionExecution.h"
 
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
-class FirefoxAction : public Action
+class FirefoxAction : public Action, ActionExecution
 {
 public:
 		FirefoxAction (IRegistry* registry);
@@ -42,8 +43,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
-		virtual bool IsExecuting();
-		virtual void FinishExecution();
+		virtual void FinishExecution(ExecutionProcess process);
 
 protected:
 		virtual void _getProfileRootDir(wstring &location);
@@ -65,8 +65,7 @@ private:
 
 		void _getProfilesIniLocation(wstring &location);
 		bool _getPreferencesFile(wstring &location);
-		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
-		vector <DWORD> _getProcessIDs();
+		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);		
 
 		IRegistry* m_registry;
 		vector <wstring> m_languages;

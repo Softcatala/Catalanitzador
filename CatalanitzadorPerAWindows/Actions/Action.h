@@ -93,13 +93,6 @@ public:
 		// contains the Windows resouce ID of the license text
 		virtual LPCWSTR GetLicenseID() { return NULL; };
 
-		// Some actions cannot be applied (ex. g. changes in the configuration) if the application is running
-		// This method returns true is there is any process that should be terminated for the action to be able to run
-		virtual bool IsExecuting() {return false;}
-
-		// Finish the execution of that should be terminated for the action to be able to run
-		virtual void FinishExecution() {}
-
 		// Public utility methods
 		void SetStatus(ActionStatus value);
 		void GetLicense(wstring &license);

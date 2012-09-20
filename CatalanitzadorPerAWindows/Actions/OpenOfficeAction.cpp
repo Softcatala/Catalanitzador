@@ -24,6 +24,12 @@
 #include "ApplicationVersion.h"
 #include "ConfigurationInstance.h"
 
+// message used to communicate with try icon process
+#define LISTENER_WINDOWCLASS    L"SO Listener Class"
+#define KILLTRAY_MESSAGE        L"SO KillTray"
+#define SOFFICE_PROCESSNAME		L"soffice.bin"
+
+
 OpenOfficeAction::OpenOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_registry = registry;	
@@ -32,6 +38,8 @@ OpenOfficeAction::OpenOfficeAction(IRegistry* registry, IRunner* runner, Downloa
 	m_szTempPathCAB[0] = NULL;
 
 	GetTempPath(MAX_PATH, m_szTempPath);
+
+	_addExecutionProcess(ExecutionProcess(SOFFICE_PROCESSNAME, L"", true));
 }
 
 OpenOfficeAction::~OpenOfficeAction()
@@ -54,23 +62,28 @@ wchar_t* OpenOfficeAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_OPENOFFICEACTION_DESCRIPTION, szDescription);
 }
 
-// message used to communicate with try icon process
-#define LISTENER_WINDOWCLASS    L"SO Listener Class"
-#define KILLTRAY_MESSAGE        L"SO KillTray"
-#define SOFFICE_PROCESSNAME		L"soffice.bin"
-
-bool OpenOfficeAction::IsExecuting()
+ExecutionProcess OpenOfficeAction::GetExecutingProcess()
 {
-	Runner runner;
-	bool bTray, bApp;
+	ExecutionProcess process;
 
-	bTray = FindWindowEx(NULL, NULL, LISTENER_WINDOWCLASS, NULL) == NULL ? false : true;
-	bApp = runner.GetProcessID(wstring(SOFFICE_PROCESSNAME)).size() > 0;
+	process = ActionExecution::GetExecutingProcess();
 
-	return (bTray || bApp);
+	if (process.IsEmpty() == false)
+	{
+		return process;
+	}
+
+	if (FindWindowEx(NULL, NULL, LISTENER_WINDOWCLASS, NULL) == NULL)
+	{
+		return ExecutionProcess();
+	}
+	else
+	{
+		return ExecutionProcess(KILLTRAY_MESSAGE, L"", true);
+	}
 }
 
-void OpenOfficeAction::FinishExecution()
+void OpenOfficeAction::FinishExecution(ExecutionProcess process)
 {
 	HWND hwndTray; 
 		

@@ -25,10 +25,11 @@
 #include "IRegistry.h"
 #include "Runner.h"
 #include "XmlParser.h"
+#include "ActionExecution.h"
 
 #define OPENOFFICCE_PROGRAM_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
 
-class OpenOfficeAction : public Action
+class OpenOfficeAction : public Action, public ActionExecution
 {
 public:
 		OpenOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager *downloadManager);
@@ -44,8 +45,8 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion() {return m_version.c_str();}
 		virtual void CheckPrerequirements(Action * action);
-		virtual bool IsExecuting();
-		virtual void FinishExecution();
+		virtual ExecutionProcess GetExecutingProcess();
+		virtual void FinishExecution(ExecutionProcess process);
 
 protected:
 

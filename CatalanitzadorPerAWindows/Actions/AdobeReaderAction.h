@@ -23,8 +23,9 @@
 #include "IRunner.h"
 #include "IRegistry.h"
 #include "HideApplicationWindow.h"
+#include "ActionExecution.h"
 
-class AdobeReaderAction : public Action
+class AdobeReaderAction : public Action, public ActionExecution
 {
 public:
 		AdobeReaderAction(IRegistry* registry, IRunner* runner);
@@ -40,9 +41,7 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion() {return m_version.c_str();}
 		virtual void CheckPrerequirements(Action * action);
-		virtual bool IsExecuting();
-		virtual void FinishExecution();
-		bool IsIERunning();
+		virtual void FinishExecution(ExecutionProcess process);
 
 protected:
 
@@ -65,8 +64,8 @@ private:
 		void _readUninstallGUID();
 		void _uninstall();
 		void _installVersion();
-		vector <DWORD> _getProcessIDs();
-		void _readVersionInstalled();		
+		void _readVersionInstalled();
+		void _initProcessNames();
 
 		wstring m_version;
 		wstring m_GUID;

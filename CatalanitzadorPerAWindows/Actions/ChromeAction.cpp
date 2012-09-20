@@ -29,6 +29,8 @@ enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 ChromeAction::ChromeAction(IRegistry* registry)
 {
 	m_registry = registry;
+
+	_addExecutionProcess(ExecutionProcess(L"chrome.exe", L"", true));
 }
 
 wchar_t* ChromeAction::GetName()
@@ -41,23 +43,12 @@ wchar_t* ChromeAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_CHROMEACTION_DESCRIPTION, szDescription);	
 }
 
-vector <DWORD> ChromeAction::_getProcessIDs()
+void ChromeAction::FinishExecution(ExecutionProcess process)
 {
-	Runner runner;
-	return runner.GetProcessID(wstring(L"chrome.exe"));
-}
-
-bool ChromeAction::IsExecuting()
-{
-	return _getProcessIDs().size() != 0;
-}
-
-void ChromeAction::FinishExecution()
-{
-	if (_getProcessIDs().size() > 0)
+	if (_getProcessIDs(process.GetName()).size() > 0)
 	{
 		Runner runner;
-		runner.RequestCloseToProcessID(_getProcessIDs().at(0), true);
+		runner.RequestCloseToProcessID(_getProcessIDs(process.GetName()).at(0), true);
 	}
 }
 

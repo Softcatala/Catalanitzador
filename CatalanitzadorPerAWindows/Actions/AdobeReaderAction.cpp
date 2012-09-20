@@ -32,6 +32,13 @@ AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner)
 	m_executionStep = ExecutionStepNone;
 
 	GetTempPath(MAX_PATH, m_szTempPath);
+	_initProcessNames();
+}
+
+void AdobeReaderAction::_initProcessNames()
+{
+	_addExecutionProcess(ExecutionProcess(L"AcroRd32.exe", L"", true));
+	_addExecutionProcess(ExecutionProcess(L"iexplore.exe", L"Internet Explorer", false));
 }
 
 AdobeReaderAction::~AdobeReaderAction()
@@ -167,38 +174,10 @@ void AdobeReaderAction::_readUninstallGUID()
 	g_log.Log(L"AdobeReaderAction::_readUninstallGUID: '%s'", (wchar_t *) m_GUID.c_str());
 }
 
-vector <DWORD> AdobeReaderAction::_getProcessIDs()
-{
+void AdobeReaderAction::FinishExecution(ExecutionProcess process)
+{	
 	Runner runner;
-	return runner.GetProcessID(wstring(L"AcroRd32.exe"));
-}
-
-bool AdobeReaderAction::IsExecuting()
-{
-	return _getProcessIDs().size() != 0;
-}
-
-bool AdobeReaderAction::IsIERunning()
-{
-	Runner runner;
-	vector <DWORD> processIDs;
-
-	processIDs = runner.GetProcessID(wstring(L"iexplore.exe"));
-	if (processIDs.size() > 0)
-	{
-		MessageBox(NULL,
-			L"Cal que tanqueu l'Internet Explorer completament per poder catalanitzar l'Adobe Reader.",
-			L"Catalanitzador per al Windows",
-			NULL);
-		return true;
-	}
-	return false;
-}
-
-void AdobeReaderAction::FinishExecution()
-{
-	Runner runner;
-	vector <DWORD> processIDs = _getProcessIDs();
+	vector <DWORD> processIDs = _getProcessIDs(process.GetName());
 
 	if (_getMajorVersion() == 9)
 	{

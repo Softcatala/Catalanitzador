@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,24 +16,31 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
 
-#include "DlgUI.h"
-#include <Action.h>
+#include "stdafx.h"
+#include "ActionExecution.h"
+#include "Runner.h"
 
-class AppRunningDlgUI : public DlgUI
+void ActionExecution::_addExecutionProcess(ExecutionProcess process)
 {
-public:
-		AppRunningDlgUI(wstring action_name, wstring processName, bool canClose);		
-		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_APPRUNNING);}
-		virtual	void _onInitDialog();
-		
-private:
+	m_processes.push_back(process);
+}
 
-		void _cannotCloseApp();
+vector <DWORD> ActionExecution::_getProcessIDs(wstring processName)
+{
+	Runner runner;
+	return runner.GetProcessID(processName);
+}
 
-		wstring m_action_name;
-		wstring m_processName;
-		bool m_canClose;
-};
+ExecutionProcess ActionExecution::GetExecutingProcess()
+{
+	for (unsigned int i = 0; i < m_processes.size(); i++)
+	{
+		ExecutionProcess process = m_processes.at(i);
+
+		if (_getProcessIDs(process.GetName()).size() != 0)
+			return process;
+	}
+
+	return m_processEmpty;
+}

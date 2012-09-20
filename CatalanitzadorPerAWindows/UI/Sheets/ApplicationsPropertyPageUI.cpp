@@ -22,6 +22,7 @@
 #include "ShowLicensesDlgUI.h"
 #include "AppRunningDlgUI.h"
 #include "AdobeReaderAction.h"
+#include "ActionExecution.h"
 
 #define DEFAULT_SELECTEDITEM_INLISTVIEW 1
 
@@ -386,23 +387,23 @@ bool ApplicationsPropertyPageUI::_checkRunningApps()
 
 		if (action->GetStatus() != Selected)
 			continue;
-
-		if (action->GetID() == AcrobatReader)
-		{
-			AdobeReaderAction* readerAction = (AdobeReaderAction*) action;
-			if (readerAction->IsIERunning() == true)
-				return true;
-		}
 		
-		if (action->IsExecuting())
-		{		
-			AppRunningDlgUI dlg (action->GetName());
-			if (dlg.Run(getHandle()) == IDOK)
-			{
-				action->FinishExecution();
-			}
-			return true;
+		ActionExecution* execution = dynamic_cast<ActionExecution*>(action);
+
+		if (execution == NULL)
+			continue;
+
+		ExecutionProcess process = execution->GetExecutingProcess();
+
+		if (process.IsEmpty())
+			continue;
+		
+		AppRunningDlgUI dlg(action->GetName(), process.GetPrintableName(), process.CanClose());
+		if (dlg.Run(getHandle()) == IDOK)
+		{
+			execution->FinishExecution(process);
 		}
+		return true;		
 	}
 	return false;
 }
