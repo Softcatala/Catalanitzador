@@ -108,7 +108,10 @@ void ConfigurationDownloadThread::OnStart()
 		return;
 
 	if (_getApplicationEmbeddedConfigurationSha1() == m_donwloadSha1sum)
+	{
+		g_log.Log(L"ConfigurationDownloadThread::OnStart. Remote file same version that the embedded");
 		return;
+	}
 	
 	if (_getFile(ConfigurationInstance::Get().GetDownloadConfigurationUrl()) == false)
 		return;
