@@ -29,10 +29,9 @@
 
 #include <sstream>
 
-Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
+Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
 	m_registry = registry;
-	m_win32I18N = win32I18N;
 	m_OSVersion = OSVersion;
 	m_runner = runner;
 	m_szFilename[0] = NULL;

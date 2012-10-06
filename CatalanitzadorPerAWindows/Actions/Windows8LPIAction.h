@@ -29,7 +29,7 @@
 class Windows8LPIAction : public Action
 {
 public:
-		Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
+		Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
 		~Windows8LPIAction();
 
 		virtual wchar_t* GetName();

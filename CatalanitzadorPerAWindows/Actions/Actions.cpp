@@ -103,7 +103,7 @@ void Actions::_buildListOfActions()
 
 	if (osversion.GetVersion() == Windows8)
 	{
-		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
+		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	}
 	else
 	{
