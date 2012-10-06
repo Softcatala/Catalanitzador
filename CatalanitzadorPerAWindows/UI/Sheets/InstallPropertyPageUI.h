@@ -51,6 +51,7 @@ private:
 		void _waitExecutionComplete(Action* action);
 		void _openURLInIE();
 		void _systemRestore(SystemRestoreThread& systemRestore);
+		void _serializeOptions();
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;

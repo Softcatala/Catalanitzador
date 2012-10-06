@@ -522,6 +522,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Options"
+				>
+				<File
+					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\Option.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\OptionID.h"
+					>
+				</File>
+				<File
+					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\Options.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\Options.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Actions"
