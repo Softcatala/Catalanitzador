@@ -32,6 +32,7 @@ public:
 		ApplicationsPropertyPageUI();
 		~ApplicationsPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
+		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}
 		void ProcessClickOnItem(int nItem);
 
 private:
@@ -61,4 +62,5 @@ private:
 		typedef pair <Action *, bool> ActionBool_Pair;
 		map <Action *, bool> m_disabledActions;		
 		HFONT m_hFont;
+		bool* m_pbDialectalVariant;
 };

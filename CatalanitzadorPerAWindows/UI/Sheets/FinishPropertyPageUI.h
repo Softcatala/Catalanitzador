@@ -34,7 +34,7 @@ public:
 		~FinishPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_actions = value;}
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
-		void SetSendStats(BOOL *pbSendStats) { m_pbSendStats = pbSendStats;}
+		void SetSendStats(bool *pbSendStats) { m_pbSendStats = pbSendStats;}
 
 private:
 		virtual void _onInitDialog();
@@ -49,7 +49,7 @@ private:
 		HFONT m_hFont;
 		vector <Action *> * m_actions;
 		Serializer* m_serializer;
-		BOOL* m_pbSendStats;
+		bool* m_pbSendStats;
 		UploadStatisticsThread * m_uploadStatistics;
 		HWND m_levelProgressBar;
 		wstring m_xmlFile;

@@ -31,10 +31,10 @@ public:
 		virtual	void _onInitDialog();
 		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
 
-		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
+		void SetSystemRestore(bool *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
 
 private:
 
 		HFONT		m_hFont;
-		BOOL*		m_pbSystemRestore;
+		bool*		m_pbSystemRestore;
 };

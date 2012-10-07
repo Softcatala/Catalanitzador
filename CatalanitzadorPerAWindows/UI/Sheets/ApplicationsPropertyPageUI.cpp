@@ -327,6 +327,18 @@ void ApplicationsPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lPa
 		ShowLicensesDlgUI licencesDlg;
 		licencesDlg.SetActions(m_availableActions);
 		licencesDlg.Run(hWnd);
+	} else if (wParam == IDC_DIALECTVARIANT_CHECKBOX)
+	{
+		bool variant;
+
+		variant = IsDlgButtonChecked(getHandle(),IDC_DIALECTVARIANT_CHECKBOX)==BST_CHECKED;
+		*m_pbDialectalVariant = variant;
+
+		for (unsigned int i = 0; i < m_availableActions->size (); i++)
+		{
+			Action* action = m_availableActions->at(i);
+			action->SetUseDialectalVariant(variant);
+		}
 	}
 }
 

@@ -93,6 +93,11 @@ public:
 		// contains the Windows resouce ID of the license text
 		virtual LPCWSTR GetLicenseID() { return NULL; };
 
+		// Some languages have a dialectal variants. In the case of Catalan, for example Valencian.
+		// This indicates the action to prioritize the usage of a variant (Valencian) when avaiable
+		bool GetUseDialectalVariant() { return m_dialectalVariant; }
+		void SetUseDialectalVariant(bool dialectalVariant) {m_dialectalVariant = dialectalVariant;}
+
 		// Public utility methods
 		void SetStatus(ActionStatus value);
 		void GetLicense(wstring &license);
@@ -112,5 +117,6 @@ protected:
 		TCHAR szCannotBeApplied[MAX_LOADSTRING];
 		ActionStatus status;
 		DownloadManager* m_downloadManager;
+		bool m_dialectalVariant;
 };
 

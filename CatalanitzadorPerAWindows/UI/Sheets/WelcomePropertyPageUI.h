@@ -34,8 +34,8 @@ public:
 		WelcomePropertyPageUI();
 		~WelcomePropertyPageUI();
 
-		void SetSendStats(BOOL *pbSendStats) { m_pbSendStats = pbSendStats;}
-		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
+		void SetSendStats(bool *pbSendStats) { m_pbSendStats = pbSendStats;}
+		void SetSystemRestore(bool *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
 		void SetActions(Actions* pActions) { m_pActions = pActions;}
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);		
 
@@ -48,8 +48,8 @@ private:
 		bool _doesUserWantToUpdate();
 
 		HFONT		m_hFont;
-		BOOL*		m_pbSendStats;
-		BOOL*		m_pbSystemRestore;
+		bool*		m_pbSendStats;
+		bool*		m_pbSystemRestore;
 		Actions*	m_pActions;
 		ConfigurationDownloadThread m_configurationDownload;
 };

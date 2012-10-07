@@ -32,8 +32,10 @@ class InstallPropertyPageUI: public PropertyPageUI
 {
 public:		
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
-		void SetActions(vector <Action *> * value) { m_actions = value;}
-		void SetSystemRestore(BOOL *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
+		void SetActions(vector <Action *> * value) { m_actions = value;}		
+		void SetSendStats(bool *pbSendStats) { m_pbSendStats = pbSendStats;}
+		void SetSystemRestore(bool *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
+		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}
 		void StartSlideShowUnpack() { m_slideshow.Start();}
 		
 private:
@@ -62,5 +64,7 @@ private:
 		int m_selActions;
 		int m_downloads;
 		SlideshowThread m_slideshow;
-		BOOL* m_pbSystemRestore;
+		bool* m_pbSystemRestore;
+		bool* m_pbSendStats;
+		bool* m_pbDialectalVariant;
 };

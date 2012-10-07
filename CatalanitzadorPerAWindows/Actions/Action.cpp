@@ -26,6 +26,7 @@ Action::Action()
 {
 	status = NotSelected;
 	szCannotBeApplied[0] = NULL;
+	m_dialectalVariant = false;
 }
 
 Action::Action(DownloadManager* downloadManager)

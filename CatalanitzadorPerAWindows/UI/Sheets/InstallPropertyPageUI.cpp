@@ -297,9 +297,10 @@ void InstallPropertyPageUI::_onTimer()
 void InstallPropertyPageUI::_serializeOptions()
 {
 	Options options;
-	Option sysOption(OptionSystemRestore, *m_pbSystemRestore == TRUE);
+	Option sysOption(OptionSystemRestore, *m_pbSystemRestore);
+	Option dialectOption(OptionDialect, *m_pbDialectalVariant);
 
 	options.Add(sysOption);
+	options.Add(dialectOption);
 	options.Serialize(m_serializer->GetStream());
-
 }
