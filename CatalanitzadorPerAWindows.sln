@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DownloadFileChecker", "Down
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows.Library", "CatalanitzadorPerAWindows.Library\CatalanitzadorPerAWindows.Library.vcproj", "{20F814AC-9B22-4889-880F-8E4B32530BB7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SystemLanguageSettings", "SystemLanguageSettings\SystemLanguageSettings.vcproj", "{8C410BB3-AA15-4CCC-A2D2-137932ED7F28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -40,6 +42,10 @@ Global
 		{20F814AC-9B22-4889-880F-8E4B32530BB7}.Debug|Win32.Build.0 = Debug|Win32
 		{20F814AC-9B22-4889-880F-8E4B32530BB7}.Release|Win32.ActiveCfg = Release|Win32
 		{20F814AC-9B22-4889-880F-8E4B32530BB7}.Release|Win32.Build.0 = Release|Win32
+		{8C410BB3-AA15-4CCC-A2D2-137932ED7F28}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8C410BB3-AA15-4CCC-A2D2-137932ED7F28}.Debug|Win32.Build.0 = Debug|Win32
+		{8C410BB3-AA15-4CCC-A2D2-137932ED7F28}.Release|Win32.ActiveCfg = Release|Win32
+		{8C410BB3-AA15-4CCC-A2D2-137932ED7F28}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
