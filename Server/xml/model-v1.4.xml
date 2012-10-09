@@ -1,0 +1,36 @@
+<?xml version='1.0'?>
+<execution>
+	<application MajorVersion='1' MinorVersion='3' Revision='0' />
+	<session guid='80fca515-02f6-487a-8e8f-8188bc41fc2f' />
+	<operating OSMajorVersion='6' OSMinorVersion='0' SPMajorVersion='2' SPMinorVersion='0' SuiteMask='768' ProductType='1' Bits='32' Name='WindowsVista'/>
+	<actions>
+		<action id='1' version='' result='3'/>
+		<action id='2' version='2010' result='3'/>
+		<action id='11' version='14.0.8117.416' result='3'/>
+		<action id='5' version='' result='3'/>
+		<action id='4' version='8.0.6001.19328' result='3'/>
+		<action id='3' version='' result='3'/>
+		<action id='6' version='' result='3'/>
+		<action id='7' version='22.0.1229.79' result='3'/>
+		<action id='8' version='15.0' result='3'/>
+		<action id='9' version='3.3' result='0'/>
+		<action id='10' version='10.0' result='3'/>
+		<action id='12' version='1.3.0' result='3'/>
+	</actions>
+	<inspectors>
+		<inspector id='1' key='version' value='3.6'/>
+		<inspector id='1' key='lang' value='locale:00000403'/>
+		<inspector id='1' key='ui_files' value='ca;ca-XV'/>
+		<inspector id='1' key='dict_files' value='ca'/>
+		<inspector id='2' key='version' value='5.10.0.0'/>
+		<inspector id='2' key='lang' value='xx'/>
+		<inspector id='3' key='version' value=''/>
+		<inspector id='3' key='lang' value=''/>
+		<inspector id='4' key='version' value=''/>
+		<inspector id='5' key='version' value='10.6.3.25'/>
+		<inspector id='5' key='lang' value='1027'/>
+	</inspectors>
+	<options>
+		<option id='1' value='ca-XV'/>
+	</options>
+</execution>
