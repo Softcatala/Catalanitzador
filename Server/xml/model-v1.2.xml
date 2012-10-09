@@ -3,7 +3,6 @@
 	<application MajorVersion='1' MinorVersion='1' Revision='0' />
 	<session guid='6eddb85f-ba6f-49ab-a0e8-76c6d67cd2f4' />
 	<operating OSMajorVersion='6' OSMinorVersion='0' SPMajorVersion='2' SPMinorVersion='0' SuiteMask='768' ProductType='1' Bits='32' Name='WindowsVista'/>
-
 	<actions>
 		<action id='1' version='' result='0'/>
 		<action id='2' version='2010' result='3'/>

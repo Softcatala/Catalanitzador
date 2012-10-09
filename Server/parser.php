@@ -40,6 +40,12 @@ if (isset($_POST['xml'])){
         $result->Name = $xml->operating['Name'][0];
         $result->guid = $xml->session['guid'][0];
 
+        //Log
+        if(isset($_FILES['log'])){
+            $log = file_get_contents($_FILES['log']['tmp_name']);
+            $result->LogFile = $log;
+        }
+
         //Get the new SessionID in order to save actions
         $SessionID =  $result->save_session();
 
@@ -53,6 +59,13 @@ if (isset($_POST['xml'])){
         if ($xml->inspectors->inspector){
             foreach ( $xml->inspectors->inspector as $inspector ){
                 $result->add_inspector($SessionID, $inspector['id'], $inspector['key'], $inspector['value']);
+            }
+        }
+
+        //Options
+        if ($xml->options->option){
+            foreach ( $xml->options->option as $option ){
+                $result->add_option($SessionID, $option['id'], $option['value']);
             }
         }
 

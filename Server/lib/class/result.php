@@ -4,7 +4,7 @@
  * This class handles the xml results and create the entries in the database
  * @author Pau Iranzo <paugnu@gmail.com>
  */
-class result 
+class result
 {
 
     var $MajorVersion;
@@ -18,10 +18,10 @@ class result
     var $Bits;
     var $LogFile;
 
-    function __construct( )
+    function __construct()
     {
     }
-    
+
     function save_session()
     {
         global $db;
@@ -38,34 +38,32 @@ class result
         $ProductType = $db->escape( $this->ProductType );
         $Name = $db->escape( $this->Name );
         $guid = $db->escape( $this->guid);
+        $LogFile = $db->escape( $this->LogFile);
 
         $applications_query = $db->get_var ( "SELECT ID FROM applications WHERE  MajorVersion = '$MajorVersion' AND MinorVersion = '$MinorVersion' AND Revision = '$Revision'");
         $operatings_query = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='$Name' AND Bits ='$Bits' ");
-        $operatings_query_null = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='' AND Bits ='$Bits' ");
-        
-        //No log file at this moment
-        $LogFile = '';
-        
+        $operatings_query_null = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='' AND Bits ='$Bits' ");        
+
         if ( !$applications_query ){
-            $db->query( "INSERT INTO applications 
-                    ( MajorVersion, MinorVersion, Revision ) 
-                    VALUES 
+            $db->query( "INSERT INTO applications
+                    ( MajorVersion, MinorVersion, Revision )
+                    VALUES
                     ( '$MajorVersion', '$MinorVersion', '$Revision' )
                     " );
              $ApplicationsID = $db->insert_id;
         }
         else
              $ApplicationsID = $applications_query;
-        
+
         if ( !$operatings_query ){
             if( $id = $operatings_query_null ){
                 $db->query( "UPDATE operatings SET Name = '$Name' WHERE id = '$id'" );
                 $OperatingsID = $id;
             }
             else{
-                $db->query( "INSERT INTO operatings 
-                        ( OSMajorVersion, OSMinorVersion, SPMajorVersion, SPMinorVersion, SuiteMask, ProductType, Name, Bits ) 
-                        VALUES 
+                $db->query( "INSERT INTO operatings
+                        ( OSMajorVersion, OSMinorVersion, SPMajorVersion, SPMinorVersion, SuiteMask, ProductType, Name, Bits )
+                        VALUES
                         ( '$OSMajorVersion', '$OSMinorVersion', '$SPMajorVersion', '$SPMinorVersion', '$SuiteMask', '$ProductType', '$Name', '$Bits' )
                         " );
                  $OperatingsID = $db->insert_id;
@@ -73,39 +71,50 @@ class result
         }
         else
             $OperatingsID = $operatings_query;
-         
-         $db->query( "INSERT INTO sessions 
-                ( Date, ApplicationsID, OperatingsID, LogFile, guid ) 
-                VALUES 
+
+         $db->query( "INSERT INTO sessions
+                ( Date, ApplicationsID, OperatingsID, LogFile, guid )
+                VALUES
                 ( NOW(), '$ApplicationsID', '$OperatingsID', '$LogFile', '$guid' )
                 " );
          $SessionID = $db->insert_id;
-         
+
          return $SessionID;
-         
     }
-    
+
     //This function adds a new action to a particular session after the session has been created
     function add_action($SessionID, $ActionID, $Version, $Result)
-    {        
+    {
         global $db;
-        
-        $db->query( "INSERT INTO actions 
-                ( SessionID, ActionID, Version, Result ) 
-                VALUES 
+
+        $db->query( "INSERT INTO actions
+                ( SessionID, ActionID, Version, Result )
+                VALUES
                 ( '$SessionID', '$ActionID', '$Version', '$Result' )
                 " );
     }
 
     //This function adds a new inspector to a particular session after the session has been created
     function add_inspector($SessionID, $InspectorID, $KeyVersion, $Value)
-    {        
+    {
         global $db;
-        
-        $db->query( "INSERT INTO inspectors 
-                ( SessionID, InspectorID, Key, Value ) 
-                VALUES 
+
+        $db->query( "INSERT INTO inspectors
+                ( SessionID, InspectorID, KeyVersion, Value )
+                VALUES
                 ( '$SessionID', '$InspectorID', '$KeyVersion', '$Value' )
+                " );
+    }
+
+    //This function adds a new option to a particular session after the session has been created
+    function add_option($SessionID, $OptionID, $Value)
+    {
+        global $db;
+
+        $db->query( "INSERT INTO options
+                ( SessionID, OptionID, Value )
+                VALUES
+                ( '$SessionID', '$OptionID', '$Value' )
                 " );
     }
 }
