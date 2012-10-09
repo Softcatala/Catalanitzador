@@ -36,6 +36,7 @@ public:
 	void Log(wchar_t* format, wchar_t* string);
 	void Log(wchar_t* format, wchar_t* string1, wchar_t* string2);
 	void Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* string3);
+	void Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* string3, wchar_t* string4);
 
 private:
 

@@ -26,23 +26,31 @@
 #include "Resources.h"
 #include "ConfigurationInstance.h"
 #include "WindowsValidation.h"
-
+#include "StringConversion.h"
 #include <sstream>
+
+#define VALENCIAN_PANEL_LANGCODE L"ca-es-valencia"
+#define CATALAN_PANEL_LANGCODE L"ca"
 
 Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
 	m_registry = registry;
 	m_OSVersion = OSVersion;
 	m_runner = runner;
-	m_szFilename[0] = NULL;
 }
 
 Windows8LPIAction::~Windows8LPIAction()
 {
-	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
+	if (m_filename.empty() == false  && GetFileAttributes(m_filename.c_str()) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile(m_szFilename);
+		DeleteFile(m_filename.c_str());
 	}
+
+	if (m_scriptfile.empty() == false  && GetFileAttributes(m_scriptfile.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_scriptfile.c_str());
+	}
+
 }
 
 wchar_t* Windows8LPIAction::GetName()
@@ -82,7 +90,6 @@ bool Windows8LPIAction::IsDownloadNeed()
 {
 	return _isLangPackInstalled() == false;
 }
-
 
 // Checks if the Catalan language pack is already installed
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
@@ -128,26 +135,27 @@ bool Windows8LPIAction::IsNeed()
 
 bool Windows8LPIAction::Download(ProgressStatus progress, void *data)
 {
-	wstring filename;	
+	wchar_t filename[MAX_PATH];
 	ConfigurationFileActionDownload downloadVersion;
 
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
-	GetTempPath(MAX_PATH, m_szFilename);
-	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
+	GetTempPath(MAX_PATH, filename);
+	wcscat_s(filename, downloadVersion.GetFilename().c_str());
+	m_filename = filename;
 
-	return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);
+	return m_downloadManager->GetFile(downloadVersion, filename, progress, data);
 }
 
 void Windows8LPIAction::Execute()
 {
 	wchar_t szParams[MAX_PATH];
 	wchar_t lpkapp[MAX_PATH];
-	
+
 	if (_isLangPackInstalled() == false)
 	{
 		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
 		wcscpy_s(szParams, L" /i ca-ES /r /s /p ");
-		wcscat_s(szParams, m_szFilename);
+		wcscat_s(szParams, m_filename.c_str());
 
 		GetSystemDirectory(lpkapp, MAX_PATH);
 		wcscat_s(lpkapp, L"\\lpksetup.exe");
@@ -161,17 +169,32 @@ void Windows8LPIAction::Execute()
 
 #define SCRIPT_NAME L"lang.ps1"
 
-void Windows8LPIAction::_setLanguagePanelWin8()
+void Windows8LPIAction::_setLanguagePanelWin8(wstring primaryCode, wstring secondaryCode)
 {
 	string script;
-	script = "$1 = New-WinUserLanguageList ca\r\n";
+	string langcodeAnsi;
+
+	StringConversion::ToMultiByte(primaryCode, langcodeAnsi);
+
+	script = "$1 = New-WinUserLanguageList ";
+	script += langcodeAnsi;
+	script += "\r\n";
+
+	if (secondaryCode.empty() == false)
+	{
+		StringConversion::ToMultiByte(secondaryCode, langcodeAnsi);
+		script += "$1 += \"";
+		script += langcodeAnsi;
+		script += "\"\r\n";
+	}
+
 	script += "$1 += Get-WinUserLanguageList\r\n"; 
 	script += "Set-WinUserLanguageList $1 -Force\r\n";
 	
 	wchar_t szScript[MAX_PATH];
-
 	GetTempPath(MAX_PATH, szScript);
 	wcscat_s(szScript, SCRIPT_NAME);
+	m_scriptfile = szScript;
 
 	ofstream of(szScript);
 	of.write(script.c_str(), script.size());
@@ -188,9 +211,10 @@ void Windows8LPIAction::_setLanguagePanelWin8()
 	params+= szScript;
 
 	runner.Execute(szTool, (wchar_t *)params.c_str());
-	g_log.Log(L"Windows8LPIAction::_setLanguagePanelWin8 '%s' with params '%s'", szTool, (wchar_t *) params.c_str());
-	runner.WaitUntilFinished();
-	DeleteFile(szScript);
+	g_log.Log(L"Windows8LPIAction::_setLanguagePanelWin8 '%s' with params '%s' (langs '%s', '%s')", szTool, (wchar_t *) params.c_str(), 
+		(wchar_t *) primaryCode.c_str(), (wchar_t *) secondaryCode.c_str());
+
+	runner.WaitUntilFinished();	
 }
 
 bool Windows8LPIAction::_isAlreadyApplied()
@@ -207,14 +231,16 @@ bool Windows8LPIAction::_isAlreadyApplied()
 bool Windows8LPIAction::_isLanguagePanelWin8First()
 {
 	bool bRslt;
-	wstring langcode, firstlang;
+	wstring langcode, firstlang, expectedcode;
 
 	// TODO: Read always return a single language
 	_readLanguageCode(langcode);
 	//_parseLanguage(langcode);
 	_getFirstLanguage(firstlang);
 
-	bRslt = firstlang.compare(L"ca") == 0;
+	expectedcode = GetUseDialectalVariant() ? VALENCIAN_PANEL_LANGCODE : CATALAN_PANEL_LANGCODE;
+
+	bRslt = firstlang.compare(expectedcode) == 0;
 	g_log.Log(L"Windows8LPIAction::_isLanguagePanelWin8First '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) firstlang.c_str());
 	return bRslt;
 }
@@ -309,11 +335,17 @@ ActionStatus Windows8LPIAction::GetStatus()
 	{
 		if (m_runner->IsRunning())
 			return InProgress;
-
 		
 		if (_isLanguagePanelWin8First() == false)
 		{
-			_setLanguagePanelWin8();
+			if (GetUseDialectalVariant())
+			{
+				_setLanguagePanelWin8(VALENCIAN_PANEL_LANGCODE, CATALAN_PANEL_LANGCODE);
+			}
+			else
+			{
+				_setLanguagePanelWin8(CATALAN_PANEL_LANGCODE, wstring());
+			}
 		}
 
 		_setDefaultLanguage();

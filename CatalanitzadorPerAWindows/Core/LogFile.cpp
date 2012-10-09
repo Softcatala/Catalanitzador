@@ -93,6 +93,14 @@ void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* 
 	_writeLine(m_szText);
 }
 
+void LogFile::Log(wchar_t* format, wchar_t* string1, wchar_t* string2, wchar_t* string3, wchar_t* string4)
+{		
+	_stringTime();
+
+	swprintf_s(m_szText, format, string1, string2, string3, string4);
+	_writeLine(m_szText);
+}
+
 void LogFile::_writeCompileTime(wchar_t* appName)
 {
 	wstring date, time;

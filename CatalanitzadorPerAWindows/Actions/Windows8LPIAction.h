@@ -49,13 +49,13 @@ public:
 protected:
 
 		bool _isLangPackInstalled();	
-		wchar_t* _getDownloadID();	
+		wchar_t* _getDownloadID();
 
 private:
 		
 		bool _isDefaultLanguage();
 		void _setDefaultLanguage();
-		void _setLanguagePanelWin8();
+		void _setLanguagePanelWin8(wstring primaryCode, wstring secondaryCode);
 		bool _isLanguagePanelWin8First();
 		void _readLanguageCode(wstring& languages);
 		void _parseLanguage(wstring regvalue);
@@ -63,7 +63,8 @@ private:
 		bool _isAlreadyApplied();
 
 		vector <wstring> m_languages;
-		wchar_t m_szFilename[MAX_PATH];
+		wstring m_filename;
+		wstring m_scriptfile;
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;
