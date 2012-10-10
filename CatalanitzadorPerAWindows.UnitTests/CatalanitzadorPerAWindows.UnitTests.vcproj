@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAWindows\UI;;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAWindows\UI;;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core\Options&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -122,7 +122,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration&quot;;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core\Options&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -400,6 +400,14 @@
 				</File>
 				<File
 					RelativePath=".\Core\Configuration\ConfigurationTest.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Options"
+				>
+				<File
+					RelativePath=".\Core\Options\OptionsTest.cpp"
 					>
 				</File>
 			</Filter>
