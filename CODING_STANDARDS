@@ -1,0 +1,38 @@
+
+This document documnent describes the Catalanitzador coding standards
+
+--- Naming
+
+* For Classes, interfaces, enums and structures use UpperCamelCase 
+
+For example:
+
+class SystemRestore
+
+* For variables and variales we use LowerCamelCase 
+
+For example:
+
+int systemRestore
+
+Prefixes:
+
+- 'm_' to indicate member variable such as 'm_processes'
+- 'g_' to indicate that is a global variable 'g_currentObject'
+
+* For methods, if they are public we use UpperCamelCase and if they are private
+or protected the prefix with '_' with LowerCamelCase
+
+For example:
+
+public:
+		void FinishExecution(ExecutionProcess process);
+
+protected:
+		void _enumVersions(vector <wstring>& versions);
+
+
+
+* For constants, we use UPPER case, for example:
+
+#define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"

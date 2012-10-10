@@ -463,6 +463,18 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\CODING_STANDARDS"
+			>
+		</File>
+		<File
+			RelativePath="..\README"
+			>
+		</File>
+		<File
+			RelativePath="..\RELEASE_PROCESS"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
