@@ -299,8 +299,10 @@ void InstallPropertyPageUI::_serializeOptions()
 	Options options;
 	Option sysOption(OptionSystemRestore, *m_pSystemRestore);
 	Option dialectOption(OptionDialect, *m_pbDialectalVariant);
+	Option showSecDlgOption(OptionShowSecDlg, *m_pbShowSecDlg);
 
 	options.Add(sysOption);
 	options.Add(dialectOption);
+	options.Add(showSecDlgOption);
 	options.Serialize(m_serializer->GetStream());
 }

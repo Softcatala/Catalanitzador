@@ -145,6 +145,7 @@ NotificationResult WelcomePropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/
 				ExtraSecTermsDlgUI extraSecTermsDlgUI;
 				extraSecTermsDlgUI.SetSystemRestore(m_pSystemRestore);
 				extraSecTermsDlgUI.Run(getHandle());
+				*m_pbShowSecDlg = true;
 				break;
 			}
 			default:

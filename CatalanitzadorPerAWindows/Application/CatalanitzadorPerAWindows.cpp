@@ -166,6 +166,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	bool bSendStats = true;
 	int systemRestore = TRUE;
 	bool bDialectVariant = false;
+	bool bShowSecDlg = false;
 
 #if _DEBUG
 	bSendStats = false;
@@ -182,6 +183,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	welcome.SetSendStats(&bSendStats);
 	welcome.SetSystemRestore(&systemRestore);
 	welcome.SetActions(&m_actions);
+	welcome.SetShowSecDlg(&bShowSecDlg);
 	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	sheet.addPage(&welcome);
 
@@ -198,6 +200,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.SetSerializer(&m_serializer);
 	install.SetSystemRestore(&systemRestore);
 	install.SetDialectVariant(&bDialectVariant);
+	install.SetShowSecDlg(&bShowSecDlg);
 	install.StartSlideShowUnpack();
 	install.createPage(m_hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
 	sheet.addPage(&install);
