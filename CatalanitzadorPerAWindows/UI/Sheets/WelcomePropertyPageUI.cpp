@@ -143,7 +143,7 @@ NotificationResult WelcomePropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/
 			case IDC_SYSLINK_SECTERMS:
 			{
 				ExtraSecTermsDlgUI extraSecTermsDlgUI;
-				extraSecTermsDlgUI.SetSystemRestore(m_pbSystemRestore);
+				extraSecTermsDlgUI.SetSystemRestore(m_pSystemRestore);
 				extraSecTermsDlgUI.Run(getHandle());
 				break;
 			}

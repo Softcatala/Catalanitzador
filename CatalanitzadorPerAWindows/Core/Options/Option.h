@@ -24,6 +24,8 @@
 #include "StringConversion.h"
 
 #include <string>
+#include <sstream>
+
 using namespace std;
 
 
@@ -41,6 +43,16 @@ class Option : public Serializable
 		{
 			m_optionID = optionID;
 			m_value = (value == true ? L"1" : L"0");
+		}
+
+		Option(OptionID optionID, int value)
+		{
+			wostringstream convert;
+			
+			m_optionID = optionID;
+
+			convert << value;
+			m_value = convert.str();
 		}
 
 		virtual void Serialize(ostream* stream)

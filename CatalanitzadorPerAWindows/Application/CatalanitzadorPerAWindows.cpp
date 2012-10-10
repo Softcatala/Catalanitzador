@@ -162,25 +162,25 @@ void CatalanitzadorPerAWindows::_createWizard()
 	ApplicationsPropertyPageUI applications;
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
-	SystemRestore systemRestore;
+	SystemRestore sysRestore;
 	bool bSendStats = true;
-	bool bSystemRestore = true;
+	int systemRestore = TRUE;
 	bool bDialectVariant = false;
 
 #if _DEBUG
-	bSendStats = FALSE;
-	bSystemRestore = FALSE;
+	bSendStats = false;
+	systemRestore = TRUE;
 #endif
 
-	if (systemRestore.Init() == false)
-		bSystemRestore = FALSE;
+	if (sysRestore.Init() == false)
+		systemRestore = -1;
 
 	vector <Action *> acts = m_actions.GetActions();
 	
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
 	welcome.SetSendStats(&bSendStats);
-	welcome.SetSystemRestore(&bSystemRestore);
+	welcome.SetSystemRestore(&systemRestore);
 	welcome.SetActions(&m_actions);
 	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	sheet.addPage(&welcome);
@@ -196,7 +196,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.setPageButtons(CancelButtonOnly);
 	install.SetActions(&acts);
 	install.SetSerializer(&m_serializer);
-	install.SetSystemRestore(&bSystemRestore);
+	install.SetSystemRestore(&systemRestore);
 	install.SetDialectVariant(&bDialectVariant);
 	install.StartSlideShowUnpack();
 	install.createPage(m_hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));

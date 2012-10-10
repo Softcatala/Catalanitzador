@@ -22,6 +22,7 @@
 
 bool SystemRestore::Init()
 {
+	return false;
 	m_hLibrary = LoadLibraryW(L"srclient.dll");
 
 	if (m_hLibrary == NULL)

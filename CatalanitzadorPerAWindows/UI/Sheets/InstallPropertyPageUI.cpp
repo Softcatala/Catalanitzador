@@ -239,13 +239,13 @@ void InstallPropertyPageUI::_onTimer()
 
 	cnt = m_downloads + m_selActions;
 
-	if (m_selActions > 0 && *m_pbSystemRestore)
+	if (m_selActions > 0 && *m_pSystemRestore)
 		cnt++;	
 
 	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt));
 	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L);
 	
-	if (m_selActions > 0 && *m_pbSystemRestore)
+	if (m_selActions > 0 && *m_pSystemRestore)
 	{
 		_systemRestore(systemRestore);
 	}
@@ -287,7 +287,7 @@ void InstallPropertyPageUI::_onTimer()
 	m_serializer->CloseHeader();
 	_completed();
 
-	if (m_selActions > 0 && *m_pbSystemRestore)
+	if (m_selActions > 0 && *m_pSystemRestore)
 	{		
 		systemRestore.End();
 	}
@@ -297,7 +297,7 @@ void InstallPropertyPageUI::_onTimer()
 void InstallPropertyPageUI::_serializeOptions()
 {
 	Options options;
-	Option sysOption(OptionSystemRestore, *m_pbSystemRestore);
+	Option sysOption(OptionSystemRestore, *m_pSystemRestore);
 	Option dialectOption(OptionDialect, *m_pbDialectalVariant);
 
 	options.Add(sysOption);

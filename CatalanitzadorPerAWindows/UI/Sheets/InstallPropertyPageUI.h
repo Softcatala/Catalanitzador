@@ -34,7 +34,7 @@ public:
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 		void SetActions(vector <Action *> * value) { m_actions = value;}		
 		void SetSendStats(bool *pbSendStats) { m_pbSendStats = pbSendStats;}
-		void SetSystemRestore(bool *pbSystemRestore) { m_pbSystemRestore = pbSystemRestore;}
+		void SetSystemRestore(int *pSystemRestore) { m_pSystemRestore = pSystemRestore;}
 		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}
 		void StartSlideShowUnpack() { m_slideshow.Start();}
 		
@@ -64,7 +64,7 @@ private:
 		int m_selActions;
 		int m_downloads;
 		SlideshowThread m_slideshow;
-		bool* m_pbSystemRestore;
+		int* m_pSystemRestore;
 		bool* m_pbSendStats;
 		bool* m_pbDialectalVariant;
 };
