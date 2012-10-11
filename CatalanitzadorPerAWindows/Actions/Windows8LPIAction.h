@@ -45,22 +45,25 @@ public:
 		virtual LPCWSTR GetLicenseID();
 		virtual bool IsDownloadNeed();
 		
-
 protected:
 
 		bool _isLangPackInstalled();	
 		wchar_t* _getDownloadID();
-
+		void _setLanguagePanel();
+		const wstring _getScriptFile() {return m_scriptfile;}
+		
 private:
 		
 		bool _isDefaultLanguage();
 		void _setDefaultLanguage();
-		void _setLanguagePanelWin8(wstring primaryCode, wstring secondaryCode);
-		bool _isLanguagePanelWin8First();
+		void _setLanguagePanelLanguages(const wstring primaryCode, const wstring secondaryCode);		
+		bool _isLanguagePanelFirst();
 		void _readLanguageCode(wstring& languages);
 		void _parseLanguage(wstring regvalue);
 		void _getFirstLanguage(wstring& regvalue);
 		bool _isAlreadyApplied();
+		void _buildLanguagePanelPowerShellScript(const wstring primaryCode, const wstring secondaryCode, string& script);
+		void _runLanguagePanelPowerShellScript(const string script);
 
 		vector <wstring> m_languages;
 		wstring m_filename;

@@ -31,6 +31,7 @@
 
 #define VALENCIAN_PANEL_LANGCODE L"ca-es-valencia"
 #define CATALAN_PANEL_LANGCODE L"ca"
+#define SCRIPT_NAME L"lang.ps1"
 
 Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
@@ -50,7 +51,6 @@ Windows8LPIAction::~Windows8LPIAction()
 	{
 		DeleteFile(m_scriptfile.c_str());
 	}
-
 }
 
 wchar_t* Windows8LPIAction::GetName()
@@ -167,15 +167,12 @@ void Windows8LPIAction::Execute()
 	SetStatus(InProgress);
 }
 
-#define SCRIPT_NAME L"lang.ps1"
-
-void Windows8LPIAction::_setLanguagePanelWin8(wstring primaryCode, wstring secondaryCode)
+void Windows8LPIAction::_buildLanguagePanelPowerShellScript(const wstring primaryCode, const wstring secondaryCode, string& script)
 {
-	string script;
 	string langcodeAnsi;
 
 	StringConversion::ToMultiByte(primaryCode, langcodeAnsi);
-
+	
 	script = "$1 = New-WinUserLanguageList ";
 	script += langcodeAnsi;
 	script += "\r\n";
@@ -190,45 +187,71 @@ void Windows8LPIAction::_setLanguagePanelWin8(wstring primaryCode, wstring secon
 
 	script += "$1 += Get-WinUserLanguageList\r\n"; 
 	script += "Set-WinUserLanguageList $1 -Force\r\n";
+}
+
+void Windows8LPIAction::_runLanguagePanelPowerShellScript(const string script)
+{
+	Runner runner;
+	wstring params;
+	wchar_t szTool[MAX_PATH];
+
+	assert(m_scriptfile.size() > 0);
 	
+	GetSystemDirectory(szTool, MAX_PATH);
+	wcscat_s(szTool, L"\\WindowsPowerShell\\v1.0\\powershell.exe");
+
+	params = L" -ExecutionPolicy remotesigned ";
+	params+= m_scriptfile.c_str();
+	
+	m_runner->Execute(szTool, (wchar_t *)params.c_str());
+	m_runner->WaitUntilFinished();
+}
+
+void Windows8LPIAction::_setLanguagePanelLanguages(const wstring primaryCode, const wstring secondaryCode)
+{
 	wchar_t szScript[MAX_PATH];
+	string script;
+
 	GetTempPath(MAX_PATH, szScript);
 	wcscat_s(szScript, SCRIPT_NAME);
 	m_scriptfile = szScript;
+
+	_buildLanguagePanelPowerShellScript(primaryCode, secondaryCode, script);
 
 	ofstream of(szScript);
 	of.write(script.c_str(), script.size());
 	of.close();
 	
-	Runner runner;
-	wstring params;
-	wchar_t szTool[MAX_PATH];
+	_runLanguagePanelPowerShellScript(script);
 
-	GetSystemDirectory(szTool, MAX_PATH);
-	wcscat_s(szTool, L"\\WindowsPowerShell\\v1.0\\powershell.exe");
+	g_log.Log(L"Windows8LPIAction::_setLanguagePanelLanguages. Langs: '%s', '%s'", (wchar_t *) primaryCode.c_str(),
+		(wchar_t *) secondaryCode.c_str());
+}
 
-	params = L" -ExecutionPolicy remotesigned ";
-	params+= szScript;
-
-	runner.Execute(szTool, (wchar_t *)params.c_str());
-	g_log.Log(L"Windows8LPIAction::_setLanguagePanelWin8 '%s' with params '%s' (langs '%s', '%s')", szTool, (wchar_t *) params.c_str(), 
-		(wchar_t *) primaryCode.c_str(), (wchar_t *) secondaryCode.c_str());
-
-	runner.WaitUntilFinished();	
+void Windows8LPIAction::_setLanguagePanel()
+{
+	if (GetUseDialectalVariant())
+	{
+		_setLanguagePanelLanguages(VALENCIAN_PANEL_LANGCODE, CATALAN_PANEL_LANGCODE);
+	}
+	else
+	{
+		_setLanguagePanelLanguages(CATALAN_PANEL_LANGCODE, wstring());
+	}
 }
 
 bool Windows8LPIAction::_isAlreadyApplied()
 {
 	bool panel, langpack, deflang;
 
-	panel = _isLanguagePanelWin8First();
+	panel = _isLanguagePanelFirst();
 	langpack = _isLangPackInstalled();
 	deflang = _isDefaultLanguage();
 
 	return panel && langpack && deflang;
 }
 
-bool Windows8LPIAction::_isLanguagePanelWin8First()
+bool Windows8LPIAction::_isLanguagePanelFirst()
 {
 	bool bRslt;
 	wstring langcode, firstlang, expectedcode;
@@ -241,7 +264,7 @@ bool Windows8LPIAction::_isLanguagePanelWin8First()
 	expectedcode = GetUseDialectalVariant() ? VALENCIAN_PANEL_LANGCODE : CATALAN_PANEL_LANGCODE;
 
 	bRslt = firstlang.compare(expectedcode) == 0;
-	g_log.Log(L"Windows8LPIAction::_isLanguagePanelWin8First '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) firstlang.c_str());
+	g_log.Log(L"Windows8LPIAction::_isLanguagePanelFirst '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) firstlang.c_str());
 	return bRslt;
 }
 
@@ -336,18 +359,10 @@ ActionStatus Windows8LPIAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 		
-		if (_isLanguagePanelWin8First() == false)
+		if (_isLanguagePanelFirst() == false)
 		{
-			if (GetUseDialectalVariant())
-			{
-				_setLanguagePanelWin8(VALENCIAN_PANEL_LANGCODE, CATALAN_PANEL_LANGCODE);
-			}
-			else
-			{
-				_setLanguagePanelWin8(CATALAN_PANEL_LANGCODE, wstring());
-			}
-		}
-
+			_setLanguagePanel();
+		}		
 		_setDefaultLanguage();
 		
 		if (_isAlreadyApplied())

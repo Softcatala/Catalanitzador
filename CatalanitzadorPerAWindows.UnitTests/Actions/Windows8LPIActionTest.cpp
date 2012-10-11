@@ -37,8 +37,11 @@ public:
 	Windows8LPIActionTest::Windows8LPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 		: Windows8LPIAction(OSVersion, registry, runner) {};
 
-	public: using Windows8LPIAction::_isLangPackInstalled;	
-	public: using Windows8LPIAction::_getDownloadID;
+	public:
+			using Windows8LPIAction::_isLangPackInstalled;
+			using Windows8LPIAction::_getDownloadID;
+			using Windows8LPIAction::_setLanguagePanel;
+			using Windows8LPIAction::_getScriptFile;
 };
 
 #define CreateWindowsLIPAction \
@@ -85,7 +88,6 @@ TEST(Windows8LPIActionTest, _isLangPackInstalled_False)
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
 
-
 TEST(Windows8LPIActionTest, ExecuteWindows)
 {	
 	CreateWindowsLIPAction;
@@ -118,3 +120,34 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win64)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_64"));
 }
 
+TEST(Windows8LPIActionTest, _setLanguagePanel_Catalan)
+{
+	CreateWindowsLIPAction;
+	string content;
+
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"powershell.exe"), HasSubstr(L"-ExecutionPolicy remotesigned"), false)).Times(1).WillRepeatedly(Return(true));
+	lipAction._setLanguagePanel();
+	
+	ifstream reader(lipAction._getScriptFile().c_str());
+	content = string((std::istreambuf_iterator<char>(reader)), std::istreambuf_iterator<char>());
+	reader.close();
+
+	EXPECT_THAT(content, HasSubstr("New-WinUserLanguageList ca"));
+}
+
+TEST(Windows8LPIActionTest, _setLanguagePanel_Valencian)
+{
+	CreateWindowsLIPAction;
+	string content;
+
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"powershell.exe"), HasSubstr(L"-ExecutionPolicy remotesigned"), false)).Times(1).WillRepeatedly(Return(true));	
+	lipAction.SetUseDialectalVariant(true);
+	lipAction._setLanguagePanel();
+
+	ifstream reader(lipAction._getScriptFile().c_str());
+	content = string((std::istreambuf_iterator<char>(reader)), std::istreambuf_iterator<char>());
+	reader.close();
+
+	EXPECT_THAT(content, HasSubstr("New-WinUserLanguageList ca-es-valencia"));
+	EXPECT_THAT(content, HasSubstr("$1 += \"ca\""));
+}
