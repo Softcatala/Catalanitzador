@@ -23,7 +23,7 @@
 
 
 // Encodes a single variable form
-void HttpFormInet::UrlFormEncode(string variables, string& encoded)
+void HttpFormInet::UrlFormEncode(const string variables, string& encoded)
 {
 	char* pos = (char *) variables.c_str();
 	bool bEqualFound = false;
@@ -63,18 +63,18 @@ void HttpFormInet::UrlFormEncode(string variables, string& encoded)
 }
 
 // Variables are added in ANSI at the end of the request that's why is an ANSI string
-bool HttpFormInet::PostForm(wchar_t* URL, char* variables)
+bool HttpFormInet::PostForm(const wstring _url, const string variables)
 {
 	HINTERNET hConnect, hRequest;
 	const wchar_t hdrs[] = L"Content-Type: application/x-www-form-urlencoded\n\r";
 	const wchar_t* accept[2]= {L"*/*", NULL};
-	Url url (URL);
+	Url url(_url);
 	
 	hConnect = InternetConnect(hInternet, url.GetHostname(),
 		INTERNET_DEFAULT_HTTP_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 1);
 
-	if (hConnect == NULL)	
-		return false;	
+	if (hConnect == NULL)
+		return false;
 
 	hRequest = HttpOpenRequest(hConnect, L"POST", url.GetPathAndFileName(),  NULL, NULL, accept,
 	  INTERNET_FLAG_RELOAD |INTERNET_FLAG_KEEP_CONNECTION | INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_FORMS_SUBMIT, 0);
@@ -86,7 +86,7 @@ bool HttpFormInet::PostForm(wchar_t* URL, char* variables)
 	}
 	
 	string encoded;
-	UrlFormEncode(string(variables), encoded);
+	UrlFormEncode(variables, encoded);
 
 	HttpSendRequest(hRequest, hdrs, wcslen(hdrs), (LPVOID) encoded.c_str(), encoded.size());
 
