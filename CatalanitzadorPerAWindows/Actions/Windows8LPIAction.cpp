@@ -31,6 +31,7 @@
 
 #define VALENCIAN_PANEL_LANGCODE L"ca-es-valencia"
 #define CATALAN_PANEL_LANGCODE L"ca"
+#define LANGUAGE_CODE L"ca-ES"
 #define SCRIPT_NAME L"lang.ps1"
 
 Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
@@ -83,8 +84,6 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 		return L"Win8_32";
 	}
 }
-
-#define LANGUAGE_CODE L"ca-ES"
 
 bool Windows8LPIAction::IsDownloadNeed()
 {

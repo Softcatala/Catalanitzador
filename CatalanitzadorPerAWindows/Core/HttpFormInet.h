@@ -26,7 +26,7 @@ using namespace std;
 class HttpFormInet : public Inet
 {
 public:
-		bool PostForm(wchar_t* URL, char* variables);
-		void UrlFormEncode(string variables, string& encoded);		
+		bool PostForm(const wstring url, const string variables);
+		void UrlFormEncode(const string variables, string& encoded);		
 
 };
