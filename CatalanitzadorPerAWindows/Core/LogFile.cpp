@@ -22,6 +22,8 @@
 #include <stdio.h>
 #include "StringConversion.h"
 
+#include <sstream>
+
 LogFile::LogFile()
 {
 	m_hLog = NULL;
@@ -61,6 +63,21 @@ bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
 	_writeCompileTime(appName);
 	_today();
 	return true;
+}
+
+#define UNICODE_MARK_LEN 1
+
+wstring LogFile::GetContent()
+{
+	wstring content;
+	ifstream reader(m_szFilename);
+
+	stringstream ss;
+	ss << reader.rdbuf() << '\0';
+	reader.close();
+	
+	content = wstring((wchar_t *)ss.str().c_str());
+	return content.substr(UNICODE_MARK_LEN, content.size() - UNICODE_MARK_LEN);
 }
 
 void LogFile::Log(wchar_t* string)

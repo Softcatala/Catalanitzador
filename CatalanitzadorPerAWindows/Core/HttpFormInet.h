@@ -21,12 +21,13 @@
 #include "Inet.h"
 
 #include <string>
+#include <vector>
 using namespace std;
 
 class HttpFormInet : public Inet
 {
 public:
-		bool PostForm(const wstring url, const string variables);
-		void UrlFormEncode(const string variables, string& encoded);		
+		bool PostForm(const wstring url, vector <string> variables, vector <string> values);
+		void UrlFormEncode(vector <string> variables, vector <string> values, string& encoded);
 
 };

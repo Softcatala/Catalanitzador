@@ -45,6 +45,7 @@ private:
 		void _shutdown();
 		void _setProgressBarLevelAndPercentage();
 		void _saveToDisk();
+		void _calculateActionsResults();
 
 		HFONT m_hFont;
 		vector <Action *> * m_actions;
@@ -53,4 +54,7 @@ private:
 		UploadStatisticsThread * m_uploadStatistics;
 		HWND m_levelProgressBar;
 		wstring m_xmlFile;
+		int m_done;
+		int m_doable;
+		bool m_errors;
 };

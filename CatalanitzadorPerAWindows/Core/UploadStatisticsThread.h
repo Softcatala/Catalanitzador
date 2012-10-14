@@ -26,10 +26,11 @@
 class UploadStatisticsThread : public Thread
 {
 	public:
-			UploadStatisticsThread(Serializer* serializer);			
+			UploadStatisticsThread(Serializer* serializer, bool sessionHadErrors);
 
 			virtual void OnStart();
 
 	private:
-			Serializer* m_serializer;			
+			Serializer* m_serializer;
+			bool m_sessionHadErrors;
 };

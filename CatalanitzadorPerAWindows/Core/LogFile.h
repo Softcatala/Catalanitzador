@@ -21,6 +21,9 @@
 
 #include <windows.h>
 
+#include <string>
+using namespace std;
+
 #define BUFFER_SIZE 8192
 
 class LogFile
@@ -31,6 +34,8 @@ public:
 	~LogFile();
 	bool CreateLog(wchar_t* logFileName, wchar_t* appName);
 	void Close();
+
+	wstring GetContent();
 
 	void Log(wchar_t* string);
 	void Log(wchar_t* format, wchar_t* string);

@@ -23,15 +23,19 @@
 
 using ::testing::StrCaseEq;
 
-TEST(HttpFormInetTest, UrlFormEncode)
+TEST(HttpFormInetTest, UrlFormEncode_String)
 {
 	HttpFormInet form;
 	string input, expected, encoded;
+	vector <string> variables;
+	vector <string> values;
 
 	input = "<application MajorVersion='0' MinorVersion='9' Revision='6' />";
-	expected = "<application MajorVersion=%270%27+MinorVersion%3D%279%27+Revision%3D%276%27+%2F%3E";
-	form.UrlFormEncode(input, encoded);
-	
-	EXPECT_THAT(encoded, StrCaseEq(expected));	
-}
+	expected = "xml=%3Capplication+MajorVersion%3D%270%27+MinorVersion%3D%279%27+Revision%3D%276%27+%2F%3E";
 
+	variables.push_back("xml");
+	values.push_back(input);
+	form.UrlFormEncode(variables, values, encoded);
+
+	EXPECT_THAT(encoded, StrCaseEq(expected));
+}
