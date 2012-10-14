@@ -31,7 +31,7 @@ UploadStatisticsThread::UploadStatisticsThread(Serializer* serializer, bool sess
 
 void UploadStatisticsThread::OnStart()
 {
-	string serialize, logfile, encoded;
+	string serialize, logfile;
 	vector <string> variables;
 	vector <string> values;
 
