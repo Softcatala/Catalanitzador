@@ -41,8 +41,8 @@ if (isset($_POST['xml'])){
         $result->guid = $xml->session['guid'][0];
 
         //Log
-        if(isset($_FILES['log'])){
-            $log = file_get_contents($_FILES['log']['tmp_name']);
+        if (isset($_POST['log'])){
+            $log = utf8_decode($_POST['log']);
             $result->LogFile = $log;
         }
 
