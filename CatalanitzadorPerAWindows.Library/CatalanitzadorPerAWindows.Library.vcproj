@@ -395,6 +395,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAWindows\Core\IHttpFormInet.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAWindows\Core\LogFile.cpp"
 				>
 			</File>

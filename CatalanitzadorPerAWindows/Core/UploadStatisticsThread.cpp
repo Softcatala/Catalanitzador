@@ -23,10 +23,11 @@
 
 #define TEXT_FIELD_LEN 65535
 
-UploadStatisticsThread::UploadStatisticsThread(Serializer* serializer, bool sessionHadErrors)
+UploadStatisticsThread::UploadStatisticsThread(IHttpFormInet* httpformInet, Serializer* serializer, bool sessionHadErrors)
 {
 	m_serializer = serializer;
-	m_sessionHadErrors = sessionHadErrors;	
+	m_httpFormInet = httpformInet;
+	m_sessionHadErrors = sessionHadErrors;
 }
 
 void UploadStatisticsThread::OnStart()
@@ -55,7 +56,7 @@ void UploadStatisticsThread::OnStart()
 
 	// Send file
 	HttpFormInet access;
-	bool rslt = access.PostForm(UPLOAD_URL, variables, values);
+	bool rslt = m_httpFormInet->PostForm(UPLOAD_URL, variables, values);
 	g_log.Log(L"UploadStatisticsThread::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);
 }
 

@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,15 +16,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
-#include "IHttpFormInet.h"
-#include "Inet.h"
 
-class HttpFormInet : public IHttpFormInet, Inet
+#pragma once
+
+#include <string>
+#include <vector>
+using namespace std;
+
+class IHttpFormInet
 {
 public:
-		bool PostForm(wstring url, vector <string> variables, vector <string> values);
-		void UrlFormEncode(vector <string> variables, vector <string> values, string& encoded);
+		virtual bool PostForm(wstring url, vector <string> variables, vector <string> values) = 0;
+		virtual void UrlFormEncode(vector <string> variables, vector <string> values, string& encoded) = 0;
 
 };

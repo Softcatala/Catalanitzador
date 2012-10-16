@@ -65,9 +65,8 @@ void HttpFormInet::UrlFormEncode(vector <string> variables, vector <string> valu
 	}
 }
 
-
 // Variables are added in ANSI at the end of the request that's why is an ANSI string
-bool HttpFormInet::PostForm(const wstring _url, vector <string> variables, vector <string> values)
+bool HttpFormInet::PostForm(wstring _url, vector <string> variables, vector <string> values)
 {
 	HINTERNET hConnect, hRequest;
 	const wchar_t hdrs[] = L"Content-Type: application/x-www-form-urlencoded\n\r";

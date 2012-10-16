@@ -22,15 +22,17 @@
 #include "Serializable.h"
 #include "Serializer.h"
 #include "Thread.h"
+#include "IHttpFormInet.h"
 
 class UploadStatisticsThread : public Thread
 {
 	public:
-			UploadStatisticsThread(Serializer* serializer, bool sessionHadErrors);
+			UploadStatisticsThread(IHttpFormInet* httpformInet, Serializer* serializer, bool sessionHadErrors);
 
 			virtual void OnStart();
 
 	private:
 			Serializer* m_serializer;
+			IHttpFormInet* m_httpFormInet;
 			bool m_sessionHadErrors;
 };

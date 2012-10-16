@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,15 +16,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
+
 #include "IHttpFormInet.h"
-#include "Inet.h"
 
-class HttpFormInet : public IHttpFormInet, Inet
+class HttpFormInetMock : public IHttpFormInet
 {
-public:
-		bool PostForm(wstring url, vector <string> variables, vector <string> values);
-		void UrlFormEncode(vector <string> variables, vector <string> values, string& encoded);
-
+ public:
+ 
+	 MOCK_METHOD3(PostForm, bool (wstring, vector <string>, vector <string>));
+	 MOCK_METHOD3(UrlFormEncode, void (vector <string>, vector <string>, string& encoded));
 };

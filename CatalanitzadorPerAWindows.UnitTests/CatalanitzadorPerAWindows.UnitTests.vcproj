@@ -276,6 +276,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mocks\HttpFormInetMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\OSVersionMock.h"
 				>
 			</File>
@@ -373,6 +377,10 @@
 			</File>
 			<File
 				RelativePath=".\Core\TriBoolTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\UploadStatisticsThreadTest.cpp"
 				>
 			</File>
 			<File

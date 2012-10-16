@@ -34,7 +34,7 @@
 #include "Runner.h"
 #include "CommandLine.h"
 #include "SystemRestore.h"
-
+#include "HttpFormInet.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 : m_actions(&m_downloadManager)
@@ -111,7 +111,9 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 
 	wchar_t szMessage [MAX_LOADSTRING];
 	wchar_t szCaption [MAX_LOADSTRING];
-	UploadStatisticsThread uploadStatistics(&m_serializer, false);
+	HttpFormInet httpFormInet;
+
+	UploadStatisticsThread uploadStatistics(&httpFormInet, &m_serializer, false);
 
 	m_serializer.CloseHeader();
 	uploadStatistics.Start();

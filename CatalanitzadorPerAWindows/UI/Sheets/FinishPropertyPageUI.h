@@ -23,6 +23,7 @@
 #include "PropertyPageUI.h"
 #include "Serializer.h"
 #include "UploadStatisticsThread.h"
+#include "HttpFormInet.h"
 
 #include <vector>
 using namespace std;
@@ -52,6 +53,7 @@ private:
 		Serializer* m_serializer;
 		bool* m_pbSendStats;
 		UploadStatisticsThread * m_uploadStatistics;
+		HttpFormInet m_httpFormInet;
 		HWND m_levelProgressBar;
 		wstring m_xmlFile;
 		int m_done;
