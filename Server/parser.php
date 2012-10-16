@@ -42,7 +42,8 @@ if (isset($_POST['xml'])){
 
         //Log
         if (isset($_POST['log'])){
-            $log = utf8_decode($_POST['log']);
+            $log = stripslashes($_POST['log']);  
+            file_put_contents("saved.txt", $log); 
             $result->LogFile = $log;
         }
 
