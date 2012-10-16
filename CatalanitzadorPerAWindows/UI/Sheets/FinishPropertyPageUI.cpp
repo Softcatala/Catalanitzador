@@ -28,6 +28,9 @@ FinishPropertyPageUI::FinishPropertyPageUI()
 {
 	m_uploadStatistics = NULL;
 	m_hFont = NULL;
+	m_done = 0;
+	m_doable = 0;
+	m_errors = false;
 }
 
 FinishPropertyPageUI::~FinishPropertyPageUI()
@@ -95,9 +98,11 @@ void FinishPropertyPageUI::_saveToDisk()
 
 void FinishPropertyPageUI::_onInitDialog()
 {
+	_calculateActionsResults();
+
 	if (*m_pbSendStats)
 	{
-		m_uploadStatistics = new UploadStatisticsThread(m_serializer);
+		m_uploadStatistics = new UploadStatisticsThread(m_serializer, m_errors);
 		m_uploadStatistics->Start();
 	}
 
@@ -111,14 +116,11 @@ void FinishPropertyPageUI::_onInitDialog()
 	_saveToDisk();
 }
 
-void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()
+void FinishPropertyPageUI::_calculateActionsResults()
 {
-	Action* action;
-	int doable, done;
-	bool errors = false;
-	wchar_t szText[128];
+	Action* action;	
 	
-	doable = done = 0;
+	m_doable = m_done = 0;
 	for (unsigned int i = 0; i < m_actions->size(); i++)
 	{
 		action = m_actions->at(i);
@@ -127,30 +129,35 @@ void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()
 		{			
 			case AlreadyApplied:
 			case Successful:
-				doable++;
-				done++;
+				m_doable++;
+				m_done++;
 				break;
 			case NotSelected:
-				doable++;
+				m_doable++;
 				break;
 			case FinishedWithError:
-				doable++;
-				errors = true;
+				m_doable++;
+				m_errors = true;
 				break;
 			default:
 				break;
 		}
 	}
+}
 
-	SendMessage(m_levelProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, doable));
-	SendMessage(m_levelProgressBar, PBM_SETPOS, done, 0);
+void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()
+{
+	wchar_t szText[128];
+	
+	SendMessage(m_levelProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, m_doable));
+	SendMessage(m_levelProgressBar, PBM_SETPOS, m_done, 0);
 
-	// Percentage	
-	float per = doable != 0 ? floor ((float) done/ (float)doable * 100.0f) : 0;
+	// Percentage
+	float per = m_doable != 0 ? floor ((float) m_done/ (float)m_doable * 100.0f) : 0;
 	swprintf_s(szText, L"%2.0f%%", per);
 	SendMessage(GetDlgItem(getHandle(), IDC_LEVEL_PERCENTAGE), WM_SETTEXT, 0, (LPARAM) szText);
 
-	if (errors)
+	if (m_errors)
 		ShowWindow(GetDlgItem(getHandle(), IDC_PROCESSWASNOTFULLYSUCCESSFULL), SW_NORMAL);
 }
 

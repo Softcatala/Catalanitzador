@@ -20,50 +20,54 @@
 #include "stdafx.h"
 #include "HttpFormInet.h"
 #include "Url.h"
+#include "StringConversion.h"
 
+#include <vector>
+using namespace std;
 
 // Encodes a single variable form
-void HttpFormInet::UrlFormEncode(const string variables, string& encoded)
+void HttpFormInet::UrlFormEncode(vector <string> variables, vector <string> values, string& encoded)
 {
-	char* pos = (char *) variables.c_str();
-	bool bEqualFound = false;
+	assert(variables.size() == values.size());
 
 	encoded.erase();
 
-	for (unsigned int i = 0; i < variables.size(); i++, pos++)
-	{		
-		if (bEqualFound == false // Until variable = assignation is not found do not start encoding
-			|| *pos =='.' ||
-			(*pos >='0' && *pos <='9') ||
-			(*pos >='A' && *pos <='Z') ||
-			(*pos >='a' && *pos <='z'))
-		{
-			encoded += *pos;
-		}
-		else if (*pos == '\r' || *pos == '\n' || *pos == '\t')
-		{
-			// Skip cr, lf, tab
-		}
-		else if (*pos == ' ')
-		{
-			encoded += '+';
-		}
-		else
-		{
-			char string [16];
-			sprintf_s(string, "%%%X", *pos);
-			encoded += string;
-		}
+	for (unsigned int v = 0; v < variables.size(); v++)
+	{
+		if (v > 0)
+			encoded+= "&";
 
-		if (bEqualFound == false && *pos == '=')
+		encoded+= variables.at(v);
+		encoded+= "=";
+
+		unsigned char* pos = (unsigned char *) values.at(v).c_str();
+		for (unsigned int i = 0; i < values.at(v).size(); i++, pos++)
 		{
-			bEqualFound = true;
+			if (*pos =='.' ||
+				(*pos >='0' && *pos <='9') ||
+				(*pos >='A' && *pos <='Z') ||
+				(*pos >='a' && *pos <='z') ||
+				(*pos == '\r' || *pos == '\n' || *pos == '\t'))
+			{
+				encoded += *pos;
+			}
+			else if (*pos == ' ')
+			{
+				encoded += '+';
+			}
+			else
+			{
+				char string[16];
+				sprintf_s(string, "%%%X", *pos);
+				encoded += string;
+			}
 		}
 	}
 }
 
+
 // Variables are added in ANSI at the end of the request that's why is an ANSI string
-bool HttpFormInet::PostForm(const wstring _url, const string variables)
+bool HttpFormInet::PostForm(const wstring _url, vector <string> variables, vector <string> values)
 {
 	HINTERNET hConnect, hRequest;
 	const wchar_t hdrs[] = L"Content-Type: application/x-www-form-urlencoded\n\r";
@@ -84,10 +88,10 @@ bool HttpFormInet::PostForm(const wstring _url, const string variables)
 		InternetCloseHandle(hConnect);
 		return false;
 	}
-	
-	string encoded;
-	UrlFormEncode(variables, encoded);
 
+	string encoded;
+
+	UrlFormEncode(variables, values, encoded);
 	HttpSendRequest(hRequest, hdrs, wcslen(hdrs), (LPVOID) encoded.c_str(), encoded.size());
 
 	// Get result of the operation

@@ -21,25 +21,41 @@
 #include "UploadStatisticsThread.h"
 #include "HttpFormInet.h"
 
-UploadStatisticsThread::UploadStatisticsThread(Serializer* serializer)
+#define TEXT_FIELD_LEN 65535
+
+UploadStatisticsThread::UploadStatisticsThread(Serializer* serializer, bool sessionHadErrors)
 {
 	m_serializer = serializer;
+	m_sessionHadErrors = sessionHadErrors;	
 }
-
 
 void UploadStatisticsThread::OnStart()
 {
-	string serialize;
-	char szVar[65535];
+	string serialize, logfile;
+	vector <string> variables;
+	vector <string> values;
 
 	m_serializer->SaveToString(serialize);
 
-	strcpy_s(szVar, "xml=");
-	strcat_s(szVar, serialize.c_str());
+	variables.push_back("xml");
+	values.push_back(serialize);
+
+	if (m_sessionHadErrors)
+	{
+		wstring logfilew = g_log.GetContent();
+
+		if (logfilew.size() > TEXT_FIELD_LEN)
+			logfilew = logfilew.substr(logfilew.size() - TEXT_FIELD_LEN, TEXT_FIELD_LEN);
+
+		StringConversion::ToMultiByte(logfilew, logfile);
+
+		variables.push_back("log");
+		values.push_back(logfile);
+	}
 
 	// Send file
-	HttpFormInet access;	
-	bool rslt = access.PostForm(UPLOAD_URL, szVar);
-	g_log.Log(L"UploadStatisticsThread::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);	
+	HttpFormInet access;
+	bool rslt = access.PostForm(UPLOAD_URL, variables, values);
+	g_log.Log(L"UploadStatisticsThread::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);
 }
 

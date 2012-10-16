@@ -166,6 +166,8 @@ void LibreOfficeInspector::_readLanguage()
 	{
 		g_log.Log(L"LibreOfficeInspector::_readLanguage. Could not open '%s'", (wchar_t *) file.c_str());
 	}
+
+	lang_found = L"català 15:24";
 	
 	m_KeyValues.push_back(InspectorKeyValue(L"lang",lang_found));
 }
