@@ -239,13 +239,13 @@ void InstallPropertyPageUI::_onTimer()
 
 	cnt = m_downloads + m_selActions;
 
-	if (m_selActions > 0 && *m_pSystemRestore)
+	if (m_selActions > 0 && *m_pSystemRestore == TRUE)
 		cnt++;	
 
 	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt));
 	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L);
 	
-	if (m_selActions > 0 && *m_pSystemRestore)
+	if (m_selActions > 0 && *m_pSystemRestore == TRUE)
 	{
 		_systemRestore(systemRestore);
 	}
@@ -287,8 +287,8 @@ void InstallPropertyPageUI::_onTimer()
 	m_serializer->CloseHeader();
 	_completed();
 
-	if (m_selActions > 0 && *m_pSystemRestore)
-	{		
+	if (m_selActions > 0 && *m_pSystemRestore == TRUE)
+	{
 		systemRestore.End();
 	}
 }
