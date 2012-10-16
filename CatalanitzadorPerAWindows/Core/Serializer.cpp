@@ -55,7 +55,7 @@ void Serializer::OpenHeader()
 {
 	OSVersion version;
 
-	*m_stream << "<?xml version='1.0'?>\n";
+	*m_stream << "<?xml version='1.0' encoding ='iso-8859-1'?>\n";
 	*m_stream << "<execution>\n";
 
 	_application();
