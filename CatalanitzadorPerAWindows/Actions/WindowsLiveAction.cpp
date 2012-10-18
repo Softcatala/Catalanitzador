@@ -25,8 +25,6 @@
 #include "ConfigurationInstance.h"
 
 #define MS_LIVE_ESSENTIALS_2009 14
-#define MS_LIVE_ESSENTIALS_2011 15
-#define MS_LIVE_ESSENTIALS_2012 16
 #define CATALAN_WINLANGCODE 3
 
 WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo)
