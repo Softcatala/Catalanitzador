@@ -319,9 +319,11 @@ void AdobeReaderAction::CheckPrerequirements(Action * action)
 			SetStatus(AlreadyApplied);
 			return;
 		}
-
-		int major = _getMajorVersion();
-		if (major != 9 && major != 10)
+		
+		ConfigurationFileActionDownload downloadVersion;
+		
+		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(m_version));
+		if (downloadVersion.IsEmpty())
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"AdobeReaderAction::CheckPrerequirements. Version not supported");

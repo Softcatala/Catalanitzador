@@ -50,7 +50,7 @@ vector <wstring> ApplicationVersion::GetComponents()
 }
 
 bool ApplicationVersion::operator== (ApplicationVersion other)
-{	
+{
 	if (GetComponents().size() != other.GetComponents().size())
 		return false;
 
@@ -69,10 +69,9 @@ bool ApplicationVersion::operator != (ApplicationVersion other)
 }
 
 bool ApplicationVersion::operator > (ApplicationVersion other)
-{	
+{
 	if (GetComponents().size() != other.GetComponents().size())
 	{
-		assert(false);
 		return false;
 	}
 
