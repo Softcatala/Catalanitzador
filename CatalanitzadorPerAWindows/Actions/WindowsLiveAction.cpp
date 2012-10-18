@@ -52,7 +52,7 @@ wchar_t* WindowsLiveAction::GetName()
 
 wchar_t* WindowsLiveAction::GetDescription()
 {
-	return _getStringFromResourceIDName(IDS_WINDOWSLIVE_DESCRIPTION, szName);
+	return _getStringFromResourceIDName(IDS_WINDOWSLIVE_DESCRIPTION, szDescription);
 }
 
 bool WindowsLiveAction::IsNeed()
