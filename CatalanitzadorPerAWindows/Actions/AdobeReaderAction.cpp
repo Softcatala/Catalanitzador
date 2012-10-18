@@ -59,6 +59,8 @@ DownloadID AdobeReaderAction::_getDownloadID()
 			return DI_ADOBEREADER_95;
 		case 10:
 			return DI_ADOBEREADER_1010;
+		case 11:
+			return DI_ADOBEREADER_1100;
 		default:
 			assert(false);
 			return DI_ADOBEREADER_1010;
@@ -350,7 +352,7 @@ void AdobeReaderAction::CheckPrerequirements(Action * action)
 		}
 
 		int major = _getMajorVersion();
-		if (major != 9 && major != 10)
+		if (major != 9 && major != 10 && major != 11)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"AdobeReaderAction::CheckPrerequirements. Version not supported");
