@@ -26,9 +26,10 @@
 
 #define DEFAULT_SELECTEDITEM_INLISTVIEW 1
 
-ApplicationsPropertyPageUI::ApplicationsPropertyPageUI()
+ApplicationsPropertyPageUI::ApplicationsPropertyPageUI(ApplicationsModel* model)
 {
-	m_hFont = NULL;	
+	m_hFont = NULL;
+	m_model = model;
 }
 
 ApplicationsPropertyPageUI::~ApplicationsPropertyPageUI()
@@ -40,67 +41,39 @@ ApplicationsPropertyPageUI::~ApplicationsPropertyPageUI()
 	}	
 }
 
-void ApplicationsPropertyPageUI::_getActionDisplayName(Action *action, wstring& name)
-{	
-	name = action->GetName();
-
-	if (action->GetStatus() == Selected && action->HasLicense())
-	{
-		name+= L" *";
-	}
-}
-
-void ApplicationsPropertyPageUI::_processDependantItem(Action* action)
+void ApplicationsPropertyPageUI::UpdateItem(ApplicationItem itemToUpdate)
 {
-	Action* dependant = action->AnotherActionDependsOnMe(m_availableActions);
-
-	if (dependant == NULL)
-		return;
-	
-	ActionStatus prevStatus = dependant->GetStatus();
-	dependant->CheckPrerequirements(action);
-
-	if (prevStatus == dependant->GetStatus())
-		return;
-
-	for (int i = 0; i < m_listview.Count(); i++)
+	for (unsigned int i = 0; i < m_model->GetItems().size(); i++)
 	{
-		Action* itemAction = (Action *) m_listview.GetItemData(i);
-		if (itemAction == dependant)
+		ApplicationItem item = m_model->GetItems().at(i);
+
+		if (item.GetData() == itemToUpdate.GetData())
 		{
-			m_listview.SetItemImage(i, itemAction->GetStatus());
-			m_disabledActions[dependant] = dependant->IsNeed();
+			m_listview.SetItemImage(i, item.GetImageIndex());
 			m_listview.Invalidate();
 			break;
 		}
-	}
+	}	
 }
 
 void ApplicationsPropertyPageUI::ProcessClickOnItem(int nItem)
 {
 	Action* action = (Action *) m_listview.GetItemData(nItem);
 
-	if (action == NULL)
-		return;
+	if (action != NULL)
+	{	
+		for (unsigned int i = 0; i < m_model->GetItems().size(); i++)
+		{
+			ApplicationItem item = m_model->GetItems().at(i);
 
-	switch (action->GetStatus()) {
-	case NotSelected:
-		action->SetStatus(Selected);
-		break;
-	case Selected:
-		action->SetStatus(NotSelected);
-		break;
-	default:
-		return; // Non selectable item
+			if ((Action *)item.GetData() == action)
+			{
+				m_model->ProcessClickOnItem(item);				
+				break;
+			}
+		}
 	}
 
-	_processDependantItem(action);
-
-	wstring name;
-	_getActionDisplayName(action, name);
-	m_listview.SetItemImage(nItem, action->GetStatus());
-	m_listview.SetItemText(nItem, name);
-	
 	_enableOrDisableLicenseControls();
 }
 
@@ -118,6 +91,7 @@ void ApplicationsPropertyPageUI::_setBoldControls()
 	}
 }
 
+// TODO: Need interaction with the model
 void ApplicationsPropertyPageUI::_setLegendControl()
 {
 	ActionStatus statuses [] = {Selected, AlreadyApplied, CannotBeApplied};
@@ -130,27 +104,8 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 		wchar_t szString [MAX_LOADSTRING];
 		
 		LoadString(GetModuleHandle(NULL), resources[l], szString, MAX_LOADSTRING);
-		m_listviewLegend.InsertItem(szString, NULL, statuses[l]);
+		//m_listviewLegend.InsertItem(szString, NULL, statuses[l]);
 	}
-}
-
-void ApplicationsPropertyPageUI::_insertActioninListView(Action *action)
-{
-	wstring name;
-	_getActionDisplayName(action, name);
-
-	m_listview.InsertItem(name, (LPARAM) action, action->GetStatus());
-}
-
-// An index to ActionGroup
-static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_INTERNET, IDS_GROUPNAME_OFFICE};
-
-void ApplicationsPropertyPageUI::_insertGroupNameListView(ActionGroup group)
-{
-	wchar_t szString[MAX_LOADSTRING];
-
-	LoadString(GetModuleHandle(NULL), groupNames[(int)group], szString, MAX_LOADSTRING);
-	m_listview.InsertItem(szString);	
 }
 
 void ApplicationsPropertyPageUI::_onClickItemEvent(int nItem, void* data)
@@ -161,43 +116,27 @@ void ApplicationsPropertyPageUI::_onClickItemEvent(int nItem, void* data)
 
 void ApplicationsPropertyPageUI::_onInitDialog()
 {
-	HWND hListWnd;
-	map <Action *, bool>::iterator mapped_item;	
-
-	if (m_availableActions->size() == 0)
-		return;
+	HWND hListWnd;	
 
 	hListWnd = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
 	m_listview.InitControl(hListWnd);
 	m_listview.SetClickItem(_onClickItemEvent, this);	
-		
-	for (int g = 0; g < ActionGroupLast; g++)
+	
+	m_model->BuildListOfItems();
+
+	// TODO: Move to a PopulateMethod
+	for (unsigned int i = 0; i < m_model->GetItems().size(); i++)
 	{
-		bool bFirstHit = false;
+		ApplicationItem item = m_model->GetItems().at(i);
 
-		for (unsigned int i = 0; i < m_availableActions->size (); i++)
-		{		
-			Action* action = m_availableActions->at(i);
-
-			if (action->GetGroup() == ActionGroupNone || action->GetGroup() != (ActionGroup)g)
-				continue;
-
-			bool needed = action->IsNeed();
-
-			if (bFirstHit == false)
-			{
-				_insertGroupNameListView((ActionGroup)g);
-				bFirstHit = true;
-			}
-
-			m_disabledActions.insert(ActionBool_Pair(action, needed));
-
-			if (needed)
-				action->SetStatus(Selected);
-			
-			_insertActioninListView(action);
-			_processDependantItem(action);
+		if (item.GetIsGroupName())
+		{
+			m_listview.InsertItem(item.GetName());
 		}
+		else
+		{
+			m_listview.InsertItem(item.GetName(), (LPARAM) item.GetData(), item.GetImageIndex());
+		}	
 	}
 
 	m_listview.SelectItem(DEFAULT_SELECTEDITEM_INLISTVIEW);
@@ -209,14 +148,15 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlID)
 {
 	if(hdr->idFrom != IDC_APPLICATIONSLIST)
-		return ReturnFalse;	
+		return ReturnFalse;
+
 	if (hdr->code == NM_CUSTOMDRAW)
 	{
 		LPNMLVCUSTOMDRAW lpNMLVCD = (LPNMLVCUSTOMDRAW)hdr;
 
 		switch (lpNMLVCD->nmcd.dwDrawStage)
 		{
-			case CDDS_PREPAINT:	
+			case CDDS_PREPAINT:
 				SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYITEMDRAW);
 				return ReturnTrue;
 
@@ -227,13 +167,17 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 
 				if (action != NULL)
 				{
-					map <Action *, bool>::iterator item;
-					item = m_disabledActions.find((Action * const &)action);
+					for (unsigned int i = 0; i < m_model->GetItems().size(); i++)
+					{
+						ApplicationItem item = m_model->GetItems().at(i);
 
-					if (item->second == false)		
-						disabled = true;			
+						if ((Action *)item.GetData() == action)
+						{
+							disabled = item.GetIsDisabled();
+							break;
+						}
+					}
 				}
-
 				m_listview.PreItemPaint(lpNMLVCD, disabled);
 				SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYPOSTPAINT);
 				return ReturnTrue;
@@ -255,6 +199,7 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 	return ReturnTrue;
 }
 
+// TODO: Refactor to use the model
 void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 {
 	int show;
@@ -286,6 +231,7 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 	}
  }
 
+//TODO: Move to the model
 bool ApplicationsPropertyPageUI::_licensesNeedToBeAccepted()
 {	
 	for (unsigned int i = 0; i < m_availableActions->size (); i++)
@@ -334,34 +280,13 @@ void ApplicationsPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lPa
 		variant = IsDlgButtonChecked(getHandle(),IDC_DIALECTVARIANT_CHECKBOX)==BST_CHECKED;
 		*m_pbDialectalVariant = variant;
 
+		//TODO: Move to the model
 		for (unsigned int i = 0; i < m_availableActions->size (); i++)
 		{
 			Action* action = m_availableActions->at(i);
 			action->SetUseDialectalVariant(variant);
 		}
 	}
-}
-
-bool ApplicationsPropertyPageUI::_anyActionNeedsInternetConnection()
-{
-	bool needInet = false;
-
-	for (int i = 0; i < m_listview.Count(); ++i)
-	{				
-		Action* action = (Action *) m_listview.GetItemData(i);
-
-		if (action == NULL)
-			continue;
-		
-		bool bSelected;
-
-		bSelected = action->GetStatus() == Selected;
-		g_log.Log(L"ApplicationsPropertyPageUI::_onNext. Action '%s', selected %u", action->GetName(), (wchar_t *)bSelected);
-
-		if (bSelected && action->IsDownloadNeed())		
-			needInet = true;
-	}
-	return needInet;
 }
 
 bool ApplicationsPropertyPageUI::_onNext()
@@ -372,7 +297,7 @@ bool ApplicationsPropertyPageUI::_onNext()
 	if (_checkRunningApps() == true)
 		return false;
 
-	if (_anyActionNeedsInternetConnection() && Inet::IsThereConnection() == false)
+	if (m_model->ShouldShowNoInternetConnectionDialog())
 	{
 		_showNoInternetConnectionDialog();
 		return FALSE;
@@ -391,6 +316,7 @@ void ApplicationsPropertyPageUI::_showNoInternetConnectionDialog()
 	MessageBox(getHandle(), szMessage, szCaption, MB_ICONWARNING | MB_OK);
 }
 
+//TODO: Move to the model
 bool ApplicationsPropertyPageUI::_checkRunningApps()
 {
 	for (unsigned int i = 0; i < m_availableActions->size(); i++)

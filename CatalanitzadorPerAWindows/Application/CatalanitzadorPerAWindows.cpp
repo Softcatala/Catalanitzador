@@ -35,6 +35,7 @@
 #include "CommandLine.h"
 #include "SystemRestore.h"
 #include "HttpFormInet.h"
+#include "ApplicationsModel.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 : m_actions(&m_downloadManager)
@@ -161,7 +162,8 @@ void CatalanitzadorPerAWindows::_createWizard()
 {
 	ApplicationSheetUI sheet;
 	WelcomePropertyPageUI welcome;
-	ApplicationsPropertyPageUI applications;
+	ApplicationsModel applicationModel;
+	ApplicationsPropertyPageUI applications(&applicationModel);
 	InstallPropertyPageUI install;
 	FinishPropertyPageUI finish;
 	SystemRestore sysRestore;
@@ -189,6 +191,8 @@ void CatalanitzadorPerAWindows::_createWizard()
 	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	sheet.addPage(&welcome);
 
+	applicationModel.SetActions(&acts);
+	applicationModel.SetView(&applications);	
 	applications.createPage(m_hInstance, IDD_APPLICATIONS, IDD_APPLICATIONS_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_APPLICATIONS));
 	applications.setParent(&sheet);
 	applications.setPageButtons(NextBackButtons);

@@ -354,11 +354,23 @@
 				Name="Sheets"
 				>
 				<File
+					RelativePath=".\UI\Sheets\ApplicationItem.h"
+					>
+				</File>
+				<File
 					RelativePath=".\UI\Sheets\ApplicationSheetUI.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\UI\Sheets\ApplicationSheetUI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\ApplicationsModel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI\Sheets\ApplicationsModel.h"
 					>
 				</File>
 				<File

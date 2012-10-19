@@ -22,6 +22,8 @@
 #include "PropertyPageUI.h"
 #include "Action.h"
 #include "CheckedListView.h"
+#include "ApplicationsModel.h"
+
 #include <vector>
 #include <map>
 using namespace std;
@@ -29,14 +31,16 @@ using namespace std;
 class ApplicationsPropertyPageUI: public PropertyPageUI
 {
 public:		
-		ApplicationsPropertyPageUI();
+		ApplicationsPropertyPageUI(ApplicationsModel* model);
 		~ApplicationsPropertyPageUI();
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
-		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}
-		void ProcessClickOnItem(int nItem);
+		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}	
+
+		void UpdateItem(ApplicationItem item);
 
 private:
 	
+		void ProcessClickOnItem(int nItem);
 		void _updateActionDescriptionAndReq(Action* action);
 		virtual void _onInitDialog();
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
@@ -44,15 +48,12 @@ private:
 		virtual	bool _onNext();
 		void _showNoInternetConnectionDialog();
 		void _setBoldControls();
-		void _setLegendControl();
-		void _processDependantItem(Action* action);
+		void _setLegendControl();		
 		bool _licenseAccepted();
 		bool _licensesNeedToBeAccepted();
 		void _enableOrDisableLicenseControls();
 		void _getActionDisplayName(Action *action, wstring& name);
-		bool _checkRunningApps();
-		void _insertActioninListView(Action *action);
-		void _insertGroupNameListView(ActionGroup group);
+		bool _checkRunningApps();		
 		bool _anyActionNeedsInternetConnection();
 		static void _onClickItemEvent(int nItem, void* data);
 
@@ -63,4 +64,5 @@ private:
 		map <Action *, bool> m_disabledActions;		
 		HFONT m_hFont;
 		bool* m_pbDialectalVariant;
+		ApplicationsModel* m_model;
 };

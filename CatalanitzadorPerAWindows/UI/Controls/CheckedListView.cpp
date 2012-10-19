@@ -56,17 +56,17 @@ void CheckedListView::SetItemText(int nItem, wstring text)
 	ListView_SetItem(m_hWnd, &item);
 }
 
-void CheckedListView::SetItemImage(int nItem, ActionStatus status)
+void CheckedListView::SetItemImage(int nItem, ImageIndex imageIndex)
 {
 	LVITEM item;
 	memset(&item,0,sizeof(item));
 	item.iItem = nItem;
 	item.mask = LVIF_IMAGE;
-	item.iImage = CheckedListView::GetImageIndex(status);
+	item.iImage = imageIndex;
 	ListView_SetItem(m_hWnd, &item);
 }
 
-void CheckedListView::InsertItem(wstring text, LPARAM parameter, ActionStatus status)
+void CheckedListView::InsertItem(wstring text, LPARAM parameter, ImageIndex imageIndex)
 {
 	wstring name;
 	LVITEM item;
@@ -76,14 +76,14 @@ void CheckedListView::InsertItem(wstring text, LPARAM parameter, ActionStatus st
 	item.iItem = m_itemID;
 	item.pszText = (LPWSTR) text.c_str();
 	item.lParam = (LPARAM) parameter;
-	item.iImage = CheckedListView::GetImageIndex(status);
+	item.iImage = imageIndex;
 	ListView_InsertItem(m_hWnd, &item);
 	m_itemID++;
 }
 
 void CheckedListView::InsertItem(wstring text)
 {	
-	InsertItem(text, (LPARAM) NULL, (ActionStatus) 0);
+	InsertItem(text, (LPARAM) NULL, ImageIndexNone);
 }
 
 int CheckedListView::_makeSquareRect(LPRECT src, LPRECT dst)
@@ -209,23 +209,6 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 	return himl;
 }
 
-ImageIndex CheckedListView::GetImageIndex(ActionStatus status)
-{
-	switch (status)
-	{
-	case NotSelected:
-		return ImageIndexNone;
-	case Selected:
-		return ImageIndexBlack;
-	case CannotBeApplied:
-	case NotInstalled:
-		return ImageIndexGrey;
-	case AlreadyApplied:
-		return ImageIndexGreen;
-	default:
-		return ImageIndexNone;
-	}
-}
 
 #define PIXELS_TO_INDENT_ACTIONS 10
 

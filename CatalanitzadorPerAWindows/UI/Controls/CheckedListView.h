@@ -51,11 +51,11 @@ public:
 		void InitControl(HWND hWnd);
 		int Count() {return ListView_GetItemCount(m_hWnd); }
 		LPARAM GetItemData(int nItem);
-		void SetItemImage(int nItem, ActionStatus status);
+		void SetItemImage(int nItem, ImageIndex imageIndex);
 		void SetItemText(int nItem, wstring text);
 		void SelectItem(int nItem) { ListView_SetItemState(m_hWnd, nItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);}
 		void InsertItem(wstring text);
-		void InsertItem(wstring text, LPARAM parameter, ActionStatus image);
+		void InsertItem(wstring text, LPARAM parameter, ImageIndex imageIndex);
 
 		void PreItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool disabled);
 		void PostItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool groupName);
@@ -69,8 +69,7 @@ private:
 		HIMAGELIST CreateCheckBoxImageList(HWND hWnd);
 		int _makeSquareRect(LPRECT src, LPRECT dst);
 		void _createFrameBox(HDC dc, LPRECT r);
-		void _createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, CheckedColor color);
-		ImageIndex GetImageIndex(ActionStatus status);
+		void _createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, CheckedColor color);		
 		static LRESULT _listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		HWND m_hWnd;
