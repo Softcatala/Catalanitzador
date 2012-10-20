@@ -21,6 +21,7 @@
 
 #include "Action.h"
 #include "ApplicationItem.h"
+#include "ApplicationLegendItem.h"
 #include <string>
 #include <vector>
 
@@ -40,6 +41,7 @@ public:
 		void ProcessClickOnItem(ApplicationItem applicationItem);
 		bool ShouldShowNoInternetConnectionDialog();
 		void SetView(ApplicationsPropertyPageUI* applicationsView) {m_applicationsView = applicationsView;}
+		vector <ApplicationLegendItem> GetLegendItems();
 
 private:
 		

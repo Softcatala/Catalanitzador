@@ -358,6 +358,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\UI\Sheets\ApplicationLegendItem.h"
+					>
+				</File>
+				<File
 					RelativePath=".\UI\Sheets\ApplicationSheetUI.cpp"
 					>
 				</File>

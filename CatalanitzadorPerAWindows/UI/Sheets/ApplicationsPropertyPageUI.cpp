@@ -91,20 +91,15 @@ void ApplicationsPropertyPageUI::_setBoldControls()
 	}
 }
 
-// TODO: Need interaction with the model
 void ApplicationsPropertyPageUI::_setLegendControl()
 {
-	ActionStatus statuses [] = {Selected, AlreadyApplied, CannotBeApplied};
-	int resources [] = {IDS_LEGEND_SELECTED, IDS_LEGEND_ALREADYAPPLIED, IDS_LEGEND_CANNOT};
+	vector <ApplicationLegendItem> applicationLegendItems =  m_model->GetLegendItems();
 
-	m_listviewLegend.InitControl(GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND));
-	
-	for (int l = 0; l <sizeof(statuses) / sizeof(statuses[0]); l++)
+	m_listviewLegend.InitControl(GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND));	
+	for (unsigned int i = 0; i < applicationLegendItems.size(); i++)
 	{
-		wchar_t szString [MAX_LOADSTRING];
-		
-		LoadString(GetModuleHandle(NULL), resources[l], szString, MAX_LOADSTRING);
-		//m_listviewLegend.InsertItem(szString, NULL, statuses[l]);
+		m_listviewLegend.InsertItem(applicationLegendItems[i].GetName(), NULL, 
+			applicationLegendItems[i].GetImageIndex());
 	}
 }
 
