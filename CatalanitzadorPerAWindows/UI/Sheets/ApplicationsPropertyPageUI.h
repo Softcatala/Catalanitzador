@@ -49,8 +49,7 @@ private:
 		void _showNoInternetConnectionDialog();
 		void _setBoldControls();
 		void _setLegendControl();		
-		bool _licenseAccepted();
-		bool _licensesNeedToBeAccepted();
+		bool _licenseAccepted();		
 		void _enableOrDisableLicenseControls();
 		void _getActionDisplayName(Action *action, wstring& name);
 		bool _checkRunningApps();		

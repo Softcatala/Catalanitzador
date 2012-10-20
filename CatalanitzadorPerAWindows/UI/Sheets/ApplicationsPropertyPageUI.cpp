@@ -217,7 +217,7 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
  {
 	bool bEnabled;
 		 
-	bEnabled = _licensesNeedToBeAccepted();
+	bEnabled = m_model->DoLicensesNeedToBeAccepted();
 
 	int controls [] = {IDC_LICENSES_ASTERISCTEXT, IDC_SHOWLICENSES_BUTTON, IDC_ACCEPTLICENSES_CHECKBOX, IDC_APPLICATION_LICENSES_CAPTION};
 	for (int i = 0; i < sizeof(controls) / sizeof(controls[0]); i++)
@@ -226,25 +226,9 @@ void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
 	}
  }
 
-//TODO: Move to the model
-bool ApplicationsPropertyPageUI::_licensesNeedToBeAccepted()
-{	
-	for (unsigned int i = 0; i < m_availableActions->size (); i++)
-	{
-		Action* action = m_availableActions->at(i);
-
-		if (action->GetStatus() != Selected)
-			continue;
-
-		if (action->HasLicense())
-			return true;	
-	}
-	return false;	
-}
-
 bool ApplicationsPropertyPageUI::_licenseAccepted()
 {
-	if (_licensesNeedToBeAccepted() == false)
+	if (m_model->DoLicensesNeedToBeAccepted() == false)
 		return true;
 
 	if (IsDlgButtonChecked(getHandle(),IDC_ACCEPTLICENSES_CHECKBOX) != BST_CHECKED)

@@ -200,3 +200,18 @@ vector <ApplicationLegendItem>  ApplicationsModel::GetLegendItems()
 	}
 	return applicationLegendItems;
 }
+
+bool ApplicationsModel::DoLicensesNeedToBeAccepted()
+{	
+	for (unsigned int i = 0; i < m_availableActions->size (); i++)
+	{
+		Action* action = m_availableActions->at(i);
+
+		if (action->GetStatus() != Selected)
+			continue;
+
+		if (action->HasLicense())
+			return true;	
+	}
+	return false;	
+}

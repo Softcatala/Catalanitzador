@@ -42,9 +42,9 @@ public:
 		bool ShouldShowNoInternetConnectionDialog();
 		void SetView(ApplicationsPropertyPageUI* applicationsView) {m_applicationsView = applicationsView;}
 		vector <ApplicationLegendItem> GetLegendItems();
+		bool DoLicensesNeedToBeAccepted();
 
 private:
-		
 	
 		void _processDependantItem(Action* action);
 		bool _anyActionNeedsInternetConnection();
