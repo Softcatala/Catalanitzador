@@ -32,25 +32,25 @@ class ApplicationsModel
 {
 public:
 
-	ApplicationsModel();
+		ApplicationsModel();
 
-	void SetActions(vector <Action *> * value) {m_availableActions =  value; }
-	void BuildListOfItems();
-	vector <ApplicationItem> & GetItems() {return m_items;}
-	void ProcessClickOnItem(ApplicationItem applicationItem);
-	bool ShouldShowNoInternetConnectionDialog();
-	void SetView(ApplicationsPropertyPageUI* applicationsView) {m_applicationsView = applicationsView;}
+		void SetActions(vector <Action *> * value) {m_availableActions =  value; }
+		void BuildListOfItems();
+		vector <ApplicationItem> & GetItems() {return m_items;}
+		void ProcessClickOnItem(ApplicationItem applicationItem);
+		bool ShouldShowNoInternetConnectionDialog();
+		void SetView(ApplicationsPropertyPageUI* applicationsView) {m_applicationsView = applicationsView;}
 
 private:
 		
 	
-	void _processDependantItem(Action* action);
-	bool _anyActionNeedsInternetConnection();
-	ImageIndex _getImageIndex(ActionStatus status);
-	wstring _getGroupName(ActionGroup actionGroup);
+		void _processDependantItem(Action* action);
+		bool _anyActionNeedsInternetConnection();
+		ImageIndex _getImageIndex(ActionStatus status);
+		wstring _getGroupName(ActionGroup actionGroup);
 
-	vector <Action *> * m_availableActions;
-	vector <ApplicationItem> m_items;
-	ApplicationsPropertyPageUI* m_applicationsView;
+		vector <Action *> * m_availableActions;
+		vector <ApplicationItem> m_items;
+		ApplicationsPropertyPageUI* m_applicationsView;
 
 };
