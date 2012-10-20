@@ -190,14 +190,13 @@ vector <ApplicationLegendItem>  ApplicationsModel::GetLegendItems()
 	vector <ApplicationLegendItem> applicationLegendItems;
 	ActionStatus statuses [] = {Selected, AlreadyApplied, CannotBeApplied};
 	int resources [] = {IDS_LEGEND_SELECTED, IDS_LEGEND_ALREADYAPPLIED, IDS_LEGEND_CANNOT};
-		
+
 	for (int l = 0; l <sizeof(statuses) / sizeof(statuses[0]); l++)
 	{
 		wchar_t szString [MAX_LOADSTRING];
 		
 		LoadString(GetModuleHandle(NULL), resources[l], szString, MAX_LOADSTRING);
-		applicationLegendItems.push_back(ApplicationLegendItem(szString, _getImageIndex(statuses[l])));
-		
+		applicationLegendItems.push_back(ApplicationLegendItem(szString, _getImageIndex(statuses[l])));		
 	}
 	return applicationLegendItems;
 }
