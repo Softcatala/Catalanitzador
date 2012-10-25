@@ -22,7 +22,7 @@
 
 #include "Defines.h"
 #include "LogFile.h"
-#include "CatalanitzadorPerAWindows.h"
+#include "CatalanitzadorPerAlWindows.h"
 #include "StringConversion.h"
 
 LogFile g_log;

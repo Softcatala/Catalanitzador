@@ -18,7 +18,7 @@
  */
 
 #include "stdafx.h"
-#include "CatalanitzadorPerAWindows.h"
+#include "CatalanitzadorPerAlWindows.h"
 #include "PropertyPageUI.h"
 #include "InstallPropertyPageUI.h"
 #include "FinishPropertyPageUI.h"
