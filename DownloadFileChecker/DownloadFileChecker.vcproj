@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
+				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib  CatalanitzadorPerAWindows.Library.lib"
+				AdditionalDependencies="wininet.lib  CatalanitzadorPerAlWindows.Library.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)Debug"
 				GenerateDebugInformation="true"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
+				AdditionalIncludeDirectories="$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib  CatalanitzadorPerAWindows.Library.lib"
+				AdditionalDependencies="wininet.lib  CatalanitzadorPerAlWindows.Library.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)Release"
 				GenerateDebugInformation="true"
@@ -225,11 +225,11 @@
 			Name="Resources"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\CatalanitzadorPerAWindows.rc"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\CatalanitzadorPerAlWindows.rc"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\resource.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\resource.h"
 				>
 			</File>
 		</Filter>

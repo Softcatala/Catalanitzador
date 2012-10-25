@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="CatalanitzadorPerAWindows.Library"
+	Name="CatalanitzadorPerAlWindows.Library"
 	ProjectGUID="{20F814AC-9B22-4889-880F-8E4B32530BB7}"
-	RootNamespace="CatalanitzadorPerAWindowsLibrary"
+	RootNamespace="CatalanitzadorPerAlWindowsLibrary"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAWindows\UI;;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI;;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories=";$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAWindows\UI;;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration"
+				AdditionalIncludeDirectories=";$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI;;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -195,155 +195,155 @@
 			Name="OS"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Authorization.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Authorization.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Authorization.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Authorization.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\DownloadInet.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\DownloadInet.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\DownloadInet.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\DownloadInet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\FileVersionInfo.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\FileVersionInfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\FileVersionInfo.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\FileVersionInfo.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\IFileVersionInfo.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\IFileVersionInfo.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Inet.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Inet.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Inet.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Inet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\InternetExplorerVersion.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\InternetExplorerVersion.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\InternetExplorerVersion.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\InternetExplorerVersion.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\IOSVersion.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\IOSVersion.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\IRegistry.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\IRegistry.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\IRunner.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\IRunner.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\IWin32I18N.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\IWin32I18N.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\OSVersion.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\OSVersion.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\OSVersion.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\OSVersion.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Registry.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Registry.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Registry.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Registry.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Resources.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Resources.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Resources.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Resources.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Runner.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Runner.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Runner.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Runner.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Sha1Sum.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Sha1Sum.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Sha1Sum.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Sha1Sum.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\SystemRestore.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\SystemRestore.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\SystemRestore.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\SystemRestore.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Thread.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Thread.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Thread.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Thread.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Win32I18N.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Win32I18N.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Window.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Window.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Window.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Window.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\WindowsValidation.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\WindowsValidation.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\WindowsValidation.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\WindowsValidation.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Wow64.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Wow64.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\Wow64.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Wow64.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\XmlParser.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\XmlParser.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\OS\XmlParser.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\XmlParser.h"
 				>
 			</File>
 		</Filter>
@@ -351,178 +351,178 @@
 			Name="Core"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\ApplicationVersion.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\ApplicationVersion.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\ApplicationVersion.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\ApplicationVersion.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\CommandLine.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\CommandLine.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\CommandLine.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\CommandLine.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Defines.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Defines.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\DownloadManager.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\DownloadManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\DownloadManager.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\DownloadManager.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Guid.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Guid.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Guid.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Guid.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\HttpFormInet.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\HttpFormInet.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\HttpFormInet.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\HttpFormInet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\IHttpFormInet.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\IHttpFormInet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\LogFile.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\LogFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\LogFile.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\LogFile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Serializable.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Serializable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Serializer.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Serializer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Serializer.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Serializer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\SlideshowThread.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\SlideshowThread.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\SlideshowThread.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\SlideshowThread.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\StringConversion.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\StringConversion.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\StringConversion.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\StringConversion.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\SystemRestoreThread.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\SystemRestoreThread.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\SystemRestoreThread.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\SystemRestoreThread.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\TriBool.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\TriBool.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\TriBool.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\TriBool.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\UploadStatisticsThread.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\UploadStatisticsThread.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\UploadStatisticsThread.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\UploadStatisticsThread.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Url.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Url.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Core\Url.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\Url.h"
 				>
 			</File>
 			<Filter
 				Name="Configuration"
 				>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\Configuration.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\Configuration.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationDownloadThread.cpp"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationDownloadThread.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationDownloadThread.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationDownloadThread.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationFileActionDownload.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationFileActionDownload.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationFileActionDownloads.cpp"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationFileActionDownloads.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationFileActionDownloads.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationFileActionDownloads.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationInstance.cpp"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationInstance.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationInstance.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationInstance.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemote.cpp"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemote.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemote.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemote.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemoteEmbedded.cpp"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteEmbedded.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemoteEmbedded.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteEmbedded.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemoteXmlParser.cpp"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteXmlParser.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Configuration\ConfigurationRemoteXmlParser.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteXmlParser.h"
 					>
 				</File>
 			</Filter>
@@ -530,19 +530,19 @@
 				Name="Options"
 				>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\Option.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Options\Option.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\OptionID.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Options\OptionID.h"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\Options.cpp"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Options\Options.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\CatalanitzadorPerAWindows\Core\Options\Options.h"
+					RelativePath="..\CatalanitzadorPerAlWindows\Core\Options\Options.h"
 					>
 				</File>
 			</Filter>
@@ -551,147 +551,147 @@
 			Name="Actions"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\Action.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\Action.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\Action.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\Action.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionExecution.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ActionExecution.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionExecution.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ActionExecution.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionGroup.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ActionGroup.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionID.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ActionID.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\Actions.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\Actions.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\Actions.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\Actions.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ActionStatus.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ActionStatus.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\AdobeReaderAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\AdobeReaderAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\AdobeReaderAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\AdobeReaderAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\CatalanitzadorUpdateAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\CatalanitzadorUpdateAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\CatalanitzadorUpdateAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\CatalanitzadorUpdateAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ChromeAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ChromeAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ChromeAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ChromeAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ConfigureDefaultLanguageAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ConfigureDefaultLanguageAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ConfigureDefaultLanguageAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ConfigureDefaultLanguageAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ConfigureLocaleAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ConfigureLocaleAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ConfigureLocaleAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ConfigureLocaleAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\ExecutionProcess.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ExecutionProcess.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\FirefoxAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\FirefoxAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\IEAcceptLanguagesAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\IEAcceptLanguagesAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\IEAcceptLanguagesAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\IEAcceptLanguagesAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\IELPIAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\IELPIAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\MSOfficeLPIAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\MSOfficeLPIAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\OpenOfficeAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\OpenOfficeAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\OpenOfficeAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\OpenOfficeAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\Windows8LPIAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\Windows8LPIAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\Windows8LPIAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\Windows8LPIAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\WindowsLiveAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLiveAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\WindowsLiveAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLiveAction.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\WindowsLPIAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Actions\WindowsLPIAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.h"
 				>
 			</File>
 		</Filter>
@@ -699,11 +699,11 @@
 			Name="UI"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\UI\HideApplicationWindow.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\UI\HideApplicationWindow.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\UI\HideApplicationWindow.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\UI\HideApplicationWindow.h"
 				>
 			</File>
 		</Filter>
@@ -711,63 +711,63 @@
 			Name="Inspectors"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspector.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\Inspector.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspector.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\Inspector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\InspectorID.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\InspectorID.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspectors.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\Inspectors.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\Inspectors.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\Inspectors.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\ITunesInspector.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ITunesInspector.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\ITunesInspector.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ITunesInspector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\LibreOfficeInspector.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\LibreOfficeInspector.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\LibreOfficeInspector.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\LibreOfficeInspector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\PDFCreatorInspector.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\PDFCreatorInspector.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\PDFCreatorInspector.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\PDFCreatorInspector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\SkypeInspector.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\SkypeInspector.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\SkypeInspector.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\SkypeInspector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\WinRARInspector.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\WinRARInspector.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Inspectors\WinRARInspector.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\WinRARInspector.h"
 				>
 			</File>
 		</Filter>
