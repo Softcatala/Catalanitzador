@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="CatalanitzadorPerAWindows.UnitTests"
+	Name="CatalanitzadorPerAlWindows.UnitTests"
 	ProjectGUID="{6C32442F-7862-453E-A69A-DB37ECEC17AB}"
-	RootNamespace="CatalanitzadorPerAWindowsUnitTests"
+	RootNamespace="CatalanitzadorPerAlWindowsUnitTests"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\OS;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAWindows\UI;;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core\Options&quot;"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI;;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -56,14 +56,14 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib version.lib  Rpcrt4.lib psapi.lib  gtestd.lib gmock.lib CatalanitzadorPerAWindows.Library.lib"
+				AdditionalDependencies="wininet.lib version.lib  Rpcrt4.lib psapi.lib  gtestd.lib gmock.lib CatalanitzadorPerAlWindows.Library.lib"
 				OutputFile="$(OutDir)\CatalanitzadorPerAlWindows.UnitTests.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(VCInstallDir)lib&quot;;&quot;$(VCInstallDir)atlmfc\lib&quot;;&quot;$(WindowsSdkDir)lib&quot;;&quot;$(FrameworkSDKDir)\lib&quot;;&quot;$(SolutionDir)\libs\gtest\msvc\gtest-md\Debug&quot;;&quot;$(SolutionDir)\libs\gmock\msvc\2005\Debug&quot;;&quot;$(SolutionDir)Debug&quot;"
@@ -122,7 +122,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core\Configuration&quot;;;&quot;$(SolutionDir)CatalanitzadorPerAWindows\Core\Options&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -135,14 +135,14 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAWindows\Core;$(SolutionDir)CatalanitzadorPerAWindows\Actions;$(SolutionDir)CatalanitzadorPerAWindows\Resources;$(SolutionDir)CatalanitzadorPerAWindows\Application;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAWindows.UnitTests\Mocks"
+				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib version.lib  Rpcrt4.lib psapi.lib  gtest.lib gmock.lib CatalanitzadorPerAWindows.Library.lib"
+				AdditionalDependencies="wininet.lib version.lib  Rpcrt4.lib psapi.lib  gtest.lib gmock.lib CatalanitzadorPerAlWindows.Library.lib"
 				OutputFile="$(OutDir)\CatalanitzadorPerAlwindows.UnitTests.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(VCInstallDir)lib&quot;;&quot;$(VCInstallDir)atlmfc\lib&quot;;&quot;$(WindowsSdkDir)lib&quot;;&quot;$(FrameworkSDKDir)\lib&quot;;&quot;$(SolutionDir)\libs\gtest\msvc\gtest-md\Release&quot;;&quot;$(SolutionDir)\libs\gmock\msvc\2005\Release&quot;;&quot;$(SolutionDir)Release&quot;"
@@ -186,7 +186,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\CatalanitzadorPerAWindows.UnitTests.cpp"
+				RelativePath=".\CatalanitzadorPerAlWindows.UnitTests.cpp"
 				>
 			</File>
 			<File
@@ -228,43 +228,43 @@
 			Name="Resources"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\CatalanitzadorPerAWindows.exe.manifest"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\CatalanitzadorPerAlWindows.exe.manifest"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\CatalanitzadorPerAWindows.ico"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\CatalanitzadorPerAlWindows.ico"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\CatalanitzadorPerAWindows.rc"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\CatalanitzadorPerAlWindows.rc"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\config_locale_winvista.bin"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\config_locale_winvista.bin"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\config_locale_winxp.bin"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\config_locale_winxp.bin"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\facebook_32px.bmp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\facebook_32px.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\resource.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\resource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\twitter_32px.bmp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\twitter_32px.bmp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\Version.rc"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\Version.rc"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAWindows\Resources\vertical-logo.bmp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Resources\vertical-logo.bmp"
 				>
 			</File>
 		</Filter>
