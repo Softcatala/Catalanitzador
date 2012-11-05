@@ -149,7 +149,7 @@
 									if(in_array($i,$action_to_hide)) continue;
 									echo '<td style="text-align:right">',
 										($num==0)?0:number_format(round($num*100/$total,2),2),
-										"% </td><td>($num)</td>";
+										"% </td><td style=\"text-align:right\">($num)</td>";
 								}
 								echo '</tr>';
 							}
