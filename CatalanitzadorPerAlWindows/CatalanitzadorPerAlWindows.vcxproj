@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{92531C32-0349-44DA-A029-5B7E429E8BBB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CatalanitzadorPerAWindows</RootNamespace>
+    <RootNamespace>CatalanitzadorPerAlWindows</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -82,7 +82,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="Resources\config_locale_winvista.bin" />
-    <None Include="Resources\CatalanitzadorPerAWindows.ico" />
+    <None Include="Resources\CatalanitzadorPerAlWindows.ico" />
     <None Include="Resources\config_locale_winxp.bin" />
     <None Include="Resources\facebook_32px.bmp" />
     <None Include="Resources\twitter_32px.bmp" />
@@ -98,7 +98,7 @@
     <ClInclude Include="Actions\Actions.h" />
     <ClInclude Include="UI\ApplicationSheetUI.h" />
     <ClInclude Include="UI\ApplicationsPropertyPageUI.h" />
-    <ClInclude Include="Application\CatalanitzadorPerAWindows.h" />
+    <ClInclude Include="Application\CatalanitzadorPerAlWindows.h" />
     <ClInclude Include="UI\CheckedListView.h" />
     <ClInclude Include="Actions\ConfigureLocaleAction.h" />
     <ClInclude Include="UI\FinishPropertyPageUI.h" />
@@ -133,7 +133,7 @@
     <ClCompile Include="Actions\Actions.cpp" />
     <ClCompile Include="UI\ApplicationSheetUI.cpp" />
     <ClCompile Include="UI\ApplicationsPropertyPageUI.cpp" />
-    <ClCompile Include="Application\CatalanitzadorPerAWindows.cpp" />
+    <ClCompile Include="Application\CatalanitzadorPerAlWindows.cpp" />
     <ClCompile Include="UI\CheckedListView.cpp" />
     <ClCompile Include="Actions\ConfigureLocaleAction.cpp" />
     <ClCompile Include="UI\FinishPropertyPageUI.cpp" />
@@ -164,11 +164,11 @@
     <ClCompile Include="Actions\WindowsLPIAction.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources\CatalanitzadorPerAWindows.rc" />
+    <ResourceCompile Include="Resources\CatalanitzadorPerAlWindows.rc" />
     <ResourceCompile Include="Resources\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="Resources\CatalanitzadorPerAWindows.exe.manifest" />
+    <Manifest Include="Resources\CatalanitzadorPerAlWindows.exe.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

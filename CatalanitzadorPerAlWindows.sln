@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows", "CatalanitzadorPerAWindows\CatalanitzadorPerAWindows.vcproj", "{A6EB9C02-ED55-4432-95A8-799C0E9BC143}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAlWindows", "CatalanitzadorPerAlWindows\CatalanitzadorPerAlWindows.vcproj", "{A6EB9C02-ED55-4432-95A8-799C0E9BC143}"
 	ProjectSection(ProjectDependencies) = postProject
 		{20F814AC-9B22-4889-880F-8E4B32530BB7} = {20F814AC-9B22-4889-880F-8E4B32530BB7}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows.UnitTests", "CatalanitzadorPerAWindows.UnitTests\CatalanitzadorPerAWindows.UnitTests.vcproj", "{6C32442F-7862-453E-A69A-DB37ECEC17AB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAlWindows.UnitTests", "CatalanitzadorPerAlWindows.UnitTests\CatalanitzadorPerAlWindows.UnitTests.vcproj", "{6C32442F-7862-453E-A69A-DB37ECEC17AB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{20F814AC-9B22-4889-880F-8E4B32530BB7} = {20F814AC-9B22-4889-880F-8E4B32530BB7}
 	EndProjectSection
@@ -16,7 +16,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DownloadFileChecker", "Down
 		{20F814AC-9B22-4889-880F-8E4B32530BB7} = {20F814AC-9B22-4889-880F-8E4B32530BB7}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAWindows.Library", "CatalanitzadorPerAWindows.Library\CatalanitzadorPerAWindows.Library.vcproj", "{20F814AC-9B22-4889-880F-8E4B32530BB7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CatalanitzadorPerAlWindows.Library", "CatalanitzadorPerAlWindows.Library\CatalanitzadorPerAlWindows.Library.vcproj", "{20F814AC-9B22-4889-880F-8E4B32530BB7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SystemLanguageSettings", "SystemLanguageSettings\SystemLanguageSettings.vcproj", "{8C410BB3-AA15-4CCC-A2D2-137932ED7F28}"
 	ProjectSection(ProjectDependencies) = postProject

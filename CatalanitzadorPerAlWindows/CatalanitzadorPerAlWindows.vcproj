@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="CatalanitzadorPerAWindows"
+	Name="CatalanitzadorPerAlWindows"
 	ProjectGUID="{A6EB9C02-ED55-4432-95A8-799C0E9BC143}"
-	RootNamespace="CatalanitzadorPerAWindows"
+	RootNamespace="CatalanitzadorPerAlWindows"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib version.lib comctl32.lib psapi.lib Rpcrt4.lib CatalanitzadorPerAWindows.Library.lib"
+				AdditionalDependencies="wininet.lib version.lib comctl32.lib psapi.lib Rpcrt4.lib CatalanitzadorPerAlWindows.Library.lib"
 				OutputFile="$(OutDir)\CatalanitzadorPerAlWindows.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)Debug&quot;"
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib version.lib comctl32.lib psapi.lib Rpcrt4.lib CatalanitzadorPerAWindows.Library.lib"
+				AdditionalDependencies="wininet.lib version.lib comctl32.lib psapi.lib Rpcrt4.lib CatalanitzadorPerAlWindows.Library.lib"
 				OutputFile="$(OutDir)\CatalanitzadorPerAlWindows.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)Release&quot;"
@@ -215,15 +215,15 @@
 			Name="Resources"
 			>
 			<File
-				RelativePath=".\Resources\CatalanitzadorPerAWindows.exe.manifest"
+				RelativePath=".\Resources\CatalanitzadorPerAlWindows.exe.manifest"
 				>
 			</File>
 			<File
-				RelativePath=".\Resources\CatalanitzadorPerAWindows.ico"
+				RelativePath=".\Resources\CatalanitzadorPerAlWindows.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\Resources\CatalanitzadorPerAWindows.rc"
+				RelativePath=".\Resources\CatalanitzadorPerAlWindows.rc"
 				>
 			</File>
 			<File
@@ -431,11 +431,11 @@
 			Name="Application"
 			>
 			<File
-				RelativePath=".\Application\CatalanitzadorPerAWindows.cpp"
+				RelativePath=".\Application\CatalanitzadorPerAlWindows.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Application\CatalanitzadorPerAWindows.h"
+				RelativePath=".\Application\CatalanitzadorPerAlWindows.h"
 				>
 			</File>
 			<File
