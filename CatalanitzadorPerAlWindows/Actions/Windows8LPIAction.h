@@ -64,6 +64,9 @@ private:
 		bool _isAlreadyApplied();
 		void _buildLanguagePanelPowerShellScript(const wstring primaryCode, const wstring secondaryCode, string& script);
 		void _runLanguagePanelPowerShellScript(const string script);
+		bool _isLangPackInstalledForLanguage(wstring langcode);
+		bool _isDefaultLanguageForLanguage(wstring langcode);
+		bool _isLanguagePanelFirstForLanguage(wstring langcode);
 
 		vector <wstring> m_languages;
 		wstring m_filename;

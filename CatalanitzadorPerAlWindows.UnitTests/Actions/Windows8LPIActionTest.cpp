@@ -55,6 +55,8 @@ void SetLangPackInstalled(RegistryMock& registryMockobj, bool enabled)
 {
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(enabled));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES"), false)).WillRepeatedly(Return(enabled));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-es-valencia"), false)).WillRepeatedly(Return(enabled));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-es-valencia"), false)).WillRepeatedly(Return(enabled));
 }
 
 TEST(Windows8LPIActionTest, _isLangPackInstalled_True)
@@ -63,6 +65,7 @@ TEST(Windows8LPIActionTest, _isLangPackInstalled_True)
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-es-valencia"), false)).WillRepeatedly(Return(true));
 
 	EXPECT_TRUE(lipAction._isLangPackInstalled());
 }
@@ -85,6 +88,9 @@ TEST(Windows8LPIActionTest, _isLangPackInstalled_False)
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(false));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES"), false)).WillRepeatedly(Return(false));
+		EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-es-valencia"), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-es-valencia"), false)).WillRepeatedly(Return(false));
+
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
 
@@ -108,7 +114,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win32)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_32"));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_ca_32"));
 }
 
 TEST(Windows8LPIActionTest, _getDownloadID_Win64)
@@ -117,7 +123,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win64)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
-	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_64"));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_ca_64"));
 }
 
 TEST(Windows8LPIActionTest, _setLanguagePanel_Catalan)

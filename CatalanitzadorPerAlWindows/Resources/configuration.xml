@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2012-10-18T08:24:00</date>
+		<date>2012-11-05T21:31:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -67,14 +67,28 @@
 				<filename>LIP_ca-ES-64bit.mlc</filename>
 	  		</download>
       			<download>
-      				<version>Win8_32</version>
-      				<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc</url_1>
+      				<version>Win8_ca_32</version>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc]]></url_1>
+      				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc</url_3>
       				<filename>ca_windows_8_language_interface_pack_x86_922134.mlc</filename>
       			</download>
       			<download>
-        			<version>Win8_64</version>
-        			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc</url_1>
+        			<version>Win8_ca_64</version>
+        			<url_1><![CDATA[http://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc]]></url_1>
+        			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc.sha1</sha1_url_1>
+        			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc</url_3>
         			<filename>ca_windows_8_language_interface_pack_x64_922126.mlc</filename>
+      			</download>
+      			<download>
+      				<version>Win8_va_32</version>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc]]></url_1>
+      				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc</url_3>
+      				<filename>windows8-kb2607607-x86-val.mlc</filename>
       			</download>
 		</action>
 		

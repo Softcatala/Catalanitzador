@@ -31,6 +31,10 @@
 
 #define VALENCIAN_PANEL_LANGCODE L"ca-es-valencia"
 #define CATALAN_PANEL_LANGCODE L"ca"
+
+#define VALENCIAN_LANGPACKCODE L"ca-es-valencia"
+#define CATALAN_LANGPACKCODE L"ca-ES"
+
 #define LANGUAGE_CODE L"ca-ES"
 #define SCRIPT_NAME L"lang.ps1"
 
@@ -77,11 +81,18 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 {
 	if (m_OSVersion->IsWindows64Bits())
 	{
-		return L"Win8_64";
+		return L"Win8_ca_64";
 	}
 	else
 	{
-		return L"Win8_32";
+		if (GetUseDialectalVariant())
+		{
+			return L"Win8_va_32";
+		}
+		else
+		{
+			return L"Win8_ca_32";
+		}
 	}
 }
 
@@ -92,25 +103,39 @@ bool Windows8LPIAction::IsDownloadNeed()
 
 // Checks if the Catalan language pack is already installed
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
-bool Windows8LPIAction::_isLangPackInstalled()
+bool Windows8LPIAction::_isLangPackInstalledForLanguage(wstring langcode)
 {	
 	bool bExists = false;
+	wstring key;
 	OperatingVersion version = m_OSVersion->GetVersion();
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false))
+	key = L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\";
+	key += langcode;
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t *) key.c_str(), false))
 	{
 		bExists = true;
 		m_registry->Close();
 	}
 	// If you install updates without rebooting, and then the language pack it gets registered in PendingInstall and not in the UILanguages key
-	else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES", false))
+	else 
 	{
-		bExists = true;
-		m_registry->Close();
-	}	
+		key = L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\";
+		key += langcode;
+		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t *) key.c_str(), false))
+		{
+			bExists = true;
+			m_registry->Close();
+		}
+	}
 	
-	g_log.Log (L"Windows8LPIAction::_isLangPackInstalled returns %u", (wchar_t*) bExists);
+	g_log.Log (L"Windows8LPIAction::_isLangPackInstalledForLanguage '%s' returns %u", (wchar_t*)langcode.c_str(), (wchar_t*) bExists);
 	return bExists;
+}
+
+bool Windows8LPIAction::_isLangPackInstalled()
+{
+	return _isLangPackInstalledForLanguage(CATALAN_LANGPACKCODE) ||
+		_isLangPackInstalledForLanguage(VALENCIAN_LANGPACKCODE);
 }
 
 bool Windows8LPIAction::IsNeed()
@@ -153,7 +178,10 @@ void Windows8LPIAction::Execute()
 	if (_isLangPackInstalled() == false)
 	{
 		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
-		wcscpy_s(szParams, L" /i ca-ES /r /s /p ");
+		wcscpy_s(szParams, L" /i ");
+		wcscat_s(szParams, GetUseDialectalVariant() ? VALENCIAN_LANGPACKCODE : CATALAN_LANGPACKCODE);
+		wcscat_s(szParams, L" /r /s /p ");
+
 		wcscat_s(szParams, m_filename.c_str());
 
 		GetSystemDirectory(lpkapp, MAX_PATH);
@@ -250,21 +278,26 @@ bool Windows8LPIAction::_isAlreadyApplied()
 	return panel && langpack && deflang;
 }
 
-bool Windows8LPIAction::_isLanguagePanelFirst()
+bool Windows8LPIAction::_isLanguagePanelFirstForLanguage(wstring expectedcode)
 {
 	bool bRslt;
-	wstring langcode, firstlang, expectedcode;
+	wstring langcode, firstlang;
 
 	// TODO: Read always return a single language
 	_readLanguageCode(langcode);
 	//_parseLanguage(langcode);
 	_getFirstLanguage(firstlang);
-
-	expectedcode = GetUseDialectalVariant() ? VALENCIAN_PANEL_LANGCODE : CATALAN_PANEL_LANGCODE;
-
+	
+	std::transform(firstlang.begin(), firstlang.end(), firstlang.begin(), ::tolower);
 	bRslt = firstlang.compare(expectedcode) == 0;
-	g_log.Log(L"Windows8LPIAction::_isLanguagePanelFirst '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) firstlang.c_str());
+	g_log.Log(L"Windows8LPIAction::_isLanguagePanelFirstForLanguage '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) firstlang.c_str());
 	return bRslt;
+}
+
+bool Windows8LPIAction::_isLanguagePanelFirst()
+{
+	return _isLanguagePanelFirstForLanguage(CATALAN_PANEL_LANGCODE) ||
+		_isLanguagePanelFirstForLanguage(VALENCIAN_PANEL_LANGCODE);
 }
 
 void Windows8LPIAction::_getFirstLanguage(wstring& regvalue)
@@ -326,14 +359,12 @@ void Windows8LPIAction::_readLanguageCode(wstring& languages)
 	}
 }
 
-
 // The langpack may be installed but not selected
-bool Windows8LPIAction::_isDefaultLanguage()
+bool Windows8LPIAction::_isDefaultLanguageForLanguage(wstring langcode)
 {
 	wchar_t szPreferred[2048] =L"";	
-	wchar_t szPreferredPending[2048] =L"";
-	wchar_t szPreferredMachine[2048] =L"";
-	const int langCodeLen = wcslen(LANGUAGE_CODE);
+	wchar_t szPreferredPending[2048] =L"";	
+	const int langCodeLen = langcode.size();
 	
 	// Gets the language for the default user
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", false))
@@ -343,12 +374,17 @@ bool Windows8LPIAction::_isDefaultLanguage()
 		m_registry->Close();
 	}
 
-	g_log.Log(L"WindowsLPIAction::_isDefaultLanguage preferred lang '%s', preferred pending lang '%s', machine preferred '%s'",
-		szPreferred, szPreferredPending, szPreferredMachine);
+	g_log.Log(L"Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang '%s', preferred pending lang '%s'", 
+		szPreferred, szPreferredPending);
 
-	return (_wcsnicmp(szPreferred, LANGUAGE_CODE, langCodeLen) == 0) ||
-		(_wcsnicmp(szPreferredPending, LANGUAGE_CODE, langCodeLen) == 0) ||
-		(_wcsnicmp(szPreferredMachine, LANGUAGE_CODE, langCodeLen) == 0);
+	return (_wcsnicmp(szPreferred, langcode.c_str(), langCodeLen) == 0) ||
+		(_wcsnicmp(szPreferredPending, langcode.c_str(), langCodeLen) == 0);
+}
+
+bool Windows8LPIAction::_isDefaultLanguage()
+{
+	return _isDefaultLanguageForLanguage(CATALAN_LANGPACKCODE) ||
+		_isDefaultLanguageForLanguage(VALENCIAN_LANGPACKCODE);
 }
 
 ActionStatus Windows8LPIAction::GetStatus()
@@ -390,9 +426,13 @@ void Windows8LPIAction::_setDefaultLanguage()
 	// Sets the language for the default user
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
-		m_registry->SetString(L"PreferredUILanguages", L"ca-ES");
+		wstring langcode;
+
+		langcode = GetUseDialectalVariant() ? VALENCIAN_LANGPACKCODE : CATALAN_LANGPACKCODE;
+
+		m_registry->SetString(L"PreferredUILanguages", (wchar_t *) langcode.c_str());
 		// Needed since the panel forces it to other languages
-		m_registry->SetMultiString(L"PreferredUILanguagesPending", L"ca-ES");
+		m_registry->SetMultiString(L"PreferredUILanguagesPending", (wchar_t *) langcode.c_str());
 		m_registry->Close();
 		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage current user done");
 	}
@@ -408,16 +448,20 @@ void Windows8LPIAction::_setDefaultLanguage()
 
 void Windows8LPIAction::CheckPrerequirements(Action * action)
 {
-	if (_getDownloadID() == NULL)
-	{
-		SetStatus(CannotBeApplied);
-		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
-		g_log.Log(L"Windows8LPIAction::IsNeed. Unsupported Windows version");
-		return;
-	}
-
 	if (_isAlreadyApplied())
 	{
 		SetStatus(AlreadyApplied);
+		return;
+	}
+
+	ConfigurationFileActionDownload downloadVersion;	
+	
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
+	if (downloadVersion.IsEmpty())
+	{
+		_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
+		g_log.Log(L"Windows8LPIAction::CheckPrerequirements. Version not supported");
+		SetStatus(CannotBeApplied);
+		return;
 	}
 }
