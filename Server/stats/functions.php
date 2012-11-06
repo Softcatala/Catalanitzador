@@ -289,9 +289,48 @@ function print_javascript_chart($id,$nice,$action_id,$allStats) {
 	<?php
 }
 
+function print_javascript_options_chart($id,$name,$data) {
+?>
+		<?=$id?>Chart = new Highcharts.Chart({
+				chart: {
+						renderTo: '<?=$id?>',
+						plotBackgroundColor: null,
+						plotBorderWidth: null,
+						plotShadow: false
+				},
+				title: {
+						text: "Opcions: <?=$nice?>"
+				},
+				tooltip: {
+						formatter: function() {
+								return '<b>'+ this.point.name +'</b><br />'
+								+ 'Total: ' + this.y + ' (' +
+								(Math.round(this.percentage*100)/100.0) +'%)';
+						}
+				},
+				plotOptions: {
+						pie: {
+								allowPointSelect: true,
+								cursor: 'pointer',
+								dataLabels: {
+										enabled: true,
+										color: '#000000',
+										connectorColor: '#000000'
+								}
+						}
+				},
+				series: [{ type: 'pie', name: "Opcions: <?=$nice?>", 
+                                data: [<?php print_options_data($data,false) ?>]}]
+		});	
+	<?php
+            echo '/* ';
+            var_dump($data);
+            echo ' */';
+}
+
 
 /**** GENERIC FUNCTIONS ****/
-function get_version_filter() {
+function    get_version_filter() {
 	global $vselected;
 	global $db;
 	$where = '';
@@ -360,8 +399,6 @@ function get_action_stats($action_id) {
 	return $action_count;
 }
 
-
-
 function print_action_data($action_count,$notinstalled=true) {
 	$i = 0;
 	foreach ( $action_count as $n=>$action ) {
@@ -374,6 +411,17 @@ function print_action_data($action_count,$notinstalled=true) {
 		echo '["',$n,'", ',$action,']';
 	}
 }
+
+function print_options_data($data) {
+	$i = 0;
+	foreach ( $data as $n=>$option ) {
+		if($i!=0) echo ','; 
+		
+		$i++;
+		echo '["',$n,'", ',$option,']';
+	}
+}
+
 
 /*********** inspectors *************/
 function get_inspectors_data($id) {

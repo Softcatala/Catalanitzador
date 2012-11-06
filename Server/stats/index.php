@@ -83,7 +83,7 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 			Última actualització de les dades: <em><?=date('H:j:s d/m/Y')?></em>
 		</div>
 		<div id="menu">
-			<a href="<?=get_query_string('show','')?>" class="<?=css_is_active('')?>">Resum</a><a href="<?=get_query_string('show','versions')?>" class="<?=css_is_active('versions')?>">Versions</a><a href="<?=get_query_string('show','inspectors')?>" class="<?=css_is_active('inspectors')?>">Inspectors</a>
+			<a href="<?=get_query_string('show','')?>" class="<?=css_is_active('')?>">Resum</a><a href="<?=get_query_string('show','versions')?>" class="<?=css_is_active('versions')?>">Versions</a><a href="<?=get_query_string('show','inspectors')?>" class="<?=css_is_active('inspectors')?>">Inspectors</a><a href="<?=get_query_string('show','options')?>" class="<?=css_is_active('options')?>">Opcions</a>
 		</div>
 		<div id="totals" style="witdh:800px;margin:0 auto"> <div>
 			<h2>Versions del Catalanitzador</h2>
@@ -143,6 +143,9 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 			case 'versions':
 				$show = 'versions';
 				break;
+                        case 'options':
+                                $show = 'options';
+                                break;
 		}
 	}
 	
