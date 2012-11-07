@@ -230,7 +230,8 @@ void Windows8LPIAction::_runLanguagePanelPowerShellScript(const string script)
 	params = L" -ExecutionPolicy remotesigned ";
 	params+= m_scriptfile.c_str();
 	
-	m_runner->Execute(szTool, (wchar_t *)params.c_str());
+	g_log.Log(L"Windows8LPIAction::_runLanguagePanelPowerShellScript '%s' with params '%s'", szTool, (wchar_t *)params.c_str());
+	m_runner->Execute(szTool, (wchar_t *)params.c_str(), m_OSVersion->IsWindows64Bits());
 	m_runner->WaitUntilFinished();
 }
 
