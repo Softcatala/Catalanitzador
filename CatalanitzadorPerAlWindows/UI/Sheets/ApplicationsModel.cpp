@@ -136,7 +136,7 @@ void ApplicationsModel::_processDependantItem(Action* action)
 	if (prevStatus == dependant->GetStatus())
 		return;
 
-	int itemIdx = _getItemIndexForItemData(action);
+	int itemIdx = _getItemIndexForItemData(dependant);
 
 	if (itemIdx != -1)
 	{
@@ -144,6 +144,7 @@ void ApplicationsModel::_processDependantItem(Action* action)
 
 		applicationItem = m_items.at(itemIdx);
 		applicationItem.SetIsDisabled(dependant->IsNeed() == false);
+		applicationItem.SetImageIndex(_getImageIndex(dependant->GetStatus()));
 		m_items[itemIdx] = applicationItem;
 		m_applicationsView->UpdateItem(applicationItem);
 	}	
