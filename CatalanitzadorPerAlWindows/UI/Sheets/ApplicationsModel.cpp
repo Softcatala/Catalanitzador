@@ -79,6 +79,20 @@ void ApplicationsModel::BuildListOfItems()
 	}
 }
 
+int ApplicationsModel::_getItemIndexForItemData(void *data)
+{
+	for (unsigned int i = 0; i < m_items.size(); i++)
+	{
+		Action* itemAction = (Action *) m_items.at(i).GetData();
+		if (itemAction == data)
+		{
+			return i;
+		}
+	}
+	assert(false);
+	return -1;
+}
+
 void ApplicationsModel::ProcessClickOnItem(ApplicationItem applicationItem)
 {
 	if (applicationItem.GetIsGroupName())
@@ -96,18 +110,14 @@ void ApplicationsModel::ProcessClickOnItem(ApplicationItem applicationItem)
 	default:
 		return; // Non selectable item
 	}
-	m_applicationsView->UpdateItem(applicationItem);
+	
+	int itemIdx = _getItemIndexForItemData(action);
 
-	for (unsigned int i = 0; i < m_items.size(); i++)
+	if (itemIdx != -1)
 	{
-		Action* itemAction = (Action *) m_items.at(i).GetData();
-		if (itemAction == applicationItem.GetData())
-		{
-			applicationItem.SetImageIndex(_getImageIndex(action->GetStatus()));
-			m_items[i] = applicationItem;
-			m_applicationsView->UpdateItem(applicationItem);
-			break;
-		}
+		applicationItem.SetImageIndex(_getImageIndex(action->GetStatus()));
+		m_items[itemIdx] = applicationItem;
+		m_applicationsView->UpdateItem(applicationItem);
 	}
 
 	_processDependantItem(action);
@@ -126,20 +136,17 @@ void ApplicationsModel::_processDependantItem(Action* action)
 	if (prevStatus == dependant->GetStatus())
 		return;
 
-	for (unsigned int i = 0; i < m_items.size(); i++)
-	{
-		Action* itemAction = (Action *) m_items.at(i).GetData();
-		if (itemAction == dependant)
-		{
-			ApplicationItem applicationItem;
+	int itemIdx = _getItemIndexForItemData(action);
 
-			applicationItem = m_items.at(i);
-			applicationItem.SetIsDisabled(dependant->IsNeed() == false);
-			m_items[i] = applicationItem;
-			m_applicationsView->UpdateItem(applicationItem);
-			break;
-		}
-	}
+	if (itemIdx != -1)
+	{
+		ApplicationItem applicationItem;
+
+		applicationItem = m_items.at(itemIdx);
+		applicationItem.SetIsDisabled(dependant->IsNeed() == false);
+		m_items[itemIdx] = applicationItem;
+		m_applicationsView->UpdateItem(applicationItem);
+	}	
 }
 
 ImageIndex ApplicationsModel::_getImageIndex(ActionStatus status)

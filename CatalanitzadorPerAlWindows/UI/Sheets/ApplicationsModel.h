@@ -50,6 +50,7 @@ private:
 		bool _anyActionNeedsInternetConnection();
 		ImageIndex _getImageIndex(ActionStatus status);
 		wstring _getGroupName(ActionGroup actionGroup);
+		int _getItemIndexForItemData(void *data);
 
 		vector <Action *> * m_availableActions;
 		vector <ApplicationItem> m_items;
