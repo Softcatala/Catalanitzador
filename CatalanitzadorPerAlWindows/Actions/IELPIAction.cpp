@@ -374,6 +374,18 @@ void IELPIAction::CheckPrerequirements(Action * action)
 {
 	Prerequirements pre;
 	ActionStatus status;
+	bool versionSupported;
+
+	versionSupported = _getDownloadID() != NULL;
+
+	if (versionSupported)
+	{
+		if (_isLangPackInstalled())
+		{
+			SetStatus(AlreadyApplied);
+			return;
+		}
+	}
 
 	if (GetStatus() == CannotBeApplied)
 		status = Selected;
@@ -420,14 +432,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 	}
 	else
 	{
-		if (_getDownloadID() != NULL)
-		{
-			if (_isLangPackInstalled())
-			{
-				status = AlreadyApplied;
-			}
-		}
-		else
+		if (versionSupported == false)
 		{
 			status = CannotBeApplied;
 		}
