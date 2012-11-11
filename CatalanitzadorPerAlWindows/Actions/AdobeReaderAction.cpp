@@ -37,11 +37,12 @@ AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner)
 
 void AdobeReaderAction::_initProcessNames()
 {
-	_addExecutionProcess(ExecutionProcess(L"AcroRd32.exe", L"", true));
-	_addExecutionProcess(ExecutionProcess(L"iexplore.exe", L"Internet Explorer", false));
+	// Cannot close Adobe: in some scenarios the window is closed but the process is left open (and the user cannot close it)
+	_addExecutionProcess(ExecutionProcess(L"AcroRd32.exe", L"", false));
+	_addExecutionProcess(ExecutionProcess(L"iexplore.exe", L"Internet Explorer", true));
 
 	//See: http://answers.microsoft.com/en-us/windows/forum/windows_xp-windows_programs/when-trying-to-install-adobe-acrobat-x-get-error/c8a03501-e160-4dac-b983-ae19f9a973bc
-	_addExecutionProcess(ExecutionProcess(L"searchfilterhost.exe", L"Microsoft Windows Search", false));
+	_addExecutionProcess(ExecutionProcess(L"searchfilterhost.exe", L"Microsoft Windows Search", true));
 }
 
 AdobeReaderAction::~AdobeReaderAction()
@@ -182,28 +183,9 @@ void AdobeReaderAction::FinishExecution(ExecutionProcess process)
 	Runner runner;
 	vector <DWORD> processIDs = _getProcessIDs(process.GetName());
 
-	if (_getMajorVersion() == 9)
+	for (unsigned int i = 0; i < processIDs.size(); i++)
 	{
-		if (processIDs.size() > 0)
-		{
-			OSVersion version;
-
-			if (version.GetVersion() == WindowsXP)
-			{
-				runner.TerminateProcessID(processIDs.at(0));
-			}
-			else // Windows Vista, 7 or better
-			{
-				runner.RequestCloseToProcessID(processIDs.at(0), false);
-			}
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < processIDs.size(); i++)
-		{
-			runner.RequestQuitToProcessID(processIDs.at(i));
-		}
+		runner.TerminateProcessID(processIDs.at(i));
 	}
 }
 
