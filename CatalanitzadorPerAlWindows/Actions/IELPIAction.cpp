@@ -210,8 +210,9 @@ bool IELPIAction::Download(ProgressStatus progress, void *data)
 	wstring filename;	
 	ConfigurationFileActionDownload downloadVersion;
 
-	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), _getDownloadID());
-	GetTempPath(MAX_PATH, m_filename);
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), _getDownloadID());	
+	wcscpy_s(m_filename, m_szTempDir);
+	wcscat_s(m_filename, L"\\");
 	wcscat_s(m_filename, downloadVersion.GetFilename().c_str());
 
 	return m_downloadManager->GetFile(downloadVersion, m_filename, progress, data);
