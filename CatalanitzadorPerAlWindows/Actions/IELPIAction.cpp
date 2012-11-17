@@ -365,7 +365,10 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirements()
 	if (_getIEVersion() == InternetExplorerVersion::IEUnknown)
 		return UnknownIEVersion;
 		
-	if (m_OSVersion->IsWindows64Bits() && _getIEVersion() != InternetExplorerVersion::IE9 && _getIEVersion() != InternetExplorerVersion::IE8)
+	if (m_OSVersion->IsWindows64Bits() &&
+			_getIEVersion() != InternetExplorerVersion::IE10 &&
+			_getIEVersion() != InternetExplorerVersion::IE9 &&
+			_getIEVersion() != InternetExplorerVersion::IE8)
 		return UnknownIEVersion;
 
 	return PrerequirementsOk;
