@@ -21,7 +21,6 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "ShowLicensesDlgUI.h"
 #include "AppRunningDlgUI.h"
-#include "AdobeReaderAction.h"
 #include "ActionExecution.h"
 
 #define DEFAULT_SELECTEDITEM_INLISTVIEW 1
@@ -276,6 +275,8 @@ bool ApplicationsPropertyPageUI::_onNext()
 	if (_checkRunningApps() == true)
 		return false;
 
+	m_model->LogRunningProcesses();
+
 	if (m_model->ShouldShowNoInternetConnectionDialog())
 	{
 		_showNoInternetConnectionDialog();
@@ -320,7 +321,7 @@ bool ApplicationsPropertyPageUI::_checkRunningApps()
 		{
 			execution->FinishExecution(process);
 		}
-		return true;		
+		return true;
 	}
 	return false;
 }

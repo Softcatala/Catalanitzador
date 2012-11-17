@@ -33,4 +33,5 @@ public:
 		virtual vector <DWORD> GetProcessID(wstring name) const = 0;
 		virtual bool RequestQuitToProcessID(DWORD processID) = 0;
 		virtual bool TerminateProcessID(DWORD processID) = 0;
+		virtual vector <wstring> GetRunningProcessesNames() const = 0;
 };

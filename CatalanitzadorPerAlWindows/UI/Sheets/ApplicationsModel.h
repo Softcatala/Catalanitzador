@@ -43,6 +43,7 @@ public:
 		void SetView(ApplicationsPropertyPageUI* applicationsView) {m_applicationsView = applicationsView;}
 		vector <ApplicationLegendItem> GetLegendItems();
 		bool DoLicensesNeedToBeAccepted();
+		void LogRunningProcesses();
 
 private:
 	

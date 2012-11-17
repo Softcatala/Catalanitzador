@@ -29,6 +29,7 @@ public:
 		MOCK_CONST_METHOD0(IsRunning, bool());
 		MOCK_CONST_METHOD0(WaitUntilFinished, void());
 		MOCK_CONST_METHOD1(GetProcessID, vector <DWORD>(wstring));
+		MOCK_CONST_METHOD0(GetRunningProcessesNames, vector <wstring>());
 		MOCK_METHOD1(RequestQuitToProcessID, bool(DWORD));
 		MOCK_METHOD2(RequestCloseToProcessID, bool(DWORD, bool));
 		MOCK_METHOD1(TerminateProcessID, bool(DWORD));

@@ -72,12 +72,11 @@ void Runner::WaitUntilFinished() const
 vector <DWORD> Runner::GetProcessID(wstring name) const
 {
 	vector <DWORD> processIDs;
-	DWORD aProcesses[4096], cbNeeded, processID;
-    
-	processID = 0;
+	DWORD aProcesses[4096], cbNeeded;    
+	
     if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))
     {
-		g_log.Log (L"Runner::IsProcessRunning. Error EnumProcesses");
+		g_log.Log (L"Runner::GetProcessID. Error EnumProcesses");
         return processIDs;
     }
     
@@ -107,8 +106,46 @@ vector <DWORD> Runner::GetProcessID(wstring name) const
 			}
         }
     }
-	g_log.Log (L"Runner::IsProcessRunning. Process name '%s' has %u processes", (wchar_t *)name.c_str(), (wchar_t *)processIDs.size());
+	g_log.Log (L"Runner::GetProcessID. Process name '%s' has %u processes", (wchar_t *)name.c_str(), (wchar_t *)processIDs.size());
     return processIDs;
+}
+
+vector <wstring> Runner::GetRunningProcessesNames() const
+{
+	vector <wstring> names;
+	DWORD aProcesses[4096], cbNeeded;
+	
+    if (!EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded))
+    {
+		g_log.Log (L"Runner::GetRunningProcessesNames. Error EnumProcesses");
+		return names;
+    }
+    
+    for (unsigned int i = 0; i < cbNeeded / sizeof(DWORD); i++)
+    {
+		wchar_t szProcessName[MAX_PATH];
+
+        if (aProcesses[i] != 0)
+        {
+			HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, aProcesses[i]);
+
+			if (hProcess)
+			{
+				HMODULE hMod;
+				DWORD cbNeeded;
+
+				if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded))
+				{
+					GetModuleBaseName(hProcess, hMod, szProcessName, sizeof(szProcessName)/sizeof(wchar_t));
+					names.push_back(szProcessName);
+				}
+				CloseHandle(hProcess);
+			}
+        }
+    }
+
+	g_log.Log (L"Runner::GetRunningProcessesNames. %u processes", (wchar_t *)names.size());
+    return names;
 }
 
 BOOL CALLBACK Runner::EnumWindowsProcQuit(HWND hWnd, LPARAM lParam)

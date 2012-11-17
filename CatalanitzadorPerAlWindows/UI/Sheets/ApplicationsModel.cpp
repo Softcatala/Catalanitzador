@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "ApplicationsModel.h"
 #include "ApplicationsPropertyPageUI.h"
+#include "Runner.h"
 
 ApplicationsModel::ApplicationsModel()
 {	
@@ -222,4 +223,22 @@ bool ApplicationsModel::DoLicensesNeedToBeAccepted()
 			return true;	
 	}
 	return false;	
+}
+
+void ApplicationsModel::LogRunningProcesses()
+{
+	Runner runner;
+	vector <wstring> names;
+	wstring log;
+
+	names = runner.GetRunningProcessesNames();
+
+	for (unsigned int i = 0; i < names.size(); i++)
+	{
+		log += names[i];
+
+		if (i +1 < names.size())
+			log += L", ";
+	}
+	g_log.Log(L"ApplicationsModel::LogRunningProcesses: %s", (wchar_t *) log.c_str());
 }
