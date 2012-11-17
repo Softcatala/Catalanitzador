@@ -81,7 +81,14 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 {
 	if (m_OSVersion->IsWindows64Bits())
 	{
-		return L"Win8_ca_64";
+		if (GetUseDialectalVariant())
+		{
+			return L"Win8_va_64";
+		}
+		else
+		{
+			return L"Win8_ca_64";
+		}
 	}
 	else
 	{

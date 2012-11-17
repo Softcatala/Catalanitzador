@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2012-11-05T21:31:00</date>
+		<date>2012-11-17T16:15:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -89,6 +89,14 @@
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc</url_3>
       				<filename>windows8-kb2607607-x86-val.mlc</filename>
+      			</download>
+      			<download>
+      				<version>Win8_va_64</version>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc]]></url_1>
+      				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc</url_3>
+      				<filename>windows8-kb2607607-x64-val</filename>
       			</download>
 		</action>
 		
