@@ -165,7 +165,7 @@ void ConfigurationRemoteXmlParser::Parse()
 	
 	if (parser.Load(m_file) == false)
 	{
-		g_log.Log(L"ConfigurationXmlParser::Parse. Could not open '%s'", (wchar_t *) m_file.c_str());
+		g_log.Log(L"ConfigurationXmlParser::Parse. Could not open / error parsing '%s'", (wchar_t *) m_file.c_str());
 		return;
 	}
 
