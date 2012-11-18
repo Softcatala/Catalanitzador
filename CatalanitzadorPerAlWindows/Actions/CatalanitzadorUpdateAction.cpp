@@ -73,11 +73,13 @@ bool CatalanitzadorUpdateAction::Download(ProgressStatus progress, void *data)
 
 void CatalanitzadorUpdateAction::Execute()
 {
-	wstring parameter(PARAMETER_NOCHECK);
+	wstring application(m_filename);
 
-	parameter += GetVersion();
-	g_log.Log(L"CatalanitzadorUpdateAction::Execute '%s' with params '%s'", (wchar_t *)m_filename.c_str(), (wchar_t *)parameter.c_str());
-	m_runner->Execute((wchar_t *)m_filename.c_str(), (wchar_t *)parameter.c_str(), false);
+	application += L" ";
+	application += PARAMETER_NOCHECK;
+	application += GetVersion();
+	g_log.Log(L"CatalanitzadorUpdateAction::Execute '%s'", (wchar_t *)application.c_str());
+	m_runner->Execute(NULL, (wchar_t *)application.c_str(), false);
 }
 
 const wchar_t* CatalanitzadorUpdateAction::GetVersion()
