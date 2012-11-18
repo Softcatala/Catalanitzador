@@ -61,14 +61,19 @@ bool DownloadNewVersionDlgUI::_downloadStatus(int total, int current, void *data
 void DownloadNewVersionDlgUI::_onTimer()
 {
 	KillTimer(getHandle(), TIMER_ID);
-	
-	m_pUpdateAction->Download(_downloadStatus, this);
 
-	if (m_bCancelled == false)
+	if (m_pUpdateAction->Download(_downloadStatus, this))
 	{
-		m_pUpdateAction->Execute();
-		// After executing the new version of the application, quit the current instance
-		PostMessage(getHandle(), WM_QUIT, 0, 0);
+		if (m_bCancelled == false)
+		{
+			m_pUpdateAction->Execute();
+			// After executing the new version of the application, quit the current instance
+			PostMessage(getHandle(), WM_QUIT, 0, 0);
+		}
+	}
+	else
+	{
+		SendMessage(getHandle(), WM_COMMAND, IDOK, 0);
 	}
 }
 
