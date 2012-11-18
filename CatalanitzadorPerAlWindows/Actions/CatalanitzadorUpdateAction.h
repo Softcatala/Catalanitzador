@@ -35,7 +35,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
-		virtual void CatalanitzadorUpdateAction::CheckPrerequirements(Action * action);
+		virtual void CheckPrerequirements(Action * action);
 		void SetVersion(wstring version) {m_version = version;}
 
 private:

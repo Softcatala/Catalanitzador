@@ -49,6 +49,20 @@ protected:
 	}
 };
 
+void _configureCatalanitzadorInDownloadFile(wstring version_req)
+{
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads fileActionDownloads;
+	ConfigurationFileActionDownload fileActionDownload, fileActionDownloadResult;
+
+	fileActionDownload.SetMinVersion(ApplicationVersion(L"0.0.0"));
+	fileActionDownload.SetMaxVersion(ApplicationVersion(version_req));
+	fileActionDownloads.SetActionID(CatalanitzadorUpdate);
+	fileActionDownloads.AddFileActionDownload(fileActionDownload);
+	remote.AddFileActionDownloads(fileActionDownloads);
+	ConfigurationInstance::Get().SetRemote(remote);
+}
+
 TEST_F(CatalanitzadorUpdateActionTest, SetGetVersion)
 {
 	CreateCatalanitzadorUpdate;
@@ -70,47 +84,40 @@ TEST_F(CatalanitzadorUpdateActionTest, Execute)
 }
 
 TEST_F(CatalanitzadorUpdateActionTest, CheckPrerequirements_AlreadyApplied)
-{	
-	ConfigurationRemote remote;
-	ConfigurationFileActionDownloads fileActionDownloads;
-	ConfigurationFileActionDownload fileActionDownload, fileActionDownloadResult;
+{
 	const wchar_t* VERSION_REQ = L"1.2.3";
-
 	CreateCatalanitzadorUpdate;
 	
-	
-	fileActionDownload.SetMinVersion(ApplicationVersion(L"0.0.0"));
-	fileActionDownload.SetMaxVersion(ApplicationVersion(VERSION_REQ));
-	fileActionDownloads.SetActionID(CatalanitzadorUpdate);
-	fileActionDownloads.AddFileActionDownload(fileActionDownload);	
-	remote.AddFileActionDownloads(fileActionDownloads);
-
+	_configureCatalanitzadorInDownloadFile(VERSION_REQ);
 	ConfigurationInstance::Get().SetVersion(ApplicationVersion(VERSION_REQ));
-	ConfigurationInstance::Get().SetRemote(remote);
 	catalanitzadorAction.CheckPrerequirements(NULL);
 
 	EXPECT_THAT(catalanitzadorAction.GetStatus(), AlreadyApplied);
 	EXPECT_FALSE(catalanitzadorAction.IsNeed());
 }
 
+TEST_F(CatalanitzadorUpdateActionTest, CheckPrerequirements_AlreadyApplied_Successful)
+{
+	const wchar_t* VERSION_REQ = L"1.2.3";
+	CreateCatalanitzadorUpdate;
+	
+	catalanitzadorAction.SetStatus(Successful);
+	_configureCatalanitzadorInDownloadFile(VERSION_REQ);
+	ConfigurationInstance::Get().SetVersion(ApplicationVersion(VERSION_REQ));
+	catalanitzadorAction.CheckPrerequirements(NULL);
+
+	EXPECT_THAT(catalanitzadorAction.GetStatus(), Successful);
+}
+
 TEST_F(CatalanitzadorUpdateActionTest, CheckPrerequirements_IsNeeded)
-{	
-	ConfigurationRemote remote;
-	ConfigurationFileActionDownloads fileActionDownloads;
-	ConfigurationFileActionDownload fileActionDownload, fileActionDownloadResult;
+{
 	const wchar_t* VERSION_LATEST = L"1.2.3";
 	const wchar_t* VERSION_PROG = L"1.2.0";
 
 	CreateCatalanitzadorUpdate;
 	
-	fileActionDownload.SetMinVersion(ApplicationVersion(L"0.0.0"));
-	fileActionDownload.SetMaxVersion(ApplicationVersion(VERSION_LATEST));
-	fileActionDownloads.SetActionID(CatalanitzadorUpdate);
-	fileActionDownloads.AddFileActionDownload(fileActionDownload);	
-	remote.AddFileActionDownloads(fileActionDownloads);
-
-	ConfigurationInstance::Get().SetVersion(ApplicationVersion(VERSION_PROG));
-	ConfigurationInstance::Get().SetRemote(remote);
+	_configureCatalanitzadorInDownloadFile(VERSION_LATEST);	
+	ConfigurationInstance::Get().SetVersion(ApplicationVersion(VERSION_PROG));	
 	catalanitzadorAction.CheckPrerequirements(NULL);
 	
 	EXPECT_TRUE(catalanitzadorAction.IsNeed());

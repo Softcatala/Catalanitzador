@@ -110,7 +110,7 @@ bool CatalanitzadorUpdateAction::_isRunningInstanceUpToDate()
 
 void CatalanitzadorUpdateAction::CheckPrerequirements(Action * action)
 {
-	if (_isRunningInstanceUpToDate())
+	if (GetStatus() != Successful && _isRunningInstanceUpToDate())
 	{
 		SetStatus(AlreadyApplied);
 		return;
