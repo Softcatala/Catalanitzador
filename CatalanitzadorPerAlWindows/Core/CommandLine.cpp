@@ -69,8 +69,9 @@ void CommandLine::_createCatalanitzadorUpdateAction(wstring version)
 void CommandLine::Process(wstring commandLine)
 {
 	wchar_t* pch;
-	
+
 	pch = (wchar_t*) commandLine.c_str();
+	g_log.Log(L"CommandLine::Process: '%s'", pch);
 
 	while (*pch != NULL)
 	{
