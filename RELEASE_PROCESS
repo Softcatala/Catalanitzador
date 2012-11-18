@@ -1,4 +1,4 @@
-** Release process **
+** Release process a new binary **
 
 Steps to follow when doing a release:
 
@@ -9,25 +9,24 @@ Steps to follow when doing a release:
 
 - Run all the unit tests (release mode)
 
-- Upload the new configuration.xml file
+- Upload the configuration.xml & the corresponding sha1 signature file to
+ftp://ftp.softcatala.org/pub/softcatala/catalanitzador/configuration.xml
 
 - Run the DownloadFilesChecker to check that all the files in the server are correct
 
 - Upload release notes
 www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows/Versio_X.Y
 
-- Upload binary to
+- Upload binary & the corresponding sha1 signature file to
 ftp://ftp.softcatala.org/pub/softcatala/catalanitzador/
 
 - Make it public at 
 http://www.softcatala.org/wiki/Rebost:Catalanitzador_per_al_Windows
 
-updating the version
-
 - Upload binary to 
 https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries/tree/master/releases
 
-- Notify it to development mailing list
+- Notify the new version to the development mailing list
 
 - git tag
 
@@ -35,3 +34,19 @@ git tag -m "X.Y.X tag" -a X_Y_X
 git push origin X_Y_X
 
 Where X_Y_X is the version published
+
+** Changing configuration.xml **
+
+- Update the <date> field with the modification date of the changes that you are introduccing.
+Catalanitzador will only use the remote file if its date is newer than the version of the file embed in 
+the application.
+
+Run DownloadFilesChecker to help you verify that the changes are correct
+
+- The <version> tag in the compatibility tag section indicates the minimum version of Catalanitzador
+needed to support the XML. If you have made changes that break the XML and there are only clients
+using this URL increase the version to number to the most recent version to prevent old clients from
+using the file.
+
+
+
