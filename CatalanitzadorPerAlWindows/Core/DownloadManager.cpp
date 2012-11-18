@@ -29,7 +29,7 @@ bool DownloadManager::_getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_f
 
 	sha1_file += SHA1_EXTENSION;	
 	bRslt = inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
-	g_log.Log(L"DownloadManager::GetAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
+	g_log.Log(L"DownloadManager::_getAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
 
 	sha1sum.SetFile(sha1_file);
 	sha1sum.ReadFromFile();
