@@ -53,7 +53,7 @@ function get_total_sessions() {
 	$v = get_version_filter();
 
 	if(!empty($v)) {
-		$where = ' where ApplicationsID = '.$v;
+		$where = " where ApplicationsID in ($v)";
 	}
 	
 	$total = $db->get_var("select count(sessions.ID) from sessions $where");
@@ -75,7 +75,7 @@ function get_unique_sessions() {
 	$v = get_version_filter();
 
 	if(!empty($v)) {
-		$where = ' where ApplicationsID = '.$v;
+		$where = " where ApplicationsID in ($v)";
 	} else {
 		$where = ' where 1 = 1 ';
 	}
@@ -103,7 +103,7 @@ function get_stacked_sessions() {
 	$v = get_version_filter();
 
 	if(!empty($v)) {
-		$v = ' where ApplicationsID = '.$v;
+		$v = " where ApplicationsID in ($v)";
 	}
 	
 	$results = $db->get_results("select DATE_FORMAT(Date, '%Y-%m-%d') as day, count(id) as total from sessions $v group by day order by day asc;");
@@ -157,11 +157,13 @@ function get_os_stats() {
 	$where = get_version_filter();
 	
 	if(!empty($where)) {
-		$where = ' AND ApplicationsID = '.$where;
+		$where = " AND ApplicationsID in ($where)";
 	}
 	
-	$results = $db->get_results("select count(sessions.ID) as total, operatings.Name, operatings.Bits, operatings.SPMajorVersion from sessions, operatings where operatings.ID = sessions.OperatingsID ". $where ." group by operatings.Name, operatings.Bits, operatings.SPMajorVersion;");
-
+        $query = "select count(sessions.ID) as total, operatings.Name, operatings.Bits, operatings.SPMajorVersion from sessions, operatings where operatings.ID = sessions.OperatingsID ". $where ." group by operatings.Name, operatings.Bits, operatings.SPMajorVersion;";
+        
+	$results = $db->get_results($query);
+            
 	$total_os = 0;
 	$os_count = array();
 
@@ -225,7 +227,7 @@ function get_actions_data($action_id) {
 	$v = get_version_filter();
 
 	if(!empty($v)) {
-		$v = ' AND ApplicationsID = '.$v;
+		$v = " AND ApplicationsID in ($v)";
 		$results = $db->get_results("select ActionID, Result, count(*) as total from actions a inner join sessions s on s.ID = a.SessionID where ActionID = $action_id $v group by a.ActionID , Result order by Result asc");
 	} else {
 		$results = $db->get_results("select ActionID, Result, count(*) as total from actions a where ActionID = $action_id group by a.ActionID , Result order by Result asc");
@@ -336,12 +338,31 @@ function    get_version_filter() {
 	$where = '';
 	if($vselected) {
 		$v = $_GET['v'];
-		if(!empty($v) && is_numeric($v)) {
-			$version = $db->get_results("select ID from applications "
-				. " where MajorVersion = $v[0] and MinorVersion = $v[1] and "
-				. " Revision = $v[2] ");
-			$where = $version[0]->ID;
-		}
+                if(empty($v) || strlen($v)!=3 )
+                    return;
+                
+                if(is_numeric($v)) {
+                    $version = $db->get_results("select ID from applications "
+                            . " where MajorVersion = $v[0] and MinorVersion = $v[1] and "
+                            . " Revision = $v[2] ");
+                    $where = $version[0]->ID;
+		} else if ($v[2] == 'x' && is_numeric(substr($v,0,2))){
+                    $version = $db->get_results("select ID from applications "
+                            . " where MajorVersion = $v[0] and MinorVersion = $v[1] and ");
+                    
+                    $where = '';    
+                    
+                    $firstVersion = true;
+                    foreach($version as $oneVersion) {
+                        if($firstVersion) {
+                            $firstVersion = false;
+                        } else  {
+                            $where .= ',';
+                        }
+                        
+                        $where .= $oneVersion->ID;
+                    }
+                }
 	}
 	
 	return $where;
@@ -386,7 +407,7 @@ function get_action_stats($action_id) {
 
 	// aquest IF no és necessari però és més eficient quan no hi ha filtre
 	if(!empty($v)) {
-		$v = ' AND ApplicationsID = '.$v;
+		$v = " AND ApplicationsID in ($v) ";
 		$results = $db->get_results("select count(*) total, $tversion AS NVersion from actions a inner join sessions s on s.ID = a.SessionID  where ActionID = $action_id $v group by NVersion;");
 	} else {
 		$results = $db->get_results("select count(*) total, $tversion AS NVersion from actions where ActionID = $action_id group by NVersion;");
@@ -433,7 +454,7 @@ function get_inspectors_data($id) {
 	$v = get_version_filter();
 
         if(!empty($v)) {
-                $where = ' where ApplicationsID = '.$v;
+                $where = " where ApplicationsID in ($v)";
         } else {
 		$where = ' where 1 = 1';
 	}

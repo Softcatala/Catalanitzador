@@ -19,14 +19,14 @@ class StatsOptions {
         $v = get_version_filter();
         
         if(!empty($v)) {
-            $v = ' where options.SessionId = sessions.Id AND ApplicationsID = '.$v;
+            $query = "select distinct OptionId from options, sessions ".
+                    "where options.SessionId = sessions.Id AND ApplicationsID in ($v)";
         }
         else {
-            $v = '';
+            $query = "select distinct OptionId from options";
         }
         
-        $results = $this->db->get_results("select distinct OptionId from options, ".
-                "sessions $v");
+        $results = $this->db->get_results($query);
         
         $options = array();
         
@@ -54,7 +54,7 @@ class StatsOptions {
         $v = get_version_filter();
         
         if(!empty($v)) {
-            $v = ' AND options.SessionId = sessions.Id AND ApplicationsID = '.$v;
+            $v = " AND ApplicationsID in ($v)";
         }
         else {
             $v = '';
@@ -62,7 +62,7 @@ class StatsOptions {
         
         $results = $this->db->get_results("select OptionId, Value, count(Value) as ".
                 "Total from options, sessions where OptionId = $id  ".
-                "$v group by OptionId,Value;");
+                "AND options.SessionId = sessions.Id $v group by OptionId,Value;");
         
         if(empty($results)) return $optionValues;
         

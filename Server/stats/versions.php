@@ -138,3 +138,8 @@
 	<script type="text/javascript">
 		<?php print_char(11,'windowslive',"l Windows Live"); ?>
 	</script>
+        <h2>Versions del Catalanitzador</h2>
+	<div id="catalanitzador_versions" style="height: 300px; margin: 0 auto"></div>
+	<script type="text/javascript">
+		<?php print_char(12,'catalanitzador',"l Catalanitzador"); ?>
+	</script>

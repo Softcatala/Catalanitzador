@@ -92,7 +92,50 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 					<tr>
 			<?php
 				$version_data = get_versions();
-				$vselected = false;
+                                $vselected = false;
+				 
+                                $numOfCols = 0;
+                                $lastV = '';
+                                foreach($version_data[0] as $ID => $version) {
+                                    $version = substr($version,0,-1).'x';
+                                    $v = str_replace('.','',$version);
+                                    
+                                    if(!empty($lastV) && ($lastV != $v)) {
+                                        if($_GET['v'] == $v) {
+                                            $style = ' class="active" ';
+                                            $vselected = true;
+                                        } else {
+                                            $style = '';
+                                        }
+
+                                        echo '<th colspan="',$numOfCols,'" ',$style,'><a href="';
+                                        echo get_query_string('v',$v);
+                                        echo '">',$version,'</a></th>';
+                                        $numOfCols = 0;
+                                    } else {
+                                        $numOfCols++;
+                                    }
+
+                                    $lastV = $v;					
+				}
+                                
+                                if($_GET['v'] == $v) {
+                                    $style = ' class="active" ';
+                                    $vselected = true;
+                                } else {
+                                    $style = '';
+                                }
+                                
+                                echo '<th colspan="',$numOfCols,'" ',$style,'><a href="';
+                                echo get_query_string('v',$v);
+                                echo '">',$version,'</a></th>';
+				
+					
+				echo '<th>&nbsp;</th>';
+                                
+                                echo '</tr><tr>';
+                                
+                                $vselected = false;
 				foreach($version_data[0] as $ID => $version) {
 					$v = str_replace('.','',$version);
 					if($_GET['v'] == $v) {
@@ -112,7 +155,9 @@ $os_names = array( "6.1" => "Windows 7", "6.0" => "Windows Vista", "5.2" => "Win
 					echo '<th style="background-color:#CCFFCC">';
 				}
 						
-				echo '<a href="',get_query_string('v',''),'">TOTES</a></th></tr></thead><tbody><tr>';
+				echo '<a href="',get_query_string('v',''),'">TOTES</a></th></tr>';
+                                
+                                echo '</thead><tbody><tr>';
 				$total_v = 0;
 				foreach($version_data[0] as $ID => $version) {
 					echo '<td>';
