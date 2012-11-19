@@ -30,12 +30,17 @@ using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::HasSubstr;
 
+#define SPANISH_LOCALE 0x0c0a
+#define FRENCH_LOCALE 0x040c
+#define US_LOCALE 0x0409
+#define PT_LOCALE 0x0816
+
 class Windows8LPIActionTest : public Windows8LPIAction
 {
 public:
 	
-	Windows8LPIActionTest::Windows8LPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
-		: Windows8LPIAction(OSVersion, registry, runner) {};
+	Windows8LPIActionTest::Windows8LPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
+		: Windows8LPIAction(OSVersion, registry, win32I18N, runner) {};
 
 	public:
 			using Windows8LPIAction::_isLangPackInstalled;
@@ -49,7 +54,7 @@ public:
 	Win32I18NMock win32I18NMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	Windows8LPIActionTest lipAction(&osVersionExMock, &registryMockobj, &runnerMock);
+	Windows8LPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock);
 
 void SetLangPackInstalled(RegistryMock& registryMockobj, bool enabled)
 {
@@ -156,4 +161,33 @@ TEST(Windows8LPIActionTest, _setLanguagePanel_Valencian)
 
 	EXPECT_THAT(content, HasSubstr("New-WinUserLanguageList ca-es-valencia"));
 	EXPECT_THAT(content, HasSubstr("$1 += \"ca\""));
+}
+
+TEST(WindowsLPIActionTest, CheckPrerequirements_French)
+{
+	CreateWindowsLIPAction;
+	vector <LANGID> ids;
+
+	ids.push_back(US_LOCALE);
+	ids.push_back(FRENCH_LOCALE);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(win32I18NMockobj, EnumUILanguages()).Times(1).WillRepeatedly(Return(ids));
+	
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
+}
+
+TEST(WindowsLPIActionTest, CheckPrerequirements_Portuguese)
+{
+	CreateWindowsLIPAction;
+	vector <LANGID> ids;
+
+	ids.push_back(PT_LOCALE);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(win32I18NMockobj, EnumUILanguages()).Times(1).WillRepeatedly(Return(ids));
+	
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(CannotBeApplied, lipAction.GetStatus());
 }
