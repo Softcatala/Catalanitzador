@@ -206,8 +206,6 @@ void FinishPropertyPageUI::_shutdown()
 	ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
 }
 
-#define CONTACT_EMAIL L"mailto://catalanitzador@softcatala.org"
-
 NotificationResult FinishPropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/)
 {
 	if (hdr->code == NM_CLICK && hdr->idFrom == IDC_SYSLINK_SUGGESTIONS)

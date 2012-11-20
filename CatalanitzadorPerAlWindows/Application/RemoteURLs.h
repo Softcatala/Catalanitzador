@@ -21,6 +21,8 @@
 
 #define DEVELOPMENT_VERSION 1
 
+#define CONTACT_EMAIL L"mailto://catalanitzador@softcatala.org"
+
 #if DEVELOPMENT_VERSION
 
 	#define APPLICATON_WEBSITE	L"http://dev-catalanitzador.softcatala.org"
