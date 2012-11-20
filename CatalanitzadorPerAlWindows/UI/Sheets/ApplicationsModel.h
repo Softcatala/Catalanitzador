@@ -31,9 +31,7 @@ class ApplicationsPropertyPageUI;
 
 class ApplicationsModel
 {
-public:
-
-		ApplicationsModel();
+public:		
 
 		void SetActions(vector <Action *> * value) {m_availableActions =  value; }
 		void BuildListOfItems();
@@ -52,6 +50,7 @@ private:
 		ImageIndex _getImageIndex(ActionStatus status);
 		wstring _getGroupName(ActionGroup actionGroup);
 		int _getItemIndexForItemData(void *data);
+		void _processDependantItems();
 
 		vector <Action *> * m_availableActions;
 		vector <ApplicationItem> m_items;
