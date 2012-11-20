@@ -341,6 +341,8 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 						return NeedsWinLPI;
 					}
 					break;
+				case InternetExplorerVersion::IE10:
+					return UnknownIEVersion;					
 				default:
 					break;
 			}
@@ -422,6 +424,9 @@ void IELPIAction::CheckPrerequirements(Action * action)
 				break;
 			case NoLangPackAvailable:
 				_getStringFromResourceIDName(IDS_IELPIACTION_NOPACKAGE, szCannotBeApplied);
+				break;
+			case UnknownIEVersion:
+				_getStringFromResourceIDName(IDS_IELPIACTION_UNKNOWNIE, szCannotBeApplied);
 				break;
 			default:
 				break;
