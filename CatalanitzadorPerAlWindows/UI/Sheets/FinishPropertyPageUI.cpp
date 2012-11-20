@@ -125,6 +125,10 @@ void FinishPropertyPageUI::_calculateActionsResults()
 	{
 		action = m_actions->at(i);
 
+		// Hidden action for which we do not want to show statistics
+		if (action->GetID() == CatalanitzadorUpdate)
+			continue;
+
 		switch (action->GetStatus())
 		{			
 			case AlreadyApplied:
