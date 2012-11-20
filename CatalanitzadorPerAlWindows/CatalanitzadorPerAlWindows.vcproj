@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\Sheets\Views&quot;;&quot;$(ProjectDir)UI\Sheets\Models&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -121,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\Sheets\Views&quot;;&quot;$(ProjectDir)UI\Sheets\Models&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
