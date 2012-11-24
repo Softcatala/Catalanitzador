@@ -33,6 +33,6 @@
 
 	#define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
 	#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
-	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/catalanitzador/configuration.xml"
+	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml"
 
 #endif
