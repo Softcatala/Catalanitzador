@@ -19,7 +19,7 @@
 
 #include "version.h"
 
-//#define DEVELOPMENT_VERSION 1
+#define DEVELOPMENT_VERSION 1
 
 #define CONTACT_EMAIL L"mailto://catalanitzador@softcatala.org"
 
