@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="CatalanitzadorPerAlWindows"
 	ProjectGUID="{A6EB9C02-ED55-4432-95A8-799C0E9BC143}"
 	RootNamespace="CatalanitzadorPerAlWindows"
@@ -402,26 +402,6 @@
 					>
 				</File>
 				<Filter
-					Name="Models"
-					>
-					<File
-						RelativePath=".\UI\Sheets\Models\ApplicationItem.h"
-						>
-					</File>
-					<File
-						RelativePath=".\UI\Sheets\Models\ApplicationLegendItem.h"
-						>
-					</File>
-					<File
-						RelativePath=".\UI\Sheets\Models\ApplicationsModel.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\UI\Sheets\Models\ApplicationsModel.h"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="Views"
 					>
 					<File
@@ -430,6 +410,10 @@
 					</File>
 					<File
 						RelativePath=".\UI\Sheets\Views\ApplicationsPropertyPageUI.h"
+						>
+					</File>
+					<File
+						RelativePath=".\UI\Sheets\Views\IApplicationsPropertyPageUI.h"
 						>
 					</File>
 				</Filter>

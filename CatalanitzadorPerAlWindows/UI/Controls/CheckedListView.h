@@ -21,6 +21,7 @@
 #pragma once
 #include <CommCtrl.h>
 #include "ActionStatus.h"
+#include "ImageIndex.h"
 
 #include <string>
 using namespace std;
@@ -32,15 +33,6 @@ enum CheckedColor
 	CheckedColorGrey = RGB(0xad,0xa8,0x91),
 	CheckedColorGreen = RGB(0x0, 0xc0, 0x0),
 	CheckedColorYellow = RGB(0xff, 0xd7, 0)
-};
-
-enum ImageIndex
-{
-	ImageIndexNone = 0,
-	ImageIndexBlack = 1,
-	ImageIndexGrey = 2,
-	ImageIndexYellow = 3,
-	ImageIndexGreen = 4
 };
 
 class CheckedListView

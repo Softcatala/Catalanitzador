@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=";$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI;;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories=";$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI;;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -706,6 +706,38 @@
 				RelativePath="..\CatalanitzadorPerAlWindows\UI\HideApplicationWindow.h"
 				>
 			</File>
+			<Filter
+				Name="Models"
+				>
+				<Filter
+					Name="Sheets"
+					>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationItem.h"
+						>
+					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationLegendItem.h"
+						>
+					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationsModel.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationsModel.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Controls"
+					>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Controls\ImageIndex.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Inspectors"

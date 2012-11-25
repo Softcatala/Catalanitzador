@@ -24,6 +24,7 @@
 #include "FinishPropertyPageUI.h"
 #include "PropertySheetUI.h"
 #include "ApplicationsPropertyPageUI.h"
+#include "IApplicationsPropertyPageUI.h"
 #include "WelcomePropertyPageUI.h"
 #include "ApplicationSheetUI.h"
 #include "ActiveX.h"
@@ -193,7 +194,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 	sheet.addPage(&welcome);
 
 	applicationModel.SetActions(&acts);
-	applicationModel.SetView(&applications);	
+	applicationModel.SetView((IApplicationsPropertyPageUI *)&applications);	
 	applications.createPage(m_hInstance, IDD_APPLICATIONS, IDD_APPLICATIONS_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_APPLICATIONS));
 	applications.setParent(&sheet);
 	applications.setPageButtons(NextBackButtons);
