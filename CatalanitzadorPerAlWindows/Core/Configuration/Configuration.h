@@ -27,6 +27,8 @@
 #include "RemoteURLs.h"
 #include "ApplicationVersion.h"
 
+#define MIN_VRESOLUTION_FOR_AERO 768
+
 class Configuration
 {
 	public:
@@ -57,7 +59,11 @@ class Configuration
 			{
 				if (m_useAero.IsUndefined())
 				{
-					return m_OSVersion->GetVersion() != WindowsXP;
+					if (m_OSVersion->GetVersion() == WindowsXP)
+					{
+						return false;
+					}					
+					return GetSystemMetricsYScreen() >= MIN_VRESOLUTION_FOR_AERO;
 				}
 				return m_useAero == true;
 			}
@@ -91,6 +97,10 @@ class Configuration
 			{
 				m_downloadConfigurationUrl = downloadConfigurationUrl;
 			}
+
+	protected:
+
+			virtual int GetSystemMetricsYScreen() { return GetSystemMetrics(SM_CYSCREEN); }
 
 	private:
 
