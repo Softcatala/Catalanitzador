@@ -3,14 +3,14 @@
 class StatsOptions {
     
     private $_optionNames;
-    private $db;
+    private $_db;
     
     public function __construct($db)
     {
         $this->_optionNames = array 
             ( 0 => "OptionSystemRestore", 1 => "OptionDialect", 2 => "OptionShowSecDlg");
         
-        $this->db = $db;
+        $this->_db = $db;
     }
     
     
@@ -26,7 +26,7 @@ class StatsOptions {
             $query = "select distinct OptionId from options";
         }
         
-        $results = $this->db->get_results($query);
+        $results = $this->_db->get_results($query);
         
         $options = array();
         
@@ -60,7 +60,7 @@ class StatsOptions {
             $v = '';
         }
         
-        $results = $this->db->get_results("select OptionId, Value, count(Value) as ".
+        $results = $this->_db->get_results("select OptionId, Value, count(Value) as ".
                 "Total from options, sessions where OptionId = $id  ".
                 "AND options.SessionId = sessions.Id $v group by OptionId,Value;");
         

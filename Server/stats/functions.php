@@ -18,28 +18,6 @@ function css_is_active($str='') {
 	return '';
 }
 
-function get_query_string($key='',$val='') {
-		$queryString = array();
-		$queryString = $_GET;
-		$queryString[$key] = $val;
-
-		$toRemove = array();
-
-		foreach($queryString as $k=>$v) {
-			if($queryString[$k]=='') {
-				$toRemove[] = $k;
-			}
-		}
-
-		foreach($toRemove as $i=>$k) {
-			unset($queryString[$k]);
-		}
-
-		$qString = htmlspecialchars(http_build_query($queryString),ENT_QUOTES);
-
-		return '?'.$qString;
-}
-
 /**** SESSIONS ****/
 function get_total_sessions() {
 	global $db;
@@ -368,56 +346,34 @@ function    get_version_filter() {
 	return $where;
 }
 
-function get_versions() {
-	global $db;
-	$results = $db->get_results("select ApplicationsID, count(*) as total from sessions group by ApplicationsID;");
-	$r_versions = $db->get_results("select * from applications order by ID asc");
-	$versions = array();
-	$totals = array();
-	foreach($r_versions as $k => $version) {
-		$versions["ID-".$version->ID] = $version->MajorVersion.'.'.$version->MinorVersion.'.'.$version->Revision;
-		$totals["ID-".$version->ID] = 0;
-	}
-	
-	foreach($results as $k => $result) {
-		$totals["ID-".$result->ApplicationsID] = $result->total;
-	}
-	
-	asort($versions);
-	
-	return array($versions,$totals);
-}
-
-
 function get_action_stats($action_id) {
-	global $db;
-	global $subversions;
-	
-	$total_action = 0;
-	$action_count = array();
+    global $db;
+    global $subversions;
 
-	$v = get_version_filter();
+    $total_action = 0;
+    $action_count = array();
 
-	if(in_array($action_id,$subversions)) {
-		//$tversion = "SUBSTRING(Version,1,LOCATE('.',Version,LOCATE('.',Version)+1)-1)";
-		$tversion = "IF(LOCATE('.',Version,LOCATE('.',Version)+1)=0,Version,SUBSTRING(Version,1,LOCATE('.',Version,LOCATE('.',Version)+1)-1))";
-	} else {
-		$tversion = "Version";
-	}
+    $v = get_version_filter();
 
-	// aquest IF no és necessari però és més eficient quan no hi ha filtre
-	if(!empty($v)) {
-		$v = " AND ApplicationsID in ($v) ";
-		$results = $db->get_results("select count(*) total, $tversion AS NVersion from actions a inner join sessions s on s.ID = a.SessionID  where ActionID = $action_id $v group by NVersion;");
-	} else {
-		$results = $db->get_results("select count(*) total, $tversion AS NVersion from actions where ActionID = $action_id group by NVersion;");
-	}
-	
-	foreach($results as $k => $result) {
-		$action_count[$result->NVersion] = $result->total;
-		$total_action += $result->total;
-	}
-	return $action_count;
+    if (in_array($action_id, $subversions)) {
+        $tversion = "IF(LOCATE('.',Version,LOCATE('.',Version)+1)=0,Version,SUBSTRING(Version,1,LOCATE('.',Version,LOCATE('.',Version)+1)-1))";
+    } else {
+        $tversion = "Version";
+    }
+
+    // aquest IF no és necessari però és més eficient quan no hi ha filtre
+    if (!empty($v)) {
+        $v = " AND ApplicationsID in ($v) ";
+        $results = $db->get_results("select count(*) total, $tversion AS NVersion from actions a inner join sessions s on s.ID = a.SessionID  where ActionID = $action_id $v group by NVersion;");
+    } else {
+        $results = $db->get_results("select count(*) total, $tversion AS NVersion from actions where ActionID = $action_id group by NVersion;");
+    }
+
+    foreach ($results as $k => $result) {
+        $action_count[$result->NVersion] = $result->total;
+        $total_action += $result->total;
+    }
+    return $action_count;
 }
 
 function print_action_data($action_count,$notinstalled=true) {

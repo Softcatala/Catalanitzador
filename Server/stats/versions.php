@@ -1,18 +1,16 @@
 	<h2>Versions dels sistemes operatius</h2>
 	<div id="os_versions" style="height: 600px; margin: 0 auto"></div>
-	
 	<script type="text/javascript">
-
-	$(document).ready(function() {
-			$('#action_results_button').click(function(){
-				if($(this).html() == '+') {
-					$(this).html('-');
-					$('#action_results').fadeIn('slow');
-				} else {
-					$(this).html('+');
-					$('#action_results').fadeOut('slow');
-				}
-			});
+            $(document).ready(function() {
+                $('#action_results_button').click(function(){
+                    if($(this).html() == '+') {
+                        $(this).html('-');
+                        $('#action_results').fadeIn('slow');
+                    } else {
+                        $(this).html('+');
+                        $('#action_results').fadeOut('slow');
+                    }
+                });
 			
 			var chartOS;
 			$(document).ready(function() {
