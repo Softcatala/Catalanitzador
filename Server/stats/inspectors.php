@@ -1,6 +1,5 @@
 <?php
 
-
 $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "WinRAR", 5=>"iTunes");
 
 ?>
@@ -43,4 +42,3 @@ $inspectors = array ( 1 => "LibreOffice", 2 => "Skype", 3 => "PDFCreator", 4=> "
 			echo "</tr></tbody></table>";
 		}
 	?>
-</html>

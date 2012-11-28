@@ -23,12 +23,13 @@ function get_total_sessions() {
 	global $db;
 
 	global $cache_results;
+    global $Catalanitzador;
 
 	if(isset($cache_results['get_total_sessions'])) {
 		return $cache_results['get_total_sessions'];
 	}
 
-	$v = get_version_filter();
+	$v = $Catalanitzador->get_version_selected();
 
 	if(!empty($v)) {
 		$where = " where ApplicationsID in ($v)";
@@ -45,12 +46,14 @@ function get_unique_sessions() {
 	global $db;
 
 	global $cache_results;
+    
+    global $Catalanitzador;
 
 	if(isset($cache_results['get_unique_sessions'])) {
 		return $cache_results['get_unique_sessions'];
 	}
 
-	$v = get_version_filter();
+	$v = $Catalanitzador->get_version_selected();
 
 	if(!empty($v)) {
 		$where = " where ApplicationsID in ($v)";
@@ -77,8 +80,9 @@ function get_unique_sessions_percent() {
 function get_stacked_sessions() {
 	
 	global $db;
-	
-	$v = get_version_filter();
+	global $Catalanitzador;
+    
+	$v = $Catalanitzador->get_version_selected();
 
 	if(!empty($v)) {
 		$v = " where ApplicationsID in ($v)";
@@ -130,9 +134,9 @@ function print_os_data($os_count) {
 
 function get_os_stats() {
 	global $db;
-	global $vselected;
+	global $Catalanitzador;
 	
-	$where = get_version_filter();
+	$where = $Catalanitzador->get_version_selected();
 	
 	if(!empty($where)) {
 		$where = " AND ApplicationsID in ($where)";
@@ -201,8 +205,9 @@ function print_office_data() {
 /**** ACTIONS DATA ****/
 function get_actions_data($action_id) {
 	global $db;
+    global $Catalanitzador;
 	
-	$v = get_version_filter();
+	$v = $Catalanitzador->get_version_selected();
 
 	if(!empty($v)) {
 		$v = " AND ApplicationsID in ($v)";
@@ -310,50 +315,17 @@ function print_javascript_options_chart($id,$name,$data) {
 
 
 /**** GENERIC FUNCTIONS ****/
-function    get_version_filter() {
-	global $vselected;
-	global $db;
-	$where = '';
-	if($vselected) {
-		$v = $_GET['v'];
-                if(empty($v) || strlen($v)!=3 )
-                    return;
-                
-                if(is_numeric($v)) {
-                    $version = $db->get_results("select ID from applications "
-                            . " where MajorVersion = $v[0] and MinorVersion = $v[1] and "
-                            . " Revision = $v[2] ");
-                    $where = $version[0]->ID;
-		} else if ($v[2] == 'x' && is_numeric(substr($v,0,2))){
-                    $version = $db->get_results("select ID from applications "
-                            . " where MajorVersion = $v[0] and MinorVersion = $v[1] and ");
-                    
-                    $where = '';    
-                    
-                    $firstVersion = true;
-                    foreach($version as $oneVersion) {
-                        if($firstVersion) {
-                            $firstVersion = false;
-                        } else  {
-                            $where .= ',';
-                        }
-                        
-                        $where .= $oneVersion->ID;
-                    }
-                }
-	}
-	
-	return $where;
-}
+
 
 function get_action_stats($action_id) {
     global $db;
     global $subversions;
+    global $Catalanitzador;
 
     $total_action = 0;
     $action_count = array();
 
-    $v = get_version_filter();
+    $v = $Catalanitzador->get_version_selected();
 
     if (in_array($action_id, $subversions)) {
         $tversion = "IF(LOCATE('.',Version,LOCATE('.',Version)+1)=0,Version,SUBSTRING(Version,1,LOCATE('.',Version,LOCATE('.',Version)+1)-1))";
@@ -404,11 +376,14 @@ function print_options_data($data) {
 function get_inspectors_data($id) {
 	
 	if(!is_int($id)) return array();
-	global $db;
+	
+    global $db;
+    global $Catalanitzador;
+    
 	$_data = array();
 
-	$v = get_version_filter();
-
+	$v = $Catalanitzador->get_version_selected();
+    
         if(!empty($v)) {
                 $where = " where ApplicationsID in ($v)";
         } else {

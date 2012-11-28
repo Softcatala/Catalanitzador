@@ -1,13 +1,15 @@
 <?php
     require_once '../lib/db_stats.php';
-    require_once 'functions.php';
     require_once 'class.utils.php';
     require_once 'class.catalanitzador.php';
-    require_once 'constants.php';
-    require_once 'header.php';
 
     global $db;
     $Catalanitzador = new Catalanitzador($db);
+    
+    require_once 'functions.php';
+    require_once 'constants.php';
+    require_once 'header.php';
+
 ?>
     <body>
         <h1>Estadístiques del <a href="http://catalanitzador.softcatala.org" 

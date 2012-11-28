@@ -2,7 +2,7 @@
 
 include('class.options.php');
 global $db;
-
+global $Catalanitzador;
 ?>
         <h2>Opcions</h2>
         <em>
@@ -10,7 +10,7 @@ global $db;
                 han seleccionat els usuaris
         </em>
 <?php
-        $statsOption = new StatsOptions($db);
+        $statsOption = new StatsOptions($db,$Catalanitzador);
         
         $allOptions = $statsOption->GetOptions();
         foreach($allOptions as $optionId => $optionName) {

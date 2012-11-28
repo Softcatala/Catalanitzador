@@ -1,4 +1,7 @@
-					<h2>Dades totals d'ús</h2>
+<?php
+    global $Catalanitzador;
+?>
+                    <h2>Dades totals d'ús</h2>
 					<ul>
 						<li><strong>Sessions:</strong> 
 							<?php echo get_total_sessions(); ?> 
@@ -75,7 +78,7 @@
 			series: [{
 				type: 'area',
 				name: 'Sessions acumulades',
-				<?php if($vselected) { ?>
+				<?php if($Catalanitzador->is_version_selected()) { ?>
 				visible: false,
 				<?php } ?>
 				data: [<?php

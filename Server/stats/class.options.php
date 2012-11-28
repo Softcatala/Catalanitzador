@@ -4,19 +4,21 @@ class StatsOptions {
     
     private $_optionNames;
     private $_db;
+    private $_catalanitzador;
     
-    public function __construct($db)
+    public function __construct($db,$catalanitzador)
     {
         $this->_optionNames = array 
             ( 0 => "OptionSystemRestore", 1 => "OptionDialect", 2 => "OptionShowSecDlg");
         
         $this->_db = $db;
+        $this->_catalanitzador = $catalanitzador;
     }
     
     
     public function GetOptions() {
         
-        $v = get_version_filter();
+        $v = $this->_catalanitzador->get_version_selected();
         
         if(!empty($v)) {
             $query = "select distinct OptionId from options, sessions ".
@@ -51,7 +53,7 @@ class StatsOptions {
         
         if(!isset($id)) return $optionValues;
         
-        $v = get_version_filter();
+        $v = $this->_catalanitzador->get_version_selected();
         
         if(!empty($v)) {
             $v = " AND ApplicationsID in ($v)";
