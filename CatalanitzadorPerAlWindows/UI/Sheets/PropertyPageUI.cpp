@@ -94,21 +94,7 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 				pThis->_sendSetButtonsMessage();
 				break;
 			case PSN_QUERYCANCEL:
-
-				bool cancel_exit;
-				wchar_t szMessage [MAX_LOADSTRING];
-				wchar_t szCaption [MAX_LOADSTRING];
-
-				LoadString(GetModuleHandle(NULL), IDS_DOYOUWANTOCANCEL, szMessage, MAX_LOADSTRING);
-				LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
-				
-				cancel_exit = (MessageBox(hWnd, szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) != IDYES);
-				SetWindowLong(hWnd, DWL_MSGRESULT, cancel_exit ? TRUE: FALSE);
-
-				if (cancel_exit == false)
-				{
-					PostQuitMessage(0);
-				}
+				SetWindowLong(hWnd, DWL_MSGRESULT, pThis->_onCancel() ? FALSE : TRUE);
 				return TRUE;
 			default:
 				break;
@@ -193,4 +179,24 @@ void PropertyPageUI::_sendSetButtonsMessage()
 	}
 
 	SendMessage (getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, buttons);
+}
+
+bool PropertyPageUI::_onCancel()
+{
+	bool exit;
+	wchar_t szMessage [MAX_LOADSTRING];
+	wchar_t szCaption [MAX_LOADSTRING];
+
+	LoadString(GetModuleHandle(NULL), IDS_DOYOUWANTOCANCEL, szMessage, MAX_LOADSTRING);
+	LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+	
+	exit = (MessageBox(getHandle(), szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) == IDYES);
+
+	if (exit == true)
+	{
+		g_log.Log(L"PropertyPageUI::_onCancel. User has quit");
+		PostQuitMessage(0);
+	}
+
+	return exit;
 }

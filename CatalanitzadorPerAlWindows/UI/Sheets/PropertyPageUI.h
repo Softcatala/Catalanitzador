@@ -54,6 +54,7 @@ public:
 	void						setParent(PropertySheetUI* sheet){m_sheet = sheet; }
 	void						setDialogProc(DLGPROC pfnDlgProc){m_pfnDlgProc=pfnDlgProc;};		
 	void						setPageButtons (PropertyPageButton buttons) { m_PageButtons = buttons; }	
+	virtual	bool				_onCancel();
 
 private:
 
