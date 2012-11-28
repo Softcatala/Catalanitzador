@@ -54,7 +54,6 @@ protected:
 
 private:
 		
-		//bool _isWindowsXPValidated();
 		void _setDefaultLanguage();
 		bool _isASupportedSystemLanguage();
 

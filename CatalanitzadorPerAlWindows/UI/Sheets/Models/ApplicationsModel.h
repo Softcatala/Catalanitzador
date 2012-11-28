@@ -22,39 +22,40 @@
 #include "Action.h"
 #include "ApplicationItem.h"
 #include "ApplicationLegendItem.h"
+#include "IApplicationsPropertyPageUI.h"
 #include <string>
 #include <vector>
 
 using namespace std;
 
-class ApplicationsPropertyPageUI;
-
 class ApplicationsModel
 {
-public:
-
-		ApplicationsModel();
+public:		
 
 		void SetActions(vector <Action *> * value) {m_availableActions =  value; }
 		void BuildListOfItems();
 		vector <ApplicationItem> & GetItems() {return m_items;}
 		void ProcessClickOnItem(ApplicationItem applicationItem);
 		bool ShouldShowNoInternetConnectionDialog();
-		void SetView(ApplicationsPropertyPageUI* applicationsView) {m_applicationsView = applicationsView;}
+		void SetView(IApplicationsPropertyPageUI* applicationsView) {m_applicationsView = applicationsView;}
 		vector <ApplicationLegendItem> GetLegendItems();
 		bool DoLicensesNeedToBeAccepted();
 		void LogRunningProcesses();
 
+protected:
+
+		bool _anyActionNeedsInternetConnection();
+
 private:
 	
-		void _processDependantItem(Action* action);
-		bool _anyActionNeedsInternetConnection();
+		void _processDependantItem(Action* action);		
 		ImageIndex _getImageIndex(ActionStatus status);
 		wstring _getGroupName(ActionGroup actionGroup);
 		int _getItemIndexForItemData(void *data);
+		void _processDependantItems();
 
 		vector <Action *> * m_availableActions;
 		vector <ApplicationItem> m_items;
-		ApplicationsPropertyPageUI* m_applicationsView;
+		IApplicationsPropertyPageUI* m_applicationsView;
 
 };

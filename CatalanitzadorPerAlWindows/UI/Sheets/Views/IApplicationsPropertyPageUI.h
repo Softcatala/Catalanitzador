@@ -17,11 +17,13 @@
  * 02111-1307, USA.
  */
  
+#pragma once
 
-#define APP_MAJOR_VERSION		1
-#define APP_MINOR_VERSION		4
-#define APP_REVISION			3
+#include "ApplicationItem.h"
 
-#define STRING_VERSION				L"1.4.3"
-#define STRING_VERSION_RESOURCES	"1.4.3.0"
+class IApplicationsPropertyPageUI
+{
+public:		
+		virtual void UpdateItem(ApplicationItem item) = 0;
 
+};

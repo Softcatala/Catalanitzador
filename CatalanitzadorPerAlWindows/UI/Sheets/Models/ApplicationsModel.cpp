@@ -22,10 +22,6 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "Runner.h"
 
-ApplicationsModel::ApplicationsModel()
-{	
-}
-
 // An index to ActionGroup
 static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_INTERNET, IDS_GROUPNAME_OFFICE};
 
@@ -35,6 +31,19 @@ wstring ApplicationsModel::_getGroupName(ActionGroup actionGroup)
 	LoadString(GetModuleHandle(NULL), groupNames[actionGroup], szGroupName, MAX_LOADSTRING);
 
 	return wstring(szGroupName);
+}
+
+void ApplicationsModel::_processDependantItems()
+{
+	for (unsigned int i = 0; i < m_items.size(); i++)
+	{
+		Action* itemAction = (Action *) m_items.at(i).GetData();
+
+		if (m_items[i].GetIsGroupName() == false)
+		{
+			_processDependantItem(itemAction);
+		}
+	}
 }
 
 void ApplicationsModel::BuildListOfItems()
@@ -68,16 +77,7 @@ void ApplicationsModel::BuildListOfItems()
 		}
 	}
 
-	// TODO: Move to separate method
-	for (unsigned int i = 0; i < m_items.size(); i++)
-	{
-		Action* itemAction = (Action *) m_items.at(i).GetData();
-
-		if (m_items[i].GetIsGroupName() == false)
-		{
-			_processDependantItem(itemAction);
-		}
-	}
+	_processDependantItems();
 }
 
 int ApplicationsModel::_getItemIndexForItemData(void *data)
@@ -194,7 +194,7 @@ bool ApplicationsModel::ShouldShowNoInternetConnectionDialog()
 	return _anyActionNeedsInternetConnection() && Inet::IsThereConnection() == false;
 }
 
-vector <ApplicationLegendItem>  ApplicationsModel::GetLegendItems()
+vector <ApplicationLegendItem> ApplicationsModel::GetLegendItems()
 {
 	vector <ApplicationLegendItem> applicationLegendItems;
 	ActionStatus statuses [] = {Selected, AlreadyApplied, CannotBeApplied};

@@ -125,6 +125,10 @@ void FinishPropertyPageUI::_calculateActionsResults()
 	{
 		action = m_actions->at(i);
 
+		// Hidden action for which we do not want to show statistics
+		if (action->GetID() == CatalanitzadorUpdate)
+			continue;
+
 		switch (action->GetStatus())
 		{			
 			case AlreadyApplied:
@@ -205,8 +209,6 @@ void FinishPropertyPageUI::_shutdown()
 	Authorization::RequestShutdownPrivileges();
 	ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
 }
-
-#define CONTACT_EMAIL L"mailto://catalanitzador@softcatala.org"
 
 NotificationResult FinishPropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/)
 {

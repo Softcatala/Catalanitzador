@@ -16,23 +16,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
+ 
+#pragma once
 
-#include "version.h"
-
-#define DEVELOPMENT_VERSION 1
-
-#define CONTACT_EMAIL L"mailto://catalanitzador@softcatala.org"
-
-#if DEVELOPMENT_VERSION
-
-	#define APPLICATON_WEBSITE	L"http://dev-catalanitzador.softcatala.org"
-	#define UPLOAD_URL L"http://dev-catalanitzador.softcatala.org/parser.php"
-	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/beta/catalanitzador/configuration.xml"
-
-#else
-
-	#define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
-	#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
-	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml"
-
-#endif
+enum ImageIndex
+{
+	ImageIndexNone = 0,
+	ImageIndexBlack = 1,
+	ImageIndexGrey = 2,
+	ImageIndexYellow = 3,
+	ImageIndexGreen = 4
+};

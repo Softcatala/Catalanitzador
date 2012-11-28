@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="CatalanitzadorPerAlWindows"
 	ProjectGUID="{A6EB9C02-ED55-4432-95A8-799C0E9BC143}"
 	RootNamespace="CatalanitzadorPerAlWindows"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\Sheets\Views&quot;;&quot;$(ProjectDir)UI\Sheets\Models&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -121,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)Actions&quot;;&quot;$(ProjectDir)Core&quot;;&quot;$(ProjectDir)Core\Options&quot;;&quot;$(ProjectDir)Core\Configuration&quot;;&quot;$(ProjectDir)UI\Sheets&quot;;&quot;$(ProjectDir)UI\Sheets\Views&quot;;&quot;$(ProjectDir)UI\Sheets\Models&quot;;&quot;$(ProjectDir)UI\&quot;;&quot;$(ProjectDir)UI\Dialogs&quot;;&quot;$(ProjectDir)UI\Controls&quot;;&quot;$(ProjectDir)Resources&quot;;&quot;$(ProjectDir)Application&quot;;&quot;$(ProjectDir)Inspectors&quot;;OS"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -354,35 +354,11 @@
 				Name="Sheets"
 				>
 				<File
-					RelativePath=".\UI\Sheets\ApplicationItem.h"
-					>
-				</File>
-				<File
-					RelativePath=".\UI\Sheets\ApplicationLegendItem.h"
-					>
-				</File>
-				<File
 					RelativePath=".\UI\Sheets\ApplicationSheetUI.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\UI\Sheets\ApplicationSheetUI.h"
-					>
-				</File>
-				<File
-					RelativePath=".\UI\Sheets\ApplicationsModel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\UI\Sheets\ApplicationsModel.h"
-					>
-				</File>
-				<File
-					RelativePath=".\UI\Sheets\ApplicationsPropertyPageUI.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\UI\Sheets\ApplicationsPropertyPageUI.h"
 					>
 				</File>
 				<File
@@ -425,6 +401,22 @@
 					RelativePath=".\UI\Sheets\WelcomePropertyPageUI.h"
 					>
 				</File>
+				<Filter
+					Name="Views"
+					>
+					<File
+						RelativePath=".\UI\Sheets\Views\ApplicationsPropertyPageUI.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\UI\Sheets\Views\ApplicationsPropertyPageUI.h"
+						>
+					</File>
+					<File
+						RelativePath=".\UI\Sheets\Views\IApplicationsPropertyPageUI.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

@@ -26,9 +26,34 @@ using ::testing::Return;
 
 #define COMPATIBILITY L"3.2.1"
 
+class ConfigurationTest : public Configuration
+{
+public:
+	
+	ConfigurationTest(IOSVersion* version): Configuration(version)
+	{
+		m_resolution = 800;
+	};
+	
+	public: 
+			virtual int GetSystemMetricsYScreen()
+			{
+				return m_resolution;
+			}
+			
+			void SetSystemMetricsYScreen(int y)
+			{
+				m_resolution = y;
+			}
+
+	private:
+
+			int m_resolution;
+};
+
 TEST(ConfigurationTest, GetSetRemote)
 {
-	Configuration configuration(new OSVersion());
+	ConfigurationTest configuration(new OSVersion());
 	ConfigurationRemote configurationRemote;
 	configurationRemote.SetCompatibility(COMPATIBILITY);	
 	configuration.SetRemote(configurationRemote);
@@ -41,25 +66,36 @@ TEST(ConfigurationTest, GetAeroAuto_WindowsXP)
 	OSVersionMock osVersionExMock;
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 
-	Configuration configuration(&osVersionExMock);
+	ConfigurationTest configuration(&osVersionExMock);
 	EXPECT_FALSE(configuration.GetAeroEnabled());
 }
 
-TEST(ConfigurationTest, GetAeroAuto_Windows7)
+TEST(ConfigurationTest, GetAeroAuto_Windows7_800height)
 {
 	OSVersionMock osVersionExMock;
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 
-	Configuration configuration(&osVersionExMock);
+	ConfigurationTest configuration(&osVersionExMock);
 	EXPECT_TRUE(configuration.GetAeroEnabled());
 }
+
+TEST(ConfigurationTest, GetAeroAuto_Windows7_600height)
+{
+	OSVersionMock osVersionExMock;
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+
+	ConfigurationTest configuration(&osVersionExMock);
+	configuration.SetSystemMetricsYScreen(600);
+	EXPECT_FALSE(configuration.GetAeroEnabled());
+}
+
 
 TEST(ConfigurationTest, GetAeroGetSet_Windows7)
 {
 	OSVersionMock osVersionExMock;
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 
-	Configuration configuration(&osVersionExMock);
+	ConfigurationTest configuration(&osVersionExMock);
 	configuration.SetAeroEnabled(false);
 	EXPECT_FALSE(configuration.GetAeroEnabled());
 }

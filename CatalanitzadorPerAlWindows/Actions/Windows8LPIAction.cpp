@@ -38,9 +38,10 @@
 #define LANGUAGE_CODE L"ca-ES"
 #define SCRIPT_NAME L"lang.ps1"
 
-Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
+Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	m_registry = registry;
+	m_win32I18N = win32I18N;
 	m_OSVersion = OSVersion;
 	m_runner = runner;
 }
@@ -454,8 +455,44 @@ void Windows8LPIAction::_setDefaultLanguage()
 	}*/
 }
 
+
+#define SPANISH_LOCALEID 0x0C0A
+#define FRENCH_LOCALEID 0x040C
+#define US_LOCALEID 0x0409
+#define UK_LOCALEID 0x0809
+
+bool Windows8LPIAction::_isASupportedSystemLanguage()
+{
+	bool bLangOk = false;
+
+	vector <LANGID> langIDs;
+	langIDs = m_win32I18N->EnumUILanguages();
+
+	for (unsigned int i = 0; i < langIDs.size(); i++)
+	{
+		if (langIDs.at(i) == SPANISH_LOCALEID ||
+			langIDs.at(i) == FRENCH_LOCALEID ||
+			langIDs.at(i) == US_LOCALEID ||
+			langIDs.at(i) == UK_LOCALEID)
+		{				
+			bLangOk = true;			
+		}
+		g_log.Log(L"Windows8LPIAction::_isASupportedSystemLanguage. Language ID: %x", (wchar_t* )langIDs.at(i));
+	}
+	
+	return bLangOk;
+}
+
 void Windows8LPIAction::CheckPrerequirements(Action * action)
 {
+	if (_isASupportedSystemLanguage() == false)
+	{
+		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_NOSPFR, szCannotBeApplied);
+		g_log.Log(L"Windows8LPIAction::CheckPrerequirements. Unsupported base language");
+		SetStatus(CannotBeApplied);
+		return;
+	}
+
 	if (_isAlreadyApplied())
 	{
 		SetStatus(AlreadyApplied);

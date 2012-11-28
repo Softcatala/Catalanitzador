@@ -29,7 +29,7 @@
 class Windows8LPIAction : public Action
 {
 public:
-		Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
+		Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
 		~Windows8LPIAction();
 
 		virtual wchar_t* GetName();
@@ -47,10 +47,11 @@ public:
 		
 protected:
 
-		bool _isLangPackInstalled();	
+		bool _isLangPackInstalled();
 		wchar_t* _getDownloadID();
 		void _setLanguagePanel();
 		const wstring _getScriptFile() {return m_scriptfile;}
+		bool _isASupportedSystemLanguage();
 		
 private:
 		
