@@ -1,5 +1,8 @@
 <?php
     global $Catalanitzador;
+    global $actions;
+    global $action_status;
+    global $action_to_hide;
 ?>
                     <h2>Dades totals d'ús</h2>
 					<ul>
