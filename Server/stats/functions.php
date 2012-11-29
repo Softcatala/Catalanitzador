@@ -3,20 +3,7 @@
 $cache_results = array();
 
 /** WEB **/
-function css_is_active($str='') {
-	if(isset($_GET['show'])) {
-		if($_GET['show'] == $str) {
-			return 'active ';		
-		} else {
-			return '';
-		}
-	} else {
-		if($str == '') {
-			return 'active';
-		}
-	}
-	return '';
-}
+
 
 /**** SESSIONS ****/
 function get_total_sessions() {
