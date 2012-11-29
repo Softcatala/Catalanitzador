@@ -28,7 +28,7 @@
 #include <map>
 using namespace std;
 
-class ApplicationsPropertyPageUI: public PropertyPageUI
+class ApplicationsPropertyPageUI: public PropertyPageUI, IApplicationsPropertyPageUI
 {
 public:		
 		ApplicationsPropertyPageUI(ApplicationsModel* model);
@@ -36,7 +36,7 @@ public:
 		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
 		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}	
 
-		void UpdateItem(ApplicationItem item);
+		virtual void UpdateItem(ApplicationItem item);
 
 private:
 	
