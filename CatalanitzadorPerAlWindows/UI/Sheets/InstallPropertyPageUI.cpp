@@ -195,8 +195,30 @@ void InstallPropertyPageUI::_setTaskMarqueeMode(bool enable)
 	}
 }
 
+#define SLEEP_TIME 50 // miliseconds
+#define TIME_TO_READ_COUNTER 10 * 1000 / SLEEP_TIME // 10 seconds
+#define MAX_WAIT_TIME 30 * 60 // 30 minutes
+
 void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
 {
+	LARGE_INTEGER li;
+	INT64 start;
+	int cnt = 0;
+	double frequency = 0.0;
+
+	start = GetTickCount();
+	
+	if (QueryPerformanceFrequency(&li))
+	{
+		 frequency = double(li.QuadPart);
+		 QueryPerformanceCounter(&li);
+		 start = li.QuadPart;
+	}
+	else
+	{
+		g_log.Log(L"InstallPropertyPageUI::_waitExecutionComplete. QueryPerformanceFrequency failed");
+	}
+
 	while (true)
 	{
 		ActionStatus status = action->GetStatus();
@@ -205,8 +227,24 @@ void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
 			break;
 
 		Window::ProcessMessages();
-		Sleep(50);
+		Sleep(SLEEP_TIME);
 		Window::ProcessMessages();
+		cnt++;
+
+		if (frequency > 0 && cnt > TIME_TO_READ_COUNTER)
+		{
+			double diff;
+			
+			QueryPerformanceCounter(&li);
+			diff = double(li.QuadPart - start) / frequency;
+
+			if (diff > MAX_WAIT_TIME)
+			{
+				g_log.Log(L"InstallPropertyPageUI::_waitExecutionComplete. Timeout");
+				break;
+			}
+			cnt = 0;
+		}
 	}
 }
 
