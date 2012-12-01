@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib  CatalanitzadorPerAlWindows.Library.lib"
+				AdditionalDependencies="version.lib  psapi.lib  wininet.lib  CatalanitzadorPerAlWindows.Library.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(SolutionDir)Debug"
 				GenerateDebugInformation="true"
@@ -136,7 +136,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wininet.lib  CatalanitzadorPerAlWindows.Library.lib"
+				AdditionalDependencies="version.lib  psapi.lib  wininet.lib  CatalanitzadorPerAlWindows.Library.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)Release"
 				GenerateDebugInformation="true"

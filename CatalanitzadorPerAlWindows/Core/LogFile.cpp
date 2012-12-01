@@ -43,16 +43,34 @@ void LogFile::Close()
 	}
 }
 
-bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
+bool LogFile::CreateLogInTempDirectory(wchar_t* logFileName, wchar_t* appName)
 {
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, logFileName);
 
-	m_hLog = CreateFile(m_szFilename,  FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	m_hLog = CreateFile(m_szFilename, FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	if (m_hLog == INVALID_HANDLE_VALUE) return false;
+	if (m_hLog == INVALID_HANDLE_VALUE)
+		return false;
 
-	if (GetLastError() != ERROR_ALREADY_EXISTS)
+	_initLogFile(appName, GetLastError() == ERROR_ALREADY_EXISTS);
+	return true;
+}
+bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
+{	
+	wcscpy_s(m_szFilename, logFileName);
+	m_hLog = CreateFile(m_szFilename, FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (m_hLog == INVALID_HANDLE_VALUE) 
+		return false;
+
+	_initLogFile(appName, GetLastError() == ERROR_ALREADY_EXISTS);
+	return true;
+}
+
+void LogFile::_initLogFile(wchar_t* appName, bool fileAlreadyExists)
+{	
+	if (fileAlreadyExists == false)
 	{
 		_write(L"\xFEFF"); // Unicode mark
 	}
@@ -62,8 +80,8 @@ bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
 	}
 	_writeCompileTime(appName);
 	_today();
-	return true;
 }
+
 
 #define UNICODE_MARK_LEN 1
 

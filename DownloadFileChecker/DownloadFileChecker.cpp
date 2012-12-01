@@ -23,28 +23,86 @@
 #include "Sha1Sum.h"
 #include "ConfigurationFileActionDownloads.h"
 #include "ConfigurationInstance.h"
+#include "Actions.h"
+#include "DownloadManager.h"
 
 LogFile g_log;
 
 wstring bin_file(L"download.bin");
 wstring sha1_file(L"download.sha1");
+wchar_t szString[2048];
+
+void _outputString(wchar_t* string)
+{
+	wprintf(string);
+	wprintf(L"\r\n");
+	g_log.Log(string);
+}
+
+bool _downloadFile(wstring url, wstring sha1)
+{
+	DownloadInet inetacccess;
+	Sha1Sum sha1_computed(bin_file), sha1_read(sha1_file);
+	bool bFile, bSha1, sha1_matches;
+		
+	bFile = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)bin_file.c_str(), NULL, NULL);
+	bSha1 = inetacccess.GetFile((wchar_t *)sha1.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
+	sha1_computed.ComputeforFile();
+	sha1_read.ReadFromFile();
+
+	sha1_matches = sha1_read == sha1_computed;
+
+	swprintf_s(szString, L"* %s, %s download file:%s, download sha1:%s, sha1 verification:%s",
+		url.c_str(),
+		sha1.c_str(),
+		bFile == true ? L"Ok" : L"Failed",
+		bSha1 == true ? L"Ok" : L"Failed",
+		sha1_matches ? L"Ok" : L"Failed");
+	_outputString(szString);
+
+	return bFile == true && bSha1 == true && sha1_read == sha1_computed;
+}
+
+bool _downloadConfigurationFile()
+{
+	wstring sha1(REMOTE_CONFIGURATION_URL);
+	sha1 += L".sha1";
+
+	return _downloadFile(REMOTE_CONFIGURATION_URL, sha1);
+}
+
+void listDefinedActions(vector <ConfigurationFileActionDownloads> fileActionsDownloads)
+{
+	DownloadManager downloadManager;
+	Actions actions(&downloadManager);
+
+	swprintf_s(szString, L"Actions with configured downloads: %u", fileActionsDownloads.size());
+	_outputString(szString);
+
+	for (unsigned int i = 0; i < fileActionsDownloads.size(); i++)
+	{
+		ActionID actionID = fileActionsDownloads.at(i).GetActionID();
+
+		swprintf_s(szString, L"Action '%s' (id %u)", actions.GetActionFromID(actionID)->GetName(), actionID);
+		_outputString(szString);
+	}
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	vector <ConfigurationFileActionDownloads> fileActionsDownloads;
-	fileActionsDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();
-	bool bAllOk = true;
+	fileActionsDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();	
 	int downs_ok = 0;
 	int downs_errors = 0;
-
-	wprintf(L"Actions with configured downloads: %u\r\n", fileActionsDownloads.size());
-	wprintf(L"   IDs: ");
-
-	for (unsigned int i = 0; i < fileActionsDownloads.size(); i++)
+	
+	g_log.CreateLog(L"DownloadFileChecker.log", L"DownloadFileChecker");
+	
+	if (_downloadConfigurationFile() == false)
 	{
-		wprintf(L"%u, ", fileActionsDownloads.at(i).GetActionID());
-	}
-	wprintf(L"");
+		downs_errors++;
+	}	
+
+	listDefinedActions(fileActionsDownloads);
 
 	for (unsigned int i = 0; i < fileActionsDownloads.size(); i++) // Actions
 	{		
@@ -54,51 +112,29 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		for (unsigned int d = 0; d < downloads.size(); d++) // Download for a version
 		{
-			DownloadInet inetacccess;
 			vector <wstring>& urls = downloads.at(d).GetUrls();
-			vector <wstring>& sha1s = downloads.at(d).GetSha1Urls();		
-			bool bFile, bSha1, sha1_matches;
-			
+			vector <wstring>& sha1s = downloads.at(d).GetSha1Urls();
+		
 			for (unsigned int x = 0; x < urls.size(); x++)
 			{
-				Sha1Sum sha1_computed(bin_file), sha1_read(sha1_file);
-				wstring file, sha1;
-
-				file = urls.at(x);
-				sha1 = sha1s.at(x);
-
-				bFile = inetacccess.GetFile((wchar_t *)file.c_str(), (wchar_t *)bin_file.c_str(), NULL, NULL);
-				bSha1  = inetacccess.GetFile((wchar_t *)sha1.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
-				sha1_computed.ComputeforFile();
-				sha1_read.ReadFromFile();
-
-				sha1_matches = sha1_read == sha1_computed;
-
-				wprintf(L"* %s, %s download file:%s, download sha1:%s, sha1 verification:%s\r\n",
-					urls.at(x).c_str(),
-					sha1s.at(x).c_str(),
-					bFile == true ? L"Ok" : L"Failed",
-					bSha1 == true ? L"Ok" : L"Failed",
-					sha1_matches ? L"Ok" : L"Failed");
-
-				if (bFile == false || bSha1 == false || sha1_read != sha1_computed)
+				if (_downloadFile(urls.at(x), sha1s.at(x)))
 				{
-					bAllOk = false;
-					downs_errors++;
+					downs_ok++;
 				}
 				else
 				{
-					downs_ok++;
+					downs_errors++;
 				}
 			}
 		}
 	}
 
-	if (bAllOk)
-			wprintf(L"All downloads all OK!\r\n");
+	if (downs_errors == 0)
+			_outputString(L"All downloads all OK!");
 		else
-			wprintf(L"Some downloads contained errors!\r\n");
+			_outputString(L"Some downloads contained errors!");
 
-	wprintf(L"Files Ok: %u, with errors: %u\r\n", downs_ok, downs_errors);	
+	swprintf_s(szString, L"Files Ok: %u, with errors: %u", downs_ok, downs_errors);
+	_outputString(szString);
 }
 

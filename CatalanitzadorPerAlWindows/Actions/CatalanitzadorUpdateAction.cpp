@@ -24,7 +24,7 @@
 CatalanitzadorUpdateAction::CatalanitzadorUpdateAction(IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_runner = runner;
-	szName[0] = NULL;
+	wcscpy_s(szName, L"Catalanitzador");
 	szDescription[0] = NULL;
 }
 

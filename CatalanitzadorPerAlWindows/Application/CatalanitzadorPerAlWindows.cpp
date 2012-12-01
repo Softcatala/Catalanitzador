@@ -87,7 +87,7 @@ void CatalanitzadorPerAWindows::_initLog()
 	wchar_t szApp[1024];
 
 	swprintf_s(szApp, L"CatalanitzadorPerAlWindows version %s", STRING_VERSION);
-	g_log.CreateLog(L"CatalanitzadorPerAlWindows.log",szApp);
+	g_log.CreateLogInTempDirectory(L"CatalanitzadorPerAlWindows.log",szApp);
 	
 	wchar_t szOSInfo [2048];
 	m_osVersion.GetLogInfo(szOSInfo, sizeof (szOSInfo));

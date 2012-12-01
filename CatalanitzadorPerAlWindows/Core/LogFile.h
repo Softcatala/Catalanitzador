@@ -32,6 +32,7 @@ public:
 
 	LogFile();
 	~LogFile();
+	bool CreateLogInTempDirectory(wchar_t* logFileName, wchar_t* appName);
 	bool CreateLog(wchar_t* logFileName, wchar_t* appName);
 	void Close();
 
@@ -45,6 +46,7 @@ public:
 
 private:
 
+	void _initLogFile(wchar_t* appName, bool fileAlreadyExists);
 	void _stringTime();
 	void _write(wchar_t* string);
 	void _writeLine(wchar_t* string);
