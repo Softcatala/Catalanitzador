@@ -99,7 +99,7 @@ public:
 		void SetUseDialectalVariant(bool dialectalVariant) {m_dialectalVariant = dialectalVariant;}
 
 		// Public utility methods
-		void SetStatus(ActionStatus value);
+		virtual void SetStatus(ActionStatus value);
 		void GetLicense(wstring &license);
 		bool HasLicense() { return GetLicenseID() != NULL; };
 

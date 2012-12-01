@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,43 +20,52 @@
 #pragma once
 
 #include "Action.h"
-#include "PropertyPageUI.h"
+#include <string>
+#include <vector>
+
 #include "Serializer.h"
 #include "UploadStatisticsThread.h"
 #include "HttpFormInet.h"
 
-#include <vector>
 using namespace std;
 
-class FinishPropertyPageUI: public PropertyPageUI
+class FinishModel
 {
 public:
-		FinishPropertyPageUI();
-		~FinishPropertyPageUI();
-		void SetActions(vector <Action *> * value) { m_actions = value;}
+		FinishModel();
+		~FinishModel();
+
+		void SetActions(vector <Action *> * value) {m_actions =  value; }
 		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 		void SetSendStats(bool *pbSendStats) { m_pbSendStats = pbSendStats;}
+		double GetCompletionPercentage();
+		bool HasErrors();		
+		bool IsRebootNeed();
+		void Reboot();
+		void SendStatistics();
+		void WaitForStatisticsToCompleteOrTimeOut();
+
+		void OpenTwitter();
+		void OpenFacebook();
+		void OpenGooglePlus();
+		void OpenMailTo();
+
+protected:		
+		virtual void _shellExecuteURL(wstring url);
 
 private:
-		virtual void _onInitDialog();
-		virtual	void _onFinish();
-		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
-		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
-		bool _isRebootNeed();
-		void _shutdown();
-		void _setProgressBarLevelAndPercentage();
-		void _saveToDisk();
-		void _calculateActionsResults();
 
-		HFONT m_hFont;
+		void _calculateIndicatorsForProgressBar();
+		void _saveToDisk();		
+		
+		UploadStatisticsThread * m_uploadStatistics;
 		vector <Action *> * m_actions;
 		Serializer* m_serializer;
-		bool* m_pbSendStats;
-		UploadStatisticsThread * m_uploadStatistics;
 		HttpFormInet m_httpFormInet;
-		HWND m_levelProgressBar;
-		wstring m_xmlFile;
-		int m_done;
-		int m_doable;
+
+		bool* m_pbSendStats;
+		wstring m_xmlFile;		
+		float m_completionPercentage;
 		bool m_errors;
+
 };

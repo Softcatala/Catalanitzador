@@ -448,6 +448,10 @@
 			Name="Support"
 			>
 			<File
+				RelativePath=".\Support\ActionTest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Support\Application.h"
 				>
 			</File>
@@ -467,6 +471,10 @@
 					>
 					<File
 						RelativePath=".\UI\Sheets\Models\ApplicationsModelTest.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\UI\Sheets\Models\FinishModelTest.cpp"
 						>
 					</File>
 				</Filter>

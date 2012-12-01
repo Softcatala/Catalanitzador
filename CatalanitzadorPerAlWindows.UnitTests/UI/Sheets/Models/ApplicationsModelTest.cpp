@@ -20,29 +20,21 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "ApplicationsModel.h"
+#include "ActionTest.h"
 
-class ApplicationsModelTest : public ApplicationsModel
-{
-public:
-
-	using ApplicationsModel::_anyActionNeedsInternetConnection;
-};
-
-class ActionTest : public Action
-{
-public:
-		virtual wchar_t* GetName() {return L"";}
-		virtual wchar_t* GetDescription() {return L"";}		
-		virtual ActionID GetID() const {return NoAction;}
-		virtual bool IsNeed() {return true;}
-		virtual void Execute() {}
-};
 
 class ActionGroupWindowsTest : public ActionTest
 {
 public:
 		virtual ActionGroup GetGroup() const {return ActionGroupWindows;}
 		
+};
+
+class ApplicationsModelTest : public ApplicationsModel
+{
+public:
+
+	using ApplicationsModel::_anyActionNeedsInternetConnection;
 };
 
 class ActionGroupInternetTest : public ActionTest

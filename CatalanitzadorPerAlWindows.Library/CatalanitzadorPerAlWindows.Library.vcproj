@@ -728,6 +728,14 @@
 						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationsModel.h"
 						>
 					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\FinishModel.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\FinishModel.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Controls"

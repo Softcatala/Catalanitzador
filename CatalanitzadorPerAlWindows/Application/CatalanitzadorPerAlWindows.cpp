@@ -37,6 +37,7 @@
 #include "SystemRestore.h"
 #include "HttpFormInet.h"
 #include "ApplicationsModel.h"
+#include "FinishModel.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 : m_actions(&m_downloadManager)
@@ -167,7 +168,8 @@ void CatalanitzadorPerAWindows::_createWizard()
 	ApplicationsModel applicationModel;
 	ApplicationsPropertyPageUI applications(&applicationModel);
 	InstallPropertyPageUI install;
-	FinishPropertyPageUI finish;
+	FinishModel finishModel;
+	FinishPropertyPageUI finish(&finishModel);
 	SystemRestore sysRestore;
 	bool bSendStats = true;
 	int systemRestore = TRUE;
@@ -213,11 +215,12 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.createPage(m_hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
 	sheet.addPage(&install);
 
-	finish.SetSerializer(&m_serializer);
+	
 	finish.setParent(&sheet);
 	finish.setPageButtons(FinishButtonOnly);
-	finish.SetSendStats(&bSendStats);
-	finish.SetActions(&acts);
+	finishModel.SetSendStats(&bSendStats);
+	finishModel.SetSerializer(&m_serializer);
+	finishModel.SetActions(&acts);
 	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));	
 	sheet.addPage(&finish);
 
