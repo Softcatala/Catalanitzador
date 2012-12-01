@@ -48,7 +48,12 @@ bool Resources::DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file)
    
 	hFile = CreateFile(file, GENERIC_WRITE|GENERIC_READ, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	if (hFile != INVALID_HANDLE_VALUE)
+	if (hFile == INVALID_HANDLE_VALUE)
+	{
+		g_log.Log(L"Resources::_dumpResource. Failed to dump to '%s'", file);
+		return false;
+	}
+	else
 	{
 		BYTE byte = 0;
 		DWORD bytesWritten = 0;
@@ -57,11 +62,9 @@ bool Resources::DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file)
 			byte = pExeResource[i];
 			WriteFile(hFile, &byte, sizeof(byte), &bytesWritten, NULL);
 		}
+		CloseHandle(hFile);
+		return true;
 	}
-
-	CloseHandle(hFile);
-	g_log.Log(L"Resources::_dumpResource to '%s'", file);	
-	return true;
 }
 
 #define UNICODE_MARK_SIZE 2
