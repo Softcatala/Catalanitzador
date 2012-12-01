@@ -24,12 +24,13 @@ class Logs {
             
             $start = $start->format('Y-m-d');
             $end = $end->format('Y-m-d').' 23:59:59';
-            $sql = "select ID, Date, LogFile from sessions where Date >= '$start' and Date <= '$end'";
+            $sql = "select ID, Date, LogFile from sessions where LogFile != '' and Date >= '$start' and Date <= '$end'";
             
             $results = $this->_db->get_results($sql);
-            
-            foreach($results as $result) {
-                $this->_logs[$id][$result->ID] = array($result->Date,$result->LogFile);
+            if($results) {
+                foreach($results as $result) {
+                    $this->_logs[$id][$result->ID] = array($result->Date,$result->LogFile);
+                }
             }
         }
         
@@ -46,8 +47,8 @@ class Logs {
             }
 ?>
 <div id="wrap-log-<?=$id?>" class="<?=$empty?>">
-    <h3 style="cursor:pointer" id="log-<?=$id?>" class="log-id"><?=$id?> (<?=$log[0]?>)</h3>
-    <pre id="content-log-<?=$id?>" style="display:none;border:1px solid black;padding: 5px;"><?=$log[1]?></pre>
+    <h3 style="cursor:pointer;text-decoration:underline" id="log-<?=$id?>" class="log-id"><?=$id?> (<?=$log[0]?>)</h3>
+    <pre id="content-log-<?=$id?>" style="border:1px solid black;padding: 5px;"><?=$log[1]?></pre>
 </div>
 <?php
         }
