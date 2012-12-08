@@ -163,7 +163,7 @@ TEST(Windows8LPIActionTest, _setLanguagePanel_Valencian)
 	EXPECT_THAT(content, HasSubstr("$1 += \"ca\""));
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirements_French)
+TEST(Windows8LPIActionTest, CheckPrerequirements_French)
 {
 	CreateWindowsLIPAction;
 	vector <LANGID> ids;
@@ -178,7 +178,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_French)
 	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirements_Portuguese)
+TEST(Windows8LPIActionTest, CheckPrerequirements_Portuguese)
 {
 	CreateWindowsLIPAction;
 	vector <LANGID> ids;
