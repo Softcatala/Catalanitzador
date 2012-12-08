@@ -24,8 +24,9 @@
 #include "IRegistry.h"
 #include "IWin32I18N.h"
 #include "IOSVersion.h"
+#include "WindowsLPIBaseAction.h"
 
-class WindowsLPIAction : public Action
+class WindowsLPIAction : public WindowsLPIBaseAction
 {
 public:
 		WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);

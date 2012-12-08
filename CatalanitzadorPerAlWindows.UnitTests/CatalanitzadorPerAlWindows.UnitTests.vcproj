@@ -368,6 +368,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\LogExtractorTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\SerializerTest.cpp"
 				>
 			</File>

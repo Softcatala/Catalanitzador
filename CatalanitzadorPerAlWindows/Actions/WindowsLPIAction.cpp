@@ -313,6 +313,11 @@ ActionStatus WindowsLPIAction::GetStatus()
 		else
 		{
 			SetStatus(FinishedWithError);
+
+			if (m_OSVersion->GetVersion() != WindowsXP)
+			{
+				_dumpLpkSetupErrors();
+			}
 		}
 		
 		g_log.Log(L"WindowsLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");

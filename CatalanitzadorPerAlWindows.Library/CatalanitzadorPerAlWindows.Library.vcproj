@@ -399,6 +399,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\LogExtractor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\LogExtractor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Core\LogFile.cpp"
 				>
 			</File>
@@ -692,6 +700,14 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIBaseAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIBaseAction.h"
 				>
 			</File>
 		</Filter>

@@ -416,6 +416,7 @@ ActionStatus Windows8LPIAction::GetStatus()
 		else
 		{
 			SetStatus(FinishedWithError);
+			_dumpLpkSetupErrors();
 		}
 		
 		g_log.Log(L"Windows8LPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
