@@ -304,6 +304,7 @@ void WindowsLiveAction::_dumpWLSetupErrors()
 
 	Sleep(10000); // Since the WLSetup.exe process exists until you can read the file it takes some seconds
 	LogExtractor logExtractor(filename, LINES_TODUMP);
+	logExtractor.SetFileIsUnicode(false);
 	logExtractor.ExtractLogFragmentForKeyword(KEYWORD_TOSEARCH);
 	logExtractor.DumpLines();
 }

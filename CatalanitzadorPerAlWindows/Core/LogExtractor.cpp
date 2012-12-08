@@ -68,11 +68,13 @@ void LogExtractor::_storeTailLine(wstring line)
 }
 
 void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
-{	
+{
+
 	bool found = false;
 	int headLines = 0;	
 	FILE* stream;
-	wchar_t szLine[16384];
+	const int BUFFER_ELEMENTS = 16384;
+	wchar_t szLine[BUFFER_ELEMENTS];
 	
 	_wfopen_s(&stream, m_filename.c_str(), m_unicode ? L"rb" : L"r");
 
@@ -81,12 +83,12 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 		g_log.Log(L"LogExtractor::ExtractLogFragmentForKeyword. Error opening '%s'", (wchar_t*) m_filename.c_str());
 		return;
 	}
-
+	
 	m_lines.clear();
 	m_lines.resize(m_maxLinesTail);
 	std::transform(keyword.begin(), keyword.end(), keyword.begin(), ::tolower);
 	
-	while(fgetws(szLine, sizeof(szLine), stream))
+	while(fgetws(szLine, BUFFER_ELEMENTS, stream))
 	{
 		if (found == false)
 		{
