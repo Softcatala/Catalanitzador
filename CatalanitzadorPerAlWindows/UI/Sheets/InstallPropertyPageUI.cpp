@@ -197,7 +197,7 @@ void InstallPropertyPageUI::_setTaskMarqueeMode(bool enable)
 
 #define SLEEP_TIME 50 // miliseconds
 #define TIME_TO_READ_COUNTER 10 * 1000 / SLEEP_TIME // 10 seconds
-#define MAX_WAIT_TIME 30 * 60 // 30 minutes
+#define MAX_WAIT_TIME 45 * 60 // 45 minutes
 
 void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
 {
