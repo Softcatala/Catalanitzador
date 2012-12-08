@@ -77,7 +77,7 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeywordEnd)
 	wstring file;
 
 	GetLpkSetupLogLocation(file);
-	LogExtractor logExtractor(file, LINES);	
+	LogExtractor logExtractor(file, LINES);
 	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
 	const vector <wstring> & lines = logExtractor.GetLines();
 
@@ -86,4 +86,17 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeywordEnd)
 	EXPECT_THAT(lines.at(1), StrCaseEq(L"13:23:05:633 : PERF: RestorePointEnd - LEAVE"));
 	EXPECT_THAT(lines.at(2), StrCaseEq(L"13:23:05:633 : DEBUG: Cleaning working path in a new process"));
 	EXPECT_THAT(lines.at(3), StrCaseEq(L"13:23:05:633 : ExitProcess: There was an internal error: 0x8007065B"));
+}
+
+TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeywordDoesNotExist)
+{
+	const wchar_t* KEYWORD = L"KeywordDoesNotExists";
+	const int LINES = 7;
+	wstring file;
+
+	GetLpkSetupLogLocation(file);
+	LogExtractor logExtractor(file, LINES);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
+	const vector <wstring> & lines = logExtractor.GetLines();
+	EXPECT_EQ(0, lines.size());
 }

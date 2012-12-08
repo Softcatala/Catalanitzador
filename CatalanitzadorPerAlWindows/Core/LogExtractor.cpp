@@ -111,7 +111,15 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 	}
 
 	fclose(stream);
-	_removeInvalidCharsInArray();
+
+	if (found == true)
+	{
+		_removeInvalidCharsInArray();
+	}
+	else
+	{
+		m_lines.clear();
+	}
 }
 
 void LogExtractor::DumpLines()
