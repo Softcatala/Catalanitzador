@@ -23,6 +23,7 @@
 #include "Winver.h"
 #include "Url.h"
 #include "ConfigurationInstance.h"
+#include "LogExtractor.h"
 
 #define MS_LIVE_ESSENTIALS_2009 14
 #define CATALAN_WINLANGCODE 3
@@ -40,7 +41,7 @@ WindowsLiveAction::~WindowsLiveAction()
 	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_szFilename);
-	}	
+	}
 }
 
 wchar_t* WindowsLiveAction::GetName()
@@ -242,4 +243,67 @@ void WindowsLiveAction::CheckPrerequirements(Action * action)
 		_setStatusNotInstalled();
 		return;
 	}
+}
+
+#define KEYWORD_TOSEARCH L"Error"
+#define LINES_TODUMP 7
+#define LOGS_PATH L"\\Microsoft\\WLSetup\\Logs\\"
+
+wstring WindowsLiveAction::_getMostRecentWLSetupLogFile()
+{
+	HANDLE hFind;
+	WIN32_FIND_DATA findFileData;
+	wchar_t szLogPath[MAX_PATH];
+	wchar_t szFilename[MAX_PATH];
+	wchar_t szRecentFilename[MAX_PATH];
+	FILETIME filetime = {0};
+	wstring filename;	
+
+	SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szLogPath);
+	wcscat_s(szLogPath, LOGS_PATH);
+
+	wcscpy_s(szFilename, szLogPath);
+	wcscat_s(szFilename, L"*.log");
+	
+	hFind = FindFirstFile(szFilename, &findFileData);
+
+	if (hFind == INVALID_HANDLE_VALUE)
+	{
+		g_log.Log(L"WindowsLiveAction::_getMostRecentWLSetupLogFile. Cannot open 's%'", szFilename);
+		return wstring();
+	}
+
+	// If there are multiple files, select the most recent one
+	do
+	{
+		if (findFileData.ftLastWriteTime.dwHighDateTime > filetime.dwHighDateTime ||
+			findFileData.ftLastWriteTime.dwHighDateTime == filetime.dwHighDateTime && findFileData.ftLastWriteTime.dwLowDateTime > filetime.dwLowDateTime)
+		{
+			wcscpy_s(szRecentFilename, findFileData.cFileName);
+			filetime = findFileData.ftLastWriteTime;
+		}
+	} while (FindNextFile(hFind, &findFileData) != 0);
+
+	FindClose(hFind);
+	
+	filename = szLogPath;
+	filename += szRecentFilename;
+	return filename;
+}
+
+void WindowsLiveAction::_dumpWLSetupErrors()
+{
+	wstring filename;
+
+	filename = _getMostRecentWLSetupLogFile();
+
+	if (filename.empty())
+	{
+		return;
+	}
+
+	Sleep(10000); // Since the WLSetup.exe process exists until you can read the file it takes some seconds
+	LogExtractor logExtractor(filename, LINES_TODUMP);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD_TOSEARCH);
+	logExtractor.DumpLines();
 }

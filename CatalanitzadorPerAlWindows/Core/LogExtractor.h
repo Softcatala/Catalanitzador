@@ -32,6 +32,7 @@ class LogExtractor
 		void ExtractLogFragmentForKeyword(wstring keyword);
 		void DumpLines();
 		const vector <wstring> & GetLines() { return m_lines; }
+		void SetFileIsUnicode(bool unicode) { m_unicode = unicode; }
 
 	private:
 
@@ -44,4 +45,5 @@ class LogExtractor
 		int m_maxLinesHead;
 		int m_maxLinesTail;
 		wstring m_filename;
+		bool m_unicode;
 };

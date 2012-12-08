@@ -30,6 +30,12 @@ void GetLpkSetupLogLocation(wstring& location)
 	location += L"LogExtractor\\lpksetup-20121201-132302-0.log";
 }
 
+void GetWLSetupLogLocation(wstring& location)
+{
+	Application::GetExecutionLocation(location);
+	location += L"LogExtractor\\2012-12-08_14-00_1b90-p2b8xi9u.log";
+}
+
 TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword7Lines)
 {
 	const wchar_t* KEYWORD = L"Error";
@@ -99,4 +105,25 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeywordDoesNotExist)
 	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
 	const vector <wstring> & lines = logExtractor.GetLines();
 	EXPECT_EQ(0, lines.size());
+}
+
+
+TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword7Lines_Ascii)
+{
+	const wchar_t* KEYWORD = L"Error";
+	const int LINES = 7;
+	wstring file;
+
+	GetWLSetupLogLocation(file);
+	LogExtractor logExtractor(file, LINES);	
+	logExtractor.SetFileIsUnicode(false);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
+	const vector <wstring> & lines = logExtractor.GetLines();
+
+	EXPECT_EQ(5, lines.size());
+	EXPECT_THAT(lines.at(0), StrCaseEq(L"SingleInstance :000014B0 (12/08/2012 14:00:49.386) Existing server found"));
+	EXPECT_THAT(lines.at(1), StrCaseEq(L"Cert           :000014B0 (12/08/2012 14:00:49.386) Verifying signature of file=[C:\\Program Files\\Windows Live\\Installer\\wlarp.exe]..."));
+	EXPECT_THAT(lines.at(2), StrCaseEq(L"Exe            :000014B0 (12/08/2012 14:00:49.438) Detected another running instance of the installer"));
+	EXPECT_THAT(lines.at(3), StrCaseEq(L"!ERROR!        :000014B0 (12/08/2012 14:02:01) SOURCE=Exe, CODE=0x80280006 SetupUX reported fatal error (0x80280006)"));
+	EXPECT_THAT(lines.at(4), StrCaseEq(L"Logger         :000014B0 (12/08/2012 14:02:05.283) Logger Shutdown (collection=Yes; upload=Yes; InternalLogUpload=Yes; maxcabsize=300 Kb)"));
 }

@@ -40,7 +40,7 @@ wstring WindowsLPIBaseAction::_getMostRecentLpkSetupLogFile()
 
 	if (hFind == INVALID_HANDLE_VALUE)
 	{
-		g_log.Log(L"Windows8LPIAction::_dumpLangPackInstallerErrors");
+		g_log.Log(L"WindowsLPIBaseAction::_getMostRecentLpkSetupLogFile. Cannot open '%s'", szFilename);
 		return wstring();
 	}
 

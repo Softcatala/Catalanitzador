@@ -32,6 +32,7 @@ LogExtractor::LogExtractor(wstring filename, int maxLines)
 	m_tailPos = 0;	
 	m_maxLinesHead = maxLines / 2;
 	m_maxLinesTail = maxLines - m_maxLinesHead;
+	m_unicode = true;
 }
 
 void LogExtractor::_removeInvalidChars(wstring& line)
@@ -71,9 +72,9 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 	bool found = false;
 	int headLines = 0;	
 	FILE* stream;
-	wchar_t szLine[16384];	
-
-	_wfopen_s(&stream, m_filename.c_str(), L"rb");
+	wchar_t szLine[16384];
+	
+	_wfopen_s(&stream, m_filename.c_str(), m_unicode ? L"rb" : L"r");
 
 	if (stream == NULL)
 	{

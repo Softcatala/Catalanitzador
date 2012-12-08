@@ -1,0 +1,36 @@
+Logger         :000014B0 (12/08/2012 14:00:49.132) Logger Initialized, LogID=[D43717EA-F66E-46D2-9F47-2AC9304FCA2D]
+LOG            :000014B0 (12/08/2012 14:00:49.133) Image: C:\temp\wlsetup-web.exe
+LOG            :000014B0 (12/08/2012 14:00:49.133) X-AppName: WLInstaller
+LOG            :000014B0 (12/08/2012 14:00:49.133) X-AppVersion: 15.4.3555.0308
+LOG            :000014B0 (12/08/2012 14:00:49.133) Version: 15.4.3555.0308
+LOG            :000014B0 (12/08/2012 14:00:49.143) Flavor: SHIP
+LOG            :000014B0 (12/08/2012 14:00:49.143) Date: Mar  8 2012 (18:13:15)
+LOG            :000014B0 (12/08/2012 14:00:49.143) CommandLine: "C:\temp\wlsetup-web.exe" 
+LOG            :000014B0 (12/08/2012 14:00:49.143) Windows: 6.0 (6002) [300]
+LOG            :000014B0 (12/08/2012 14:00:49.143) Windows ServicePack: Service Pack 2
+LOG            :000014B0 (12/08/2012 14:00:49.156) Processor: 2 processor(s), architecture=i386
+LOG            :000014B0 (12/08/2012 14:00:49.156) Memory: 3142676 KB, 1071628 KB available
+LOG            :000014B0 (12/08/2012 14:00:49.156) Locale: System=1027, UI=3082
+LOG            :000014B0 (12/08/2012 14:00:49.156) Locale: ca-ES
+LOG            :000014B0 (12/08/2012 14:00:49.156) X-UMID: 9671337D-7951-4C99-A978-0842F246CEBB
+LOG            :000014B0 (12/08/2012 14:00:49.157) X-UUID: AF14B031-A80E-4DB1-A7B8-0177FCD92F00
+Logger         :000014B0 (12/08/2012 14:00:49.157) OS String: 6.0.6002sp2.0x86-Wrk-1(1027;3082;ca-ES)Vista HomePremium
+LOG            :000014B0 (12/08/2012 14:00:49.158) Default Browser: firefox.exe
+ExeUtil        :000014B0 (12/08/2012 14:00:49.158) TrustLevel: REQUIRE: REAL
+InstallerConfig:000014B0 (12/08/2012 14:00:49.158) Loading configuration 'CONFIG0' from resource
+InstallerConfig:000014B0 (12/08/2012 14:00:49.162) Loading configuration 'CONFIG1' from resource
+Exe            :000014B0 (12/08/2012 14:00:49.162) InstanceId: 1b90-b5f0d781472f4376804c228949f21a98
+Exe            :000014B0 (12/08/2012 14:00:49.162) SKU: wlsetup-web.exe
+Cert           :000014B0 (12/08/2012 14:00:49.165) Verifying signature of file=[C:\Users\__USERNAME__\AppData\Local\Temp\12081400-00001b90-e1tecjbzwr\tmp711B.tmp]...
+Cert           :000014B0 (12/08/2012 14:00:49.271) Verifying signature of file=[C:\Users\__USERNAME__\AppData\Local\Temp\12081400-00001b90-e1tecjbzwr\tmp7189.tmp]...
+UnpackManager  :000014B0 (12/08/2012 14:00:49.280) Created wlunpacker executable binary
+Exe            :000014B0 (12/08/2012 14:00:49.374) Package Type: ca (ship)
+Exe            :000014B0 (12/08/2012 14:00:49.385) Stating instance=0x00C70000
+Exe            :000014B0 (12/08/2012 14:00:49.385) Checking for running instances
+!WARNING!      :000014B0 (12/08/2012 14:00:49) SOURCE=SingleInstance, CODE=0x80070005 Creating named pipe failed with access denied, checking for existing server
+SingleInstance :000014B0 (12/08/2012 14:00:49.386) Server Process ID 4900
+SingleInstance :000014B0 (12/08/2012 14:00:49.386) Existing server found
+Cert           :000014B0 (12/08/2012 14:00:49.386) Verifying signature of file=[C:\Program Files\Windows Live\Installer\wlarp.exe]...
+Exe            :000014B0 (12/08/2012 14:00:49.438) Detected another running instance of the installer
+!ERROR!        :000014B0 (12/08/2012 14:02:01) SOURCE=Exe, CODE=0x80280006 SetupUX reported fatal error (0x80280006)
+Logger         :000014B0 (12/08/2012 14:02:05.283) Logger Shutdown (collection=Yes; upload=Yes; InternalLogUpload=Yes; maxcabsize=300 Kb)
