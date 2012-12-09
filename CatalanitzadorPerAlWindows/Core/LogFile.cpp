@@ -26,7 +26,7 @@
 
 LogFile::LogFile()
 {
-	m_hLog = NULL;
+	m_hLog = INVALID_HANDLE_VALUE;
 }
 
 LogFile::~LogFile()
@@ -36,10 +36,10 @@ LogFile::~LogFile()
 
 void LogFile::Close()
 {
-	if (m_hLog != NULL)
+	if (m_hLog != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(m_hLog);
-		m_hLog = NULL;
+		m_hLog = INVALID_HANDLE_VALUE;
 	}
 }
 
@@ -56,6 +56,7 @@ bool LogFile::CreateLogInTempDirectory(wchar_t* logFileName, wchar_t* appName)
 	_initLogFile(appName, GetLastError() == ERROR_ALREADY_EXISTS);
 	return true;
 }
+
 bool LogFile::CreateLog(wchar_t* logFileName, wchar_t* appName)
 {	
 	wcscpy_s(m_szFilename, logFileName);
@@ -179,12 +180,19 @@ void LogFile::_stringTime()
 void LogFile::_write(wchar_t* string)
 {
 	DWORD dwWritten;
-	WriteFile (m_hLog, string, wcslen (string) * sizeof (wchar_t), &dwWritten, NULL);
+
+	if (m_hLog == INVALID_HANDLE_VALUE)
+		return;
+
+	WriteFile(m_hLog, string, wcslen (string) * sizeof (wchar_t), &dwWritten, NULL);
 }
 
 void LogFile::_writeLine(wchar_t* string)
 {		
 	DWORD dwWritten;
+
+	if (m_hLog == INVALID_HANDLE_VALUE)
+		return;
 
 	wcscpy_s(m_szText, string);
 	wcscat_s(m_szText, L"\r\n");
