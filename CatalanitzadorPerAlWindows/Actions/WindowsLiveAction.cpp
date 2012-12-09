@@ -150,6 +150,7 @@ ActionStatus WindowsLiveAction::GetStatus()
 		else
 		{
 			SetStatus(FinishedWithError);
+			_dumpWLSetupErrors();
 		}
 		
 		g_log.Log(L"WindowsLiveAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
