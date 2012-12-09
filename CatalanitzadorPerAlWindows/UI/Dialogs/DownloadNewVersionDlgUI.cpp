@@ -66,6 +66,8 @@ void DownloadNewVersionDlgUI::_onTimer()
 	{
 		if (m_bCancelled == false)
 		{
+			// Close log to allow the new instance to open with write access
+			g_log.Close();
 			m_pUpdateAction->Execute();
 			// After executing the new version of the application, quit the current instance
 			PostMessage(getHandle(), WM_QUIT, 0, 0);
