@@ -62,7 +62,8 @@ void FinishPropertyPageUI::_onInitDialog()
 	SendMessage(GetDlgItem (getHandle(), IDC_HELPSOCIALNETWORKS), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 	SendMessage(GetDlgItem (getHandle(), IDC_FEEDBACK), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
-	_setProgressBarLevelAndPercentage();	
+	_setProgressBarLevelAndPercentage();
+	m_model->SendStatistics();
 }
 
 void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()
