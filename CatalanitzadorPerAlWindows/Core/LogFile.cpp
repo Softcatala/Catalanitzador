@@ -90,6 +90,11 @@ wstring LogFile::GetContent()
 	wstring content;
 	ifstream reader(m_szFilename);
 
+	if (reader.is_open() == false)
+	{
+		return content;
+	}
+
 	stringstream ss;
 	ss << reader.rdbuf() << '\0';
 	reader.close();
