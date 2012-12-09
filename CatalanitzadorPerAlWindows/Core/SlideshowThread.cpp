@@ -26,7 +26,7 @@
 
 SlideshowThread::SlideshowThread()
 {
-	_createURL();
+	m_szTempDir[0] = NULL;
 }
 
 SlideshowThread::~SlideshowThread()
@@ -35,31 +35,56 @@ SlideshowThread::~SlideshowThread()
 	{
 		DeleteFile(m_tempFiles[i].c_str());
 	}
+
+	if (m_szTempDir[0] != NULL)
+	{
+		RemoveDirectory(m_szTempDir);
+	}
 }
 
 void SlideshowThread::_createURL()
 {
-	wchar_t tempPath[MAX_PATH], url[MAX_PATH];
-	GetTempPath(MAX_PATH, tempPath);
+	wchar_t url[MAX_PATH];
 
-	wsprintf(url, L"file:///%s%s", tempPath, INDEX_FILE);
+	wsprintf(url, L"file:///%s\\%s", m_szTempDir, INDEX_FILE);
 	m_URL = url;
 }
 
 void SlideshowThread::OnStart()
 {
 	vector <wstring> resources;
-	wchar_t tempPath[MAX_PATH];
 	wstring file;
 
-	GetTempPath(MAX_PATH, tempPath);
+	_createTempDirectory();
+	_createURL();
+	
 	Resources::EnumResources(SLIDESHOW_RSCTYPE, resources);
 
 	for (unsigned i = 0; i < resources.size(); i++)
 	{
-		file = tempPath;
+		file = m_szTempDir;
+		file += L"\\";
 		file += resources[i].substr(1, resources[i].size() -2);	
 		Resources::DumpResource(SLIDESHOW_RSCTYPE, resources[i].c_str(), (wchar_t *)file.c_str());
 		m_tempFiles.push_back(wstring(file));
 	}
+}
+
+// We need to copy the file into a subdirectory to avoid conflicts with other threads
+bool SlideshowThread::_createTempDirectory()
+{
+	wchar_t szTempDir[MAX_PATH];
+
+	GetTempPath(MAX_PATH, szTempDir);
+
+	// Unique temporary file (needs to create it)
+	GetTempFileName(szTempDir, L"CAT", 0, m_szTempDir);
+	DeleteFile(m_szTempDir);
+
+	if (CreateDirectory(m_szTempDir, NULL) == FALSE)
+	{
+		g_log.Log(L"SlideshowThread::_createTempDirectory. Cannot create temp directory '%s'", m_szTempDir);
+		return false;
+	}
+	return true;
 }

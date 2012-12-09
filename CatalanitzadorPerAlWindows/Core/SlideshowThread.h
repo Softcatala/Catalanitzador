@@ -36,7 +36,9 @@ class SlideshowThread : public Thread
 
 	private:			
 			void _createURL();
+			bool _createTempDirectory();
 			
 			vector <wstring> m_tempFiles;
 			wstring m_URL;
+			wchar_t m_szTempDir[MAX_PATH];
 };
