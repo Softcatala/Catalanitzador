@@ -76,7 +76,11 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 	else
 	{
 		hRemoteFile = InternetOpenUrl(hInternet, URL, NULL, 0,
-			INTERNET_FLAG_RELOAD, // TODO: Debug only, prevents local caching
+#if DEVELOPMENT_VERSION
+			0, // Allows catching (speeds ups downloads during development)
+#else
+			INTERNET_FLAG_RELOAD, // Prevents local caching (for release version)
+#endif
 			0);
 	}
 
