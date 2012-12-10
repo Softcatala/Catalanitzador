@@ -128,6 +128,25 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword7Lines_Ascii)
 }
 
 
+TEST(LogExtractorTest, ExtractLogFragmentForKeyword_LastOccurrenceInMiddle)
+{
+	const wchar_t* KEYWORD = L"ExeUtil";
+	const int LINES = 3;
+	wstring file;
+
+	GetWLSetupLogLocation(file);
+	LogExtractor logExtractor(file, LINES);
+	logExtractor.SetFileIsUnicode(false);
+	logExtractor.SetExtractLastOccurrence(true);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
+	const vector <wstring> & lines = logExtractor.GetLines();
+
+	EXPECT_EQ(3, lines.size());
+	EXPECT_THAT(lines.at(0), StrCaseEq(L"LOG            :000014B0 (12/08/2012 14:00:49.158) Default Browser: firefox.exe"));
+	EXPECT_THAT(lines.at(1), StrCaseEq(L"ExeUtil        :000014B0 (12/08/2012 14:00:49.158) TrustLevel: REQUIRE: REAL"));
+	EXPECT_THAT(lines.at(2), StrCaseEq(L"InstallerConfig:000014B0 (12/08/2012 14:00:49.158) Loading configuration 'CONFIG0' from resource"));	
+}
+
 TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword5Lines_LastOccurrence)
 {
 	const wchar_t* KEYWORD = L"Error";

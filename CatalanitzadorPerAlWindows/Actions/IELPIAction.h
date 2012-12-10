@@ -43,6 +43,7 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 		virtual ActionID DependsOn() const { return WindowsLPI;};
 		virtual LPCWSTR GetLicenseID();
+		void _dumpWindowsUpdateErrors();
 
 		enum Prerequirements
 		{

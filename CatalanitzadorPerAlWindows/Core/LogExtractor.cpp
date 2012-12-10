@@ -77,7 +77,7 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 	const int BUFFER_ELEMENTS = 16384;
 	wchar_t szLine[BUFFER_ELEMENTS];
 	
-	_wfopen_s(&stream, m_filename.c_str(), m_unicode ? L"rb" : L"r");
+	stream = _wfsopen(m_filename.c_str(), m_unicode ? L"rb" : L"r", _SH_DENYNO);
 
 	if (stream == NULL)
 	{
@@ -133,7 +133,7 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 
 	fclose(stream);
 
-	if (found == true)
+	if (m_lines.size() > 0)
 	{
 		_removeInvalidCharsInArray();
 	}

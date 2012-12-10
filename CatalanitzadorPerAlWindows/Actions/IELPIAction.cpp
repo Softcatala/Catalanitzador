@@ -25,6 +25,7 @@
 #include "Winver.h"
 #include "FileVersionInfo.h"
 #include "ConfigurationInstance.h"
+#include "LogExtractor.h"
 
 IELPIAction::IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo) : m_explorerVersion(fileVersionInfo)
 {
@@ -273,6 +274,7 @@ ActionStatus IELPIAction::GetStatus()
 		else 
 		{
 			SetStatus(FinishedWithError);
+			_dumpWindowsUpdateErrors();
 		}
 
 		g_log.Log(L"IELPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
@@ -447,4 +449,27 @@ void IELPIAction::CheckPrerequirements(Action * action)
 		}
 	}
 	SetStatus(status);
+}
+
+
+#define LOG_FILENAME L"WindowsUpdate.log"
+#define KEYWORD_TOSEARCH L"Error"
+#define LINES_TODUMP 7
+
+void IELPIAction::_dumpWindowsUpdateErrors()
+{
+	if (_getIEVersion() != InternetExplorerVersion::IE9)
+		return;
+
+	wchar_t szFile[MAX_PATH];
+
+	GetWindowsDirectory(szFile, MAX_PATH);
+	wcscat_s(szFile, L"\\");
+	wcscat_s(szFile, LOG_FILENAME);
+
+	LogExtractor logExtractor(szFile, LINES_TODUMP);
+	logExtractor.SetFileIsUnicode(false);
+	logExtractor.SetExtractLastOccurrence(true);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD_TOSEARCH);
+	logExtractor.DumpLines();
 }
