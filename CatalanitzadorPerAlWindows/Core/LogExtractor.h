@@ -33,6 +33,7 @@ class LogExtractor
 		void DumpLines();
 		const vector <wstring> & GetLines() { return m_lines; }
 		void SetFileIsUnicode(bool unicode) { m_unicode = unicode; }
+		void SetExtractLastOccurrence(bool lastOccurrence) { m_lastOccurrence = lastOccurrence; }
 
 	private:
 
@@ -41,9 +42,11 @@ class LogExtractor
 		void _removeInvalidCharsInArray();
 
 		vector <wstring> m_lines;
+		vector <wstring> m_tailLines;
 		int m_tailPos;
 		int m_maxLinesHead;
 		int m_maxLinesTail;
 		wstring m_filename;
 		bool m_unicode;
+		bool m_lastOccurrence;
 };

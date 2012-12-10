@@ -23,6 +23,7 @@
 #include "Runner.h"
 #include "OSVersion.h"
 #include "ConfigurationInstance.h"
+#include "LogExtractor.h"
 
 AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner)
 {
@@ -284,6 +285,7 @@ ActionStatus AdobeReaderAction::GetStatus()
 		else
 		{
 			SetStatus(FinishedWithError);
+			_dumpInstallerErrors();
 		}
 		g_log.Log(L"AdobeReaderAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
@@ -318,4 +320,22 @@ void AdobeReaderAction::CheckPrerequirements(Action * action)
 		_setStatusNotInstalled();
 		return;
 	}
+}
+
+#define LOG_FILENAME L"AdobeSFX.log"
+#define KEYWORD_TOSEARCH L"Error"
+#define LINES_TODUMP 7
+
+void AdobeReaderAction::_dumpInstallerErrors()
+{	
+	wchar_t szFile[MAX_PATH];
+
+	GetTempPath(MAX_PATH, szFile);
+	wcscat_s(szFile, LOG_FILENAME);
+
+	LogExtractor logExtractor(szFile, LINES_TODUMP);
+	logExtractor.SetFileIsUnicode(false);
+	logExtractor.SetExtractLastOccurrence(true);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD_TOSEARCH);
+	logExtractor.DumpLines();
 }

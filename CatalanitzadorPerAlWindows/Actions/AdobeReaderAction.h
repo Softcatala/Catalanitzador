@@ -66,6 +66,7 @@ private:
 		void _installVersion();
 		void _readVersionInstalled();
 		void _initProcessNames();
+		void _dumpInstallerErrors();
 
 		wstring m_version;
 		wstring m_GUID;

@@ -33,6 +33,8 @@ LogExtractor::LogExtractor(wstring filename, int maxLines)
 	m_maxLinesHead = maxLines / 2;
 	m_maxLinesTail = maxLines - m_maxLinesHead;
 	m_unicode = true;
+	m_lastOccurrence = false;
+	m_tailLines.resize(m_maxLinesTail);
 }
 
 void LogExtractor::_removeInvalidChars(wstring& line)
@@ -56,20 +58,19 @@ void LogExtractor::_storeTailLine(wstring line)
 	{
 		for (int i = 0; i < m_tailPos - 1; i++)
 		{
-			m_lines[i] = m_lines[i + 1];
+			m_tailLines[i] = m_tailLines[i + 1];
 		}
-		m_lines[m_tailPos - 1] = line;
+		m_tailLines[m_tailPos - 1] = line;
 	}
 	else
 	{
-		m_lines[m_tailPos] = line;
+		m_tailLines[m_tailPos] = line;
 		m_tailPos++;
 	}
 }
 
 void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 {
-
 	bool found = false;
 	int headLines = 0;	
 	FILE* stream;
@@ -84,8 +85,7 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 		return;
 	}
 	
-	m_lines.clear();
-	m_lines.resize(m_maxLinesTail);
+	m_lines.clear();	
 	std::transform(keyword.begin(), keyword.end(), keyword.begin(), ::tolower);
 	
 	while(fgetws(szLine, BUFFER_ELEMENTS, stream))
@@ -97,20 +97,38 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 			for (unsigned int i = 0; i < wcslen(szLine); i ++)
 				szLine[i] = tolower(szLine[i]);
 
-			if (wcsstr(szLine, keyword.c_str()) == 0)			
-				continue;			
+			if (wcsstr(szLine, keyword.c_str()) == 0)
+				continue;
+
+			m_lines.clear();
+
+			for (unsigned int i = 0; i < m_tailLines.size(); i++)
+			{
+				m_lines.push_back(m_tailLines[i]);
+			}
 			
 			found = true;
 			continue;
 		}
 		else
 		{
+			_storeTailLine(szLine);
 			m_lines.push_back(szLine);
 			headLines++;
 		}
 
 		if (headLines >= m_maxLinesHead)
-			break;
+		{
+			if (m_lastOccurrence == false)
+			{
+				break;
+			}
+			else
+			{
+				headLines = 0;
+				found = false;
+			}
+		}
 	}
 
 	fclose(stream);

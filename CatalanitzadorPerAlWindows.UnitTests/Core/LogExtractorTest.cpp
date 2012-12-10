@@ -107,7 +107,6 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeywordDoesNotExist)
 	EXPECT_EQ(0, lines.size());
 }
 
-
 TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword7Lines_Ascii)
 {
 	const wchar_t* KEYWORD = L"Error";
@@ -126,4 +125,23 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword7Lines_Ascii)
 	EXPECT_THAT(lines.at(2), StrCaseEq(L"Exe            :000014B0 (12/08/2012 14:00:49.438) Detected another running instance of the installer"));
 	EXPECT_THAT(lines.at(3), StrCaseEq(L"!ERROR!        :000014B0 (12/08/2012 14:02:01) SOURCE=Exe, CODE=0x80280006 SetupUX reported fatal error (0x80280006)"));
 	EXPECT_THAT(lines.at(4), StrCaseEq(L"Logger         :000014B0 (12/08/2012 14:02:05.283) Logger Shutdown (collection=Yes; upload=Yes; InternalLogUpload=Yes; maxcabsize=300 Kb)"));
+}
+
+
+TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword5Lines_LastOccurrence)
+{
+	const wchar_t* KEYWORD = L"Error";
+	const int LINES = 5;
+	wstring file;
+
+	GetLpkSetupLogLocation(file);
+	LogExtractor logExtractor(file, LINES);
+	logExtractor.SetExtractLastOccurrence(true);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
+	const vector <wstring> & lines = logExtractor.GetLines();
+
+	EXPECT_EQ(3, lines.size());
+	EXPECT_THAT(lines.at(0), StrCaseEq(L"13:23:05:633 : PERF: RestorePointEnd - LEAVE"));
+	EXPECT_THAT(lines.at(1), StrCaseEq(L"13:23:05:633 : DEBUG: Cleaning working path in a new process"));
+	EXPECT_THAT(lines.at(2), StrCaseEq(L"13:23:05:633 : ExitProcess: There was an internal error: 0x8007065B"));
 }
