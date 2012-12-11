@@ -27,6 +27,7 @@
 #include "ConfigurationInstance.h"
 #include "WindowsValidation.h"
 
+
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	m_registry = registry;
@@ -196,30 +197,20 @@ bool WindowsLPIAction::_isLangPackInstalled()
 
 bool WindowsLPIAction::IsNeed()
 {
- 	if (status == CannotBeApplied)
-		return false;
-	
-	bool bNeed = false;
+ 	bool bNeed;
 
-	if (_getDownloadID() != NULL)
+	switch(GetStatus())
 	{		
-		if (_isLangPackInstalled() == false || _isDefaultLanguage() == false)
-		{
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
 			bNeed = true;
-		}
-		else
-		{
-			status = AlreadyApplied;
-		}
+			break;
 	}
-	else
-	{
-		SetStatus(CannotBeApplied);
-		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDVERSION, szCannotBeApplied);
-		g_log.Log(L"WindowsLPIAction::IsNeed. Unsupported Windows version");
-	}
-
-	g_log.Log(L"WindowsLPIAction::IsNeed returns %u", (wchar_t *) bNeed);
+	g_log.Log(L"WindowsLPIAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
 	return bNeed;	
 }
 
@@ -365,7 +356,7 @@ bool WindowsLPIAction::_isASupportedSystemLanguage()
 	return bLangOk;
 }
 
-void WindowsLPIAction::CheckPrerequirements(Action * action)
+bool WindowsLPIAction::_isValidOperatingSystem()
 {
 	if (m_OSVersion->IsWindows64Bits() == false)
 	{
@@ -373,21 +364,27 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 			&& m_OSVersion->GetVersion() != WindowsVista
 			&& m_OSVersion->GetVersion() != Windows7)
 		{
-			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
-			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");
-			SetStatus(CannotBeApplied);
-			return;
+			return false;
 		}
 	} 
 	else // 64 bits
 	{
 		if (m_OSVersion->GetVersion() != Windows7)
 		{
-			_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
-			g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");
-			SetStatus(CannotBeApplied);
-			return;
+			return false;
 		}
+	}
+	return true;
+}
+
+void WindowsLPIAction::CheckPrerequirements(Action * action)
+{
+	if (_isValidOperatingSystem() == false)
+	{
+		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
+		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");
+		SetStatus(CannotBeApplied);
+		return;
 	}
 
 	if (_isASupportedSystemLanguage() == false)
@@ -397,6 +394,30 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 		SetStatus(CannotBeApplied);
 		return;
 	}
+
+	if (_isDownloadAvailable())
+	{
+		if ((_isLangPackInstalled() && _isDefaultLanguage()))
+		{
+			SetStatus(AlreadyApplied);			
+		}
+	}
+	else
+	{
+		SetStatus(CannotBeApplied);
+		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDVERSION, szCannotBeApplied);
+		g_log.Log(L"WindowsLPIAction::IsNeed. Unsupported Windows version");
+	}
+}
+
+bool WindowsLPIAction::_isDownloadAvailable()
+{
+	wstring filename;	
+	ConfigurationFileActionDownload downloadVersion;
+
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
+
+	return downloadVersion.IsEmpty() == false;
 }
 
 bool WindowsLPIAction::_isWindowsValidated()
@@ -421,4 +442,3 @@ bool WindowsLPIAction::_isWindowsValidated()
 		return true;
 	}
 }
-

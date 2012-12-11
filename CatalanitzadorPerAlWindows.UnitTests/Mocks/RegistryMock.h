@@ -33,7 +33,8 @@ class RegistryMock : public IRegistry
 	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
 	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
 	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
+	bool Close() {return true;}
+
 	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
 };
 

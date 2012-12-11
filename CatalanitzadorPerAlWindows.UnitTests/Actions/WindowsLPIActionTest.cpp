@@ -26,6 +26,11 @@
 #include "OSVersionMock.h"
 #include "Win32I18NMock.h"
 #include "RunnerMock.h"
+#include "ConfigurationRemote.h"
+#include "ConfigurationInstance.h"
+#include "ConfigurationFileActionDownload.h"
+#include "ConfigurationFileActionDownloads.h"
+
 
 using ::testing::Return;
 using ::testing::_;
@@ -37,6 +42,7 @@ using ::testing::HasSubstr;
 #define FRENCH_LOCALE 0x040c
 #define US_LOCALE 0x0409
 
+
 class WindowsLPIActionTest : public WindowsLPIAction
 {
 public:
@@ -44,15 +50,29 @@ public:
 	WindowsLPIActionTest::WindowsLPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 		: WindowsLPIAction(OSVersion, registry, win32I18N, runner) {};
 
+	virtual void TearDown()
+	{
+		ConfigurationInstance::Reset();
+	}
+
 	public: using WindowsLPIAction::_isLangPackInstalled;
 	public: using WindowsLPIAction::_isDefaultLanguage;
 	public: using WindowsLPIAction::_getDownloadID;
+	public: using WindowsLPIAction::_isValidOperatingSystem;
+	public: using WindowsLPIAction::_isASupportedSystemLanguage;
+	public: using WindowsLPIAction::_isDownloadAvailable;
+};
 
-	virtual bool _isWindowsValidated()
-	{
-		return true;
-	}
+class WindowsLPIActionTestDefaultLanguage : public WindowsLPIActionTest
+{
+public:
 
+	WindowsLPIActionTestDefaultLanguage::WindowsLPIActionTestDefaultLanguage(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
+		: WindowsLPIActionTest(OSVersion, registry, win32I18N, runner) {};
+	
+	virtual bool _isValidOperatingSystem() { return true; }
+	virtual bool _isASupportedSystemLanguage() { return true; }
+	virtual bool _isDownloadAvailable() { return true; }
 };
 
 #define CreateWindowsLIPAction \
@@ -62,6 +82,12 @@ public:
 	RunnerMock runnerMock; \
 	WindowsLPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock);
 
+#define CreateWindowsLPIActionTestDefaultLanguage \
+	RegistryMock registryMockobj; \
+	Win32I18NMock win32I18NMockobj; \
+	OSVersionMock osVersionExMock; \
+	RunnerMock runnerMock; \
+	WindowsLPIActionTestDefaultLanguage lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock);
 
 TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 {
@@ -71,8 +97,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_LOCALE));
 	
-	lipAction.CheckPrerequirements(NULL);
-	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
+	EXPECT_TRUE(lipAction._isASupportedSystemLanguage());
 }
 
 TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsXPFrench)
@@ -83,8 +108,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsXPFrench)
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(FRENCH_LOCALE));
 
-	lipAction.CheckPrerequirements(NULL);
-	EXPECT_EQ(CannotBeApplied, lipAction.GetStatus());
+	EXPECT_FALSE(lipAction._isASupportedSystemLanguage());
 }
 
 TEST(WindowsLPIActionTest, CheckPrerequirements_Windows7French)
@@ -98,8 +122,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_Windows7French)
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(win32I18NMockobj, EnumUILanguages()).Times(1).WillRepeatedly(Return(ids));
 	
-	lipAction.CheckPrerequirements(NULL);
-	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
+	EXPECT_TRUE(lipAction._isASupportedSystemLanguage());
 }
 
 TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsEnglish)
@@ -110,8 +133,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsEnglish)
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(US_LOCALE));
 	
-	lipAction.CheckPrerequirements(NULL);
-	EXPECT_EQ(CannotBeApplied, lipAction.GetStatus());
+	EXPECT_FALSE(lipAction._isASupportedSystemLanguage());
 }
 
 TEST(WindowsLPIActionTest, CheckPrerequirementsWindows2008)
@@ -121,20 +143,27 @@ TEST(WindowsLPIActionTest, CheckPrerequirementsWindows2008)
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows2008));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	
-	lipAction.CheckPrerequirements(NULL);
-	EXPECT_EQ(CannotBeApplied, lipAction.GetStatus());
+	EXPECT_FALSE(lipAction._isValidOperatingSystem());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP)
+TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_32bits)
 {
 	CreateWindowsLIPAction;
 
-	EXPECT_CALL(win32I18NMockobj, GetSystemDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_LOCALE));
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	
-	lipAction.CheckPrerequirements(NULL);
-	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
+	EXPECT_TRUE(lipAction._isValidOperatingSystem());
+}
+
+TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_64bits)
+{
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	
+	EXPECT_FALSE(lipAction._isValidOperatingSystem());
 }
 
 TEST(WindowsLPIActionTest, _isLangPackInstalled_XPFalse)
@@ -143,6 +172,7 @@ TEST(WindowsLPIActionTest, _isLangPackInstalled_XPFalse)
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
@@ -185,6 +215,8 @@ TEST(WindowsLPIActionTest, _isLangPackInstalled_7False)
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
@@ -193,6 +225,7 @@ TEST(WindowsLPIActionTest, ExecuteWindowsXP)
 {	
 	CreateWindowsLIPAction;
 
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\"), false)).WillRepeatedly(Return(false));
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"msiexec.exe"), HasSubstr(L"/qn"), false)).Times(1).WillRepeatedly(Return(true));
@@ -203,9 +236,12 @@ TEST(WindowsLPIActionTest, ExecuteWindowsXP)
 TEST(WindowsLPIActionTest, ExecuteWindows7)
 {	
 	CreateWindowsLIPAction;
-
+		
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES"), false)).WillRepeatedly(Return(false));
+
 	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"lpksetup.exe"), HasSubstr(L"/i ca-ES /r /s /p"), false)).Times(1).WillRepeatedly(Return(true));
 
 	lipAction.Execute();
@@ -263,7 +299,7 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesYes)
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguagesPending"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L""), Return(true)));
-
+	
 	EXPECT_TRUE(lipAction._isDefaultLanguage());
 }
 
@@ -317,39 +353,42 @@ TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageNo)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguagesPending"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"es-ES"), Return(true)));
 
-	EXPECT_TRUE(lipAction.IsNeed());
+	EXPECT_FALSE(lipAction._isDefaultLanguage());
 	EXPECT_FALSE(lipAction.IsDownloadNeed());
 }
 
 TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYes)
 {	
-	CreateWindowsLIPAction;
+	CreateWindowsLPIActionTestDefaultLanguage;
 
 	//_isLangPackInstalled == true
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(false));
 
-	// No selected
+	// _isDefaultLanguage = true
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));	
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguages"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguagesPending"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
 
-	EXPECT_FALSE(lipAction.IsNeed());	
+	lipAction.CheckPrerequirements(NULL);
+	EXPECT_FALSE(lipAction.IsNeed());
 }
 
 TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYesMachine)
 {	
-	CreateWindowsLIPAction;
+	CreateWindowsLPIActionTestDefaultLanguage;
 
 	//_isLangPackInstalled == true
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop\\MuiCached"), false)).WillRepeatedly(Return(true));
 
-	// No selected
+	// _isDefaultLanguage = true (machine only)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\Desktop"), false)).WillRepeatedly(Return(true));	
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguages"),_ ,_)).WillRepeatedly(Return(false));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"PreferredUILanguagesPending"),_ ,_)).WillRepeatedly(Return(false));
@@ -357,6 +396,39 @@ TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYesMac
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"MachinePreferredUILanguages"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"ca-ES"), Return(true)));
 
+	lipAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(lipAction.IsNeed());
 	EXPECT_EQ(AlreadyApplied, lipAction.GetStatus());
+}
+
+TEST(WindowsLPIActionTest, _isDownloadAvailable_No)
+{	
+	CreateWindowsLIPAction;
+	ConfigurationRemote remote;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+
+	ConfigurationInstance::Get().SetRemote(remote);
+	EXPECT_FALSE(lipAction._isDownloadAvailable());
+}
+
+TEST(WindowsLPIActionTest, _isDownloadAvailable_Yes)
+{
+	CreateWindowsLIPAction;
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads fileActionDownloads;
+	ConfigurationFileActionDownload fileActionDownload;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+
+	fileActionDownload.SetVersion(lipAction._getDownloadID());	
+	fileActionDownloads.SetActionID(WindowsLPI);
+	fileActionDownload.AddUrl(L"http://www.softcatala.org/");
+	fileActionDownloads.AddFileActionDownload(fileActionDownload);
+	remote.AddFileActionDownloads(fileActionDownloads);
+
+	ConfigurationInstance::Get().SetRemote(remote);
+	EXPECT_TRUE(lipAction._isDownloadAvailable());
 }

@@ -43,20 +43,21 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
 		virtual LPCWSTR GetLicenseID();
-		virtual bool IsDownloadNeed();
-		
+		virtual bool IsDownloadNeed();		
 
 protected:
 
 		bool _isLangPackInstalled();
 		bool _isDefaultLanguage();
 		wchar_t* _getDownloadID();
+		virtual bool _isValidOperatingSystem();
+		virtual bool _isASupportedSystemLanguage();
 		virtual bool _isWindowsValidated();
+		virtual bool _isDownloadAvailable();
 
 private:
 		
 		void _setDefaultLanguage();
-		bool _isASupportedSystemLanguage();
 
 		wchar_t m_szFilename[MAX_PATH];
 		IRunner* m_runner;
