@@ -47,6 +47,7 @@ class LogExtractor
 		int m_maxLinesHead;
 		int m_maxLinesTail;
 		wstring m_filename;
+		wstring m_keyword;
 		bool m_unicode;
 		bool m_lastOccurrence;
 };

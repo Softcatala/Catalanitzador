@@ -85,7 +85,8 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 		return;
 	}
 	
-	m_lines.clear();	
+	m_lines.clear();
+	m_keyword = keyword;
 	std::transform(keyword.begin(), keyword.end(), keyword.begin(), ::tolower);
 	
 	while(fgetws(szLine, BUFFER_ELEMENTS, stream))
@@ -145,7 +146,7 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 
 void LogExtractor::DumpLines()
 {
-	g_log.Log(L"LogExtractor::DumpLines. Dumping '%s'", (wchar_t*) m_filename.c_str());
+	g_log.Log(L"LogExtractor::DumpLines. For file '%s' and keyword '%s'", (wchar_t*) m_filename.c_str(), (wchar_t*) m_keyword.c_str());
 	for (unsigned int i = 0; i < m_lines.size(); i++)
 	{		
 		g_log.Log(L"'%s'", (wchar_t*) m_lines[i].c_str());
