@@ -33,8 +33,9 @@ class RegistryMock : public IRegistry
 	MOCK_METHOD2(SetDWORD, bool(wchar_t*, DWORD));
 	MOCK_METHOD3(GetString, bool(wchar_t*, wchar_t*, DWORD));
 	MOCK_METHOD2(GetDWORD, bool(wchar_t*, DWORD*));
-	MOCK_METHOD0(Close, bool());
-	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));	
+	MOCK_METHOD2(RegEnumKey, bool(DWORD, wstring&));
+	MOCK_METHOD2(RegEnumValue, bool(DWORD, wstring&));
+	bool Close() {return true;}
 };
 
 ACTION_P(SetArgCharStringPar2, value) 

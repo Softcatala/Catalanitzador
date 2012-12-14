@@ -45,6 +45,8 @@ protected:
 		
 		int _getMajorVersion();
 		bool _isLangSelected();
+		bool _isRebootRequired();
+		bool _isDownloadAvailable();
 		
 private:
 		

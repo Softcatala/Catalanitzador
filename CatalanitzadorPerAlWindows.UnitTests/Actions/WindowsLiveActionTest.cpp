@@ -34,11 +34,17 @@ class WindowsLiveActionTest : public WindowsLiveAction
 public:
 	
 	WindowsLiveActionTest::WindowsLiveActionTest(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo)
-		: WindowsLiveAction(registry, runner, fileVersionInfo) {};	
+		: WindowsLiveAction(registry, runner, fileVersionInfo) {};
+
+	virtual void TearDown()
+	{
+		ConfigurationInstance::Reset();
+	}
 	
 	public: using WindowsLiveAction::_getMajorVersion;
 	public: using WindowsLiveAction::_isLangSelected;
-
+	public: using WindowsLiveAction::_isRebootRequired;
+	public: using WindowsLiveAction::_isDownloadAvailable;
 };
 
 #define CreateWindowsLiveAction \
@@ -47,6 +53,13 @@ public:
 	FileVersionInfoMock fileVersionInfoMockobj; \
 	WindowsLiveActionTest lipAction(&registryMockobj, &runnerMockobj, &fileVersionInfoMockobj);
 
+void SetGetMajorVersion(FileVersionInfoMock &fileVersionInfoMockobj, wstring& versionString, int version)
+{
+	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
+	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(versionString));
+	EXPECT_CALL(fileVersionInfoMockobj, GetMajorVersion()).WillRepeatedly(Return(version));
+	EXPECT_CALL(fileVersionInfoMockobj, GetLanguageCode()).WillRepeatedly(Return(0));
+}
 
 TEST(WindowsLiveActionTest, GetVersion)
 {
@@ -55,9 +68,7 @@ TEST(WindowsLiveActionTest, GetVersion)
 
 	CreateWindowsLiveAction;
 	
-	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
-	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(VERSION_STRING));
-	EXPECT_CALL(fileVersionInfoMockobj, GetMajorVersion()).WillRepeatedly(Return(VERSION));
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_THAT(lipAction.GetVersion(), StrCaseEq(VERSION_STRING));
 	EXPECT_THAT(lipAction._getMajorVersion(), VERSION);
 }
@@ -68,38 +79,27 @@ TEST(WindowsLiveActionTest, _isLangSelected_2011_Yes)
 	wstring VERSION_STRING = L"15.0.1";
 	const int VERSION = 15;
 
-	CreateWindowsLiveAction;	
+	CreateWindowsLiveAction;
 	
-	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
-	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(VERSION_STRING));
-	EXPECT_CALL(fileVersionInfoMockobj, GetMajorVersion()).WillRepeatedly(Return(VERSION));
-	
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Windows Live\\Common\\"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UserLanguage"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(CATALAN_LANG), Return(true)));
-	
-	lipAction.CheckPrerequirements(NULL);
+		
 	EXPECT_TRUE(lipAction._isLangSelected());
-	EXPECT_THAT(lipAction.GetStatus(), AlreadyApplied);	
 }
 
 TEST(WindowsLiveActionTest, _isLangSelected_2011_No)
 {
-	const wchar_t* CATALAN_LANG = L"CA";
 	wstring VERSION_STRING = L"15.0.1";
 	const int VERSION = 15;
 
 	CreateWindowsLiveAction;
 	
-	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
-	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(VERSION_STRING));
-	EXPECT_CALL(fileVersionInfoMockobj, GetMajorVersion()).WillRepeatedly(Return(VERSION));
-	
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Windows Live\\Common\\"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UserLanguage"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L""), Return(true)));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UserLanguage"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L""), Return(true)));	
 	
-	lipAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(lipAction._isLangSelected());
-	EXPECT_THAT(lipAction.GetStatus(), NotSelected);
 }
 
 TEST(WindowsLiveActionTest, _isLangSelected_2009_Yes)
@@ -110,31 +110,89 @@ TEST(WindowsLiveActionTest, _isLangSelected_2009_Yes)
 
 	CreateWindowsLiveAction;
 	
-	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
-	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(VERSION_STRING));
-	EXPECT_CALL(fileVersionInfoMockobj, GetMajorVersion()).WillRepeatedly(Return(VERSION));
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_CALL(fileVersionInfoMockobj, GetLanguageCode()).WillRepeatedly(Return(CATALAN_WINLANGCODE));
-	
-	lipAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(lipAction._isLangSelected());
-	EXPECT_THAT(lipAction.GetStatus(), AlreadyApplied);
 }
 
 TEST(WindowsLiveActionTest, _isLangSelected_2009_No)
-{
-	const wchar_t* CATALAN_LANG = L"CA";
+{	
 	wstring VERSION_STRING = L"14.0.1.4";
-	const int VERSION = 14;	
+	const int VERSION = 14;
 
-	CreateWindowsLiveAction;	
+	CreateWindowsLiveAction;
 	
-	EXPECT_CALL(fileVersionInfoMockobj, SetFilename(_)).Times(AnyNumber());
-	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(VERSION_STRING));
-	EXPECT_CALL(fileVersionInfoMockobj, GetMajorVersion()).WillRepeatedly(Return(VERSION));
-	EXPECT_CALL(fileVersionInfoMockobj, GetLanguageCode()).WillRepeatedly(Return(0));	
-	
-	lipAction.CheckPrerequirements(NULL);
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_FALSE(lipAction._isLangSelected());
-	EXPECT_THAT(lipAction.GetStatus(), NotSelected);	
 }
 
+TEST(WindowsLiveActionTest, _isRebootRequired_Live2009_No)
+{
+	const int VERSION = 14;
+	wstring VERSION_STRING = L"14.0";
+	CreateWindowsLiveAction;
+
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, RegEnumValue(_,_)).WillRepeatedly(Return(true));
+	EXPECT_FALSE(lipAction._isRebootRequired());
+}
+
+TEST(WindowsLiveActionTest, _isRebootRequired_Live2011_Yes)
+{
+	const int VERSION = 15;
+	wstring VERSION_STRING = L"15.0";
+	CreateWindowsLiveAction;
+
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, RegEnumValue(_,_)).WillRepeatedly(Return(true));
+	EXPECT_TRUE(lipAction._isRebootRequired());
+}
+
+TEST(WindowsLiveActionTest, _isRebootRequired_Live2012_Yes)
+{
+	const int VERSION = 16;
+	wstring VERSION_STRING = L"16.0";
+	CreateWindowsLiveAction;
+
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, RegEnumValue(_,_)).WillRepeatedly(Return(true));
+	EXPECT_TRUE(lipAction._isRebootRequired());
+}
+
+TEST(WindowsLiveActionTest, _isDownloadAvailable_No)
+{
+	wstring VERSION_STRING = L"15.0.1";
+	const int VERSION = 15;
+
+	CreateWindowsLiveAction;
+	ConfigurationRemote remote;
+
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
+	ConfigurationInstance::Get().SetRemote(remote);
+	EXPECT_FALSE(lipAction._isDownloadAvailable());
+}
+
+TEST(WindowsLiveActionTest, _isDownloadAvailable_Yes)
+{
+	wstring VERSION_STRING = L"15.0.1";
+	const int VERSION = 15;
+
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads fileActionDownloads;
+	ConfigurationFileActionDownload fileActionDownload;
+	CreateWindowsLiveAction;
+	
+	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
+	fileActionDownload.SetMaxVersion(ApplicationVersion(L"15"));
+	fileActionDownload.SetMinVersion(ApplicationVersion(L"15"));
+	fileActionDownloads.SetActionID(WindowsLive);
+	fileActionDownload.AddUrl(L"http://www.softcatala.org/");
+	fileActionDownloads.AddFileActionDownload(fileActionDownload);
+	remote.AddFileActionDownloads(fileActionDownloads);
+
+	ConfigurationInstance::Get().SetRemote(remote);
+	EXPECT_TRUE(lipAction._isDownloadAvailable());
+}

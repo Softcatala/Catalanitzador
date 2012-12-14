@@ -37,4 +37,5 @@ public:
 		virtual bool GetDWORD(wchar_t* sName, DWORD *value) = 0;
 		virtual bool Close() = 0;
 		virtual bool RegEnumKey(DWORD dwIndex, wstring& key) = 0;
+		virtual bool RegEnumValue(DWORD dwIndex, wstring& value) = 0;
 };
