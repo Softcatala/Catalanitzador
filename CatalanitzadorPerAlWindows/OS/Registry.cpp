@@ -125,3 +125,24 @@ bool Registry::RegEnumKey(DWORD dwIndex, wstring& key)
 	return bRslt;
 }
 
+bool Registry::RegEnumValue(DWORD dwIndex, wstring& value)
+{
+	bool bRslt;
+	wchar_t szValue[2048];
+	DWORD dwSize = sizeof(szValue);
+
+	assert(hKey != NULL);
+
+	bRslt = ::RegEnumValueW(hKey, dwIndex, szValue, &dwSize, NULL, NULL, NULL, NULL) == ERROR_SUCCESS;
+
+	if (bRslt)
+	{
+		value = szValue;
+	}
+	else
+	{
+		value.erase();
+	}
+	return bRslt;
+}
+

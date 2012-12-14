@@ -214,6 +214,38 @@ bool WindowsLiveAction::_isLangSelected()
 	return _isLangSelected2011();
 }
 
+#define REBOOT_REQUIRED_KEY L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"
+
+bool WindowsLiveAction::_isRebootRequired()
+{
+	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
+	{
+		return false;
+	}
+
+	bool rebootRequiered = false;
+	
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, REBOOT_REQUIRED_KEY, false))
+	{
+		wstring value;
+
+		rebootRequiered = m_registry->RegEnumValue(0, value);
+		m_registry->Close();
+	}
+	return rebootRequiered;
+}
+
+bool WindowsLiveAction::_isDownloadAvailable()
+{
+	wchar_t version[32];
+	ConfigurationFileActionDownload downloadVersion;
+
+	swprintf_s(version, L"%u", _getMajorVersion());
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(version));
+
+	return downloadVersion.IsEmpty() == false;
+}
+
 void WindowsLiveAction::CheckPrerequirements(Action * action)
 {	
 	_readVersionInstalled();
@@ -225,16 +257,19 @@ void WindowsLiveAction::CheckPrerequirements(Action * action)
 			SetStatus(AlreadyApplied);
 			return;
 		}
-		
-		wchar_t version[32];
-		ConfigurationFileActionDownload downloadVersion;
 
-		swprintf_s(version, L"%u", _getMajorVersion());
-		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(version));
-		if (downloadVersion.IsEmpty())
+		if (_isDownloadAvailable() == false)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Version not supported");
+			SetStatus(CannotBeApplied);
+			return;
+		}
+
+		if (_isRebootRequired())
+		{
+			_getStringFromResourceIDName(IDS_REBOOTREQUIRED, szCannotBeApplied);
+			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Reboot required");
 			SetStatus(CannotBeApplied);
 			return;
 		}
