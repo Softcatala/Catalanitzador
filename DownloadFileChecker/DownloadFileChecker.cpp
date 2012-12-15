@@ -57,10 +57,10 @@ bool _downloadFile(wstring url, wstring sha1)
 		sha1.c_str(),
 		bFile == true ? L"Ok" : L"Failed",
 		bSha1 == true ? L"Ok" : L"Failed",
-		sha1_matches ? L"Ok" : L"Failed");
+		sha1_matches == true ? L"Ok" : L"Failed");
 	_outputString(szString);
 
-	return bFile == true && bSha1 == true && sha1_read == sha1_computed;
+	return bFile == true && bSha1 == true && sha1_matches == true;
 }
 
 bool _downloadConfigurationFile()
