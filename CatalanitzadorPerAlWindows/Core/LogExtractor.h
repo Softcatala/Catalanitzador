@@ -30,6 +30,7 @@ class LogExtractor
 
 		LogExtractor(wstring filename, int maxLines);
 		void ExtractLogFragmentForKeyword(wstring keyword);
+		void ExtractLines();
 		void DumpLines();
 		const vector <wstring> & GetLines() { return m_lines; }
 		void SetFileIsUnicode(bool unicode) { m_unicode = unicode; }
@@ -40,6 +41,7 @@ class LogExtractor
 		void _storeTailLine(wstring line);
 		void _removeInvalidChars(wstring& line);
 		void _removeInvalidCharsInArray();
+		FILE* _openFile();		
 
 		vector <wstring> m_lines;
 		vector <wstring> m_tailLines;

@@ -60,6 +60,7 @@ private:
 		void _setDefaultLanguage();
 
 		wchar_t m_szFilename[MAX_PATH];
+		wstring m_msiexecLog;
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;

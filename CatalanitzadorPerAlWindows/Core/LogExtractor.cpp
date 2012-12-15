@@ -69,6 +69,20 @@ void LogExtractor::_storeTailLine(wstring line)
 	}
 }
 
+FILE* LogExtractor::_openFile()
+{
+	FILE* stream;
+
+	stream = _wfsopen(m_filename.c_str(), m_unicode ? L"rb" : L"r", _SH_DENYNO);
+
+	if (stream == NULL)
+	{
+		g_log.Log(L"LogExtractor::_openFile. Error opening '%s'", (wchar_t*) m_filename.c_str());		
+	}
+
+	return stream;
+}
+
 void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 {
 	bool found = false;
@@ -77,17 +91,15 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 	const int BUFFER_ELEMENTS = 16384;
 	wchar_t szLine[BUFFER_ELEMENTS];
 	
-	stream = _wfsopen(m_filename.c_str(), m_unicode ? L"rb" : L"r", _SH_DENYNO);
-
-	if (stream == NULL)
-	{
-		g_log.Log(L"LogExtractor::ExtractLogFragmentForKeyword. Error opening '%s'", (wchar_t*) m_filename.c_str());
-		return;
-	}
-	
 	m_lines.clear();
 	m_keyword = keyword;
 	std::transform(keyword.begin(), keyword.end(), keyword.begin(), ::tolower);
+
+	stream = _openFile();
+	if (_openFile() == NULL)
+	{
+		return;
+	}
 	
 	while(fgetws(szLine, BUFFER_ELEMENTS, stream))
 	{
@@ -142,6 +154,41 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 	{
 		m_lines.clear();
 	}
+}
+
+void LogExtractor::ExtractLines()
+{
+	bool found = false;
+	int lines = 0;	
+	FILE* stream;
+	const int BUFFER_ELEMENTS = 16384;
+	wchar_t szLine[BUFFER_ELEMENTS];
+
+	m_lines.clear();
+	
+	stream = _openFile();
+	if (_openFile() == NULL)
+	{
+		return;
+	}
+	
+	while(fgetws(szLine, BUFFER_ELEMENTS, stream))
+	{
+		m_lines.push_back(szLine);
+		lines++;
+
+		if (lines >= m_maxLinesHead + m_maxLinesTail)
+		{
+			break;
+		}
+	}
+
+	fclose(stream);
+
+	if (m_lines.size() > 0)
+	{
+		_removeInvalidCharsInArray();
+	}	
 }
 
 void LogExtractor::DumpLines()

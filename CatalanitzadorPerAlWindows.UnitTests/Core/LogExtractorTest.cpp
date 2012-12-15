@@ -47,7 +47,7 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword7Lines)
 	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
 	const vector <wstring> & lines = logExtractor.GetLines();
 
-	EXPECT_EQ(7, lines.size());
+	EXPECT_EQ(LINES, lines.size());
 	EXPECT_THAT(lines.at(0), StrCaseEq(L"13:23:05:586 : License \"Kernel-MUI-Language-SKU\" queried, value: \"en-US;en-GB;ar-SA;pt-BR;zh-TW;zh-CN;zh-HK;cs-CZ;da-DK;el-GR;es-ES;fi-FI;fr-FR;de-DE;he-IL;hu-HU;it-IT;ja-JP;ko-KR;nl-NL;nb-NO;pl-PL;pt-PT;ru-RU;sv-SE;tr-TR;bg-BG;hr-HR;et-EE;lv-LV;lt-LT;ro-RO;sr-Latn-CS;sk-SK;sl-SI;th-TH;uk-UA;fy-NL;qps-ploc;qps-plocm\""));
 	EXPECT_THAT(lines.at(1), StrCaseEq(L"13:23:05:601 : Language ca-ES has been disabled for the following reason: 2148468483"));
 	EXPECT_THAT(lines.at(2), StrCaseEq(L"13:23:05:601 : Failed to validate languages"));
@@ -68,7 +68,7 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword5Lines)
 	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
 	const vector <wstring> & lines = logExtractor.GetLines();
 
-	EXPECT_EQ(5, lines.size());	
+	EXPECT_EQ(LINES, lines.size());
 	EXPECT_THAT(lines.at(0), StrCaseEq(L"13:23:05:601 : Language ca-ES has been disabled for the following reason: 2148468483"));
 	EXPECT_THAT(lines.at(1), StrCaseEq(L"13:23:05:601 : Failed to validate languages"));
 	EXPECT_THAT(lines.at(2), StrCaseEq(L"13:23:05:601 : Error found in call to ProcessUnattendedArguments: 0x8007065B"));
@@ -141,7 +141,7 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_LastOccurrenceInMiddle)
 	logExtractor.ExtractLogFragmentForKeyword(KEYWORD);
 	const vector <wstring> & lines = logExtractor.GetLines();
 
-	EXPECT_EQ(3, lines.size());
+	EXPECT_EQ(LINES, lines.size());
 	EXPECT_THAT(lines.at(0), StrCaseEq(L"LOG            :000014B0 (12/08/2012 14:00:49.158) Default Browser: firefox.exe"));
 	EXPECT_THAT(lines.at(1), StrCaseEq(L"ExeUtil        :000014B0 (12/08/2012 14:00:49.158) TrustLevel: REQUIRE: REAL"));
 	EXPECT_THAT(lines.at(2), StrCaseEq(L"InstallerConfig:000014B0 (12/08/2012 14:00:49.158) Loading configuration 'CONFIG0' from resource"));	
@@ -163,4 +163,19 @@ TEST(LogExtractorTest, ExtractLogFragmentForKeyword_ErrorKeyword5Lines_LastOccur
 	EXPECT_THAT(lines.at(0), StrCaseEq(L"13:23:05:633 : PERF: RestorePointEnd - LEAVE"));
 	EXPECT_THAT(lines.at(1), StrCaseEq(L"13:23:05:633 : DEBUG: Cleaning working path in a new process"));
 	EXPECT_THAT(lines.at(2), StrCaseEq(L"13:23:05:633 : ExitProcess: There was an internal error: 0x8007065B"));
+}
+
+TEST(LogExtractorTest, ExtractLines)
+{
+	const int LINES = 3;
+	wstring file;
+
+	GetLpkSetupLogLocation(file);
+	LogExtractor logExtractor(file, LINES);	
+	logExtractor.ExtractLines();
+	const vector <wstring> & lines = logExtractor.GetLines();
+
+	EXPECT_EQ(LINES, lines.size());
+	EXPECT_THAT(lines.at(1), StrCaseEq(L"13:23:02:270 : PERF: EnumerateLanguagePacks - ENTER, path provided = C:\\Users\\TORSIM~1\\AppData\\Local\\Temp\\ca_windows_8_language_interface_pack_x86_922134.mlc"));
+	EXPECT_THAT(lines.at(2), StrCaseEq(L"13:23:02:270 : INFO: EnumerateLanguagePacks: path resolved to = C:\\Users\\TORSIM~1\\AppData\\Local\\Temp\\ca_windows_8_language_interface_pack_x86_922134.mlc"));
 }

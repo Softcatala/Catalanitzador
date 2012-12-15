@@ -26,7 +26,7 @@
 #include "Resources.h"
 #include "ConfigurationInstance.h"
 #include "WindowsValidation.h"
-
+#include "LogExtractor.h"
 
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
@@ -42,6 +42,11 @@ WindowsLPIAction::~WindowsLPIAction()
 	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_szFilename);
+	}
+
+	if (m_msiexecLog.empty() == false && GetFileAttributes(m_msiexecLog.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_msiexecLog.c_str());
 	}
 }
 
@@ -243,12 +248,20 @@ void WindowsLPIAction::Execute()
 
 	if (version == WindowsXP)
 	{
+		wchar_t logFile[MAX_PATH];
+
 		GetSystemDirectory(lpkapp, MAX_PATH);
 		wcscat_s(lpkapp, L"\\msiexec.exe ");
 
 		wcscpy_s(szParams, L" /i ");
 		wcscat_s(szParams, m_szFilename); // full path to 'lip_ca-es.msi'
 		wcscat_s(szParams, L" /qn");
+
+		GetTempPath(MAX_PATH, logFile);
+		wcscat_s(logFile, L"msiexec.log");
+		wcscat_s(szParams, L" /le ");
+		wcscat_s(szParams, logFile);
+		m_msiexecLog = logFile;
 	}
 	else // Windows Vista and 7
 	{	
@@ -304,8 +317,16 @@ ActionStatus WindowsLPIAction::GetStatus()
 		else
 		{
 			SetStatus(FinishedWithError);
+			
+			if (m_OSVersion->GetVersion() == WindowsXP)
+			{
+				#define LINES_TODUMP 7
 
-			if (m_OSVersion->GetVersion() != WindowsXP)
+				LogExtractor logExtractor(m_msiexecLog, LINES_TODUMP);
+				logExtractor.ExtractLines();
+				logExtractor.DumpLines();			
+			}
+			else
 			{
 				_dumpLpkSetupErrors();
 			}
