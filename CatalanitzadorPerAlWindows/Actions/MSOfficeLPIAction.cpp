@@ -23,6 +23,7 @@
 #include "Runner.h"
 #include "Url.h"
 #include "ConfigurationInstance.h"
+#include "LogExtractor.h"
 
 RegKeyVersion RegKeys2003 = 
 {
@@ -67,6 +68,11 @@ MSOfficeLPIAction::~MSOfficeLPIAction()
 	if (m_connectorFile.size() > 0  && GetFileAttributes(m_connectorFile.c_str()) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_connectorFile.c_str());
+	}
+
+	if (m_msiexecLog.empty() == false && GetFileAttributes(m_msiexecLog.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_msiexecLog.c_str());
 	}
 
 	_removeOffice2003TempFiles();
@@ -366,8 +372,16 @@ void MSOfficeLPIAction::Execute()
 	{
 		case MSOffice2010:
 		{
+			wchar_t logFile[MAX_PATH];
+
 			wcscpy_s(szApp, m_szFullFilename);
 			wcscpy_s(szParams, L" /passive /norestart /quiet");
+
+			GetTempPath(MAX_PATH, logFile);
+			wcscat_s(logFile, L"msofficelip.log");
+			wcscat_s(szParams, L" /log:");
+			wcscat_s(szParams, logFile);
+			m_msiexecLog = logFile;
 			break;
 		}
 		case MSOffice2007:
@@ -498,7 +512,19 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 		else
 		{
 			SetStatus(FinishedWithError);
-		}
+
+			if (m_msiexecLog.empty() == false)
+			{
+				#define LINES_TODUMP 7
+				#define KEYWORD_TOSEARCH L"Error"
+
+				LogExtractor logExtractor(m_msiexecLog, LINES_TODUMP);
+				logExtractor.SetExtractLastOccurrence(true);
+				logExtractor.SetFileIsUnicode(false);
+				logExtractor.ExtractLogFragmentForKeyword(KEYWORD_TOSEARCH);
+				logExtractor.DumpLines();
+			}
+		}		
 		g_log.Log(L"MSOfficeLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;

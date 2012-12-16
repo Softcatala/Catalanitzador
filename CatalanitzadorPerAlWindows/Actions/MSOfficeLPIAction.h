@@ -97,5 +97,6 @@ private:
 		ExecutionStep m_executionStep;
 		IRunner* m_runner;
 		IRegistry* m_registry;
+		wstring m_msiexecLog;
 };
 
