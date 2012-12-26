@@ -2,7 +2,7 @@
 
 A Microsoft Windows program that makes your system Catalan language friendly by installing language packages and changing configuration settings.
 
-Project: http://www.softcatala.org/wiki/CatalanitzadorPerAWindows
+Project: http://www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows
 
 -- Development
 
@@ -44,7 +44,7 @@ $ git config --global user.email johnsmith@myserver.com
 
 -- Binary files
 
-The git repository with the binary files is located at: https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries
+The git repository with the binary files is located at: https://github.com/Softcatala/CatalanitzadorPerAlWindows-binaries
 
 -- High level overview of the system architecture
 
