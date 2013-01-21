@@ -1,0 +1,66 @@
+{
+   "browser": {
+      "hung_plugin_detect_freq": 2000,
+      "last_known_google_url": "http://www.google.es/",
+      "last_prompted_google_url": "http://www.google.es/",
+      "last_redirect_origin": "",
+      "plugin_message_response_timeout": 30000
+   },
+   "intl": {
+      "app_locale": "es"
+   },
+   "local_state": {
+      "multiple_profile_prefs_version": 3
+   },
+   "ntp": {
+      "intro_display_count": 11,
+      "promo_locale": "es",
+      "promo_version": 7,
+      "webstore_enabled": false
+   },
+   "profile": {
+      "info_cache": {
+         "Default": {
+            "avatar_icon": "chrome://theme/IDR_PROFILE_AVATAR_0",
+            "background_apps": false,
+            "name": "Primer usuario",
+            "user_name": ""
+         }
+      },
+      "last_used": "Default"
+   },
+   "show-first-run-bubble": true,
+   "shutdown": {
+      "num_processes": 2,
+      "num_processes_slow": 0,
+      "type": 1
+   },
+   "uninstall_metrics": {
+      "installation_date2": "1338928493",
+      "launch_count": "1"
+   },
+   "user_experience_metrics": {
+      "session_id": 0,
+      "stability": {
+         "breakpad_registration_fail": 0,
+         "breakpad_registration_ok": 0,
+         "crash_count": 0,
+         "debugger_not_present": 1,
+         "debugger_present": 0,
+         "exited_cleanly": true,
+         "incomplete_session_end_count": 0,
+         "last_timestamp_sec": "1338928642",
+         "launch_count": 1,
+         "launch_time_sec": "1338928493",
+         "page_load_count": 0,
+         "renderer_crash_count": 0,
+         "renderer_hang_count": 0,
+         "session_end_completed": true,
+         "stats_buildtime": "1337706257",
+         "stats_version": "19.0.1084.52"
+      }
+   },
+   "was": {
+      "restarted": false
+   }
+}
