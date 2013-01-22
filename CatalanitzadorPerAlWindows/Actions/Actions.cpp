@@ -35,6 +35,7 @@
 #include "WindowsLiveAction.h"
 #include "FileVersionInfo.h"
 #include "CatalanitzadorUpdateAction.h"
+#include "iTunesAction.h"
 
 Actions::Actions(DownloadManager* downloadManager)
 {
@@ -125,6 +126,8 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
+	m_actions.push_back(new iTunesAction(_getNewRegistry(), _getFileVersionInfo()));
+	
 }
 
 Action * Actions::GetActionFromID(ActionID actionID)

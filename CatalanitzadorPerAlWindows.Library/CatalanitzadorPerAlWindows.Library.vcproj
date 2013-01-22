@@ -663,6 +663,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.cpp"
 				>
 			</File>
@@ -784,14 +792,6 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\Inspectors.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ITunesInspector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ITunesInspector.h"
 				>
 			</File>
 			<File

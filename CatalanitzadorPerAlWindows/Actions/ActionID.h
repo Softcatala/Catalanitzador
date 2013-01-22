@@ -37,4 +37,5 @@ enum ActionID
 	WindowsLive = 11,
 	CatalanitzadorUpdate = 12,
 	Skype = 13,
+	iTunes = 14,
 };
