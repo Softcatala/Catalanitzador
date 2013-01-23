@@ -61,6 +61,8 @@ public:
 	public: using WindowsLPIAction::_isValidOperatingSystem;
 	public: using WindowsLPIAction::_isASupportedSystemLanguage;
 	public: using WindowsLPIAction::_isDownloadAvailable;
+
+	bool virtual _isWindowsValidated()	{ return true;}
 };
 
 class WindowsLPIActionTestDefaultLanguage : public WindowsLPIActionTest
