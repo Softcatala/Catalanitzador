@@ -24,6 +24,7 @@
 #include "Url.h"
 #include "Winver.h"
 #include "FileVersionInfo.h"
+#include "TriBool.h"
 
 iTunesAction::iTunesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
 {	
@@ -64,8 +65,8 @@ void iTunesAction::Execute()
 {
 	SetStatus(InProgress);
 
-	_setDefaultLanguage();
-	if (_isLangPackInstalled() == true)
+	_setDefaultLanguageForUser();
+	if (_isDefaultLanguageForUser() == true)
 		SetStatus(Successful);
 	else
 		SetStatus(FinishedWithError);
@@ -108,8 +109,12 @@ void iTunesAction::_readVersionInstalled()
 	wstring location;
 
 	_getProgramLocation(location);
-	m_fileVersionInfo->SetFilename(location);
-	m_version = m_fileVersionInfo->GetVersion();	
+
+	if (location.size() > 0)
+	{
+		m_fileVersionInfo->SetFilename(location);
+		m_version = m_fileVersionInfo->GetVersion();
+	}
 }
 
 int iTunesAction::_getMajorVersion()
@@ -124,23 +129,56 @@ int iTunesAction::_getMajorVersion()
 #define ITUNES_USERKEY L"Software\\Apple Computer, Inc.\\iTunes"
 #define CATALAN_LANGCODE L"1027"
 
-bool iTunesAction::_isLangPackInstalled()
+bool iTunesAction::_isDefaultLanguage()
 {
-	wchar_t szLang[MAX_PATH];
-	bool bInstalled = false;
+	TriBool defaultUser;
+	wchar_t szLang[1024];
 
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_USERKEY, false))
 	{
 		if (m_registry->GetString(L"LangID", szLang, sizeof(szLang)))
 		{
-			bInstalled = _wcsnicmp(szLang, CATALAN_LANGCODE, sizeof(CATALAN_LANGCODE)) == 0;
+			g_log.Log(L"iTunesAction::_isDefaultLanguage. User key %s", (wchar_t *) szLang);
+			defaultUser = _wcsnicmp(szLang, CATALAN_LANGCODE, sizeof(CATALAN_LANGCODE)) == 0;
 		}
 		m_registry->Close();
 	}
-	return bInstalled;
+
+	if (defaultUser.IsUndefined()) 
+	{		
+		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ITUNES_USERKEY, false))
+		{
+			if (m_registry->GetString(L"InstalledLangID", szLang, sizeof(szLang)))
+			{
+				g_log.Log(L"iTunesAction::_isDefaultLanguageForUser. Machine key %s", (wchar_t *) szLang);
+				defaultUser = _wcsnicmp(szLang, CATALAN_LANGCODE, sizeof(CATALAN_LANGCODE)) == 0;
+			}
+			m_registry->Close();
+		}
+	}
+
+	g_log.Log(L"iTunesAction::_isDefaultLanguage. Returns %u", (wchar_t *) (defaultUser == true));
+	return defaultUser == true;
 }
 
-bool iTunesAction::_setDefaultLanguage()
+bool iTunesAction::_isDefaultLanguageForUser()
+{
+	wchar_t szLang[1024];
+	bool defaultLanguage = false;
+
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_USERKEY, false))
+	{
+		if (m_registry->GetString(L"LangID", szLang, sizeof(szLang)))
+		{
+			defaultLanguage = _wcsnicmp(szLang, CATALAN_LANGCODE, sizeof(CATALAN_LANGCODE)) == 0;
+		}
+		m_registry->Close();
+	}
+	g_log.Log(L"iTunesAction::_isDefaultLanguageForUser: %u", (wchar_t *) defaultLanguage);
+	return defaultLanguage;
+}
+
+bool iTunesAction::_setDefaultLanguageForUser()
 {
 	bool bInstalled = false;
 
@@ -152,20 +190,22 @@ bool iTunesAction::_setDefaultLanguage()
 	return bInstalled;
 }
 
+#define FIRST_VERSION_WITH_CATALAN_SUPPORT 11
+
 void iTunesAction::CheckPrerequirements(Action * action)
-{
+{	
 	_readVersionInstalled();
 	
 	if (m_version.size() > 0)
 	{	
-		if (_getMajorVersion() < 11)
+		if (_getMajorVersion() < FIRST_VERSION_WITH_CATALAN_SUPPORT)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
-			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Version not supported");
+			g_log.Log(L"iTunesAction::CheckPrerequirements. Version not supported");
 			SetStatus(CannotBeApplied);
 		}
 			
-		if (_isLangPackInstalled() == true)
+		if (_isDefaultLanguage() == true)
 		{
 			SetStatus(AlreadyApplied);
 			return;

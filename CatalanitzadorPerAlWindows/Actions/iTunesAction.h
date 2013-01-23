@@ -46,8 +46,9 @@ private:
 		void _getProgramLocation(wstring& location);
 		void _readVersionInstalled();
 		int _getMajorVersion();
-		bool _isLangPackInstalled();
-		bool _setDefaultLanguage();
+		bool _isDefaultLanguageForUser();
+		bool _setDefaultLanguageForUser();
+		bool _isDefaultLanguage();
 
 		wstring m_version;
 		IFileVersionInfo* m_fileVersionInfo;
