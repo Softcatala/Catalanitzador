@@ -109,6 +109,7 @@ TEST(VersionTest, GetComponents_Less)
 	EXPECT_TRUE(versionD < versionB);
 	EXPECT_TRUE(versionE < versionC);
 	EXPECT_FALSE(versionA < versionE);
+	EXPECT_FALSE(versionA < versionA);
 }
 
 TEST(VersionTest, GetComponents_GreaterOrEqual)

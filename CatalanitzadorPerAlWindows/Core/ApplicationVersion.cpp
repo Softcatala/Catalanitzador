@@ -87,7 +87,7 @@ bool ApplicationVersion::operator > (ApplicationVersion other)
 
 bool ApplicationVersion::operator < (ApplicationVersion other)
 {
-	return !(*this > other);
+	return !(*this >= other);
 }
 
 bool ApplicationVersion::operator >= (ApplicationVersion other)
@@ -97,7 +97,6 @@ bool ApplicationVersion::operator >= (ApplicationVersion other)
 
 	return *this == other;
 }
-
 
 bool ApplicationVersion::operator <= (ApplicationVersion other)
 {
