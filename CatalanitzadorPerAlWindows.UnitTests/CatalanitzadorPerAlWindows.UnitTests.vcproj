@@ -328,6 +328,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\iTunesActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\MSOfficeLPIActionTest.cpp"
 				>
 			</File>

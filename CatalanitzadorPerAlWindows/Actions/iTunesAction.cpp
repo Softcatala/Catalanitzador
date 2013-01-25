@@ -21,10 +21,7 @@
 
 #include "iTunesAction.h"
 #include "OSVersion.h"
-#include "Url.h"
-#include "Winver.h"
 #include "FileVersionInfo.h"
-#include "TriBool.h"
 
 iTunesAction::iTunesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
 {	
@@ -134,15 +131,7 @@ bool iTunesAction::_isDefaultLanguage()
 	TriBool defaultUser;
 	wchar_t szLang[1024];
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_USERKEY, false))
-	{
-		if (m_registry->GetString(L"LangID", szLang, sizeof(szLang)))
-		{
-			g_log.Log(L"iTunesAction::_isDefaultLanguage. User key %s", (wchar_t *) szLang);
-			defaultUser = _wcsnicmp(szLang, CATALAN_LANGCODE, sizeof(CATALAN_LANGCODE)) == 0;
-		}
-		m_registry->Close();
-	}
+	defaultUser = _isDefaultLanguageForUser();
 
 	if (defaultUser.IsUndefined()) 
 	{		
@@ -161,20 +150,21 @@ bool iTunesAction::_isDefaultLanguage()
 	return defaultUser == true;
 }
 
-bool iTunesAction::_isDefaultLanguageForUser()
+TriBool iTunesAction::_isDefaultLanguageForUser()
 {
 	wchar_t szLang[1024];
-	bool defaultLanguage = false;
+	TriBool defaultLanguage;
 
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_USERKEY, false))
 	{
 		if (m_registry->GetString(L"LangID", szLang, sizeof(szLang)))
 		{
+			g_log.Log(L"iTunesAction::_isDefaultLanguageForUser. User key %s", (wchar_t *) szLang);
 			defaultLanguage = _wcsnicmp(szLang, CATALAN_LANGCODE, sizeof(CATALAN_LANGCODE)) == 0;
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"iTunesAction::_isDefaultLanguageForUser: %u", (wchar_t *) defaultLanguage);
+	g_log.Log(L"iTunesAction::_isDefaultLanguageForUser: %u", (wchar_t *) (defaultLanguage == true));
 	return defaultLanguage;
 }
 

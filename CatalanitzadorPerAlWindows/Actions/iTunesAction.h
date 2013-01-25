@@ -20,9 +20,9 @@
 #pragma once
 
 #include "Action.h"
-#include "IOSVersion.h"
 #include "IRegistry.h"
 #include "IFileVersionInfo.h"
+#include "TriBool.h"
 
 class iTunesAction : public Action
 {
@@ -40,15 +40,18 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 		virtual const wchar_t* GetVersion();
 
+protected:
+
+		TriBool _isDefaultLanguageForUser();
+		bool _isDefaultLanguage();
+
 private:
 
 		int _getVersionInstalled();
 		void _getProgramLocation(wstring& location);
 		void _readVersionInstalled();
 		int _getMajorVersion();
-		bool _isDefaultLanguageForUser();
 		bool _setDefaultLanguageForUser();
-		bool _isDefaultLanguage();
 
 		wstring m_version;
 		IFileVersionInfo* m_fileVersionInfo;
