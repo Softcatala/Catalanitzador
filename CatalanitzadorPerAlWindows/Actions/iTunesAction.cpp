@@ -180,19 +180,22 @@ bool iTunesAction::_setDefaultLanguageForUser()
 	return bInstalled;
 }
 
-#define FIRST_VERSION_WITH_CATALAN_SUPPORT 11
+#define FIRST_VERSION_WITH_CATALAN_SUPPORT L"10.6.3.0"
 
 void iTunesAction::CheckPrerequirements(Action * action)
-{	
+{
 	_readVersionInstalled();
 	
 	if (m_version.size() > 0)
-	{	
-		if (_getMajorVersion() < FIRST_VERSION_WITH_CATALAN_SUPPORT)
+	{
+		ApplicationVersion version(m_version);
+
+		if (version < ApplicationVersion(FIRST_VERSION_WITH_CATALAN_SUPPORT))
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 			g_log.Log(L"iTunesAction::CheckPrerequirements. Version not supported");
 			SetStatus(CannotBeApplied);
+			return;
 		}
 			
 		if (_isDefaultLanguage() == true)

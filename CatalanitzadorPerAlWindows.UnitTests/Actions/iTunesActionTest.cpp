@@ -25,6 +25,7 @@ using ::testing::Return;
 using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
+using ::testing::ReturnRefOfCopy;
 
 class iTunesActionTest : public iTunesAction
 {
@@ -37,7 +38,6 @@ public:
 
 		using iTunesAction::_isDefaultLanguageForUser;
 		using iTunesAction::_isDefaultLanguage;
-			
 };
 
 
@@ -61,11 +61,22 @@ void _setMockForUserLanguageFalse(RegistryMock& registryMockobj)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"LangID"),_ ,_)).WillRepeatedly(Return(false));
 }
 
-
 void _setMockForMachineLanguage(RegistryMock& registryMockobj, const wchar_t* language)
 {
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Apple Computer, Inc.\\iTunes"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"InstalledLangID"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(true)));
+}
+
+void _setMockForProgramFolderTrue(RegistryMock& registryMockobj)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Apple Computer, Inc.\\iTunes"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"ProgramFolder"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"Folder"), Return(true)));
+}
+
+void _setiTunesVersion(FileVersionInfoMock& fileVersionInfoMock, wchar_t* version)
+{
+	wstring s(version);
+	EXPECT_CALL(fileVersionInfoMock, GetVersion()).WillRepeatedly(ReturnRefOfCopy(s));
 }
 
 TEST(iTunesActionTest, _isDefaultLanguageForUser_True)
@@ -111,3 +122,12 @@ TEST(iTunesActionTest, _isDefaultLanguage_MachineCatalan_UserNone_True)
 	EXPECT_TRUE(iTunes._isDefaultLanguage());
 }
 
+TEST(iTunesActionTest, CheckPrerequirements_OldVersion_False)
+{
+	CreateiTunesAction;
+
+	_setMockForProgramFolderTrue(registryMockobj);
+	_setiTunesVersion(fileVersionInfoMock, L"10.6.2.0");
+	iTunes.CheckPrerequirements(NULL);	
+	EXPECT_THAT(iTunes.GetStatus(), CannotBeApplied);
+}
