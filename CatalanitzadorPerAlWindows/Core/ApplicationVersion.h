@@ -29,7 +29,7 @@ class ApplicationVersion
 	public:
 			ApplicationVersion() {}
 			ApplicationVersion(wstring version) { m_version = version;}
-			vector <wstring> GetComponents();
+			vector <int> GetComponents();
 
 			bool operator == (ApplicationVersion other);
 			bool operator != (ApplicationVersion other);
@@ -42,8 +42,8 @@ class ApplicationVersion
 
 	private:
 
-			vector <wstring> GetComponents(wstring version);
+			vector <int> GetComponents(wstring version);
 			
 			wstring m_version;
-			vector <wstring> m_components;
+			vector <int> m_components;
 };

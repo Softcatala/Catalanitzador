@@ -23,17 +23,20 @@
 #define SEPARATOR L"."
 #define SEPARATOR_LEN 1
 
-vector <wstring> ApplicationVersion::GetComponents(wstring version)
+vector <int> ApplicationVersion::GetComponents(wstring version)
 {
-	vector <wstring> components;
-	int start = 0, end = 0, pos;	
+	vector <int> components;
+	int start = 0, end = 0, pos, num;
+	wstring number;
 
 	do
 	{
 		pos = version.find_first_of(SEPARATOR, end);
 		start = end;
-		end = pos;		
-		components.push_back(version.substr(start, end - start));
+		end = pos;
+		number = version.substr(start, end - start);
+		num = _wtoi(number.c_str());
+		components.push_back(num);
 		end = end + SEPARATOR_LEN;
 		
 	} while (pos != string::npos);
@@ -41,7 +44,7 @@ vector <wstring> ApplicationVersion::GetComponents(wstring version)
 	return components;
 }
 
-vector <wstring> ApplicationVersion::GetComponents()
+vector <int> ApplicationVersion::GetComponents()
 {
 	if (m_components.size() == 0)
 		m_components = GetComponents(m_version);
@@ -79,7 +82,7 @@ bool ApplicationVersion::operator > (ApplicationVersion other)
 	{
 		if (GetComponents().at(i) == other.GetComponents().at(i))
 			continue;
-		
+
 		return GetComponents().at(i) > other.GetComponents().at(i);
 	}
 	return false;

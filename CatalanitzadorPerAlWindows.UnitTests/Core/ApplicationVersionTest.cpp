@@ -28,37 +28,37 @@ using ::testing::StrCaseNe;
 TEST(VersionTest, GetComponents_Three)
 {
 	ApplicationVersion version (L"1.2.3");
-	vector <wstring> components;
+	vector <int> components;
 	
 	components = version.GetComponents();
 
 	EXPECT_THAT(components.size(), 3);
-	EXPECT_THAT(components[0], StrCaseEq(L"1"));
-	EXPECT_THAT(components[1], StrCaseEq(L"2"));
-	EXPECT_THAT(components[2], StrCaseEq(L"3"));
+	EXPECT_THAT(components[0], 1);
+	EXPECT_THAT(components[1], 2);
+	EXPECT_THAT(components[2], 3);
 }
 
 TEST(VersionTest, GetComponents_Two)
 {
 	ApplicationVersion version (L"1.2");
-	vector <wstring> components;
+	vector <int> components;
 	
 	components = version.GetComponents();
 
 	EXPECT_THAT(components.size(), 2);
-	EXPECT_THAT(components[0], StrCaseEq(L"1"));
-	EXPECT_THAT(components[1], StrCaseEq(L"2"));	
+	EXPECT_THAT(components[0], 1);
+	EXPECT_THAT(components[1], 2);
 }
 
 TEST(VersionTest, GetComponents_UnBreakable)
 {
 	ApplicationVersion version (L"123");
-	vector <wstring> components;
+	vector <int> components;
 	
 	components = version.GetComponents();
 
 	EXPECT_THAT(components.size(), 1);
-	EXPECT_THAT(components[0], StrCaseEq(L"123"));
+	EXPECT_THAT(components[0], 123);
 }
 
 TEST(VersionTest, GetComponents_Equal)
@@ -88,12 +88,15 @@ TEST(VersionTest, GetComponents_Greater)
 	ApplicationVersion versionC (L"1.2.2");
 	ApplicationVersion versionD (L"1.1.0");
 	ApplicationVersion versionE (L"0.9.0");
+	ApplicationVersion versionF (L"18.1.1");
+	ApplicationVersion versionG (L"3.0.0");
 
 	EXPECT_TRUE(versionB > versionA);
 	EXPECT_TRUE(versionC > versionB);
 	EXPECT_TRUE(versionB > versionD);
 	EXPECT_TRUE(versionC > versionE);
 	EXPECT_FALSE(versionE > versionA);
+	EXPECT_TRUE(versionF > versionG);
 }
 
 TEST(VersionTest, GetComponents_Less)
@@ -103,11 +106,14 @@ TEST(VersionTest, GetComponents_Less)
 	ApplicationVersion versionC (L"1.2.2");
 	ApplicationVersion versionD (L"1.1.0");
 	ApplicationVersion versionE (L"0.9.0");
+	ApplicationVersion versionF (L"18.1.1");
+	ApplicationVersion versionG (L"3.0.0");
 
 	EXPECT_TRUE(versionA < versionB);
 	EXPECT_TRUE(versionB < versionC);
 	EXPECT_TRUE(versionD < versionB);
 	EXPECT_TRUE(versionE < versionC);
+	EXPECT_TRUE(versionG < versionF);
 	EXPECT_FALSE(versionA < versionE);
 	EXPECT_FALSE(versionA < versionA);
 }
