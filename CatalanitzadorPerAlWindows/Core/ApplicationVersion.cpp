@@ -29,6 +29,10 @@ vector <int> ApplicationVersion::GetComponents(wstring version)
 	int start = 0, end = 0, pos, num;
 	wstring number;
 
+	// Do not use it with strings
+	for (unsigned int i = 0; i < version.size(); i++)
+		assert(iswdigit(version[i]) || version[i] == L'.');
+
 	do
 	{
 		pos = version.find_first_of(SEPARATOR, end);
