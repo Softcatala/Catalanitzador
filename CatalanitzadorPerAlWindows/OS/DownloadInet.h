@@ -19,16 +19,11 @@
  
 #pragma once
 
-#include "Inet.h"
+#include "IDownloadInet.h"
 
-typedef bool (*ProgressStatus)(int nTotal, int nCurrent, void *data);
-
-class DownloadInet : public Inet
+class DownloadInet : public IDownloadInet
 {
 public:
-		bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);		
-		
-private:
-		int _getFileSize(HINTERNET hRemoteFile);
-		int _getStatusCode(HINTERNET hRemoteFile);
+		virtual bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);
+
 };

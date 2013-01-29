@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2013 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,31 +17,15 @@
  * 02111-1307, USA.
  */
  
-#include "stdafx.h"
-#include "DownloadInet.h"
-#include "FtpDownloadInet.h"
-#include "HttpDownloadInet.h"
-#include "Url.h"
+#pragma once
 
-#define HTTP_SCHEME L"http"
-#define FTP_SCHEME L"ftp"
+#include "Inet.h"
 
-bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
+typedef bool (*ProgressStatus)(int nTotal, int nCurrent, void *data);
+
+class IDownloadInet : public Inet
 {
-	Url url(URL);
+public:
+		virtual bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data) = 0;
 
-	if (wcscmp(url.GetScheme(), HTTP_SCHEME) == 0)
-	{
-		HttpDownloadInet httpDownloadInet;
-		return httpDownloadInet.GetFile(URL, file, progress, data);		
-	}
-
-	if (wcscmp(url.GetScheme(), FTP_SCHEME) == 0)
-	{
-		FtpDownloadInet ftpDownloadInet;
-		return ftpDownloadInet.GetFile(URL, file, progress, data);		
-	}
-
-	assert(true);
-	return false;
-}
+};
