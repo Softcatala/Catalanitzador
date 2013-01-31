@@ -62,7 +62,6 @@ FirefoxAcceptLanguages * FirefoxAction::_getAcceptLanguages()
 
 bool FirefoxAction::IsNeed()
 {
-	return true;
 	bool bNeed;
 
 	switch(GetStatus())
