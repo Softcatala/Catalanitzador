@@ -659,6 +659,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguages.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguages.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAction.cpp"
 				>
 			</File>

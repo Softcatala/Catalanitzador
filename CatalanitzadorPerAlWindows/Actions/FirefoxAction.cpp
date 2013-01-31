@@ -18,20 +18,13 @@
  */
 
 #include "stdafx.h"
-#include <stdio.h>
-
 #include "FirefoxAction.h"
-#include "OSVersion.h"
-#include "StringConversion.h"
 
 
-#include <cstdio>
-
-
-FirefoxAction::FirefoxAction(IRegistry* registry)
+FirefoxAction::FirefoxAction(IRegistry* registry)	
 {
 	m_registry = registry;
-	m_CachedLanguageCode = false;
+	m_acceptLanguages = NULL;
 
 	_addExecutionProcess(ExecutionProcess(L"firefox.exe", L"", true));
 }
@@ -57,333 +50,88 @@ void FirefoxAction::FinishExecution(ExecutionProcess process)
 	}
 }
 
+FirefoxAcceptLanguages * FirefoxAction::_getAcceptLanguages()
+{
+	if (m_acceptLanguages == NULL)
+	{
+		_readVersionAndLocale();
+		m_acceptLanguages = new FirefoxAcceptLanguages(_getProfileRootDir(), m_locale);
+	}
+	return m_acceptLanguages;
+}
+
 bool FirefoxAction::IsNeed()
 {
-	bool bNeed = false;
-	wstring firstlang;
+	return true;
+	bool bNeed;
 
-	_readVersionAndLocale();
-
-	if (_readLanguageCode())
-	{
-		if (m_languages.size() == 0)
-		{
-			if (m_locale == L"ca")
-			{
-				bNeed = false;
-			}
-			else
-			{
-				bNeed = true;
-			}
-		}
-		else
-		{
-			_getFirstLanguage(firstlang);
-			bNeed = firstlang.compare(L"ca-es") != 0 && firstlang.compare(L"ca") != 0;
-		}
-
-		if (bNeed == false)
-		{
-			SetStatus(AlreadyApplied);
-		}
+	switch(GetStatus())
+	{		
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
 	}
-	else
-	{
-		_setStatusNotInstalled();
-	}
-	
-	g_log.Log(L"FirefoxAction::IsNeed returns %u (first lang:%s)", (wchar_t *) bNeed, (wchar_t *) firstlang.c_str());
+	g_log.Log(L"FirefoxAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());	
 	return bNeed;
 }
 
-void FirefoxAction::_getFirstLanguage(wstring& regvalue)
+wstring FirefoxAction::_getProfileRootDir()
 {
-	if (m_languages.size() > 0)
-	{		
-		regvalue = m_languages[0];
-		std::transform(regvalue.begin(), regvalue.end(), regvalue.begin(), ::tolower);
-		return;
-	}
-	
-	regvalue.clear();
-	return;
-}
-
-void FirefoxAction::_getProfileRootDir(wstring &location)
-{
+	wstring location;
 	wchar_t szPath[MAX_PATH];
 	
 	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
 	location = szPath;
 	location += L"\\Mozilla\\Firefox\\";
-}
-
-
-void FirefoxAction::_getProfilesIniLocation(wstring &location)
-{	
-	_getProfileRootDir(location);
-	location += L"profiles.ini";
-}
-
-#define	PATHKEY L"Path="
-
-bool FirefoxAction::_getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation)
-{
-	wifstream reader;
-	wstring line;
-	const int pathLen = wcslen(PATHKEY);
-
-	reader.open(file.c_str());
-
-	if (!reader.is_open())	
-		return false;
-
-	while(!(getline(reader, line)).eof())
-	{
-		if (_wcsnicmp(line.c_str(), PATHKEY, pathLen) != 0)
-			continue;
-
-		_getProfileRootDir(profileLocation);
-		profileLocation += (wchar_t *)&line[pathLen];
-		return true;
-	}
-
-	return false;
-}
-
-bool FirefoxAction::_getPreferencesFile(wstring &location)
-{
-	wstring profileIni;
-
-	_getProfilesIniLocation(profileIni);
-	
-	if (_getProfileLocationFromProfilesIni(profileIni, location))
-	{	
-		location += L"\\prefs.js";
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-void FirefoxAction::_parseLanguage(wstring regvalue)
-{
-	wstring language;
-	
-	m_languages.clear();
-	for (unsigned int i = 0; i < regvalue.size (); i++)
-	{
-		if (regvalue[i] == L',')
-		{
-			m_languages.push_back(language);
-			language.clear();
-			continue;
-		}
-
-		language += regvalue[i];
-	}
-
-	if (language.empty() == false)
-	{
-		m_languages.push_back(language);
-	}
-}
-
-
-#define USER_PREF L"user_pref(\"intl.accept_languages\", \""
-
-bool FirefoxAction::_readLanguageCode()
-{	
-	wstring location, line, langcode;
-	wifstream reader;
-
-	if (m_CachedLanguageCode == true)
-		return true;	
-	
-	if (_getPreferencesFile(location) == false)
-	{
-		g_log.Log(L"FirefoxAction::_readLanguageCode. No preferences file found. Firefox is not installed");
-		return false;
-	}
-	reader.open(location.c_str());
-
-	if (reader.is_open())
-	{
-		int start, end;
-
-		while(!reader.eof())
-		{	
-			getline(reader,line);
-			start = line.find(USER_PREF);
-
-			if (start == wstring::npos)
-				continue;
-
-			start+=wcslen(USER_PREF);
-
-			end = line.find(L"\"", start);
-
-			if (end == wstring::npos)
-				continue;
-
-			langcode = line.substr(start, end - start);
-			_parseLanguage(langcode);
-			break;
-		}
-	}
-	else
-	{
-		g_log.Log(L"FirefoxAction::_readLanguageCode cannot open %s", (wchar_t *) location.c_str());
-		return false;
-	}
-
-	reader.close();
-	g_log.Log(L"FirefoxAction::_readLanguageCode open %s", (wchar_t *) location.c_str());
-	m_CachedLanguageCode = true;
-	return true;
-}
-void FirefoxAction::_addCatalanToArrayAndRemoveOldIfExists()
-{
-	vector<wstring>::iterator it;
-
-	// Delete previous ocurrences of Catalan locale that were not first
-	for (it = m_languages.begin(); it != m_languages.end(); ++it)
-	{
-		wstring element = *it;
-		std::transform(element.begin(), element.end(), element.begin(), ::tolower);
-
-		if (element.compare(L"ca-es") == 0 || element.compare(L"ca") == 0)
-		{
-			m_languages.erase(it);
-			break;
-		}
-	}
-
-	wstring str(L"ca");
-	it = m_languages.begin();
-	m_languages.insert(it, str);
-}
-
-void FirefoxAction::_createPrefsString(wstring& string)
-{
-	int languages = m_languages.size();	
-	
-	if (languages == 1)
-	{
-		string = m_languages.at(0);
-		return;
-	}
-		
-	string = m_languages.at(0);
-	for (int i = 1; i < languages; i++)
-	{
-		string += L"," + m_languages.at(i);
-	}
-}
-
-void FirefoxAction::_getPrefLine(wstring langcode, wstring& line)
-{
-	line = USER_PREF;
-	line += langcode;
-	line += L"\");";
-}
-
-void FirefoxAction::_writeLanguageCode(wstring &langcode)
-{
-	wifstream reader;
-	wofstream writer;
-	wstring line, filer, filew;
-	bool ret, written;
-	
-	_getPreferencesFile(filer);
-	filew += filer;
-	filew += L".new";
-
-	reader.open(filer.c_str());
-
-	if (!reader.is_open())
-		return;
-
-	writer.open(filew.c_str());
-
-	if (!writer.is_open())
-	{
-		reader.close();
-		return;
-	}
-
-	written = false;
-	while(!(getline(reader,line)).eof())
-	{
-		if (line.find(USER_PREF) != wstring::npos)
-		{
-			written = true;
-			_getPrefLine(langcode, line);
-		}
-
-		writer << line << L"\n";
-	}
-
-	if (written == false)
-	{
-		_getPrefLine(langcode, line);
-		writer << line << L"\n";
-	}
-
-	writer.close();
-	reader.close();
-
-	ret = MoveFileEx(filew.c_str(), filer.c_str(), MOVEFILE_REPLACE_EXISTING) != 0;
-	
-	if (ret)
-	{
-		SetStatus(Successful);
-	} 
-	else 
-	{
-		SetStatus(FinishedWithError);
-	}
-}
-
-// The Firefox locale determines which languages are going to be used in the 
-// accept_languages. Since by setting to Catalan we reset the default value
-// add at the end of the locale of the langpack as secondary language, then
-// if you install Firefox in English you will have ca, es as language codes
-void FirefoxAction::_addFireForLocale()
-{
-	if (m_locale == L"ca")
-		return;
-
-	if (m_languages.size() == 0)
-	{			
-		if (m_locale.size() > 0)
-		{
-			m_languages.push_back(m_locale);
-		}
-	}
+	return location;
 }
 
 void FirefoxAction::Execute()
 {
-	wstring value;
-
 	SetStatus(InProgress);
-	_readVersionAndLocale();
-	_readLanguageCode();
 
-	_addFireForLocale();
-	_addCatalanToArrayAndRemoveOldIfExists();
-	_createPrefsString(value);
-	_writeLanguageCode(value);
+	if (_getAcceptLanguages()->Execute())
+	{
+		SetStatus(Successful);
+	}
+	else
+	{
+		SetStatus(FinishedWithError);
+	}
 }
 
 const wchar_t* FirefoxAction::GetVersion()
 {
 	_readVersionAndLocale();
 	return m_version.c_str();
+}
+
+void FirefoxAction::_extractLocaleAndVersion(wstring version)
+{	
+	int start, end;
+
+	start = version.find(L" ");
+	if (start != wstring::npos)
+	{
+		m_version = version.substr(0, start);			
+
+		start = version.find(L"(", start);
+
+		if (start != wstring::npos)
+		{
+			start++;
+			end = version.find(L")", start);
+			if (end != wstring::npos)
+			{
+				m_locale = version.substr(start, end-start);
+			}
+		}
+	}
 }
 
 bool FirefoxAction::_readVersionAndLocale()
@@ -399,35 +147,34 @@ bool FirefoxAction::_readVersionAndLocale()
 		return false;
 	}
 	
-	wstring sreg, locale;
 	wchar_t szVersion[1024];
-	int start, end;
-
+	
 	if (m_registry->GetString(L"CurrentVersion", szVersion, sizeof(szVersion)))
 	{
-		sreg = szVersion;
-		start = sreg.find(L" ");
-
-		if (start != wstring::npos)
-		{
-			m_version = sreg.substr(0, start);			
-
-			start = sreg.find(L"(", start);
-
-			if (start != wstring::npos)
-			{
-				start++;
-				end = sreg.find(L")", start);
-				if (end != wstring::npos)
-				{
-					m_locale = sreg.substr(start, end-start);
-				}
-			}
-		}
-
+		_extractLocaleAndVersion(szVersion);
+		
 		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Firefox version %s, version %s, locale %s", 
 			(wchar_t*) szVersion, (wchar_t*) m_version.c_str(), (wchar_t*)  m_locale.c_str());
 	}
 	m_registry->Close();
 	return m_locale.empty() != true;
+}
+
+void FirefoxAction::CheckPrerequirements(Action * action)
+{
+	_readVersionAndLocale();
+
+	if (_getAcceptLanguages()->ReadLanguageCode())
+	{
+		if (_getAcceptLanguages()->IsNeed() == false)
+		{
+			SetStatus(AlreadyApplied);
+			return;
+		}
+	}
+	else
+	{
+		_setStatusNotInstalled();
+		return;
+	}
 }

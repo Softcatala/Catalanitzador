@@ -20,13 +20,10 @@
 #pragma once
 
 #include "Action.h"
-#include "Runner.h"
 #include "IRegistry.h"
-#include "IOSVersion.h"
+#include "Runner.h"
 #include "ActionExecution.h"
-
-#include <vector>
-#include <algorithm>
+#include "FirefoxAcceptLanguages.h"
 
 using namespace std;
 
@@ -44,33 +41,19 @@ public:
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
 		virtual void FinishExecution(ExecutionProcess process);
+		virtual void CheckPrerequirements(Action * action);
 
 protected:
-		virtual void _getProfileRootDir(wstring &location);
+		wstring _getProfileRootDir();
 		bool _readVersionAndLocale();
-
-		wstring* _getLocale() {return &m_locale;}
-		vector <wstring> * _getLanguages() {return &m_languages;}
+		wstring _getLocale() {return m_locale;}
 
 private:
-		
-		bool _readLanguageCode();
-		void _createPrefsString(wstring& string);
-		void _addCatalanToArrayAndRemoveOldIfExists();
-		void _getFirstLanguage(wstring& regvalue);
-		void _writeLanguageCode(wstring &langcode);
-		void _getPrefLine(wstring langcode, wstring& line);
-		void _addFireForLocale();
-		void _parseLanguage(wstring regvalue);
+		void _extractLocaleAndVersion(wstring version);
 
-		void _getProfilesIniLocation(wstring &location);
-		bool _getPreferencesFile(wstring &location);
-		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);		
-
+		FirefoxAcceptLanguages * _getAcceptLanguages();
 		IRegistry* m_registry;
-		vector <wstring> m_languages;
 		wstring m_locale;
 		wstring m_version;
-		bool m_CachedLanguageCode;
+		FirefoxAcceptLanguages* m_acceptLanguages;
 };
-
