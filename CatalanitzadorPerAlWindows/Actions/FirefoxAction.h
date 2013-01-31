@@ -30,7 +30,7 @@
 
 using namespace std;
 
-class FirefoxAction : public Action, ActionExecution
+class FirefoxAction : public Action, public ActionExecution
 {
 public:
 		FirefoxAction (IRegistry* registry);
