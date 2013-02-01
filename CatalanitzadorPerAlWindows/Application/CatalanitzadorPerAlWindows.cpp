@@ -178,7 +178,7 @@ void CatalanitzadorPerAWindows::_createWizard()
 
 #if _DEBUG
 	bSendStats = false;
-	systemRestore = TRUE;
+	systemRestore = FALSE;
 #endif
 
 	if (sysRestore.Init() == false)
