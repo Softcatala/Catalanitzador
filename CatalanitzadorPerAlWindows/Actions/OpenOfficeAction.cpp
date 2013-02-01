@@ -159,7 +159,7 @@ bool OpenOfficeAction::Download(ProgressStatus progress, void *data)
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
 
-	return m_downloadManager->GetFile(downloadVersion, m_szFilename, progress, data);
+	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, progress, data);
 }
 
 void OpenOfficeAction::Execute()

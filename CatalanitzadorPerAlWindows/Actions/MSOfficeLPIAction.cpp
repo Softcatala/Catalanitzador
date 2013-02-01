@@ -331,14 +331,14 @@ bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 	wcscpy_s(m_szFilename, downloadVersion.GetFilename().c_str());
 	wcscpy_s(m_szFullFilename, m_szTempPath);
 	wcscat_s(m_szFullFilename, m_szFilename);	
-	bFile1 = m_downloadManager->GetFile(downloadVersion, m_szFullFilename, progress, data);
+	bFile1 = m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFullFilename, progress, data);
 
 	if (_needsInstallConnector())
 	{
 		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(L"OutlookHotmailConnector"));
 		m_connectorFile = m_szTempPath;
 		m_connectorFile += downloadVersion.GetFilename().c_str();		
-		bFile2 = m_downloadManager->GetFile(downloadVersion, m_connectorFile, progress, data);
+		bFile2 = m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_connectorFile, progress, data);
 		return bFile1 == true && bFile2 == true;
 	}
 	else

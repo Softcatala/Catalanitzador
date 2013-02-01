@@ -175,7 +175,7 @@ bool Windows8LPIAction::Download(ProgressStatus progress, void *data)
 	wcscat_s(filename, downloadVersion.GetFilename().c_str());
 	m_filename = filename;
 
-	return m_downloadManager->GetFile(downloadVersion, filename, progress, data);
+	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, filename, progress, data);
 }
 
 void Windows8LPIAction::Execute()

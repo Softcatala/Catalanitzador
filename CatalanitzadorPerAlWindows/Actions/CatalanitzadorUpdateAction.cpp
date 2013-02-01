@@ -66,7 +66,7 @@ bool CatalanitzadorUpdateAction::Download(ProgressStatus progress, void *data)
 	GetTempPath(MAX_PATH, szFilename);
 	wcscat_s(szFilename, downloadVersion.GetFilename().c_str());
 	m_filename = szFilename;
-	return m_downloadManager->GetFile(downloadVersion, szFilename, progress, data);
+	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, szFilename, progress, data);
 }
 
 #define PARAMETER_NOCHECK L"/NoRunningCheck:"

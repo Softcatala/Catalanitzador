@@ -37,7 +37,7 @@ bool DownloadManager::_getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_f
 	return sha1sum.GetSum().empty() == false;
 }
 
-bool DownloadManager::GetFile(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data)
+bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data)
 {
 	DownloadInet inetacccess;
 	Sha1Sum sha1_computed(file), sha1_read;

@@ -216,7 +216,7 @@ bool IELPIAction::Download(ProgressStatus progress, void *data)
 	wcscat_s(m_filename, L"\\");
 	wcscat_s(m_filename, downloadVersion.GetFilename().c_str());
 
-	return m_downloadManager->GetFile(downloadVersion, m_filename, progress, data);
+	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_filename, progress, data);
 }
 
 void IELPIAction::Execute()
