@@ -38,7 +38,8 @@
 #define LANGUAGE_CODE L"ca-ES"
 #define SCRIPT_NAME L"lang.ps1"
 
-Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
+Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager):
+WindowsLPIBaseAction(downloadManager)
 {
 	m_registry = registry;
 	m_win32I18N = win32I18N;

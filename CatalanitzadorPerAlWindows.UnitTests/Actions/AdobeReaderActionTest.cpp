@@ -33,8 +33,8 @@ class AdobeReaderActionTest : public AdobeReaderAction
 {
 public:
 	
-	AdobeReaderActionTest::AdobeReaderActionTest(IRegistry* registry, IRunner* runner)
-		: AdobeReaderAction(registry, runner) {};
+	AdobeReaderActionTest::AdobeReaderActionTest(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager)
+		: AdobeReaderAction(registry, runner, downloadManager) {};
 	
 	public: 
 			using AdobeReaderAction::_enumVersions;	
@@ -48,7 +48,7 @@ public:
 #define CreateAdobeReaderAction \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	AdobeReaderActionTest adobeAction(&registryMockobj, &runnerMock);
+	AdobeReaderActionTest adobeAction(&registryMockobj, &runnerMock, &DownloadManager());
 
 void _setMockForVersion(RegistryMock& registryMockobj, const wchar_t* version)
 {

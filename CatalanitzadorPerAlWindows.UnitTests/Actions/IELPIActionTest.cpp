@@ -33,8 +33,8 @@ class IELPIActionTest : public IELPIAction
 {
 public:
 
-	IELPIActionTest(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo) :
-		  IELPIAction(OSVersion, runner, fileVersionInfo) {}
+	IELPIActionTest(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager) :
+		  IELPIAction(OSVersion, runner, fileVersionInfo, downloadManager) {}
 	
 	public: using IELPIAction::_checkPrerequirements;
 	public: using IELPIAction::_checkPrerequirementsDependand;
@@ -59,14 +59,14 @@ protected:
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
 	FileVersionInfo fileversionInfo; \
-	IELPIActionTest lipAction(&osVersionExMock, &runnerMock, (IFileVersionInfo *)&fileversionInfo);
+	IELPIActionTest lipAction(&osVersionExMock, &runnerMock, (IFileVersionInfo *)&fileversionInfo, &DownloadManager());
 
 #define CreateWindowsLIPAction \
 	RegistryMock registryMockobjWin; \
 	Win32I18NMock win32I18NMockobjWin; \
 	OSVersionMock osVersionExMockWin; \
 	RunnerMock runnerMockWin; \
-	WindowsLPIAction winLIPAction(&osVersionExMockWin, &registryMockobjWin, &win32I18NMockobjWin, &runnerMockWin);
+	WindowsLPIAction winLIPAction(&osVersionExMockWin, &registryMockobjWin, &win32I18NMockobjWin, &runnerMockWin, &DownloadManager());
 
 
 TEST(IELPIActionTest, _checkPrerequirementsDependand_IE6_WindowsXP)

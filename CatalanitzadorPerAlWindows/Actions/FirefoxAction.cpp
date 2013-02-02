@@ -21,7 +21,7 @@
 #include "FirefoxAction.h"
 #include "FirefoxMozillaServer.h"
 
-FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner)
+FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_registry = registry;
 	m_runner = runner;

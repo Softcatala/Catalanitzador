@@ -104,16 +104,16 @@ void Actions::_buildListOfActions()
 
 	if (osversion.GetVersion() == Windows8)
 	{
-		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
+		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
 	else
 	{
-		m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner()));
+		m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
 	
-	m_actions.push_back(new MSOfficeLPIAction( _getNewRegistry(), _getNewRunner()));
-	m_actions.push_back(new WindowsLiveAction( _getNewRegistry(), _getNewRunner(), _getFileVersionInfo()));
-	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo()));
+	m_actions.push_back(new MSOfficeLPIAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
+	m_actions.push_back(new WindowsLiveAction( _getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
+	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
 	m_actions.push_back(new IEAcceptLanguagesAction( _getNewRegistry(), _getFileVersionInfo(), _getNewOSVersion()));
 	
 	if (osversion.GetVersion() != Windows8)
@@ -122,9 +122,9 @@ void Actions::_buildListOfActions()
 		m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	}
 	m_actions.push_back(new ChromeAction( _getNewRegistry()));
-	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner()));
+	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner()));
+	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new iTunesAction(_getNewRegistry(), _getFileVersionInfo()));
 	

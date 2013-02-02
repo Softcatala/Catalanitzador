@@ -30,8 +30,8 @@ class MSOfficeLPIActionTest : public MSOfficeLPIAction
 {
 public:
 
-	MSOfficeLPIActionTest::MSOfficeLPIActionTest(IRegistry* registry, IRunner* runner)
-		: MSOfficeLPIAction(registry, runner) {};
+	MSOfficeLPIActionTest::MSOfficeLPIActionTest(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager)
+		: MSOfficeLPIAction(registry, runner, downloadManager) {};
 	
 	public: using MSOfficeLPIAction::_getVersionInstalled;
 	public: using MSOfficeLPIAction::_isLangPackInstalled;
@@ -41,7 +41,7 @@ public:
 #define CreateMSOfficeAction \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	MSOfficeLPIActionTest officeAction(&registryMockobj, &runnerMock);
+	MSOfficeLPIActionTest officeAction(&registryMockobj, &runnerMock, &DownloadManager());
 
 void MockOffice2003Installed(RegistryMock& registryMockobj)
 {

@@ -28,7 +28,7 @@
 #define MS_LIVE_ESSENTIALS_2009 14
 #define CATALAN_WINLANGCODE 3
 
-WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo)
+WindowsLiveAction::WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_registry = registry;
 	m_runner = runner;

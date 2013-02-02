@@ -28,7 +28,7 @@
 class AdobeReaderAction : public Action, public ActionExecution
 {
 public:
-		AdobeReaderAction(IRegistry* registry, IRunner* runner);
+		AdobeReaderAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
 		~AdobeReaderAction();
 
 		virtual wchar_t* GetName();

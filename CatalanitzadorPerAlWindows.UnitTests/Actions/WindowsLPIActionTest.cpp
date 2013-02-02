@@ -47,8 +47,8 @@ class WindowsLPIActionTest : public WindowsLPIAction
 {
 public:
 	
-	WindowsLPIActionTest::WindowsLPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
-		: WindowsLPIAction(OSVersion, registry, win32I18N, runner) {};
+	WindowsLPIActionTest::WindowsLPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
+		: WindowsLPIAction(OSVersion, registry, win32I18N, runner, downloadManager) {};
 
 	virtual void TearDown()
 	{
@@ -69,8 +69,8 @@ class WindowsLPIActionTestDefaultLanguage : public WindowsLPIActionTest
 {
 public:
 
-	WindowsLPIActionTestDefaultLanguage::WindowsLPIActionTestDefaultLanguage(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
-		: WindowsLPIActionTest(OSVersion, registry, win32I18N, runner) {};
+	WindowsLPIActionTestDefaultLanguage::WindowsLPIActionTestDefaultLanguage(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
+		: WindowsLPIActionTest(OSVersion, registry, win32I18N, runner, downloadManager) {};
 	
 	virtual bool _isValidOperatingSystem() { return true; }
 	virtual bool _isASupportedSystemLanguage() { return true; }
@@ -82,14 +82,14 @@ public:
 	Win32I18NMock win32I18NMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	WindowsLPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock);
+	WindowsLPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
 
 #define CreateWindowsLPIActionTestDefaultLanguage \
 	RegistryMock registryMockobj; \
 	Win32I18NMock win32I18NMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	WindowsLPIActionTestDefaultLanguage lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock);
+	WindowsLPIActionTestDefaultLanguage lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
 
 TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 {

@@ -33,8 +33,8 @@ class WindowsLiveActionTest : public WindowsLiveAction
 {
 public:
 	
-	WindowsLiveActionTest::WindowsLiveActionTest(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo)
-		: WindowsLiveAction(registry, runner, fileVersionInfo) {};
+	WindowsLiveActionTest::WindowsLiveActionTest(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager)
+		: WindowsLiveAction(registry, runner, fileVersionInfo, downloadManager) {};
 
 	virtual void TearDown()
 	{
@@ -51,7 +51,7 @@ public:
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMockobj; \
 	FileVersionInfoMock fileVersionInfoMockobj; \
-	WindowsLiveActionTest lipAction(&registryMockobj, &runnerMockobj, &fileVersionInfoMockobj);
+	WindowsLiveActionTest lipAction(&registryMockobj, &runnerMockobj, &fileVersionInfoMockobj, &DownloadManager());
 
 void SetGetMajorVersion(FileVersionInfoMock &fileVersionInfoMockobj, wstring& versionString, int version)
 {

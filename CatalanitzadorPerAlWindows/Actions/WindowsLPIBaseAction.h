@@ -24,7 +24,9 @@
 class WindowsLPIBaseAction : public Action
 {
 public:
-		
+
+		WindowsLPIBaseAction(DownloadManager* downloadManager) : Action(downloadManager) {};
+
 protected:
 		void _dumpLpkSetupErrors();
 

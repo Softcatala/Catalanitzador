@@ -39,8 +39,8 @@ class Windows8LPIActionTest : public Windows8LPIAction
 {
 public:
 	
-	Windows8LPIActionTest::Windows8LPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
-		: Windows8LPIAction(OSVersion, registry, win32I18N, runner) {};
+	Windows8LPIActionTest::Windows8LPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
+		: Windows8LPIAction(OSVersion, registry, win32I18N, runner, downloadManager) {};
 
 	public:
 			using Windows8LPIAction::_isLangPackInstalled;
@@ -54,7 +54,7 @@ public:
 	Win32I18NMock win32I18NMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	Windows8LPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock);
+	Windows8LPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
 
 void SetLangPackInstalled(RegistryMock& registryMockobj, bool enabled)
 {

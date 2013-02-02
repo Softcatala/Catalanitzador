@@ -29,7 +29,7 @@
 class WindowsLPIAction : public WindowsLPIBaseAction
 {
 public:
-		WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
+		WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager);
 		~WindowsLPIAction();
 
 		virtual wchar_t* GetName();

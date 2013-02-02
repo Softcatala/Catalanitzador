@@ -29,7 +29,7 @@ class IELPIAction : public Action
 {
 public:	
 
-		IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo);
+		IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager);
 		~IELPIAction();
 
 		virtual wchar_t* GetName();

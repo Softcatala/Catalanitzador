@@ -46,7 +46,7 @@ RegKeyVersion RegKeys2010 =
 	false
 };
 
-MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner)
+MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_registry = registry;	
 	m_runner = runner;

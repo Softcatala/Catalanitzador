@@ -27,7 +27,7 @@
 class WindowsLiveAction : public Action
 {
 public:
-		WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo);
+		WindowsLiveAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager);
 		~WindowsLiveAction();
 
 		virtual wchar_t* GetName();

@@ -28,7 +28,8 @@
 #include "WindowsValidation.h"
 #include "LogExtractor.h"
 
-WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
+WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
+: WindowsLPIBaseAction(downloadManager)
 {
 	m_registry = registry;
 	m_win32I18N = win32I18N;

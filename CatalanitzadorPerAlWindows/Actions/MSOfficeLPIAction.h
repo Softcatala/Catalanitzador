@@ -46,7 +46,7 @@ struct RegKeyVersion
 class MSOfficeLPIAction : public Action
 {
 public:
-		MSOfficeLPIAction(IRegistry* registry, IRunner* runner);
+		MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
 		~MSOfficeLPIAction();
 
 		virtual wchar_t* GetName();

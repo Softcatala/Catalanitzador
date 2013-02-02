@@ -31,7 +31,7 @@ using namespace std;
 class FirefoxAction : public Action, public ActionExecution
 {
 public:
-		FirefoxAction(IRegistry* registry, IRunner* runner);
+		FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
 		~FirefoxAction();
 
 		virtual wchar_t* GetName();

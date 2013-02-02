@@ -25,7 +25,7 @@
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
 
-AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner)
+AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_registry = registry;	
 	m_runner = runner;

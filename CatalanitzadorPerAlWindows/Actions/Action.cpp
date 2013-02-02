@@ -24,6 +24,7 @@
 
 Action::Action()
 {
+	m_downloadManager = NULL;
 	status = NotSelected;
 	szCannotBeApplied[0] = NULL;
 	m_dialectalVariant = false;
@@ -34,6 +35,13 @@ Action::Action(DownloadManager* downloadManager)
 	m_downloadManager = downloadManager;
 	status = NotSelected;
 	szCannotBeApplied[0] = NULL;
+	m_dialectalVariant = false;
+}
+
+bool Action::IsDownloadNeed() 
+{
+	assert(m_downloadManager);
+	return true;
 }
 
 void Action::GetLicense(wstring &license)

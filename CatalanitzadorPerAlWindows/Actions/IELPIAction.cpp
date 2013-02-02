@@ -27,7 +27,8 @@
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
 
-IELPIAction::IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo) : m_explorerVersion(fileVersionInfo)
+IELPIAction::IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager) :
+Action(downloadManager), m_explorerVersion(fileVersionInfo)
 {
 	m_OSVersion = OSVersion;
 	m_runner = runner;
