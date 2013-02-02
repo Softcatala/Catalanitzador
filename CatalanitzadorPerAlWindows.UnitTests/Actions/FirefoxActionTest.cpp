@@ -30,7 +30,7 @@ class FirefoxActionForTest : public FirefoxAction
 {
 	public:
 
-		FirefoxActionForTest(IRegistry* registry) : FirefoxAction(registry) {};
+		FirefoxActionForTest(IRegistry* registry, IRunner* runner) : FirefoxAction(registry, runner) {};
 
 		using FirefoxAction::_readVersionAndLocale;
 		using FirefoxAction::_getLocale;
@@ -45,7 +45,8 @@ class FirefoxActionForTest : public FirefoxAction
 TEST(FirefoxActionTest, _readVersionAndLocale)
 {
 	RegistryMock registryMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj);
+	RunnerMock runnerMockobj;
+	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj);
 
 	SetLocale(registryMockobj, L"12.0 (ca)");
 

@@ -24,36 +24,47 @@
 #include "Runner.h"
 #include "ActionExecution.h"
 #include "FirefoxAcceptLanguages.h"
+#include "FirefoxMozillaServer.h"
 
 using namespace std;
 
 class FirefoxAction : public Action, public ActionExecution
 {
 public:
-		FirefoxAction (IRegistry* registry);
+		FirefoxAction(IRegistry* registry, IRunner* runner);
+		~FirefoxAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
 		virtual ActionID GetID() const { return Firefox;}
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
-		virtual bool IsDownloadNeed() {return false;}
+		virtual bool IsDownloadNeed();
+		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
 		virtual void FinishExecution(ExecutionProcess process);
 		virtual void CheckPrerequirements(Action * action);
-
+		virtual ActionStatus GetStatus();
+		
 protected:
+	
 		wstring _getProfileRootDir();
 		bool _readVersionAndLocale();
 		wstring _getLocale() {return m_locale;}
+		bool _isAcceptLanguageOk();
 
 private:
+		bool _isLocaleInstalled();
 		void _extractLocaleAndVersion(wstring version);
-
 		FirefoxAcceptLanguages * _getAcceptLanguages();
+		FirefoxMozillaServer * _getMozillaServer();
+
 		IRegistry* m_registry;
+		IRunner* m_runner;
 		wstring m_locale;
 		wstring m_version;
 		FirefoxAcceptLanguages* m_acceptLanguages;
+		FirefoxMozillaServer* m_mozillaServer;
+		wchar_t m_szFilename[MAX_PATH];
 };

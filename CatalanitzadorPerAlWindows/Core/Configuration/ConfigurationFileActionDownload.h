@@ -66,6 +66,12 @@ class ConfigurationFileActionDownload
 				m_sha1_urls[index] = url;
 			}
 
+			void SetUrl(unsigned int index, wstring url)
+			{
+				assert(index <= m_urls.size());
+				m_urls[index] = url;
+			}
+
 	private:
 
 			ApplicationVersion m_maxVersion;

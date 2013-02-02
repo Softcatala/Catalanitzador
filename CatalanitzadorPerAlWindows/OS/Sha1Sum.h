@@ -32,6 +32,7 @@ class Sha1Sum
 		    Sha1Sum(){}
 			Sha1Sum(wstring file);
 			void SetFile(wstring file) { m_file = file;}
+			void SetFromString(wstring sum) { m_sum = sum;}
 			wstring GetSum() const { return m_sum;}
 			wstring ComputeforFile();
 			wstring ReadFromFile();

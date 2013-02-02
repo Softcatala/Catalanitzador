@@ -37,6 +37,31 @@ bool DownloadManager::_getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_f
 	return sha1sum.GetSum().empty() == false;
 }
 
+
+bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, Sha1Sum sha1_read, ProgressStatus progress, void *data)
+{
+	DownloadInet inetacccess;
+	Sha1Sum sha1_computed(file);
+	wstring url;
+	bool bRslt;
+
+	for (unsigned index = 0; index < configuration.GetUrls().size(); index++)
+	{
+		url = configuration.GetUrls().at(index);
+		bRslt = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
+		g_log.Log(L"DownloadManager::GetFileAndVerifyAssociatedSha1 '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
+
+		if (bRslt == false)
+			continue;
+		
+		sha1_computed.ComputeforFile();
+		if (sha1_computed == sha1_read)
+			return true;
+	}
+	return false;
+}
+
+
 bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data)
 {
 	DownloadInet inetacccess;
@@ -49,7 +74,7 @@ bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDown
 		url = configuration.GetUrls().at(index);
 		sha1_url = configuration.GetSha1Urls().at(index);
 		bRslt = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
-		g_log.Log(L"DownloadManager::GetFile '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
+		g_log.Log(L"DownloadManager::GetFileAndVerifyAssociatedSha1 '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
 
 		if (bRslt == false)
 			continue;

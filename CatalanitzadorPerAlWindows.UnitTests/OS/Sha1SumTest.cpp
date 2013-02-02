@@ -102,3 +102,13 @@ TEST(Sha1SumTest, EmptyFile)
 	sha1.ReadFromFile();
 	EXPECT_TRUE(sha1.GetSum().empty());
 }
+
+TEST(Sha1SumTest, SetFromString)
+{
+	const wchar_t * MD5 = L"ce4b01c1d705f33204d352dfdfc2d7ab97134c9";
+
+	Sha1Sum sha1sum;
+	sha1sum.SetFromString(MD5);
+
+	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(MD5));
+}

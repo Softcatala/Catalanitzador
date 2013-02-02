@@ -44,9 +44,9 @@ TEST(ConfigurationFileActionDownloadTest, GetSetMaxVersion)
 
 
 #define LATEST_URL1 L"http://url1.com/file.bin"
-#define LATEST_URL2 L"http://url1.com/file.bin"
+#define LATEST_URL2 L"http://url2.com/file.bin"
 #define LATEST_URL1_SHA1 L"http://url1.com/file.bin.sha1"
-#define LATEST_URL2_SHA1 L"http://url1.com/file.bin.sha1"
+#define LATEST_URL2_SHA1 L"http://url2.com/file.bin.sha1"
 #define LATEST_URL1_SHA1_SET L"ftp://url1.com/file.bin.sha1"
 
 TEST(ConfigurationFileActionDownloadTest, AddUrl)
@@ -68,7 +68,7 @@ TEST(ConfigurationFileActionDownloadTest, AddUrlSha1Auto)
 	
 	EXPECT_THAT(fileActionDownload.GetSha1Urls().size(), 2);
 	EXPECT_THAT(fileActionDownload.GetSha1Urls()[0], StrCaseEq(LATEST_URL1_SHA1));
-	EXPECT_THAT(fileActionDownload.GetSha1Urls()[1], StrCaseEq(LATEST_URL1_SHA1));
+	EXPECT_THAT(fileActionDownload.GetSha1Urls()[1], StrCaseEq(LATEST_URL2_SHA1));
 }
 
 TEST(ConfigurationFileActionDownloadTest, SetSha1Url)
@@ -78,6 +78,15 @@ TEST(ConfigurationFileActionDownloadTest, SetSha1Url)
 	fileActionDownload.SetSha1Url(0, LATEST_URL1_SHA1_SET);
 	
 	EXPECT_THAT(fileActionDownload.GetSha1Urls()[0], StrCaseEq(LATEST_URL1_SHA1_SET));	
+}
+
+TEST(ConfigurationFileActionDownloadTest, SetUrl)
+{	
+	ConfigurationFileActionDownload fileActionDownload;
+	fileActionDownload.AddUrl(LATEST_URL1);
+	fileActionDownload.SetUrl(0, LATEST_URL2);
+	
+	EXPECT_THAT(fileActionDownload.GetUrls()[0], StrCaseEq(LATEST_URL2));
 }
 
 TEST(ConfigurationFileActionDownloadTest, IsEmpty)

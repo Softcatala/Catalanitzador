@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,27 +16,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
+
 #pragma once
 
-#include "ConfigurationFileActionDownloads.h"
-#include "ApplicationVersion.h"
-#include "DownloadInet.h"
-#include "Sha1Sum.h"
+#include "DownloadManager.h"
 
-#include <string>
 using namespace std;
 
-class DownloadManager
+class FirefoxMozillaServer
 {
-	public:		
-		
-		bool GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data);		
-		bool GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, Sha1Sum sha1sum, ProgressStatus progress, void *data);
-		
-	private:
+public:
+		FirefoxMozillaServer(DownloadManager* downloadManager, wstring version);
+		ConfigurationFileActionDownload GetConfigurationFileActionDownload();
+		wstring GetSha1FileSignature(ConfigurationFileActionDownload downloadVersion);
 
-		bool _getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_file, Sha1Sum &sha1sum);
+private:
 
-		vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
+		wstring _readSha1FileSignature(wstring url, wstring sha1file);
+		void _replaceString(wstring& string, wstring search, wstring replace);
+
+		wstring m_version;
+		DownloadManager* m_downloadManager;
 };
