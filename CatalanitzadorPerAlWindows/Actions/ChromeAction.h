@@ -62,9 +62,9 @@ private:
 		
 		void _getFirstLanguage(wstring& regvalue);
 		void _readInstallLocation(wstring& path);
-		bool _writeLanguageCode(wstring langcode);
-		void _createRegistryStringTwoLangs(wstring &regvalue, float average);
-		bool _isChromeAppLocaleOk();
+		bool _writeAcceptLanguageCode(wstring langcode);
+		bool _writeUILocale(wstring langcode);
+		bool _isUILocaleOk();
 
 		bool _findIntl(wstring,int&);
 		bool _findSemicolon(wstring,int&);
@@ -78,5 +78,6 @@ private:
 		IRegistry* m_registry;
 		vector <wstring> m_languages;
 		TriBool m_isInstalled;
+		ActionStatus uiStatus;
 };
 
