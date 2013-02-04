@@ -19,12 +19,8 @@
 
 #include "stdafx.h"
 #include <stdio.h>
-
 #include "FirefoxAcceptLanguages.h"
-#include "OSVersion.h"
-#include "StringConversion.h"
 #include <cstdio>
-
 
 FirefoxAcceptLanguages::FirefoxAcceptLanguages(wstring profileRootDir, wstring locale)
 {	

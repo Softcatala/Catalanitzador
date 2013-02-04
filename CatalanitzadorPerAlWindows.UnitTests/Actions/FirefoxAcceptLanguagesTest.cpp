@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "FirefoxAcceptLanguages.h"
+#include "StringConversion.h"
 #include "Application.h"
 
 using ::testing::Return;
