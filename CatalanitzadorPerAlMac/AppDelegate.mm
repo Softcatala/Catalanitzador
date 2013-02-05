@@ -44,7 +44,7 @@ void redirectNSLogToDocumentFolder()
 {
     redirectNSLogToDocumentFolder();
     
-    NSLog(@"Init log");
+    NSLog(@"Built on: %s, %s", __DATE__, __TIME__);
     
     if (systemLanguageAction.IsNeed() == false)
         [_ConfigureLocale setEnabled:NO];
