@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D50D37016BD23CB00653AE7"
-               BuildableName = "CatalanitzadorPerAlMacTests.octest"
-               BlueprintName = "CatalanitzadorPerAlMacTests"
-               ReferencedContainer = "container:CatalanitzadorPerAlMac.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
