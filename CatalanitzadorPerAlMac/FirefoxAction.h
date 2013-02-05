@@ -17,24 +17,24 @@
  * 02111-1307, USA.
  */
 
-#ifndef __CatalanitzadorPerAlMac__SystemLanguageAction__
-#define __CatalanitzadorPerAlMac__SystemLanguageAction__
+#pragma once
 
-#include <iostream>
-#import <Cocoa/Cocoa.h>
 #include "Action.h"
+#include "FirefoxAcceptLanguages.h"
 
-class SystemLanguageAction: Action
+class FirefoxAction: Action
 {
 public:
-        SystemLanguageAction() : Action() {};
+    FirefoxAction();
     
-        virtual bool IsNeed();
-        virtual void Execute();
-
+    virtual bool IsNeed();
+    virtual void Execute();
+    
 private:
-        void _setLocale();
-        bool _isCurrentLocaleOk();
+    
+    string _getInstalledLang();
+    FirefoxAcceptLanguages* _getAcceptLanguages();
+    
+    FirefoxAcceptLanguages* m_acceptLanguages;
 };
 
-#endif /* defined(a__CatalanitzadorPerAlMac__SystemLanguageAction__) */

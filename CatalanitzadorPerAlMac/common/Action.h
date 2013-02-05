@@ -17,7 +17,7 @@
  * 02111-1307, USA.
  */
 
-//#pragma once
+#pragma once
 
 //#include "Serializable.h"
 //#include "ActionStatus.h"

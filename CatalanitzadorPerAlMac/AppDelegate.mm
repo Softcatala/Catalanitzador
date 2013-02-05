@@ -19,15 +19,20 @@
 
 #import "AppDelegate.h"
 #import "SystemLanguageAction.h"
+#import "FirefoxAction.h"
 
 @implementation AppDelegate
 
 SystemLanguageAction systemLanguageAction;
+FirefoxAction firefoxAction;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     if (systemLanguageAction.IsNeed() == false)
         [_ConfigureLocale setEnabled:NO];
+    
+    if (firefoxAction.IsNeed() == false)
+        [_Firefox setEnabled:NO];
 }
 
 - (IBAction)Cancel:(id)sender {
@@ -39,6 +44,11 @@ SystemLanguageAction systemLanguageAction;
     if ([_ConfigureLocale state] != NSOffState)
     {
         systemLanguageAction.Execute();
+    }
+    
+    if ([_Firefox state] != NSOffState)
+    {
+        firefoxAction.Execute();
     }
     
     [_DoChanges setEnabled:NO];

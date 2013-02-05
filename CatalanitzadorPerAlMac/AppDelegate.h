@@ -25,4 +25,5 @@
 - (IBAction)Selector:(id)sender;
 @property (weak) IBOutlet NSButton *ConfigureLocale;
 
+@property (weak) IBOutlet NSButton *Firefox;
 @end
