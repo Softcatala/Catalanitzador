@@ -26,8 +26,26 @@
 SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 
+
+void redirectNSLogToDocumentFolder()
+{
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+	NSString *fileName = @"CatalanitzadorPerAlMac.log";
+    
+	NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
+    
+	freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    redirectNSLogToDocumentFolder();
+    
+    NSLog(@"Init log");
+    
     if (systemLanguageAction.IsNeed() == false)
         [_ConfigureLocale setEnabled:NO];
     
