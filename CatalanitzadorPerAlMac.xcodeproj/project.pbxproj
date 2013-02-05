@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D15274C16C169F7007786D9 /* app-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8D15274B16C169F7007786D9 /* app-icon.icns */; };
 		8D50D35516BD23CB00653AE7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D50D35416BD23CB00653AE7 /* Cocoa.framework */; };
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
 		8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36316BD23CB00653AE7 /* Credits.rtf */; };
@@ -17,10 +18,10 @@
 		8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */; };
 		8DE32DA616C02EAD00764125 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DE32DA516C02EAD00764125 /* libstdc++.dylib */; };
 		8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */; };
-		8DF8C74516C103BB001AE9DA /* app-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8DF8C74416C103BB001AE9DA /* app-icon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D15274B16C169F7007786D9 /* app-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "app-icon.icns"; sourceTree = "<group>"; };
 		8D50D35116BD23CB00653AE7 /* CatalanitzadorPerAlMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatalanitzadorPerAlMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D50D35416BD23CB00653AE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8D50D35716BD23CB00653AE7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -43,7 +44,6 @@
 		8DE32DA516C02EAD00764125 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		8DF8C73E16C0F09B001AE9DA /* FirefoxAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirefoxAction.h; sourceTree = "<group>"; };
 		8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirefoxAction.mm; sourceTree = "<group>"; };
-		8DF8C74416C103BB001AE9DA /* app-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "app-icon.icns"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +62,7 @@
 		8D50D34816BD23CB00653AE7 = {
 			isa = PBXGroup;
 			children = (
-				8DF8C74416C103BB001AE9DA /* app-icon.icns */,
+				8D15274B16C169F7007786D9 /* app-icon.icns */,
 				8D50D35A16BD23CB00653AE7 /* CatalanitzadorPerAlMac */,
 				8D50D35316BD23CB00653AE7 /* Frameworks */,
 				8D50D35216BD23CB00653AE7 /* Products */,
@@ -190,7 +190,7 @@
 				8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */,
 				8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */,
 				8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */,
-				8DF8C74516C103BB001AE9DA /* app-icon.icns in Resources */,
+				8D15274C16C169F7007786D9 /* app-icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
