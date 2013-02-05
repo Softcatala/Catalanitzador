@@ -33,6 +33,7 @@ public:
         virtual void Execute();
 
 private:
+        NSArray* _getCurrentLanguages();
         void _setLocale();
         bool _isCurrentLocaleOk();
 };

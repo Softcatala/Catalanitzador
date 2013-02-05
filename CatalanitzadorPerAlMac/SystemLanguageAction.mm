@@ -20,29 +20,42 @@
 
 #include "SystemLanguageAction.h"
 
+NSArray* SystemLanguageAction::_getCurrentLanguages()
+{
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+    NSDictionary* globalDomain = [defs persistentDomainForName:@"NSGlobalDomain"];
+    NSArray* languages = [globalDomain objectForKey:@"AppleLanguages"];
+
+    return languages;
+}
+
 void SystemLanguageAction::_setLocale()
 {
     NSTask* task = [[NSTask alloc] init];
+    NSArray* prevLanguages = _getCurrentLanguages();
+    NSArray* arguments = [NSArray arrayWithObjects: @"write", @"NSGlobalDomain",
+                          @"AppleLanguages", @"-array", @"ca" , nil];
     
-    NSString* arg1 = @"write";
-    NSString* arg2 = @"NSGlobalDomain";
-    NSString* arg3 = @"AppleLanguages";
-    NSString* arg4 = @"-array";
-    NSString* arg5 = @"\"ca\"";
-
+    unsigned long cnt = [prevLanguages count] + [arguments count];
+    NSMutableArray *myArray = [NSMutableArray arrayWithCapacity:cnt];
     
-    NSArray* arguments = [NSArray arrayWithObjects: arg1, arg2, arg3, arg4, arg5, nil];
+    [myArray addObjectsFromArray:arguments];
     
+    // Copy all previous languages except Catalan that is already first one
+    for (NSString* language in prevLanguages)
+    {
+        if ([language isEqualToString:@"ca"] ==false)
+            [myArray addObject:language];
+    }
+        
     [task setLaunchPath:@"/usr/bin/defaults"];
-    [task setArguments: arguments];
+    [task setArguments: myArray];
     [task launch];
 }
 
 bool SystemLanguageAction::_isCurrentLocaleOk()
 {
-    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
-    NSDictionary* globalDomain = [defs persistentDomainForName:@"NSGlobalDomain"];
-    NSArray* languages = [globalDomain objectForKey:@"AppleLanguages"];
+    NSArray* languages = _getCurrentLanguages();
     NSString* language = [languages objectAtIndex:0];
     
     if ([language isEqualToString:@"ca"])
@@ -76,7 +89,7 @@ bool SystemLanguageAction::IsNeed()
     
     getSystemVersionMajor(versionMajor, versionMinor);
     
-    if (versionMajor > 10 || (versionMajor > 10 && versionMinor >= 7))
+    if (versionMajor > 10 || (versionMajor == 10 && versionMinor >= 7))
     {
         isNeed = _isCurrentLocaleOk() == false;
     }
