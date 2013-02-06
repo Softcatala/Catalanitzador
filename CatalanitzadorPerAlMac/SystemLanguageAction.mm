@@ -51,6 +51,7 @@ void SystemLanguageAction::_setLocale()
     [task setLaunchPath:@"/usr/bin/defaults"];
     [task setArguments: myArray];
     [task launch];
+    [task waitUntilExit];
 }
 
 bool SystemLanguageAction::_isCurrentLocaleOk()
