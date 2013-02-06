@@ -22,7 +22,7 @@
 #include "Action.h"
 #include "FirefoxAcceptLanguages.h"
 
-class FirefoxAction: Action
+class FirefoxAction: public Action
 {
 public:
     FirefoxAction();

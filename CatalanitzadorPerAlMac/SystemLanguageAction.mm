@@ -66,7 +66,13 @@ bool SystemLanguageAction::_isCurrentLocaleOk()
 
 void SystemLanguageAction::Execute()
 {
+    bool isOk;
+    
     _setLocale();
+    isOk = _isCurrentLocaleOk();
+    SetStatus(isOk ? Successful : FinishedWithError);
+    
+    NSLog(@"SystemLanguageAction::Execute. Result %u", isOk);
 }
 
 // See: http://cocoadev.com/wiki/DeterminingOSVersion

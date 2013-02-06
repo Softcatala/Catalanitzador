@@ -28,6 +28,7 @@ FirefoxAction::FirefoxAction() : Action()
 string FirefoxAction::_getInstalledLang()
 {
     string CATALAN_RESOURCE_FILE = "/Applications/Firefox.app/Contents/Resources/ca.lproj/InfoPlist.strings";
+    string language;
     fstream reader;
     
     reader.open(CATALAN_RESOURCE_FILE);
@@ -35,10 +36,13 @@ string FirefoxAction::_getInstalledLang()
     if (reader.is_open())
     {
         reader.close();
-        return "ca";
+        language = "ca";
     }
     else
-        return "xx";
+        language = "xx";
+    
+    NSLog(@"FirefoxAction::_getInstalledLang. Language %s", language.c_str());
+    return language;
 }
 
 FirefoxAcceptLanguages * FirefoxAction::_getAcceptLanguages()
@@ -59,11 +63,21 @@ FirefoxAcceptLanguages * FirefoxAction::_getAcceptLanguages()
 
 bool FirefoxAction::IsNeed()
 {
-    return _getAcceptLanguages()->IsNeed();
+    bool isNeed;
+    
+    isNeed = _getAcceptLanguages()->IsNeed();
+    NSLog(@"FirefoxAction::IsNeed. Result %u", isNeed);
+    return isNeed;
 }
 
 void FirefoxAction::Execute()
 {
+    bool isOk;
+    
     _getAcceptLanguages()->Execute();
+    isOk = _getAcceptLanguages()->IsNeed() == false;
+    SetStatus(isOk ? Successful : FinishedWithError);
+    
+    NSLog(@"FirefoxAction::Execute. Result %u", isOk);
 }
 

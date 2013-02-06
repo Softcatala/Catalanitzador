@@ -26,6 +26,22 @@
 SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 
+void _showDialogBox(CFStringRef title, CFStringRef text)
+{
+    SInt32 nRes = 0;
+    CFUserNotificationRef pDlg = NULL;
+    const void* keys[] = { kCFUserNotificationAlertHeaderKey,
+        kCFUserNotificationAlertMessageKey };
+    const void* vals[] = { title, text };
+    CFDictionaryRef dict = CFDictionaryCreate(0, keys, vals,
+                                              sizeof(keys)/sizeof(*keys),
+                                              &kCFTypeDictionaryKeyCallBacks,
+                                              &kCFTypeDictionaryValueCallBacks);
+    pDlg = CFUserNotificationCreate(kCFAllocatorDefault, 0,
+                                    kCFUserNotificationPlainAlertLevel, 
+                                    &nRes, dict);
+}
+
 
 void redirectNSLogToDocumentFolder()
 {
@@ -42,15 +58,32 @@ void redirectNSLogToDocumentFolder()
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    bool anyAction = false;
+    
     redirectNSLogToDocumentFolder();
     
     NSLog(@"Built on: %s, %s", __DATE__, __TIME__);
     
     if (systemLanguageAction.IsNeed() == false)
         [_ConfigureLocale setEnabled:NO];
+    else
+        anyAction = true;
     
     if (firefoxAction.IsNeed() == false)
         [_Firefox setEnabled:NO];
+    else
+        anyAction = true;
+    
+    [NSApp activateIgnoringOtherApps:YES];
+    
+    if (anyAction == false)
+    {
+        [_DoChanges setEnabled:NO];
+        
+        _showDialogBox(CFSTR("Catalanitzador per al Mac"),
+                       CFSTR("Aquest ordinador ja es troba catalanitzat!"));
+        
+    }
 }
 
 - (IBAction)Cancel:(id)sender {
@@ -59,16 +92,33 @@ void redirectNSLogToDocumentFolder()
 }
 - (IBAction)SaveChanges:(id)sender {
     
+    bool correct = true;
+    
     if ([_ConfigureLocale state] != NSOffState)
     {
         systemLanguageAction.Execute();
+        if (systemLanguageAction.GetStatus() != Successful)
+            correct = false;
     }
     
     if ([_Firefox state] != NSOffState)
     {
         firefoxAction.Execute();
+        if (systemLanguageAction.GetStatus() != Successful)
+            correct = false;
     }
     
     [_DoChanges setEnabled:NO];
+    
+    if (correct)
+    {
+        _showDialogBox(CFSTR("Catalanitzador per al Mac"),
+                   CFSTR("Els canvis s'han aplicat correctament"));
+    }
+    else
+    {
+        _showDialogBox(CFSTR("Catalanitzador per al Mac"),
+                       CFSTR("No tots els canvis s'han aplicat correctament"));
+    }
 }
 @end

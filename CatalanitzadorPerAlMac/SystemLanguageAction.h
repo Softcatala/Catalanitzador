@@ -17,14 +17,14 @@
  * 02111-1307, USA.
  */
 
-#ifndef __CatalanitzadorPerAlMac__SystemLanguageAction__
-#define __CatalanitzadorPerAlMac__SystemLanguageAction__
+
+#pragma once
 
 #include <iostream>
 #import <Cocoa/Cocoa.h>
 #include "Action.h"
 
-class SystemLanguageAction: Action
+class SystemLanguageAction: public Action
 {
 public:
         SystemLanguageAction() : Action() {};
@@ -38,4 +38,3 @@ private:
         bool _isCurrentLocaleOk();
 };
 
-#endif /* defined(a__CatalanitzadorPerAlMac__SystemLanguageAction__) */

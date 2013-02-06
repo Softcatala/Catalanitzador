@@ -20,7 +20,7 @@
 #pragma once
 
 //#include "Serializable.h"
-//#include "ActionStatus.h"
+#include "ActionStatus.h"
 //#include "ActionID.h"
 //#include "ActionGroup.h"
 //#include "StringConversion.h"
@@ -43,6 +43,14 @@ public:
     
         // Executes the action and make the configuration changes effective
         virtual void Execute() = 0;
+    
+        // Get the status of the action
+        virtual ActionStatus GetStatus() { return status;}
+    
+    virtual void SetStatus(ActionStatus value) { status = value;}
+    
+protected:
+        ActionStatus status;
 
 /*
 		// Get the name of action
@@ -79,7 +87,6 @@ public:
 
 		// If a download is needed, executes the download of the files
 		virtual bool Download(ProgressStatus, void *data) {return true;}
-
 	
 		// Serialize the changes into an XML file
 		virtual void Serialize(ostream* stream);
