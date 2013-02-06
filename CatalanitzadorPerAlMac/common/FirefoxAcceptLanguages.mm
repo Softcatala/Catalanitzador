@@ -117,6 +117,7 @@ bool FirefoxAcceptLanguages::IsNeed()
             string firstlang;
             
             _getFirstLanguage(firstlang);
+            NSLog(@"FirefoxAcceptLanguages::IsNeed. Language %s", firstlang.c_str());
             return firstlang.compare("ca") != 0 && firstlang.compare(0, LOCALES_PREFIX.size(), LOCALES_PREFIX) != 0;
 		}
 	}
@@ -159,7 +160,7 @@ bool FirefoxAcceptLanguages::ReadLanguageCode()
 	
 	if (_getPreferencesFile(location) == false)
 	{
-		//g_log.Log(L"FirefoxAcceptLanguages::_readLanguageCode. No preferences file found. Firefox is not installed");
+		NSLog(@"FirefoxAcceptLanguages::_readLanguageCode. No preferences file found. Firefox is not installed");
 		return false;
 	}
     
@@ -196,7 +197,7 @@ bool FirefoxAcceptLanguages::ReadLanguageCode()
 	}
 
 	reader.close();
-	//g_log.Log(L"FirefoxAcceptLanguages::_readLanguageCode open %s", (wchar_t *) location.c_str());
+	NSLog(@"FirefoxAcceptLanguages::_readLanguageCode open %s", location.c_str());
 	m_CachedLanguageCode = true;
 	return true;
 }
@@ -260,7 +261,6 @@ bool FirefoxAcceptLanguages::_writeLanguageCode(string &langcode)
 	filew += filer;
 	filew += ".new";
 
-    //filew = "/Users/jordi/prova.txt";
 	reader.open(filer.c_str());
 
 	if (!reader.is_open())
