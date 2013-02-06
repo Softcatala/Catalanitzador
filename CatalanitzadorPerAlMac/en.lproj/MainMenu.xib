@@ -1437,7 +1437,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="1022206517">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">El Catalanitzador suggerira els canvis necessaris perquè podeu treballar en català amb el vostre PC. </string>
+								<string key="NSContents">El Catalanitzador suggerira els canvis necessaris perquè podeu treballar en català amb el vostre ordinador. </string>
 								<reference key="NSSupport" ref="76473111"/>
 								<string key="NSCellIdentifier">_NS:1535</string>
 								<reference key="NSControlView" ref="457520674"/>
@@ -1477,7 +1477,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="1001719169"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 800}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -3907,25 +3907,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="Cancel:">id</string>
-						<string key="SaveChanges:">id</string>
-						<string key="Selector:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="Cancel:">
-							<string key="name">Cancel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="SaveChanges:">
-							<string key="name">SaveChanges:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="Selector:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">Selector:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">Selector:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">Selector:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="ConfigureLocale">NSButton</string>
 						<string key="DoChanges">NSButton</string>
