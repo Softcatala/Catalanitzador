@@ -25,6 +25,12 @@ FirefoxAction::FirefoxAction() : Action()
     m_acceptLanguages = NULL;
 }
 
+FirefoxAction::~FirefoxAction()
+{
+    if (m_acceptLanguages)
+        delete m_acceptLanguages;
+}
+
 string FirefoxAction::_getInstalledLang()
 {
     string CATALAN_RESOURCE_FILE = "/Applications/Firefox.app/Contents/Resources/ca.lproj/InfoPlist.strings";

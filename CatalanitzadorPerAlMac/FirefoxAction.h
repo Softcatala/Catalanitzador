@@ -25,7 +25,9 @@
 class FirefoxAction: public Action
 {
 public:
+    
     FirefoxAction();
+    ~FirefoxAction();
     
     virtual bool IsNeed();
     virtual void Execute();

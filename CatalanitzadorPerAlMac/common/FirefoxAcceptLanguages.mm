@@ -113,10 +113,11 @@ bool FirefoxAcceptLanguages::IsNeed()
 		}
 		else
 		{
-			string firstlang;
-
-			_getFirstLanguage(firstlang);
-			return firstlang.compare("ca-es") != 0 && firstlang.compare("ca") != 0;
+            string LOCALES_PREFIX("ca-");
+            string firstlang;
+            
+            _getFirstLanguage(firstlang);
+            return firstlang.compare("ca") != 0 && firstlang.compare(0, LOCALES_PREFIX.size(), LOCALES_PREFIX) != 0;
 		}
 	}
 	return false;
