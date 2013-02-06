@@ -24,6 +24,7 @@
 @property (weak) IBOutlet NSButton *DoChanges;
 - (IBAction)Selector:(id)sender;
 @property (weak) IBOutlet NSButton *ConfigureLocale;
+@property (weak) IBOutlet NSTextField *Results;
 
 @property (weak) IBOutlet NSButton *Firefox;
 @end

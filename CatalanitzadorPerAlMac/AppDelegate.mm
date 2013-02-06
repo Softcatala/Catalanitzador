@@ -73,10 +73,7 @@ void redirectNSLogToDocumentFolder()
     if (anyAction == false)
     {
         [_DoChanges setEnabled:NO];
-        
-        _showDialogBox(@"Catalanitzador per al Mac",
-                       @"Aquest ordinador ja es troba catalanitzat!");
-        
+        [_Results setStringValue:@"Aquest ordinador ja es troba catalanitzat!"];
     }
 }
 
@@ -113,13 +110,11 @@ void redirectNSLogToDocumentFolder()
     
     if (correct)
     {
-        _showDialogBox(@"Catalanitzador per al Mac",
-                   @"Els canvis s'han aplicat correctament");
+        [_Results setStringValue:@"Els canvis s'han aplicat correctament"];
     }
     else
     {
-        _showDialogBox(@"Catalanitzador per al Mac",
-                       @"No tots els canvis s'han aplicat correctament");
+         [_Results setStringValue:@"No tots els canvis s'han aplicat correctament"];
     }
 }
 @end
