@@ -134,6 +134,39 @@ TEST(FirefoxAcceptLanguagesTest, IsNeed_FrenchLocale_Catalan)
 	EXPECT_FALSE(acceptLanguages.IsNeed());	
 }
 
+TEST(FirefoxAcceptLanguagesTest, IsNeed_FrenchLocale_CatalanSpain)
+{
+	wstring accept;
+	FirefoxAcceptLanguagesTest acceptLanguages(_getProfileRootDir(), L"fr");
+	
+	CreateAcceptLanguage(wstring(L"ca-ES"), accept);
+	GeneratePrefsJS(wstring(accept));
+	
+	EXPECT_FALSE(acceptLanguages.IsNeed());	
+}
+
+TEST(FirefoxAcceptLanguagesTest, IsNeed_FrenchLocale_CatalanValencian)
+{
+	wstring accept;
+	FirefoxAcceptLanguagesTest acceptLanguages(_getProfileRootDir(), L"fr");
+	
+	CreateAcceptLanguage(wstring(L"ca-valencia"), accept);
+	GeneratePrefsJS(wstring(accept));
+
+	EXPECT_FALSE(acceptLanguages.IsNeed());	
+}
+
+TEST(FirefoxAcceptLanguagesTest, IsNeed_FrenchLocale_CatalanAndorra)
+{
+	wstring accept;
+	FirefoxAcceptLanguagesTest acceptLanguages(_getProfileRootDir(), L"fr");
+	
+	CreateAcceptLanguage(wstring(L"ca-AD"), accept);
+	GeneratePrefsJS(wstring(accept));
+
+	EXPECT_FALSE(acceptLanguages.IsNeed());	
+}
+
 TEST(FirefoxAcceptLanguagesTest, IsNeed_NotInstalled)
 {
 	FirefoxAcceptLanguagesTest acceptLanguages(L"", L"");
