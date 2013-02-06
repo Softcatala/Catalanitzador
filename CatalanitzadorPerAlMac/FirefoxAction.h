@@ -31,6 +31,7 @@ public:
     
     virtual bool IsNeed();
     virtual void Execute();
+    bool IsApplicationRunning();
     
 private:
     

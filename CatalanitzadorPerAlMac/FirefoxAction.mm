@@ -31,6 +31,33 @@ FirefoxAction::~FirefoxAction()
         delete m_acceptLanguages;
 }
 
+bool FirefoxAction::IsApplicationRunning()
+{
+    NSDictionary *info;
+    bool foundApp = false;
+    OSErr err;
+    ProcessSerialNumber psn = {0, kNoProcess};
+
+    while (!foundApp)
+    {
+        err = GetNextProcess(&psn);
+    
+        if (!err)
+        {
+            info = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
+            foundApp = [@"org.mozilla.firefox" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
+        }
+        else
+        {
+            break;
+        }
+    }
+   
+    NSLog(@"FirefoxAction::IsApplicationRunning. Result %u", foundApp);
+    return foundApp;
+}
+
+
 string FirefoxAction::_getInstalledLang()
 {
     string CATALAN_RESOURCE_FILE = "/Applications/Firefox.app/Contents/Resources/ca.lproj/InfoPlist.strings";
