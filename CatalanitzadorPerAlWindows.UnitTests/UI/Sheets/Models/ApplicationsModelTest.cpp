@@ -26,7 +26,16 @@
 class ActionGroupWindowsTest : public ActionTest
 {
 public:
+
+		ActionGroupWindowsTest()
+		{
+			m_downloadManager =  &m_testDownloadManager;
+		}
+
 		virtual ActionGroup GetGroup() const {return ActionGroupWindows;}
+
+private:
+		DownloadManager m_testDownloadManager;
 		
 };
 
