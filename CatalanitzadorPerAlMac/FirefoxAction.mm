@@ -64,7 +64,7 @@ string FirefoxAction::_getInstalledLang()
     string language;
     fstream reader;
     
-    reader.open(CATALAN_RESOURCE_FILE);
+    reader.open(CATALAN_RESOURCE_FILE.c_str());
     
     if (reader.is_open())
     {

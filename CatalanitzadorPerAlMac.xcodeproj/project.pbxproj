@@ -16,7 +16,6 @@
 		8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9616C0101500764125 /* AppDelegate.mm */; };
 		8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */; };
 		8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */; };
-		8DE32DA616C02EAD00764125 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DE32DA516C02EAD00764125 /* libstdc++.dylib */; };
 		8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +51,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DE32DA616C02EAD00764125 /* libstdc++.dylib in Frameworks */,
 				8D50D35516BD23CB00653AE7 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,7 +245,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -280,7 +278,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -307,7 +305,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Prefix.pch";
 				INFOPLIST_FILE = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -320,7 +318,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Prefix.pch";
 				INFOPLIST_FILE = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

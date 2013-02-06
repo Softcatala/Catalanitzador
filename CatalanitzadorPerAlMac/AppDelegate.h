@@ -21,10 +21,10 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
-@property (weak) IBOutlet NSButton *DoChanges;
+@property (assign) IBOutlet NSButton *DoChanges;
 - (IBAction)Selector:(id)sender;
-@property (weak) IBOutlet NSButton *ConfigureLocale;
-@property (weak) IBOutlet NSTextField *Results;
+@property (assign) IBOutlet NSButton *ConfigureLocale;
+@property (assign) IBOutlet NSTextField *Results;
 
-@property (weak) IBOutlet NSButton *Firefox;
+@property (assign) IBOutlet NSButton *Firefox;
 @end
