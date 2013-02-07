@@ -1,7 +1,0 @@
-CatalanitzadorPerAlMac
-======================
-
-CatalanitzadorPerAlMac
-
-
-
