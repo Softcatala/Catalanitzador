@@ -20,12 +20,13 @@
 #import "AppDelegate.h"
 #import "SystemLanguageAction.h"
 #import "FirefoxAction.h"
-
+#import "SpellCheckerAction.h"
 
 @implementation AppDelegate
 
 SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
+SpellCheckerAction spellCheckerAction;
 
 void _showDialogBox(NSString* title, NSString* text)
 {
@@ -35,7 +36,6 @@ void _showDialogBox(NSString* title, NSString* text)
     [alert setAlertStyle:0];
     [alert runModal];
 }
-
 
 void redirectNSLogToDocumentFolder()
 {
@@ -56,7 +56,7 @@ void redirectNSLogToDocumentFolder()
     
     redirectNSLogToDocumentFolder();
     
-    NSLog(@"Built on: %s, %s", __DATE__, __TIME__);
+    NSLog(@"Catalanitzador per al Mac built on: %s, %s", __DATE__, __TIME__);
     
     if (systemLanguageAction.IsNeed() == false)
         [_ConfigureLocale setEnabled:NO];
@@ -65,6 +65,11 @@ void redirectNSLogToDocumentFolder()
     
     if (firefoxAction.IsNeed() == false)
         [_Firefox setEnabled:NO];
+    else
+        anyAction = true;
+    
+    if (spellCheckerAction.IsNeed() == false)
+        [_SpellChecker setEnabled:NO];
     else
         anyAction = true;
     
@@ -85,14 +90,14 @@ void redirectNSLogToDocumentFolder()
     
     bool correct = true;
     
-    if ([_ConfigureLocale state] != NSOffState)
+    if ([_ConfigureLocale state] != NSOffState && [_ConfigureLocale isEnabled])
     {
         systemLanguageAction.Execute();
         if (systemLanguageAction.GetStatus() != Successful)
             correct = false;
     }
     
-    if ([_Firefox state] != NSOffState)
+    if ([_Firefox state] != NSOffState && [_Firefox isEnabled])
     {
         if (firefoxAction.IsApplicationRunning())
         {
@@ -103,6 +108,13 @@ void redirectNSLogToDocumentFolder()
         
         firefoxAction.Execute();
         if (firefoxAction.GetStatus() != Successful)
+            correct = false;
+    }
+    
+    if ([_SpellChecker state] != NSOffState && [_SpellChecker isEnabled])
+    {
+        spellCheckerAction.Execute();
+        if (spellCheckerAction.GetStatus() != Successful)
             correct = false;
     }
     

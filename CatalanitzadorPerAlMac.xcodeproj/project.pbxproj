@@ -16,6 +16,10 @@
 		8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9616C0101500764125 /* AppDelegate.mm */; };
 		8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */; };
 		8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */; };
+		8DEEBCE116C3D110002BD942 /* catala.aff in Resources */ = {isa = PBXBuildFile; fileRef = 8DEEBCDF16C3D110002BD942 /* catala.aff */; };
+		8DEEBCE216C3D110002BD942 /* catala.dic in Resources */ = {isa = PBXBuildFile; fileRef = 8DEEBCE016C3D110002BD942 /* catala.dic */; };
+		8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */; };
+		8DEEBCF116C3FBBC002BD942 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DEEBCF016C3FBBC002BD942 /* Security.framework */; };
 		8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +45,11 @@
 		8DE32D9E16C02D6700764125 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
 		8DE32D9F16C02D6700764125 /* FirefoxAcceptLanguages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirefoxAcceptLanguages.h; sourceTree = "<group>"; };
 		8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirefoxAcceptLanguages.mm; sourceTree = "<group>"; };
-		8DE32DA516C02EAD00764125 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		8DEEBCDF16C3D110002BD942 /* catala.aff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = catala.aff; path = spellchecker/catala.aff; sourceTree = "<group>"; };
+		8DEEBCE016C3D110002BD942 /* catala.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = catala.dic; path = spellchecker/catala.dic; sourceTree = "<group>"; };
+		8DEEBCED16C3F9C2002BD942 /* SpellCheckerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpellCheckerAction.h; sourceTree = "<group>"; };
+		8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpellCheckerAction.mm; sourceTree = "<group>"; };
+		8DEEBCF016C3FBBC002BD942 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8DF8C73E16C0F09B001AE9DA /* FirefoxAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirefoxAction.h; sourceTree = "<group>"; };
 		8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirefoxAction.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DEEBCF116C3FBBC002BD942 /* Security.framework in Frameworks */,
 				8D50D35516BD23CB00653AE7 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,6 +70,7 @@
 		8D50D34816BD23CB00653AE7 = {
 			isa = PBXGroup;
 			children = (
+				8DEEBCF016C3FBBC002BD942 /* Security.framework */,
 				8D15274B16C169F7007786D9 /* app-icon.icns */,
 				8D50D35A16BD23CB00653AE7 /* CatalanitzadorPerAlMac */,
 				8D50D35316BD23CB00653AE7 /* Frameworks */,
@@ -79,7 +89,6 @@
 		8D50D35316BD23CB00653AE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8DE32DA516C02EAD00764125 /* libstdc++.dylib */,
 				8D50D35416BD23CB00653AE7 /* Cocoa.framework */,
 				8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */,
 				8D50D35616BD23CB00653AE7 /* Other Frameworks */,
@@ -100,15 +109,13 @@
 		8D50D35A16BD23CB00653AE7 /* CatalanitzadorPerAlMac */ = {
 			isa = PBXGroup;
 			children = (
-				8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */,
+				8DEEBCF216C3FBEE002BD942 /* Actions */,
+				8DEEBCDD16C3D0EF002BD942 /* SpellChecker */,
 				8DE32D9D16C02D6700764125 /* common */,
-				8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */,
 				8DE32D9616C0101500764125 /* AppDelegate.mm */,
 				8D50D36616BD23CB00653AE7 /* AppDelegate.h */,
 				8D50D36916BD23CB00653AE7 /* MainMenu.xib */,
 				8D50D35B16BD23CB00653AE7 /* Supporting Files */,
-				8DE32D9916C0109100764125 /* SystemLanguageAction.h */,
-				8DF8C73E16C0F09B001AE9DA /* FirefoxAction.h */,
 			);
 			path = CatalanitzadorPerAlMac;
 			sourceTree = "<group>";
@@ -134,6 +141,28 @@
 				8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */,
 			);
 			path = common;
+			sourceTree = "<group>";
+		};
+		8DEEBCDD16C3D0EF002BD942 /* SpellChecker */ = {
+			isa = PBXGroup;
+			children = (
+				8DEEBCDF16C3D110002BD942 /* catala.aff */,
+				8DEEBCE016C3D110002BD942 /* catala.dic */,
+			);
+			name = SpellChecker;
+			sourceTree = "<group>";
+		};
+		8DEEBCF216C3FBEE002BD942 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				8DEEBCED16C3F9C2002BD942 /* SpellCheckerAction.h */,
+				8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */,
+				8DE32D9916C0109100764125 /* SystemLanguageAction.h */,
+				8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */,
+				8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */,
+				8DF8C73E16C0F09B001AE9DA /* FirefoxAction.h */,
+			);
+			name = Actions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +220,8 @@
 				8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */,
 				8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */,
 				8D15274C16C169F7007786D9 /* app-icon.icns in Resources */,
+				8DEEBCE116C3D110002BD942 /* catala.aff in Resources */,
+				8DEEBCE216C3D110002BD942 /* catala.dic in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +237,7 @@
 				8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */,
 				8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */,
 				8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */,
+				8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

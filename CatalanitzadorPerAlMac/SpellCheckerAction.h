@@ -16,16 +16,29 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+
+
+#pragma once
+
+#include <iostream>
 #import <Cocoa/Cocoa.h>
+#include "Action.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+class SpellCheckerAction: public Action
+{
+public:
+        SpellCheckerAction() : Action() {};
+    
+        virtual bool IsNeed();
+        virtual void Execute();
 
-@property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet NSButton *DoChanges;
-- (IBAction)Selector:(id)sender;
-@property (assign) IBOutlet NSButton *ConfigureLocale;
-@property (assign) IBOutlet NSTextField *Results;
+private:
+    
+        bool requestPermissions();
+        NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
+        bool _copyfile(NSString* src, NSString* trg);
+        bool _isDictionaryInstalled();
+    
+        AuthorizationRef m_authorizationRef;
+};
 
-@property (assign) IBOutlet NSButton *Firefox;
-@property (assign) IBOutlet NSButton *SpellChecker;
-@end
