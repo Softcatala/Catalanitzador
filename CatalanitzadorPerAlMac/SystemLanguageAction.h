@@ -36,5 +36,6 @@ private:
         NSArray* _getCurrentLanguages();
         void _setLocale();
         bool _isCurrentLocaleOk();
+        void getSystemVersionMajor(SInt32& versionMajor, SInt32& versionMinor);
 };
 

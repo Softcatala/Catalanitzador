@@ -24,6 +24,11 @@
 
 using namespace std;
 
+SpellCheckerAction::SpellCheckerAction() : Action()
+{
+    m_authorizationRef = NULL;
+}
+
 bool SpellCheckerAction::requestPermissions()
 {
     OSStatus status;
@@ -109,8 +114,26 @@ bool SpellCheckerAction::_isDictionaryInstalled()
     return installed;
 }
 
+// See: http://cocoadev.com/wiki/DeterminingOSVersion
+void SpellCheckerAction::getSystemVersionMajor(SInt32& versionMajor, SInt32& versionMinor)
+{
+    versionMajor = versionMinor = 0;
+    Gestalt(gestaltSystemVersionMajor, &versionMajor);
+    Gestalt(gestaltSystemVersionMinor, &versionMinor);
+}
 
 bool SpellCheckerAction::IsNeed()
 {
-    return _isDictionaryInstalled() == false;
+    bool isNeed = false;
+    SInt32 versionMajor, versionMinor;
+    
+    getSystemVersionMajor(versionMajor, versionMinor);
+    
+    if (versionMajor > 10 || (versionMajor == 10 && versionMinor >= 7))
+    {
+        isNeed = _isDictionaryInstalled() == false;
+    }
+    
+    NSLog(@"SpellCheckerAction::IsNeed: %d", isNeed);
+    return isNeed;
 }

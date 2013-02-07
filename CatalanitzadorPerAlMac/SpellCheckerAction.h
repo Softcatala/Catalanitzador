@@ -27,13 +27,14 @@
 class SpellCheckerAction: public Action
 {
 public:
-        SpellCheckerAction() : Action() {};
+        SpellCheckerAction();
     
         virtual bool IsNeed();
         virtual void Execute();
 
 private:
     
+        void getSystemVersionMajor(SInt32& versionMajor, SInt32& versionMinor);
         bool requestPermissions();
         NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
         bool _copyfile(NSString* src, NSString* trg);

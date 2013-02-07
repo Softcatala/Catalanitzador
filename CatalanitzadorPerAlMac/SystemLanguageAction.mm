@@ -77,7 +77,7 @@ void SystemLanguageAction::Execute()
 }
 
 // See: http://cocoadev.com/wiki/DeterminingOSVersion
-void getSystemVersionMajor(SInt32& versionMajor, SInt32& versionMinor)
+void SystemLanguageAction::getSystemVersionMajor(SInt32& versionMajor, SInt32& versionMinor)
 {
     SInt32 versionBugFix;
     versionMajor = versionMinor = versionBugFix = 0;
