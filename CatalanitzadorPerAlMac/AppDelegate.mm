@@ -74,6 +74,7 @@ void redirectNSLogToDocumentFolder()
         anyAction = true;
     
     [NSApp activateIgnoringOtherApps:YES];
+    [_DoChanges setKeyEquivalent:@"\r"];
     
     if (anyAction == false)
     {
