@@ -21,11 +21,9 @@
 #include "ChromeAction.h"
 #include "Runner.h"
 
-
-enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
-				InIntlBlock, InAcceptedKey, InAcceptedSemicolon, 
-				InAcceptedValue, InAppLocaleKey, InAppLocaleSemicolon,
-				InAppLocaleValue, EndParsing };
+#ifndef CHROME_LANGUAGECODE
+#define CHROME_LANGUAGECODE L"ca"
+#endif
 
 ChromeAction::ChromeAction(IRegistry* registry)
 {
@@ -53,403 +51,8 @@ void ChromeAction::FinishExecution(ExecutionProcess process)
 	}
 }
 
-bool ChromeAction::_findIntl(wstring line, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L"\"intl\"",pos);
 
-	return pos != wstring::npos;
-}
 
-bool ChromeAction::_findSemicolon(wstring line, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L":",pos);
-
-	return pos != wstring::npos;
-}
-
-bool ChromeAction::_findStartBlock(wstring line, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L"{",pos);
-
-	return pos != wstring::npos;
-}
-
-bool ChromeAction::_findAcceptedKey(wstring line, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L"\"accept_languages\"",pos);
-
-	return pos != wstring::npos;
-}
-
-bool ChromeAction::_findAppLocaleKey(wstring line, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L"\"app_locale\"",pos);
-
-	return pos != wstring::npos;
-}
-
-bool ChromeAction::_findLanguageString(wstring line,int & pos,wstring & langcode) 
-{
-	wstring tempLang;
-
-	if(pos == wstring::npos) pos = 0;
-
-	wchar_t prev = L'0';
-	bool reading = false;
-	bool found = false;
-
-	for(unsigned int i = pos; i < line.length() && found == false; ++i) {
-		if(line[i] == L'"' && prev != L'\\') {
-			if(reading == false) {
-				// we start parsing the langcode
-				reading = true;
-				pos = i+1;
-			} else {
-				// all langcode string parsed
-				langcode = tempLang;
-				found = true;
-			}
-		} else {
-			if(reading) {
-				tempLang.push_back(line[i]);
-			}
-		}
-		
-		prev = line[i];
-	}
-	
-	return found;
-}
-
-#define LANGUAGECODE L"ca"
-
-bool ChromeAction::_isUILocaleOk()
-{	
-	wstring path_t, langcode;
-	_readInstallLocation(path_t);
-
-	if(path_t.empty() == false)
-	{
-		wifstream reader;
-		wstring line;
-		wstring path = L"/../User Data/Local State";
-		path = path_t + path;
-		reader.open(path.c_str());
-
-		if(reader.is_open()) 
-		{
-			int currentState = NoState;
-			int pos = 0;
-
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAppLocaleKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,langcode))						
-						break;
-				}
-
-				pos = wstring::npos;
-			}
-		}
-	}
-
-	return langcode.compare(LANGUAGECODE) == 0;
-}
-
-bool ChromeAction::_readLanguageCode(wstring& langcode)
-{
-	bool ret = false;
-	wstring path_t;
-	_readInstallLocation(path_t);
-
-	if(path_t.empty() == false) 
-	{
-		wifstream reader;
-		wstring line;
-		wstring path = L"/../User Data/Default/Preferences";
-		path = path_t + path;
-		reader.open(path.c_str());
-
-		if(reader.is_open()) 
-		{
-			int currentState = NoState;			
-			int pos = 0;
-
-			while(!(getline(reader,line)).eof() && ret == false)
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAcceptedKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,langcode))
-						ret = true;
-				}
-
-				pos = wstring::npos;
-			}
-			reader.close();
-		}
-	}
-
-	return ret;
-}
-
-bool ChromeAction::_writeUILocale(wstring langcode)
-{
-	bool ret = false;
-	wstring path_t;
-	_readInstallLocation(path_t);
-
-	if(path_t.empty() == false)
-	{
-		wifstream reader;
-		wofstream writer;
-		wstring line;
-		wstring pathr = L"/../User Data/Local State";
-		wstring pathw = L"/../User Data/Local State.new";
-		pathr = path_t + pathr;
-		pathw = path_t + pathw;
-		reader.open(pathr.c_str());
-		writer.open(pathw.c_str());
-		
-		if(reader.is_open() && writer.is_open()) 
-		{
-			int currentState = NoState;
-			
-			int pos = 0;
-			wstring oldLang;
-			wstring lastLine = L"";
-
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAppLocaleKey(line,pos))
-						currentState = InAppLocaleKey;
-				}
-				
-				if(currentState == InAppLocaleKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAppLocaleSemicolon;
-				}
-
-				if(currentState == InAppLocaleSemicolon) {
-					if(_findLanguageString(line,pos,oldLang)) {
-						currentState = EndParsing;
-						line.replace(pos,oldLang.length(),LANGUAGECODE);
-						ret = true;
-					}
-				}
-
-				pos = wstring::npos;
-
-				writer << lastLine << L"\n";
-				lastLine = line;
-			}
-			
-			if(ret == false) {
-				writer << "\t,\"intl\":{\"app_locale\":\"ca\"}\n";
-				ret = true;
-
-			}
-			writer << lastLine << L"\n";
-		}
-
-		if(reader.is_open())
-			reader.close();
-
-		if(writer.is_open())
-			writer.close();
-		
-		if(ret) {
-			ret = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-		}
-	}
-
-	if(ret) {
-		uiStatus = Successful;
-
-	} else {
-		uiStatus = FinishedWithError;
-	}
-
-	return ret;
-}
-
-bool ChromeAction::_writeAcceptLanguageCode(wstring langcode)
-{	
-	bool ret = false;
-	wstring path_t;
-	_readInstallLocation(path_t);
-
-	if(path_t.empty() == false)
-	{
-		wifstream reader;
-		wofstream writer;
-		wstring line;
-		wstring pathr = L"/../User Data/Default/Preferences";
-		wstring pathw = L"/../User Data/Default/Preferences.new";
-		pathr = path_t + pathr;
-		pathw = path_t + pathw;
-		reader.open(pathr.c_str());
-		writer.open(pathw.c_str());
-		
-		if(reader.is_open() && writer.is_open()) 
-		{
-			int currentState = NoState;
-			
-			int pos = 0;
-			wstring oldLang;
-			wstring lastLine = L"";
-
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAcceptedKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,oldLang)) {
-						currentState = EndParsing;
-						line.replace(pos,oldLang.length(),langcode);
-						ret = true;
-					}
-				}
-
-				pos = wstring::npos;
-
-				writer << lastLine << L"\n";
-				lastLine = line;
-			}
-			
-			if(ret == false) {
-				writer << "\t,\"intl\":{\"accept_languages\":\"ca\"}\n";
-				ret = true;
-
-			}
-			writer << lastLine << L"\n";
-		}
-
-		if(reader.is_open())
-			reader.close();
-
-		if(writer.is_open())
-			writer.close();
-		
-		if(ret) {
-			ret = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-		}
-	}
-
-	if(ret) {
-		status = Successful;
-
-	} else {
-		status = FinishedWithError;
-	}
-
-	return ret;
-}
-
-void ChromeAction::_getFirstLanguage(wstring& jsonvalue)
-{
-	if(m_languages.size() > 0)
-		jsonvalue = m_languages[0];
-
-	return;
-}
 
 bool ChromeAction::IsNeed()
 {
@@ -470,46 +73,19 @@ bool ChromeAction::IsNeed()
 	return bNeed;
 }
 
-void ChromeAction::AddCatalanToArrayAndRemoveOldIfExists()
-{	
-	wstring regvalue;
-	vector <wstring>languages;
-	vector<wstring>::iterator it;
-
-	// Delete previous ocurrences of Catalan locale that were not first
-	for (it = m_languages.begin(); it != m_languages.end(); ++it)
-	{
-		wstring element = *it;
-		std::transform(element.begin(), element.end(), element.begin(), ::tolower);
-
-		if (element.compare(L"ca") == 0)
-		{
-			m_languages.erase(it);
-			break;
-		}
-	}
-
-	wstring str(L"ca");
-	it = m_languages.begin();
-	m_languages.insert(it, str);
-}
-
 void ChromeAction::Execute()
 {
-	wstring langCode;
-
-	if(!_isUILocaleOk()) {
-		_writeUILocale(langCode);
+	bool uiStatus, acceptLanguageStatus;
+	if(!_chromeProfile.IsUiLocaleOk()) {
+		uiStatus = _chromeProfile.WriteUILocale();
 	}
 
-	AddCatalanToArrayAndRemoveOldIfExists();
-	CreateJSONString(langCode);
-	_writeAcceptLanguageCode(langCode);
+	acceptLanguageStatus = _chromeProfile.UpdateAcceptLanguages();
 
-	if(uiStatus == FinishedWithError || status == FinishedWithError) {
-		status = FinishedWithError;
-	} else {
+	if(uiStatus && acceptLanguageStatus) {
 		status = Successful;
+	} else {
+		status = FinishedWithError;
 	}
 }
 
@@ -552,6 +128,8 @@ void ChromeAction::_readInstallLocation(wstring & path)
 		if (m_registry->GetString(L"InstallLocation", szLocation, sizeof(szLocation)))
 		{
 			path = szLocation;
+			
+			_chromeProfile.SetPath(path);
 			g_log.Log(L"ChromeAction::_readInstallLocation. InstallLocation %s", szLocation);		
 		}		
 		m_registry->Close();
@@ -571,73 +149,36 @@ const wchar_t* ChromeAction::GetVersion()
 	return m_version.c_str();
 }
 
-void ChromeAction::CreateJSONString(wstring &jsonvalue)
-{
-	int languages = m_languages.size();	
-	
-	if (languages == 1)
-	{
-		jsonvalue = m_languages.at(0);
-		return;
-	}
 
-	jsonvalue = m_languages.at(0);
-		
-	for (int i = 1; i < languages; i++)
-	{
-		jsonvalue += L"," + m_languages.at(i);
-	}
-}
 
-void ChromeAction::ParseLanguage(wstring value)
-{
-	wstring language;
-
-	m_languages.clear();
-	
-	for (unsigned int i = 0; i < value.size (); i++)
-	{
-		if (value[i] == L',')
-		{
-			m_languages.push_back(language);
-			language.clear();
-		} else {
-			language += value[i];
-		}
-	}
-
-	if (language.empty() == false)
-	{
-		m_languages.push_back(language);
-	}
-}
 
 void ChromeAction::CheckPrerequirements(Action * action)
 {	
-	bool langcodeFound, localeOk = false;
+	bool acceptLanguagesOk, localeOk;
 	wstring langcode, firstlang;
 	
 	if (_isInstalled())
 	{
+
 		_readVersion();
-		langcodeFound = _readLanguageCode(langcode);
-		localeOk = _isUILocaleOk();
 		
-		if(langcodeFound) {
-			ParseLanguage(langcode);
-			_getFirstLanguage(firstlang);
-			
-			if(firstlang.compare(L"ca") == 0) {
-				if(localeOk) {
-					SetStatus(AlreadyApplied);
-				}
-			}
-		} else {
-			if (localeOk) {
-				SetStatus(AlreadyApplied);
-			}
+		acceptLanguagesOk = _chromeProfile.IsAcceptLanguagesOk();
+		localeOk = _chromeProfile.IsUiLocaleOk();
+
+		if(acceptLanguagesOk && localeOk)
+		{
+			SetStatus(AlreadyApplied);
 		}
 	} else {
 		_setStatusNotInstalled();
 	}
+}
+
+bool ChromeAction::_readLanguageCode(std::wstring &langcode)
+{
+	if(_isInstalled())
+	{
+		return _chromeProfile.ReadLanguageCode(langcode);
+	}
+	return false;
 }

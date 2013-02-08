@@ -23,9 +23,8 @@
 #include "IRegistry.h"
 #include "TriBool.h"
 #include "ActionExecution.h"
+#include "ChromeProfile.h"
 
-#include <vector>
-#include <algorithm>
 
 using namespace std;
 
@@ -46,37 +45,19 @@ public:
 		virtual const wchar_t* GetVersion();
 		virtual void FinishExecution(ExecutionProcess process);
 		virtual void CheckPrerequirements(Action * action);
-
-		void ParseLanguage(wstring regvalue);
-		void CreateJSONString(wstring &regvalue);
-		void AddCatalanToArrayAndRemoveOldIfExists();
-		vector <wstring> * GetLanguages() {return &m_languages;}
-
-protected:
 		
+protected:
 		void _readVersion();
 		bool _isInstalled();
 		bool _readLanguageCode(wstring& langcode);
 
 private:		
-		
-		void _getFirstLanguage(wstring& regvalue);
 		void _readInstallLocation(wstring& path);
-		bool _writeAcceptLanguageCode(wstring langcode);
-		bool _writeUILocale(wstring langcode);
-		bool _isUILocaleOk();
-
-		bool _findIntl(wstring,int&);
-		bool _findSemicolon(wstring,int&);
-		bool _findStartBlock(wstring,int&);
-		bool _findAcceptedKey(wstring,int&);
-		bool _findAcceptedValue(wstring,int&);
-		bool _findLanguageString(wstring,int &,wstring &);
-		bool _findAppLocaleKey(wstring line, int & pos);
+		
+		ChromeProfile _chromeProfile;
 
 		wstring m_version;
 		IRegistry* m_registry;
-		vector <wstring> m_languages;
 		TriBool m_isInstalled;
 		ActionStatus uiStatus;
 };

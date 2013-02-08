@@ -639,6 +639,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ChromeProfile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ChromeProfile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ConfigureDefaultLanguageAction.cpp"
 				>
 			</File>
