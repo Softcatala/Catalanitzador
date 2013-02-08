@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D00EADC16C545C100939FA5 /* Català.aff in Resources */ = {isa = PBXBuildFile; fileRef = 8D00EADA16C545C100939FA5 /* Català.aff */; };
+		8D00EADD16C545C100939FA5 /* Català.dic in Resources */ = {isa = PBXBuildFile; fileRef = 8D00EADB16C545C100939FA5 /* Català.dic */; };
 		8D15274C16C169F7007786D9 /* app-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8D15274B16C169F7007786D9 /* app-icon.icns */; };
 		8D50D35516BD23CB00653AE7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D50D35416BD23CB00653AE7 /* Cocoa.framework */; };
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
@@ -16,14 +18,14 @@
 		8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9616C0101500764125 /* AppDelegate.mm */; };
 		8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */; };
 		8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */; };
-		8DEEBCE116C3D110002BD942 /* catala.aff in Resources */ = {isa = PBXBuildFile; fileRef = 8DEEBCDF16C3D110002BD942 /* catala.aff */; };
-		8DEEBCE216C3D110002BD942 /* catala.dic in Resources */ = {isa = PBXBuildFile; fileRef = 8DEEBCE016C3D110002BD942 /* catala.dic */; };
 		8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */; };
 		8DEEBCF116C3FBBC002BD942 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DEEBCF016C3FBBC002BD942 /* Security.framework */; };
 		8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D00EADA16C545C100939FA5 /* Català.aff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.aff"; path = "spellchecker/Català.aff"; sourceTree = "<group>"; };
+		8D00EADB16C545C100939FA5 /* Català.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.dic"; path = "spellchecker/Català.dic"; sourceTree = "<group>"; };
 		8D15274B16C169F7007786D9 /* app-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "app-icon.icns"; sourceTree = "<group>"; };
 		8D2FC78A16C262870065E2B1 /* ActionStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionStatus.h; sourceTree = "<group>"; };
 		8D50D35116BD23CB00653AE7 /* CatalanitzadorPerAlMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatalanitzadorPerAlMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,8 +47,6 @@
 		8DE32D9E16C02D6700764125 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
 		8DE32D9F16C02D6700764125 /* FirefoxAcceptLanguages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirefoxAcceptLanguages.h; sourceTree = "<group>"; };
 		8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirefoxAcceptLanguages.mm; sourceTree = "<group>"; };
-		8DEEBCDF16C3D110002BD942 /* catala.aff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = catala.aff; path = spellchecker/catala.aff; sourceTree = "<group>"; };
-		8DEEBCE016C3D110002BD942 /* catala.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = catala.dic; path = spellchecker/catala.dic; sourceTree = "<group>"; };
 		8DEEBCED16C3F9C2002BD942 /* SpellCheckerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpellCheckerAction.h; sourceTree = "<group>"; };
 		8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpellCheckerAction.mm; sourceTree = "<group>"; };
 		8DEEBCF016C3FBBC002BD942 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -146,8 +146,8 @@
 		8DEEBCDD16C3D0EF002BD942 /* SpellChecker */ = {
 			isa = PBXGroup;
 			children = (
-				8DEEBCDF16C3D110002BD942 /* catala.aff */,
-				8DEEBCE016C3D110002BD942 /* catala.dic */,
+				8D00EADA16C545C100939FA5 /* Català.aff */,
+				8D00EADB16C545C100939FA5 /* Català.dic */,
 			);
 			name = SpellChecker;
 			sourceTree = "<group>";
@@ -220,8 +220,8 @@
 				8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */,
 				8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */,
 				8D15274C16C169F7007786D9 /* app-icon.icns in Resources */,
-				8DEEBCE116C3D110002BD942 /* catala.aff in Resources */,
-				8DEEBCE216C3D110002BD942 /* catala.dic in Resources */,
+				8D00EADC16C545C100939FA5 /* Català.aff in Resources */,
+				8D00EADD16C545C100939FA5 /* Català.dic in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

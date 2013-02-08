@@ -91,11 +91,11 @@ void SpellCheckerAction::Execute()
     
     requestPermissions();
     
-    srcFile = _getBundlePath(CFSTR("catala"), CFSTR("aff"));
-    _copyfile(srcFile, @"/Library/Spelling/catala.aff");
+    srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
+    _copyfile(srcFile, @"/Library/Spelling/Català.aff");
 
-    srcFile = _getBundlePath(CFSTR("catala"), CFSTR("dic"));
-    _copyfile(srcFile, @"/Library/Spelling/catala.dic");
+    srcFile = _getBundlePath(CFSTR("Català"), CFSTR("dic"));
+    _copyfile(srcFile, @"/Library/Spelling/Català.dic");
     
     isOk = _isDictionaryInstalled();
     SetStatus(isOk ? Successful : FinishedWithError);
@@ -106,9 +106,15 @@ void SpellCheckerAction::Execute()
 bool SpellCheckerAction::_isDictionaryInstalled()
 {
     bool installed;
-    NSString* DICTIONARY_FILE(@"/Library/Spelling/catala.aff");
+    NSString* DICTIONARY_FILE_MANUAL(@"/Library/Spelling/catala.aff");
+    NSString* DICTIONARY_FILE(@"/Library/Spelling/Català.aff");
     
     installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE];
+    
+    if (installed == false)
+    {
+        installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE_MANUAL];
+    }
     
     NSLog(@"SpellCheckerAction::_isDictionaryInstalled %u", installed);
     return installed;
