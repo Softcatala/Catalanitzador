@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Jordi Mas i Hern‡ndez <jmas@softcatala.org>
+ * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,14 +19,21 @@
 
 
 #include "SpellCheckerAction.h"
-#include <fstream>
-#include <string>
 
 using namespace std;
 
 SpellCheckerAction::SpellCheckerAction() : Action()
 {
     m_authorizationRef = NULL;
+}
+
+SpellCheckerAction::~SpellCheckerAction()
+{
+    if (m_authorizationRef)
+    {
+        AuthorizationFree(m_authorizationRef, kAuthorizationFlagDestroyRights);
+        m_authorizationRef = NULL;
+    }
 }
 
 bool SpellCheckerAction::requestPermissions()
@@ -81,7 +88,7 @@ bool SpellCheckerAction::_copyfile(NSString* src, NSString* trg)
     status = AuthorizationExecuteWithPrivileges(m_authorizationRef,
                                                 [[trkitMoveUtilityPath stringByStandardizingPath] UTF8String],
                                                 0, args, NULL);
-    return true;
+    return status == errAuthorizationSuccess;
 }
 
 void SpellCheckerAction::Execute()

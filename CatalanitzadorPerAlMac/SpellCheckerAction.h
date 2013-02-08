@@ -28,6 +28,7 @@ class SpellCheckerAction: public Action
 {
 public:
         SpellCheckerAction();
+        ~SpellCheckerAction();
     
         virtual bool IsNeed();
         virtual void Execute();
