@@ -28,4 +28,5 @@
 
 @property (assign) IBOutlet NSButton *Firefox;
 @property (assign) IBOutlet NSButton *SpellChecker;
+@property (assign) IBOutlet NSButton *Chrome;
 @end

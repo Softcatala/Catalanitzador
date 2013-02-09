@@ -14,6 +14,7 @@
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
 		8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36316BD23CB00653AE7 /* Credits.rtf */; };
 		8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36916BD23CB00653AE7 /* MainMenu.xib */; };
+		8DC074FD16C58DC5007ACFCC /* ChromeAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DC074FC16C58DC5007ACFCC /* ChromeAction.mm */; };
 		8DE32D9416C00FF700764125 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9316C00FF700764125 /* main.mm */; };
 		8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9616C0101500764125 /* AppDelegate.mm */; };
 		8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */; };
@@ -40,6 +41,8 @@
 		8D50D36616BD23CB00653AE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D50D36A16BD23CB00653AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8DC074FB16C58DC5007ACFCC /* ChromeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromeAction.h; path = common/ChromeAction.h; sourceTree = "<group>"; };
+		8DC074FC16C58DC5007ACFCC /* ChromeAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ChromeAction.mm; path = common/ChromeAction.mm; sourceTree = "<group>"; };
 		8DE32D9316C00FF700764125 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		8DE32D9616C0101500764125 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		8DE32D9916C0109100764125 /* SystemLanguageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemLanguageAction.h; sourceTree = "<group>"; };
@@ -155,6 +158,8 @@
 		8DEEBCF216C3FBEE002BD942 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8DC074FB16C58DC5007ACFCC /* ChromeAction.h */,
+				8DC074FC16C58DC5007ACFCC /* ChromeAction.mm */,
 				8DEEBCED16C3F9C2002BD942 /* SpellCheckerAction.h */,
 				8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */,
 				8DE32D9916C0109100764125 /* SystemLanguageAction.h */,
@@ -238,6 +243,7 @@
 				8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */,
 				8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */,
 				8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */,
+				8DC074FD16C58DC5007ACFCC /* ChromeAction.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

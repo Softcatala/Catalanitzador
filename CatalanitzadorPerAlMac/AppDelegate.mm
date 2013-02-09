@@ -21,12 +21,14 @@
 #import "SystemLanguageAction.h"
 #import "FirefoxAction.h"
 #import "SpellCheckerAction.h"
+#import "ChromeAction.h"
 
 @implementation AppDelegate
 
 SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
+ChromeAction chromeAction;
 
 void _showDialogBox(NSString* title, NSString* text)
 {
@@ -73,6 +75,16 @@ void redirectNSLogToDocumentFolder()
     else
         anyAction = true;
     
+    if (spellCheckerAction.IsNeed() == false)
+        [_SpellChecker setEnabled:NO];
+    else
+        anyAction = true;
+    
+    if (chromeAction.IsNeed() == false)
+        [_Chrome setEnabled:NO];
+    else
+        anyAction = true;
+    
     [NSApp activateIgnoringOtherApps:YES];
     [_DoChanges setKeyEquivalent:@"\r"];
     
@@ -109,6 +121,20 @@ void redirectNSLogToDocumentFolder()
         
         firefoxAction.Execute();
         if (firefoxAction.GetStatus() != Successful)
+            correct = false;
+    }
+    
+    if ([_Chrome state] != NSOffState && [_Chrome isEnabled])
+    {
+        /*if (chromeAction.IsApplicationRunning())
+        {
+            _showDialogBox(@"Catalanitzador per al Mac",
+                           @"Us suggerim tancar l'aplicació Firefox abans de continuar. Si no ho feu, els canvis no tindran efecte fins que torneu a obrir el Firefox.");
+        }*/
+        
+        
+        chromeAction.Execute();
+        if (chromeAction.GetStatus() != Successful)
             correct = false;
     }
     
