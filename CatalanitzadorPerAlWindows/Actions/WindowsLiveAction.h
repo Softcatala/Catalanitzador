@@ -41,11 +41,12 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 		virtual const wchar_t* GetVersion();
 
+		bool IsPreRebootRequired();
+
 protected:
 		
 		int _getMajorVersion();
 		bool _isLangSelected();
-		bool _isRebootRequired();
 		bool _isDownloadAvailable();
 		
 private:

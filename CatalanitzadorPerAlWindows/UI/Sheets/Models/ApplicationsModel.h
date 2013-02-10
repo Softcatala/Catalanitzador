@@ -41,6 +41,7 @@ public:
 		vector <ApplicationLegendItem> GetLegendItems();
 		bool DoLicensesNeedToBeAccepted();
 		void LogRunningProcesses();
+		bool WindowsLiveRebootRequired();
 
 protected:
 

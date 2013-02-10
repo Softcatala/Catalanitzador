@@ -40,6 +40,7 @@ public:
 
 private:
 	
+		bool _informRebootRequired();
 		void ProcessClickOnItem(int nItem);
 		void _updateActionDescriptionAndReq(Action* action);
 		virtual void _onInitDialog();

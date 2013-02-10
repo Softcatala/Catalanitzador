@@ -43,7 +43,7 @@ public:
 	
 	public: using WindowsLiveAction::_getMajorVersion;
 	public: using WindowsLiveAction::_isLangSelected;
-	public: using WindowsLiveAction::_isRebootRequired;
+	public: using WindowsLiveAction::IsPreRebootRequired;
 	public: using WindowsLiveAction::_isDownloadAvailable;
 };
 
@@ -135,7 +135,7 @@ TEST(WindowsLiveActionTest, _isRebootRequired_Live2009_No)
 	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, RegEnumValue(_,_)).WillRepeatedly(Return(true));
-	EXPECT_FALSE(lipAction._isRebootRequired());
+	EXPECT_FALSE(lipAction.IsPreRebootRequired());
 }
 
 TEST(WindowsLiveActionTest, _isRebootRequired_Live2011_Yes)
@@ -147,7 +147,7 @@ TEST(WindowsLiveActionTest, _isRebootRequired_Live2011_Yes)
 	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, RegEnumValue(_,_)).WillRepeatedly(Return(true));
-	EXPECT_TRUE(lipAction._isRebootRequired());
+	EXPECT_TRUE(lipAction.IsPreRebootRequired());
 }
 
 TEST(WindowsLiveActionTest, _isRebootRequired_Live2012_Yes)
@@ -159,7 +159,7 @@ TEST(WindowsLiveActionTest, _isRebootRequired_Live2012_Yes)
 	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, RegEnumValue(_,_)).WillRepeatedly(Return(true));
-	EXPECT_TRUE(lipAction._isRebootRequired());
+	EXPECT_TRUE(lipAction.IsPreRebootRequired());
 }
 
 TEST(WindowsLiveActionTest, _isDownloadAvailable_No)

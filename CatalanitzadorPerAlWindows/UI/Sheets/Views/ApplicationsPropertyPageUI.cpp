@@ -267,14 +267,32 @@ void ApplicationsPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lPa
 	}
 }
 
+bool ApplicationsPropertyPageUI::_informRebootRequired()
+{
+	if (m_model->WindowsLiveRebootRequired())
+	{
+			wchar_t* szMessage;
+			wchar_t szCaption [MAX_LOADSTRING];
+
+			szMessage = L"S'han instal·lat actualitzacions del sistema que requereixen reiniciar el PC abans de poder instal·lar el Windows Live en català.\n\nSi continueu el Windows Live no és catalanitzarà però podeu catalanitzar-lo després tornant a executar el Catalanitzador. Podeu també reinciar el PC i executar el Catalanitzador que llavors podrà catalanitzar-ho tot. Voleu continuar sense reiniciar?";
+		
+			LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);			
+			return MessageBox(getHandle(), szMessage, szCaption, MB_YESNO | MB_ICONQUESTION) != IDYES;			
+	}
+	return false;
+}
+
 bool ApplicationsPropertyPageUI::_onNext()
 {
+	if (_informRebootRequired() == true)
+		return false;
+	
 	if (_licenseAccepted() == false)
 		return false;
 
 	if (_checkRunningApps() == true)
 		return false;
-
+	
 	m_model->LogRunningProcesses();
 
 	if (m_model->ShouldShowNoInternetConnectionDialog())
