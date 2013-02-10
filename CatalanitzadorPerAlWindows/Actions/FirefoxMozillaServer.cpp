@@ -101,9 +101,12 @@ ConfigurationFileActionDownload FirefoxMozillaServer::GetConfigurationFileAction
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(Firefox, ApplicationVersion(m_version));
 
-	url = downloadVersion.GetUrls().at(0);
-	_replaceString(url, VERSION_TAG, m_version);
-	downloadVersion.SetUrl(0, url);
+	if (downloadVersion.GetUrls().size() > 0)
+	{
+		url = downloadVersion.GetUrls().at(0);
+		_replaceString(url, VERSION_TAG, m_version);
+		downloadVersion.SetUrl(0, url);
+	}
 
 	return downloadVersion;
  }

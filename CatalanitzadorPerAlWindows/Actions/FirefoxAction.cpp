@@ -124,6 +124,13 @@ bool FirefoxAction::Download(ProgressStatus progress, void *data)
 	ConfigurationFileActionDownload downloadVersion;
 	
 	downloadVersion = _getMozillaServer()->GetConfigurationFileActionDownload();
+
+	if (downloadVersion.IsEmpty())
+	{
+		g_log.Log(L"FirefoxAction::Download. ConfigurationFileActionDownload empty");
+		return true;
+	}
+
 	sha1 = _getMozillaServer()->GetSha1FileSignature(downloadVersion);
 	sha1sum.SetFromString(sha1);
 	
