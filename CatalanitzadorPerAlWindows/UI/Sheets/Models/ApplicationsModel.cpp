@@ -236,7 +236,7 @@ bool ApplicationsModel::WindowsLiveRebootRequired()
 			continue;
 
 		WindowsLiveAction* live = (WindowsLiveAction *) action;
-		return live->IsPreRebootRequired();
+		return live->IsNeed() && live->IsPreRebootRequired();
 	}
 	assert(false);
 	return false;	
