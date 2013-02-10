@@ -216,7 +216,7 @@ bool WindowsLiveAction::_isLangSelected()
 
 #define REBOOT_REQUIRED_KEY L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"
 
-bool WindowsLiveAction::_isRebootRequired()
+bool WindowsLiveAction::IsPreRebootRequired()
 {
 	if (_getMajorVersion() == MS_LIVE_ESSENTIALS_2009)
 	{
@@ -266,7 +266,7 @@ void WindowsLiveAction::CheckPrerequirements(Action * action)
 			return;
 		}
 
-		if (_isRebootRequired())
+		if (IsPreRebootRequired())
 		{
 			_getStringFromResourceIDName(IDS_REBOOTREQUIRED, szCannotBeApplied);
 			g_log.Log(L"WindowsLiveAction::CheckPrerequirements. Reboot required");

@@ -21,6 +21,7 @@
 #include "ApplicationsModel.h"
 #include "ApplicationsPropertyPageUI.h"
 #include "Runner.h"
+#include "WindowsLiveAction.h"
 
 // An index to ActionGroup
 static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_INTERNET, IDS_GROUPNAME_OFFICE};
@@ -224,6 +225,23 @@ bool ApplicationsModel::DoLicensesNeedToBeAccepted()
 	}
 	return false;	
 }
+
+bool ApplicationsModel::WindowsLiveRebootRequired()
+{	
+	for (unsigned int i = 0; i < m_availableActions->size (); i++)
+	{
+		Action* action = m_availableActions->at(i);
+
+		if (action->GetID() != WindowsLive)
+			continue;
+
+		WindowsLiveAction* live = (WindowsLiveAction *) action;
+		return live->IsPreRebootRequired();
+	}
+	assert(false);
+	return false;	
+}
+
 
 void ApplicationsModel::LogRunningProcesses()
 {
