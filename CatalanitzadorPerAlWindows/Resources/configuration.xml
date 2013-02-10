@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2013-01-27T21:00:00</date>
+		<date>2013-02-14T19:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -14,7 +14,7 @@
 	 		<download>
 	 			<!-- It does not depend on a minimum version -->
 	  			<min_version>0.0.0</min_version>
-	  			<max_version>1.4.2</max_version>
+	  			<max_version>1.4.4</max_version>
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5643&mirall=catalanitzador&versio=1.00&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe.sha1</sha1_url_1>
 				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_2>
@@ -278,7 +278,7 @@
 	  		</download>
 		</action>
 		
-		<!-- Firefox  -->
+		<!-- Firefox -->
 		<action>
 	 		<id>8</id>
 	 		<download>
@@ -288,7 +288,6 @@
 	  			<sha1_url_1>ftp://ftp.mozilla.org/pub/firefox/releases/[version]/SHA1SUMS</sha1_url_1>
 				<filename>Firefox.exe</filename>
 	  		</download>
-	  		
 		</action>		
 	</actions>
 </configuration>
