@@ -298,9 +298,9 @@ bool ApplicationsPropertyPageUI::_onNext()
 	if (m_model->ShouldShowNoInternetConnectionDialog())
 	{
 		_showNoInternetConnectionDialog();
-		return FALSE;
+		return false;
 	}
-	return TRUE;
+	return true;
 }
 
 void ApplicationsPropertyPageUI::_showNoInternetConnectionDialog()
