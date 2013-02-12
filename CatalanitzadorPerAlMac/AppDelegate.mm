@@ -39,6 +39,12 @@ void _showDialogBox(NSString* title, NSString* text)
     [alert runModal];
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+{
+    return YES;
+}
+
+
 void redirectNSLogToDocumentFolder()
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
