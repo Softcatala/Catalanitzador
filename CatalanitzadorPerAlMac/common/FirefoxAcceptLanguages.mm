@@ -295,7 +295,7 @@ bool FirefoxAcceptLanguages::_writeLanguageCode(string &langcode)
 	writer.close();
 	reader.close();
 
-    rename(filew.c_str(), filer.c_str());
+    return rename(filew.c_str(), filer.c_str()) == 0;
    //return MoveFileEx(filew.c_str(), filer.c_str(), MOVEFILE_REPLACE_EXISTING) != 0;
 }
 
