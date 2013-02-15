@@ -29,7 +29,7 @@ enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 				InAcceptedValue, InAppLocaleKey, InAppLocaleSemicolon,
 				InAppLocaleValue, EndParsing };
 
-ChromeAction::ChromeAction()
+ChromeAction::ChromeAction() : Action()
 {
 
 }

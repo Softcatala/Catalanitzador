@@ -30,6 +30,11 @@ public:
         SpellCheckerAction();
         ~SpellCheckerAction();
     
+        virtual const char* GetName() {return "Instal·la el corrector ortogràfic català al sistema";}
+    
+        virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic al sistema en aplicacions com ara Apple Mail.";}
+    
+    
         virtual bool IsNeed();
         virtual void Execute();
 

@@ -29,6 +29,11 @@ class SystemLanguageAction: public Action
 public:
         SystemLanguageAction() : Action() {};
     
+        virtual const char* GetName() {return "Configura el català com a llengua del sistema";}
+    
+    virtual const char* GetDescription()  {return "El vostre sistema apareixerà en català i s'indicarà a la resta d'aplicacions que el català és la vostra llengua preferida.";}
+    
+    
         virtual bool IsNeed();
         virtual void Execute();
 

@@ -36,7 +36,15 @@
 class Action
 {
 public:
-        Action(){}
+        Action()
+            {
+                selected = true;
+            }
+    
+        virtual const char* GetName() = 0;
+    
+        // Get the detailed description to show to the user of action
+        virtual const char* GetDescription() = 0;
 		
         // If the action needs to be performed in this PC or not (already done, software not installed, etc)
         virtual bool IsNeed() = 0;
@@ -47,18 +55,22 @@ public:
         // Get the status of the action
         virtual ActionStatus GetStatus() { return status;}
     
-    virtual void SetStatus(ActionStatus value) { status = value;}
+        virtual void SetStatus(ActionStatus value) { status = value;}
+    
+        bool GetSelected() { return selected;}
+    
+        void SetSelected(bool value) { selected = value;}
+    
     
 protected:
         ActionStatus status;
 
+        bool selected;
 /*
 		// Get the name of action
 		virtual wchar_t* GetName() = 0;
 
-		// Get the detailed description to show to the user of action
-		virtual wchar_t* GetDescription() = 0;
-
+	
 		// Unique ID that identifies the action
 		virtual ActionID GetID() const = 0;
 

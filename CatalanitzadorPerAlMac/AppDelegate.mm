@@ -25,10 +25,72 @@
 
 @implementation AppDelegate
 
+vector <Action *> actions;
 SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
 ChromeAction chromeAction;
+
+
+-(NSInteger) numberOfRowsInTableView: (NSTableView *) tableView
+{
+    return actions.size();
+}
+
+
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    NSButtonCell *buttonCell;
+    buttonCell = [aTableColumn dataCell];
+    Action* action = actions.at(rowIndex);
+    
+    if (action->GetSelected())
+    {
+        action->SetSelected(false);
+    }
+    else
+        action->SetSelected(true);
+
+}
+
+
+-(id) tableView:(NSTableView *) tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
+{
+    NSButtonCell *buttonCell;
+    NSString* text;
+    buttonCell = [tableColumn dataCell];
+    Action* action = actions.at(rowIndex);
+    
+    text = [NSString stringWithUTF8String: action->GetName()];
+    
+    if (action->IsNeed())
+    {
+         [buttonCell setEnabled:YES];
+    }
+    else
+    {
+         [buttonCell setEnabled:NO];
+    }
+    
+    [buttonCell setTitle:text];
+ 
+    if (action->GetSelected())
+    {
+        return [NSNumber numberWithBool:YES];
+    }
+    else
+        return [NSNumber numberWithBool:NO];
+}
+
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
+{
+    NSString* text;
+    Action* action = actions.at(rowIndex);
+    text = [NSString stringWithUTF8String: action->GetDescription()];
+    [_ActionDescription setTitle:text];
+    return TRUE;
+}
 
 void _showDialogBox(NSString* title, NSString* text)
 {
@@ -44,18 +106,25 @@ void _showDialogBox(NSString* title, NSString* text)
     return YES;
 }
 
-
 void redirectNSLogToDocumentFolder()
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    
 	NSString *documentsDirectory = [paths objectAtIndex:0];
-    
 	NSString *fileName = @"CatalanitzadorPerAlMac.log";
-    
 	NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
     
 	freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
+}
+
+- (void)setDefaultRow:(int)row
+{
+    NSString* text;
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:row];
+    Action* action = actions.at(row);
+    
+    [_ApplicationsList selectRowIndexes:indexSet byExtendingSelection:NO];;
+    text = [NSString stringWithUTF8String: action->GetDescription()];
+    [_ActionDescription setTitle:text];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -64,41 +133,34 @@ void redirectNSLogToDocumentFolder()
     
     redirectNSLogToDocumentFolder();
     
+    actions.push_back(&systemLanguageAction);
+    actions.push_back(&firefoxAction);
+    actions.push_back(&spellCheckerAction);
+    actions.push_back(&chromeAction);
+    
     NSLog(@"Catalanitzador per al Mac built on: %s, %s", __DATE__, __TIME__);
-    
-    if (systemLanguageAction.IsNeed() == false)
-        [_ConfigureLocale setEnabled:NO];
-    else
-        anyAction = true;
-    
-    if (firefoxAction.IsNeed() == false)
-        [_Firefox setEnabled:NO];
-    else
-        anyAction = true;
-    
-    if (spellCheckerAction.IsNeed() == false)
-        [_SpellChecker setEnabled:NO];
-    else
-        anyAction = true;
-    
-    if (spellCheckerAction.IsNeed() == false)
-        [_SpellChecker setEnabled:NO];
-    else
-        anyAction = true;
-    
-    if (chromeAction.IsNeed() == false)
-        [_Chrome setEnabled:NO];
-    else
-        anyAction = true;
     
     [NSApp activateIgnoringOtherApps:YES];
     [_DoChanges setKeyEquivalent:@"\r"];
+    
+    for (int i = 0; i < actions.size(); i++)
+    {
+        if (actions.at(i)->IsNeed() == true)
+        {
+            anyAction = true;
+            break;
+        }
+    }
     
     if (anyAction == false)
     {
         [_DoChanges setEnabled:NO];
         [_Results setStringValue:@"Aquest ordinador ja es troba catalanitzat!"];
     }
+    
+    [_ApplicationsList setDataSource:self];
+    [_ApplicationsList setDelegate:self];
+    [self setDefaultRow:0];
 }
 
 - (IBAction)Cancel:(id)sender {
@@ -109,14 +171,14 @@ void redirectNSLogToDocumentFolder()
     
     bool correct = true;
     
-    if ([_ConfigureLocale state] != NSOffState && [_ConfigureLocale isEnabled])
+    if (systemLanguageAction.IsNeed() && systemLanguageAction.GetSelected())
     {
         systemLanguageAction.Execute();
         if (systemLanguageAction.GetStatus() != Successful)
             correct = false;
     }
     
-    if ([_Firefox state] != NSOffState && [_Firefox isEnabled])
+    if (firefoxAction.IsNeed() && firefoxAction.GetSelected())
     {
         if (firefoxAction.IsApplicationRunning())
         {
@@ -130,7 +192,7 @@ void redirectNSLogToDocumentFolder()
             correct = false;
     }
     
-    if ([_Chrome state] != NSOffState && [_Chrome isEnabled])
+    if (chromeAction.IsNeed() && chromeAction.GetSelected())
     {
         /*if (chromeAction.IsApplicationRunning())
         {
@@ -144,7 +206,7 @@ void redirectNSLogToDocumentFolder()
             correct = false;
     }
     
-    if ([_SpellChecker state] != NSOffState && [_SpellChecker isEnabled])
+    if (spellCheckerAction.IsNeed() && spellCheckerAction.GetSelected())
     {
         spellCheckerAction.Execute();
         if (spellCheckerAction.GetStatus() != Successful)
@@ -161,5 +223,9 @@ void redirectNSLogToDocumentFolder()
     {
          [_Results setStringValue:@"No tots els canvis s'han aplicat correctament"];
     }
+    
+    [_ApplicationsList reloadData];
+}
+- (IBAction)ApplicationListSelector:(id)sender {
 }
 @end
