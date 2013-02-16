@@ -14,11 +14,11 @@
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
 		8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36316BD23CB00653AE7 /* Credits.rtf */; };
 		8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36916BD23CB00653AE7 /* MainMenu.xib */; };
-		8DC074FD16C58DC5007ACFCC /* ChromeAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DC074FC16C58DC5007ACFCC /* ChromeAction.mm */; };
+		8D94658916CF9CA2009BBA39 /* ChromeAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D94658616CF9CA2009BBA39 /* ChromeAction.mm */; };
+		8D94658A16CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D94658816CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm */; };
 		8DE32D9416C00FF700764125 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9316C00FF700764125 /* main.mm */; };
 		8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9616C0101500764125 /* AppDelegate.mm */; };
 		8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */; };
-		8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */; };
 		8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */; };
 		8DEEBCF116C3FBBC002BD942 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DEEBCF016C3FBBC002BD942 /* Security.framework */; };
 		8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */; };
@@ -28,7 +28,6 @@
 		8D00EADA16C545C100939FA5 /* Català.aff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.aff"; path = "spellchecker/Català.aff"; sourceTree = "<group>"; };
 		8D00EADB16C545C100939FA5 /* Català.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.dic"; path = "spellchecker/Català.dic"; sourceTree = "<group>"; };
 		8D15274B16C169F7007786D9 /* app-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "app-icon.icns"; sourceTree = "<group>"; };
-		8D2FC78A16C262870065E2B1 /* ActionStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionStatus.h; sourceTree = "<group>"; };
 		8D50D35116BD23CB00653AE7 /* CatalanitzadorPerAlMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatalanitzadorPerAlMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D50D35416BD23CB00653AE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8D50D35716BD23CB00653AE7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,15 +40,18 @@
 		8D50D36616BD23CB00653AE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D50D36A16BD23CB00653AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		8DC074FB16C58DC5007ACFCC /* ChromeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromeAction.h; path = common/ChromeAction.h; sourceTree = "<group>"; };
-		8DC074FC16C58DC5007ACFCC /* ChromeAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ChromeAction.mm; path = common/ChromeAction.mm; sourceTree = "<group>"; };
+		8D94658316CF9CA2009BBA39 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = imported/Action.h; sourceTree = "<group>"; };
+		8D94658516CF9CA2009BBA39 /* ChromeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromeAction.h; path = imported/ChromeAction.h; sourceTree = "<group>"; };
+		8D94658616CF9CA2009BBA39 /* ChromeAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ChromeAction.mm; path = imported/ChromeAction.mm; sourceTree = "<group>"; };
+		8D94658716CF9CA2009BBA39 /* FirefoxAcceptLanguages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirefoxAcceptLanguages.h; path = imported/FirefoxAcceptLanguages.h; sourceTree = "<group>"; };
+		8D94658816CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = FirefoxAcceptLanguages.mm; path = imported/FirefoxAcceptLanguages.mm; sourceTree = "<group>"; };
+		8D94658C16CF9D0F009BBA39 /* ActionID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionID.h; path = CommonCode/ActionID.h; sourceTree = SOURCE_ROOT; };
+		8D94658D16CF9D0F009BBA39 /* ActionStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionStatus.h; path = CommonCode/ActionStatus.h; sourceTree = SOURCE_ROOT; };
+		8D94658E16CF9D0F009BBA39 /* Serializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Serializable.h; path = CommonCode/Serializable.h; sourceTree = SOURCE_ROOT; };
 		8DE32D9316C00FF700764125 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		8DE32D9616C0101500764125 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		8DE32D9916C0109100764125 /* SystemLanguageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemLanguageAction.h; sourceTree = "<group>"; };
 		8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SystemLanguageAction.mm; sourceTree = "<group>"; };
-		8DE32D9E16C02D6700764125 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Action.h; sourceTree = "<group>"; };
-		8DE32D9F16C02D6700764125 /* FirefoxAcceptLanguages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirefoxAcceptLanguages.h; sourceTree = "<group>"; };
-		8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirefoxAcceptLanguages.mm; sourceTree = "<group>"; };
 		8DEEBCED16C3F9C2002BD942 /* SpellCheckerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpellCheckerAction.h; sourceTree = "<group>"; };
 		8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpellCheckerAction.mm; sourceTree = "<group>"; };
 		8DEEBCF016C3FBBC002BD942 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -138,10 +140,6 @@
 		8DE32D9D16C02D6700764125 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				8D2FC78A16C262870065E2B1 /* ActionStatus.h */,
-				8DE32D9E16C02D6700764125 /* Action.h */,
-				8DE32D9F16C02D6700764125 /* FirefoxAcceptLanguages.h */,
-				8DE32DA016C02D6700764125 /* FirefoxAcceptLanguages.mm */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -158,8 +156,14 @@
 		8DEEBCF216C3FBEE002BD942 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
-				8DC074FB16C58DC5007ACFCC /* ChromeAction.h */,
-				8DC074FC16C58DC5007ACFCC /* ChromeAction.mm */,
+				8D94658C16CF9D0F009BBA39 /* ActionID.h */,
+				8D94658D16CF9D0F009BBA39 /* ActionStatus.h */,
+				8D94658E16CF9D0F009BBA39 /* Serializable.h */,
+				8D94658316CF9CA2009BBA39 /* Action.h */,
+				8D94658516CF9CA2009BBA39 /* ChromeAction.h */,
+				8D94658616CF9CA2009BBA39 /* ChromeAction.mm */,
+				8D94658716CF9CA2009BBA39 /* FirefoxAcceptLanguages.h */,
+				8D94658816CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm */,
 				8DEEBCED16C3F9C2002BD942 /* SpellCheckerAction.h */,
 				8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */,
 				8DE32D9916C0109100764125 /* SystemLanguageAction.h */,
@@ -240,10 +244,10 @@
 				8DE32D9416C00FF700764125 /* main.mm in Sources */,
 				8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */,
 				8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */,
-				8DE32DA316C02D6700764125 /* FirefoxAcceptLanguages.mm in Sources */,
 				8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */,
 				8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */,
-				8DC074FD16C58DC5007ACFCC /* ChromeAction.mm in Sources */,
+				8D94658916CF9CA2009BBA39 /* ChromeAction.mm in Sources */,
+				8D94658A16CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
