@@ -143,7 +143,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{335, 390}, {752, 380}}</string>
 				<int key="NSWTFlags">1954021376</int>
-				<string key="NSWindowTitle">Auxiliar de Softcatalà de catalanització del Mac OS</string>
+				<string key="NSWindowTitle">Auxiliar de Softcatalà per a la catalanització del Mac</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
