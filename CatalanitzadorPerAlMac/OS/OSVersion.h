@@ -22,30 +22,23 @@
 
 #include <iostream>
 #import <Cocoa/Cocoa.h>
-#include "Action.h"
 
-class SpellCheckerAction: public Action
+class OSVersion
 {
 public:
-        SpellCheckerAction();
-        ~SpellCheckerAction();
     
-        virtual const char* GetName() {return "Instal·la el corrector ortogràfic català al sistema";}
+        OSVersion();
     
-        virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic al sistema en aplicacions com ara Mail i Pages.";}
-    
-        virtual ActionID GetID() const {return MacSpellChecker;}
-    
-        virtual bool IsNeed();
-        virtual void Execute();
+        SInt32 GetMajorVersion() const { return m_major;}
+        SInt32 GetMinorVersion() const { return m_minor;}
+        SInt32 GetBugFix() const { return m_bugfix;}
 
 private:
     
-        bool requestPermissions();
-        NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
-        bool _copyfile(NSString* src, NSString* trg);
-        bool _isDictionaryInstalled();
+        void _readVersions();
     
-        AuthorizationRef m_authorizationRef;
+        SInt32 m_major;
+        SInt32 m_minor;
+        SInt32 m_bugfix;
 };
 

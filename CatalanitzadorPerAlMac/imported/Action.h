@@ -19,7 +19,7 @@
 
 #pragma once
 
-//#include "Serializable.h"
+#include "Serializable.h"
 #include "ActionStatus.h"
 #include "ActionID.h"
 //#include "ActionGroup.h"
@@ -32,14 +32,10 @@
 //
 // This abstract class defines the action interface for all actions
 //
-// : public Serializable
-class Action
+class Action  : public Serializable
 {
 public:
-        Action()
-        {
-            selected = true;
-        }
+        Action();
     
         // Unique ID that identifies the action
         virtual ActionID GetID() const = 0;
@@ -55,6 +51,12 @@ public:
     
         // Executes the action and make the configuration changes effective
         virtual void Execute() = 0;
+    
+        // Serialize the changes into an XML file
+        virtual void Serialize(ostream* stream);
+    
+        // Get the version of the application for which the action makes a change
+        virtual const char* GetVersion() { return "";}
     
         // Get the status of the action
         virtual ActionStatus GetStatus() { return status;}
@@ -79,17 +81,8 @@ protected:
 		// needed to execute this action
 		virtual bool IsDownloadNeed();
 
-		// If the action needs to be performed in this PC or not (already done, software not installed, etc)
-		virtual bool IsNeed() = 0;
-
 		// If the user needs to reboot the PC after executing the action to make the changes effective
 		virtual bool IsRebootNeed() const { return false;}
-
-		// Get the status of the action
-		virtual ActionStatus GetStatus() { return status;}
-
-		// Get the version of the application for which the action makes a change
-		virtual const wchar_t* GetVersion() { return L"";}
 
 		// Returns the reason why this action cannot be applied
 		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
@@ -97,10 +90,7 @@ protected:
 		// If a download is needed, executes the download of the files
 		virtual bool Download(ProgressStatus, void *data) {return true;}
 	
-		// Serialize the changes into an XML file
-		virtual void Serialize(ostream* stream);
-
-		// This method is called to verify if the prerequirements to execute 
+        // This method is called to verify if the prerequirements to execute
 		// the action are satisfied, such as the software is installed, is
 		// the right version, etc.
 		virtual void CheckPrerequirements(Action * action){};

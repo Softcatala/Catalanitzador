@@ -22,6 +22,7 @@
 #import "FirefoxAction.h"
 #import "SpellCheckerAction.h"
 #import "ChromeAction.h"
+#import "OSVersion.h"
 
 @implementation AppDelegate
 
@@ -127,18 +128,26 @@ void redirectNSLogToDocumentFolder()
     [_ActionDescription setTitle:text];
 }
 
+void _initLog()
+{
+    OSVersion version;
+    
+    NSLog(@"Catalanitzador per al Mac built on: %s, %s", __DATE__, __TIME__);
+    NSLog(@"Mac OS version: %u.%u.%u", version.GetMajorVersion(),
+          version.GetMinorVersion(), version.GetBugFix());
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     bool anyAction = false;
     
     redirectNSLogToDocumentFolder();
+    _initLog();
     
     actions.push_back(&systemLanguageAction);
     actions.push_back(&firefoxAction);
     actions.push_back(&spellCheckerAction);
     actions.push_back(&chromeAction);
-    
-    NSLog(@"Catalanitzador per al Mac built on: %s, %s", __DATE__, __TIME__);
     
     [NSApp activateIgnoringOtherApps:YES];
     [_DoChanges setKeyEquivalent:@"\r"];

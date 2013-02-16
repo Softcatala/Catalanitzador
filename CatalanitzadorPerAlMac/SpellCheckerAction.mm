@@ -19,6 +19,7 @@
 
 
 #include "SpellCheckerAction.h"
+#include "OSVersion.h"
 
 using namespace std;
 
@@ -127,22 +128,14 @@ bool SpellCheckerAction::_isDictionaryInstalled()
     return installed;
 }
 
-// See: http://cocoadev.com/wiki/DeterminingOSVersion
-void SpellCheckerAction::getSystemVersionMajor(SInt32& versionMajor, SInt32& versionMinor)
-{
-    versionMajor = versionMinor = 0;
-    Gestalt(gestaltSystemVersionMajor, &versionMajor);
-    Gestalt(gestaltSystemVersionMinor, &versionMinor);
-}
-
 bool SpellCheckerAction::IsNeed()
 {
     bool isNeed = false;
-    SInt32 versionMajor, versionMinor;
+    OSVersion version;
     
-    getSystemVersionMajor(versionMajor, versionMinor);
-    
-    if (versionMajor > 10 || (versionMajor == 10 && versionMinor >= 7))
+    if (version.GetMajorVersion() > 10 ||
+        (version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 7))
+
     {
         isNeed = _isDictionaryInstalled() == false;
     }

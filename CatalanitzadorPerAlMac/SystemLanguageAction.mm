@@ -19,6 +19,7 @@
 
 
 #include "SystemLanguageAction.h"
+#include "OSVersion.h"
 
 NSArray* SystemLanguageAction::_getCurrentLanguages()
 {
@@ -76,27 +77,13 @@ void SystemLanguageAction::Execute()
     NSLog(@"SystemLanguageAction::Execute. Result %u", isOk);
 }
 
-// See: http://cocoadev.com/wiki/DeterminingOSVersion
-void SystemLanguageAction::getSystemVersionMajor(SInt32& versionMajor, SInt32& versionMinor)
-{
-    SInt32 versionBugFix;
-    versionMajor = versionMinor = versionBugFix = 0;
-    
-    Gestalt(gestaltSystemVersionMajor, &versionMajor);
-    Gestalt(gestaltSystemVersionMinor, &versionMinor);
-    Gestalt(gestaltSystemVersionBugFix, &versionBugFix);
-    
-    NSLog(@"Mac OS version: %u.%u.%u", versionMajor, versionMinor, versionBugFix);
-}
-
 bool SystemLanguageAction::IsNeed()
 {
     bool isNeed = false;
-    SInt32 versionMajor, versionMinor;
+    OSVersion version;
     
-    getSystemVersionMajor(versionMajor, versionMinor);
-    
-    if (versionMajor > 10 || (versionMajor == 10 && versionMinor >= 7))
+    if (version.GetMajorVersion() > 10 ||
+        (version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 7))
     {
         isNeed = _isCurrentLocaleOk() == false;
     }
