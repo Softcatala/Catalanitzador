@@ -21,7 +21,7 @@
 
 //#include "Serializable.h"
 #include "ActionStatus.h"
-//#include "ActionID.h"
+#include "ActionID.h"
 //#include "ActionGroup.h"
 //#include "StringConversion.h"
 //#include "DownloadManager.h"
@@ -37,10 +37,14 @@ class Action
 {
 public:
         Action()
-            {
-                selected = true;
-            }
+        {
+            selected = true;
+        }
     
+        // Unique ID that identifies the action
+        virtual ActionID GetID() const = 0;
+    
+        // Get the name of action
         virtual const char* GetName() = 0;
     
         // Get the detailed description to show to the user of action
@@ -67,14 +71,7 @@ protected:
 
         bool selected;
 /*
-		// Get the name of action
-		virtual wchar_t* GetName() = 0;
-
-	
-		// Unique ID that identifies the action
-		virtual ActionID GetID() const = 0;
-
-		// How we visually will group this action
+        // How we visually will group this action
 		virtual ActionGroup GetGroup() const {return ActionGroupNone;}
 
 		// If the action needs to download files to be completed (like language packages) or can run without

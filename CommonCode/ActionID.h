@@ -38,4 +38,6 @@ enum ActionID
 	CatalanitzadorUpdate = 12,
 	Skype = 13,
 	iTunes = 14,
+    MacSystemAction = 15,
+    MacSpellChecker = 16
 };
