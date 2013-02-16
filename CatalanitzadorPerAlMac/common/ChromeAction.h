@@ -42,6 +42,7 @@ public:
 		void CreateJSONString(string &regvalue);
 		void AddCatalanToArrayAndRemoveOldIfExists();
 		vector <string> * GetLanguages() {return &m_languages;}
+        bool IsApplicationRunning();
 
 protected:
 		

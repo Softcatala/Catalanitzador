@@ -34,6 +34,32 @@ ChromeAction::ChromeAction() : Action()
 
 }
 
+bool ChromeAction::IsApplicationRunning()
+{
+    NSDictionary *info;
+    bool foundApp = false;
+    OSErr err;
+    ProcessSerialNumber psn = {0, kNoProcess};
+    
+    while (!foundApp)
+    {
+        err = GetNextProcess(&psn);
+        
+        if (!err)
+        {
+            info = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
+            foundApp = [@"com.google.Chrome" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    NSLog(@"FirefoxAction::IsApplicationRunning. Result %u", foundApp);
+    return foundApp;
+}
+
 bool ChromeAction::_findIntl(string line, int & pos)
 {
 	if(pos == string::npos) pos = 0;

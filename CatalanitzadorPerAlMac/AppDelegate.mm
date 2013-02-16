@@ -194,11 +194,11 @@ void redirectNSLogToDocumentFolder()
     
     if (chromeAction.IsNeed() && chromeAction.GetSelected())
     {
-        /*if (chromeAction.IsApplicationRunning())
+        if (chromeAction.IsApplicationRunning())
         {
             _showDialogBox(@"Catalanitzador per al Mac",
-                           @"Us suggerim tancar l'aplicació Firefox abans de continuar. Si no ho feu, els canvis no tindran efecte fins que torneu a obrir el Firefox.");
-        }*/
+                           @"Us suggerim tancar l'aplicació Chrome abans de continuar. Si no ho feu, els canvis no tindran efecte fins que torneu a obrir el Chrome.");
+        }
         
         
         chromeAction.Execute();
