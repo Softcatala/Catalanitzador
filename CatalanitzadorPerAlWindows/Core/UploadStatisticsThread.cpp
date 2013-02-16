@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "UploadStatisticsThread.h"
 #include "HttpFormInet.h"
+#include "StringConversion.h"
 
 #define TEXT_FIELD_LEN 65535
 
