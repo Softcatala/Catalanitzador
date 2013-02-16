@@ -56,8 +56,8 @@ void FinishModel::_calculateIndicatorsForProgressBar()
 	{
 		action = m_actions->at(i);
 
-		// Hidden action for which we do not want to show statistics
-		if (action->GetID() == CatalanitzadorUpdate)
+		// Not visible action for which we do not want to show statistics
+		if (action->IsVisible() == false)
 			continue;
 
 		switch (action->GetStatus())

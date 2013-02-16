@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -435,7 +435,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\Serializable.h"
+				RelativePath="..\CommonCode\Serializable.h"
 				>
 			</File>
 			<File
@@ -599,7 +599,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ActionID.h"
+				RelativePath="..\CommonCode\ActionID.h"
 				>
 			</File>
 			<File
@@ -611,7 +611,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ActionStatus.h"
+				RelativePath="..\CommonCode\ActionStatus.h"
 				>
 			</File>
 			<File

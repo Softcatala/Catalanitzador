@@ -93,6 +93,9 @@ public:
 		// contains the Windows resouce ID of the license text
 		virtual LPCWSTR GetLicenseID() { return NULL; };
 
+		// If it is shown in the user interface		
+		virtual bool IsVisible() {return true; }
+
 		// Some languages have a dialectal variants. In the case of Catalan, for example Valencian.
 		// This indicates the action to prioritize the usage of a variant (Valencian) when avaiable
 		bool GetUseDialectalVariant() { return m_dialectalVariant; }

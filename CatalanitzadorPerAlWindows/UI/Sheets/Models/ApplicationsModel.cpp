@@ -57,7 +57,7 @@ void ApplicationsModel::BuildListOfItems()
 		{		
 			Action* action = m_availableActions->at(i);
 
-			if (action->GetGroup() == ActionGroupNone || action->GetGroup() != (ActionGroup)g)
+			if (action->IsVisible() == false || action->GetGroup() != (ActionGroup)g)
 				continue;
 
 			bool needed = action->IsNeed();
