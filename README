@@ -1,12 +1,12 @@
 --- Introduction
 
-A Microsoft Windows program that makes your system Catalan language friendly by installing language packages and changing configuration settings.
+A Microsoft Windows & Mac OS program that makes your system Catalan language friendly by installing language packages and changing configuration settings.
 
 Project: http://www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows
 
 -- Development
 
-Requirements:
+Windows requirements:
 
 - Microsoft Visual Studio 2008 SP1  Express Edition
 - Google Test 1.6 (http://code.google.com/p/googletest/)
@@ -25,6 +25,10 @@ Before building the libraries, go to all the projects within the gmock solution 
 For gtest, this should be the default configuration, if it is not, do also the same steps.
 
 For gtest, build using the gtest-md.sln solution.
+
+Mac requirements:
+
+- Code X 4.6
 
 -- Git configuration for contribuing
 
