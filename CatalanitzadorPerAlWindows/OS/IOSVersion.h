@@ -21,6 +21,7 @@
 
 #include <windows.h>
 #include <ostream>
+#include "Serializable.h"
 
 using namespace std;
 
@@ -39,7 +40,7 @@ enum OperatingVersion
 	Windows2012
 };
 
-class IOSVersion
+class IOSVersion : public Serializable
 {
 public:
 		virtual OperatingVersion GetVersion() = 0;
