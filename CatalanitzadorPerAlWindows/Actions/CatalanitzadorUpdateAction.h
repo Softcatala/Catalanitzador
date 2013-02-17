@@ -36,8 +36,10 @@ public:
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
-		void SetVersion(wstring version) {m_version = version;}
+		virtual bool IsVisible() {return false; }
 
+		void SetVersion(wstring version) {m_version = version;}
+		
 private:
 
 		bool _isRunningInstanceUpToDate();
