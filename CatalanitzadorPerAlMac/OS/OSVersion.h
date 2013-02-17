@@ -20,10 +20,13 @@
 
 #pragma once
 
+#include "Serializable.h"
 #include <iostream>
 #import <Cocoa/Cocoa.h>
 
-class OSVersion
+using namespace std;
+
+class OSVersion: public Serializable
 {
 public:
     
@@ -32,6 +35,8 @@ public:
         SInt32 GetMajorVersion() const { return m_major;}
         SInt32 GetMinorVersion() const { return m_minor;}
         SInt32 GetBugFix() const { return m_bugfix;}
+    
+        void Serialize(ostream* stream);
 
 private:
     

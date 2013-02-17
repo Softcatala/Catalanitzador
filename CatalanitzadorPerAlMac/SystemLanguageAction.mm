@@ -66,6 +66,20 @@ bool SystemLanguageAction::_isCurrentLocaleOk()
         return false;
 }
 
+const char* SystemLanguageAction::GetVersion()
+{
+    if (m_version.empty())
+    {
+        char szVersion[1024];
+        OSVersion version;
+        
+        sprintf(szVersion, "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
+        m_version = szVersion;
+    }
+    
+    return m_version.c_str();
+}
+
 void SystemLanguageAction::Execute()
 {
     bool isOk;

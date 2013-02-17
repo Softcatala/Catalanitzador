@@ -23,6 +23,8 @@
 #import "SpellCheckerAction.h"
 #import "ChromeAction.h"
 #import "OSVersion.h"
+#import "Serializer.h"
+
 
 @implementation AppDelegate
 
@@ -137,6 +139,27 @@ void _initLog()
           version.GetMinorVersion(), version.GetBugFix());
 }
 
+void _serialize()
+{
+    Serializer serializer;
+    
+    serializer.OpenHeader();
+    
+    serializer.StartAction();
+    for (int i = 0; i < actions.size(); i++)
+    {
+        actions.at(i)->Serialize(serializer.GetStream());
+    }
+    serializer.EndAction();
+    serializer.CloseHeader();
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	NSString *fileName = @"statistics.xml";
+	NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
+    serializer.SaveToFile([logFilePath UTF8String]);
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     bool anyAction = false;
@@ -170,6 +193,7 @@ void _initLog()
     [_ApplicationsList setDataSource:self];
     [_ApplicationsList setDelegate:self];
     [self setDefaultRow:0];
+    _serialize();
 }
 
 - (IBAction)Cancel:(id)sender {

@@ -32,7 +32,7 @@
 //
 // This abstract class defines the action interface for all actions
 //
-class Action  : public Serializable
+class Action : public Serializable
 {
 public:
         Action();

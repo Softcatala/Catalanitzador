@@ -37,10 +37,12 @@ public:
     
         virtual bool IsNeed();
         virtual void Execute();
+        virtual const char* GetVersion();
 
 private:
         NSArray* _getCurrentLanguages();
         void _setLocale();
         bool _isCurrentLocaleOk();
+        string m_version;
 };
 
