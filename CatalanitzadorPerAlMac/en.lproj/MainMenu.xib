@@ -194,7 +194,7 @@
 						<object class="NSButton" id="377674183">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{634, 27}, {104, 32}}</string>
+							<string key="NSFrame">{{635, 27}, {103, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
@@ -203,7 +203,7 @@
 							<object class="NSButtonCell" key="NSCell" id="1238023">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Fes canvis</string>
+								<string key="NSContents">Fer canvis</string>
 								<object class="NSFont" key="NSSupport" id="76473111">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
@@ -222,7 +222,7 @@
 						<object class="NSButton" id="593090845">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{562, 27}, {66, 32}}</string>
+							<string key="NSFrame">{{553, 27}, {75, 32}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="377674183"/>
@@ -231,7 +231,7 @@
 							<object class="NSButtonCell" key="NSCell" id="266386200">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Surt</string>
+								<string key="NSContents">Sortir</string>
 								<reference key="NSSupport" ref="76473111"/>
 								<string key="NSCellIdentifier">_NS:9</string>
 								<reference key="NSControlView" ref="593090845"/>
@@ -295,7 +295,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="130756157">
 								<int key="NSCellFlags">68157504</int>
 								<int key="NSCellFlags2">272630784</int>
-								<string key="NSContents">Premeu el botó "Fes canvis" per a catalanitzar</string>
+								<string key="NSContents">Premeu el botó "Fer canvis" per a catalanitzar</string>
 								<reference key="NSSupport" ref="76473111"/>
 								<string key="NSCellIdentifier">_NS:1535</string>
 								<reference key="NSControlView" ref="932980928"/>
@@ -1654,17 +1654,30 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">Selector:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">Selector:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="ApplicationListSelector:">id</string>
+						<string key="Cancel:">id</string>
+						<string key="SaveChanges:">id</string>
+						<string key="Selector:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="ApplicationListSelector:">
+							<string key="name">ApplicationListSelector:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="Cancel:">
+							<string key="name">Cancel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="SaveChanges:">
+							<string key="name">SaveChanges:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="Selector:">
 							<string key="name">Selector:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="ActionDescription">NSTextFieldCell</string>
 						<string key="ApplicationsList">NSTableView</string>
