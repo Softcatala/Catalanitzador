@@ -97,10 +97,12 @@ bool SystemLanguageAction::IsNeed()
     OSVersion version;
     
     if (version.GetMajorVersion() > 10 ||
-        (version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 7))
+        (version.GetMajorVersion() == 10 && version.GetMinorVersion() > 7) ||
+        (version.GetMajorVersion() == 10 && version.GetMinorVersion() == 7 && version.GetBugFix() >= 3))
     {
         isNeed = _isCurrentLocaleOk() == false;
     }
+    
     NSLog(@"SystemLanguageAction::IsNeed: %d", isNeed);
     return isNeed;
 }
