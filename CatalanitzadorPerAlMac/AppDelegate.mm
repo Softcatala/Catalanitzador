@@ -24,7 +24,7 @@
 #import "ChromeAction.h"
 #import "OSVersion.h"
 #import "Serializer.h"
-
+#import "HttpFormInet.h"
 
 @implementation AppDelegate
 
@@ -139,10 +139,8 @@ void _initLog()
           version.GetMinorVersion(), version.GetBugFix());
 }
 
-void _serialize()
+void _serialize(Serializer& serializer)
 {
-    Serializer serializer;
-    
     serializer.OpenHeader();
     
     serializer.StartAction();
@@ -158,6 +156,23 @@ void _serialize()
 	NSString *fileName = @"statistics.xml";
 	NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
     serializer.SaveToFile([logFilePath UTF8String]);
+}
+
+#define UPLOAD_URL "http://dev-catalanitzador.softcatala.org/parser.php"
+
+void _upload(Serializer& serializer)
+{
+    string serialize;
+    vector <string> variables;
+    vector <string> values;
+    
+    serializer.SaveToString(serialize);
+    
+    variables.push_back("xml");
+    values.push_back(serialize);
+
+    HttpFormInet access;
+    access.PostForm(UPLOAD_URL, variables, values);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -193,7 +208,10 @@ void _serialize()
     [_ApplicationsList setDataSource:self];
     [_ApplicationsList setDelegate:self];
     [self setDefaultRow:0];
-    _serialize();
+    
+    //Serializer serializer;
+    //_serialize(serializer);
+    //_upload(serializer);
 }
 
 - (IBAction)Cancel:(id)sender {
@@ -201,7 +219,7 @@ void _serialize()
     [NSApp terminate:self];
 }
 - (IBAction)SaveChanges:(id)sender {
-    
+
     bool correct = true;
     
     if (systemLanguageAction.IsNeed() && systemLanguageAction.GetSelected())

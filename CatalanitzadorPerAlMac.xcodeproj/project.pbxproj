@@ -22,6 +22,7 @@
 		8DE32D9416C00FF700764125 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9316C00FF700764125 /* main.mm */; };
 		8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9616C0101500764125 /* AppDelegate.mm */; };
 		8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */; };
+		8DE8843016D40C53002F2349 /* HttpFormInet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DE8842F16D40C53002F2349 /* HttpFormInet.mm */; };
 		8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */; };
 		8DEEBCF116C3FBBC002BD942 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DEEBCF016C3FBBC002BD942 /* Security.framework */; };
 		8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */; };
@@ -60,6 +61,8 @@
 		8DE32D9616C0101500764125 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		8DE32D9916C0109100764125 /* SystemLanguageAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemLanguageAction.h; sourceTree = "<group>"; };
 		8DE32D9B16C01C4800764125 /* SystemLanguageAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SystemLanguageAction.mm; sourceTree = "<group>"; };
+		8DE8842C16D40C2A002F2349 /* HttpFormInet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpFormInet.h; sourceTree = "<group>"; };
+		8DE8842F16D40C53002F2349 /* HttpFormInet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HttpFormInet.mm; sourceTree = "<group>"; };
 		8DEEBCED16C3F9C2002BD942 /* SpellCheckerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpellCheckerAction.h; sourceTree = "<group>"; };
 		8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpellCheckerAction.mm; sourceTree = "<group>"; };
 		8DEEBCF016C3FBBC002BD942 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -158,8 +161,10 @@
 		8D9465AF16D019FF009BBA39 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				8DE8842F16D40C53002F2349 /* HttpFormInet.mm */,
 				8D9465B316D01A3A009BBA39 /* Serializer.mm */,
 				8D9465B116D01A11009BBA39 /* Serializer.h */,
+				8DE8842C16D40C2A002F2349 /* HttpFormInet.h */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 				8D9465AA16D00FBD009BBA39 /* Action.cpp in Sources */,
 				8D9465AE16D011A6009BBA39 /* OSVersion.mm in Sources */,
 				8D9465B416D01A3A009BBA39 /* Serializer.mm in Sources */,
+				8DE8843016D40C53002F2349 /* HttpFormInet.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
