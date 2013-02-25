@@ -39,6 +39,7 @@ public:
     
 		virtual bool IsNeed();
 		virtual void Execute();
+        virtual const char* GetVersion();
 	
 		void ParseLanguage(string regvalue);
 		void CreateJSONString(string &regvalue);
@@ -67,7 +68,7 @@ private:
 		bool _findLanguageString(string,int &,string &);
 		bool _findAppLocaleKey(string line, int & pos);
 
-		//string m_version;
+		string m_version;
 		vector <string> m_languages;
 		//TriBool m_isInstalled;
 		ActionStatus uiStatus;

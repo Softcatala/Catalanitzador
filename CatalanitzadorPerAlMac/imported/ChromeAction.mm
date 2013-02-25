@@ -479,6 +479,25 @@ bool ChromeAction::_isInstalled()
     return false;
 }
 
+const char* ChromeAction::GetVersion()
+{
+    if (m_version.empty())
+    {
+        NSBundle* bundle;
+        
+        bundle = [[NSBundle alloc] initWithPath: @"/Applications/Google Chrome.app/"];
+        NSDictionary* infoDict = [bundle infoDictionary];
+        NSString* version = [infoDict objectForKey:@"CFBundleShortVersionString"];
+        
+        if (version != NULL)
+        {
+            m_version = [version UTF8String];
+        }
+    }
+    
+    return m_version.c_str();
+}
+
 bool ChromeAction::IsNeed()
 {
     bool isInstalled;

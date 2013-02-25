@@ -111,6 +111,27 @@ FirefoxAcceptLanguages * FirefoxAction::_getAcceptLanguages()
     return m_acceptLanguages;
 }
 
+
+const char* FirefoxAction::GetVersion()
+{
+    if (m_version.empty())
+    {
+        NSBundle* bundle;
+        
+        bundle = [[NSBundle alloc] initWithPath: @"/Applications/Firefox.app/"];
+        NSDictionary* infoDict = [bundle infoDictionary];
+        NSString* version = [infoDict objectForKey:@"CFBundleShortVersionString"];
+        
+        if (version != NULL)
+        {
+            m_version = [version UTF8String];
+        }
+    }
+    
+    return m_version.c_str();
+}
+
+
 bool FirefoxAction::IsNeed()
 {
     bool isNeed;
