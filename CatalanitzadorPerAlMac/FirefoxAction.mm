@@ -134,11 +134,22 @@ const char* FirefoxAction::GetVersion()
 
 bool FirefoxAction::IsNeed()
 {
-    bool isNeed;
+    bool bNeed;
     
-    isNeed = _isInstalled() && _getAcceptLanguages()->IsNeed();
-    NSLog(@"FirefoxAction::IsNeed. Result %u", isNeed);
-    return isNeed;
+	switch(GetStatus())
+	{
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
+	}
+    
+    NSLog(@"FirefoxAction::IsNeed. %u", bNeed);
+	return bNeed;
 }
 
 void FirefoxAction::Execute()
@@ -150,5 +161,20 @@ void FirefoxAction::Execute()
     SetStatus(isOk ? Successful : FinishedWithError);
     
     NSLog(@"FirefoxAction::Execute. Result %u", isOk);
+}
+
+void FirefoxAction::CheckPrerequirements(Action * action)
+{
+	if (_isInstalled())
+	{
+        if (_getAcceptLanguages()->IsNeed() == false)
+        {
+            SetStatus(AlreadyApplied);
+        }
+ 	}
+    else
+    {
+		_setStatusNotInstalled();
+	}
 }
 

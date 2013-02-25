@@ -63,15 +63,24 @@ public:
     
         virtual void SetStatus(ActionStatus value) { status = value;}
     
-        bool GetSelected() { return selected;}
+        // Returns the reason why this action cannot be applied
+        virtual const char* GetCannotNotBeApplied() { return m_cannotBeApplied.c_str();}
+
+        // This method is called to verify if the prerequirements to execute
+        // the action are satisfied, such as the software is installed, is
+        // the right version, etc.
+        virtual void CheckPrerequirements(Action * action){};
     
-        void SetSelected(bool value) { selected = value;}
-    
+        //bool GetSelected() { return selected;}
+        //void SetSelected(bool value) { selected = value;}
     
 protected:
-        ActionStatus status;
+    
+            void _setStatusNotInstalled();
+    
+            ActionStatus status;
+            string m_cannotBeApplied;
 
-        bool selected;
 /*
         // How we visually will group this action
 		virtual ActionGroup GetGroup() const {return ActionGroupNone;}
@@ -84,16 +93,10 @@ protected:
 		// If the user needs to reboot the PC after executing the action to make the changes effective
 		virtual bool IsRebootNeed() const { return false;}
 
-		// Returns the reason why this action cannot be applied
-		virtual wchar_t* GetCannotNotBeApplied() { return szCannotBeApplied;}
-
 		// If a download is needed, executes the download of the files
 		virtual bool Download(ProgressStatus, void *data) {return true;}
 	
-        // This method is called to verify if the prerequirements to execute
-		// the action are satisfied, such as the software is installed, is
-		// the right version, etc.
-		virtual void CheckPrerequirements(Action * action){};
+      
 
 		// An action may depend in another action to be selected to be able to execute it
 		// For example, Internet Explorer 6 language pack is part of the Windows language pack

@@ -34,12 +34,13 @@ public:
     
         virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic al sistema en aplicacions com ara Mail i Pages.";}
     
-        virtual ActionID GetID() const {return MacSpellChecker;}
+        virtual ActionID GetID() const {return MacSystemAction;}
     
         virtual bool IsNeed();
         virtual void Execute();
         virtual const char* GetVersion();
-    
+        virtual void CheckPrerequirements(Action * action);
+
 private:
     
         bool requestPermissions();

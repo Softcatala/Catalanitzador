@@ -47,13 +47,14 @@ ChromeAction chromeAction;
     buttonCell = [aTableColumn dataCell];
     Action* action = actions.at(rowIndex);
     
-    if (action->GetSelected())
+    if (action->GetStatus() == Selected)
     {
-        action->SetSelected(false);
+        action->SetStatus(NotSelected);
     }
-    else
-        action->SetSelected(true);
-
+    else if (action->GetStatus() == NotSelected)
+    {
+        action->SetStatus(Selected);
+    }
 }
 
 
@@ -76,8 +77,10 @@ ChromeAction chromeAction;
     }
     
     [buttonCell setTitle:text];
+    
+    ActionStatus status = action->GetStatus();
  
-    if (action->GetSelected())
+    if (status == Selected || status == AlreadyApplied)
     {
         return [NSNumber numberWithBool:YES];
     }
@@ -199,10 +202,10 @@ void _upload(Serializer& serializer)
     
     for (int i = 0; i < actions.size(); i++)
     {
+        actions.at(i)->CheckPrerequirements(NULL);
         if (actions.at(i)->IsNeed() == true)
         {
             anyAction = true;
-            break;
         }
     }
     
@@ -225,14 +228,14 @@ void _upload(Serializer& serializer)
 
     bool correct = true;
     
-    if (systemLanguageAction.IsNeed() && systemLanguageAction.GetSelected())
+    if (systemLanguageAction.IsNeed() && systemLanguageAction.GetStatus() == Selected)
     {
         systemLanguageAction.Execute();
         if (systemLanguageAction.GetStatus() != Successful)
             correct = false;
     }
     
-    if (firefoxAction.IsNeed() && firefoxAction.GetSelected())
+    if (firefoxAction.IsNeed() && firefoxAction.GetStatus() == Selected)
     {
         if (firefoxAction.IsApplicationRunning())
         {
@@ -246,7 +249,7 @@ void _upload(Serializer& serializer)
             correct = false;
     }
     
-    if (chromeAction.IsNeed() && chromeAction.GetSelected())
+    if (chromeAction.IsNeed() && chromeAction.GetStatus() == Selected)
     {
         if (chromeAction.IsApplicationRunning())
         {
@@ -254,13 +257,12 @@ void _upload(Serializer& serializer)
                            @"Us suggerim tancar l'aplicació Chrome abans de continuar. Si no ho feu, els canvis no tindran efecte fins que torneu a obrir el Chrome.");
         }
         
-        
         chromeAction.Execute();
         if (chromeAction.GetStatus() != Successful)
             correct = false;
     }
     
-    if (spellCheckerAction.IsNeed() && spellCheckerAction.GetSelected())
+    if (spellCheckerAction.IsNeed() && spellCheckerAction.GetStatus() == Selected)
     {
         spellCheckerAction.Execute();
         if (spellCheckerAction.GetStatus() != Successful)

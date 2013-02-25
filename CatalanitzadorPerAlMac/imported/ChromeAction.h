@@ -40,6 +40,7 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
         virtual const char* GetVersion();
+        virtual void CheckPrerequirements(Action * action);
 	
 		void ParseLanguage(string regvalue);
 		void CreateJSONString(string &regvalue);

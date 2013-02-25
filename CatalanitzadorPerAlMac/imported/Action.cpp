@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+ * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,8 +21,7 @@
 
 Action::Action()
 {
-	status = NotSelected;
-    selected = true;
+	status = Selected;
 }
 
 void Action::Serialize(ostream* stream)
@@ -35,5 +34,12 @@ void Action::Serialize(ostream* stream)
 
 	*stream << szText;
 }
+
+void Action::_setStatusNotInstalled()
+{
+    m_cannotBeApplied = "Aquest programa no està instal·lat o la versió que teniu és desconeguda.";
+	SetStatus(NotInstalled);
+}
+
 
 

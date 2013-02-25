@@ -146,16 +146,39 @@ bool SpellCheckerAction::_isDictionaryInstalled()
 
 bool SpellCheckerAction::IsNeed()
 {
-    bool isNeed = false;
-    OSVersion version;
+    bool bNeed;
     
-    if (version.GetMajorVersion() > 10 ||
-        (version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 7))
+	switch(GetStatus())
+	{
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
+	}
+    
+    NSLog(@"SpellCheckerAction::IsNeed. %u", bNeed);
+	return bNeed;
+}
 
-    {
-        isNeed = _isDictionaryInstalled() == false;
-    }
+void SpellCheckerAction::CheckPrerequirements(Action * action)
+{
+     OSVersion version;
     
-    NSLog(@"SpellCheckerAction::IsNeed: %d", isNeed);
-    return isNeed;
+	if (version.GetMajorVersion() > 10 ||
+        (version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 7))
+    {
+        if (_isDictionaryInstalled())
+        {
+            SetStatus(AlreadyApplied);
+        }
+    }
+    else
+    {
+        m_cannotBeApplied = "No es pot realitzar aquesta acció en aquesta versió del sistema.";
+        SetStatus(CannotBeApplied);
+    }
 }

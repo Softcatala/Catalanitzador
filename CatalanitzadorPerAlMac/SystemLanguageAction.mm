@@ -93,16 +93,40 @@ void SystemLanguageAction::Execute()
 
 bool SystemLanguageAction::IsNeed()
 {
-    bool isNeed = false;
+    bool bNeed;
+    
+	switch(GetStatus())
+	{
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
+	}
+    
+    NSLog(@"SystemLanguageAction::IsNeed. %u", bNeed);
+	return bNeed;
+}
+
+void SystemLanguageAction::CheckPrerequirements(Action * action)
+{
     OSVersion version;
     
     if (version.GetMajorVersion() > 10 ||
         (version.GetMajorVersion() == 10 && version.GetMinorVersion() > 7) ||
         (version.GetMajorVersion() == 10 && version.GetMinorVersion() == 7 && version.GetBugFix() >= 3))
     {
-        isNeed = _isCurrentLocaleOk() == false;
+        if (_isCurrentLocaleOk() == true)
+        {
+            SetStatus(AlreadyApplied);
+        }
     }
-    
-    NSLog(@"SystemLanguageAction::IsNeed: %d", isNeed);
-    return isNeed;
+    else
+    {
+        m_cannotBeApplied = "No es pot realitzar aquesta acció en aquesta versió del sistema.";
+        SetStatus(CannotBeApplied);
+    }
 }

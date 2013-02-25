@@ -500,23 +500,22 @@ const char* ChromeAction::GetVersion()
 
 bool ChromeAction::IsNeed()
 {
-    bool isInstalled;
-	string langcode, firstlang;
-    isInstalled = _isInstalled();
-    bool isNeed = false;
+	bool bNeed;
     
-	if (isInstalled)
+	switch(GetStatus())
 	{
-        _readLanguageCode(langcode);
-		//localeOk = _isUILocaleOk();
-        ParseLanguage(langcode);
-        _getFirstLanguage(firstlang);
-			
-        isNeed = firstlang.compare("ca") != 0;
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
 	}
-
-    NSLog(@"ChromeAction::IsNeed. %u", isNeed);
-    return isNeed;
+    
+    NSLog(@"ChromeAction::IsNeed. %u", bNeed);
+	return bNeed;
 }
 
 void ChromeAction::AddCatalanToArrayAndRemoveOldIfExists()
@@ -598,5 +597,28 @@ void ChromeAction::ParseLanguage(string value)
 	if (language.empty() == false)
 	{
 		m_languages.push_back(language);
+	}
+}
+
+void ChromeAction::CheckPrerequirements(Action * action)
+{
+    bool isInstalled;
+	string langcode, firstlang;
+    isInstalled = _isInstalled();
+    
+	if (isInstalled)
+	{
+        _readLanguageCode(langcode);
+	    ParseLanguage(langcode);
+        _getFirstLanguage(firstlang);
+        
+        if (firstlang.compare("ca") == 0)
+        {
+            SetStatus(AlreadyApplied);
+        }
+	}
+    else
+    {
+		_setStatusNotInstalled();
 	}
 }
