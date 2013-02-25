@@ -80,7 +80,8 @@ ChromeAction chromeAction;
     
     ActionStatus status = action->GetStatus();
  
-    if (status == Selected || status == AlreadyApplied)
+    if (status == Selected || status == AlreadyApplied  || 
+        status == FinishedWithError || status == Successful)
     {
         return [NSNumber numberWithBool:YES];
     }
