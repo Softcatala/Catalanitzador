@@ -44,7 +44,7 @@ bool FirefoxAction::IsApplicationRunning()
     
         if (!err)
         {
-            info = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
+            info = (NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
             foundApp = [@"org.mozilla.firefox" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
         }
         else

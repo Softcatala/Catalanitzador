@@ -47,7 +47,7 @@ bool ChromeAction::IsApplicationRunning()
         
         if (!err)
         {
-            info = (__bridge NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
+            info = (NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
             foundApp = [@"com.google.Chrome" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
         }
         else

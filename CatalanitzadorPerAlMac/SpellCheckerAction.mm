@@ -72,7 +72,7 @@ NSString* SpellCheckerAction::_getBundlePath(CFStringRef file, CFStringRef exten
     mainBundle = CFBundleGetMainBundle();
     url = CFBundleCopyResourceURL(mainBundle, file, extension, NULL);
     CFStringRef path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-    return (__bridge NSString *)path;
+    return (NSString *)path;
 }
 
 bool SpellCheckerAction::_copyfile(NSString* src, NSString* trg)
