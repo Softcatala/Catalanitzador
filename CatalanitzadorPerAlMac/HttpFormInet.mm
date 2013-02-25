@@ -64,6 +64,7 @@ void HttpFormInet::UrlFormEncode(vector <string> variables, vector <string> valu
 // See: http://stackoverflow.com/questions/9065583/cocoa-http-post-request-mac-os-x
 bool HttpFormInet::PostForm(string _url, vector <string> variables, vector <string> values)
 {
+    bool sent;
     string encoded;
     UrlFormEncode(variables, values, encoded);
     
@@ -82,10 +83,16 @@ bool HttpFormInet::PostForm(string _url, vector <string> variables, vector <stri
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
     
-    //NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:request];
     NSURLResponse* response;
     NSError* error = nil;
-    NSData* result = [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
-    NSLog(@"Error: %@", error);
-    return true;
+    [NSURLConnection sendSynchronousRequest:request  returningResponse:&response error:&error];
+    
+    sent = (error == NULL);
+    if (error != NULL)
+    {
+        NSLog(@"HttpFormInet::PostForm. Error: %@", error);
+    }
+    
+    NSLog(@"HttpFormInet::PostForm. Sent: %u", sent);
+    return sent;
 }

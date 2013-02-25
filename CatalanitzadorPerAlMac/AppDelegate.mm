@@ -175,6 +175,13 @@ void _upload(Serializer& serializer)
     access.PostForm(UPLOAD_URL, variables, values);
 }
 
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    Serializer serializer;
+    _serialize(serializer);
+    _upload(serializer);
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     bool anyAction = false;
@@ -208,10 +215,6 @@ void _upload(Serializer& serializer)
     [_ApplicationsList setDataSource:self];
     [_ApplicationsList setDelegate:self];
     [self setDefaultRow:0];
-    
-    //Serializer serializer;
-    //_serialize(serializer);
-    //_upload(serializer);
 }
 
 - (IBAction)Cancel:(id)sender {
