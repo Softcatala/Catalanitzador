@@ -56,7 +56,7 @@ bool ChromeAction::IsApplicationRunning()
         }
     }
     
-    NSLog(@"FirefoxAction::IsApplicationRunning. Result %u", foundApp);
+    NSLog(@"ChromeAction::IsApplicationRunning. Result %u", foundApp);
     return foundApp;
 }
 
@@ -484,6 +484,7 @@ bool ChromeAction::IsNeed()
     bool isInstalled;
 	string langcode, firstlang;
     isInstalled = _isInstalled();
+    bool isNeed = false;
     
 	if (isInstalled)
 	{
@@ -492,15 +493,11 @@ bool ChromeAction::IsNeed()
         ParseLanguage(langcode);
         _getFirstLanguage(firstlang);
 			
-        if (firstlang.compare("ca") == 0)
-        {
-            return false;
-        }
-        
-        return true;
+        isNeed = firstlang.compare("ca") != 0;
 	}
 
-    return false;
+    NSLog(@"ChromeAction::IsNeed. %u", isNeed);
+    return isNeed;
 }
 
 void ChromeAction::AddCatalanToArrayAndRemoveOldIfExists()
