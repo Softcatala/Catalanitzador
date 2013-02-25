@@ -41,5 +41,15 @@ void Action::_setStatusNotInstalled()
 	SetStatus(NotInstalled);
 }
 
+const char*  Action::GetCannotNotBeApplied()
+{
+    if (GetStatus() == AlreadyApplied)
+    {
+        return "Aquesta acció ja està aplicada.";
+    }
+    return m_cannotBeApplied.c_str();
+}
+
+
 
 

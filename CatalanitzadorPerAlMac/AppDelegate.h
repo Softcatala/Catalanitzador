@@ -22,7 +22,6 @@
 
 - (NSInteger) numberOfRowsInTableView: (NSTableView*) tableView;
 - (id) tableView:(NSTableView *) tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex;
-
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex;
 
 @property (assign) IBOutlet NSWindow *window;
@@ -32,7 +31,9 @@
 @property (assign) IBOutlet NSTextField *Results;
 
 @property (assign) IBOutlet NSButton *Firefox;
+@property (assign) IBOutlet NSTextField *CannotBeApplied;
 @property (assign) IBOutlet NSButton *SpellChecker;
+@property (assign) IBOutlet NSTextFieldCell *CannotBeAppliedReason;
 @property (assign) IBOutlet NSButton *Chrome;
 @property (assign) IBOutlet NSTableView *ApplicationsList;
 @property (assign) IBOutlet NSTextFieldCell *ActionDescription;

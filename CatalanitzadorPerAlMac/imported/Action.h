@@ -64,22 +64,19 @@ public:
         virtual void SetStatus(ActionStatus value) { status = value;}
     
         // Returns the reason why this action cannot be applied
-        virtual const char* GetCannotNotBeApplied() { return m_cannotBeApplied.c_str();}
-
+        virtual const char* GetCannotNotBeApplied();
+    
         // This method is called to verify if the prerequirements to execute
         // the action are satisfied, such as the software is installed, is
         // the right version, etc.
         virtual void CheckPrerequirements(Action * action){};
     
-        //bool GetSelected() { return selected;}
-        //void SetSelected(bool value) { selected = value;}
-    
 protected:
     
-            void _setStatusNotInstalled();
+        void _setStatusNotInstalled();
     
-            ActionStatus status;
-            string m_cannotBeApplied;
+        ActionStatus status;
+        string m_cannotBeApplied;
 
 /*
         // How we visually will group this action

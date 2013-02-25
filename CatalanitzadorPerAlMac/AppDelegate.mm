@@ -88,13 +88,26 @@ ChromeAction chromeAction;
         return [NSNumber numberWithBool:NO];
 }
 
-
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
     NSString* text;
     Action* action = actions.at(rowIndex);
     text = [NSString stringWithUTF8String: action->GetDescription()];
     [_ActionDescription setTitle:text];
+    
+    const char* cannotBeAppliedText = action->GetCannotNotBeApplied();
+    text = [NSString stringWithUTF8String: cannotBeAppliedText];
+    [_CannotBeAppliedReason setTitle:text];
+    
+    if (strlen(cannotBeAppliedText) > 0)
+    {
+        [_CannotBeApplied setHidden:NO];
+    }
+    else
+    {
+        [_CannotBeApplied setHidden:YES];
+    }
+    
     return TRUE;
 }
 
