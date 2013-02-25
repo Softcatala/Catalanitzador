@@ -41,7 +41,8 @@ public:
     bool IsApplicationRunning();
     
 private:
-    
+
+    bool _isInstalled();
     string _getInstalledLang();
     FirefoxAcceptLanguages* _getAcceptLanguages();
     

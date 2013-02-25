@@ -29,11 +29,6 @@ FirefoxAcceptLanguages::FirefoxAcceptLanguages(string profileRootDir, string loc
 	m_profileRootDir = profileRootDir;
 	m_locale = locale;
 	m_CachedLanguageCode = false;
-    
-    string location;
-    
-    _getPreferencesFile(location);
-    ReadLanguageCode();
 }
 
 void FirefoxAcceptLanguages::_getFirstLanguage(string& regvalue)
@@ -48,7 +43,6 @@ void FirefoxAcceptLanguages::_getFirstLanguage(string& regvalue)
 	regvalue.clear();
 	return;
 }
-
 
 
 bool FirefoxAcceptLanguages::_getProfileLocationFromProfilesIni(string file, string &profileLocation)
@@ -105,11 +99,13 @@ bool FirefoxAcceptLanguages::_getPreferencesFile(string &location)
 
 bool FirefoxAcceptLanguages::IsNeed()
 {
+    bool bNeed = false;
+    
 	if (ReadLanguageCode())
 	{
 		if (_getLanguages()->size() == 0)
 		{
-			return m_locale != "ca";
+			bNeed = m_locale != "ca";
 		}
 		else
 		{
@@ -117,11 +113,12 @@ bool FirefoxAcceptLanguages::IsNeed()
             string firstlang;
             
             _getFirstLanguage(firstlang);
-            NSLog(@"FirefoxAcceptLanguages::IsNeed. Language %s", firstlang.c_str());
-            return firstlang.compare("ca") != 0 && firstlang.compare(0, LOCALES_PREFIX.size(), LOCALES_PREFIX) != 0;
+            
+           bNeed = firstlang.compare("ca") != 0 && firstlang.compare(0, LOCALES_PREFIX.size(), LOCALES_PREFIX) != 0;
 		}
 	}
-	return false;
+    NSLog(@"FirefoxAcceptLanguages::IsNeed. Needed %u", bNeed);
+	return bNeed;
 }
 
 
@@ -244,7 +241,6 @@ void FirefoxAcceptLanguages::_createPrefsString(string& string)
 
 void FirefoxAcceptLanguages::_getPrefLine(string langcode, string& line)
 {
-    
 	line = USER_PREF;
 	line += langcode;
 	line += "\");";
@@ -283,13 +279,13 @@ bool FirefoxAcceptLanguages::_writeLanguageCode(string &langcode)
 			_getPrefLine(langcode, line);
 		}
 
-		writer << line << L"\n";
+		writer << line << "\n";
 	}
 
 	if (written == false)
 	{
 		_getPrefLine(langcode, line);
-		writer << line << L"\n";
+		writer << line << "\n";
 	}
 
 	writer.close();
@@ -312,7 +308,9 @@ void FirefoxAcceptLanguages::_addFireForLocale()
 	{			
 		if (m_locale.size() > 0)
 		{
-			m_languages.push_back(m_locale);
+            // Since we only now that the locale is not CA catalan
+            // Prevent adding 'xx' to the locale list
+			//m_languages.push_back(m_locale);
 		}
 	}
 }

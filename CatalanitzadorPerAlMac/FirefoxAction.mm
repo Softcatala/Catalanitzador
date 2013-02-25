@@ -57,6 +57,23 @@ bool FirefoxAction::IsApplicationRunning()
     return foundApp;
 }
 
+bool FirefoxAction::_isInstalled()
+{
+    string APP_FILE = "/Applications/Firefox.app/Contents/MacOS/firefox";
+    bool installed = false;
+    fstream reader;
+    
+    reader.open(APP_FILE.c_str());
+    
+    if (reader.is_open())
+    {
+        reader.close();
+        installed = true;
+    }
+    
+    NSLog(@"FirefoxAction::_isInstalled. Installed %u", installed);
+    return installed;
+}
 
 string FirefoxAction::_getInstalledLang()
 {
@@ -98,7 +115,7 @@ bool FirefoxAction::IsNeed()
 {
     bool isNeed;
     
-    isNeed = _getAcceptLanguages()->IsNeed();
+    isNeed = _isInstalled() && _getAcceptLanguages()->IsNeed();
     NSLog(@"FirefoxAction::IsNeed. Result %u", isNeed);
     return isNeed;
 }
