@@ -92,6 +92,22 @@ bool SpellCheckerAction::_copyfile(NSString* src, NSString* trg)
     return status == errAuthorizationSuccess;
 }
 
+
+const char* SpellCheckerAction::GetVersion()
+{
+    if (m_version.empty())
+    {
+        char szVersion[1024];
+        OSVersion version;
+        
+        sprintf(szVersion, "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
+        m_version = szVersion;
+    }
+    
+    return m_version.c_str();
+}
+
+
 void SpellCheckerAction::Execute()
 {
     NSString* srcFile;

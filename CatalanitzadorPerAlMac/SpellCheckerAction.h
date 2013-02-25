@@ -38,14 +38,16 @@ public:
     
         virtual bool IsNeed();
         virtual void Execute();
-
+        virtual const char* GetVersion();
+    
 private:
     
         bool requestPermissions();
         NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
         bool _copyfile(NSString* src, NSString* trg);
         bool _isDictionaryInstalled();
-    
+
+        string m_version;
         AuthorizationRef m_authorizationRef;
 };
 
