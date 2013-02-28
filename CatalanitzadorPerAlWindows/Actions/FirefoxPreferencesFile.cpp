@@ -118,6 +118,6 @@ bool FirefoxPreferencesFile::_readValue(wstring location, wstring key, wstring& 
 	}
 
 	reader.close();
-	g_log.Log(L"FirefoxPreferencesFile::_readValue open %s", (wchar_t *) location.c_str());	
+	g_log.Log(L"FirefoxPreferencesFile::_readValue open %s, read value '%s'", (wchar_t *) location.c_str(), (wchar_t *) value.c_str());
 	return true;
 }
