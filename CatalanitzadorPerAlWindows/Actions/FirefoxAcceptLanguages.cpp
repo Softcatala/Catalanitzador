@@ -23,8 +23,8 @@
 #include <cstdio>
 
 FirefoxAcceptLanguages::FirefoxAcceptLanguages(wstring profileRootDir, wstring locale)
+: FirefoxPreferencesFile(profileRootDir)
 {	
-	m_profileRootDir = profileRootDir;
 	m_locale = locale;
 	m_CachedLanguageCode = false;
 }
@@ -44,52 +44,6 @@ void FirefoxAcceptLanguages::_getFirstLanguage(wstring& regvalue)
 
 
 #define	PATHKEY L"Path="
-
-bool FirefoxAcceptLanguages::_getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation)
-{
-	wifstream reader;
-	wstring line;
-	const int pathLen = wcslen(PATHKEY);
-
-	reader.open(file.c_str());
-
-	if (!reader.is_open())	
-		return false;
-
-	while(!(getline(reader, line)).eof())
-	{
-		if (_wcsnicmp(line.c_str(), PATHKEY, pathLen) != 0)
-			continue;
-
-		profileLocation = _getProfileRootDir() + (wchar_t *)&line[pathLen];
-		return true;
-	}
-
-	return false;
-}
-
-void FirefoxAcceptLanguages::_getProfilesIniLocation(wstring &location)
-{	
-	location = _getProfileRootDir();
-	location += L"profiles.ini";
-}
-
-bool FirefoxAcceptLanguages::_getPreferencesFile(wstring &location)
-{
-	wstring profileIni;
-
-	_getProfilesIniLocation(profileIni);
-	
-	if (_getProfileLocationFromProfilesIni(profileIni, location))
-	{	
-		location += L"\\prefs.js";
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 
 bool FirefoxAcceptLanguages::IsNeed()
 {
@@ -134,59 +88,32 @@ void FirefoxAcceptLanguages::_parseLanguage(wstring regvalue)
 	}
 }
 
-
 #define USER_PREF L"user_pref(\"intl.accept_languages\", \""
 
 bool FirefoxAcceptLanguages::ReadLanguageCode()
 {
-	wstring location, line, langcode;
+	wstring location, langcode;
 	wifstream reader;
 
 	if (m_CachedLanguageCode == true)
-		return true;	
+		return true;
 	
 	if (_getPreferencesFile(location) == false)
 	{
-		g_log.Log(L"FirefoxAcceptLanguages::_readLanguageCode. No preferences file found. Firefox is not installed");
+		g_log.Log(L"FirefoxAcceptLanguages::ReadLanguageCode. No preferences file found. Firefox is not installed");
 		return false;
 	}
-	reader.open(location.c_str());
-
-	if (reader.is_open())
+	
+	if (_readValue(location, L"intl.accept_languages", langcode))
 	{
-		int start, end;
-
-		while(!reader.eof())
-		{	
-			getline(reader,line);
-			start = line.find(USER_PREF);
-
-			if (start == wstring::npos)
-				continue;
-
-			start+=wcslen(USER_PREF);
-
-			end = line.find(L"\"", start);
-
-			if (end == wstring::npos)
-				continue;
-
-			langcode = line.substr(start, end - start);
-			_parseLanguage(langcode);
-			break;
-		}
-	}
-	else
-	{
-		g_log.Log(L"FirefoxAcceptLanguages::_readLanguageCode cannot open %s", (wchar_t *) location.c_str());
-		return false;
+		_parseLanguage(langcode);
+		m_CachedLanguageCode = true;
+		return true;
 	}
 
-	reader.close();
-	g_log.Log(L"FirefoxAcceptLanguages::_readLanguageCode open %s", (wchar_t *) location.c_str());
-	m_CachedLanguageCode = true;
-	return true;
+	return false;
 }
+
 void FirefoxAcceptLanguages::_addCatalanToArrayAndRemoveOldIfExists()
 {
 	vector<wstring>::iterator it;

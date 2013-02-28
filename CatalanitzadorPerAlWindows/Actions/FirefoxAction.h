@@ -53,8 +53,12 @@ protected:
 		bool _readVersionAndLocale();
 		wstring _getLocale() {return m_locale;}
 		bool _isAcceptLanguageOk();
+		void _readInstallPath(wstring& path);
 
 private:
+
+		bool _isSupportedChannel();
+		wstring _getVersionAndLocaleFromRegistry();
 		bool _isLocaleInstalled();
 		void _extractLocaleAndVersion(wstring version);
 		FirefoxAcceptLanguages * _getAcceptLanguages();

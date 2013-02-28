@@ -19,38 +19,19 @@
 
 #pragma once
 
-#include <vector>
-#include <algorithm>
-#include "FirefoxPreferencesFile.h"
-
-using namespace std;
-
-class FirefoxAcceptLanguages : FirefoxPreferencesFile
+class FirefoxPreferencesFile
 {
-public:		
-		FirefoxAcceptLanguages(wstring profileRootDir, wstring locale);
-
-		bool Execute();
-		bool IsNeed();	
-		bool ReadLanguageCode();
-
 protected:
 
-		wstring* _getLocale() {return &m_locale;}
-		vector <wstring> * _getLanguages() {return &m_languages;}
-		
+		FirefoxPreferencesFile(wstring profileRootDir);
+
+		bool _readValue(wstring location, wstring key, wstring& value);
+		wstring _getProfileRootDir() {return m_profileRootDir;}
+		void _getProfilesIniLocation(wstring &location);
+		bool _getPreferencesFile(wstring &location);
+		bool _getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation);
+
 private:
-
-		void _getFirstLanguage(wstring& regvalue);		
-		void _createPrefsString(wstring& string);
-		void _addCatalanToArrayAndRemoveOldIfExists();
-		bool _writeLanguageCode(wstring &langcode);
-		void _getPrefLine(wstring langcode, wstring& line);
-		void _addFireForLocale();
-		void _parseLanguage(wstring regvalue);
-		vector <wstring> m_languages;
-		wstring m_locale;
-
-		bool m_CachedLanguageCode;		
+		wstring m_profileRootDir;
 };
 

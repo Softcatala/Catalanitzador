@@ -683,11 +683,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxChannel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxChannel.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxMozillaServer.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxMozillaServer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxPreferencesFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxPreferencesFile.h"
 				>
 			</File>
 			<File

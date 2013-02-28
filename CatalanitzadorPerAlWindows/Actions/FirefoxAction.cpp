@@ -20,6 +20,8 @@
 #include "stdafx.h"
 #include "FirefoxAction.h"
 #include "FirefoxMozillaServer.h"
+#include "FirefoxChannel.h"
+
 
 FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
@@ -208,6 +210,30 @@ void FirefoxAction::_extractLocaleAndVersion(wstring version)
 	}
 }
 
+#define FIREFOX_REGKEY L"SOFTWARE\\Mozilla\\Mozilla Firefox"
+
+wstring FirefoxAction::_getVersionAndLocaleFromRegistry()
+{
+	wstring version;
+
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false) == false)
+	{
+		g_log.Log(L"FirefoxAction::_getVersionAndLocaleFromRegistry. Cannot open registry key");
+		return version;
+	}
+	
+	wchar_t szVersion[1024];
+	
+	if (m_registry->GetString(L"CurrentVersion", szVersion, sizeof(szVersion)))
+	{
+		g_log.Log(L"FirefoxAction::_getVersionAndLocaleFromRegistry. Firefox version %s", (wchar_t*) szVersion);
+		version = szVersion;
+	}
+
+	m_registry->Close();
+	return version;
+}
+
 bool FirefoxAction::_readVersionAndLocale()
 {
 	if (m_version.length() > 0)
@@ -215,23 +241,49 @@ bool FirefoxAction::_readVersionAndLocale()
 		return true;
 	}
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Mozilla\\Mozilla Firefox", false) == false)
+	wstring version;
+	version = _getVersionAndLocaleFromRegistry();
+	_extractLocaleAndVersion(version);
+
+	return m_locale.empty() != true;
+}
+
+void FirefoxAction::_readInstallPath(wstring& path)
+{
+	wstring version;
+
+	version = _getVersionAndLocaleFromRegistry();
+
+	if (version.empty())
+		return;
+
+	wstring key(FIREFOX_REGKEY);
+	key += L"\\" + version + L"\\Main";
+
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false) == false)
 	{
-		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Cannot open registry key");
-		return false;
+		g_log.Log(L"FirefoxAction::_readInstallPath. Cannot open registry key");
+		return;
 	}
 	
-	wchar_t szVersion[1024];
+	wchar_t szPath[MAX_PATH];
 	
-	if (m_registry->GetString(L"CurrentVersion", szVersion, sizeof(szVersion)))
+	if (m_registry->GetString(L"Install Directory", szPath, sizeof(szPath)))
 	{
-		_extractLocaleAndVersion(szVersion);
-		
-		g_log.Log(L"FirefoxAction::_readVersionAndLocale. Firefox version %s, version %s, locale %s", 
-			(wchar_t*) szVersion, (wchar_t*) m_version.c_str(), (wchar_t*) m_locale.c_str());
+		path = szPath;
 	}
 	m_registry->Close();
-	return m_locale.empty() != true;
+}
+
+bool FirefoxAction::_isSupportedChannel()
+{
+	bool supported;
+	wstring path;
+	_readInstallPath(path);
+
+	FirefoxChannel channel(path);
+	supported = channel.GetChannel() == L"release";
+	return supported;
 }
 
 bool FirefoxAction::_isLocaleInstalled()
@@ -240,6 +292,12 @@ bool FirefoxAction::_isLocaleInstalled()
 
 	_readVersionAndLocale();
 	isInstalled = m_locale == L"ca";
+
+	if (isInstalled == false)
+	{
+		// If the channel is not supported, for now let's say that is installed
+		isInstalled = _isSupportedChannel() == false;
+	}
 
 	g_log.Log(L"FirefoxAction::_isLocaleInstalled: %u", (wchar_t*) isInstalled);
 	return isInstalled;
