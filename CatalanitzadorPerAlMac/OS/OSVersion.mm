@@ -33,13 +33,15 @@ void OSVersion::_readVersions()
     Gestalt(gestaltSystemVersionBugFix, &m_bugfix);
 }
 
+#define MAC_SYSTEM 1
+
 void OSVersion::Serialize(ostream* stream)
 {
     char szText[2048];
     char szAsciiName[2048];
     
     sprintf(szAsciiName, "Mac OS %u.%u.%u", m_major, m_minor, m_bugfix);
-    sprintf(szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s'/>\r\n",
+    sprintf(szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s' System='%u'/>\r\n",
             m_major,
             m_minor,
             m_bugfix,
@@ -47,7 +49,8 @@ void OSVersion::Serialize(ostream* stream)
             0,
             0,
             0,
-            szAsciiName);
+            szAsciiName,
+            MAC_SYSTEM);
     
     *stream << szText;
 }

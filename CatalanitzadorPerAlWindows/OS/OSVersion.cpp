@@ -80,6 +80,8 @@ bool OSVersion::IsWindows64Bits()
 	return bIsWow64 != FALSE;
 }
 
+#define WINDOWS_SYSTEM 0
+
 void OSVersion::Serialize(ostream* stream)
 {
 	char szText[2048];
@@ -94,7 +96,7 @@ void OSVersion::Serialize(ostream* stream)
 	name = GetVersionText(GetVersion());
 	WideCharToMultiByte(CP_ACP, 0, name, wcslen(name) + 1, szAsciiName, sizeof(szAsciiName), 0, 0);
 
-	sprintf_s(szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s'/>\r\n",
+	sprintf_s(szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s' System='%u'/>\r\n",
 		osvi.dwMajorVersion, 
 		osvi.dwMinorVersion,
 		osvi.wServicePackMajor,
@@ -102,7 +104,8 @@ void OSVersion::Serialize(ostream* stream)
 		osvi.wSuiteMask,
 		osvi.wProductType,
 		IsWindows64Bits() == true ? 64 : 32,
-		szAsciiName);
+		szAsciiName,
+		WINDOWS_SYSTEM);
 
 	*stream << szText;
 }
