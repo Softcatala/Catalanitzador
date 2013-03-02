@@ -24,7 +24,6 @@ FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManag
 {
 	m_registry = registry;
 	m_runner = runner;
-	m_szFilename[0] = NULL;
 	m_cachedVersionAndLocale = false;
 	m_firefoxLangPackAction = NULL;
 	m_firefoxAcceptLanguagesAction = NULL;

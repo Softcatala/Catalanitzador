@@ -70,7 +70,6 @@ private:
 		wstring m_version;
 		FirefoxLangPackAction* m_firefoxLangPackAction;
 		FirefoxAcceptLanguagesAction* m_firefoxAcceptLanguagesAction;
-		wchar_t m_szFilename[MAX_PATH];
 		bool m_cachedVersionAndLocale;
 		bool m_doFirefoxLangPackAction;
 		bool m_doFirefoxAcceptLanguagesAction;
