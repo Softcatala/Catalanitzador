@@ -103,8 +103,11 @@ void FirefoxAction::SetStatus(ActionStatus value)
 	Action::SetStatus(value);
 	if (value == Selected || value == NotSelected)
 	{
-		_getLangPackAction()->SetStatus(value);
-		_getAcceptLanguagesAction()->SetStatus(value);
+		if (_getLangPackAction()->GetStatus() == Selected || _getLangPackAction()->GetStatus() == NotSelected)
+			_getLangPackAction()->SetStatus(value);
+
+		if (_getAcceptLanguagesAction()->GetStatus() == Selected || _getAcceptLanguagesAction()->GetStatus() == NotSelected)
+			_getAcceptLanguagesAction()->SetStatus(value);
 	}
 }
 
