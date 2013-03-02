@@ -18,15 +18,15 @@
  */
 
 #include "stdafx.h"
-#include "FirefoxAcceptLanguageAction.h"
+#include "FirefoxAcceptLanguagesAction.h"
 
-FirefoxAcceptLanguageAction::FirefoxAcceptLanguageAction(wstring profileRootDir, wstring locale, wstring version) 
+FirefoxAcceptLanguagesAction::FirefoxAcceptLanguagesAction(wstring profileRootDir, wstring locale, wstring version) 
 : Action(), m_acceptLanguages(profileRootDir, locale)
 {
 	m_version = version;
 }
 
-bool FirefoxAcceptLanguageAction::IsNeed()
+bool FirefoxAcceptLanguagesAction::IsNeed()
 {
 	bool bNeed;
 
@@ -42,11 +42,11 @@ bool FirefoxAcceptLanguageAction::IsNeed()
 			break;
 	}
 
-	g_log.Log(L"FirefoxAcceptLanguageAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());	
+	g_log.Log(L"FirefoxAcceptLanguagesAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());	
 	return bNeed;
 }
 
-void FirefoxAcceptLanguageAction::Execute()
+void FirefoxAcceptLanguagesAction::Execute()
 {	
 	SetStatus(InProgress);
 	m_acceptLanguages.Execute();
@@ -61,7 +61,7 @@ void FirefoxAcceptLanguageAction::Execute()
 	}
 }
 
-bool FirefoxAcceptLanguageAction::_isAcceptLanguageOk()
+bool FirefoxAcceptLanguagesAction::_isAcceptLanguageOk()
 {
 	bool isOk = false;
 
@@ -73,11 +73,11 @@ bool FirefoxAcceptLanguageAction::_isAcceptLanguageOk()
 		}
 	}
 
-	g_log.Log(L"FirefoxAcceptLanguageAction::_isAcceptLanguageOk: %u", (wchar_t*) isOk);
+	g_log.Log(L"FirefoxAcceptLanguagesAction::_isAcceptLanguageOk: %u", (wchar_t*) isOk);
 	return isOk;	
 }
 
-void FirefoxAcceptLanguageAction::CheckPrerequirements(Action * action)
+void FirefoxAcceptLanguagesAction::CheckPrerequirements(Action * action)
 {	
 	if (_isAcceptLanguageOk())
 	{

@@ -24,7 +24,7 @@
 #include "Runner.h"
 #include "ActionExecution.h"
 #include "FirefoxLangPackAction.h"
-#include "FirefoxAcceptLanguageAction.h"
+#include "FirefoxAcceptLanguagesAction.h"
 
 using namespace std;
 
@@ -62,16 +62,16 @@ private:
 		wstring _getVersionAndLocaleFromRegistry();
 		void _extractLocaleAndVersion(wstring version);
 		FirefoxLangPackAction * _getLangPackAction();
-		FirefoxAcceptLanguageAction * _getAcceptLanguageAction();
+		FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction();
 
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wstring m_locale;
 		wstring m_version;
 		FirefoxLangPackAction* m_firefoxLangPackAction;
-		FirefoxAcceptLanguageAction* m_firefoxAcceptLanguageAction;
+		FirefoxAcceptLanguagesAction* m_firefoxAcceptLanguagesAction;
 		wchar_t m_szFilename[MAX_PATH];
 		bool m_cachedVersionAndLocale;
 		bool m_doFirefoxLangPackAction;
-		bool m_doFirefoxAcceptLanguageAction;
+		bool m_doFirefoxAcceptLanguagesAction;
 };

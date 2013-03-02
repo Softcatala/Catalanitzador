@@ -27,10 +27,10 @@
 
 using namespace std;
 
-class FirefoxAcceptLanguageAction : public Action
+class FirefoxAcceptLanguagesAction : public Action
 {
 public:
-		FirefoxAcceptLanguageAction(wstring profileRootDir, wstring locale, wstring version);
+		FirefoxAcceptLanguagesAction(wstring profileRootDir, wstring locale, wstring version);
 
 		virtual wchar_t* GetName() {return L""; }
 		virtual wchar_t* GetDescription() {return L""; }
