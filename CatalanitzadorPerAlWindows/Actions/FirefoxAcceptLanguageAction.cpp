@@ -20,10 +20,9 @@
 #include "stdafx.h"
 #include "FirefoxAcceptLanguageAction.h"
 
-FirefoxAcceptLanguageAction::FirefoxAcceptLanguageAction(IRegistry* registry, wstring profileRootDir, wstring locale, wstring version) 
+FirefoxAcceptLanguageAction::FirefoxAcceptLanguageAction(wstring profileRootDir, wstring locale, wstring version) 
 : Action(), m_acceptLanguages(profileRootDir, locale)
 {
-	m_registry = registry;
 	m_version = version;
 }
 

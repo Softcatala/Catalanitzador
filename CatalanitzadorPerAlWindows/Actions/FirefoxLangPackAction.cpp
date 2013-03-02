@@ -36,6 +36,11 @@ FirefoxLangPackAction::~FirefoxLangPackAction()
 {
 	if (m_mozillaServer)
 		delete m_mozillaServer;
+
+	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_szFilename);
+	}
 }
 
 FirefoxMozillaServer * FirefoxLangPackAction::_getMozillaServer()

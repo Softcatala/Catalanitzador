@@ -19,8 +19,6 @@
 
 #include "stdafx.h"
 #include "FirefoxAction.h"
-#include "FirefoxMozillaServer.h"
-#include "FirefoxChannel.h"
 
 FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
@@ -82,7 +80,7 @@ FirefoxAcceptLanguageAction * FirefoxAction::_getAcceptLanguageAction()
 {
 	if (m_firefoxAcceptLanguageAction == NULL)
 	{
-		m_firefoxAcceptLanguageAction = new FirefoxAcceptLanguageAction(m_registry, _getProfileRootDir(), _getLocale(), GetVersion());
+		m_firefoxAcceptLanguageAction = new FirefoxAcceptLanguageAction(_getProfileRootDir(), _getLocale(), GetVersion());
 	}
 	return m_firefoxAcceptLanguageAction;
 }
@@ -110,7 +108,6 @@ void FirefoxAction::SetStatus(ActionStatus value)
 	}
 }
 
-
 wstring FirefoxAction::_getProfileRootDir()
 {
 	wstring location;
@@ -124,7 +121,14 @@ wstring FirefoxAction::_getProfileRootDir()
 
 bool FirefoxAction::IsDownloadNeed()
 {
-	return _getLangPackAction()->IsDownloadNeed();
+	if (m_doFirefoxLangPackAction)
+	{
+		return _getLangPackAction()->IsDownloadNeed();
+	}
+	else
+	{
+		return false;
+	}
 }
 
 bool FirefoxAction::Download(ProgressStatus progress, void *data)

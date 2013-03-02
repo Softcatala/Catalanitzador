@@ -30,7 +30,7 @@ using namespace std;
 class FirefoxAcceptLanguageAction : public Action
 {
 public:
-		FirefoxAcceptLanguageAction(IRegistry* registry, wstring profileRootDir, wstring locale, wstring version);
+		FirefoxAcceptLanguageAction(wstring profileRootDir, wstring locale, wstring version);
 
 		virtual wchar_t* GetName() {return L""; }
 		virtual wchar_t* GetDescription() {return L""; }
@@ -48,8 +48,7 @@ protected:
 		bool _isAcceptLanguageOk();
 
 private:
-		
-		IRegistry* m_registry;
+
 		FirefoxAcceptLanguages m_acceptLanguages;
 		wstring m_version;
 };

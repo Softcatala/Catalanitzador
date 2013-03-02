@@ -21,7 +21,7 @@
 
 #include "Action.h"
 #include "IRegistry.h"
-#include "Runner.h"
+#include "IRunner.h"
 #include "ActionExecution.h"
 #include "FirefoxAcceptLanguages.h"
 #include "FirefoxMozillaServer.h"

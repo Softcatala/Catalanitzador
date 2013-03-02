@@ -59,7 +59,6 @@ protected:
 
 private:
 
-		
 		wstring _getVersionAndLocaleFromRegistry();
 		void _extractLocaleAndVersion(wstring version);
 		FirefoxLangPackAction * _getLangPackAction();
