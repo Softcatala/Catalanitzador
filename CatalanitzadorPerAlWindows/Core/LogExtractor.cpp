@@ -158,7 +158,6 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 
 void LogExtractor::ExtractLines()
 {
-	bool found = false;
 	int lines = 0;	
 	FILE* stream;
 	const int BUFFER_ELEMENTS = 16384;

@@ -48,7 +48,8 @@ public:
 #define CreateAdobeReaderAction \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	AdobeReaderActionTest adobeAction(&registryMockobj, &runnerMock, &DownloadManager());
+	DownloadManager downloadManager; \
+	AdobeReaderActionTest adobeAction(&registryMockobj, &runnerMock, &downloadManager);
 
 void _setMockForVersion(RegistryMock& registryMockobj, const wchar_t* version)
 {
@@ -128,7 +129,6 @@ TEST(AdobeReaderActionTest, IsNeed_Yes)
 TEST(AdobeReaderActionTest, IsNeed_No_NotInstalled)
 {
 	CreateAdobeReaderAction;
-	const wchar_t* ADOBEREADER_VERSION = L"9.5";	
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"Software\\Adobe\\Acrobat Reader"), false)).WillRepeatedly(Return(false));
 	
