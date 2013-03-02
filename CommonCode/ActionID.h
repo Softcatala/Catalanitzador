@@ -39,5 +39,6 @@ enum ActionID
 	Skype = 13,
 	iTunes = 14,
     MacSystemAction = 15,
-    MacSpellChecker = 16
+    MacSpellChecker = 16,
+	FirefoxLangPack = 17
 };

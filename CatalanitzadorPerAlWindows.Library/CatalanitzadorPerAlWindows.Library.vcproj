@@ -399,6 +399,38 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxAcceptLanguages.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxAcceptLanguages.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxChannel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxChannel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxMozillaServer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxMozillaServer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxPreferencesFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxPreferencesFile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Core\Guid.cpp"
 				>
 			</File>
@@ -667,11 +699,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguages.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguageAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguages.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguageAction.h"
 				>
 			</File>
 			<File
@@ -683,27 +715,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxChannel.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxLangPackAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxChannel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxMozillaServer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxMozillaServer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxPreferencesFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxPreferencesFile.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxLangPackAction.h"
 				>
 			</File>
 			<File

@@ -316,10 +316,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Actions\FirefoxAcceptLanguagesTest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Actions\FirefoxActionTest.cpp"
 				>
 			</File>
@@ -365,6 +361,10 @@
 			</File>
 			<File
 				RelativePath=".\Core\CommandLineTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\FirefoxAcceptLanguagesTest.cpp"
 				>
 			</File>
 			<File

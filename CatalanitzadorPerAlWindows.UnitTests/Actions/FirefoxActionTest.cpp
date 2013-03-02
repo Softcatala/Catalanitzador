@@ -39,8 +39,8 @@ class FirefoxActionForTest : public FirefoxAction
 #define SetLocale(registryMockobj, locale) \
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(true));  \
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).  \
-	WillRepeatedly(DoAll(SetArgCharStringPar2(locale), Return(true)));
-
+		WillRepeatedly(DoAll(SetArgCharStringPar2(locale), Return(true))); 
+ 
 
 TEST(FirefoxActionTest, _readVersionAndLocale)
 {
@@ -52,5 +52,5 @@ TEST(FirefoxActionTest, _readVersionAndLocale)
 
 	firefoxAction._readVersionAndLocale();
 	EXPECT_THAT(firefoxAction.GetVersion(), StrCaseEq(L"12.0"));
-	EXPECT_THAT(firefoxAction._getLocale(), StrCaseEq(L"ca"));
+	EXPECT_THAT(firefoxAction._getLocale(), StrCaseEq(L"ca"));	
 }

@@ -22,25 +22,27 @@
 #include "FirefoxMozillaServer.h"
 #include "FirefoxChannel.h"
 
-
 FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
 	m_registry = registry;
 	m_runner = runner;
-	m_acceptLanguages = NULL;
-	m_mozillaServer = NULL;
 	m_szFilename[0] = NULL;
+	m_cachedVersionAndLocale = false;
+	m_firefoxLangPackAction = NULL;
+	m_firefoxAcceptLanguageAction = NULL;
+	m_doFirefoxLangPackAction = false;
+	m_doFirefoxAcceptLanguageAction = false;
 
 	_addExecutionProcess(ExecutionProcess(L"firefox.exe", L"", true));
 }
 
 FirefoxAction::~FirefoxAction()
 {
-	if (m_acceptLanguages)
-		delete m_acceptLanguages;
+	if (m_firefoxLangPackAction)
+		delete m_firefoxLangPackAction;
 
-	if (m_mozillaServer)
-		delete m_mozillaServer;
+	if (m_firefoxAcceptLanguageAction)
+		delete m_firefoxAcceptLanguageAction;
 }
 
 wchar_t* FirefoxAction::GetName()
@@ -64,44 +66,50 @@ void FirefoxAction::FinishExecution(ExecutionProcess process)
 	}
 }
 
-FirefoxAcceptLanguages * FirefoxAction::_getAcceptLanguages()
+FirefoxLangPackAction * FirefoxAction::_getLangPackAction()
 {
-	if (m_acceptLanguages == NULL)
+	if (m_firefoxLangPackAction == NULL)
 	{
-		_readVersionAndLocale();
-		m_acceptLanguages = new FirefoxAcceptLanguages(_getProfileRootDir(), m_locale);
+		wstring path;
+
+		_readInstallPath(path);		
+		m_firefoxLangPackAction = new FirefoxLangPackAction(m_runner, path, _getLocale(), GetVersion(), m_downloadManager);
 	}
-	return m_acceptLanguages;
+	return m_firefoxLangPackAction;
 }
 
-FirefoxMozillaServer * FirefoxAction::_getMozillaServer()
+FirefoxAcceptLanguageAction * FirefoxAction::_getAcceptLanguageAction()
 {
-	if (m_mozillaServer == NULL)
+	if (m_firefoxAcceptLanguageAction == NULL)
 	{
-		_readVersionAndLocale();
-		m_mozillaServer = new FirefoxMozillaServer(m_downloadManager, GetVersion());
+		m_firefoxAcceptLanguageAction = new FirefoxAcceptLanguageAction(m_registry, _getProfileRootDir(), _getLocale(), GetVersion());
 	}
-	return m_mozillaServer;
+	return m_firefoxAcceptLanguageAction;
 }
 
 bool FirefoxAction::IsNeed()
 {
 	bool bNeed;
 
-	switch(GetStatus())
-	{		
-		case NotInstalled:
-		case AlreadyApplied:
-		case CannotBeApplied:
-			bNeed = false;
-			break;
-		default:
-			bNeed = true;
-			break;
-	}
+	m_doFirefoxLangPackAction = _getLangPackAction()->IsNeed();
+	m_doFirefoxAcceptLanguageAction = _getAcceptLanguageAction()->IsNeed();
+
+	bNeed = m_doFirefoxLangPackAction || m_doFirefoxAcceptLanguageAction;
+
 	g_log.Log(L"FirefoxAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());	
 	return bNeed;
 }
+
+void FirefoxAction::SetStatus(ActionStatus value)
+{
+	Action::SetStatus(value);
+	if (value == Selected || value == NotSelected)
+	{
+		_getLangPackAction()->SetStatus(value);
+		_getAcceptLanguageAction()->SetStatus(value);
+	}
+}
+
 
 wstring FirefoxAction::_getProfileRootDir()
 {
@@ -116,64 +124,50 @@ wstring FirefoxAction::_getProfileRootDir()
 
 bool FirefoxAction::IsDownloadNeed()
 {
-	return _isLocaleInstalled() == false;
+	return _getLangPackAction()->IsDownloadNeed();
 }
 
 bool FirefoxAction::Download(ProgressStatus progress, void *data)
 {
-	wstring sha1;
-	Sha1Sum sha1sum;
-	ConfigurationFileActionDownload downloadVersion;
-	
-	downloadVersion = _getMozillaServer()->GetConfigurationFileActionDownload();
-
-	if (downloadVersion.IsEmpty())
-	{
-		g_log.Log(L"FirefoxAction::Download. ConfigurationFileActionDownload empty");
-		return true;
-	}
-
-	sha1 = _getMozillaServer()->GetSha1FileSignature(downloadVersion);
-	sha1sum.SetFromString(sha1);
-	
-	GetTempPath(MAX_PATH, m_szFilename);
-	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
-	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, sha1sum, progress, data);
+	return _getLangPackAction()->Download(progress, data);
 }
 
 void FirefoxAction::Execute()
 {	
-	wchar_t szParams[MAX_PATH] = L"";
-	wchar_t szApp[MAX_PATH] = L"";
-
+	if (m_doFirefoxLangPackAction)
+	{
+		_getLangPackAction()->Execute();
+	}
 	SetStatus(InProgress);
-	
-	wcscpy_s(szApp, m_szFilename);
-	wcscat_s(szApp, L" /s");	
-	g_log.Log(L"FirefoxAction::Execute '%s' with params '%s'", szApp, szParams);
-	m_runner->Execute(NULL, szApp);
 }
 
 ActionStatus FirefoxAction::GetStatus()
 {
 	if (status == InProgress)
 	{
-		if (m_runner->IsRunning())
+		if (m_doFirefoxLangPackAction && _getLangPackAction()->GetStatus() == InProgress)
 			return InProgress;
 
-		m_version.clear(); // Invalidate cache
-		if (_isAcceptLanguageOk() == false)
+		// Re-read locale after language pack
+		if (m_doFirefoxLangPackAction)
 		{
-			_getAcceptLanguages()->Execute();
+			m_cachedVersionAndLocale = false;
+			_getLangPackAction()->SetLocaleAndUpdateStatus(_getLocale());
 		}
 
-		if (_isAcceptLanguageOk() && _isLocaleInstalled())
+		if (m_doFirefoxAcceptLanguageAction)
 		{
-			SetStatus(Successful);
+			_getAcceptLanguageAction()->Execute();
+		}
+
+		if (m_doFirefoxLangPackAction && _getLangPackAction()->GetStatus() != Successful ||
+			m_doFirefoxAcceptLanguageAction && _getAcceptLanguageAction()->GetStatus() != Successful)			
+		{
+			SetStatus(FinishedWithError);
 		}
 		else
 		{
-			SetStatus(FinishedWithError);
+			SetStatus(Successful);
 		}
 		
 		g_log.Log(L"FirefoxAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
@@ -183,8 +177,14 @@ ActionStatus FirefoxAction::GetStatus()
 
 const wchar_t* FirefoxAction::GetVersion()
 {
-	_readVersionAndLocale();
+	_readVersionAndLocale();	
 	return m_version.c_str();
+}
+
+wstring FirefoxAction::_getLocale()
+{	
+	_readVersionAndLocale();	
+	return m_locale;
 }
 
 void FirefoxAction::_extractLocaleAndVersion(wstring version)
@@ -234,18 +234,15 @@ wstring FirefoxAction::_getVersionAndLocaleFromRegistry()
 	return version;
 }
 
-bool FirefoxAction::_readVersionAndLocale()
+void FirefoxAction::_readVersionAndLocale()
 {
-	if (m_version.length() > 0)
-	{
-		return true;
-	}
+	if (m_cachedVersionAndLocale)
+		return;
 
 	wstring version;
 	version = _getVersionAndLocaleFromRegistry();
 	_extractLocaleAndVersion(version);
-
-	return m_locale.empty() != true;
+	m_cachedVersionAndLocale = true;
 }
 
 void FirefoxAction::_readInstallPath(wstring& path)
@@ -275,63 +272,36 @@ void FirefoxAction::_readInstallPath(wstring& path)
 	m_registry->Close();
 }
 
-bool FirefoxAction::_isSupportedChannel()
+void FirefoxAction::Serialize(ostream* stream)
 {
-	bool supported;
-	wstring path;
-	_readInstallPath(path);
-
-	FirefoxChannel channel(path);
-	supported = channel.GetChannel() == L"release";
-	return supported;
-}
-
-bool FirefoxAction::_isLocaleInstalled()
-{
-	bool isInstalled;
-
-	_readVersionAndLocale();
-	isInstalled = m_locale == L"ca";
-
-	if (isInstalled == false)
-	{
-		// If the channel is not supported, for now let's say that is installed
-		isInstalled = _isSupportedChannel() == false;
-	}
-
-	g_log.Log(L"FirefoxAction::_isLocaleInstalled: %u", (wchar_t*) isInstalled);
-	return isInstalled;
-}
-
-bool FirefoxAction::_isAcceptLanguageOk()
-{
-	bool isOk = false;
-
-	if (_getAcceptLanguages()->ReadLanguageCode())
-	{
-		if (_getAcceptLanguages()->IsNeed() == false)
-		{			
-			isOk = true;
-		}
-	}
-
-	g_log.Log(L"FirefoxAction::_isAcceptLanguageOk: %u", (wchar_t*) isOk);
-	return isOk;	
+	_getLangPackAction()->Serialize(stream);
+	_getAcceptLanguageAction()->Serialize(stream);
 }
 
 void FirefoxAction::CheckPrerequirements(Action * action)
 {
-	_readVersionAndLocale();
-
-	if (_getAcceptLanguages()->ReadLanguageCode() == false)
+	if (wcslen(GetVersion()) == 0)
 	{
 		_setStatusNotInstalled();
 		return;
 	}
 
-	if (_isAcceptLanguageOk() && _isLocaleInstalled())
+	_getLangPackAction()->CheckPrerequirements(action);
+	_getAcceptLanguageAction()->CheckPrerequirements(action);
+
+	if (_getLangPackAction()->GetStatus() == AlreadyApplied &&
+		_getAcceptLanguageAction()->GetStatus() == AlreadyApplied)
 	{
-		SetStatus(AlreadyApplied);
-		return;
+			SetStatus(AlreadyApplied);
+			return;
+	}
+
+	// We do not have a good way of communication when one subactions cannot be applied
+	// but the other can
+	if (_getLangPackAction()->GetStatus() == CannotBeApplied &&
+		_getAcceptLanguageAction()->GetStatus() == AlreadyApplied)
+	{
+			SetStatus(AlreadyApplied);
+			return;
 	}
 }

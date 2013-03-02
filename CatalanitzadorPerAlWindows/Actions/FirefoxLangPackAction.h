@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,56 +23,43 @@
 #include "IRegistry.h"
 #include "Runner.h"
 #include "ActionExecution.h"
-#include "FirefoxLangPackAction.h"
-#include "FirefoxAcceptLanguageAction.h"
+#include "FirefoxAcceptLanguages.h"
+#include "FirefoxMozillaServer.h"
 
 using namespace std;
 
-class FirefoxAction : public Action, public ActionExecution
+class FirefoxLangPackAction : public Action
 {
 public:
-		FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
-		~FirefoxAction();
+		FirefoxLangPackAction(IRunner* runner, wstring installPath, wstring locale, wstring version, DownloadManager* downloadManager);
+		~FirefoxLangPackAction();
 
-		virtual wchar_t* GetName();
-		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return NoAction;}
+		virtual wchar_t* GetName() {return L""; }
+		virtual wchar_t* GetDescription() {return L""; }
+		virtual ActionID GetID() const { return FirefoxLangPack;}
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool IsDownloadNeed();
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
-		virtual void Execute();
-		virtual const wchar_t* GetVersion();		
-		virtual void FinishExecution(ExecutionProcess process);
+		virtual void Execute();				
 		virtual void CheckPrerequirements(Action * action);
+		virtual bool IsVisible() {return false; }
 		virtual ActionStatus GetStatus();
-		virtual void Serialize(ostream* stream);
-		virtual void SetStatus(ActionStatus value);
-		
-protected:
-
-		wstring _getLocale();	
-		wstring _getProfileRootDir();
-		void _readVersionAndLocale();		
-		bool _isAcceptLanguageOk();
-		void _readInstallPath(wstring& path);
+		virtual const wchar_t* GetVersion() {return m_version.c_str();}
+		void SetLocaleAndUpdateStatus(wstring locale);
 
 private:
 
-		
+		bool _isSupportedChannel();
 		wstring _getVersionAndLocaleFromRegistry();
+		bool _isLocaleInstalled();
 		void _extractLocaleAndVersion(wstring version);
-		FirefoxLangPackAction * _getLangPackAction();
-		FirefoxAcceptLanguageAction * _getAcceptLanguageAction();
-
-		IRegistry* m_registry;
+		FirefoxMozillaServer * _getMozillaServer();
+		
 		IRunner* m_runner;
 		wstring m_locale;
 		wstring m_version;
-		FirefoxLangPackAction* m_firefoxLangPackAction;
-		FirefoxAcceptLanguageAction* m_firefoxAcceptLanguageAction;
+		wstring m_installPath;		
+		FirefoxMozillaServer* m_mozillaServer;
 		wchar_t m_szFilename[MAX_PATH];
-		bool m_cachedVersionAndLocale;
-		bool m_doFirefoxLangPackAction;
-		bool m_doFirefoxAcceptLanguageAction;
 };
