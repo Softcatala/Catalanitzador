@@ -167,6 +167,14 @@ void FirefoxLangPackAction::CheckPrerequirements(Action * action)
 
 	if (_isSupportedChannel() == false)
 	{
+		g_log.Log(L"FirefoxLangPackAction::CheckPrerequirements. Unsupported channel");
+		SetStatus(CannotBeApplied);
+		return;
+	}
+
+	if (_getMozillaServer()->GetConfigurationFileActionDownload().IsEmpty())
+	{
+		g_log.Log(L"FirefoxLangPackAction::CheckPrerequirements. Version with no download");
 		SetStatus(CannotBeApplied);
 		return;
 	}

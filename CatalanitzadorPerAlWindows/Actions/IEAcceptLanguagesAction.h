@@ -36,8 +36,8 @@ public:
 		
 		IEAcceptLanguagesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion);
 
-		virtual wchar_t* GetName();
-		virtual wchar_t* GetDescription();
+		virtual wchar_t* GetName() {return L"";}
+		virtual wchar_t* GetDescription() {return L"";}
 		virtual ActionID GetID() const { return IEAcceptLanguage;};
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool IsDownloadNeed() {return false;}
@@ -45,6 +45,7 @@ public:
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
+		virtual bool IsVisible() {return false; }
 
 protected:
 

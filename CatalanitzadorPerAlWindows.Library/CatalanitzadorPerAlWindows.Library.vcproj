@@ -699,11 +699,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguageAction.cpp"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguagesAction.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguageAction.h"
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguagesAction.h"
 				>
 			</File>
 			<File
@@ -728,6 +728,14 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\IEAcceptLanguagesAction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\IEAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\IEAction.h"
 				>
 			</File>
 			<File

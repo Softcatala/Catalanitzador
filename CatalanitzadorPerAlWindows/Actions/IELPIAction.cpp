@@ -50,15 +50,6 @@ IELPIAction::~IELPIAction()
 	}
 }
 
-wchar_t* IELPIAction::GetName()
-{
-	return _getStringFromResourceIDName(IDS_IELPIACTION_NAME, szName);
-}
-
-wchar_t* IELPIAction::GetDescription()
-{
-	return _getStringFromResourceIDName(IDS_IELPIACTION_DESCRIPTION, szDescription);
-}
 
 LPCWSTR IELPIAction::GetLicenseID()
 {

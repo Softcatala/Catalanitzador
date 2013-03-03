@@ -27,16 +27,6 @@ IEAcceptLanguagesAction::IEAcceptLanguagesAction(IRegistry* registry, IFileVersi
 	m_OSVersion = OSVersion;
 }
 
-wchar_t* IEAcceptLanguagesAction::GetName()
-{
-	return _getStringFromResourceIDName(IDS_IEACCEPTEDLANGUAGESACTION_NAME, szName);
-}
-
-wchar_t* IEAcceptLanguagesAction::GetDescription()
-{
-	return _getStringFromResourceIDName(IDS_IEACCEPTEDLANGUAGESACTION_DESCRIPTION, szDescription);	
-}
-
 void IEAcceptLanguagesAction::_readLanguageCode(wstring& langcode)
 {
 	wchar_t szValue[1024];

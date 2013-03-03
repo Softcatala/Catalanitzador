@@ -21,11 +21,10 @@
 #include "Actions.h"
 #include "WindowsLPIAction.h"
 #include "Windows8LPIAction.h"
-#include "IEAcceptLanguagesAction.h"
 #include "ConfigureLocaleAction.h"
 #include "ConfigureDefaultLanguageAction.h"
 #include "MSOfficeLPIAction.h"
-#include "IELPIAction.h"
+#include "IEAction.h"
 #include "ChromeAction.h"
 #include "FirefoxAction.h"
 #include "Win32I18N.h"
@@ -111,11 +110,10 @@ void Actions::_buildListOfActions()
 		m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
 	
-	m_actions.push_back(new MSOfficeLPIAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new WindowsLiveAction( _getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
-	m_actions.push_back(new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
-	m_actions.push_back(new IEAcceptLanguagesAction( _getNewRegistry(), _getFileVersionInfo(), _getNewOSVersion()));
-	
+	m_actions.push_back(new MSOfficeLPIAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
+	m_actions.push_back(new WindowsLiveAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
+	m_actions.push_back(new IEAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), _getNewOSVersion(), m_pDownloadManager));
+		
 	if (osversion.GetVersion() != Windows8)
 	{
 		m_actions.push_back(new ConfigureLocaleAction());

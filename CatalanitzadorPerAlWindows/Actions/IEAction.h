@@ -22,17 +22,19 @@
 #include "Action.h"
 #include "IRegistry.h"
 #include "Runner.h"
-#include "ActionExecution.h"
-#include "FirefoxLangPackAction.h"
-#include "FirefoxAcceptLanguagesAction.h"
+#include "IOSVersion.h"
+#include "InternetExplorerVersion.h"
+#include "IFileVersionInfo.h"
+#include "IELPIAction.h"
+#include "IEAcceptLanguagesAction.h"
 
 using namespace std;
 
-class FirefoxAction : public Action, public ActionExecution
+class IEAction : public Action
 {
 public:
-		FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
-		~FirefoxAction();
+		IEAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion, DownloadManager* downloadManager);
+		~IEAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -43,34 +45,25 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual const wchar_t* GetVersion();		
-		virtual void FinishExecution(ExecutionProcess process);
 		virtual void CheckPrerequirements(Action * action);
 		virtual ActionStatus GetStatus();
 		virtual void Serialize(ostream* stream);
 		virtual void SetStatus(ActionStatus value);
+		virtual LPCWSTR GetLicenseID();
 		
-protected:
-
-		wstring _getLocale();	
-		wstring _getProfileRootDir();
-		void _readVersionAndLocale();		
-		bool _isAcceptLanguageOk();
-		void _readInstallPath(wstring& path);
-
 private:
 
-		wstring _getVersionAndLocaleFromRegistry();
-		void _extractLocaleAndVersion(wstring version);
-		FirefoxLangPackAction * _getLangPackAction();
-		FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction();
+		IELPIAction * _getLPIAction();
+		IEAcceptLanguagesAction * _getAcceptLanguagesAction();
 
 		IRegistry* m_registry;
 		IRunner* m_runner;
+		IOSVersion* m_OSVersion;
 		wstring m_locale;
 		wstring m_version;
-		FirefoxLangPackAction* m_firefoxLangPackAction;
-		FirefoxAcceptLanguagesAction* m_firefoxAcceptLanguagesAction;
-		bool m_cachedVersionAndLocale;
-		bool m_doFirefoxLangPackAction;
-		bool m_doFirefoxAcceptLanguagesAction;
+		IFileVersionInfo* m_fileVersionInfo;
+		IELPIAction * m_LPIAction;
+		IEAcceptLanguagesAction* m_acceptLanguagesAction;
+		bool m_doAcceptLanguagesAction;
+		bool m_doLPIAction;
 };
