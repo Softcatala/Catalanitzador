@@ -32,8 +32,8 @@ public:
 		IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager);
 		~IELPIAction();
 
-		virtual wchar_t* GetName();
-		virtual wchar_t* GetDescription();
+		virtual wchar_t* GetName() {return L""; }
+		virtual wchar_t* GetDescription() {return L""; }
 		virtual ActionID GetID() const { return IELPI;};
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool Download(ProgressStatus progress, void *data);
@@ -43,6 +43,7 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 		virtual ActionID DependsOn() const { return WindowsLPI;};
 		virtual LPCWSTR GetLicenseID();
+		virtual bool IsVisible() {return false; }
 		void _dumpWindowsUpdateErrors();
 
 		enum Prerequirements
@@ -74,6 +75,7 @@ private:
 		wchar_t m_szTempDir[MAX_PATH];		
 		IRunner* m_runner;
 		IOSVersion* m_OSVersion;
+		IFileVersionInfo* m_fileVersionInfo;
 		InternetExplorerVersion m_explorerVersion;
 };
 
