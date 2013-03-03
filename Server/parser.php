@@ -36,6 +36,7 @@ if (isset($_POST['xml'])){
         $result->SPMinorVersion = $xml->operating['SPMinorVersion'][0];
         $result->SuiteMask = $xml->operating['SuiteMask'][0];
         $result->Bits = $xml->operating['Bits'][0];
+        $result->System = $xml->operating['System'][0];
         $result->ProductType = $xml->operating['ProductType'][0];
         $result->Name = $xml->operating['Name'][0];
         $result->guid = $xml->session['guid'][0];

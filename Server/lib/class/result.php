@@ -35,14 +35,15 @@ class result
         $SPMinorVersion = $db->escape( $this->SPMinorVersion );
         $SuiteMask = $db->escape( $this->SuiteMask );
         $Bits = $db->escape( $this->Bits );
+        $System = $db->escape( $this->System );
         $ProductType = $db->escape( $this->ProductType );
         $Name = $db->escape( $this->Name );
         $guid = $db->escape( $this->guid);
         $LogFile = $db->escape( $this->LogFile);
 
         $applications_query = $db->get_var ( "SELECT ID FROM applications WHERE  MajorVersion = '$MajorVersion' AND MinorVersion = '$MinorVersion' AND Revision = '$Revision'");
-        $operatings_query = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='$Name' AND Bits ='$Bits' ");
-        $operatings_query_null = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND ProductType ='$ProductType' AND Name ='' AND Bits ='$Bits' ");        
+        $operatings_query = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND System = '$System' AND ProductType ='$ProductType' AND Name ='$Name' AND Bits ='$Bits' ");
+        $operatings_query_null = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND System = '$System' AND ProductType ='$ProductType' AND Name ='' AND Bits ='$Bits' ");        
 
         if ( !$applications_query ){
             $db->query( "INSERT INTO applications
@@ -62,9 +63,9 @@ class result
             }
             else{
                 $db->query( "INSERT INTO operatings
-                        ( OSMajorVersion, OSMinorVersion, SPMajorVersion, SPMinorVersion, SuiteMask, ProductType, Name, Bits )
+                        ( OSMajorVersion, OSMinorVersion, SPMajorVersion, SPMinorVersion, SuiteMask, System, ProductType, Name, Bits )
                         VALUES
-                        ( '$OSMajorVersion', '$OSMinorVersion', '$SPMajorVersion', '$SPMinorVersion', '$SuiteMask', '$ProductType', '$Name', '$Bits' )
+                        ( '$OSMajorVersion', '$OSMinorVersion', '$SPMajorVersion', '$SPMinorVersion', '$SuiteMask', '$System', '$ProductType', '$Name', '$Bits' )
                         " );
                  $OperatingsID = $db->insert_id;
              }
