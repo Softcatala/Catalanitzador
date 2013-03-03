@@ -44,6 +44,7 @@ public:
 		virtual ActionID DependsOn() const { return WindowsLPI;};
 		virtual LPCWSTR GetLicenseID();
 		virtual bool IsVisible() {return false; }
+		virtual const wchar_t* GetVersion();
 		void _dumpWindowsUpdateErrors();
 
 		enum Prerequirements
@@ -77,5 +78,6 @@ private:
 		IOSVersion* m_OSVersion;
 		IFileVersionInfo* m_fileVersionInfo;
 		InternetExplorerVersion m_explorerVersion;
+		wstring m_version;
 };
 

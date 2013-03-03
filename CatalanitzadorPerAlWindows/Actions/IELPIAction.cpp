@@ -32,7 +32,6 @@ Action(downloadManager), m_explorerVersion(fileVersionInfo)
 {
 	m_OSVersion = OSVersion;
 	m_runner = runner;
-
 	m_filename[0] = NULL;
 	m_szTempDir[0] = NULL;	
 }
@@ -87,6 +86,14 @@ wchar_t* IELPIAction::_getDownloadID()
 InternetExplorerVersion::IEVersion IELPIAction::_getIEVersion()
 {
 	return m_explorerVersion.GetVersion();
+}
+
+const wchar_t* IELPIAction::GetVersion()
+{
+	if (m_version.size() == 0)
+		m_version = m_explorerVersion.GetVersionString();
+
+	return m_version.c_str();
 }
 
 wchar_t* IELPIAction::_getDownloadIDIE8()
