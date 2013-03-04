@@ -455,7 +455,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Application\Version.h"
+				RelativePath="..\CommonCode\Version.h"
 				>
 			</File>
 		</Filter>
