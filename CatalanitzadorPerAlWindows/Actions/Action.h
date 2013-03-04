@@ -115,9 +115,9 @@ protected:
 		wchar_t* _getStringFromResourceIDName(int nID, wchar_t* string);
 		bool _doesDownloadExist();
 
-		TCHAR szName[MAX_LOADSTRING];
-		TCHAR szDescription[MAX_LOADSTRING];
-		TCHAR szCannotBeApplied[MAX_LOADSTRING];
+		wchar_t szName[MAX_LOADSTRING];
+		wchar_t szDescription[MAX_LOADSTRING];
+		wchar_t szCannotBeApplied[MAX_LOADSTRING];
 		ActionStatus status;
 		DownloadManager* m_downloadManager;
 		bool m_dialectalVariant;
