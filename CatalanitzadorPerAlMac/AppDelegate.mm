@@ -25,6 +25,7 @@
 #import "OSVersion.h"
 #import "Serializer.h"
 #import "HttpFormInet.h"
+#include "Version.h"
 
 @implementation AppDelegate
 
@@ -151,7 +152,7 @@ void _initLog()
 {
     OSVersion version;
     
-    NSLog(@"Catalanitzador per al Mac built on: %s, %s", __DATE__, __TIME__);
+    NSLog(@"Catalanitzador per al Mac version %s built on: %s, %s", STRING_VERSION_RESOURCES,  __DATE__, __TIME__);
     NSLog(@"Mac OS version: %u.%u.%u", version.GetMajorVersion(),
           version.GetMinorVersion(), version.GetBugFix());
 }

@@ -32,6 +32,7 @@
 		8D00EADA16C545C100939FA5 /* Català.aff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.aff"; path = "spellchecker/Català.aff"; sourceTree = "<group>"; };
 		8D00EADB16C545C100939FA5 /* Català.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.dic"; path = "spellchecker/Català.dic"; sourceTree = "<group>"; };
 		8D15274B16C169F7007786D9 /* app-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "app-icon.icns"; sourceTree = "<group>"; };
+		8D380DA616E5322000C0F2C7 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Version.h; path = CommonCode/Version.h; sourceTree = SOURCE_ROOT; };
 		8D50D35116BD23CB00653AE7 /* CatalanitzadorPerAlMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatalanitzadorPerAlMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D50D35416BD23CB00653AE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8D50D35716BD23CB00653AE7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -172,6 +173,7 @@
 		8D9465B516D133F9009BBA39 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				8D380DA616E5322000C0F2C7 /* Version.h */,
 				8DE32D9316C00FF700764125 /* main.mm */,
 			);
 			name = Application;

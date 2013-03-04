@@ -19,6 +19,7 @@
 
 #include "Serializer.h"
 #include "OSVersion.h"
+#include "Version.h"
 #include <fstream>
 
 Serializer::Serializer()
@@ -36,7 +37,7 @@ void Serializer::_application()
 	char szText [1024];
 
 	sprintf(szText, "\t<application MajorVersion='%u' MinorVersion='%u' Revision='%u' />\n",
-		1, 0, 0);
+		APP_MAJOR_VERSION, APP_MINOR_VERSION, APP_REVISION);
 	*m_stream << szText;
 }
 
