@@ -50,6 +50,7 @@ public:
 		virtual void Serialize(ostream* stream);
 		virtual void SetStatus(ActionStatus value);
 		virtual LPCWSTR GetLicenseID();
+		virtual ActionID DependsOn() const { return WindowsLPI;};
 		
 private:
 

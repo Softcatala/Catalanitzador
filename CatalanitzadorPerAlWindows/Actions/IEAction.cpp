@@ -192,4 +192,9 @@ void IEAction::CheckPrerequirements(Action * action)
 			SetStatus(AlreadyApplied);
 			return;
 	}
+
+	if (_getLPIAction()->GetStatus() == CannotBeApplied)
+	{
+		wcscpy_s(szCannotBeApplied, _getLPIAction()->GetCannotNotBeApplied());		
+	}
 }

@@ -27,8 +27,7 @@
 
 class IELPIAction : public Action
 {
-public:	
-
+public:
 		IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager);
 		~IELPIAction();
 
@@ -41,7 +40,6 @@ public:
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
 		virtual void CheckPrerequirements(Action * action);
-		virtual ActionID DependsOn() const { return WindowsLPI;};
 		virtual LPCWSTR GetLicenseID();
 		virtual bool IsVisible() {return false; }
 		virtual const wchar_t* GetVersion();
