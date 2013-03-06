@@ -24,6 +24,7 @@
 - (id) tableView:(NSTableView *) tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex;
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex;
 
+@property (assign) IBOutlet NSButton *SendStats;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSButton *DoChanges;
 - (IBAction)Selector:(id)sender;

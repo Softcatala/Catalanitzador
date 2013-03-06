@@ -195,9 +195,13 @@ void _upload(Serializer& serializer)
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    Serializer serializer;
-    _serialize(serializer);
-    _upload(serializer);
+    
+    if ([_SendStats state] != NSOffState)
+    {
+        Serializer serializer;
+        _serialize(serializer);
+        _upload(serializer);
+    }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
