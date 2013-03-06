@@ -143,7 +143,7 @@ void redirectNSLogToDocumentFolder()
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:row];
     Action* action = actions.at(row);
     
-    [_ApplicationsList selectRowIndexes:indexSet byExtendingSelection:NO];;
+    [_ApplicationsList selectRowIndexes:indexSet byExtendingSelection:NO];
     text = [NSString stringWithUTF8String: action->GetDescription()];
     [_ActionDescription setTitle:text];
 }
