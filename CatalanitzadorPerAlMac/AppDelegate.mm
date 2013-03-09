@@ -68,13 +68,21 @@ ChromeAction chromeAction;
     
     text = [NSString stringWithUTF8String: action->GetName()];
     
-    if (action->IsNeed())
+    // Action already executed show it disabled
+    if (action->GetStatus() == Successful || action->GetStatus() == FinishedWithError)
     {
-         [buttonCell setEnabled:YES];
+        [buttonCell setEnabled:NO];
     }
     else
     {
-         [buttonCell setEnabled:NO];
+        if (action->IsNeed())
+        {
+            [buttonCell setEnabled:YES];
+        }
+        else
+        {
+            [buttonCell setEnabled:NO];
+        }
     }
     
     [buttonCell setTitle:text];
