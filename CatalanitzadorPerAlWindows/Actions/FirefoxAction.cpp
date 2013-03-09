@@ -289,6 +289,8 @@ void FirefoxAction::CheckPrerequirements(Action * action)
 	if (wcslen(GetVersion()) == 0)
 	{
 		_setStatusNotInstalled();
+		_getLangPackAction()->SetStatus(NotInstalled);
+		_getAcceptLanguagesAction()->SetStatus(NotInstalled);
 		return;
 	}
 
