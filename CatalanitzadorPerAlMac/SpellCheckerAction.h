@@ -32,7 +32,7 @@ public:
     
         virtual const char* GetName() {return "Instal·la el corrector ortogràfic català al sistema";}
     
-        virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic al sistema en aplicacions com ara Mail i Pages.";}
+        virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic de Softcatalà al sistema en aplicacions com ara Mail i Pages.";}
     
         virtual ActionID GetID() const {return MacSystemAction;}
     
