@@ -80,13 +80,15 @@ void ChromeAction::Execute()
 		uiStatus = _chromeProfile.WriteUILocale();
 	}
 
+	SetStatus(InProgress);
 	acceptLanguageStatus = _chromeProfile.UpdateAcceptLanguages();
 
 	if(uiStatus && acceptLanguageStatus) {
-		status = Successful;
+		SetStatus(Successful);
 	} else {
-		status = FinishedWithError;
+		SetStatus(FinishedWithError);
 	}
+	g_log.Log(L"ChromeAction::Execute returns %s", status == Successful ? L"Successful" : L"FinishedWithError");
 }
 
 void ChromeAction::_readVersion()
