@@ -264,9 +264,12 @@ void _upload(Serializer& serializer)
 - (IBAction)SaveChanges:(id)sender {
 
     bool correct = true;
+    bool chromeSelected, firefoxSelected;
     
-    // Execute first since if Chrome is open we do not continue the execution
-    if (chromeAction.IsNeed() && chromeAction.GetStatus() == Selected)
+    chromeSelected = chromeAction.IsNeed() && chromeAction.GetStatus() == Selected;
+    firefoxSelected = firefoxAction.IsNeed() && firefoxAction.GetStatus() == Selected;
+    
+    if (chromeSelected)
     {
         if (chromeAction.IsApplicationRunning())
         {
@@ -274,9 +277,29 @@ void _upload(Serializer& serializer)
                            @"Cal que tanqueu el navegador Chrome abans de continuar. No es pot canviar la llengua de navegació si està obert.");
             return;
         }
-        
+    }
+    
+    if (firefoxSelected)
+    {
+        if (firefoxAction.IsApplicationRunning())
+        {
+            _showDialogBox(@"Catalanitzador per al Mac",
+                           @"Cal que tanqueu el navegador Firefox abans de continuar. No es pot canviar la llengua de navegació si està obert.");
+            return;
+        }
+    }
+    
+    if (chromeSelected)
+    {
         chromeAction.Execute();
         if (chromeAction.GetStatus() != Successful)
+            correct = false;
+    }
+    
+    if (firefoxSelected)
+    {
+        firefoxAction.Execute();
+        if (firefoxAction.GetStatus() != Successful)
             correct = false;
     }
     
@@ -286,21 +309,6 @@ void _upload(Serializer& serializer)
         if (systemLanguageAction.GetStatus() != Successful)
             correct = false;
     }
-    
-    if (firefoxAction.IsNeed() && firefoxAction.GetStatus() == Selected)
-    {
-        if (firefoxAction.IsApplicationRunning())
-        {
-            _showDialogBox(@"Catalanitzador per al Mac",
-                           @"Us suggerim tancar l'aplicació Firefox abans de continuar. Si no ho feu, els canvis no tindran efecte fins que torneu a obrir el Firefox.");
-        }
-        
-        
-        firefoxAction.Execute();
-        if (firefoxAction.GetStatus() != Successful)
-            correct = false;
-    }
-    
         
     if (spellCheckerAction.IsNeed() && spellCheckerAction.GetStatus() == Selected)
     {
