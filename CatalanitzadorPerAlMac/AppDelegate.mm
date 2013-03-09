@@ -34,6 +34,7 @@ SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
 ChromeAction chromeAction;
+NSString *statsFilename = nil;
 
 
 -(NSInteger) numberOfRowsInTableView: (NSTableView *) tableView
@@ -180,8 +181,9 @@ void _serialize(Serializer& serializer)
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	NSString *fileName = @"statistics.xml";
-	NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
-    serializer.SaveToFile([logFilePath UTF8String]);
+	statsFilename = [documentsDirectory stringByAppendingPathComponent:fileName];
+    statsFilename = [statsFilename copy];
+    serializer.SaveToFile([statsFilename UTF8String]);
 }
 
 #define UPLOAD_URL "http://dev-catalanitzador.softcatala.org/parser.php"
@@ -203,7 +205,14 @@ void _upload(Serializer& serializer)
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    
+    if (statsFilename != nil)
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:statsFilename error:nil];
+    }
+}
+
+- (void)sendStatistics
+{
     if ([_SendStats state] != NSOffState)
     {
         Serializer serializer;
@@ -240,6 +249,7 @@ void _upload(Serializer& serializer)
     {
         [_DoChanges setEnabled:NO];
         [_Results setStringValue:@"Aquest ordinador ja es troba catalanitzat!"];
+        [self sendStatistics];
     }
     
     [_ApplicationsList setDataSource:self];
@@ -311,6 +321,7 @@ void _upload(Serializer& serializer)
     }
     
     [_ApplicationsList reloadData];
+    [self sendStatistics];
 }
 - (IBAction)ApplicationListSelector:(id)sender {
 }
