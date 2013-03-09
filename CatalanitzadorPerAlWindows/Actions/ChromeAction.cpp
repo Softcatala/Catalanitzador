@@ -75,8 +75,10 @@ bool ChromeAction::IsNeed()
 
 void ChromeAction::Execute()
 {
-	bool uiStatus, acceptLanguageStatus;
-	if(!_chromeProfile.IsUiLocaleOk()) {
+	bool uiStatus = _chromeProfile.IsUiLocaleOk();
+	bool acceptLanguageStatus;
+
+	if(!uiStatus) {
 		uiStatus = _chromeProfile.WriteUILocale();
 	}
 
