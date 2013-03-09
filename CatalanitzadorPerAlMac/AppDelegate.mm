@@ -99,7 +99,7 @@ NSString *statsFilename = nil;
         return [NSNumber numberWithBool:NO];
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
+- (void)updateDescriptionForRow:(NSInteger)rowIndex
 {
     NSString* text;
     Action* action = actions.at(rowIndex);
@@ -118,7 +118,11 @@ NSString *statsFilename = nil;
     {
         [_CannotBeApplied setHidden:YES];
     }
-    
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
+{
+    [self updateDescriptionForRow:rowIndex];
     return TRUE;
 }
 
@@ -148,13 +152,9 @@ void redirectNSLogToDocumentFolder()
 
 - (void)setDefaultRow:(int)row
 {
-    NSString* text;
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:row];
-    Action* action = actions.at(row);
-    
     [_ApplicationsList selectRowIndexes:indexSet byExtendingSelection:NO];
-    text = [NSString stringWithUTF8String: action->GetDescription()];
-    [_ActionDescription setTitle:text];
+    [self updateDescriptionForRow:row];
 }
 
 void _initLog()
