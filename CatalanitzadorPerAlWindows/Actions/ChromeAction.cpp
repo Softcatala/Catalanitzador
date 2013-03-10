@@ -51,9 +51,6 @@ void ChromeAction::FinishExecution(ExecutionProcess process)
 	}
 }
 
-
-
-
 bool ChromeAction::IsNeed()
 {
 	bool bNeed;
@@ -152,9 +149,6 @@ const wchar_t* ChromeAction::GetVersion()
 	}
 	return m_version.c_str();
 }
-
-
-
 
 void ChromeAction::CheckPrerequirements(Action * action)
 {	
