@@ -48,8 +48,8 @@ protected:
 		bool _anyActionNeedsInternetConnection();
 
 private:
-	
-		void _processDependantItem(Action* action);		
+		wstring _getActionDisplayName(Action *action);
+		void _processDependantItem(Action* action);
 		ImageIndex _getImageIndex(ActionStatus status);
 		wstring _getGroupName(ActionGroup actionGroup);
 		int _getItemIndexForItemData(void *data);

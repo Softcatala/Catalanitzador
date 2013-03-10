@@ -47,6 +47,17 @@ void ApplicationsModel::_processDependantItems()
 	}
 }
 
+wstring ApplicationsModel::_getActionDisplayName(Action *action)
+{
+	wstring name = action->GetName();
+
+	if (action->GetStatus() == Selected && action->HasLicense())
+	{
+		name+= L" *";
+	}
+	return name;
+}
+
 void ApplicationsModel::BuildListOfItems()
 {
 	for (int g = 0; g < ActionGroupLast; g++)
@@ -72,7 +83,7 @@ void ApplicationsModel::BuildListOfItems()
 			if (needed)
 				action->SetStatus(Selected);
 
-			ApplicationItem applicationItem(action->GetName(), action, false, needed == false);
+			ApplicationItem applicationItem(_getActionDisplayName(action), action, false, needed == false);
 			applicationItem.SetImageIndex(_getImageIndex(action->GetStatus()));
 			m_items.push_back(applicationItem);
 		}
