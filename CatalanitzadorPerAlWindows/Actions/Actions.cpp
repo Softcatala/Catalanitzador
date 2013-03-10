@@ -110,8 +110,7 @@ void Actions::_buildListOfActions()
 		m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
 	
-	m_actions.push_back(new MSOfficeLPIAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new WindowsLiveAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
+	m_actions.push_back(new MSOfficeLPIAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));	
 	m_actions.push_back(new IEAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), _getNewOSVersion(), m_pDownloadManager));
 		
 	if (osversion.GetVersion() != Windows8)
@@ -124,8 +123,8 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
+	m_actions.push_back(new WindowsLiveAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
 	m_actions.push_back(new iTunesAction(_getNewRegistry(), _getFileVersionInfo()));
-	
 }
 
 Action * Actions::GetActionFromID(ActionID actionID)
