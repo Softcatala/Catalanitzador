@@ -186,7 +186,13 @@ void _serialize(Serializer& serializer)
     serializer.SaveToFile([statsFilename UTF8String]);
 }
 
-#define UPLOAD_URL "http://dev-catalanitzador.softcatala.org/parser.php"
+//#define DEVELOPMENT_VERSION 1
+
+#if DEVELOPMENT_VERSION
+    #define UPLOAD_URL "http://dev-catalanitzador.softcatala.org/parser.php"
+#else
+    #define UPLOAD_URL "http://catalanitzador.softcatala.org/parser.php"
+#endif
 
 void _upload(Serializer& serializer)
 {

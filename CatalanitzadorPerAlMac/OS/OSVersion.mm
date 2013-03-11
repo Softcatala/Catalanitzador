@@ -34,6 +34,7 @@ void OSVersion::_readVersions()
 }
 
 #define MAC_SYSTEM 1
+#define MACHINE_BITS 64
 
 void OSVersion::Serialize(ostream* stream)
 {
@@ -48,7 +49,7 @@ void OSVersion::Serialize(ostream* stream)
             0,
             0,
             0,
-            0,
+            MACHINE_BITS,
             szAsciiName,
             MAC_SYSTEM);
     
