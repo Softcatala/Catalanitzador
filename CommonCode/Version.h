@@ -25,6 +25,6 @@
 #define APP_MINOR_VERSION		9
 #define APP_REVISION			1
 
-#define STRING_VERSION				L"1.9.1"
+#define STRING_VERSION				_STR("1.9.1")
 #define STRING_VERSION_RESOURCES	"1.9.1.0"
 
