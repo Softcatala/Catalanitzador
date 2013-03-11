@@ -67,13 +67,10 @@ bool HttpFormInet::PostForm(string _url, vector <string> variables, vector <stri
     bool sent;
     string encoded;
     UrlFormEncode(variables, values, encoded);
-    
-    NSLog(@"web request started");
+
     NSString *post = [NSString stringWithUTF8String:encoded.c_str()];
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
     NSString *postLength = [NSString stringWithFormat:@"%ld", (unsigned long)[postData length]];
-    
-    NSLog(@"Post data: %@", post);
     
     NSMutableURLRequest *request = [NSMutableURLRequest new];
     NSString* url = [NSString stringWithUTF8String:_url.c_str()];
@@ -93,6 +90,6 @@ bool HttpFormInet::PostForm(string _url, vector <string> variables, vector <stri
         NSLog(@"HttpFormInet::PostForm. Error: %@", error);
     }
     
-    NSLog(@"HttpFormInet::PostForm. Sent: %u", sent);
+    NSLog(@"HttpFormInet::PostForm. Sent: %u, to %s", sent, _url.c_str());
     return sent;
 }
