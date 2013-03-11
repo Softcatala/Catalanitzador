@@ -45,6 +45,8 @@
 		8D50D36616BD23CB00653AE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D50D36A16BD23CB00653AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8D7DBD9E16EE62AD00113095 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlatformDefinitions.h; path = CommonCode/PlatformDefinitions.h; sourceTree = SOURCE_ROOT; };
+		8D7DBD9F16EE62AD00113095 /* RemoteURLs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteURLs.h; path = CommonCode/RemoteURLs.h; sourceTree = SOURCE_ROOT; };
 		8D94658316CF9CA2009BBA39 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = imported/Action.h; sourceTree = "<group>"; };
 		8D94658516CF9CA2009BBA39 /* ChromeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChromeAction.h; path = imported/ChromeAction.h; sourceTree = "<group>"; };
 		8D94658616CF9CA2009BBA39 /* ChromeAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ChromeAction.mm; path = imported/ChromeAction.mm; sourceTree = "<group>"; };
@@ -173,6 +175,8 @@
 		8D9465B516D133F9009BBA39 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				8D7DBD9E16EE62AD00113095 /* PlatformDefinitions.h */,
+				8D7DBD9F16EE62AD00113095 /* RemoteURLs.h */,
 				8D380DA616E5322000C0F2C7 /* Version.h */,
 				8DE32D9316C00FF700764125 /* main.mm */,
 			);

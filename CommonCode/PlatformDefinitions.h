@@ -23,5 +23,5 @@
 #ifdef _WIN32
 	#define _STR(x)      L ## x
 #else
-	#define _STR(x)      L  x
+	#define _STR(x)      x
 #endif
