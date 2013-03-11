@@ -18,6 +18,9 @@
  */
 
 #include "version.h"
+#include "PlatformDefinitions.h"
+
+#pragma once
 
 #define DEVELOPMENT_VERSION 1
 
@@ -26,13 +29,13 @@
 #if DEVELOPMENT_VERSION
 
 	#define APPLICATON_WEBSITE	L"http://dev-catalanitzador.softcatala.org"
-	#define UPLOAD_URL L"http://dev-catalanitzador.softcatala.org/parser.php"
+	#define UPLOAD_URL _STR("http://dev-catalanitzador.softcatala.org/parser.php")
 	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/beta/catalanitzador/configuration.xml"
 
 #else
 
 	#define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
-	#define UPLOAD_URL L"http://catalanitzador.softcatala.org/parser.php"
+	#define UPLOAD_URL _STR("http://catalanitzador.softcatala.org/parser.php")
 	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml"
 
 #endif

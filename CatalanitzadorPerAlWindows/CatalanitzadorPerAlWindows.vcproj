@@ -451,7 +451,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Application\RemoteURLs.h"
+				RelativePath="..\CommonCode\PlatformDefinitions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CommonCode\RemoteURLs.h"
 				>
 			</File>
 			<File

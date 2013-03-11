@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,15 +16,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
-
-#include "PlatformDefinitions.h"
-
+ 
 #pragma once
 
-#define APP_MAJOR_VERSION		1
-#define APP_MINOR_VERSION		9
-#define APP_REVISION			1
-
-#define STRING_VERSION				L"1.9.1"
-#define STRING_VERSION_RESOURCES	"1.9.1.0"
-
+// _STR macro: strings are UTF-16 in Windows and utf-8 in Mac OS X
+#ifdef _WIN32
+	#define _STR(x)      L ## x
+#else
+	#define _STR(x)      L  x
+#endif
