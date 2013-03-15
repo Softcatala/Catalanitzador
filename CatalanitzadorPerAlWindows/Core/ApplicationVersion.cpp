@@ -75,11 +75,30 @@ bool ApplicationVersion::operator != (ApplicationVersion other)
 	return !(*this == other);
 }
 
+// If version A is 10.0.2 and B 10.2 compare starting by the left only the MIN of both
+// If both the MIN number of the digits are equal, return as major the one with more digits
+bool ApplicationVersion::_majorDiferentSizes (ApplicationVersion other)
+{
+	unsigned int size;
+	
+	size = GetComponents().size() < other.GetComponents().size() ? GetComponents().size() : other.GetComponents().size();
+
+	for (unsigned int i = 0; i < size; i++)
+	{
+		if (GetComponents().at(i) == other.GetComponents().at(i))
+			continue;
+
+		return GetComponents().at(i) > other.GetComponents().at(i);
+	}
+
+	return GetComponents().size() > other.GetComponents().size();
+}
+
 bool ApplicationVersion::operator > (ApplicationVersion other)
 {
 	if (GetComponents().size() != other.GetComponents().size())
 	{
-		return false;
+		return _majorDiferentSizes(other);
 	}
 
 	for (unsigned int i = 0; i < GetComponents().size(); i++)

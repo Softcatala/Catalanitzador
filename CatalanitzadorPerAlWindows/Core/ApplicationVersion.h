@@ -42,6 +42,7 @@ class ApplicationVersion
 
 	private:
 
+			bool _majorDiferentSizes (ApplicationVersion other);
 			vector <int> GetComponents(wstring version);
 			
 			wstring m_version;

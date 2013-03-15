@@ -149,3 +149,23 @@ TEST(VersionTest, GetComponents_LessOrEqual)
 	EXPECT_FALSE(versionA <= versionE);
 	EXPECT_TRUE(versionE <= versionE);
 }
+
+TEST(VersionTest, GetComponents_TwoVsThree)
+{	
+	ApplicationVersion versionA (L"1.1.9");
+	ApplicationVersion versionB (L"1.2.2");	
+	ApplicationVersion versionC (L"1.2");
+
+	EXPECT_TRUE(versionA < versionC);
+	EXPECT_TRUE(versionB > versionC);
+}
+
+TEST(VersionTest, GetComponents_OneVsTwo)
+{	
+	ApplicationVersion versionA (L"0.9");
+	ApplicationVersion versionB (L"1.2");	
+	ApplicationVersion versionC (L"1");
+
+	EXPECT_TRUE(versionA < versionC);
+	EXPECT_TRUE(versionB > versionC);
+}
