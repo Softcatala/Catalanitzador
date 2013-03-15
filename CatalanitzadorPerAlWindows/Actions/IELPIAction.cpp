@@ -444,6 +444,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 	{
 		if (versionSupported == false)
 		{
+			_getStringFromResourceIDName(IDS_IELPIACTION_NOPACKAGE, szCannotBeApplied);
 			status = CannotBeApplied;
 		}
 	}

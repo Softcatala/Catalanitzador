@@ -193,6 +193,12 @@ void IEAction::CheckPrerequirements(Action * action)
 			return;
 	}
 
+	if (_getLPIAction()->GetStatus() == CannotBeApplied &&
+		_getAcceptLanguagesAction()->GetStatus() == CannotBeApplied)
+	{
+			SetStatus(CannotBeApplied);
+	}
+
 	if (_getLPIAction()->GetStatus() == CannotBeApplied)
 	{
 		wcscpy_s(szCannotBeApplied, _getLPIAction()->GetCannotNotBeApplied());		
