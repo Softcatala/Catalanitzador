@@ -59,6 +59,7 @@ LPCWSTR IELPIAction::GetLicenseID()
 		case InternetExplorerVersion::IE8:
 			return MAKEINTRESOURCE(IDR_LICENSE_IE8);
 		case InternetExplorerVersion::IE9:
+		case InternetExplorerVersion::IE10:
 			return MAKEINTRESOURCE(IDR_LICENSE_IE9);
 		default:
 			break;
@@ -76,6 +77,8 @@ wchar_t* IELPIAction::_getDownloadID()
 			return _getDownloadIDIE8();
 		case InternetExplorerVersion::IE9:
 			return _getDownloadIDIE9();
+		case InternetExplorerVersion::IE10:
+			return _getDownloadIDIE10();
 		default:
 			break;
 	}
@@ -124,6 +127,25 @@ wchar_t* IELPIAction::_getDownloadIDIE9()
 			else
 			{
 				return L"IE9_7";
+			}
+		default:
+			break;
+	}
+	return NULL;
+}
+
+wchar_t* IELPIAction::_getDownloadIDIE10()
+{
+	switch (m_OSVersion->GetVersion())
+	{		
+		case Windows7:
+			if (m_OSVersion->IsWindows64Bits())
+			{
+				return L"IE10_7_64";
+			}
+			else
+			{
+				return L"IE10_7";
 			}
 		default:
 			break;
@@ -245,6 +267,7 @@ void IELPIAction::Execute()
 		}
 		break;
 	case InternetExplorerVersion::IE9:
+	case InternetExplorerVersion::IE10:
 			GetSystemDirectory(szParams, MAX_PATH);
 			wcscat_s(szParams, L"\\wusa.exe ");
 			wcscat_s(szParams, m_filename);
@@ -335,19 +358,21 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 			switch (_getIEVersion())
 			{
 				case InternetExplorerVersion::IE8:
+				{				
 					return AppliedInWinLPI;
+				}
 				case InternetExplorerVersion::IE9:
+				case InternetExplorerVersion::IE10:					
 					if (WindowsLPISelected == false)
 					{
 						return NeedsWinLPI;
-					}
+					}					
 					break;
-				case InternetExplorerVersion::IE10:
-					return UnknownIEVersion;					
 				default:
 					break;
 			}
-		case Windows8: // Includes IE 10
+			break;
+		case Windows8: // Includes IE 10			
 			switch (_getIEVersion())
 			{
 				case InternetExplorerVersion::IE10:
@@ -356,10 +381,10 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 					break;
 			}
 			break;
-		default: //	Windows2008, Windows2008R2 and others
+		default: //	Windows2008, Windows2008R2 and others			
 			return NoLangPackAvailable;
 	}
-
+	
 	return PrerequirementsOk;
 }
 
@@ -402,7 +427,7 @@ void IELPIAction::CheckPrerequirements(Action * action)
 	szCannotBeApplied[0] = NULL;
 	pre = _checkPrerequirements();
 
-	if (pre != PrerequirementsOk)	
+	if (pre != PrerequirementsOk)
 	{
 		switch (pre)
 		{

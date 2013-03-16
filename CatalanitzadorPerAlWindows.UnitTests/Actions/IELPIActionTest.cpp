@@ -167,7 +167,7 @@ TEST(IELPIActionTest, _checkPrerequirementsDependand_IE10_Windows7)
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
 	lipAction.SetIEVersion(InternetExplorerVersion::IE10);
 
-	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::UnknownIEVersion);
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
 }
 
 TEST(IELPIActionTest, _checkPrerequirementsDependand_IE10_Windows8)

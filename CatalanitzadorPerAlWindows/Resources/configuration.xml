@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2013-02-14T19:00:00</date>
+		<date>2013-03-15T19:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -187,6 +187,22 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_3>
+				<filename>IE9-Windows6.1-LanguagePack-x64-cat.msu</filename>
+	  		</download>
+	  		<download>
+	  			<version>IE10_7</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu</url_3>
+				<filename>IE9-Windows6.1-LanguagePack-x86-cat.msu</filename>
+	  		</download>
+	  		<download>
+	  			<version>IE10_7_64</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu</url_3>
 				<filename>IE9-Windows6.1-LanguagePack-x64-cat.msu</filename>
 	  		</download>
 	  	</action>	

@@ -65,6 +65,7 @@ private:
 		wchar_t* _getDownloadID();
 		wchar_t* _getDownloadIDIE8();
 		wchar_t* _getDownloadIDIE9();
+		wchar_t* _getDownloadIDIE10();
 		bool _isLangPackInstalled();
 		bool _is64BitsPackage();
 		bool _createTempDirectory();
