@@ -46,9 +46,16 @@ RegKeyVersion RegKeys2010 =
 	false
 };
 
+RegKeyVersion RegKeys2013 =
+{
+	L"15.0",
+	L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs",
+	false
+};
+
 MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
-	m_registry = registry;	
+	m_registry = registry;
 	m_runner = runner;
 	m_MSVersion = MSOfficeUnKnown;
 	m_szFullFilename[0] = NULL;
@@ -97,6 +104,7 @@ LPCWSTR MSOfficeLPIAction::GetLicenseID()
 		case MSOffice2007:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
 		case MSOffice2010:
+		case MSOffice2013:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2010);
 		default:
 			break;		
@@ -116,6 +124,8 @@ const wchar_t* MSOfficeLPIAction::GetVersion()
 			return L"2010";
 		case MSOffice2010_64:
 			return L"2010_64bits";
+		case MSOffice2013:
+			return L"2010";
 		default:
 			return L"";
 	}
@@ -198,6 +208,9 @@ void MSOfficeLPIAction::_readIsLangPackInstalled()
 {
 	switch (_getVersionInstalled())
 	{
+	case MSOffice2013:
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2013);
+		break;
 	case MSOffice2010:
 		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010);
 		break;
@@ -237,7 +250,10 @@ void MSOfficeLPIAction::_readVersionInstalled()
 {
 	wstring version;
 
-	if (_isVersionInstalled(RegKeys2010, false))
+	if (_isVersionInstalled(RegKeys2013, false))
+	{
+		m_MSVersion = MSOffice2013;
+	} else if (_isVersionInstalled(RegKeys2010, false))
 	{
 		m_MSVersion = MSOffice2010;
 	} else if (_isVersionInstalled(RegKeys2007, false))
@@ -267,6 +283,8 @@ wchar_t*  MSOfficeLPIAction::_getDownloadID()
 			return L"2007";
 		case MSOffice2010:
 			return L"2010_32";
+		case MSOffice2013:
+			return L"2013_32";
 		default:
 			return NULL;
 	}
@@ -371,6 +389,7 @@ void MSOfficeLPIAction::Execute()
 	switch (_getVersionInstalled())
 	{
 		case MSOffice2010:
+		case MSOffice2013:
 		{
 			wchar_t logFile[MAX_PATH];
 
@@ -437,8 +456,10 @@ RegKeyVersion MSOfficeLPIAction::_getRegKeys()
 		case MSOffice2007:
 			return RegKeys2007;
 		case MSOffice2010:
-		default:
 			return RegKeys2010;
+		case MSOffice2013:
+		default:
+			return RegKeys2013;
 	}
 }
 
@@ -454,7 +475,7 @@ void MSOfficeLPIAction::_setDefaultLanguage()
 
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
-		if (_getVersionInstalled() == MSOffice2010 || _getVersionInstalled() == MSOffice2007)
+		if (_getVersionInstalled() == MSOffice2013 || _getVersionInstalled() == MSOffice2010 || _getVersionInstalled() == MSOffice2007)
 		{
 			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");
 			g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	

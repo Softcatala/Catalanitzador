@@ -32,7 +32,8 @@ enum MSOfficeVersion
 	MSOffice2003,
 	MSOffice2007,
 	MSOffice2010,
-	MSOffice2010_64
+	MSOffice2010_64,
+	MSOffice2013
 };
 
 
