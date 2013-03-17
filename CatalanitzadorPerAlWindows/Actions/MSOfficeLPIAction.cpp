@@ -125,7 +125,7 @@ const wchar_t* MSOfficeLPIAction::GetVersion()
 		case MSOffice2010_64:
 			return L"2010_64bits";
 		case MSOffice2013:
-			return L"2010";
+			return L"2013";
 		default:
 			return L"";
 	}
