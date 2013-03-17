@@ -140,7 +140,7 @@ TEST(FinishModelTest, OpenFacebook)
 
 TEST(FinishModelTest, OpenGooglePlus)
 {
-	#define EXPECTED_PLUS_URL_HEAD L"http://plusone.google.com/_/+1/confirm?hl=ca&url="
+	#define EXPECTED_PLUS_URL_HEAD L"https://plus.google.com/share?url="
 
 	wstring expectedUrl;
 	

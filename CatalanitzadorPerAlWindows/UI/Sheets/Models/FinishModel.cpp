@@ -185,7 +185,7 @@ void FinishModel::OpenGooglePlus()
 	wchar_t szURL[1024];
 	
 	// See: https://developers.google.com/+/plugins/+1button/		
-	swprintf_s(szURL, L"http://plusone.google.com/_/+1/confirm?hl=ca&url=%s", APPLICATON_WEBSITE);
+	swprintf_s(szURL, L"https://plus.google.com/share?url=%s", APPLICATON_WEBSITE);
 	_shellExecuteURL(szURL);
 }
 
