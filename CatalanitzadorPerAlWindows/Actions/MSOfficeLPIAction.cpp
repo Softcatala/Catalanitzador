@@ -104,8 +104,9 @@ LPCWSTR MSOfficeLPIAction::GetLicenseID()
 		case MSOffice2007:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
 		case MSOffice2010:
-		case MSOffice2013:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2010);
+		case MSOffice2013:
+			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2013);
 		default:
 			break;		
 	}		
