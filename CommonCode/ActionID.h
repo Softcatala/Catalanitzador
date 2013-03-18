@@ -21,8 +21,8 @@
 
 enum ActionID
 {
-	// Do not modify these since they are used in the server side to identify 
-	// actions in a unique manner
+	// Do not modify or assign different meanings to these since they are used in the server side to identify 
+	// actions in a unique manner and we have data from previous sessions with already existing values
 	NoAction = 0,
 	WindowsLPI = 1,
 	MSOfficeLPI = 2,
