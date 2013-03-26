@@ -127,6 +127,8 @@ const wchar_t* MSOfficeLPIAction::GetVersion()
 			return L"2010_64bits";
 		case MSOffice2013:
 			return L"2013";
+		case MSOffice2013_64:
+			return L"2010_64bits";
 		default:
 			return L"";
 	}
@@ -263,7 +265,10 @@ void MSOfficeLPIAction::_readVersionInstalled()
 	} else if (_isVersionInstalled(RegKeys2003, false))
 	{
 		m_MSVersion = MSOffice2003;
-	}else if (_isVersionInstalled(RegKeys2010, true))
+	} else if (_isVersionInstalled(RegKeys2013, true))
+	{
+		m_MSVersion = MSOffice2013_64;
+	} else if (_isVersionInstalled(RegKeys2010, true))
 	{
 		m_MSVersion = MSOffice2010_64;
 	} else
@@ -560,11 +565,11 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 		return;
 	}
 
-	if (_getVersionInstalled() == MSOffice2010_64)
-	{		
+	if (_getVersionInstalled() == MSOffice2010_64 || _getVersionInstalled() == MSOffice2013_64)
+	{
 		SetStatus(CannotBeApplied);
 		_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
-		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. Version not supported");		
+		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. Version not supported");
 		return;
 	}
 
