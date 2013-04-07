@@ -19,6 +19,7 @@
  
 #include "stdafx.h"
 #include "XmlParser.h"
+#include "StringConversion.h"
 
 // Documentation: http://msdn.microsoft.com/en-us/library/windows/desktop/ms753821%28v=vs.85%29.aspx
 
@@ -126,24 +127,6 @@ void XmlParser::Parse(NodeCallback callback, void *data)
 			pIDOMNode->Release();	
 }
 
-void XmlParser::_processNode(XmlNode& node)
-{
-	MSXML2::IXMLDOMElementPtr item;
-	vector <XmlNode>* children;
-
-	item = m_domDocument->createElement(node.GetName().c_str());
-	node.SetIXMLDOMElementPtr(item);
-
-	children = node.GetChildren();
-
-	for (unsigned i = 0; children->size(); i++)
-	{		
-		XmlNode child = children->at(i);
-		_processNode(child);
-		m_domDocument->documentElement->appendChild(item);
-	}	
-}
-
 void XmlParser::AppendNode(XmlNode root)
 {
 	MSXML2::IXMLDOMElementPtr item;
@@ -193,11 +176,35 @@ void XmlParser::_initialize()
 	m_domDocument.CreateInstance(__uuidof(DOMDocument30));
 }
 
+bool XmlParser::FindNode(wstring wfind, XmlNode& node)
+{
+	string find;
+	
+	StringConversion::ToMultiByte(wfind, find);
+	MSXML2::IXMLDOMNodePtr pFindNode = m_domDocument->selectSingleNode(find.c_str());
+	if (pFindNode == NULL)
+		return false;
+
+	_parseNode(pFindNode, node);
+	node.SetIXMLDOMElementPtr(pFindNode);
+	return true;
+}
+
+bool XmlParser::ReplaceNode(XmlNode nodeNew, XmlNode nodeOld)
+{
+	MSXML2::IXMLDOMNodePtr pParentNode;
+			
+	nodeOld.GetIXMLDOMElementPtr()->get_parentNode(&pParentNode);
+
+	pParentNode->replaceChild(nodeNew.GetIXMLDOMElementPtr(), nodeOld.GetIXMLDOMElementPtr());
+	return true;
+}
+
 /*
 	XmlNode
 */
 
-void XmlNode::_createElement()
+void XmlNode::CreateElement()
 {
 	if (m_itemPtr != NULL)
 		return;
@@ -223,10 +230,10 @@ void XmlNode::AddChildren(XmlNode child)
 
 	if (m_itemPtr == NULL)
 	{	
-		_createElement();
+		CreateElement();
 	}
 
-	child._createElement();
+	child.CreateElement();
 	m_itemPtr->appendChild(child.GetIXMLDOMElementPtr());
 	m_children.push_back(child);
 }

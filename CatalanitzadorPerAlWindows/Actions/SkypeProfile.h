@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,23 +19,34 @@
 
 #pragma once
 
-#include "Inspector.h"
-#include "IRegistry.h"
+#include "Action.h"
+#include "XmlParser.h"
+#include "Tribool.h"
 
-class SkypeInspector : public Inspector
+class SkypeProfile
 {
-public:
+public:	
 
-		SkypeInspector(IRegistry* registry);
+		SkypeProfile();
 
-		virtual InspectorID GetID() const {return SkypeID;}
-		virtual void Execute();
+		TriBool CanReadDefaultProfile();
+		bool IsDefaultAccountLanguage();
+		void SetDefaultLanguage();
+
+protected:
+		
+		bool _isDefaultInstallLanguage();		
+		bool _readDefaultAccountLanguage(wstring& language);
+		bool _readDefaultAccount(wstring& account);
 
 private:
-		
-		void _readLangInstalled();
-		bool _readVersion();
-		bool _readFilePath(wstring &path);
+	
+		void _getSharedFile(wstring& location);
+		void _getConfigFile(wstring& location, const wstring account);
+		static bool _readDefaultAccountNodeCallback(XmlNode node, void *data);
+		static bool _readDefaultAccountLanguageNodeCallback(XmlNode node, void *data);
 
-		IRegistry* m_registry;
+		TriBool m_canReadDefaultProfile;
+		
 };
+

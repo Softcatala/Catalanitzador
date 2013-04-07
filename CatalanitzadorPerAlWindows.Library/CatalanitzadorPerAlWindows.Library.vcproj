@@ -771,6 +771,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\SkypeProfile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\SkypeProfile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\Windows8LPIAction.cpp"
 				>
 			</File>
@@ -892,14 +908,6 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\PDFCreatorInspector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\SkypeInspector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\SkypeInspector.h"
 				>
 			</File>
 			<File

@@ -89,10 +89,9 @@ public:
 
 	void AddChildren(XmlNode child);
 	void AddAttribute(XmlAttribute attribute);
+	void CreateElement();
 	
-private:
-
-	void _createElement();
+private:	
 
 	vector <XmlAttribute> m_attributes;
 	vector <XmlNode> m_children;
@@ -114,15 +113,17 @@ public:
 		bool Load(wstring file);
 		bool Save(wstring file);
 		void AppendNode(XmlNode node);
+		bool FindNode(wstring wfind, XmlNode& node);
+		bool ReplaceNode(XmlNode nodeNew, XmlNode nodeOld);
 		MSXML2::IXMLDOMDocumentPtr getDocument() const {return m_domDocument;}
+
 		
 private:
 		void _initialize();
 		void _uninitialize();
 		void _parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
 		void _parseNodeGetText(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
-		void _parseNodeGetAttributes(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
-		void _processNode(XmlNode& node);
+		void _parseNodeGetAttributes(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);		
 
 		MSXML2::IXMLDOMDocumentPtr m_domDocument;
 };
