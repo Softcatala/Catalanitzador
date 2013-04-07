@@ -359,6 +359,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\XmlAttribute.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\XmlNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\XmlNode.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\OS\XmlParser.cpp"
 				>
 			</File>

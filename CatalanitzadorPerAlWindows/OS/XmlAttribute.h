@@ -20,36 +20,28 @@
 #pragma once
 
 #include "Defines.h"
-#include "XmlNode.h"
 #include <string>
-#import <msxml3.dll>
 #include <vector>
 
 using namespace std;
-using namespace MSXML2;
 
-typedef bool (*NodeCallback)(XmlNode node, void *data);
-
-class XmlParser
+class XmlAttribute
 {
 public:
-		XmlParser();
-		~XmlParser();
-		void Parse(NodeCallback callback, void *data);
-		bool Load(wstring file);
-		bool Save(wstring file);
-		void AppendNode(XmlNode node);
-		bool FindNode(wstring wfind, XmlNode& node);
-		bool ReplaceNode(XmlNode nodeNew, XmlNode nodeOld);
-		MSXML2::IXMLDOMDocumentPtr getDocument() const {return m_domDocument;}
 
-		
+	XmlAttribute() {};
+
+	XmlAttribute(wstring name, wstring value)
+	{
+		m_name = name;
+		m_value = value;
+	}
+
+	wstring GetName() const {return m_name; }
+	wstring GetValue() const {return m_value; }
+
 private:
-		void _initialize();
-		void _uninitialize();
-		void _parseNode(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
-		void _parseNodeGetText(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);
-		void _parseNodeGetAttributes(MSXML2::IXMLDOMNode *pIDOMNode, XmlNode& node);		
 
-		MSXML2::IXMLDOMDocumentPtr m_domDocument;
+	wstring m_name;
+	wstring m_value;
 };
