@@ -195,9 +195,7 @@ bool XmlParser::ReplaceNode(XmlNode nodeNew, XmlNode nodeOld)
 	MSXML2::IXMLDOMNodePtr pParentNode;
 			
 	nodeOld.GetIXMLDOMElementPtr()->get_parentNode(&pParentNode);
-
-	pParentNode->replaceChild(nodeNew.GetIXMLDOMElementPtr(), nodeOld.GetIXMLDOMElementPtr());
-	return true;
+	return SUCCEEDED(pParentNode->replaceChild(nodeNew.GetIXMLDOMElementPtr(), nodeOld.GetIXMLDOMElementPtr()));	
 }
 
 /*
