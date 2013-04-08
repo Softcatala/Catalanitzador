@@ -83,7 +83,6 @@ bool SkypeProfile::_readDefaultAccountNodeCallback(XmlNode node, void *data)
 				g_state = AccountDefaultItemOther;
 				return false;
 			}
-			return true;
 		default:
 			return true;
 	}
