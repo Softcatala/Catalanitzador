@@ -17,12 +17,10 @@
  * 02111-1307, USA.
  */
 
-#include "version.h"
+#include "Version.h"
 #include "PlatformDefinitions.h"
 
 #pragma once
-
-#define DEVELOPMENT_VERSION 1
 
 #define CONTACT_EMAIL L"mailto://catalanitzador@softcatala.org"
 
@@ -33,7 +31,7 @@
 	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/beta/catalanitzador/configuration.xml"
 
 #else
-
+	
 	#define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
 	#define UPLOAD_URL _STR("http://catalanitzador.softcatala.org/parser.php")
 	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml"

@@ -28,3 +28,5 @@
 #define STRING_VERSION				_STR("1.9.1")
 #define STRING_VERSION_RESOURCES	"1.9.1.0"
 
+#define DEVELOPMENT_VERSION 1 // Comment for release version
+
