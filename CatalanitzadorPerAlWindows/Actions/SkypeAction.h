@@ -44,12 +44,13 @@ protected:
 		
 		bool _isDefaultInstallLanguage();
 		bool _isDefaultLanguage();
-		void _setDefaultLanguage();	
+		void _setDefaultLanguage();
+		void _getProgramLocation(wstring& location);
 
 private:
 	
 		int _getVersionInstalled();
-		void _getProgramLocation(wstring& location);
+		
 		void _readVersionInstalled();
 		int _getMajorVersion();
 		void _setDefaultInstallLanguage();

@@ -340,6 +340,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\SkypeActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\Windows8LPIActionTest.cpp"
 				>
 			</File>
