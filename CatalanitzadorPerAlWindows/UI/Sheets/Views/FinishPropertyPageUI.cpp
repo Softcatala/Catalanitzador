@@ -25,11 +25,12 @@ FinishPropertyPageUI::FinishPropertyPageUI(FinishModel* finishModel)
 {	
 	m_hFont = NULL;
 	m_model = finishModel;
+	m_didUserArriveToFinishPage = false;
 }
 
 FinishPropertyPageUI::~FinishPropertyPageUI()
 {
-	if (m_model)
+	if (m_didUserArriveToFinishPage)
 	{
 		m_model->SerializeOptionsSendStatistics();		
 		m_model->WaitForStatisticsToCompleteOrTimeOut();
@@ -69,7 +70,8 @@ void FinishPropertyPageUI::_onInitDialog()
 	SendMessage(GetDlgItem (getHandle(), IDC_FEEDBACK), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	PropSheet_ShowWizButtons(getHandle(), 0, PSWIZB_CANCEL);
-	_setProgressBarLevelAndPercentage();	
+	_setProgressBarLevelAndPercentage();
+	m_didUserArriveToFinishPage = true;
 }
 
 void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()

@@ -42,5 +42,5 @@ private:
 		HFONT m_hFont;
 		HWND m_levelProgressBar;
 		FinishModel* m_model;
-
+		bool m_didUserArriveToFinishPage;
 };
