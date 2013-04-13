@@ -56,6 +56,10 @@ public:
 protected:
 		virtual void _shellExecuteURL(wstring url);
 
+		bool m_openTwitter;
+		bool m_openFacebook;
+		bool m_openGooglePlus;
+
 private:
 
 		void _sendStatistics();
@@ -72,12 +76,8 @@ private:
 		wstring m_xmlFile;
 		float m_completionPercentage;
 		bool m_errors;
-
 		int* m_pSystemRestore;
 		bool* m_pbDialectalVariant;
 		bool* m_pbShowSecDlg;
 		bool m_sentStats;
-		bool m_openTwitter;
-		bool m_openFacebook;
-		bool m_openGooglePlus;
 };

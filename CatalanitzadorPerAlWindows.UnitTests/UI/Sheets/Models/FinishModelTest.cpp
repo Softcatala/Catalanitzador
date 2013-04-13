@@ -38,6 +38,10 @@ public:
 
 	wstring GetURL() {return m_url;}
 
+	bool GetOpenTwitter() { return m_openTwitter; }
+	bool GetOpenFacebook() { return m_openFacebook; }
+	bool GetOpenGooglePlus() { return m_openGooglePlus; }
+
 private:
 
 	wstring m_url;
@@ -120,6 +124,7 @@ TEST(FinishModelTest, OpenTwitter)
 	wstring url = finishModel.GetURL();
 	
 	EXPECT_THAT(url, StrCaseEq(expectedUrl.c_str()));
+	EXPECT_TRUE(finishModel.GetOpenTwitter());
 }
 
 TEST(FinishModelTest, OpenFacebook)
@@ -136,6 +141,7 @@ TEST(FinishModelTest, OpenFacebook)
 	wstring url = finishModel.GetURL();
 	
 	EXPECT_THAT(url, StrCaseEq(expectedUrl.c_str()));
+	EXPECT_TRUE(finishModel.GetOpenFacebook());
 }
 
 TEST(FinishModelTest, OpenGooglePlus)
@@ -152,6 +158,7 @@ TEST(FinishModelTest, OpenGooglePlus)
 	wstring url = finishModel.GetURL();
 	
 	EXPECT_THAT(url, StrCaseEq(expectedUrl.c_str()));
+	EXPECT_TRUE(finishModel.GetOpenGooglePlus());
 }
 
 TEST(FinishModelTest, OpenMailTo)
