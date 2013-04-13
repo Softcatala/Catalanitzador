@@ -58,6 +58,6 @@ void UploadStatisticsThread::OnStart()
 	// Send file
 	HttpFormInet access;
 	bool rslt = m_httpFormInet->PostForm(UPLOAD_URL, variables, values);
-	g_log.Log(L"UploadStatisticsThread::UploadFile to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);
+	g_log.Log(L"UploadStatisticsThread::OnStart to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);
 }
 
