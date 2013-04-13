@@ -25,5 +25,8 @@ enum OptionID
 	// options in a unique manner
 	OptionSystemRestore = 0,
 	OptionDialect = 1,
-	OptionShowSecDlg = 2,	
+	OptionShowSecDlg = 2,
+	OptionShareTwitter = 3,
+	OptionShareFacebook = 4,
+	OptionShareGooglePlus = 5
 };

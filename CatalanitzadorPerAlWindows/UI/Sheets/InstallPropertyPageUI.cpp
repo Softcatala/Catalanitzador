@@ -24,9 +24,6 @@
 #include "DownloadErrorDlgUI.h"
 #include "WindowsXPDialogCanceler.h"
 #include "Inspectors.h"
-#include "Option.h"
-#include "OptionID.h"
-#include "Options.h"
 #include "ActiveX.h"
 #include <exdisp.h>
 
@@ -320,9 +317,6 @@ void InstallPropertyPageUI::_onTimer()
 	Inspectors inspectors;
 	inspectors.Execute();
 	inspectors.Serialize(m_serializer->GetStream());
-
-	_serializeOptions();
-	m_serializer->CloseHeader();
 	_completed();
 
 	if (m_selActions > 0 && *m_pSystemRestore == TRUE)
@@ -332,15 +326,3 @@ void InstallPropertyPageUI::_onTimer()
 }
 
 
-void InstallPropertyPageUI::_serializeOptions()
-{
-	Options options;
-	Option sysOption(OptionSystemRestore, *m_pSystemRestore);
-	Option dialectOption(OptionDialect, *m_pbDialectalVariant);
-	Option showSecDlgOption(OptionShowSecDlg, *m_pbShowSecDlg);
-
-	options.Add(sysOption);
-	options.Add(dialectOption);
-	options.Add(showSecDlgOption);
-	options.Serialize(m_serializer->GetStream());
-}

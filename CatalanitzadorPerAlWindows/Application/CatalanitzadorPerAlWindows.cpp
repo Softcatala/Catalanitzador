@@ -209,8 +209,6 @@ void CatalanitzadorPerAWindows::_createWizard()
 	install.SetActions(&acts);
 	install.SetSerializer(&m_serializer);
 	install.SetSystemRestore(&systemRestore);
-	install.SetDialectVariant(&bDialectVariant);
-	install.SetShowSecDlg(&bShowSecDlg);
 	install.StartSlideShowUnpack();
 	install.createPage(m_hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
 	sheet.addPage(&install);
@@ -218,9 +216,13 @@ void CatalanitzadorPerAWindows::_createWizard()
 	
 	finish.setParent(&sheet);
 	finish.setPageButtons(FinishButtonOnly);
+	finishModel.SetSystemRestore(&systemRestore);
 	finishModel.SetSendStats(&bSendStats);
 	finishModel.SetSerializer(&m_serializer);
 	finishModel.SetActions(&acts);
+	finishModel.SetDialectVariant(&bDialectVariant);
+	finishModel.SetShowSecDlg(&bShowSecDlg);
+	
 	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));	
 	sheet.addPage(&finish);
 

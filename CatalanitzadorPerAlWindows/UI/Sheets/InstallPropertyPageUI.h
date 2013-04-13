@@ -31,12 +31,11 @@ using namespace std;
 class InstallPropertyPageUI: public PropertyPageUI
 {
 public:		
-		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
+		
 		void SetActions(vector <Action *> * value) { m_actions = value;}
-		void SetShowSecDlg(bool *pbShowSecDlg) { m_pbShowSecDlg = pbShowSecDlg;}
-		void SetSystemRestore(int *pSystemRestore) { m_pSystemRestore = pSystemRestore;}
-		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}
 		void StartSlideShowUnpack() { m_slideshow.Start();}
+		void SetSystemRestore(int *pSystemRestore) { m_pSystemRestore = pSystemRestore;}
+		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
 		
 private:
 		virtual void _onInitDialog();
@@ -53,18 +52,15 @@ private:
 		void _waitExecutionComplete(Action* action);
 		void _openURLInIE();
 		void _systemRestore(SystemRestoreThread& systemRestore);
-		void _serializeOptions();
 
 		vector <Action *> * m_actions;
 		HWND hTotalProgressBar;
 		HWND hTaskProgressBar;
 		HWND hDescription;
 		BOOL ShowWindowOnce;
-		Serializer* m_serializer;
 		int m_selActions;
 		int m_downloads;
-		SlideshowThread m_slideshow;
 		int* m_pSystemRestore;
-		bool* m_pbDialectalVariant;
-		bool* m_pbShowSecDlg;
+		Serializer* m_serializer;
+		SlideshowThread m_slideshow;
 };

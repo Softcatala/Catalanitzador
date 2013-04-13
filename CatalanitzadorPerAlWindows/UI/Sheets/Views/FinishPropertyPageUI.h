@@ -37,9 +37,10 @@ private:
 		virtual	void _onFinish();
 		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
-		void _setProgressBarLevelAndPercentage();		
-
+		void _setProgressBarLevelAndPercentage();
+		
 		HFONT m_hFont;
-		HWND m_levelProgressBar;		
+		HWND m_levelProgressBar;
 		FinishModel* m_model;
+
 };

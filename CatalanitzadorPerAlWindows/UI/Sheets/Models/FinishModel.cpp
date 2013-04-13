@@ -18,18 +18,27 @@
  */
 
 #include "stdafx.h"
+#include "Version.h"
 #include <math.h>
 #include <Shellapi.h>
 
 #include "Authorization.h"
 #include "FinishModel.h"
 #include "Url.h"
+#include "Option.h"
+#include "OptionID.h"
+#include "Options.h"
+
 
 FinishModel::FinishModel()
 {
 	m_errors = false;
 	m_uploadStatistics = NULL;
 	m_completionPercentage = -1;
+	m_sentStats = false;
+	m_openTwitter = false;
+	m_openFacebook = false;
+	m_openGooglePlus = false;
 }
 
 FinishModel::~FinishModel()
@@ -40,10 +49,12 @@ FinishModel::~FinishModel()
 		m_uploadStatistics = NULL;
 	}
 
+#if !DEVELOPMENT_VERSION
 	if (m_xmlFile.size() > 0)
 	{
 		DeleteFile(m_xmlFile.c_str());
 	}
+#endif
 }
 
 void FinishModel::_calculateIndicatorsForProgressBar()
@@ -133,8 +144,17 @@ void FinishModel::_saveToDisk()
 	m_xmlFile = szXML;
 	m_serializer->SaveToFile(m_xmlFile);
 }
+void FinishModel::SerializeOptionsSendStatistics()
+{
+	if (m_sentStats == true)
+		return;
 
-void FinishModel::SendStatistics()
+	_serializeOptions();
+	_sendStatistics();
+	m_sentStats = true;
+}
+
+void FinishModel::_sendStatistics()
 {
 	if (*m_pbSendStats)
 	{
@@ -169,6 +189,7 @@ void FinishModel::OpenTwitter()
 	wcscpy_s(szURL, L"http://twitter.com/share?text=");
 	wcscat_s(szURL, parameter.c_str());
 	_shellExecuteURL(szURL);
+	m_openTwitter = true;
 }
 
 void FinishModel::OpenFacebook()
@@ -178,6 +199,7 @@ void FinishModel::OpenFacebook()
 	// See: http://developers.facebook.com/docs/share/
 	swprintf_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=%s", APPLICATON_WEBSITE);
 	_shellExecuteURL(szURL);
+	m_openFacebook = true;
 }
 
 void FinishModel::OpenGooglePlus()
@@ -187,9 +209,30 @@ void FinishModel::OpenGooglePlus()
 	// See: https://developers.google.com/+/plugins/+1button/		
 	swprintf_s(szURL, L"https://plus.google.com/share?url=%s", APPLICATON_WEBSITE);
 	_shellExecuteURL(szURL);
+	m_openGooglePlus = true;
 }
 
 void FinishModel::OpenMailTo()
 {
 	_shellExecuteURL(CONTACT_EMAIL);	
+}
+
+void FinishModel::_serializeOptions()
+{
+	Options options;
+	Option sysOption(OptionSystemRestore, *m_pSystemRestore);
+	Option dialectOption(OptionDialect, *m_pbDialectalVariant);
+	Option showSecDlgOption(OptionShowSecDlg, *m_pbShowSecDlg);
+	Option twitterOption(OptionShareTwitter, m_openTwitter);
+	Option faceBookOption(OptionShareFacebook, m_openFacebook);
+	Option googlePlusSecDlgOption(OptionShareGooglePlus, m_openGooglePlus);
+
+	options.Add(sysOption);
+	options.Add(dialectOption);
+	options.Add(showSecDlgOption);
+	options.Add(twitterOption);
+	options.Add(faceBookOption);
+	options.Add(googlePlusSecDlgOption);
+	options.Serialize(m_serializer->GetStream());
+	m_serializer->CloseHeader();
 }

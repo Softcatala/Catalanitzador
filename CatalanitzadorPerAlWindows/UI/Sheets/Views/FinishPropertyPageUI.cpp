@@ -29,6 +29,12 @@ FinishPropertyPageUI::FinishPropertyPageUI(FinishModel* finishModel)
 
 FinishPropertyPageUI::~FinishPropertyPageUI()
 {
+	if (m_model)
+	{
+		m_model->SerializeOptionsSendStatistics();		
+		m_model->WaitForStatisticsToCompleteOrTimeOut();
+	}
+
 	if (m_hFont != NULL)
 	{
 		DeleteObject(m_hFont);
@@ -63,8 +69,7 @@ void FinishPropertyPageUI::_onInitDialog()
 	SendMessage(GetDlgItem (getHandle(), IDC_FEEDBACK), WM_SETFONT, (WPARAM) m_hFont, TRUE);
 
 	PropSheet_ShowWizButtons(getHandle(), 0, PSWIZB_CANCEL);
-	_setProgressBarLevelAndPercentage();
-	m_model->SendStatistics();
+	_setProgressBarLevelAndPercentage();	
 }
 
 void FinishPropertyPageUI::_setProgressBarLevelAndPercentage()
@@ -95,12 +100,12 @@ void FinishPropertyPageUI::_onFinish()
 
 		result = (MessageBox(getHandle(), szMessage, szCaption,
 			MB_YESNO | MB_ICONQUESTION) == IDYES);		
-	}
-
-	m_model->WaitForStatisticsToCompleteOrTimeOut();
-
+	}	
+	
 	if (result)
 	{
+		m_model->SerializeOptionsSendStatistics();
+		m_model->WaitForStatisticsToCompleteOrTimeOut();
 		m_model->Reboot();
 	}
 }
