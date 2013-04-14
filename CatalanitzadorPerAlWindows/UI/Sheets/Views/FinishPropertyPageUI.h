@@ -35,9 +35,11 @@ public:
 private:
 		virtual void _onInitDialog();
 		virtual	void _onFinish();
+		virtual	void _onEndSession();
 		virtual void _onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/);
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 		void _setProgressBarLevelAndPercentage();
+		void _sendStats();
 		
 		HFONT m_hFont;
 		HWND m_levelProgressBar;

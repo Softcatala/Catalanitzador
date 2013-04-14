@@ -30,11 +30,7 @@ FinishPropertyPageUI::FinishPropertyPageUI(FinishModel* finishModel)
 
 FinishPropertyPageUI::~FinishPropertyPageUI()
 {
-	if (m_didUserArriveToFinishPage)
-	{
-		m_model->SerializeOptionsSendStatistics();		
-		m_model->WaitForStatisticsToCompleteOrTimeOut();
-	}
+	_sendStats();
 
 	if (m_hFont != NULL)
 	{
@@ -106,8 +102,7 @@ void FinishPropertyPageUI::_onFinish()
 	
 	if (result)
 	{
-		m_model->SerializeOptionsSendStatistics();
-		m_model->WaitForStatisticsToCompleteOrTimeOut();
+		_sendStats();
 		m_model->Reboot();
 	}
 }
@@ -119,4 +114,19 @@ NotificationResult FinishPropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/)
 		m_model->OpenMailTo();
 	}
 	return ReturnFalse;
+}
+
+void FinishPropertyPageUI::_sendStats()
+{
+	if (m_didUserArriveToFinishPage)
+	{
+		m_model->SerializeOptionsSendStatistics();
+		m_model->WaitForStatisticsToCompleteOrTimeOut();
+	}
+}
+
+void FinishPropertyPageUI::_onEndSession()
+{
+	g_log.Log (L"FinishPropertyPageUI::_onEndSession");
+	_sendStats();	
 }

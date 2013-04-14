@@ -123,7 +123,17 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 				pThis->_onCommand(hWnd, wParam, lParam); 	
 
 			return 0; // Already processed
-		}				
+		}
+
+		case WM_ENDSESSION:
+		{
+			PropertyPageUI* pThis  = (PropertyPageUI *) GetWindowLong (hWnd, DWL_USER);
+			if (pThis != NULL)
+			{			
+				pThis->_onEndSession();
+			}
+			break;
+		}
 						
 		default:
 			break;

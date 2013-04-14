@@ -69,6 +69,7 @@ private:
 	virtual	void				_onFinish(){};
 	virtual	void				_onShowWindow(){};
 	virtual	void				_onTimer(){};
+	virtual	void				_onEndSession(){};
 	virtual void				_onCommand(HWND /*hWnd*/, WPARAM /*wParam*/, LPARAM /*lParam*/){};
 	virtual NotificationResult	_onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/){ return ReturnFalse;};
 	

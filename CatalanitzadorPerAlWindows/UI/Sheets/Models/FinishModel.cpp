@@ -236,3 +236,4 @@ void FinishModel::_serializeOptions()
 	options.Serialize(m_serializer->GetStream());
 	m_serializer->CloseHeader();
 }
+
