@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
- * Copyright (C) 2012 Joan Montané <joan@montane.cat>
+ * Copyright (C) 2012 Jordi Mas i Hernï¿½ndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Joan Montanï¿½ <joan@montane.cat>
  *  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -67,10 +67,15 @@ void LibreOfficeInspector::Execute()
 void LibreOfficeInspector::_getPreferencesFile(wstring& location)
 {
 	wchar_t szPath[MAX_PATH];
+	wstring Version=m_version;
 	
+	Version = Version.erase(Version.find(L"."));
+
 	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
 	location = szPath;
-	location += L"\\LibreOffice\\3\\user\\registrymodifications.xcu";
+	location += L"\\LibreOffice\\";
+	location += Version;
+	location += L"\\user\\registrymodifications.xcu";
 }
 
 void LibreOfficeInspector::_readLocale(wstring &locale)
