@@ -1,6 +1,7 @@
-ï»¿/* 
- * Copyright (C) 2012 Jordi Mas i HernÃ ndez <jmas@softcatala.org>
- * 
+/*
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Joan Montané <joan@montane.cat>
+ *  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -19,15 +20,25 @@
 
 #pragma once
 
-enum InspectorID
+#include "Inspector.h"
+#include "IRegistry.h"
+
+class ThunderbirdInspector : public Inspector
 {
-	// Do not modify or assign different meanings to these since they are used in the server side to identify 
-	// actions in a unique manner and we have data from previous sessions with already existing values
-	NoInspector = 0,
-	LibreOfficeInspectorID = 1,
-	SkypeID = 2,
-	PDFCreatorInspectorID = 3,
-	WinRARInspectorID = 4,
-	ITunesInspectorID = 5,
-	ThunderbirdInspectorID = 6
+public:
+
+		ThunderbirdInspector(IRegistry* registry);
+
+		virtual InspectorID GetID() const {return ThunderbirdInspectorID;}
+		virtual void Execute();
+
+private:
+		
+		void _readVersion();
+		void _readLanguage();
+		void _getVersionAndLocaleFromRegistry();
+
+		IRegistry* m_registry;
+		wstring m_version;
+		wstring m_locale;
 };

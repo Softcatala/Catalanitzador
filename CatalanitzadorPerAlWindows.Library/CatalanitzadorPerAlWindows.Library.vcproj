@@ -923,6 +923,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ThunderbirdInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ThunderbirdInspector.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\WinRARInspector.cpp"
 				>
 			</File>
