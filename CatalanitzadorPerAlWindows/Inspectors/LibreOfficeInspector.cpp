@@ -68,14 +68,16 @@ void LibreOfficeInspector::_getPreferencesFile(wstring& location)
 {
 	wchar_t szPath[MAX_PATH];
 	wstring Version=m_version;
+	if(Version.size() > 0)
+	{
+		Version = Version.erase(Version.find(L"."));
+		SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
+		location = szPath;
+		location += L"\\LibreOffice\\";
+		location += Version;
+		location += L"\\user\\registrymodifications.xcu";
+	}
 	
-	Version = Version.erase(Version.find(L"."));
-
-	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
-	location = szPath;
-	location += L"\\LibreOffice\\";
-	location += Version;
-	location += L"\\user\\registrymodifications.xcu";
 }
 
 void LibreOfficeInspector::_readLocale(wstring &locale)
