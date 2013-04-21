@@ -887,6 +887,14 @@
 			Name="Inspectors"
 			>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\CCleanerInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\CCleanerInspector.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\Inspector.cpp"
 				>
 			</File>
