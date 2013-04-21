@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
- * Copyright (C) 2012 Joan Montan� <joan@montane.cat>
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012 Joan Montané <joan@montane.cat>
  *  
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
