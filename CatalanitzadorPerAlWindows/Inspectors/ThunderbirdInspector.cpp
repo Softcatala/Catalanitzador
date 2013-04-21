@@ -36,7 +36,6 @@ void ThunderbirdInspector::Execute()
 
 void ThunderbirdInspector::_readVersion()
 {	
-	
 	if(m_version.length() > 0){
 		g_log.Log(L"ThunderbirdInspector::_readVersion version %s", (wchar_t*) m_version.c_str());
 		m_KeyValues.push_back(InspectorKeyValue(L"version", m_version.c_str()));
@@ -55,11 +54,12 @@ void ThunderbirdInspector::_readLanguage()
 
 void ThunderbirdInspector::_getVersionAndLocaleFromRegistry()
 {
-	
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, THUNDERBIRD_REGKEY, false) == false)
 	{
 		g_log.Log(L"ThunderbirdInspector::_getVersionAndLocaleFromRegistry. Cannot open registry key");
-		m_version = L"";
+		m_version.clear();
+		m_locale.clear();
+		return;
 	}
 	
 	wchar_t szVersion[1024];
