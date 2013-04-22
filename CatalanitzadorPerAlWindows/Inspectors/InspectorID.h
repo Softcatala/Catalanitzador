@@ -25,7 +25,7 @@ enum InspectorID
 	// actions in a unique manner and we have data from previous sessions with already existing values
 	NoInspector = 0,
 	LibreOfficeInspectorID = 1,
-	SkypeID = 2,
+	SkypeInspectorID = 2,
 	PDFCreatorInspectorID = 3,
 	WinRARInspectorID = 4,
 	ITunesInspectorID = 5,
