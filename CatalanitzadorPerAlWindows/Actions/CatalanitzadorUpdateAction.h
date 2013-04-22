@@ -29,7 +29,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return CatalanitzadorUpdate;};
+		virtual ActionID GetID() const { return CatalanitzadorUpdateActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupNone;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();

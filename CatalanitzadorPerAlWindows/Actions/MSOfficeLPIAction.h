@@ -53,7 +53,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return MSOfficeLPI;};
+		virtual ActionID GetID() const { return MSOfficeLPIActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupOfficeAutomation;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();

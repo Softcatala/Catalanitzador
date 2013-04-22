@@ -97,7 +97,7 @@ void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAc
 	{
 		if (_doesUserWantToUpdate())
 		{
-			DownloadNewVersionDlgUI downloadNewVersionDlgUI(m_pActions->GetActionFromID(CatalanitzadorUpdate));
+			DownloadNewVersionDlgUI downloadNewVersionDlgUI(m_pActions->GetActionFromID(CatalanitzadorUpdateActionID));
 			if (downloadNewVersionDlgUI.Run(getHandle()) == IDCANCEL)
 			{
 				catalanitzadorAction->SetStatus(NotSelected);
@@ -112,7 +112,7 @@ void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAc
 
 bool WelcomePropertyPageUI::_onNext()
 {
-	Action* catalanitzadorAction = m_pActions->GetActionFromID(CatalanitzadorUpdate);
+	Action* catalanitzadorAction = m_pActions->GetActionFromID(CatalanitzadorUpdateActionID);
 
 	// Disable Next button after has been click to prevent user clicking twice
 	SendMessage(getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, 0);

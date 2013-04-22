@@ -61,7 +61,7 @@ void CommandLine::_createCatalanitzadorUpdateAction(wstring version)
 
 	CatalanitzadorUpdateAction* action;
 	
-	action = (CatalanitzadorUpdateAction *)m_pActions->GetActionFromID(CatalanitzadorUpdate);
+	action = (CatalanitzadorUpdateAction *)m_pActions->GetActionFromID(CatalanitzadorUpdateActionID);
 	action->SetVersion(version);
 	action->SetStatus(Successful);
 }

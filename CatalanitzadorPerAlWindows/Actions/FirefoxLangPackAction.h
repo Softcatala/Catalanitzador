@@ -36,7 +36,7 @@ public:
 
 		virtual wchar_t* GetName() {return L""; }
 		virtual wchar_t* GetDescription() {return L""; }
-		virtual ActionID GetID() const { return FirefoxLangPack;}
+		virtual ActionID GetID() const { return FirefoxLangPackActionID;}
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool IsDownloadNeed();
 		virtual bool Download(ProgressStatus progress, void *data);

@@ -32,7 +32,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return Skype;};
+		virtual ActionID GetID() const { return SkypeActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();

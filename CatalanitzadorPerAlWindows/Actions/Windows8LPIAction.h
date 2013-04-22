@@ -35,7 +35,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return WindowsLPI;};
+		virtual ActionID GetID() const { return WindowsLPIActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupWindows;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();

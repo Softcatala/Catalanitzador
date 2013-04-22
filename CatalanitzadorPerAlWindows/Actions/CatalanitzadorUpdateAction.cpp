@@ -97,7 +97,7 @@ bool CatalanitzadorUpdateAction::_isRunningInstanceUpToDate()
 	vector <ConfigurationFileActionDownloads> m_fileActionsDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();
 	for (unsigned int i = 0; i < m_fileActionsDownloads.size(); i++)
 	{
-		if (m_fileActionsDownloads.at(i).GetActionID() == CatalanitzadorUpdate)
+		if (m_fileActionsDownloads.at(i).GetActionID() == CatalanitzadorUpdateActionID)
 		{
 			if (m_fileActionsDownloads.at(i).GetFileActionDownloadCollection().size() > 0)
 			{

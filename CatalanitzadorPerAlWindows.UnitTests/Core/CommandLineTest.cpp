@@ -85,7 +85,7 @@ TEST(CommandLineTest, _RunningCheckWithVersion)
 	
 	for (unsigned int i = 0; i < actions.size(); i++)
 	{
-		if (actions.at(i)->GetID() != CatalanitzadorUpdate)
+		if (actions.at(i)->GetID() != CatalanitzadorUpdateActionID)
 			continue;
 
 		version_found = actions.at(i)->GetVersion();

@@ -27,9 +27,9 @@ using ::testing::StrCaseEq;
 TEST(ConfigurationFileActionDownloadsTest, GetSetActionID)
 {	
 	ConfigurationFileActionDownloads fileActionDownloads;
-	fileActionDownloads.SetActionID(WindowsLPI);
+	fileActionDownloads.SetActionID(WindowsLPIActionID);
 
-	EXPECT_THAT(fileActionDownloads.GetActionID(), WindowsLPI);
+	EXPECT_THAT(fileActionDownloads.GetActionID(), WindowsLPIActionID);
 }
 
 #define ADD_VERSION L"1.9.1"

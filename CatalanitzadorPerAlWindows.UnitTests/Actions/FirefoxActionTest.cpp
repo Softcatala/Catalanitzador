@@ -71,7 +71,7 @@ bool FirefoxSerializerReadActionsIDs(XmlNode node, void *data)
 		{
 			int id = _wtoi(attribute.GetValue().c_str());
 
-			if (id == Firefox || id == FirefoxLangPack)
+			if (id == FirefoxActionID || id == FirefoxLangPackActionID)
 				*cnt = *cnt + 1;
 		}
 	}	

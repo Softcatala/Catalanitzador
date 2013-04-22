@@ -426,7 +426,7 @@ TEST(WindowsLPIActionTest, _isDownloadAvailable_Yes)
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 
 	fileActionDownload.SetVersion(lipAction._getDownloadID());	
-	fileActionDownloads.SetActionID(WindowsLPI);
+	fileActionDownloads.SetActionID(WindowsLPIActionID);
 	fileActionDownload.AddUrl(L"http://www.softcatala.org/");
 	fileActionDownloads.AddFileActionDownload(fileActionDownload);
 	remote.AddFileActionDownloads(fileActionDownloads);

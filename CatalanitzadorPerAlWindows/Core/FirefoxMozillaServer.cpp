@@ -99,7 +99,7 @@ ConfigurationFileActionDownload FirefoxMozillaServer::GetConfigurationFileAction
 	ConfigurationFileActionDownload downloadVersion;
 	wstring url, sha1;
 	
-	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(Firefox, ApplicationVersion(m_version));
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(FirefoxActionID, ApplicationVersion(m_version));
 
 	if (downloadVersion.GetUrls().size() > 0)
 	{

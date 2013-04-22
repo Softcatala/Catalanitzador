@@ -57,7 +57,7 @@ void _configureCatalanitzadorInDownloadFile(wstring version_req)
 
 	fileActionDownload.SetMinVersion(ApplicationVersion(L"0.0.0"));
 	fileActionDownload.SetMaxVersion(ApplicationVersion(version_req));
-	fileActionDownloads.SetActionID(CatalanitzadorUpdate);
+	fileActionDownloads.SetActionID(CatalanitzadorUpdateActionID);
 	fileActionDownloads.AddFileActionDownload(fileActionDownload);
 	remote.AddFileActionDownloads(fileActionDownloads);
 	ConfigurationInstance::Get().SetRemote(remote);

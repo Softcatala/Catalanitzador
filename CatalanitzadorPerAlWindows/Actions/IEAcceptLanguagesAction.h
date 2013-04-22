@@ -38,7 +38,7 @@ public:
 
 		virtual wchar_t* GetName() {return L"";}
 		virtual wchar_t* GetDescription() {return L"";}
-		virtual ActionID GetID() const { return IEAcceptLanguage;};
+		virtual ActionID GetID() const { return IEAcceptLanguageActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();

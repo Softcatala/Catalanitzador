@@ -34,7 +34,7 @@ public:
 
 		virtual wchar_t* GetName() {return L""; }
 		virtual wchar_t* GetDescription() {return L""; }
-		virtual ActionID GetID() const { return Firefox;}
+		virtual ActionID GetID() const { return FirefoxActionID;}
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool IsDownloadNeed() { return false;}		
 		virtual bool IsNeed();

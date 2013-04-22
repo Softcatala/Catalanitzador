@@ -30,7 +30,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return ConfigureLocale;};
+		virtual ActionID GetID() const { return ConfigureLocaleActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupWindows;}
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();

@@ -188,7 +188,7 @@ TEST(WindowsLiveActionTest, _isDownloadAvailable_Yes)
 	SetGetMajorVersion(fileVersionInfoMockobj, VERSION_STRING, VERSION);
 	fileActionDownload.SetMaxVersion(ApplicationVersion(L"15"));
 	fileActionDownload.SetMinVersion(ApplicationVersion(L"15"));
-	fileActionDownloads.SetActionID(WindowsLive);
+	fileActionDownloads.SetActionID(WindowsLiveActionID);
 	fileActionDownload.AddUrl(L"http://www.softcatala.org/");
 	fileActionDownloads.AddFileActionDownload(fileActionDownload);
 	remote.AddFileActionDownloads(fileActionDownloads);

@@ -33,7 +33,7 @@ public:
     
         virtual const char* GetDescription()  {return "El vostre sistema apareixerà en català i s'indicarà a la resta d'aplicacions que el català és la llengua predeterminada.";}
     
-        virtual ActionID GetID() const {return MacSpellChecker;}
+        virtual ActionID GetID() const {return MacSpellCheckerActionID;}
     
         virtual bool IsNeed();
         virtual void Execute();

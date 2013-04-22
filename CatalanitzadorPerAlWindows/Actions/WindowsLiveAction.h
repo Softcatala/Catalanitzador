@@ -32,7 +32,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return WindowsLive;};
+		virtual ActionID GetID() const { return WindowsLiveActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();

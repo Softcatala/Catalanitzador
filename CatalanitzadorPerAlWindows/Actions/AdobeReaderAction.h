@@ -33,7 +33,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return AcrobatReader;};
+		virtual ActionID GetID() const { return AcrobatReaderActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupOfficeAutomation;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();

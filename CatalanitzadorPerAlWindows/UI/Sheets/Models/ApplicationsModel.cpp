@@ -243,7 +243,7 @@ bool ApplicationsModel::WindowsLiveRebootRequired()
 	{
 		Action* action = m_availableActions->at(i);
 
-		if (action->GetID() != WindowsLive)
+		if (action->GetID() != WindowsLiveActionID)
 			continue;
 
 		WindowsLiveAction* live = (WindowsLiveAction *) action;
