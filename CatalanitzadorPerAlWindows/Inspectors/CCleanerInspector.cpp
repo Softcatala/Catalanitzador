@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "CCleanerInspector.h"
+#include "FileVersionInfo.h"
 
 CCleanerInspector::CCleanerInspector(IRegistry* registry)
 {
@@ -27,7 +28,6 @@ CCleanerInspector::CCleanerInspector(IRegistry* registry)
 }
 
 #define PROGRAM_REGKEY L"Software\\Piriform\\CCleaner"
-#define UNINSTALL_PROGRAM_REGKEY L"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\CCleaner"
 
 void CCleanerInspector::Execute()
 {
@@ -38,16 +38,28 @@ void CCleanerInspector::Execute()
 
 void CCleanerInspector::_readVersionInstalled()
 {	
-	wchar_t szVersion[1024] = L"";
+	wchar_t szPath[1024] = L"";
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, UNINSTALL_PROGRAM_REGKEY, false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
 	{
-		m_registry->GetString(L"DisplayVersion", szVersion, sizeof(szVersion));
+		m_registry->GetString(L"", szPath, sizeof(szPath));
 		m_registry->Close();
 	}
+	
+	wstring version = L"";
+	wstring file = wstring(szPath);
+	
+	if (file.size() > 0)
+	{
+		file += L"\\CCleaner.exe";
 
-	g_log.Log(L"CCleanerInspector::_readVersionInstalled '%s'", szVersion);
-	m_KeyValues.push_back(InspectorKeyValue(L"version", szVersion));
+		FileVersionInfo fileVersion;
+		fileVersion.SetFilename(file);
+		version = fileVersion.GetVersion();
+	}
+
+	g_log.Log(L"CCleanerInspector::_readVersion version '%s'", (wchar_t*) version.c_str());
+	m_KeyValues.push_back(InspectorKeyValue(L"version", version.c_str()));
 }
 
 void CCleanerInspector::_readLangInstalled()
