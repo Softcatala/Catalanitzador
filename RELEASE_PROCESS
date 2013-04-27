@@ -1,4 +1,4 @@
-** Release process a new binary **
+** Microsoft Windows **
 
 Steps to follow when doing a release:
 
@@ -59,6 +59,14 @@ Run DownloadFilesChecker to help you verify that the changes are correct
 needed to support the XML. If you have made changes that break the XML and there are only clients
 using this URL increase the version to number to the most recent version to prevent old clients from
 using the file.
+
+** Mac OS X **
+
+- Go to XCode, Product->Archive
+- When the 'Organizer - Archives' dialog is shown, select 'Distribute' and then 'Export Developer ID - signes application'
+- Select your digital signature
+- Create a zis file of the output 'zip -r CatalanitzadorPerAlMac.zip CatalanitzadorPerAlMac.app/'
+
 
 
 
