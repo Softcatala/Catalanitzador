@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2013-03-16T19:00:00</date>
+		<date>2013-04-28T13:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -308,8 +308,8 @@
 	 		<download>
 	  			<min_version>3.0.0</min_version>
 	  			<max_version>99.99.99</max_version>
-	  			<url_1>ftp://ftp.mozilla.org/pub/firefox/releases/[version]/win32/ca/Firefox%20Setup%20[version].exe</url_1>
-	  			<sha1_url_1>ftp://ftp.mozilla.org/pub/firefox/releases/[version]/SHA1SUMS</sha1_url_1>
+	  			<url_1>http://ftp.mozilla.org/pub/firefox/releases/[version]/win32/ca/Firefox%20Setup%20[version].exe</url_1>
+	  			<sha1_url_1>http://ftp.mozilla.org/pub/firefox/releases/[version]/SHA1SUMS</sha1_url_1>
 				<filename>Firefox.exe</filename>
 	  		</download>
 		</action>		
