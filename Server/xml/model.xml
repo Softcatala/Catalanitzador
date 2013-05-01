@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<execution>
+<application MajorVersion='0' MinorVersion='1' Revision='2' />
+<operating OSMajorVersion="5" OSMinorVersion="1" SPMajorVersion="0" SPMinorVersion="1" SuiteMask="256" ProductType="1" Bits="32" Name="WindowsVista"/>
+<actions>
+<action id='1' version='' result='0'/>
+<action id='3' version='' result='0'/>
+<action id='4' version='' result='4'/>
+<action id='2' version='' result='0'/>
+</actions>
+</execution>

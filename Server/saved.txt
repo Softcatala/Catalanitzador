@@ -1,0 +1,194 @@
+20:43:42.0500 - CatalanitzadorPerAlWindows version 1.4.6. Compiled on Mar 19 2013 - 20:06:44
+20:43:42.0500 - Today is 2013/04/30
+20:43:42.0500 - OS Info. OS version 5.1, SP version 3.0, Build 2600, SuiteMask 256, ProductType 1, 64 bit no, name WindowsXP
+20:43:42.0500 - CommandLine::Process: \'\'
+20:43:42.0500 - Guid::_read. Result 0, guid: \'\'
+20:43:42.0500 - Guid::_generate. Guid: \'aac0eeb7-398d-4c2a-9443-bfe12db77a93\'
+20:43:42.0500 - Guid::Store. Result \'1\'
+20:43:43.0109 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\embedded_configuration.xml returns 39ab5f79b1f41dc58ea7086e7eee36c4cc1b4e9f
+20:43:43.0468 - ConfigurationDownloadThread::GetAssociatedFileSha1Sum \'http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml.sha1\' is 1
+20:43:43.0468 - Sha1Sum::ReadFromFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\configuration.xml.sha1 returns 39ab5f79b1f41dc58ea7086e7eee36c4cc1b4e9f
+20:43:43.0781 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\embedded_configuration.xml returns 39ab5f79b1f41dc58ea7086e7eee36c4cc1b4e9f
+20:43:43.0781 - ConfigurationDownloadThread::OnStart. Remote file same version that the embedded
+20:43:48.0500 - CatalanitzadorUpdateAction::IsNeed returns 0 (status 3)
+20:43:48.0500 - WindowsLPIAction::_isASupportedSystemLanguage. Language ID: c0a
+20:43:48.0500 - MSOfficeLPIAction::_readVersionInstalled \'2003\'
+20:43:48.0500 - MSOfficeLPIAction::_readIsLangPackInstalled returns \'false\'
+20:43:48.0718 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Windows Live\\Installer\\wlarp.exe\' version \'14.0.8089.726\'
+20:43:48.0718 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Windows Live\\Installer\\wlarp.exe\' version \'14.0.8089.726\'
+20:43:48.0750 - FileVersionInfo::_readLanguageCode. File \'C:\\Archivos de programa\\Windows Live\\Installer\\wlsres.dll\' language \'3\'
+20:43:48.0750 - WindowsLiveAction::_isLangSelected2009. Language \'3\'
+20:43:48.0750 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Internet Explorer\\iexplore.exe\' version \'8.0.6001.18702\'
+20:43:48.0750 - IELPIAction::_readIEVersion returns IE \'8\'
+20:43:48.0750 - FileVersionInfo::ReadVersion. File \'C:\\WINDOWS\\system32\\ca-es\\ieframe.dll.mui\' version \'\'
+20:43:48.0750 - IELPIAction::_isLangPackInstalled returns 0
+20:43:48.0750 - IELPIAction::CheckPrerequirements: Ok
+20:43:48.0750 - ConfigureDefaultLanguageAction::_isCatalanKeyboardActive returns 0
+20:43:48.0750 - ConfigureDefaultLanguageAction::_hasSpanishKeyboard is \'1\'
+20:43:48.0765 - OpenOfficeAction::_readVersionInstalled \'3.3\'
+20:43:48.0781 - OpenOfficeAction::_isLangPackInstalled \'1\'
+20:43:48.0781 - AdobeReaderAction::_readUninstallGUID: \'{AC76BA86-7AD7-1027-7B44-AA1000000001}\'
+20:43:48.0781 - AdobeReaderAction::_readVersionInstalled: version: \'10.0\', lang: \'CAT\', versions installed: \'1\'
+20:43:52.0015 - WindowsValidation::IsWindowsValidated. Result: \'0\', passed 1
+20:43:52.0015 - WindowsLPIAction::_isLangPackInstalled returns 0
+20:43:52.0015 - WindowsLPIAction::IsNeed returns 1
+20:43:52.0031 - ConfigureLocaleAction::IsNeed returns 1
+20:43:52.0031 - ConfigureDefaultLanguageAction::IsNeed returns 1 (status 0)
+20:43:52.0031 - WindowsLiveAction::IsNeed returns 0 (status 3)
+20:43:52.0031 - IELPIAction::IsNeed returns 1 (status 0)
+20:43:52.0031 - IEAcceptLanguagesAction::IsNeed returns 1 (status 0)
+20:43:52.0031 - ChromeAction::IsNeed returns 0 (status 7)
+20:43:52.0031 - FirefoxAction::_readVersionAndLocale. Firefox version 20.0.1 (ca), version 20.0.1, locale ca
+20:43:52.0031 - FirefoxAction::_readLanguageCode open d:\\Documents and Settings\\usuari_sid\\Datos de programa\\Mozilla\\Firefox\\Profiles/a3ohlt67.default\\prefs.js
+20:43:52.0031 - FirefoxAction::IsNeed returns 0 (first lang:)
+20:43:52.0031 - MSOfficeLPIAction::IsNeed returns 1 (status 0)
+20:43:52.0031 - OpenOfficeAction::IsNeed returns 0 (status 3)
+20:43:52.0031 - AdobeReaderAction::IsNeed returns 0 (status 3)
+20:43:52.0046 - FileVersionInfo::ReadVersion. File \'C:\\WINDOWS\\system32\\ca-es\\ieframe.dll.mui\' version \'\'
+20:43:52.0046 - IELPIAction::_isLangPackInstalled returns 0
+20:43:52.0046 - IELPIAction::CheckPrerequirements: Ok
+20:43:55.0890 - WindowsLiveAction::IsNeed returns 0 (status 3)
+20:43:55.0906 - Runner::GetRunningProcessesNames. 26 processes
+20:43:55.0906 - ApplicationsModel::LogRunningProcesses: smss.exe, winlogon.exe, services.exe, lsass.exe, Ati2evxx.exe, svchost.exe, svchost.exe, spoolsv.exe, jqs.exe, mdm.exe, NMSAccessU.exe, ntrtscan.exe, XYNTService.exe, tmlisten.exe, CNTAoSMgr.exe, Explorer.EXE, DVDLauncher.exe, tfswctrl.exe, smax4pnp.exe, pccntmon.exe, DivXUpdate.exe, jusched.exe, ctfmon.exe, TMBMSRV.exe, TmPfw.exe, CatalanitzadorPerAlWindows.exe
+20:43:55.0906 - WindowsLPIAction::_isLangPackInstalled returns 0
+20:43:58.0625 - WindowsLPIAction::_isLangPackInstalled returns 0
+20:44:04.0156 - SystemRestore::Start. Created point \'Catalanitzador per al Windows\' with result 1
+20:44:04.0171 - WindowsLPIAction::_isLangPackInstalled returns 0
+20:44:07.0750 - WindowsValidation::IsWindowsValidated. Result: \'0\', passed 1
+20:44:12.0515 - DownloadManager::GetFile \'http://baixades.softcatala.org/?id=3468&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi\' is 1
+20:44:12.0562 - DownloadManager::_getAssociatedFileSha1Sum \'http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi.sha1\' is 1
+20:44:12.0562 - Sha1Sum::ReadFromFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\LIPsetup.msi.sha1 returns f16521a9e82939fc7d193ea7cc2e62aac5b7c46c
+20:44:12.0625 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\LIPsetup.msi returns f16521a9e82939fc7d193ea7cc2e62aac5b7c46c
+20:44:12.0625 - WindowsLPIAction::_isLangPackInstalled returns 0
+20:44:12.0625 - WindowsLPIAction::Execute \'C:\\WINDOWS\\system32\\msiexec.exe \' with params \' /i d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\LIPsetup.msi /qn\'
+20:49:02.0515 - WindowsLPIAction::_isLangPackInstalled returns 0
+20:49:02.0515 - WindowsLPIAction::GetStatus is \'FinishedWithError\'
+20:49:06.0046 - DownloadManager::GetFile \'http://baixades.softcatala.org/?id=3444&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab\' is 1
+20:49:06.0078 - DownloadManager::_getAssociatedFileSha1Sum \'http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab.sha1\' is 1
+20:49:06.0078 - Sha1Sum::ReadFromFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\office2003-lip.cab.sha1 returns 522cd2c71a0c24b93998ad3c15d3b668d89f2a82
+20:49:06.0125 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\office2003-lip.cab returns 522cd2c71a0c24b93998ad3c15d3b668d89f2a82
+20:49:06.0125 - MSOfficeLPIAction::_needsInstallConnector returns 0
+20:49:06.0140 - MSOfficeLPIAction::_extractCabFile \'C:\\WINDOWS\\system32\\expand.exe \' with params \' d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\office2003-lip.cab d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\CATB4.tmp -f:*\'
+20:49:06.0328 - MSOfficeLPIAction::Execute \'C:\\WINDOWS\\system32\\msiexec.exe \' with params \' /i d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\CATB4.tmp\\lip.msi /qn\'
+20:49:08.0218 - MSOfficeLPIAction::_needsInstallConnector returns 0
+20:49:08.0218 - MSOfficeLPIAction::GetStatus is \'FinishedWithError\'
+20:49:11.0687 - DownloadManager::GetFile \'http://baixades.softcatala.org/?id=4755&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe\' is 1
+20:49:11.0718 - DownloadManager::_getAssociatedFileSha1Sum \'http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe.sha1\' is 1
+20:49:11.0718 - Sha1Sum::ReadFromFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\CATB5.tmp\\IE8-WindowsXP-x86-CAT.exe.sha1 returns 2ba75f65b9fb3b57729203c60c73def16607a820
+20:49:11.0796 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\CATB5.tmp\\IE8-WindowsXP-x86-CAT.exe returns 2ba75f65b9fb3b57729203c60c73def16607a820
+20:49:11.0812 - IELPIAction::Execute \'d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\CATB5.tmp\\IE8-WindowsXP-x86-CAT.exe /quiet /norestart /update-no\', 64 bits 0
+20:51:04.0421 - IELPIAction::GetStatus is \'Successful\'
+20:51:07.0046 - IEAcceptLanguagesAction::_writeLanguageCode, set AcceptLanguage 1
+20:51:07.0046 - IEAcceptLanguagesAction::Execute returns Successful
+20:51:07.0046 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Internet Explorer\\iexplore.exe\' version \'8.0.6001.18702\'
+20:51:07.0062 - ConfigureLocaleAction::Execute \'C:\\WINDOWS\\system32\\control.exe \' with params \' intl.cpl,,/f:\"d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\regopts.txt\"\'
+20:51:17.0250 - ConfigureLocaleAction::GetStatus is \'Successful\'
+20:51:17.0250 - ConfigureDefaultLanguageAction::Execute \'C:\\WINDOWS\\system32\\control.exe \' with params \' intl.cpl,,/f:\"d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\regopts.txt\"\'
+20:51:28.0062 - ConfigureDefaultLanguageAction::_isCatalanKeyboardActive returns 0
+20:51:28.0062 - ConfigureDefaultLanguageAction::MakeCatalanActiveKeyboard needed
+20:51:28.0062 - ConfigureDefaultLanguageAction::MakeCatalanActiveKeyboard. Switching language positions
+20:51:28.0062 - ConfigureDefaultLanguageAction::_isCatalanKeyboardActive returns 1
+20:51:28.0062 - ConfigureDefaultLanguageAction::GetStatus is \'Successful\'
+20:51:28.0062 - LibreOfficeInspector::_readVersionInstalled \'\'
+20:51:28.0093 - LibreOfficeInspector::_readLanguage. Could not open \'d:\\Documents and Settings\\usuari_sid\\Datos de programa\\LibreOffice\\3\\user\\registrymodifications.xcu\'
+20:51:28.0093 - LibreOfficeInspector::_getUIFilesInstalled \'\'
+20:51:28.0093 - LibreOfficeInspector::_getDictInstalled \'\'
+20:51:28.0093 - SkypeInspector::_readFilePath \'\'
+20:51:28.0093 - SkypeInspector::_readVersion version 
+20:51:28.0093 - SkypeInspector::_readLangInstalled \'\'
+20:51:28.0093 - PDFCreator::_readVersionInstalled \'1.4.3\'
+20:51:28.0093 - PDFCreator::_readLangInstalled \'\'
+20:51:28.0093 - WinRARInspector::_readFilePath \'\'
+20:51:28.0093 - WinRARInspector::_readVersion version 
+20:51:28.0109 - ITunesInspector::_readVersionInstalled \'\'
+20:51:28.0109 - ITunesInspector::_readLangInstalled \'\'
+20:51:28.0109 - SystemRestore::End. Called with result 1
+
+21:40:41.0718 - CatalanitzadorPerAlWindows version 1.4.6. Compiled on Mar 19 2013 - 20:06:44
+21:40:41.0718 - Today is 2013/04/30
+21:40:41.0718 - OS Info. OS version 5.1, SP version 3.0, Build 2600, SuiteMask 256, ProductType 1, 64 bit no, name WindowsXP
+21:40:41.0718 - CommandLine::Process: \'\'
+21:40:41.0718 - Guid::_read. Result 1, guid: \'aac0eeb7-398d-4c2a-9443-bfe12db77a93\'
+21:40:42.0234 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\embedded_configuration.xml returns 39ab5f79b1f41dc58ea7086e7eee36c4cc1b4e9f
+21:40:42.0640 - ConfigurationDownloadThread::GetAssociatedFileSha1Sum \'http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml.sha1\' is 1
+21:40:42.0640 - Sha1Sum::ReadFromFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\configuration.xml.sha1 returns 39ab5f79b1f41dc58ea7086e7eee36c4cc1b4e9f
+21:40:42.0921 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\embedded_configuration.xml returns 39ab5f79b1f41dc58ea7086e7eee36c4cc1b4e9f
+21:40:42.0921 - ConfigurationDownloadThread::OnStart. Remote file same version that the embedded
+21:41:05.0015 - CatalanitzadorUpdateAction::IsNeed returns 0 (status 3)
+21:41:05.0015 - WindowsLPIAction::_isASupportedSystemLanguage. Language ID: c0a
+21:41:05.0031 - MSOfficeLPIAction::_readVersionInstalled \'2007\'
+21:41:05.0031 - MSOfficeLPIAction::_readIsLangPackInstalled returns \'false\'
+21:41:05.0281 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Windows Live\\Installer\\wlarp.exe\' version \'14.0.8089.726\'
+21:41:05.0281 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Windows Live\\Installer\\wlarp.exe\' version \'14.0.8089.726\'
+21:41:05.0328 - FileVersionInfo::_readLanguageCode. File \'C:\\Archivos de programa\\Windows Live\\Installer\\wlsres.dll\' language \'3\'
+21:41:05.0328 - WindowsLiveAction::_isLangSelected2009. Language \'3\'
+21:41:05.0421 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Internet Explorer\\iexplore.exe\' version \'8.0.6001.18702\'
+21:41:05.0421 - IELPIAction::_readIEVersion returns IE \'8\'
+21:41:05.0562 - FileVersionInfo::ReadVersion. File \'C:\\WINDOWS\\system32\\ca-es\\ieframe.dll.mui\' version \'8.0.6001.18702\'
+21:41:05.0562 - FileVersionInfo::_readLanguageCode. File \'C:\\WINDOWS\\system32\\ca-es\\ieframe.dll.mui\' language \'1027\'
+21:41:05.0562 - IELPIAction::_isLangPackInstalled returns 1
+21:41:05.0562 - ConfigureDefaultLanguageAction::_isCatalanKeyboardActive returns 1
+21:41:05.0562 - OpenOfficeAction::_readVersionInstalled \'3.3\'
+21:41:05.0609 - OpenOfficeAction::_isLangPackInstalled \'1\'
+21:41:05.0609 - AdobeReaderAction::_readUninstallGUID: \'{AC76BA86-7AD7-1027-7B44-AA1000000001}\'
+21:41:05.0609 - AdobeReaderAction::_readVersionInstalled: version: \'10.0\', lang: \'CAT\', versions installed: \'1\'
+21:41:08.0796 - WindowsValidation::IsWindowsValidated. Result: \'0\', passed 1
+21:41:08.0796 - WindowsLPIAction::_isLangPackInstalled returns 0
+21:41:08.0796 - WindowsLPIAction::IsNeed returns 1
+21:41:08.0828 - ConfigureLocaleAction::IsNeed returns 0
+21:41:08.0828 - ConfigureDefaultLanguageAction::IsNeed returns 0 (status 3)
+21:41:08.0828 - WindowsLiveAction::IsNeed returns 0 (status 3)
+21:41:08.0828 - IELPIAction::IsNeed returns 0 (status 3)
+21:41:08.0828 - IEAcceptLanguagesAction::IsNeed returns 0 (status 3)
+21:41:08.0828 - ChromeAction::IsNeed returns 0 (status 7)
+21:41:08.0828 - FirefoxAction::_readVersionAndLocale. Firefox version 20.0.1 (ca), version 20.0.1, locale ca
+21:41:08.0937 - FirefoxAction::_readLanguageCode open d:\\Documents and Settings\\usuari_sid\\Datos de programa\\Mozilla\\Firefox\\Profiles/a3ohlt67.default\\prefs.js
+21:41:08.0937 - FirefoxAction::IsNeed returns 0 (first lang:)
+21:41:08.0937 - MSOfficeLPIAction::IsNeed returns 1 (status 0)
+21:41:08.0937 - OpenOfficeAction::IsNeed returns 0 (status 3)
+21:41:08.0937 - AdobeReaderAction::IsNeed returns 0 (status 3)
+21:41:08.0953 - FileVersionInfo::ReadVersion. File \'C:\\WINDOWS\\system32\\ca-es\\ieframe.dll.mui\' version \'8.0.6001.18702\'
+21:41:08.0953 - FileVersionInfo::_readLanguageCode. File \'C:\\WINDOWS\\system32\\ca-es\\ieframe.dll.mui\' language \'1027\'
+21:41:08.0953 - IELPIAction::_isLangPackInstalled returns 1
+21:41:08.0953 - WindowsLiveAction::IsNeed returns 0 (status 3)
+21:41:15.0890 - WindowsLiveAction::IsNeed returns 0 (status 3)
+21:41:15.0890 - Runner::GetRunningProcessesNames. 28 processes
+21:41:15.0890 - ApplicationsModel::LogRunningProcesses: smss.exe, winlogon.exe, services.exe, lsass.exe, Ati2evxx.exe, svchost.exe, svchost.exe, spoolsv.exe, jqs.exe, NMSAccessU.exe, ntrtscan.exe, XYNTService.exe, tmlisten.exe, CNTAoSMgr.exe, TMBMSRV.exe, TmPfw.exe, Explorer.EXE, DVDLauncher.exe, tfswctrl.exe, wuauclt.exe, smax4pnp.exe, pccntmon.exe, DivXUpdate.exe, jusched.exe, CTFMON.EXE, msiexec.exe, svchost.exe, CatalanitzadorPerAlWindows.exe
+21:41:15.0890 - WindowsLPIAction::_isLangPackInstalled returns 0
+21:41:18.0343 - WindowsLPIAction::_isLangPackInstalled returns 0
+21:41:23.0390 - SystemRestore::Start. Created point \'Catalanitzador per al Windows\' with result 1
+21:41:23.0437 - WindowsLPIAction::_isLangPackInstalled returns 0
+21:41:25.0609 - WindowsValidation::IsWindowsValidated. Result: \'0\', passed 1
+21:41:30.0265 - DownloadManager::GetFile \'http://baixades.softcatala.org/?id=3468&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi\' is 1
+21:41:30.0328 - DownloadManager::_getAssociatedFileSha1Sum \'http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi.sha1\' is 1
+21:41:30.0328 - Sha1Sum::ReadFromFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\LIPsetup.msi.sha1 returns f16521a9e82939fc7d193ea7cc2e62aac5b7c46c
+21:41:30.0359 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\LIPsetup.msi returns f16521a9e82939fc7d193ea7cc2e62aac5b7c46c
+21:41:30.0359 - WindowsLPIAction::_isLangPackInstalled returns 0
+21:41:30.0359 - WindowsLPIAction::Execute \'C:\\WINDOWS\\system32\\msiexec.exe \' with params \' /i d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\LIPsetup.msi /qn\'
+21:45:50.0718 - WindowsLPIAction::_isLangPackInstalled returns 0
+21:45:50.0718 - WindowsLPIAction::GetStatus is \'FinishedWithError\'
+21:45:54.0671 - DownloadManager::GetFile \'http://baixades.softcatala.org/?id=3481&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe\' is 1
+21:45:54.0687 - DownloadManager::_getAssociatedFileSha1Sum \'http://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe.sha1\' is 1
+21:45:54.0687 - Sha1Sum::ReadFromFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\office2007-lip.exe.sha1 returns 1473fc953185905833275a10aa601a01637d4fab
+21:45:54.0796 - Sha1Sum::ComputeforFile for d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\office2007-lip.exe returns 1473fc953185905833275a10aa601a01637d4fab
+21:45:54.0796 - MSOfficeLPIAction::_needsInstallConnector returns 0
+21:45:54.0796 - MSOfficeLPIAction::Execute \'d:\\Documents and Settings\\usuari_sid\\Configuración local\\Temp\\office2007-lip.exe\' with params \' /quiet\'
+21:46:04.0718 - MSOfficeLPIAction::_needsInstallConnector returns 0
+21:46:04.0718 - MSOfficeLPIAction::_setDefaultLanguage, set FollowSystemUI 1
+21:46:04.0718 - MSOfficeLPIAction::_setDefaultLanguage, set UILanguage 1
+21:46:04.0718 - MSOfficeLPIAction::GetStatus is \'Successful\'
+21:46:04.0718 - FileVersionInfo::ReadVersion. File \'C:\\Archivos de programa\\Internet Explorer\\iexplore.exe\' version \'8.0.6001.18702\'
+21:46:04.0718 - LibreOfficeInspector::_readVersionInstalled \'\'
+21:46:04.0750 - LibreOfficeInspector::_readLanguage. Could not open \'d:\\Documents and Settings\\usuari_sid\\Datos de programa\\LibreOffice\\3\\user\\registrymodifications.xcu\'
+21:46:04.0750 - LibreOfficeInspector::_getUIFilesInstalled \'\'
+21:46:04.0750 - LibreOfficeInspector::_getDictInstalled \'\'
+21:46:04.0750 - SkypeInspector::_readFilePath \'\'
+21:46:04.0750 - SkypeInspector::_readVersion version 
+21:46:04.0750 - SkypeInspector::_readLangInstalled \'\'
+21:46:04.0750 - PDFCreator::_readVersionInstalled \'1.4.3\'
+21:46:04.0750 - PDFCreator::_readLangInstalled \'\'
+21:46:04.0750 - WinRARInspector::_readFilePath \'\'
+21:46:04.0750 - WinRARInspector::_readVersion version 
+21:46:04.0765 - ITunesInspector::_readVersionInstalled \'\'
+21:46:04.0765 - ITunesInspector::_readLangInstalled \'\'
+21:46:04.0765 - SystemRestore::End. Called with result 1
