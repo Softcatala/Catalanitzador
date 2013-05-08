@@ -403,7 +403,7 @@ void WindowsLPIAction::CheckPrerequirements(Action * action)
 {
 	if (_isValidOperatingSystem() == false)
 	{
-		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDWIN, szCannotBeApplied);
+		_getStringFromResourceIDName(IDS_WINDOWSLPIACTION_UNSUPPORTEDVERSION, szCannotBeApplied);
 		g_log.Log(L"WindowsLPIAction::CheckPrerequirements. Unsupported Windows version");
 		SetStatus(CannotBeApplied);
 		return;
