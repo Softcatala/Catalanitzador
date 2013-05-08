@@ -321,7 +321,8 @@ text-indent: -999999px;
 }
 a.bx-prev:hover {background: url ('/images/fletxa_esquerra.png') no-repeat; background-position:bottom; }
 
-div.center { height: 650px; background: url('/images/center_bg.png') repeat; margin: 0 auto; }
+
+div.center { height: auto; background: url('/images/center_bg.png') repeat; margin: 0 auto; }
 div.center .container h1 {  font-weight: bold; font-size: 53px; padding-top: 40px; margin-bottom: 3px; text-align: left;}
 div.center .container h2 { font-size: 27px; color: #454649; text-align: left;}
 div.center .container .subsub { font-size: 18px; float: left;margin-top: -10px;}

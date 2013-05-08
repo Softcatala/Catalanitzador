@@ -1,6 +1,10 @@
+html {font-size:100.01%;}
+body {font-size:75%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif; margin: 0 auto; text-align:center !important; }
+
+
 table {
 	font-family: verdana,arial,sans-serif;
-	font-size:11px;
+	font-size:10px;
 	color:#333333;
 	border-width: 1px;
 	border-color: #666666;
@@ -10,7 +14,7 @@ table {
 }
 table th, #menu a {
 	border-width: 1px;
-	padding: 8px;
+	padding: 5px;
 	border-style: solid;
 	border-color: #666666;
 	background-color: #dedede;
