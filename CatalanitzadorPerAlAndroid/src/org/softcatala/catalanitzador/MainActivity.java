@@ -42,8 +42,8 @@ public class MainActivity extends Activity {
 	}
 	
 	void init (){
-
-		SystemLanguageAction systemActionLanguage = new SystemLanguageAction();		 
+		
+		SystemLanguageAction systemActionLanguage = new SystemLanguageAction(this);		 
 		if (systemActionLanguage.isNeeded()) {
 			systemActionLanguage.Execute();
 		}
