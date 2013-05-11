@@ -23,15 +23,19 @@ package org.softcatala.catalanitzador;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
+	
+	TextView _textview;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {		
-		init();
-		super.onCreate(savedInstanceState);
+	protected void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_main);
+		_textview = (TextView) findViewById(R.id.mainTextView);
+		init();
 	}
 
 	@Override
@@ -45,11 +49,13 @@ public class MainActivity extends Activity {
 		
 		SystemLanguageAction systemActionLanguage = new SystemLanguageAction(this);		 
 		if (systemActionLanguage.isNeeded()) {
+			_textview.append("SystemLanguageAction was needed");
 			systemActionLanguage.Execute();
 		}
 		
 		PredictiveTextAction predictiveAction = new PredictiveTextAction(this);
 		if (predictiveAction.isNeeded()) {
+			_textview.append("PredictiveTextAction was needed");
 			predictiveAction.Execute();
 		}		
 	}	
