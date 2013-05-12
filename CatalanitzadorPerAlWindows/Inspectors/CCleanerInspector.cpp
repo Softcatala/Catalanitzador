@@ -40,7 +40,8 @@ void CCleanerInspector::_readVersionInstalled()
 {	
 	wchar_t szPath[1024] = L"";
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false) ||
+     m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
 	{
 		m_registry->GetString(L"", szPath, sizeof(szPath));
 		m_registry->Close();
