@@ -53,7 +53,8 @@ void PDFCreatorInspector::_readVersion()
 {	
 	wchar_t szVersion[1024] = L"";
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false) ||
+     m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
 	{
 		m_registry->GetString(L"ApplicationVersion", szVersion, sizeof(szVersion));
 		m_registry->Close();
