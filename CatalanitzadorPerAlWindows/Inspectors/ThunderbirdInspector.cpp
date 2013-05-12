@@ -35,30 +35,27 @@ void ThunderbirdInspector::Execute()
 }
 
 void ThunderbirdInspector::_readVersion()
-{	
-	if(m_version.length() > 0){
-		g_log.Log(L"ThunderbirdInspector::_readVersion version %s", (wchar_t*) m_version.c_str());
-		m_KeyValues.push_back(InspectorKeyValue(L"version", m_version.c_str()));
-	}
+{
+	g_log.Log(L"ThunderbirdInspector::_readVersion version %s", (wchar_t*) m_version.c_str());
+	m_KeyValues.push_back(InspectorKeyValue(L"version", m_version.c_str()));
 }
 
 void ThunderbirdInspector::_readLanguage()
 {	
-	if(m_locale.length() > 0){
-		g_log.Log(L"ThunderbirdInspector::_readLanguage language %s", (wchar_t*) m_locale.c_str());
-		m_KeyValues.push_back(InspectorKeyValue(L"language", m_locale.c_str()));
-	}
+	g_log.Log(L"ThunderbirdInspector::_readLanguage language %s", (wchar_t*) m_locale.c_str());
+	m_KeyValues.push_back(InspectorKeyValue(L"language", m_locale.c_str()));
 }
 
 #define THUNDERBIRD_REGKEY L"SOFTWARE\\Mozilla\\Mozilla Thunderbird"
 
 void ThunderbirdInspector::_getVersionAndLocaleFromRegistry()
 {
+	m_version.clear();
+	m_locale.clear();
+
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, THUNDERBIRD_REGKEY, false) == false)
 	{
 		g_log.Log(L"ThunderbirdInspector::_getVersionAndLocaleFromRegistry. Cannot open registry key");
-		m_version.clear();
-		m_locale.clear();
 		return;
 	}
 	
