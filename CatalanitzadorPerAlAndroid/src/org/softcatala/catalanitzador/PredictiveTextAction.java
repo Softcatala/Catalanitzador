@@ -52,6 +52,9 @@ public class PredictiveTextAction {
 	private void addWords()
 	{
 		  UserDictionary.Words.addWord(_activity , "siusplau", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
-		  UserDictionary.Words.addWord(_activity , "feréstec", 1, UserDictionary.Words.LOCALE_TYPE_ALL); 
+		  UserDictionary.Words.addWord(_activity , "feréstec", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
+		  UserDictionary.Words.addWord(_activity , "reguitzell", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
+		  UserDictionary.Words.addWord(_activity , "aixopluc", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
+		  UserDictionary.Words.addWord(_activity , "lletraferit", 1, UserDictionary.Words.LOCALE_TYPE_ALL);		  
 	}
 }

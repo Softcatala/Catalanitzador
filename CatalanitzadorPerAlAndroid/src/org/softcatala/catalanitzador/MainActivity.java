@@ -22,12 +22,14 @@ package org.softcatala.catalanitzador;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
 	TextView _textview;
+	private String LogString = "Catalanitzador";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class MainActivity extends Activity {
 	
 	void init (){
 		
+		Log.i(LogString, "Init start");
 		SystemLanguageAction systemActionLanguage = new SystemLanguageAction(this);		 
 		if (systemActionLanguage.isNeeded()) {
 			_textview.append("SystemLanguageAction was needed");
@@ -57,7 +60,8 @@ public class MainActivity extends Activity {
 		if (predictiveAction.isNeeded()) {
 			_textview.append("PredictiveTextAction was needed");
 			predictiveAction.Execute();
-		}		
+		}
+		Log.i(LogString, "Init end");
 	}	
 	
 }

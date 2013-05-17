@@ -36,7 +36,7 @@ import android.content.res.Resources;
 public class SystemLanguageAction {	
 	
 	private Activity _activity;
-	private String _locateToSet;
+	private String _localeToSet;
 	private String CatalanLocale1 = "ca";
 	private String CatalanLocale2 = "ca_ES";
 	private String LogString = "Catalanitzador";
@@ -58,11 +58,30 @@ public class SystemLanguageAction {
 		
 		Log.i(LogString, "SystemLanguageAction.isNeeded. Returns: " + needed);
 		return needed;
-	}	
+	}
+	
+	// There phones like HTC Explorer that provide Catalan locale but it has no translations
+	// If this is the case, the language shown when set to Catalan locale is English
+	boolean DoesCurrentLocaleProvidesCatalanLocalization() 
+	{
+		String str;
+		
+		str = Resources.getSystem().getString(android.R.string.cut);
+		Log.i(LogString, "SystemLanguageAction.DoesCurrentLocaleProvidesCatalanLocalization. Read: " + str);
+		return str.equals("Retalla") == true;
+	}
 	
 	void Execute()
 	{
-		setLocale();		
+		String locale = Locale.getDefault().getLanguage();
+		setLocale(_localeToSet);
+		
+		// Disable for now, since it does not work
+		if (DoesCurrentLocaleProvidesCatalanLocalization() == false)
+		{
+			//setLocale(locale);
+			//Log.i(LogString, "SystemLanguageAction.Execute. Reverting locale change");
+		}
 	}
 	
 	private boolean IsCatalanCurrentDefaultLocale()
@@ -72,7 +91,7 @@ public class SystemLanguageAction {
 		
 		locale = Locale.getDefault().getLanguage();
 		isDefault = locale.equals(CatalanLocale1) || locale.equals(CatalanLocale2); 
-		Log.i(LogString, "SystemLanguageAction.IsCatalanCurrenttDefaultLocale. Returns: " + isDefault);	
+		Log.i(LogString, "SystemLanguageAction.IsCatalanCurrentDefaultLocale. Returns: " + isDefault);	
 		return isDefault;
 	}
 	
@@ -80,7 +99,7 @@ public class SystemLanguageAction {
 	{		
 		String[] locales = _activity.getAssets().getLocales();		
 		
-		_locateToSet = "";		
+		_localeToSet = "";		
 		for (int i = 0; i < locales.length; i++)
 		{
 			String locale = locales[i];
@@ -88,34 +107,34 @@ public class SystemLanguageAction {
 			
 			if (locale.equals(CatalanLocale1))
 			{
-				_locateToSet = CatalanLocale1;
+				_localeToSet = CatalanLocale1;
 				break;
 			}
 			
 			if (locale.equals(CatalanLocale2))
 			{
-				_locateToSet = CatalanLocale2;
+				_localeToSet = CatalanLocale2;
 				break;
 			}
 		}
 		
-		Log.i(LogString, "SystemLanguageAction.readCatalanLocaleAvailable. Locale to set: " + _locateToSet);		
+		Log.i(LogString, "SystemLanguageAction.readCatalanLocaleAvailable. Locale to set: " + _localeToSet);		
 	}
 	
 	private boolean isCatalanLocaleAvailable()
 	{	
 		boolean available;
 		
-		available = _locateToSet.equals("") == false;
+		available = _localeToSet.equals("") == false;
 		Log.i(LogString, "SystemLanguageAction.isCatalanLocaleAvailable. Returns: " + available);
 		return available;
 	}
 	
-	private void setLocale()
+	private void setLocale(String localeToSet)
 	{
 		try
 		{			 
-			Locale locale = new Locale(_locateToSet);
+			Locale locale = new Locale(localeToSet);
 		
 			Class amnClass = Class.forName("android.app.ActivityManagerNative");
 			Object amn = null;
@@ -137,7 +156,7 @@ public class SystemLanguageAction {
 			Method methodUpdateConfiguration = amnClass.getMethod("updateConfiguration", Configuration.class);
 			methodUpdateConfiguration.setAccessible(true);
 		    methodUpdateConfiguration.invoke(amn, config);
-		    Log.i(LogString, "SystemLanguageAction.setLocale. Locale: " + _locateToSet);
+		    Log.i(LogString, "SystemLanguageAction.setLocale. Locale: " + localeToSet);
 		}
 	        
 		catch(Exception e)
