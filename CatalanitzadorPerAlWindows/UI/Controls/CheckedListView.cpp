@@ -134,6 +134,8 @@ void CheckedListView::_createFrameBox(HDC dc, LPRECT r)
 	DeleteObject(hPen);
 }
 
+#define ICON_DRAW_WIDTH 16
+#define ICON_DRAW_HEIGHT 16
 
 void CheckedListView::_createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, CheckedColor color)
 {
@@ -144,12 +146,14 @@ void CheckedListView::_createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, C
 	_createFrameBox(dc, r);
 
     if (bChecked)
-    {        
+    {
         HBRUSH hBrush = CreateSolidBrush(color);
+		const int offset_x = (myr.right - ICON_DRAW_WIDTH) / 2;
+		const int offset_y = (myr.bottom - ICON_DRAW_HEIGHT) / 2;
 
         /* draw 7 bars, with h=3w to form the check */
-        bar.left = myr.left + 3;
-        bar.top = myr.top + 5;
+        bar.left = myr.left + 3 + offset_x;
+        bar.top = myr.top + 5 + offset_y;
         for (int k = 0; k < 7; k++) 
 		{
             bar.left = bar.left + 1;
@@ -168,18 +172,19 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 	HBITMAP hbm_im, hbm_mask, hbm_orig;
 	RECT rc;
 	HIMAGELIST himl;
-                                    
-	int x = GetSystemMetrics(SM_CXSMICON);
-	himl = ImageList_Create(x, GetSystemMetrics(SM_CYSMICON), ILC_COLOR16 | ILC_MASK, 2, 2);
+	const int cx_icon = GetSystemMetrics(SM_CXSMICON);
+	const int cy_icon = GetSystemMetrics(SM_CYSMICON);
+	
+	himl = ImageList_Create(cx_icon, cy_icon, ILC_COLOR16 | ILC_MASK, 2, 2);
 	hdc_wnd = GetDC(hWnd);
 	hdc = CreateCompatibleDC(hdc_wnd);
-	hbm_im = CreateCompatibleBitmap(hdc_wnd, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON));	
-	hbm_mask = CreateBitmap(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 1, 1, NULL);
+	hbm_im = CreateCompatibleBitmap(hdc_wnd, cx_icon, cy_icon);
+	hbm_mask = CreateBitmap(cx_icon, cy_icon, 1, 1, NULL);
 	ReleaseDC(hWnd, hdc_wnd);
                                                                       
 	rc.left = rc.top = 0;
-	rc.right = GetSystemMetrics(SM_CXSMICON);
-	rc.bottom = GetSystemMetrics(SM_CYSMICON);
+	rc.right = cx_icon;
+	rc.bottom = cy_icon;
 
 	hbm_orig = (HBITMAP) SelectObject(hdc, hbm_mask);
 	SelectObject(hdc, hbm_im);	
