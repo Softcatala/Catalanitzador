@@ -23,7 +23,7 @@ package org.softcatala.catalanitzador;
 import android.provider.UserDictionary;
 import android.app.Activity;
 
-public class PredictiveTextAction {
+public class PredictiveTextAction extends Action {
 	
 	private Activity _activity;
 	
@@ -32,16 +32,15 @@ public class PredictiveTextAction {
 		_activity = activity;
 	}
 	
-	boolean isNeeded()
+	public boolean isNeeded()
 	{
 		return true;
 	}	
-	
 
 	// TODO: Can we ask for prediction to Android for a Catalan words to determine if prediction is installed?
 	void CheckPrerequirements()
 	{
-	
+
 	}
 	
 	void Execute()
@@ -55,6 +54,7 @@ public class PredictiveTextAction {
 		  UserDictionary.Words.addWord(_activity , "feréstec", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
 		  UserDictionary.Words.addWord(_activity , "reguitzell", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
 		  UserDictionary.Words.addWord(_activity , "aixopluc", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
-		  UserDictionary.Words.addWord(_activity , "lletraferit", 1, UserDictionary.Words.LOCALE_TYPE_ALL);		  
+		  UserDictionary.Words.addWord(_activity , "lletraferit", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
+		  UserDictionary.Words.addWord(_activity , "somiseremcatalans", 1, UserDictionary.Words.LOCALE_TYPE_ALL);
 	}
 }

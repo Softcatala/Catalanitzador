@@ -50,15 +50,20 @@ public class MainActivity extends Activity {
 	void init (){
 		
 		Log.i(LogString, "Init start");
-		SystemLanguageAction systemActionLanguage = new SystemLanguageAction(this);		 
-		if (systemActionLanguage.isNeeded()) {
-			_textview.append("SystemLanguageAction was needed");
-			systemActionLanguage.Execute();
-		}
+		
+		SystemLanguageAction systemActionLanguage = new SystemLanguageAction(this);
+		systemActionLanguage.CheckPrerequirements();
+		
+		if (systemActionLanguage.getCannotBeApplied().length() > 0) {
+			_textview.append(systemActionLanguage.getCannotBeApplied() + "\r\n");
+		} else if (systemActionLanguage.isNeeded()) {
+			_textview.append("S'ha realitzat el canvi d'idioma\r\n");
+			systemActionLanguage.Execute();			
+		}		
 		
 		PredictiveTextAction predictiveAction = new PredictiveTextAction(this);
 		if (predictiveAction.isNeeded()) {
-			_textview.append("PredictiveTextAction was needed");
+			_textview.append("S'han afegit els termes al diccionari predictiu\r\n");
 			predictiveAction.Execute();
 		}
 		Log.i(LogString, "Init end");

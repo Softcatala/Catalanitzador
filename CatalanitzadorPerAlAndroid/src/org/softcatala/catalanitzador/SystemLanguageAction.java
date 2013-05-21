@@ -33,32 +33,46 @@ import android.content.res.Resources;
 // 	http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/1.6_r2/com/android/settings/LocalePicker.java
 //
 //
-public class SystemLanguageAction {	
+public class SystemLanguageAction extends Action {
 	
 	private Activity _activity;
 	private String _localeToSet;
 	private String CatalanLocale1 = "ca";
 	private String CatalanLocale2 = "ca_ES";
 	private String LogString = "Catalanitzador";
-
+	
+	public static final int JELLY_BEAN_MR1 = 17;
+	
 	SystemLanguageAction(Activity activity)
 	{
 		_activity = activity;
 		readCatalanLocaleAvailable();
 	}	
 	
-	boolean isNeeded()
+	public boolean isNeeded()
 	{
 		boolean needed = false;
 		
 		if (isCatalanLocaleAvailable())
 		{
 			needed = IsCatalanCurrentDefaultLocale() == false;
-		}		
+			
+			if (needed)
+			{
+				needed = m_cannotBeApplied.equals("");				
+			}
+		}
 		
 		Log.i(LogString, "SystemLanguageAction.isNeeded. Returns: " + needed);
 		return needed;
-	}
+	}	
+	
+	void CheckPrerequirements()
+	{
+		if (android.os.Build.VERSION.SDK_INT >= JELLY_BEAN_MR1) {
+			m_cannotBeApplied = "Cal que configureu manualment el català en aquesta versió de l'Android";
+		}	
+	}	
 	
 	// There phones like HTC Explorer that provide Catalan locale but it has no translations
 	// If this is the case, the language shown when set to Catalan locale is English
