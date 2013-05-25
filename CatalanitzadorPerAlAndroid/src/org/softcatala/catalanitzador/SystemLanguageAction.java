@@ -144,6 +144,7 @@ public class SystemLanguageAction extends Action {
 		return available;
 	}
 	
+	// TODO: This may crash when the locale is two letters only?
 	private void setLocale(String localeToSet)
 	{
 		try
