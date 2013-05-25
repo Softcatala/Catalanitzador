@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2013-05-08T13:00:00</date>
+		<date>2013-05-25T17:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -294,11 +294,11 @@
 	  		<download>
 	  			<min_version>16</min_version>
 	  			<max_version>16</max_version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3505.0912.exe&id=4442&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3505.0912.exe.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3505.0912.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3505.0912.exe</url_3>
-				<filename>wlsetup-all-2012-ca-16.4.3505.0912.exe</filename>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3508.0205.exe&id=4442&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3508.0205.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3508.0205.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/MicrosoftLive/wlsetup-all-2012-ca-16.4.3508.0205.exe</url_3>
+				<filename>wlsetup-all-2012-ca-16.4.3508.0205.exe</filename>
 	  		</download>
 		</action>
 		
