@@ -136,7 +136,6 @@ Action * Actions::GetActionFromID(ActionID actionID)
 		if (m_actions.at(i)->GetID() == actionID)
 			return m_actions.at(i);
 	}
-	assert(false);
 	return NULL;
 }
 

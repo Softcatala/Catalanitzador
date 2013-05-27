@@ -82,8 +82,13 @@ void listDefinedActions(vector <ConfigurationFileActionDownloads> fileActionsDow
 	for (unsigned int i = 0; i < fileActionsDownloads.size(); i++)
 	{
 		ActionID actionID = fileActionsDownloads.at(i).GetActionID();
+		Action* action = actions.GetActionFromID(actionID);
+		wstring name;
 
-		swprintf_s(szString, L"Action '%s' (id %u)", actions.GetActionFromID(actionID)->GetName(), actionID);
+		if (action != NULL)
+			name = action->GetName();
+
+		swprintf_s(szString, L"Action '%s' (id %u)", name.c_str(), actionID);
 		_outputString(szString);
 	}
 }
