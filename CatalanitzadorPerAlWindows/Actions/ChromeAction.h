@@ -53,7 +53,10 @@ protected:
 
 private:		
 		void _readInstallLocation(wstring& path);
-		
+		bool ChromeAction::_findUserInstallation(wstring &);
+		bool _findSystemInstallation(wstring &);
+		wstring _getProfileRootDir();
+
 		ChromeProfile _chromeProfile;
 
 		wstring m_version;

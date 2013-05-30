@@ -25,6 +25,7 @@
 #define CHROME_LANGUAGECODE L"ca"
 #endif
 
+
 ChromeAction::ChromeAction(IRegistry* registry)
 {
 	m_registry = registry;
@@ -102,7 +103,16 @@ void ChromeAction::_readVersion()
 			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szVersion);
 		}
 		m_registry->Close();
-	}	
+	} else if(m_registry->OpenKey(HKEY_LOCAL_MACHINE, CHROME_REGISTRY_PATH, false)) {
+		wchar_t szVersion[1024];
+
+		if (m_registry->GetString(L"Version", szVersion, sizeof(szVersion)))
+		{
+			m_version = szVersion;
+			g_log.Log(L"ChromeAction::_readVersion. Chrome version %s", szVersion);
+		}
+		m_registry->Close();
+	} 
 }
 
 bool ChromeAction::_isInstalled()
@@ -122,6 +132,23 @@ void ChromeAction::_readInstallLocation(wstring & path)
 {
 	path.erase();
 
+	if(_findUserInstallation(path))
+	{
+		g_log.Log(L"ChromeAction::_readInstallLocation - %s",(wchar_t*) path.c_str());
+	}
+	else if(_findSystemInstallation(path))
+	{
+		g_log.Log(L"ChromeAction::_readInstallLocation - %s",(wchar_t*) path.c_str());
+	}
+	else 
+	{
+		g_log.Log(L"ChromeAction::_readInstallLocation - Chrome is not installed");
+	}
+}
+
+bool ChromeAction::_findUserInstallation(wstring & path)
+{
+	bool isInstalled = false;
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, CHROME_REGISTRY_PATH, false))
 	{
 		wchar_t szLocation[MAX_PATH];
@@ -131,14 +158,48 @@ void ChromeAction::_readInstallLocation(wstring & path)
 			path = szLocation;
 			
 			_chromeProfile.SetPath(path);
-			g_log.Log(L"ChromeAction::_readInstallLocation. InstallLocation %s", szLocation);		
+			g_log.Log(L"ChromeAction::_findUserInstallation. InstallLocation %s", szLocation);
+			isInstalled = true;
+			
 		}		
 		m_registry->Close();
-	} 
-	else 
-	{
-		g_log.Log(L"ChromeAction::_readInstallLocation - Chrome is not installed");
 	}
+
+	return isInstalled;
+}
+
+bool ChromeAction::_findSystemInstallation(wstring & path)
+{
+	bool isInstalled = false;
+
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, CHROME_REGISTRY_PATH, false))
+	{
+		wchar_t szLocation[MAX_PATH];
+		
+		if (m_registry->GetString(L"InstallLocation", szLocation, sizeof(szLocation)))
+		{
+			g_log.Log(L"ChromeAction::_findSystemInstallation. InstallLocation %s", szLocation);
+			path = _getProfileRootDir();
+			
+			_chromeProfile.SetPath(path);
+			g_log.Log(L"ChromeAction::_findSystemInstallation. Profile %s", (wchar_t*) path.c_str());
+			isInstalled = true;
+		}		
+		m_registry->Close();
+	}
+
+	return isInstalled;
+}
+
+wstring ChromeAction::_getProfileRootDir()
+{
+	wstring location;
+	wchar_t szPath[MAX_PATH];
+	
+	SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
+	location = szPath;
+	location += L"\\Google\\Chrome\\User Data";
+	return location;
 }
 
 const wchar_t* ChromeAction::GetVersion()
