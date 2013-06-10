@@ -42,7 +42,7 @@ private:
 	
 		bool _informRebootRequired();
 		void ProcessClickOnItem(int nItem);
-		void _updateActionDescriptionAndReq(Action* action);
+		void _updateActionDescriptionAndReq(int itemID);
 		virtual void _onInitDialog();
 		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 		virtual void _onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
@@ -56,7 +56,7 @@ private:
 		bool _checkRunningApps();		
 		bool _anyActionNeedsInternetConnection();
 		static void _onClickItemEvent(int nItem, void* data);
-
+		
 		CheckedListView m_listview;
 		CheckedListView m_listviewLegend;
 		vector <Action *> * m_availableActions;

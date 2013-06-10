@@ -137,7 +137,7 @@ void ApplicationsModel::ProcessClickOnItem(ApplicationItem applicationItem)
 }
 
 void ApplicationsModel::_processDependantItem(Action* action)
-{
+{	
 	Action* dependant = action->AnotherActionDependsOnMe(m_availableActions);
 
 	if (dependant == NULL)

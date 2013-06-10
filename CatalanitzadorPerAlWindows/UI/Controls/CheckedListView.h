@@ -41,16 +41,15 @@ public:
 		CheckedListView();
 
 		void InitControl(HWND hWnd);
+		void InsertSingleColumnAllWidth();
 		int Count() {return ListView_GetItemCount(m_hWnd); }
 		LPARAM GetItemData(int nItem);
 		void SetItemImage(int nItem, ImageIndex imageIndex);
 		void SetItemText(int nItem, wstring text);
 		void SelectItem(int nItem) { ListView_SetItemState(m_hWnd, nItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);}
-		void InsertItem(wstring text);
 		void InsertItem(wstring text, LPARAM parameter, ImageIndex imageIndex);
-
-		void PreItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool disabled);
-		void PostItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool groupName);
+		
+		void PostItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, wstring text, bool groupName, bool disabled);
 
 		typedef void (*OnClickItem)(int nItem, void* data);
 		void SetClickItem(OnClickItem item, void* data) { m_onClickItem = item; m_clickData = data;}
@@ -61,8 +60,9 @@ private:
 		HIMAGELIST CreateCheckBoxImageList(HWND hWnd);
 		int _makeSquareRect(LPRECT src, LPRECT dst);
 		void _createFrameBox(HDC dc, LPRECT r);
-		void _createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, CheckedColor color);		
+		void _createButtonCheckImage(HDC dc, LPRECT r, bool bChecked, CheckedColor color);
 		static LRESULT _listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		void _getItem(int itemID, LVITEMW& lvItem);
 
 		HWND m_hWnd;
 		HIMAGELIST m_hImageList;

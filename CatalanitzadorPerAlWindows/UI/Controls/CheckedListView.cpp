@@ -25,6 +25,28 @@ CheckedListView::CheckedListView()
 	m_itemID = 0;
 }
 
+void CheckedListView::InsertSingleColumnAllWidth()
+{
+	LVCOLUMN listCol;
+
+	memset(&listCol, 0, sizeof(LVCOLUMN));
+	listCol.mask = LVCF_WIDTH |LVCF_SUBITEM;
+
+	// The total size is the internal rect - size of the scroll bar
+	// Things to test if this changes
+	// 
+	//  1. The Aero and non-area versions are shown properly 
+	//  2. Check with 120 dpi in both versions
+	//  3. Check with scroll bar at the right in both versions
+	//
+	RECT rect;
+	GetClientRect(m_hWnd, &rect);
+
+	const int scroll_size = GetSystemMetrics(SM_CXVSCROLL);
+	listCol.cx = rect.right - rect.left - scroll_size;
+	SendMessage(m_hWnd,LVM_INSERTCOLUMN,0,(LPARAM)&listCol);	
+}
+
 void CheckedListView::InitControl(HWND hWnd)
 {
 	m_hWnd = hWnd;
@@ -79,11 +101,6 @@ void CheckedListView::InsertItem(wstring text, LPARAM parameter, ImageIndex imag
 	item.iImage = imageIndex;
 	ListView_InsertItem(m_hWnd, &item);
 	m_itemID++;
-}
-
-void CheckedListView::InsertItem(wstring text)
-{	
-	InsertItem(text, (LPARAM) NULL, ImageIndexNone);
 }
 
 int CheckedListView::_makeSquareRect(LPRECT src, LPRECT dst)
@@ -215,10 +232,10 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 }
 
 
-#define PIXELS_TO_INDENT_ACTIONS 10
+#define PIXELS_TO_INDENT_ACTIONS 5
 
 LRESULT CheckedListView::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{	
+{
 	CheckedListView *pThis = (CheckedListView *)GetWindowLong(hWnd,GWL_USERDATA);
 
 	switch (uMsg)
@@ -252,36 +269,66 @@ LRESULT CheckedListView::_listViewSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPar
 	return CallWindowProc(pThis->PreviousProc, hWnd, uMsg, wParam, lParam);
 }
 
-void CheckedListView::PreItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool disabled)
-{
-	if (disabled)
-	{
-		DWORD color = GetSysColor(COLOR_GRAYTEXT);
-		lpNMLVCD->clrText = color;
-	}		
-
-	RECT rect;
-	ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
-	FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+void CheckedListView::_getItem(int itemID, LVITEMW& lvItem)
+{	
+	lvItem.mask =  LVIF_IMAGE | LVIF_PARAM | LVIF_STATE;
+	lvItem.stateMask = LVIS_SELECTED;
+	lvItem.iItem = itemID;
+	lvItem.iSubItem = 0;
+	ListView_GetItem(m_hWnd, &lvItem);
 }
 
-void CheckedListView::PostItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, bool groupName)
+#define UNDEFINED_COLOR 0xffffffff
+
+void CheckedListView::PostItemPaint(LPNMLVCUSTOMDRAW lpNMLVCD, wstring text, bool isGroupName, bool isDisabled)
 {
 	RECT rect;
+	LVITEM lvItem;
 
-	if (groupName)
+	_getItem(lpNMLVCD->nmcd.dwItemSpec, lvItem);	
+	ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
+	FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+
+	const int icon_size = GetSystemMetrics(SM_CXSMICON);
+	COLORREF color = UNDEFINED_COLOR, oldColor = UNDEFINED_COLOR, bkColor = UNDEFINED_COLOR, oldBkColor = UNDEFINED_COLOR;
+
+	SetBkMode(lpNMLVCD->nmcd.hdc, OPAQUE);
+	FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+
+	if (isGroupName == false)
+	{		
+		ImageList_DrawEx(m_hImageList, lvItem.iImage, lpNMLVCD->nmcd.hdc,  rect.left, rect.top, icon_size, icon_size, lpNMLVCD->clrTextBk, CLR_DEFAULT, ILD_NORMAL);
+		rect.left += (icon_size + PIXELS_TO_INDENT_ACTIONS);
+	}
+	 
+	if (lvItem.state & LVIS_SELECTED)
+	{	
+		bkColor = GetSysColor(COLOR_HIGHLIGHT);
+		color = GetSysColor(COLOR_HIGHLIGHTTEXT);
+	}
+	else if (isDisabled && isGroupName == false)
 	{
-		int icon_size = GetSystemMetrics(SM_CXSMICON);
-		ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
-		ScrollDC(lpNMLVCD->nmcd.hdc, -icon_size, 0, &rect, NULL, NULL, NULL);		
+		bkColor = GetSysColor(COLOR_WINDOW);
+		color = GetSysColor(COLOR_GRAYTEXT);
 	}
 	else
-	{		
-		ListView_GetItemRect(lpNMLVCD->nmcd.hdr.hwndFrom, lpNMLVCD->nmcd.dwItemSpec, &rect, LVIR_SELECTBOUNDS);
-		ScrollDC(lpNMLVCD->nmcd.hdc, PIXELS_TO_INDENT_ACTIONS, 0, &rect, NULL, NULL, NULL);
-
-		rect.right = rect.left + PIXELS_TO_INDENT_ACTIONS;
-		FillRect(lpNMLVCD->nmcd.hdc, &rect, GetSysColorBrush(COLOR_WINDOW));
+	{
+		bkColor = GetSysColor(COLOR_WINDOW);
+		color = GetSysColor(COLOR_WINDOWTEXT);
 	}
+
+	if (color != UNDEFINED_COLOR)
+		oldColor = SetTextColor(lpNMLVCD->nmcd.hdc, color);	
+
+	if (bkColor != UNDEFINED_COLOR)
+		oldBkColor = SetBkColor(lpNMLVCD->nmcd.hdc, bkColor);
+	
+	DrawText(lpNMLVCD->nmcd.hdc, text.c_str(), text.length(), &rect, LVCFMT_LEFT);
+
+	if (oldColor != UNDEFINED_COLOR)
+		SetTextColor(lpNMLVCD->nmcd.hdc, oldColor);
+
+	if (oldBkColor != UNDEFINED_COLOR)
+		SetBkColor(lpNMLVCD->nmcd.hdc, oldBkColor);
 }
 

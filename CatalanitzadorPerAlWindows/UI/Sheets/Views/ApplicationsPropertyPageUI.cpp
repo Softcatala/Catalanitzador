@@ -22,6 +22,7 @@
 #include "ShowLicensesDlgUI.h"
 #include "AppRunningDlgUI.h"
 #include "ActionExecution.h"
+#include "ConfigurationInstance.h"
 
 #define DEFAULT_SELECTEDITEM_INLISTVIEW 1
 
@@ -57,22 +58,10 @@ void ApplicationsPropertyPageUI::UpdateItem(ApplicationItem itemToUpdate)
 
 void ApplicationsPropertyPageUI::ProcessClickOnItem(int nItem)
 {
-	Action* action = (Action *) m_listview.GetItemData(nItem);
+	int itemID = (int) m_listview.GetItemData(nItem);
 
-	if (action != NULL)
-	{	
-		for (unsigned int i = 0; i < m_model->GetItems().size(); i++)
-		{
-			ApplicationItem item = m_model->GetItems().at(i);
-
-			if ((Action *)item.GetData() == action)
-			{
-				m_model->ProcessClickOnItem(item);				
-				break;
-			}
-		}
-	}
-
+	ApplicationItem item = m_model->GetItems().at(itemID);
+	m_model->ProcessClickOnItem(item);
 	_enableOrDisableLicenseControls();
 }
 
@@ -94,7 +83,8 @@ void ApplicationsPropertyPageUI::_setLegendControl()
 {
 	vector <ApplicationLegendItem> applicationLegendItems =  m_model->GetLegendItems();
 
-	m_listviewLegend.InitControl(GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND));	
+	m_listviewLegend.InitControl(GetDlgItem(getHandle(), IDC_APPLICATIONSLEGEND));
+	m_listviewLegend.InsertSingleColumnAllWidth();
 	for (unsigned int i = 0; i < applicationLegendItems.size(); i++)
 	{
 		m_listviewLegend.InsertItem(applicationLegendItems[i].GetName(), NULL, 
@@ -112,9 +102,11 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 {
 	HWND hListWnd;	
 
-	hListWnd = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);
-	m_listview.InitControl(hListWnd);
-	m_listview.SetClickItem(_onClickItemEvent, this);	
+	hListWnd = GetDlgItem(getHandle(), IDC_APPLICATIONSLIST);	
+
+	m_listview.InitControl(hListWnd);	
+	m_listview.InsertSingleColumnAllWidth();
+	m_listview.SetClickItem(_onClickItemEvent, this);
 	
 	m_model->BuildListOfItems();
 
@@ -125,11 +117,11 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 
 		if (item.GetIsGroupName())
 		{
-			m_listview.InsertItem(item.GetName());
+			m_listview.InsertItem(item.GetName(), (LPARAM) i, ImageIndexNone);
 		}
 		else
 		{
-			m_listview.InsertItem(item.GetName(), (LPARAM) item.GetData(), item.GetImageIndex());
+			m_listview.InsertItem(item.GetName(), (LPARAM) i, item.GetImageIndex());
 		}	
 	}
 
@@ -156,30 +148,16 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 
 			case CDDS_ITEMPREPAINT:
 			{
-				Action* action = (Action *)  lpNMLVCD->nmcd.lItemlParam;
-				bool disabled = false;
-
-				if (action != NULL)
-				{
-					for (unsigned int i = 0; i < m_model->GetItems().size(); i++)
-					{
-						ApplicationItem item = m_model->GetItems().at(i);
-
-						if ((Action *)item.GetData() == action)
-						{
-							disabled = item.GetIsDisabled();
-							break;
-						}
-					}
-				}
-				m_listview.PreItemPaint(lpNMLVCD, disabled);
 				SetWindowLong(getHandle(), DWLP_MSGRESULT, CDRF_NOTIFYPOSTPAINT);
 				return ReturnTrue;
 			}
 
-			case CDDS_ITEMPOSTPAINT:		
-				m_listview.PostItemPaint(lpNMLVCD, lpNMLVCD->nmcd.lItemlParam == NULL);
+			case CDDS_ITEMPOSTPAINT:
+			{
+				ApplicationItem item = m_model->GetItems().at((int) lpNMLVCD->nmcd.lItemlParam);
+				m_listview.PostItemPaint(lpNMLVCD, item.GetName(), item.GetIsGroupName(), item.GetIsDisabled());
 				return ReturnTrue;
+			}
 			default:
 				return CallDefProc;
 		}
@@ -189,15 +167,17 @@ NotificationResult ApplicationsPropertyPageUI::_onNotify(LPNMHDR hdr, int iCtrlI
 	if (pListView->hdr.code != LVN_ITEMCHANGED)
 		return ReturnFalse;
 
-	_updateActionDescriptionAndReq((Action *)  pListView->lParam);
+	_updateActionDescriptionAndReq((int) pListView->lParam);
 	return ReturnTrue;
 }
 
 // TODO: Refactor to use the model
-void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(Action* action)
+void ApplicationsPropertyPageUI::_updateActionDescriptionAndReq(int itemID)
 {
 	int show;
-	bool isHeader = action == NULL;
+	ApplicationItem item = m_model->GetItems().at(itemID);
+	bool isHeader = item.GetIsGroupName();
+	Action* action = (Action *) item.GetData();
 
 	SendDlgItemMessage (getHandle(), IDC_APPLICATION_DESCRIPTION,
 		WM_SETTEXT, (WPARAM) 0, 
