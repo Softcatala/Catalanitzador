@@ -213,7 +213,7 @@ HIMAGELIST CheckedListView::CreateCheckBoxImageList(HWND hWnd)
 	SelectObject(hdc, hbm_im);
 
 	// Create color checked images
-	CheckedColor colors[] = {CheckedColorBlack, CheckedColorGrey, CheckedColorYellow, CheckedColorGreen, CheckedColorNone};
+	CheckedColor colors[] = {CheckedColorBlack, CheckedColorGrey, CheckedColorGreen, CheckedColorNone};
 	CheckedColor* color = colors;
 
 	while (*color != CheckedColorNone)

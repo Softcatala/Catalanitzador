@@ -24,6 +24,5 @@ enum ImageIndex
 	ImageIndexNone = 0,
 	ImageIndexBlack = 1,
 	ImageIndexGrey = 2,
-	ImageIndexYellow = 3,
-	ImageIndexGreen = 4
+	ImageIndexGreen = 3,
 };

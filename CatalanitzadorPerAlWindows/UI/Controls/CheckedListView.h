@@ -32,7 +32,6 @@ enum CheckedColor
 	CheckedColorNone = -1,
 	CheckedColorGrey = RGB(0xad,0xa8,0x91),
 	CheckedColorGreen = RGB(0x0, 0xc0, 0x0),
-	CheckedColorYellow = RGB(0xff, 0xd7, 0)
 };
 
 class CheckedListView
