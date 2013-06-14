@@ -52,7 +52,7 @@
 	  		</download>
 	  		<download>
 	 			<version>Win7_32</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=4932&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_3>
@@ -60,7 +60,7 @@
 	  		</download>
 	  		<download>
 	 			<version>Win7_64</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>
+	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=4932&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_3>
@@ -167,7 +167,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE8_VISTA</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4756&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_3>
@@ -175,7 +175,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_VISTA</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5721&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=4756&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_3>
@@ -183,7 +183,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_7</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_3>
@@ -191,7 +191,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_7_64</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_3>
@@ -199,7 +199,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE10_7</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu</url_3>
@@ -207,7 +207,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE10_7_64</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5722&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu]]></url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu</url_3>
