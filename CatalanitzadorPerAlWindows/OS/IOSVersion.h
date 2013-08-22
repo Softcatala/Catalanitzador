@@ -37,6 +37,7 @@ enum OperatingVersion
 	Windows2008R2,
 	WindowsXP64_2003,
 	Windows8,
+	Windows81,
 	Windows2012
 };
 
