@@ -62,6 +62,7 @@ MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, Downl
 	m_szTempPath2003[0] = NULL;
 	m_szFilename[0] = NULL;
 	m_executionStep = ExecutionStepNone;
+	m_bLangPackInstalled64bits = false;
 	GetTempPath(MAX_PATH, m_szTempPath);
 }
 
@@ -104,12 +105,14 @@ LPCWSTR MSOfficeLPIAction::GetLicenseID()
 		case MSOffice2007:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
 		case MSOffice2010:
+		case MSOffice2010_64:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2010);
 		case MSOffice2013:
+		case MSOffice2013_64:
 			return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2013);
 		default:
-			break;		
-	}		
+			break;
+	}
 	return NULL;
 }
 
@@ -181,11 +184,12 @@ bool MSOfficeLPIAction::_isVersionInstalled(RegKeyVersion regkeys, bool b64bits)
 	return Installed;
 }
 
-bool MSOfficeLPIAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
+bool MSOfficeLPIAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys, bool b64bits)
 {	
 	bool Installed = false;
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
+	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false) :
+		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))	
 	{		
 		if (regkeys.InstalledLangMapKeyIsDWord)
 		{
@@ -204,6 +208,10 @@ bool MSOfficeLPIAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys)
 		}
 		m_registry->Close();
 	}
+
+	g_log.Log(L"MSOfficeLPIAction::_isLangPackForVersionInstalled returns '%s', 64 bits %u, installed %u", regkeys.InstalledLangMapKey,
+		(wchar_t*) b64bits, (wchar_t *)Installed);
+
 	return Installed;
 }
 
@@ -212,23 +220,36 @@ void MSOfficeLPIAction::_readIsLangPackInstalled()
 	switch (_getVersionInstalled())
 	{
 	case MSOffice2013:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2013);
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2013, false);
+		m_bLangPackInstalled64bits = false;
+		break;
+	case MSOffice2013_64:
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2013, true);
+		m_bLangPackInstalled64bits = true;
 		break;
 	case MSOffice2010:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010);
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010, false);
+		m_bLangPackInstalled64bits = false;
+		break;
+	case MSOffice2010_64:
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010, true);
+		m_bLangPackInstalled64bits = true;
 		break;
 	case MSOffice2007:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2007);
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2007, false);
+		m_bLangPackInstalled64bits = false;
 		break;
 	case MSOffice2003:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2003);
+		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2003, false);
+		m_bLangPackInstalled64bits = false;
 		break;
 	default:
 		assert(false);
 		break;
 	}
 
-	g_log.Log(L"MSOfficeLPIAction::_readIsLangPackInstalled returns '%s'", m_bLangPackInstalled.ToString());
+	g_log.Log(L"MSOfficeLPIAction::_readIsLangPackInstalled returns '%s', 64 bits %u", m_bLangPackInstalled.ToString(), 
+		(wchar_t*) m_bLangPackInstalled64bits);
 }
 
 bool MSOfficeLPIAction::_isLangPackInstalled()
@@ -289,8 +310,12 @@ wchar_t*  MSOfficeLPIAction::_getDownloadID()
 			return L"2007";
 		case MSOffice2010:
 			return L"2010_32";
+		case MSOffice2010_64:
+			return L"2010_64";
 		case MSOffice2013:
 			return L"2013_32";
+		case MSOffice2013_64:
+			return L"2013_64";
 		default:
 			return NULL;
 	}
@@ -394,8 +419,10 @@ void MSOfficeLPIAction::Execute()
 
 	switch (_getVersionInstalled())
 	{
-		case MSOffice2010:
+		case MSOffice2013_64:
 		case MSOffice2013:
+		case MSOffice2010_64:
+		case MSOffice2010:		
 		{
 			wchar_t logFile[MAX_PATH];
 
@@ -462,8 +489,10 @@ RegKeyVersion MSOfficeLPIAction::_getRegKeys()
 		case MSOffice2007:
 			return RegKeys2007;
 		case MSOffice2010:
+		case MSOffice2010_64:
 			return RegKeys2010;
 		case MSOffice2013:
+		case MSOffice2013_64:
 		default:
 			return RegKeys2013;
 	}
@@ -481,7 +510,8 @@ void MSOfficeLPIAction::_setDefaultLanguage()
 
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
-		if (_getVersionInstalled() == MSOffice2013 || _getVersionInstalled() == MSOffice2010 || _getVersionInstalled() == MSOffice2007)
+		if (_getVersionInstalled() == MSOffice2013 || _getVersionInstalled() == MSOffice2010 || _getVersionInstalled() == MSOffice2007 ||
+			_getVersionInstalled() == MSOffice2013_64 || _getVersionInstalled() == MSOffice2010_64)
 		{
 			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");
 			g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	
@@ -531,7 +561,7 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 				break;
 		}
 
-		if (_isLangPackForVersionInstalled(_getRegKeys()))
+		if (_isLangPackForVersionInstalled(_getRegKeys(), m_bLangPackInstalled64bits))
 		{
 			SetStatus(Successful);
 			_setDefaultLanguage();
@@ -562,14 +592,6 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 	if (_getVersionInstalled() == NoMSOffice)
 	{
 		_setStatusNotInstalled();
-		return;
-	}
-
-	if (_getVersionInstalled() == MSOffice2010_64 || _getVersionInstalled() == MSOffice2013_64)
-	{
-		SetStatus(CannotBeApplied);
-		_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
-		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. Version not supported");
 		return;
 	}
 

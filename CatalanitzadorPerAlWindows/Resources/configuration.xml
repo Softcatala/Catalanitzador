@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2013-06-02T20:00:00</date>
+		<date>2013-08-23T20:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -104,12 +104,28 @@
 		<action>
 	 		<id>2</id>
 	 		<download>
+	  			<version>2013_64</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=6306&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe</url_3>
+				<filename>Languageinterfacepack-x64-ca-es.exe</filename>
+	  		</download>
+	 		<download>
 	  			<version>2013_32</version>
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=6306&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe</url_3>
 				<filename>LanguageInterfacePack-x86-ca-es.exe</filename>
+	  		</download>
+	  		<download>
+	  			<version>2010_64</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5199&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe</url_3>
+				<filename>LanguageInterfacePack-x64-ca-es.exe</filename>
 	  		</download>
 	 		<download>
 	  			<version>2010_32</version>

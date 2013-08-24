@@ -79,7 +79,7 @@ private:
 		
 		bool _isVersionInstalled(RegKeyVersion regkeys, bool b64bits);
 		void _readVersionInstalled();
-		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys);
+		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys, bool b64bits);
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _setDefaultLanguage();		
 		wchar_t* _getDownloadID();
@@ -90,6 +90,7 @@ private:
 		void _readIsLangPackInstalled();
 
 		TriBool m_bLangPackInstalled;
+		bool m_bLangPackInstalled64bits;
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
