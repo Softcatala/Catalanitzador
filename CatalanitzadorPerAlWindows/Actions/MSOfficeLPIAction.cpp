@@ -25,6 +25,9 @@
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
 
+#define CATALAN_LCID L"1027" // 0x403
+#define VALENCIAN_LCID L"2051" // 0x803
+
 RegKeyVersion RegKeys2003 = 
 {
 	L"11.0", 
@@ -194,13 +197,19 @@ bool MSOfficeLPIAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys, bo
 		if (regkeys.InstalledLangMapKeyIsDWord)
 		{
 			DWORD dwValue;
-			if (m_registry->GetDWORD(L"1027", &dwValue))
-					Installed = true;
+			if (m_registry->GetDWORD(CATALAN_LCID, &dwValue) || m_registry->GetDWORD(VALENCIAN_LCID, &dwValue))
+				Installed = true;
 		}		
 		else
 		{
 			wchar_t szValue[1024];
-			if (m_registry->GetString(L"1027", szValue, sizeof (szValue)))
+			if (m_registry->GetString(CATALAN_LCID, szValue, sizeof (szValue)))
+			{
+				if (wcslen (szValue) > 0)
+					Installed = true;
+			}
+
+			if (m_registry->GetString(VALENCIAN_LCID, szValue, sizeof (szValue)))
 			{
 				if (wcslen (szValue) > 0)
 					Installed = true;
@@ -313,9 +322,23 @@ wchar_t*  MSOfficeLPIAction::_getDownloadID()
 		case MSOffice2010_64:
 			return L"2010_64";
 		case MSOffice2013:
-			return L"2013_32";
+			if (GetUseDialectalVariant())
+			{
+				return L"2013_va_32";
+			}
+			else
+			{
+				return L"2013_ca_32";
+			}			
 		case MSOffice2013_64:
-			return L"2013_64";
+			if (GetUseDialectalVariant())
+			{
+				return L"2013_va_64";
+			}
+			else
+			{
+				return L"2013_ca_64";
+			}
 		default:
 			return NULL;
 	}
@@ -506,7 +529,8 @@ void MSOfficeLPIAction::_setDefaultLanguage()
 	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, true))
 	{
-		bSetKey = m_registry->SetDWORD(L"UILanguage", 1027);
+		int lcid = _wtoi(GetUseDialectalVariant() ? VALENCIAN_LCID : CATALAN_LCID);
+		bSetKey = m_registry->SetDWORD(L"UILanguage", lcid);
 
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
