@@ -46,78 +46,66 @@ public:
 	RunnerMock runnerMock; \
 	MSOfficeLPIActionTest officeAction(&registryMockobj, &runnerMock, &DownloadManager());
 
-void MockOffice2003Installed(RegistryMock& registryMockobj)
+void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version)
 {
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2003));
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2007));
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2010));
+
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2010_64));
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2013));
+	
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2013_64));
+
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));
 }
 
-void MockOffice2007Installed(RegistryMock& registryMockobj)
-{
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));
-}
-
-void MockOffice2010Installed(RegistryMock& registryMockobj)
-{
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));	
-}
-
-void MockOffice201064Installed(RegistryMock& registryMockobj)
-{
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	
-	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));	
-}
-
-void MockOffice201364Installed(RegistryMock& registryMockobj)
-{
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(false));
-	
-	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
-		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));	
-}
-
-void SetNoLangPacksInstalled(RegistryMock& registryMockobj)
+void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version)
 {	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).
+		WillRepeatedly(Return(version == MSOffice2003));
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs"), false)).
+		WillRepeatedly(Return(version == MSOffice2007));
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).
+		WillRepeatedly(Return(version == MSOffice2010));
+
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).
+		WillRepeatedly(Return(version == MSOffice2010_64));
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs"), false)).
+		WillRepeatedly(Return(version == MSOffice2013));
+
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs"), false)).
+		WillRepeatedly(Return(version == MSOffice2013_64));
+
+	if (version == MSOffice2003)
+	{
+		EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(CATALAN_LANGUAGE_CODE),_)).WillRepeatedly(Return(true));
+	}
+	else if (version != MSOfficeUnKnown && version != NoMSOffice)
+	{
+		EXPECT_CALL(registryMockobj, GetString(StrCaseEq(CATALAN_LANGUAGE_CODE),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
+		EXPECT_CALL(registryMockobj, GetString(StrCaseEq(VALENCIAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
+	}
 }
 
 TEST(MSOfficeLPIActionTest, _isVersionInstalled_2003)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2003Installed(registryMockobj);
+	MockOfficeInstalled(registryMockobj, MSOffice2003);
 	EXPECT_EQ(officeAction._getVersionInstalled(), MSOffice2003);
 }
 
@@ -125,7 +113,7 @@ TEST(MSOfficeLPIActionTest, _isVersionInstalled_2007)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2007Installed(registryMockobj);	
+	MockOfficeInstalled(registryMockobj, MSOffice2007);
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2007);
 }
 
@@ -133,7 +121,7 @@ TEST(MSOfficeLPIActionTest, _isVersionInstalled_2010)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2010Installed(registryMockobj);
+	MockOfficeInstalled(registryMockobj, MSOffice2010);
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2010);
 }
 
@@ -141,8 +129,7 @@ TEST(MSOfficeLPIActionTest, _isVersionInstalled_2010_64)
 {
 	CreateMSOfficeAction;
 
-	MockOffice201064Installed(registryMockobj);
-
+	MockOfficeInstalled(registryMockobj, MSOffice2010_64);
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2010_64);
 }
 
@@ -150,8 +137,7 @@ TEST(MSOfficeLPIActionTest, _isVersionInstalled_2013_64)
 {
 	CreateMSOfficeAction;
 
-	MockOffice201364Installed(registryMockobj);
-
+	MockOfficeInstalled(registryMockobj, MSOffice2013_64);
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2013_64);
 }
 
@@ -159,13 +145,8 @@ TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2003)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2003Installed(registryMockobj);
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(CATALAN_LANGUAGE_CODE),_)).WillRepeatedly(Return(true));
+	MockOfficeInstalled(registryMockobj, MSOffice2003);
+	SetLangPacksInstalled(registryMockobj, MSOffice2003);
 
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2003);
 	EXPECT_TRUE(officeAction._isLangPackInstalled());
@@ -175,14 +156,8 @@ TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2007)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2007Installed(registryMockobj);
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).WillRepeatedly(Return(false));
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(CATALAN_LANGUAGE_CODE),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(VALENCIAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
+	MockOfficeInstalled(registryMockobj, MSOffice2007);
+	SetLangPacksInstalled(registryMockobj, MSOffice2007);
 
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2007);
 	EXPECT_TRUE(officeAction._isLangPackInstalled());
@@ -192,16 +167,32 @@ TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2010)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2010Installed(registryMockobj);
-	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).WillRepeatedly(Return(false));
-
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(CATALAN_LANGUAGE_CODE),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(VALENCIAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
+	MockOfficeInstalled(registryMockobj, MSOffice2010);	
+	SetLangPacksInstalled(registryMockobj, MSOffice2010);
 
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2010);
+	EXPECT_TRUE(officeAction._isLangPackInstalled());
+}
+
+TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2013)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2013);	
+	SetLangPacksInstalled(registryMockobj, MSOffice2013);
+
+	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2013);
+	EXPECT_TRUE(officeAction._isLangPackInstalled());
+}
+
+TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2013_64)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2013_64);	
+	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);
+
+	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2013_64);
 	EXPECT_TRUE(officeAction._isLangPackInstalled());
 }
 
@@ -209,8 +200,8 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_2003_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2003Installed(registryMockobj);
-	SetNoLangPacksInstalled(registryMockobj);
+	MockOfficeInstalled(registryMockobj, MSOffice2003);
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(officeAction.IsNeed());
@@ -220,8 +211,8 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_2007_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2007Installed(registryMockobj);
-	SetNoLangPacksInstalled(registryMockobj);
+	MockOfficeInstalled(registryMockobj, MSOffice2007);
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 	
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(officeAction.IsNeed());
@@ -231,8 +222,8 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_2010_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOffice2010Installed(registryMockobj);
-	SetNoLangPacksInstalled(registryMockobj);
+	MockOfficeInstalled(registryMockobj, MSOffice2010);
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(officeAction.IsNeed());
 }
@@ -241,8 +232,8 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_201064_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOffice201064Installed(registryMockobj);
-	SetNoLangPacksInstalled(registryMockobj);
+	MockOfficeInstalled(registryMockobj, MSOffice2010_64);
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 	
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(officeAction.IsNeed());
