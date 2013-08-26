@@ -26,6 +26,9 @@ using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
 
+#define CATALAN_LANGUAGE_CODE L"1027"
+#define VALENCIAN_LANGUAGE_CODE L"2051"
+
 class MSOfficeLPIActionTest : public MSOfficeLPIAction
 {
 public:
@@ -162,7 +165,7 @@ TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2003)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(L"1027"),_)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(CATALAN_LANGUAGE_CODE),_)).WillRepeatedly(Return(true));
 
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2003);
 	EXPECT_TRUE(officeAction._isLangPackInstalled());
@@ -178,7 +181,8 @@ TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2007)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1027"),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(CATALAN_LANGUAGE_CODE),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(VALENCIAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
 
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2007);
 	EXPECT_TRUE(officeAction._isLangPackInstalled());
@@ -194,7 +198,8 @@ TEST(MSOfficeLPIActionTest, _isLangPackInstalled_2010)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).WillRepeatedly(Return(false));
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"1027"),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(CATALAN_LANGUAGE_CODE),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(VALENCIAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
 
 	EXPECT_THAT(officeAction._getVersionInstalled(), MSOffice2010);
 	EXPECT_TRUE(officeAction._isLangPackInstalled());
