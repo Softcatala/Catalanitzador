@@ -22,8 +22,8 @@
 #pragma once
 
 #define APP_MAJOR_VERSION		2
-#define APP_MINOR_VERSION		0
-#define APP_REVISION			3
+#define APP_MINOR_VERSION		1
+#define APP_REVISION			0
 
 #define STRING_VERSION				_STR("2.1.0")
 #define STRING_VERSION_RESOURCES	"2.1.0.0"
