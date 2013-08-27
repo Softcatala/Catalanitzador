@@ -102,7 +102,7 @@ void Actions::_buildListOfActions()
 {
 	OSVersion osversion;
 
-	if (osversion.GetVersion() == Windows8)
+	if (osversion.GetVersion() == Windows8 || osversion.GetVersion() == Windows81)
 	{
 		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
@@ -114,11 +114,12 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new MSOfficeLPIAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));	
 	m_actions.push_back(new IEAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), _getNewOSVersion(), m_pDownloadManager));
 		
-	if (osversion.GetVersion() != Windows8)
+	if (osversion.GetVersion() != Windows8 && osversion.GetVersion() != Windows81)
 	{
 		m_actions.push_back(new ConfigureLocaleAction());
 		m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	}
+
 	m_actions.push_back(new ChromeAction( _getNewRegistry()));
 	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012-2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -81,28 +81,50 @@ LPCWSTR Windows8LPIAction::GetLicenseID()
 
 wchar_t* Windows8LPIAction::_getDownloadID()
 {
-	if (m_OSVersion->IsWindows64Bits())
+	OperatingVersion version = m_OSVersion->GetVersion();	
+
+	switch (version)
 	{
-		if (GetUseDialectalVariant())
+		case Windows81:
 		{
-			return L"Win8_va_64";
+			if (m_OSVersion->IsWindows64Bits())
+			{
+				return L"Win81_ca_64";
+			}
+			else
+			{
+				return L"Win81_ca_32";				
+			}
 		}
-		else
+		case Windows8:
 		{
-			return L"Win8_ca_64";
+			if (m_OSVersion->IsWindows64Bits())
+			{
+				if (GetUseDialectalVariant())
+				{
+					return L"Win8_va_64";
+				}
+				else
+				{
+					return L"Win8_ca_64";
+				}
+			}
+			else
+			{
+				if (GetUseDialectalVariant())
+				{
+					return L"Win8_va_32";
+				}
+				else
+				{
+					return L"Win8_ca_32";
+				}
+			}
 		}
+		default:	
+			break;
 	}
-	else
-	{
-		if (GetUseDialectalVariant())
-		{
-			return L"Win8_va_32";
-		}
-		else
-		{
-			return L"Win8_ca_32";
-		}
-	}
+	return NULL;
 }
 
 bool Windows8LPIAction::IsDownloadNeed()
