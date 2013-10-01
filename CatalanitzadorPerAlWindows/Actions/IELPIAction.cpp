@@ -60,6 +60,7 @@ LPCWSTR IELPIAction::GetLicenseID()
 			return MAKEINTRESOURCE(IDR_LICENSE_IE8);
 		case InternetExplorerVersion::IE9:
 		case InternetExplorerVersion::IE10:
+		case InternetExplorerVersion::IE11:
 			return MAKEINTRESOURCE(IDR_LICENSE_IE9);
 		default:
 			break;
@@ -372,7 +373,7 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 					break;
 			}
 			break;
-		case Windows8: // Includes IE 10			
+		case Windows8: // Includes IE 10
 			switch (_getIEVersion())
 			{
 				case InternetExplorerVersion::IE10:
@@ -381,10 +382,19 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 					break;
 			}
 			break;
+		case Windows81: // Includes IE 11
+			switch (_getIEVersion())
+			{
+				case InternetExplorerVersion::IE11:
+					return AppliedInWinLPI;
+				default:
+					break;
+			}
+			break;
 		default: //	Windows2008, Windows2008R2 and others			
 			return NoLangPackAvailable;
 	}
-	
+
 	return PrerequirementsOk;
 }
 
@@ -394,6 +404,7 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirements()
 		return UnknownIEVersion;
 		
 	if (m_OSVersion->IsWindows64Bits() &&
+			_getIEVersion() != InternetExplorerVersion::IE11 &&
 			_getIEVersion() != InternetExplorerVersion::IE10 &&
 			_getIEVersion() != InternetExplorerVersion::IE9 &&
 			_getIEVersion() != InternetExplorerVersion::IE8)

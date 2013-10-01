@@ -181,6 +181,17 @@ TEST(IELPIActionTest, _checkPrerequirementsDependand_IE10_Windows8)
 	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
 }
 
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE11_Windows81)
+{
+	CreateIELPIAction;
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
+	lipAction.SetIEVersion(InternetExplorerVersion::IE11);
+
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
+}
+
 TEST(IELPIActionTest, CheckPrerequirements_UnknownIEVersion)
 {
 	CreateIELPIAction;

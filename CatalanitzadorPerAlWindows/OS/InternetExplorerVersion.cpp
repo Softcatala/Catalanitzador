@@ -83,6 +83,9 @@ InternetExplorerVersion::IEVersion InternetExplorerVersion::_readIEVersion()
 			case 10:
 				version = IE10;
 				break;
+			case 11:
+				version = IE11;
+				break;
 			default:
 				version = IEUnknown;
 				break;
