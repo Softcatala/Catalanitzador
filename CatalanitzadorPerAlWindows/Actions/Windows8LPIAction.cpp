@@ -45,6 +45,7 @@ WindowsLPIBaseAction(downloadManager)
 	m_win32I18N = win32I18N;
 	m_OSVersion = OSVersion;
 	m_runner = runner;
+	m_executionStep = ExecutionStepNone;
 }
 
 Windows8LPIAction::~Windows8LPIAction()
@@ -222,6 +223,7 @@ void Windows8LPIAction::Execute()
 		m_runner->Execute(lpkapp, szParams, m_OSVersion->IsWindows64Bits());
 	}
 
+	m_executionStep = ExecutionStepProgram;
 	SetStatus(InProgress);
 }
 
@@ -263,7 +265,6 @@ void Windows8LPIAction::_runLanguagePanelPowerShellScript(const string script)
 	
 	g_log.Log(L"Windows8LPIAction::_runLanguagePanelPowerShellScript '%s' with params '%s'", szTool, (wchar_t *)params.c_str());
 	m_runner->Execute(szTool, (wchar_t *)params.c_str(), m_OSVersion->IsWindows64Bits());
-	m_runner->WaitUntilFinished();
 }
 
 void Windows8LPIAction::_setLanguagePanelLanguages(const wstring primaryCode, const wstring secondaryCode)
@@ -425,11 +426,25 @@ ActionStatus Windows8LPIAction::GetStatus()
 	{
 		if (m_runner->IsRunning())
 			return InProgress;
-		
-		if (_isLanguagePanelFirst() == false)
+
+		switch (m_executionStep)
 		{
-			_setLanguagePanel();
-		}		
+			case ExecutionStepNone:
+				break;
+			case ExecutionStepProgram:
+				if (_isLanguagePanelFirst() == false)
+				{
+					_setLanguagePanel();
+					m_executionStep = ExecutionStepCfgLocale;
+					return InProgress;
+				}
+			case ExecutionStepCfgLocale:
+				break;
+			default:
+				assert(false);
+				break;
+		}
+
 		_setDefaultLanguage();
 		
 		if (_isAlreadyApplied())

@@ -55,6 +55,13 @@ protected:
 		bool _isASupportedSystemLanguage();
 		
 private:
+
+		enum ExecutionStep
+		{
+			ExecutionStepNone,
+			ExecutionStepProgram,
+			ExecutionStepCfgLocale
+		};
 		
 		bool _isDefaultLanguage();
 		void _setDefaultLanguage();
@@ -77,5 +84,6 @@ private:
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;
 		IOSVersion* m_OSVersion;
+		ExecutionStep m_executionStep;
 };
 
