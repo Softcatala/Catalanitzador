@@ -915,6 +915,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\JavaRuntimeInspector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\JavaRuntimeInspector.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\LibreOfficeInspector.cpp"
 				>
 			</File>

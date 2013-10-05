@@ -26,6 +26,7 @@
 #include "WinRARInspector.h"
 #include "ThunderbirdInspector.h"
 #include "CCleanerInspector.h"
+#include "JavaRuntimeInspector.h"
 
 Inspectors::Inspectors()
 {
@@ -61,7 +62,8 @@ void Inspectors::_buildListOfInspectors()
 	m_Inspectors.push_back(new PDFCreatorInspector(_getNewRegistry()));
 	m_Inspectors.push_back(new WinRARInspector(_getNewRegistry()));
 	m_Inspectors.push_back(new ThunderbirdInspector(_getNewRegistry()));
-  m_Inspectors.push_back(new CCleanerInspector(_getNewRegistry()));
+	m_Inspectors.push_back(new CCleanerInspector(_getNewRegistry()));
+	m_Inspectors.push_back(new JavaRuntimeInspector(_getNewRegistry()));	
 }
 
 void Inspectors::Execute()
