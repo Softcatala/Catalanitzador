@@ -113,7 +113,7 @@ TEST(Windows8LPIActionTest, ExecuteWindows)
 	lipAction.Execute();
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win32)
+TEST(Windows8LPIActionTest, _getDownloadID_Win80_ca_32)
 {	
 	CreateWindowsLIPAction;
 
@@ -122,13 +122,71 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win32)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_ca_32"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win64)
+TEST(Windows8LPIActionTest, _getDownloadID_Win80_ca_64)
 {	
 	CreateWindowsLIPAction;
 
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_ca_64"));
+}
+
+TEST(Windows8LPIActionTest, _getDownloadID_Win80_va_32)
+{	
+	CreateWindowsLIPAction;
+
+	lipAction.SetUseDialectalVariant(true);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_va_32"));
+}
+
+TEST(Windows8LPIActionTest, _getDownloadID_Win80_va_64)
+{	
+	CreateWindowsLIPAction;
+
+	lipAction.SetUseDialectalVariant(true);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_va_64"));
+}
+
+TEST(Windows8LPIActionTest, _getDownloadID_Win81_ca_32)
+{	
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_32"));
+}
+
+TEST(Windows8LPIActionTest, _getDownloadID_Win81_ca_64)
+{	
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_64"));
+}
+
+TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_32)
+{	
+	CreateWindowsLIPAction;
+
+	lipAction.SetUseDialectalVariant(true);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_32"));
+}
+
+TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_64)
+{	
+	CreateWindowsLIPAction;
+
+	lipAction.SetUseDialectalVariant(true);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_64"));
 }
 
 TEST(Windows8LPIActionTest, _setLanguagePanel_Catalan)
