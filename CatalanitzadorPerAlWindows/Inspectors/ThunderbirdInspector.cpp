@@ -20,7 +20,6 @@
 
 #include "stdafx.h"
 #include "ThunderbirdInspector.h"
-#include "FileVersionInfo.h"
 
 ThunderbirdInspector::ThunderbirdInspector(IRegistry* registry)
 {
