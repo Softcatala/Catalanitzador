@@ -46,6 +46,7 @@ WindowsLPIBaseAction(downloadManager)
 	m_OSVersion = OSVersion;
 	m_runner = runner;
 	m_executionStep = ExecutionStepNone;
+	m_selectLanguagePackageCalled = false;
 }
 
 Windows8LPIAction::~Windows8LPIAction()
@@ -82,6 +83,17 @@ LPCWSTR Windows8LPIAction::GetLicenseID()
 
 wchar_t* Windows8LPIAction::_getDownloadID()
 {
+	_selectLanguagePackage();	
+	return (wchar_t*) m_packageDownloadId.c_str();
+}
+
+void Windows8LPIAction::_selectLanguagePackage()
+{
+	if (m_selectLanguagePackageCalled)
+	{
+		return;
+	}
+
 	OperatingVersion version = m_OSVersion->GetVersion();	
 
 	switch (version)
@@ -90,12 +102,15 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 		{
 			if (m_OSVersion->IsWindows64Bits())
 			{
-				return L"Win81_ca_64";
+				m_packageDownloadId = L"Win81_ca_64";
+				m_packageLanguageCode = CATALAN_LANGPACKCODE;
 			}
 			else
 			{
-				return L"Win81_ca_32";				
+				m_packageDownloadId = L"Win81_ca_32";
+				m_packageLanguageCode = CATALAN_LANGPACKCODE;
 			}
+			break;
 		}
 		case Windows8:
 		{
@@ -103,29 +118,36 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 			{
 				if (GetUseDialectalVariant())
 				{
-					return L"Win8_va_64";
+					m_packageDownloadId = L"Win8_va_64";
+					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
 				}
 				else
 				{
-					return L"Win8_ca_64";
+					m_packageDownloadId = L"Win8_ca_64";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;
 				}
 			}
 			else
 			{
 				if (GetUseDialectalVariant())
 				{
-					return L"Win8_va_32";
+					m_packageDownloadId = L"Win8_va_32";
+					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
 				}
 				else
 				{
-					return L"Win8_ca_32";
+					m_packageDownloadId = L"Win8_ca_32";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;
 				}
 			}
-		}
-		default:	
 			break;
+		}
+		default:
+			m_packageLanguageCode.clear();
+			m_packageDownloadId.clear();
 	}
-	return NULL;
+
+	m_selectLanguagePackageCalled = true;
 }
 
 bool Windows8LPIAction::IsDownloadNeed()
@@ -211,7 +233,7 @@ void Windows8LPIAction::Execute()
 	{
 		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
 		wcscpy_s(szParams, L" /i ");
-		wcscat_s(szParams, GetUseDialectalVariant() ? VALENCIAN_LANGPACKCODE : CATALAN_LANGPACKCODE);
+		wcscat_s(szParams, m_packageLanguageCode.c_str());
 		wcscat_s(szParams, L" /r /s /p ");
 
 		wcscat_s(szParams, m_filename.c_str());
@@ -474,15 +496,13 @@ void Windows8LPIAction::_setDefaultLanguage()
 	// Sets the language for the default user
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
-		wstring langcode;
+		wchar_t* packageLanguageCode = (wchar_t *) m_packageLanguageCode.c_str();
 
-		langcode = GetUseDialectalVariant() ? VALENCIAN_LANGPACKCODE : CATALAN_LANGPACKCODE;
-
-		m_registry->SetString(L"PreferredUILanguages", (wchar_t *) langcode.c_str());
+		m_registry->SetString(L"PreferredUILanguages", packageLanguageCode);
 		// Needed since the panel forces it to other languages
-		m_registry->SetMultiString(L"PreferredUILanguagesPending", (wchar_t *) langcode.c_str());
+		m_registry->SetMultiString(L"PreferredUILanguagesPending", packageLanguageCode);
 		m_registry->Close();
-		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage current user done");
+		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage current user done: %s", packageLanguageCode);
 	}
 
 	// Sets the language for all users

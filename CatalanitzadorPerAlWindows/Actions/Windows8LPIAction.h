@@ -76,6 +76,7 @@ private:
 		bool _isLangPackInstalledForLanguage(wstring langcode);
 		bool _isDefaultLanguageForLanguage(wstring langcode);
 		bool _isLanguagePanelFirstForLanguage(wstring langcode);
+		void _selectLanguagePackage();
 
 		vector <wstring> m_languages;
 		wstring m_filename;
@@ -85,5 +86,8 @@ private:
 		IWin32I18N* m_win32I18N;
 		IOSVersion* m_OSVersion;
 		ExecutionStep m_executionStep;
+		wstring m_packageDownloadId;
+		wstring m_packageLanguageCode;
+		bool m_selectLanguagePackageCalled;			
 };
 

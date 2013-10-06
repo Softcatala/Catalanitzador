@@ -99,7 +99,7 @@ TEST(Windows8LPIActionTest, _isLangPackInstalled_False)
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
 
-TEST(Windows8LPIActionTest, ExecuteWindows)
+TEST(Windows8LPIActionTest, ExecuteWindows_Win81_CA)
 {	
 	CreateWindowsLIPAction;
 
@@ -107,8 +107,25 @@ TEST(Windows8LPIActionTest, ExecuteWindows)
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	SetLangPackInstalled(registryMockobj, false);
 
+	lipAction._getDownloadID();
 	lipAction.SetStatus(Selected);
 	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"lpksetup.exe"), HasSubstr(L"/i ca-ES /r /s /p"), false)).Times(1).WillRepeatedly(Return(true));
+
+	lipAction.Execute();
+}
+
+TEST(Windows8LPIActionTest, ExecuteWindows_Win81_VA)
+{	
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	SetLangPackInstalled(registryMockobj, false);
+
+	lipAction.SetUseDialectalVariant(true);
+	lipAction._getDownloadID();
+	lipAction.SetStatus(Selected);
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"lpksetup.exe"), HasSubstr(L"/i ca-es-valencia /r /s /p"), false)).Times(1).WillRepeatedly(Return(true));
 
 	lipAction.Execute();
 }
