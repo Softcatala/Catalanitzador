@@ -4,13 +4,18 @@ class Catalanitzador {
 
     private $_db;
     private $_versions;
+    private $_platforms;
     private $_vselected;
+    private $_pselected;
     private $_sql_vselected;
+    private $_sql_pselected;
 
     public function __construct($db) {
         $this->_db = $db;
         $this->_versions = null;
+	$this->_platforms = null;
         $this->_vselected = '';
+        $this->_pselected = '';
         $this->_sql_vselected = '';
     }
 
@@ -18,10 +23,23 @@ class Catalanitzador {
         return !empty($this->_vselected);
     }
 
+    public function is_platform_selected() {
+        return $this->_pselected != '';
+    }
+
     public function get_versions() {
 
         if ($this->_versions == null) {
-            $results = $this->_db->get_results("select ApplicationsID, count(*) as total from sessions group by ApplicationsID;");
+	    
+	    $p = '';
+            if($this->is_platform_selected()) {
+	        $p = $this->get_platform_selected();
+                $p = " AND operatings.System = '$p'";
+	    }
+
+	    $result_query = "select ApplicationsID, count(sessions.ID) as total from sessions, operatings where sessions.OperatingsID = operatings.ID $p group by ApplicationsID;";
+
+            $results = $this->_db->get_results($result_query);
             $r_versions = $this->_db->get_results("select * from applications order by ID asc");
             $versions = array();
             $totals = array();
@@ -43,12 +61,28 @@ class Catalanitzador {
         return $this->_versions;
     }
 
+    public function get_platforms() {
+
+        if ($this->_platforms == null) {
+            $results = $this->_db->get_results("select distinct System from operatings where System != '';");
+            $platforms = array();
+            foreach ($results as $platform) {
+                $platforms[] = 'OS-'.$platform->System; 
+            }
+
+            $this->_platforms = $platforms;
+        }
+
+        return $this->_platforms;
+    }
+
+
     public function get_version_selected() {
         if (!$this->is_version_selected()) {
             return '';
         }
-
-        if (empty($this->_sql_vselected)) {
+        
+	if (empty($this->_sql_vselected)) {
             $v = $_GET['v'];
             if (empty($v) || strlen($v) != 3)
                 return;
@@ -72,10 +106,77 @@ class Catalanitzador {
 
                     $this->_sql_vselected .= $oneVersion->ID;
                 }
+            } else if (($v[2] == 'x' && $v[1] == 'x') && is_numeric(substr($v, 0, 1))) {
+                $version = $this->_db->get_results("select ID from applications where MajorVersion = $v[0]");
+
+                $firstVersion = true;
+                foreach ($version as $oneVersion) {
+                    if ($firstVersion) {
+                        $firstVersion = false;
+                    } else {
+                        $this->_sql_vselected .= ',';
+                    }
+
+                    $this->_sql_vselected .= $oneVersion->ID;
+                }
+
             }
         }
 
-        return $this->_sql_vselected;
+	return $this->_sql_vselected;
+    }
+
+    public function get_platform_selected() {
+        if (!$this->is_platform_selected()) {
+            return '';
+        }
+
+        if(empty($this->_sql_pselected)) {
+            $p = $_GET['os'];
+            if($p == '') {
+                return '';
+            }
+
+            $this->_sql_pselected = $p;
+        }
+
+	return $this->_sql_pselected;
+    }
+
+    function print_platforms_table() {
+	global $system_platform;
+	?>
+        <table id="application_platform">
+            <thead>
+                <tr>
+        <?php
+        $platform_data = $this->get_platforms();
+
+         foreach ($platform_data as $platform) {
+            $p = str_replace('OS-','',$platform);
+            if ($_GET['os'] == $p) {
+                $style = ' class="active" ';
+                $this->_pselected = $p;
+            } else {
+                $style = '';
+            }
+            echo '<th ', $style, '><a href="';
+            echo Utils::get_query_string('os', $p);
+            echo '">', $system_platform[$p], '</a></th>';
+
+        }
+
+        if ($this->is_platform_selected()) {
+            echo '<th>';
+        } else {
+            echo '<th style="background-color:#CCFFCC">';
+        }
+
+        echo '<a href="', Utils::get_query_string('os', ''), '">TOTES</a></th></tr>';	
+	?>
+
+	</thead></table><br />
+	<?php
     }
 
     function print_versions_table() {
@@ -141,6 +242,12 @@ class Catalanitzador {
             echo Utils::get_query_string('v', $v);
             echo '">', $version, '</a></th>';
         }
+
+	if($this->_vselected == '' && strlen($_GET['v']) == 3) {
+		if($_GET['v'][1]=='x' && $_GET['v'][2]=='x') {
+			$this->_vselected = $_GET['v'];
+		}
+	}
 
         if ($this->is_version_selected()) {
             echo '<th>';

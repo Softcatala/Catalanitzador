@@ -32,6 +32,7 @@
 ?>    
         <div id="totals" style="witdh:800px;margin:0 auto"> <div>
             <h2>Versions del Catalanitzador</h2>
+            <?php $Catalanitzador->print_platforms_table(); ?>
             <?php $Catalanitzador->print_versions_table(); ?>
         </div>
         <br />
@@ -39,5 +40,8 @@
     }
     
     Menu::include_active();
+?>
+<?php
+    include('footer.php');
 ?>
 </html>

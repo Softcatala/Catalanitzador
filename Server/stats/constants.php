@@ -14,8 +14,13 @@
         10=>'AcrobatReader',
         11 => 'Windows Live', 
         12 => 'CatalanitzadorUpdate', 
-        13 => 'Skype'
+        13 => 'Skype',
+	14 => 'iTunes',
+	15 => 'MacSystemAction',
+	16 => 'MacSpellChecker',
+	17 => 'FirefoxLangPack'
     );
+
 
     $subversions = array(4, 7, 8);
 
@@ -34,6 +39,11 @@
     // actions we don't want to show in the main table
     $action_to_hide = array(1, 4);                            
     
+    $system_platform = array(
+        0 => 'Windows',
+	1 => 'MacOS X'
+    );
+
     // OS
     $os_names = array( 
         "6.1" => "Windows 7", 

@@ -149,7 +149,6 @@
 										$total += $result->total;
 									}
 								}
-								echo '<!-- '; print_r($res); print_r($results); print_r($action_status); echo ' -->';
 								echo '<td>',$total,'</td>';
 								foreach($results as $i => $num) {
 									if(in_array($i,$action_to_hide)) continue;
