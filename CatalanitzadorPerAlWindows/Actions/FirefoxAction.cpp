@@ -306,8 +306,10 @@ void FirefoxAction::CheckPrerequirements(Action * action)
 
 	// We do not have a good way of communication when one subactions cannot be applied
 	// but the other can
-	if (_getLangPackAction()->GetStatus() == CannotBeApplied &&
-		_getAcceptLanguagesAction()->GetStatus() == AlreadyApplied)
+	if ((_getLangPackAction()->GetStatus() == CannotBeApplied &&
+		_getAcceptLanguagesAction()->GetStatus() == AlreadyApplied) ||
+		_getLangPackAction()->GetStatus() == AlreadyApplied &&
+		_getAcceptLanguagesAction()->GetStatus() == CannotBeApplied)
 	{
 			SetStatus(AlreadyApplied);
 			return;

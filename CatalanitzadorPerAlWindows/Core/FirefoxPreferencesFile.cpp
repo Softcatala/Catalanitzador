@@ -37,8 +37,11 @@ bool FirefoxPreferencesFile::_getProfileLocationFromProfilesIni(wstring file, ws
 
 	reader.open(file.c_str());
 
-	if (!reader.is_open())	
+	if (!reader.is_open())
+	{
+		g_log.Log(L"FirefoxPreferencesFile::_getProfileLocationFromProfilesIni. Cannot open file %s", (wchar_t *) file.c_str());
 		return false;
+	}
 
 	while(!(getline(reader, line)).eof())
 	{
@@ -49,6 +52,7 @@ bool FirefoxPreferencesFile::_getProfileLocationFromProfilesIni(wstring file, ws
 		return true;
 	}
 
+	g_log.Log(L"FirefoxPreferencesFile::_getProfileLocationFromProfilesIni. Path key not found");
 	return false;
 }
 

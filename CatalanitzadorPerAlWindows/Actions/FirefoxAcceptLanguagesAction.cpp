@@ -78,7 +78,13 @@ bool FirefoxAcceptLanguagesAction::_isAcceptLanguageOk()
 }
 
 void FirefoxAcceptLanguagesAction::CheckPrerequirements(Action * action)
-{	
+{
+	if (m_acceptLanguages.ReadLanguageCode() == false)
+	{
+		SetStatus(CannotBeApplied);
+		return;
+	}
+	
 	if (_isAcceptLanguageOk())
 	{
 		SetStatus(AlreadyApplied);
