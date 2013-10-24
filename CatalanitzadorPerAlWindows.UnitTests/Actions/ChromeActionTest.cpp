@@ -85,6 +85,21 @@ TEST(ChromeActionTest, _isInstalled_False)
 	EXPECT_FALSE(chromeAction._isInstalled());
 }
 
+TEST(ChromeActionTest, _isInstalled_True_System)
+{
+	CreateChromeAction;
+	wchar_t* LOCATION = L"location";
+	
+	// No user install
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(CHROME_REGISTRY_PATH), false)).WillRepeatedly(Return(false));
+
+	// There is system install
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(CHROME_REGISTRY_PATH), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"InstallLocation"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(LOCATION), Return(true)));
+
+	EXPECT_TRUE(chromeAction._isInstalled());
+}
+
 TEST(ChromeActionTest, CheckPrerequirements_NotInstalled)
 {
 	CreateChromeAction;
