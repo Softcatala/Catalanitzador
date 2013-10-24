@@ -276,6 +276,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mocks\ChromeProfileMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\FileVersionInfoMock.h"
 				>
 			</File>
@@ -365,6 +369,10 @@
 			>
 			<File
 				RelativePath=".\Core\ApplicationVersionTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\ChromeProfileTest.cpp"
 				>
 			</File>
 			<File

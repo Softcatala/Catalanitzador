@@ -25,12 +25,21 @@
 #define CHROME_LANGUAGECODE L"ca"
 #endif
 
-
 ChromeAction::ChromeAction(IRegistry* registry)
 {
+	m_chromeProfile = NULL;
 	m_registry = registry;
 
 	_addExecutionProcess(ExecutionProcess(L"chrome.exe", L"", true));
+	
+	SetChromeProfile(new ChromeProfile());
+	m_allocatedProfile = true;
+	
+}
+
+ChromeAction::~ChromeAction()
+{
+	SetChromeProfile(NULL);
 }
 
 wchar_t* ChromeAction::GetName()
@@ -50,6 +59,16 @@ void ChromeAction::FinishExecution(ExecutionProcess process)
 		Runner runner;
 		runner.RequestCloseToProcessID(_getProcessIDs(process.GetName()).at(0), true);
 	}
+}
+
+void ChromeAction::SetChromeProfile(ChromeProfile *profile)
+{
+	if (m_allocatedProfile && m_chromeProfile)
+	{
+		delete m_chromeProfile;
+		m_allocatedProfile = false;
+	}
+	m_chromeProfile = profile;
 }
 
 bool ChromeAction::IsNeed()
@@ -73,15 +92,15 @@ bool ChromeAction::IsNeed()
 
 void ChromeAction::Execute()
 {
-	bool uiStatus = _chromeProfile.IsUiLocaleOk();
+	bool uiStatus = m_chromeProfile->IsUiLocaleOk();
 	bool acceptLanguageStatus;
 
 	if(!uiStatus) {
-		uiStatus = _chromeProfile.WriteUILocale();
+		uiStatus = m_chromeProfile->WriteUILocale();
 	}
 
 	SetStatus(InProgress);
-	acceptLanguageStatus = _chromeProfile.UpdateAcceptLanguages();
+	acceptLanguageStatus = m_chromeProfile->UpdateAcceptLanguages();
 
 	if(uiStatus && acceptLanguageStatus) {
 		SetStatus(Successful);
@@ -157,7 +176,7 @@ bool ChromeAction::_findUserInstallation(wstring & path)
 		{
 			path = szLocation;
 			
-			_chromeProfile.SetPath(path);
+			m_chromeProfile->SetPath(path);
 			g_log.Log(L"ChromeAction::_findUserInstallation. InstallLocation %s", szLocation);
 			isInstalled = true;
 			
@@ -181,7 +200,7 @@ bool ChromeAction::_findSystemInstallation(wstring & path)
 			g_log.Log(L"ChromeAction::_findSystemInstallation. InstallLocation %s", szLocation);
 			path = _getProfileRootDir();
 			
-			_chromeProfile.SetPath(path);
+			m_chromeProfile->SetPath(path);
 			g_log.Log(L"ChromeAction::_findSystemInstallation. Profile %s", (wchar_t*) path.c_str());
 			isInstalled = true;
 		}		
@@ -218,11 +237,10 @@ void ChromeAction::CheckPrerequirements(Action * action)
 	
 	if (_isInstalled())
 	{
-
 		_readVersion();
 		
-		acceptLanguagesOk = _chromeProfile.IsAcceptLanguagesOk();
-		localeOk = _chromeProfile.IsUiLocaleOk();
+		acceptLanguagesOk = m_chromeProfile->IsAcceptLanguagesOk();
+		localeOk = m_chromeProfile->IsUiLocaleOk();
 
 		if(acceptLanguagesOk && localeOk)
 		{
@@ -231,13 +249,4 @@ void ChromeAction::CheckPrerequirements(Action * action)
 	} else {
 		_setStatusNotInstalled();
 	}
-}
-
-bool ChromeAction::_readLanguageCode(std::wstring &langcode)
-{
-	if(_isInstalled())
-	{
-		return _chromeProfile.ReadLanguageCode(langcode);
-	}
-	return false;
 }

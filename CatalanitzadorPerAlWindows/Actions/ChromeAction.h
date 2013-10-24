@@ -34,6 +34,7 @@ class ChromeAction : public Action, public ActionExecution
 {
 public:
 		ChromeAction(IRegistry* registry);
+		~ChromeAction();
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -45,6 +46,7 @@ public:
 		virtual const wchar_t* GetVersion();
 		virtual void FinishExecution(ExecutionProcess process);
 		virtual void CheckPrerequirements(Action * action);
+		void SetChromeProfile(ChromeProfile *profile);
 		
 protected:
 		void _readVersion();
@@ -57,7 +59,8 @@ private:
 		bool _findSystemInstallation(wstring &);
 		wstring _getProfileRootDir();
 
-		ChromeProfile _chromeProfile;
+		ChromeProfile* m_chromeProfile;
+		bool m_allocatedProfile;
 
 		wstring m_version;
 		IRegistry* m_registry;

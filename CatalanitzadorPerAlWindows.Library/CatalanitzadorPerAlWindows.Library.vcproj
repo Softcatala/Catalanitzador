@@ -391,6 +391,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\ChromeProfile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\ChromeProfile.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Core\CommandLine.cpp"
 				>
 			</File>
@@ -680,14 +688,6 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ChromeAction.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ChromeProfile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\ChromeProfile.h"
 				>
 			</File>
 			<File

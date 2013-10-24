@@ -20,7 +20,7 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "Application.h"
-
+#include "ChromeProfileMock.h"
 #include "ChromeAction.h"
 
 using ::testing::Return;
@@ -41,6 +41,7 @@ public:
 		using ChromeAction::_isInstalled;
 		using ChromeAction::_readLanguageCode;
 };
+
 
 #define CreateChromeAction \
 	RegistryMock registryMockobj; \
@@ -93,73 +94,55 @@ TEST(ChromeActionTest, CheckPrerequirements_NotInstalled)
 	EXPECT_THAT(chromeAction.GetStatus(), NotInstalled);
 }
 
-TEST(ChromeActionTest, IsNeed_No_SpanishUI_NoAcceptLanguage)
+TEST(ChromeActionTest, CheckPrerequirements_AlreadyApplied)
 {
-	wstring location;
 	CreateChromeAction;
+	const wchar_t* VERSION = L"15.0";
+	
+	SetLocation(registryMockobj, L"SomePath");	
+	SetVersion(registryMockobj, VERSION);
 
-	Application::GetExecutionLocation(location);
-	location += L"Chrome\\SpanishUI_NoAcceptLanguage\\User Data\\";
+	ChromeProfileMock chromeProfileMock;
+	EXPECT_CALL(chromeProfileMock, IsAcceptLanguagesOk()).WillRepeatedly(Return(true));
+	EXPECT_CALL(chromeProfileMock, IsUiLocaleOk()).WillRepeatedly(Return(true));
+	chromeAction.SetChromeProfile(&chromeProfileMock);
 
-	SetVersion(registryMockobj, L"11.0");
-	SetLocation(registryMockobj, location.c_str());
 	chromeAction.CheckPrerequirements(NULL);
-	EXPECT_TRUE(chromeAction.IsNeed());
-}
-
-TEST(ChromeActionTest, IsNeed_No_CatalanUI_NoAcceptLanguage)
-{
-	wstring location;
-	CreateChromeAction;
-
-	Application::GetExecutionLocation(location);
-	location += L"Chrome\\CatalanUI_NoAcceptLanguage\\User Data\\";
-
-	SetVersion(registryMockobj, L"11.0");
-	SetLocation(registryMockobj, location.c_str());
-	chromeAction.CheckPrerequirements(NULL);
-	EXPECT_FALSE(chromeAction.IsNeed());
 	EXPECT_THAT(chromeAction.GetStatus(), AlreadyApplied);
 }
 
-TEST(ChromeActionTest, IsNeed_Yes_SpanishUI_CA_ES_DE_BR)
+TEST(ChromeActionTest, CheckPrerequirements_UINotApplied)
 {
-	wstring location;
 	CreateChromeAction;
-
-	Application::GetExecutionLocation(location);
-	location += L"Chrome\\SpanishUI_AcceptLanguage_ca_es_de_br\\User Data\\";
-
-	SetVersion(registryMockobj, L"11.0");
-	SetLocation(registryMockobj, location.c_str());
-	chromeAction.CheckPrerequirements(NULL);
-	EXPECT_TRUE(chromeAction.IsNeed());
-}
-
-TEST(ChromeActionTest, _readLanguageCode_Empty)
-{
-	wstring location, langcodes;
-	CreateChromeAction;
-
-	Application::GetExecutionLocation(location);
-	location += L"Chrome\\CatalanUI_NoAcceptLanguage\\User Data\\";
-
-	SetLocation(registryMockobj, location.c_str());
-	chromeAction._readLanguageCode(langcodes);
+	const wchar_t* VERSION = L"15.0";
 	
-	EXPECT_TRUE(langcodes.empty());
+	SetLocation(registryMockobj, L"SomePath");	
+	SetVersion(registryMockobj, VERSION);
+
+	ChromeProfileMock chromeProfileMock;
+	EXPECT_CALL(chromeProfileMock, IsAcceptLanguagesOk()).WillRepeatedly(Return(true));
+	EXPECT_CALL(chromeProfileMock, IsUiLocaleOk()).WillRepeatedly(Return(false));
+	chromeAction.SetChromeProfile(&chromeProfileMock);
+
+	chromeAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(chromeAction.GetStatus(), NotSelected);
+	EXPECT_THAT(chromeAction.IsNeed(), true);
 }
 
-TEST(ChromeActionTest, _readLanguageCode_ES_DE_BR)
+TEST(ChromeActionTest, CheckPrerequirements_AcceptLanguagesNotApplied)
 {
-	wstring location, langcodes;
 	CreateChromeAction;
+	const wchar_t* VERSION = L"15.0";
+	
+	SetLocation(registryMockobj, L"SomePath");	
+	SetVersion(registryMockobj, VERSION);
 
-	Application::GetExecutionLocation(location);
-	location += L"Chrome\\SpanishUI_AcceptLanguage_es_de_br\\User Data\\";
+	ChromeProfileMock chromeProfileMock;
+	EXPECT_CALL(chromeProfileMock, IsAcceptLanguagesOk()).WillRepeatedly(Return(false));
+	EXPECT_CALL(chromeProfileMock, IsUiLocaleOk()).WillRepeatedly(Return(true));
+	chromeAction.SetChromeProfile(&chromeProfileMock);
 
-	SetLocation(registryMockobj, location.c_str());
-	chromeAction._readLanguageCode(langcodes);
-
-	EXPECT_THAT(langcodes, StrCaseEq(L"es,de,br"));
+	chromeAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(chromeAction.GetStatus(), NotSelected);
+	EXPECT_THAT(chromeAction.IsNeed(), true);
 }

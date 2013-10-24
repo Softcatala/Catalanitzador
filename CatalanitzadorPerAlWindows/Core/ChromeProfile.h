@@ -31,9 +31,8 @@ public:
 	ChromeProfile(wstring);
 
 	bool WriteUILocale();
-	bool IsUiLocaleOk();
-
-	bool IsAcceptLanguagesOk();
+	virtual bool IsUiLocaleOk();
+	virtual bool IsAcceptLanguagesOk();
 	bool UpdateAcceptLanguages();
 
 	void SetPath(wstring);
