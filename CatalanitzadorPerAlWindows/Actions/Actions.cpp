@@ -18,6 +18,7 @@
  */
 
 #include "stdafx.h"
+#include <time.h>
 #include "Actions.h"
 #include "WindowsLPIAction.h"
 #include "Windows8LPIAction.h"
@@ -143,8 +144,12 @@ Action * Actions::GetActionFromID(ActionID actionID)
 void Actions::CheckPrerequirements()
 {
 	for (unsigned int i = 0; i < m_actions.size(); i++)
-	{		
+	{
+		clock_t start = clock();
 		Action* action = m_actions.at(i);
 		action->CheckPrerequirements(NULL);
+#if _DEBUG
+		g_log.Log(L"Actions::CheckPrerequirements (time): action %s, time %u ms", (wchar_t *) action->GetName(), (wchar_t *) (clock() - start));
+#endif
 	}
 }
