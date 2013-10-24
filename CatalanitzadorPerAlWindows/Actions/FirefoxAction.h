@@ -56,14 +56,14 @@ protected:
 		void _readVersionAndLocale();		
 		bool _isAcceptLanguageOk();
 		void _readInstallPath(wstring& path);
+		virtual FirefoxLangPackAction * _getLangPackAction();
+		virtual FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction();
 
 private:
 
 		wstring _getVersionAndLocaleFromRegistry();
 		void _extractLocaleAndVersion(wstring version);
-		FirefoxLangPackAction * _getLangPackAction();
-		FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction();
-
+		
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wstring m_locale;

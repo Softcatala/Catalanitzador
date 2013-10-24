@@ -21,6 +21,7 @@
 #include "FileVersionInfoMock.h"
 #include "TempFile.h"
 #include "LogFile.h"
+#include "ActionMock.h"
 
 LogFile g_log;
 

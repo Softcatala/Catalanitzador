@@ -32,11 +32,31 @@ class FirefoxActionForTest : public FirefoxAction
 {
 	public:
 
-		FirefoxActionForTest(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : FirefoxAction(registry, runner, downloadManager) {};
+		FirefoxActionForTest(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : FirefoxAction(registry, runner, downloadManager) 
+		{
+			firefoxAcceptLanguagesAction = NULL;
+			firefoxLangPackAction = NULL;
+		};
+
+		FirefoxLangPackAction* firefoxLangPackAction;
+		FirefoxAcceptLanguagesAction* firefoxAcceptLanguagesAction;
 
 		using FirefoxAction::_readVersionAndLocale;
 		using FirefoxAction::_getLocale;
 		using FirefoxAction::_readInstallPath;
+
+		void SetFirefoxLangPackAction(FirefoxLangPackAction* action) {firefoxLangPackAction = action;}
+		void SetFirefoxAcceptLanguagesAction(FirefoxAcceptLanguagesAction* action) {firefoxAcceptLanguagesAction = action;}
+
+		void SetSubActionsStatus(ActionStatus firefoxLangPackStatus, ActionStatus firefoxAcceptLanguagesStatus)
+		{
+			ActionMock firefoxLangPackAction, firefoxAcceptLanguagesAction;
+			EXPECT_CALL(firefoxLangPackAction, GetStatus()).WillRepeatedly(Return(firefoxLangPackStatus));
+			EXPECT_CALL(firefoxAcceptLanguagesAction, GetStatus()).WillRepeatedly(Return(firefoxAcceptLanguagesStatus));
+			
+			SetFirefoxLangPackAction((FirefoxLangPackAction*) &firefoxLangPackAction);
+			SetFirefoxAcceptLanguagesAction((FirefoxAcceptLanguagesAction*) &firefoxAcceptLanguagesAction);
+		}
 };
 
 void _setMockForLocale(RegistryMock& registryMockobj, const wchar_t* locale)
@@ -76,7 +96,8 @@ bool FirefoxSerializerReadActionsIDs(XmlNode node, void *data)
 		}
 	}	
 	return true;
-} 
+}
+
 
 TEST(FirefoxActionTest, _readVersionAndLocale)
 {
@@ -132,4 +153,70 @@ TEST(FirefoxActionTest, _Serialize)
 
 	parser.Parse(FirefoxSerializerReadActionsIDs, &cnt);
 	EXPECT_THAT(cnt, 2);
+}
+
+TEST(FirefoxActionTest, CheckPrerequirements_NotInstalled)
+{	
+	RegistryMock registryMockobj;
+	RunnerMock runnerMockobj;
+	const wchar_t* PATH = L"MyPath";
+	const wchar_t* VERSION = L"";
+
+	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
+
+	_setMockForLocale(registryMockobj, VERSION);
+	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+
+	firefoxAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(firefoxAction.GetStatus(), NotInstalled);
+}
+
+TEST(FirefoxActionTest, CheckPrerequirements_BothSubAtionsStatusAlready)
+{	
+	RegistryMock registryMockobj;
+	RunnerMock runnerMockobj;
+	const wchar_t* PATH = L"MyPath";
+	const wchar_t* VERSION = L"12.0 (ca)";
+
+	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
+
+	_setMockForLocale(registryMockobj, VERSION);
+	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+
+	firefoxAction.SetSubActionsStatus(AlreadyApplied, AlreadyApplied);
+	firefoxAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(firefoxAction.GetStatus(), AlreadyApplied);
+}
+
+TEST(FirefoxActionTest, CheckPrerequirements_SubAtionsCannotBeAppliedAndStatusAlready)
+{	
+	RegistryMock registryMockobj;
+	RunnerMock runnerMockobj;
+	const wchar_t* PATH = L"MyPath";
+	const wchar_t* VERSION = L"12.0 (ca)";
+
+	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
+	_setMockForLocale(registryMockobj, VERSION);
+	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+
+	firefoxAction.SetSubActionsStatus(CannotBeApplied, AlreadyApplied);
+	firefoxAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(firefoxAction.GetStatus(), AlreadyApplied);
+}
+
+TEST(FirefoxActionTest, CheckPrerequirements_SubAtionsStatusAlreadyAndCannotBeApplied)
+{	
+	RegistryMock registryMockobj;
+	RunnerMock runnerMockobj;
+	const wchar_t* PATH = L"MyPath";
+	const wchar_t* VERSION = L"12.0 (ca)";
+
+	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
+
+	_setMockForLocale(registryMockobj, VERSION);
+	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+
+	firefoxAction.SetSubActionsStatus(AlreadyApplied, CannotBeApplied);
+	firefoxAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(firefoxAction.GetStatus(), AlreadyApplied);
 }

@@ -272,6 +272,10 @@
 			Name="Mocks"
 			>
 			<File
+				RelativePath=".\Mocks\ActionMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\FileVersionInfoMock.h"
 				>
 			</File>
