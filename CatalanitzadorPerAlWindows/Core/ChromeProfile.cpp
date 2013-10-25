@@ -131,7 +131,7 @@ bool ChromeProfile::IsUiLocaleOk()
 	{
 		wifstream reader;
 		wstring line;
-		wstring path = L"/../User Data/Local State";
+		wstring path = GetUIRelPathAndFile();
 		path = m_installLocation + path;
 		reader.open(path.c_str());
 
@@ -188,7 +188,7 @@ bool ChromeProfile::ReadLanguageCode(wstring& langcode)
 	{
 		wifstream reader;
 		wstring line;
-		wstring path = L"/../User Data/Default/Preferences";
+		wstring path = GetPreferencesRelPathAndFile();
 		path = m_installLocation + path;
 		reader.open(path.c_str());
 
@@ -247,8 +247,8 @@ bool ChromeProfile::WriteUILocale()
 		wifstream reader;
 		wofstream writer;
 		wstring line;
-		wstring pathr = L"/../User Data/Local State";
-		wstring pathw = L"/../User Data/Local State.new";
+		wstring pathr = GetUIRelPathAndFile();
+		wstring pathw = GetUIRelPathAndFile() + L".new";
 		pathr = m_installLocation + pathr;
 		pathw = m_installLocation + pathw;
 		reader.open(pathr.c_str());
@@ -334,8 +334,8 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 		wifstream reader;
 		wofstream writer;
 		wstring line;
-		wstring pathr = L"/../User Data/Default/Preferences";
-		wstring pathw = L"/../User Data/Default/Preferences.new";
+		wstring pathr = GetPreferencesRelPathAndFile();
+		wstring pathw = GetPreferencesRelPathAndFile() + L".new";
 		pathr = m_installLocation + pathr;
 		pathw = m_installLocation + pathw;
 		reader.open(pathr.c_str());

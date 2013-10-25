@@ -51,8 +51,7 @@ private:
 		GetTempFileName(szTempPath, L"CAT", 0, szFile);
 		DeleteFile(szFile);
 		m_filename = szFile;
-		
 	}
 
-	wstring m_filename;		
+	wstring m_filename;
 };

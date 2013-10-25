@@ -42,7 +42,8 @@ protected:
 	void ParseLanguage(wstring regvalue);
 	void CreateJSONString(wstring &regvalue);
 	void AddCatalanToArrayAndRemoveOldIfExists();
-		
+	virtual wstring GetUIRelPathAndFile() { return L"/../User Data/Local State"; }
+	virtual wstring GetPreferencesRelPathAndFile() { return L"/../User Data/Default/Preferences"; }
 
 private: 		
 
