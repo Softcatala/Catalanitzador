@@ -1,0 +1,2295 @@
+{
+   "apps_promo_counter": 11,
+   "backup": {
+      "_signature": "JPY0G2XzDsDCGcgG4YZdw+rdemZxYEMA/I4vItAJRa8=",
+      "_version": 4,
+      "extensions": {
+         "ids": [ "ahfgeienlihckogmohjhadlkjgocpleb", "blpcfgokakmgnkcojhhkbfbldkacnbeo", "coobgpohoikkiipiblmjeljniedjpjpf", "jmfkcklnlgedgbglfkkgedjfmejoahla", "ndibdjnfmopecpmkdieinmbadjfpblof", "pjkljhegncpnkpknbcohdijeoejaedia" ]
+      },
+      "homepage": "http://www.google.com/",
+      "homepage_is_newtabpage": true
+   },
+   "browser": {
+      "check_default_browser": false,
+      "clear_lso_data_enabled": true,
+      "enable_spellchecking": false,
+      "last_known_google_url": "http://www.google.es/",
+      "last_prompted_google_url": "http://www.google.es/",
+      "pepper_flash_settings_enabled": true,
+      "window_placement": {
+         "bottom": 1050,
+         "left": 542,
+         "maximized": true,
+         "right": 1920,
+         "top": 30,
+         "work_area_bottom": 1050,
+         "work_area_left": 0,
+         "work_area_right": 1920,
+         "work_area_top": 0
+      }
+   },
+   "cloud_print": {
+      "email": ""
+   },
+   "countryid_at_install": 17747,
+   "custom_handlers": {
+      "enabled": true,
+      "ignored_protocol_handlers": [ {
+         "protocol": "mailto",
+         "title": "Gmail",
+         "url": "https://mail.google.com/mail/ca/?extsrc=mailto&url=%s"
+      } ]
+   },
+   "default_apps_install_state": 1,
+   "default_search_provider": {
+      "enabled": true,
+      "encodings": "UTF-8",
+      "icon_url": "http://www.google.com/favicon.ico",
+      "id": "2",
+      "instant_url": "{google:baseURL}webhp?{google:RLZ}sourceid=chrome-instant&ie={inputEncoding}{google:instantEnabledParameter}{searchTerms}",
+      "keyword": "google.es",
+      "name": "Google",
+      "prepopulate_id": "1",
+      "search_url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:acceptedSuggestion}{google:originalQueryForSuggestion}{google:searchFieldtrialParameter}sourceid=chrome&ie={inputEncoding}",
+      "suggest_url": "{google:baseSuggestURL}search?{google:searchFieldtrialParameter}client=chrome&hl={language}&q={searchTerms}"
+   },
+   "devtools": {
+      "split_location": 329
+   },
+   "dns_prefetching": {
+      
+   },
+   "download": {
+      "directory_upgrade": true,
+      "extensions_to_open": "zip",
+      "prompt_for_download": true
+   },
+   "extensions": {
+      "alerts": {
+         "initialized": true
+      },
+      "autoupdate": {
+         "last_check": "12991464680719460",
+         "next_check": "12991486896967460"
+      },
+      "blacklistupdate": {
+         "lastpingday": "12991388381042460",
+         "version": "0.0.0.122"
+      },
+      "chrome_url_overrides": {
+         "bookmarks": [ "chrome-extension://eemcgdkfndhakfknompkggombfjjjeno/main.html" ]
+      },
+      "settings": {
+         "aandpgohbohmlknpjbblpmoladhoochg": {
+            "blacklist": true
+         },
+         "abciiempgohamehppammbkhkicmkgkob": {
+            "blacklist": true
+         },
+         "abfclfmhaemoockhhinpplncjehfpdbd": {
+            "blacklist": true
+         },
+         "acmpfcamncegnhjdeiodgilikjafcamg": {
+            "blacklist": true
+         },
+         "aebfkgcamgnimcbnbiopgdakknjgggnm": {
+            "blacklist": true
+         },
+         "aemcjbfajnnmhblifaejadoecfoaebld": {
+            "blacklist": true
+         },
+         "afenhmponmfmdmbmccbmglppcmjhmhmh": {
+            "blacklist": true
+         },
+         "aglmapjbjphdidmnileogpjkgpdoliep": {
+            "blacklist": true
+         },
+         "agmhonoepgcnakccfpidhjehlocaeaaj": {
+            "blacklist": true
+         },
+         "ahfgeienlihckogmohjhadlkjgocpleb": {
+            "active_permissions": {
+               "api": [ "appNotifications", "management", "webstorePrivate" ]
+            },
+            "app_launcher_index": -2,
+            "app_launcher_ordinal": "h",
+            "page_index": 0,
+            "page_ordinal": "n"
+         },
+         "ahjfgnikolodijnpakeknpilnemojlhc": {
+            "blacklist": true
+         },
+         "aieglpnmmhleoenpbmfaffppfomgjmba": {
+            "blacklist": true
+         },
+         "aifmjmboebdkdelpjenakhaodgneempp": {
+            "blacklist": true
+         },
+         "alcbnnpmipohgdllkkglhkbncijplago": {
+            "blacklist": true
+         },
+         "aldalonecchncedclgcndcndgilaclnk": {
+            "blacklist": true
+         },
+         "aljdncnajablgppdcfbehhmidlmbndda": {
+            "blacklist": true
+         },
+         "amfgdngndpfldigimkcindjalokfnmem": {
+            "blacklist": true
+         },
+         "apdmgffkfhjfeejmbjidennfjdkmmmbl": {
+            "blacklist": true
+         },
+         "aphncaagnlabkeipnbbicmcahnamibgb": {
+            "blacklist": true
+         },
+         "bcddmcejgphfgofbpoocakaeapfomlek": {
+            "blacklist": true
+         },
+         "benclngoadbppljglhphhnfknoppmjoa": {
+            "blacklist": true
+         },
+         "bhdkpmneahdelgdgfhddianklldfoell": {
+            "blacklist": true
+         },
+         "bilgncckogfgfipdlejkffnbkgjkmflh": {
+            "blacklist": true
+         },
+         "bjihddggcgnblgojnmhpnngonofbnkaj": {
+            "blacklist": true
+         },
+         "bkhafliomebnpccanacmlfaemgfiofko": {
+            "blacklist": true
+         },
+         "bkkchglolnigbfncnbnnbhhempjkdpkf": {
+            "blacklist": true
+         },
+         "bkplhcigeaiiliajeehehiikokgocbhb": {
+            "blacklist": true
+         },
+         "bldgnkigdcpgnbfehgbameigoohecdfl": {
+            "blacklist": true
+         },
+         "blpcfgokakmgnkcojhhkbfbldkacnbeo": {
+            "active_bit": false,
+            "active_permissions": {
+               "api": [ "appNotifications" ]
+            },
+            "app_launcher_ordinal": "n",
+            "from_bookmark": true,
+            "from_webstore": false,
+            "install_time": "12974629471326267",
+            "last_active_pingday": "12986636374033087",
+            "lastpingday": "12991388381144460",
+            "location": 2,
+            "manifest": {
+               "app": {
+                  "launch": {
+                     "container": "tab",
+                     "web_url": "http://www.youtube.com/"
+                  },
+                  "web_content": {
+                     "enabled": true,
+                     "origin": "http://www.youtube.com"
+                  }
+               },
+               "current_locale": "es",
+               "default_locale": "en",
+               "description": "La comunidad de v\u00EDdeos online m\u00E1s popular del mundo",
+               "icons": {
+                  "128": "128.png"
+               },
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC/HotmFlyuz5FaHaIbVBhhL4BwbcUtsfWwzgUMpZt5ZsLB2nW/Y5xwNkkPANYGdVsJkT2GPpRRIKBO5QiJ7jPMa3EZtcZHpkygBlQLSjMhdrAKevpKgIl6YTkwzNvExY6rzVDzeE9zqnIs33eppY4S5QcoALMxuSWlMKqgFQjHQIDAQAB",
+               "name": "YouTube",
+               "permissions": [ "appNotifications" ],
+               "update_url": "http://clients2.google.com/service/update2/crx",
+               "version": "4.2.5"
+            },
+            "page_ordinal": "n",
+            "path": "blpcfgokakmgnkcojhhkbfbldkacnbeo\\4.2.5_0",
+            "state": 1
+         },
+         "bndahdijlcnncjbpammoedeapmlobllc": {
+            "blacklist": true
+         },
+         "boaoagnmpennjoigkkmnjhecapibhfko": {
+            "blacklist": true
+         },
+         "boclfockfmgcppbajihcgajhpggaakgl": {
+            "blacklist": true
+         },
+         "bokkificjhapflinbdejegngffgkcgfe": {
+            "blacklist": true
+         },
+         "caphkimknlmnhpjoneddiaakmcaajagb": {
+            "blacklist": true
+         },
+         "cbbbpmlnlpnjojeplppgeilanlihoojg": {
+            "blacklist": true
+         },
+         "cbbjhegipokkofhhicbckicchjpcpeni": {
+            "blacklist": true
+         },
+         "cdogaeccgljmkecjmoedambgiekkllij": {
+            "blacklist": true
+         },
+         "cekdjgnecpoooikhmceokdhojckkkhmh": {
+            "blacklist": true
+         },
+         "cepfogmgfkddnllaopgknbdfkceejmhk": {
+            "blacklist": true
+         },
+         "cfbdodejdeejbkffcmiaknpmojjeibpn": {
+            "blacklist": true
+         },
+         "cgnkbnaiipmfbakpmhllalggoepniemh": {
+            "blacklist": true
+         },
+         "cihlkpohodpdkdnfalhdkhhlhmhffmbe": {
+            "blacklist": true
+         },
+         "cjhklhdjonhcohlacgggcbklpnldleck": {
+            "blacklist": true
+         },
+         "cjohbbapkbkkhpohinffggbphnhoblea": {
+            "blacklist": true
+         },
+         "ckckpgefkpjfopjppjfcikppehdhceah": {
+            "blacklist": true
+         },
+         "clapnamcglekekmamicmbahkghdcjaeh": {
+            "blacklist": true
+         },
+         "cmjphjljejnfgdbkdgdlclaabimpknna": {
+            "blacklist": true
+         },
+         "cmlokmkdolieoaoddlfhaidnlmiadhik": {
+            "blacklist": true
+         },
+         "coajchbkdbfhmhbgcjepiofllfjjcpfp": {
+            "blacklist": true
+         },
+         "coobgpohoikkiipiblmjeljniedjpjpf": {
+            "active_bit": false,
+            "app_launcher_ordinal": "w",
+            "from_bookmark": true,
+            "from_webstore": false,
+            "install_time": "12977780118739074",
+            "last_active_pingday": "12977132382289166",
+            "lastpingday": "12991388381144460",
+            "location": 2,
+            "manifest": {
+               "app": {
+                  "launch": {
+                     "web_url": "http://www.google.com/webhp?source=search_app"
+                  },
+                  "urls": [ "*://www.google.com/search", "*://www.google.com/webhp", "*://www.google.com/imgres" ]
+               },
+               "current_locale": "es",
+               "default_locale": "en",
+               "description": "La forma m\u00E1s r\u00E1pida de buscar en la Web.",
+               "icons": {
+                  "128": "128.png",
+                  "16": "16.png",
+                  "32": "32.png",
+                  "48": "48.png"
+               },
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIiso3Loy5VJHL40shGhUl6it5ZG55XB9q/2EX6aa88jAxwPutbCgy5d9bm1YmBzLfSgpX4xcpgTU08ydWbd7b50fbkLsqWl1mRhxoqnN01kuNfv9Hbz9dWWYd+O4ZfD3L2XZs0wQqo0y6k64n+qeLkUMd1MIhf6MR8Xz1SOA8pwIDAQAB",
+               "name": "B\u00FAsqueda de Google",
+               "update_url": "http://clients2.google.com/service/update2/crx",
+               "version": "0.0.0.19"
+            },
+            "page_ordinal": "n",
+            "path": "coobgpohoikkiipiblmjeljniedjpjpf\\0.0.0.19_0",
+            "state": 1
+         },
+         "cpiiakoibaohkfoaijaigdnocfolnmll": {
+            "blacklist": true
+         },
+         "dadcalgappognjbjpalfophhcfakoeac": {
+            "blacklist": true
+         },
+         "danapgfidmepmcfbjjacceiaiiioieio": {
+            "blacklist": true
+         },
+         "dbiblcmlcgdjjbdpbmbcpineegngkiip": {
+            "blacklist": true
+         },
+         "dbmdicehacbaohlockjgdglcobimmjkh": {
+            "blacklist": true
+         },
+         "dejippphmhbpgckbhdidnjmdcpfccbaj": {
+            "blacklist": true
+         },
+         "dfafokiagoiocidlpglcanjkcdbdnioi": {
+            "blacklist": true
+         },
+         "dfoegfajplmijblljfancdapbdaopebb": {
+            "blacklist": true
+         },
+         "dgaehaeahdegbdlenicbmkbakhdgoeml": {
+            "blacklist": true
+         },
+         "dgcfmgdfbfbgcpbendbhbkfjppboebed": {
+            "blacklist": true
+         },
+         "dgkemngdheppgohkjjelnkjmdeimmfml": {
+            "blacklist": true
+         },
+         "diinokaoicgobepmadnmedlhdfnpehcj": {
+            "blacklist": true
+         },
+         "dinhjcapnfbffhiihdlnbdfjdjjfhcbk": {
+            "blacklist": true
+         },
+         "djnahdkbfgnhgpakidinfonfcjbagkgp": {
+            "blacklist": true
+         },
+         "dlobhinihbmedmheccecfnkcadpehmbf": {
+            "blacklist": true
+         },
+         "dmhjdbigobajgnfoabodjgmcdgoeoljm": {
+            "blacklist": true
+         },
+         "dmkdhgkknhnfpdjeicefnpmhcpbimden": {
+            "blacklist": true
+         },
+         "dnemhlkdpajbbniphgkgceplmnkfnhfo": {
+            "blacklist": true
+         },
+         "doneghboglgnflpdicnkaojmmljgejkj": {
+            "blacklist": true
+         },
+         "dpgenihgggagjjggfocjceeobjkadcbc": {
+            "blacklist": true
+         },
+         "dpmloehicimdjkibmobhmpgdndgbcced": {
+            "blacklist": true
+         },
+         "ebdcdchjcndpjhehacedepnggfdbfkpn": {
+            "blacklist": true
+         },
+         "echngajnlpjeacbanjejlhcajjfoedcc": {
+            "blacklist": true
+         },
+         "edmnikahahfkfilbbjbdoiabnghbkmjc": {
+            "blacklist": true
+         },
+         "efbeabpbbkahnnjalakldjfhljboclkf": {
+            "blacklist": true
+         },
+         "efhjelcghjkfigiagdfbfilndaffpmdj": {
+            "blacklist": true
+         },
+         "efnaljpgehfilpmkhobibbjceeeondmn": {
+            "blacklist": true
+         },
+         "egljdhfnbjahogjahnigfnbpidlmdagi": {
+            "blacklist": true
+         },
+         "ehgoiaffgjoinpkllmmnikghgpghnabc": {
+            "blacklist": true
+         },
+         "ehomcoocpagnlcakcbecdaknmacmedld": {
+            "blacklist": true
+         },
+         "eihjeehdobnpkonebmpanonopghepfle": {
+            "blacklist": true
+         },
+         "ejijgghlncnaphklndknkbkclebfboca": {
+            "blacklist": true
+         },
+         "ejlekamipdcfcfpgfepjmklllbpeecaj": {
+            "blacklist": true
+         },
+         "elcaigjcaijbfpjngaekbblphmfjdhfo": {
+            "blacklist": true
+         },
+         "eofejpelggimkodeojpeojnbijgiglgh": {
+            "blacklist": true
+         },
+         "eopmhecjnginkckggjmhombbopmkjpam": {
+            "blacklist": true
+         },
+         "epbmnbdplhcomkedpjfceakddnbgfjmf": {
+            "blacklist": true
+         },
+         "fafoohpbicgbcejffcplajonhhooddle": {
+            "blacklist": true
+         },
+         "fbhiehmngojjcmljddjmgpmcockbccmo": {
+            "blacklist": true
+         },
+         "fcfepemfihgibdacjlnlecebknaaepmj": {
+            "blacklist": true
+         },
+         "ffgfbfakpcnngelphjnppokmoicdollk": {
+            "blacklist": true
+         },
+         "fhlkffpjoajppmhcakbkjndbjfljccpi": {
+            "blacklist": true
+         },
+         "fiapkdjniadkodmdibdnchoifkpfoiid": {
+            "blacklist": true
+         },
+         "fibgploapkhokkbncddlkcmbmiengcfp": {
+            "blacklist": true
+         },
+         "fihepkmlkmciffbhijldnpmifhbkiinp": {
+            "blacklist": true
+         },
+         "fjjeecfjmgfnleghoellhldedkaocjfc": {
+            "blacklist": true
+         },
+         "fleljamdchegbjeiipbnmiebnhgheeld": {
+            "blacklist": true
+         },
+         "flmmgcfcpbfddenepkfmgfpbaceolcoe": {
+            "blacklist": true
+         },
+         "fmcccidacjgnfiafddkngmeolkoiihil": {
+            "blacklist": true
+         },
+         "fmonlemffgbabjifjfaoamdflijecdbk": {
+            "blacklist": true
+         },
+         "fngolbdmkneakeaoiieafkilnogbocda": {
+            "blacklist": true
+         },
+         "fnhcgnmfccojojojacgeiaaeacefdohb": {
+            "blacklist": true
+         },
+         "fnkaadkanmfgpfbmdcllhjdgmdbgljpi": {
+            "blacklist": true
+         },
+         "fnnmbghphdnmmjdapccfobgjemjadeli": {
+            "blacklist": true
+         },
+         "fnoadkjdjfgafomgmablhmffooijcfbn": {
+            "blacklist": true
+         },
+         "fommcgokigkhmnhlhlkckfjhefnmfohd": {
+            "blacklist": true
+         },
+         "fpbippbofbmgmbojjmgfcifpmdaelcmd": {
+            "blacklist": true
+         },
+         "fpmajanjndhgpifbcbnklbiehgnpkgmf": {
+            "blacklist": true
+         },
+         "fpoajjnnpmledpmohlgpgbmlhbgkgahg": {
+            "blacklist": true
+         },
+         "gaicmfjflflabagobdiodejfpjikheeo": {
+            "blacklist": true
+         },
+         "gandihaiobadcggbfkhpbkocmiemjlnf": {
+            "blacklist": true
+         },
+         "gbenikfjhilhpgagllmfgggdjaflbmbi": {
+            "blacklist": true
+         },
+         "gdggdkkjecogagaffaemnbfmllcoihjp": {
+            "blacklist": true
+         },
+         "gekkhpjigmckhgmgngadbeknekgpgolb": {
+            "blacklist": true
+         },
+         "ghgphbmpcfgkfneodjpbdanmdoemklio": {
+            "blacklist": true
+         },
+         "ghmaokcegalalefnhlfcnjhnpdbanjkj": {
+            "blacklist": true
+         },
+         "gifglngcdbggmlgkcombebegdaoknkho": {
+            "blacklist": true
+         },
+         "gjkbghdignnlcknknflbigpammebiolo": {
+            "blacklist": true
+         },
+         "gkjeccpmibljcfpfapfljciimedljpnm": {
+            "blacklist": true
+         },
+         "gkjmgdpdndoaiholejnmdbbpdaafahmm": {
+            "blacklist": true
+         },
+         "gmghjgfdialcnhadahmjefeflgnhcjeb": {
+            "blacklist": true
+         },
+         "gnapdhmknipknfmhhnhdmhakdfhgeing": {
+            "blacklist": true
+         },
+         "gncfgndgeoddelbfhlndhljnecoednaa": {
+            "blacklist": true
+         },
+         "gngmkbiihflpghldjnbpemaicedhdddk": {
+            "blacklist": true
+         },
+         "gobjcjhhebpjbmjdgmejhebbleadnceo": {
+            "blacklist": true
+         },
+         "gplgjmecjpbfcdikpbicknafcnfcidek": {
+            "blacklist": true
+         },
+         "hbaajkahagmlkdekmbdabikbopdgpaac": {
+            "blacklist": true
+         },
+         "hbdhabpmbbanaopgkbaondabkkepjfaf": {
+            "blacklist": true
+         },
+         "hbmlheccjkodhfejcmblndjodllmnlnl": {
+            "blacklist": true
+         },
+         "hcapokajkngndbglnfglpfdpoeidmpha": {
+            "blacklist": true
+         },
+         "hcpndbchnlgojmnijaldkicigmihmdca": {
+            "blacklist": true
+         },
+         "hdijkiondgomjpehfhopomicjbiodmcm": {
+            "blacklist": true
+         },
+         "hdnbmmfjbblajkjkcaeofolgfnljpnim": {
+            "blacklist": true
+         },
+         "hecijapnccjhonbmacmkmffooodfokoo": {
+            "blacklist": true
+         },
+         "hefmoncdemhjembgbnkgglhlookbipdc": {
+            "blacklist": true
+         },
+         "hfjpjodbolkmheaehcnmfhjakjileoof": {
+            "blacklist": true
+         },
+         "hfpfbhnmbbigpmoodjemilggabklpopj": {
+            "blacklist": true
+         },
+         "hgbaomphocgmdpmiohjclchaaljpaelp": {
+            "blacklist": true
+         },
+         "hgboiaecclcbjphldpbgfgggcbihmnai": {
+            "blacklist": true
+         },
+         "hgjgaeknhmidehalnmokomhpfhbfmpcm": {
+            "blacklist": true
+         },
+         "hhfffemhgkginfafaoapljdllodppana": {
+            "blacklist": true
+         },
+         "hhfiljkpjapjjphcocclhhaldpfkkjbi": {
+            "blacklist": true
+         },
+         "hhjmkijkgojfifipdgmiemghfikbohcm": {
+            "blacklist": true
+         },
+         "hhlgbfcfbkhlmajakkcjippgpcmejkko": {
+            "blacklist": true
+         },
+         "hilncbjbdpnfepdidfchmdclhpnlegpj": {
+            "blacklist": true
+         },
+         "hjkhligcnpfjhjlapmejaiaiigibofif": {
+            "blacklist": true
+         },
+         "hkbgccpdcpbdckohbknjlamamelcnlki": {
+            "blacklist": true
+         },
+         "hkjcejgfmaanpncnpoidgbhoikcaeepd": {
+            "blacklist": true
+         },
+         "hkjfdgjkgpbbdmadbglcgljjjddkcdha": {
+            "blacklist": true
+         },
+         "hmmoglffhpmacaacfbbmbbkcbdkjphnc": {
+            "blacklist": true
+         },
+         "hnbcdmfeoldeppcbnnjmjkdofohaljbn": {
+            "blacklist": true
+         },
+         "hncomkjbbkchfjelocejkbbflmjhlhfp": {
+            "blacklist": true
+         },
+         "hnipgljcblpgnnojcfldehpeknhakbgj": {
+            "blacklist": true
+         },
+         "hnkcpoijaeegompjgbjjhkdmljldaccg": {
+            "blacklist": true
+         },
+         "hnnebfeppcbhhbhiifeaajgcjnkljlld": {
+            "blacklist": true
+         },
+         "hnonhhpgjnjcjfbkjdpfbkfpaodcmncb": {
+            "blacklist": true
+         },
+         "hpcdoodjfcmpcpkeendjnjkeinimhkih": {
+            "blacklist": true
+         },
+         "hpibmhghjndideebpackbdlpncgkcppp": {
+            "blacklist": true
+         },
+         "iablioliielnhdianpbiijaoncbmfend": {
+            "blacklist": true
+         },
+         "iccblehkchfmjgfafjcpjlkjcponhdhl": {
+            "blacklist": true
+         },
+         "icihfeaofpcfehanhbnjigdlpfahjlee": {
+            "blacklist": true
+         },
+         "iemfpgbdjfoihicbocpbjppipdbfimeh": {
+            "blacklist": true
+         },
+         "ifbkndkaolfbjjhnnhfmkbkoclpdkpli": {
+            "blacklist": true
+         },
+         "ifeijfpkjckedpclgncedmgdiaoeahmk": {
+            "blacklist": true
+         },
+         "igaajdmlejbjcbmpmnigopikfdaccdcm": {
+            "blacklist": true
+         },
+         "igbaoknfddliiaoimhehfbkfekpmmfll": {
+            "blacklist": true
+         },
+         "igghanohiioehififjoalfkdoicafjof": {
+            "blacklist": true
+         },
+         "ihnembcpodnfgkafmiojebccomjekopm": {
+            "blacklist": true
+         },
+         "iiiinekimabooeihccihfopoadcaaphn": {
+            "blacklist": true
+         },
+         "ijecjbcgpblkacpijljpaienknanaloa": {
+            "blacklist": true
+         },
+         "ijenlpgidnapbndonoinbkhekgjonojg": {
+            "blacklist": true
+         },
+         "ilhjicgcglhjigdehkcehjdokmkahbjl": {
+            "blacklist": true
+         },
+         "imfbomjbodpfgfhfahlgkkcllmhbelhk": {
+            "blacklist": true
+         },
+         "imkffpjpdngdkpgadcmnlkhhmhdocijn": {
+            "blacklist": true
+         },
+         "iobnpmeeecphddicmhhmdjbnlbdhjlne": {
+            "blacklist": true
+         },
+         "iomejadoamfilglofmeaffghddcgapmf": {
+            "blacklist": true
+         },
+         "jaejgaoiipdjjlbnapngknalafalbkej": {
+            "blacklist": true
+         },
+         "janhdpmhnighonkkbkdpnljcoenpfkbh": {
+            "blacklist": true
+         },
+         "jbmbiepnidbnhbbfdbgioomdkgnbcacj": {
+            "blacklist": true
+         },
+         "jbnafcjbcfgejacaanogofkkehcomamp": {
+            "blacklist": true
+         },
+         "jcmipejepoimfflnoapdmkdephgjinck": {
+            "blacklist": true
+         },
+         "jfalnphfjdoalcdhlnhdpekbmmopkgkj": {
+            "blacklist": true
+         },
+         "jfjagidcpadkoaonbogmbgfimmnefeie": {
+            "blacklist": true
+         },
+         "jgdkappiifgomhgikcjbanhnmlekpeje": {
+            "blacklist": true
+         },
+         "jgmpapdckakiohhebmeoemejibommimi": {
+            "blacklist": true
+         },
+         "jhhabiomopkibeecgngiggmopkeofacl": {
+            "blacklist": true
+         },
+         "jindbcpkhnnnjgcjgmkjedbibibiojjf": {
+            "blacklist": true
+         },
+         "jjnkfllhcgkgnfbekpnmoikpfihpjfli": {
+            "blacklist": true
+         },
+         "jkihmglffmfjedfbpbpdbbimcodjbmdh": {
+            "blacklist": true
+         },
+         "jkmhalpofmlfeglboejbchpoijnkmcgh": {
+            "blacklist": true
+         },
+         "jljfnkmkkdkppfndippkedacgfkafped": {
+            "blacklist": true
+         },
+         "jmbkhogpjgjpfjhpdikloblkbkljkgao": {
+            "blacklist": true
+         },
+         "jmeanodbelbflfmnkfdjgpikmldgjjko": {
+            "blacklist": true
+         },
+         "jmfkcklnlgedgbglfkkgedjfmejoahla": {
+            "ack_external": true,
+            "active_permissions": {
+               "api": [ "plugin" ],
+               "scriptable_host": [ "http://*/*", "https://*/*" ]
+            },
+            "events": [ "experimental.runtime.onInstalled" ],
+            "from_bookmark": false,
+            "from_webstore": false,
+            "install_time": "12987326570151874",
+            "lastpingday": "12991388381144460",
+            "location": 3,
+            "manifest": {
+               "background_page": "background.html",
+               "content_scripts": [ {
+                  "js": [ "content/jquery-1.4.4.min.js", "content/avgls-inline.js", "content/searchengine.js", "content/searchshield.js" ],
+                  "matches": [ "http://*/*", "https://*/*" ],
+                  "run_at": "document_start"
+               } ],
+               "description": "Securing your clicks.",
+               "format_version": 1,
+               "icons": {
+                  "128": "content/Icons/128x128.png",
+                  "16": "content/Icons/16x16.png",
+                  "48": "content/Icons/48x48.png",
+                  "64": "content/Icons/64x64.png"
+               },
+               "id": "881AC4EF96904f5fA0B49048C377CD59E8A84102",
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCrH3sthUrxOpfC3hPSHs4tIWO24/z8ZQCH5oHRTRkwgdSZ7/ah1PgRHQeNkTYJT0bwLQoxsG1jBLvWLu4I9t3KCTXj0uanaCw7VJjmSIPQCip/1m7ewfS9XdPR9CSUkR2wwp8HeDryToyCINwP8Yg3Lws/FV0nGmF2IV8jpQ6OWQIDAQAB",
+               "minimum_chrome_version": "9",
+               "name": "AVG Safe Search",
+               "plugins": [ {
+                  "path": "plugins/avgnpss.dll",
+                  "public": true
+               } ],
+               "version": "12.0.0.2191"
+            },
+            "path": "jmfkcklnlgedgbglfkkgedjfmejoahla\\12.0.0.2191_0",
+            "state": 1
+         },
+         "jmifipgdcllamghkhdplfjffkciekbgo": {
+            "blacklist": true
+         },
+         "jpehgolpfgnknboibogccapmdcadjkbd": {
+            "blacklist": true
+         },
+         "jpeijjbllejgmokmahkeommcodahoobm": {
+            "blacklist": true
+         },
+         "jpgidahfcgiajlcbleeiaibpmmblcmnb": {
+            "blacklist": true
+         },
+         "jpkdlckejfjidmplieobnhijmoiecbhl": {
+            "blacklist": true
+         },
+         "kbipembkfhbdmkkkfbigmohilmknjnof": {
+            "blacklist": true
+         },
+         "kcanfkmhccbaheheaackijegkclkaeic": {
+            "blacklist": true
+         },
+         "kcfnnanmpghdnoompcfclakpacapnfbn": {
+            "blacklist": true
+         },
+         "kcgplbmkmfcpngilmhjmebdgkkpbdemp": {
+            "blacklist": true
+         },
+         "kdchmeaiapjkejkcbeclgjklemecieeg": {
+            "blacklist": true
+         },
+         "kdfahjokahcbmecgaandpobmgiiknagf": {
+            "blacklist": true
+         },
+         "kelcbonmemlciepjdmfcifnhloeammhj": {
+            "blacklist": true
+         },
+         "kelljdoinjlkmkncffgadbebgpmlcang": {
+            "blacklist": true
+         },
+         "kffhenjbibjnbnjhlkcdlmpeccpaohio": {
+            "blacklist": true
+         },
+         "kgbkdabomfdpfoibliicpmibceaoohgh": {
+            "blacklist": true
+         },
+         "kgdhnhadbnpeibkghaebmhmngobdafag": {
+            "blacklist": true
+         },
+         "kgdkcodealpfjolmiagcogfbgmaamegh": {
+            "blacklist": true
+         },
+         "kgdmldjagfciieddcnlhampgkajkpanc": {
+            "blacklist": true
+         },
+         "kibgmcdcfmcglajcfbecilngejnfppjp": {
+            "blacklist": true
+         },
+         "kiipngoehgkgkackngaidmhmnchfbmio": {
+            "blacklist": true
+         },
+         "kinhljbhjmcmoddhdoodekeklmjapjff": {
+            "blacklist": true
+         },
+         "kkhomejdleoonmbdhcigkhkjcghngncf": {
+            "blacklist": true
+         },
+         "kleaapgdkahaekcocmkbgfainbhihccj": {
+            "blacklist": true
+         },
+         "kmlebjoghkhpapfhbdikannggmmffnco": {
+            "blacklist": true
+         },
+         "kolbbghckjilleabphhgeggcgpfidofi": {
+            "blacklist": true
+         },
+         "lambangeielkjcnmioccboaphdfcffib": {
+            "blacklist": true
+         },
+         "lbaddolhebpnhdcdkicpcflhnfamcemn": {
+            "blacklist": true
+         },
+         "lbficnmfealeidppcbgdcbemgfjodbkg": {
+            "blacklist": true
+         },
+         "lceaiepehinnomgijphkmjccbigkljkj": {
+            "blacklist": true
+         },
+         "lcfkojlnjnedeoepfemhdgkhiabkeadc": {
+            "blacklist": true
+         },
+         "ldgfapfmnplpaohbbadnecegcpfkfall": {
+            "blacklist": true
+         },
+         "lgalokbapphhklmilicdefmgbjkcmldf": {
+            "blacklist": true
+         },
+         "lgcnahanhlfpceencjmlehpfklokhojk": {
+            "blacklist": true
+         },
+         "likifpgnijjfbdegfepoalpamlgnfofi": {
+            "blacklist": true
+         },
+         "liomofjeffddiiccaolcnllbhnipbkhe": {
+            "blacklist": true
+         },
+         "ljcicfibknpmlcmcecddjlbgkejehhpa": {
+            "blacklist": true
+         },
+         "ljeihpebkahejeacdalhkhmckmggppif": {
+            "blacklist": true
+         },
+         "ljmjoloiepllcndinchenhomcdcgbgef": {
+            "blacklist": true
+         },
+         "lkdimamelhbiijkiljlnedmhnnkkmlbl": {
+            "blacklist": true
+         },
+         "lkfdchejjogilmloogbbjlnlpbhgjfab": {
+            "blacklist": true
+         },
+         "lkhcbijhgfchgdmklonlobkfbcadbokg": {
+            "blacklist": true
+         },
+         "lljnngafekbnkpdfophmcdlbfebcbcld": {
+            "blacklist": true
+         },
+         "lnahlgmhpghkhmafjppdidhcoaomipfg": {
+            "blacklist": true
+         },
+         "lnbeebaenahmkbffnimghceldeeihfak": {
+            "blacklist": true
+         },
+         "lncjcfkpannmofmpgdfoonkniofdnaba": {
+            "blacklist": true
+         },
+         "lndempehphjoeimfchjflohpmhamiamf": {
+            "blacklist": true
+         },
+         "lnjgjionmhobdfdegbciceafphgemjnc": {
+            "blacklist": true
+         },
+         "lnlaeblencbjjjeaanegaldcjfekeled": {
+            "blacklist": true
+         },
+         "lojppnndedobolgfepahepphhloediji": {
+            "blacklist": true
+         },
+         "loldehkdjdncebfnncknlkdchjclifbn": {
+            "blacklist": true
+         },
+         "lookpbabilcplifjdeifacodednpacmk": {
+            "blacklist": true
+         },
+         "lpgiafapdmlapiokjnmpbbfkomiceoml": {
+            "blacklist": true
+         },
+         "lplmcpcnhpbffpcfiaddbeaplhhbengd": {
+            "blacklist": true
+         },
+         "mamfageekafifnickhgkibkofcclfefe": {
+            "blacklist": true
+         },
+         "mbmdaiddhfoljplpdhohimgieioblfif": {
+            "blacklist": true
+         },
+         "mcknnlhkkdbcppajgefagceglahcafjd": {
+            "blacklist": true
+         },
+         "mdiehnlecbjlppbpaaipmlnhhjgepfcg": {
+            "blacklist": true
+         },
+         "mdngbiejioalifclonjepjjfppmbgned": {
+            "blacklist": true
+         },
+         "megkcfpbmemnpkgadkoompnoajcolpni": {
+            "blacklist": true
+         },
+         "mfffdpnblflpobcnekhekiahepofaane": {
+            "blacklist": true
+         },
+         "mfhfkclojmdocagbmecgcnlofppebebd": {
+            "blacklist": true
+         },
+         "mfncimdpmknolnnnccdmkpnpkaofonkc": {
+            "blacklist": true
+         },
+         "mgdgiplcofghdmpekdeeceolepakodcb": {
+            "blacklist": true
+         },
+         "mjalegijammcloleihdmooifidcjggjp": {
+            "blacklist": true
+         },
+         "mjgobkikdipfikmaoakdcdbicpioljgg": {
+            "blacklist": true
+         },
+         "mjolnadmlahbpepjaemohnkhpjkbhmef": {
+            "blacklist": true
+         },
+         "mknjbohhleiicbpagpgmhoaigbblmnic": {
+            "blacklist": true
+         },
+         "mkobblpffgbncfhijabakfafmkjdmmnm": {
+            "blacklist": true
+         },
+         "mlmegahemifabfmdnndafagnncfbnahn": {
+            "blacklist": true
+         },
+         "mlmmbepkgelpbenpobinockmiehdahai": {
+            "blacklist": true
+         },
+         "mlnoedbhndgbjcbeadjfnmjloejlgojk": {
+            "blacklist": true
+         },
+         "mmjodihhmnpkldljaifiajmlnpflfhpm": {
+            "blacklist": true
+         },
+         "mndoohjdoechinpkfbkolflbonciahfo": {
+            "blacklist": true
+         },
+         "mnhcgaghminpdabllkbkecahjfkdiabk": {
+            "blacklist": true
+         },
+         "mnichagcickblneeijmfnmoiakigmmhf": {
+            "blacklist": true
+         },
+         "mnllienogacopjnkmhgnniopjpgjpopp": {
+            "blacklist": true
+         },
+         "mogepbcllienegdibkfpmombhefhcoic": {
+            "blacklist": true
+         },
+         "mplhbhmkccidaokcelbcbcmhhedebcng": {
+            "blacklist": true
+         },
+         "naopgnjebjeeedbbhcadkhkmeefmloho": {
+            "blacklist": true
+         },
+         "nbieffehfdniifkgdckbndjhojohbfjj": {
+            "blacklist": true
+         },
+         "nckmikohoilfkcoahbjpbgbpegcjgngm": {
+            "blacklist": true
+         },
+         "ncpdanjmicnihdlijomcggnnekloephc": {
+            "blacklist": true
+         },
+         "ndhkiimgbjnendpcfbiadlifmangejoa": {
+            "blacklist": true
+         },
+         "ndibdjnfmopecpmkdieinmbadjfpblof": {
+            "ack_external": true,
+            "active_permissions": {
+               "api": [ "tabs", "webRequest", "webRequestBlocking", "webRequestInternal" ],
+               "explicit_host": [ "http://*/*", "http://dnt.cloud.avg.com/*", "http://dntf.cloud.avg.com/*", "https://*/*" ],
+               "scriptable_host": [ "http://*/*", "https://*/*" ]
+            },
+            "events": [ "experimental.runtime.onInstalled" ],
+            "from_bookmark": false,
+            "from_webstore": false,
+            "install_time": "12987326572308874",
+            "lastpingday": "12991388381144460",
+            "location": 3,
+            "manifest": {
+               "background_page": "content/background.html",
+               "browser_action": {
+                  "default_icon": "content/icons/avg_icon_16.png",
+                  "default_title": "AVG Do Not Track"
+               },
+               "content_scripts": [ {
+                  "all_frames": true,
+                  "js": [ "content/js/content.js" ],
+                  "matches": [ "http://*/*", "https://*/*" ],
+                  "run_at": "document_start"
+               } ],
+               "current_locale": "es",
+               "default_locale": "en",
+               "description": "Block Ads and Trackers",
+               "icons": {
+                  "128": "content/icons/avg_icon_128.png",
+                  "16": "content/icons/avg_icon_16.png",
+                  "32": "content/icons/avg_icon_48.png"
+               },
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDaBhCcd8V6V8SwALoaT+A51wnypeg3PtHPFZ6/1OKPFykl5ejJUJj4iBdO6hwupZS9r69OFb9AF0NPAxXqMfuh/mVqguifgJiqVV7tLaQ5tGAIy0pACKYaTICVePngldEIu1VNSf8A+YoQIt0LL7arZL5E/0iIoqX4Yd04Q8X2HwIDAQAB",
+               "name": "AVG Do Not Track",
+               "options_page": "content/options.html",
+               "permissions": [ "tabs", "webRequest", "webRequestBlocking", "http://*/*", "https://*/*", "http://dnt.cloud.avg.com/", "http://dntf.cloud.avg.com/" ],
+               "version": "12.0.0.2166"
+            },
+            "path": "ndibdjnfmopecpmkdieinmbadjfpblof\\12.0.0.2166_0",
+            "state": 1
+         },
+         "ndiogongcmocdgjciemhagfhpjamehpe": {
+            "blacklist": true
+         },
+         "negkalblfongjbphdcbbhddlickhlamd": {
+            "blacklist": true
+         },
+         "nepfiodmbijheamafkiglonfkjebdjmf": {
+            "blacklist": true
+         },
+         "nfecfkjnlkbphobjbcnphimihniieehc": {
+            "blacklist": true
+         },
+         "nhboiakpmibkbkbeehchlfkggmhphpnk": {
+            "blacklist": true
+         },
+         "nhkmojkfnknbbmhbnacjdlodokeophkl": {
+            "blacklist": true
+         },
+         "nibohffepnilngkecenfdgnokfhmnkod": {
+            "blacklist": true
+         },
+         "nidmbljkkcbdfklgdkklgjgmhejmbojn": {
+            "blacklist": true
+         },
+         "nidodbfomffkfabciljelkbdiabkeehe": {
+            "blacklist": true
+         },
+         "nifbebeekindefklojhchehidpikbjfc": {
+            "blacklist": true
+         },
+         "nihhbeikpchdddoillfdcdinnnnllmna": {
+            "blacklist": true
+         },
+         "nlgapikcofpablcmfgaoodlhiejiehhh": {
+            "blacklist": true
+         },
+         "nmmnodocfckpoddcgihiihcdinaonckb": {
+            "blacklist": true
+         },
+         "nmphbnbmgfccfhcmibikmhcgajjpelpf": {
+            "blacklist": true
+         },
+         "nnioepmjbjjlflmdgjanlcmbjahljeeo": {
+            "blacklist": true
+         },
+         "nochkknnbahbhmmknnmdhagelcnfagom": {
+            "blacklist": true
+         },
+         "noefghcilkpcabnhhilojimkkjplhcnd": {
+            "blacklist": true
+         },
+         "npadaghbcdejfngcjpbnoikajdnongca": {
+            "blacklist": true
+         },
+         "npolaghondefgiomhkbiiompikfjneep": {
+            "blacklist": true
+         },
+         "oakhllhnbcpgagdafgbninlpjdemdmjk": {
+            "blacklist": true
+         },
+         "oanjogmonneelfpnfmdlalfddkeckdej": {
+            "blacklist": true
+         },
+         "ocmhjnhildbnglmlfimkjnnfgddelacb": {
+            "blacklist": true
+         },
+         "ocnlnkjmfnolmbclblfhfhcakldceiec": {
+            "blacklist": true
+         },
+         "odnamglmogfldajnhkfodmloofeokcmm": {
+            "blacklist": true
+         },
+         "oghphhcagopecifjblgdcfihjnlcbcfc": {
+            "blacklist": true
+         },
+         "ogjbodghhojomghbdfnlkppdagkfjede": {
+            "blacklist": true
+         },
+         "oidjdpbndkjhmhmgdoggibcjnippkcgo": {
+            "blacklist": true
+         },
+         "ojglppmhgfohhfeinlhklglifnbfebak": {
+            "blacklist": true
+         },
+         "omceiakkomngangmllpgbjcoeloglald": {
+            "blacklist": true
+         },
+         "onfbaaifbbahonepmednhkjbhdgogkbl": {
+            "blacklist": true
+         },
+         "onpnpccdagncipgnoofbhchlbajcjnkd": {
+            "blacklist": true
+         },
+         "oocfbmollajebjjpkahmlnclfhkjijea": {
+            "blacklist": true
+         },
+         "ookcgejbfhcmcanfkfmmmpahflnlajbl": {
+            "blacklist": true
+         },
+         "opnnngnphijodjhemhdafpnnpdjggofe": {
+            "blacklist": true
+         },
+         "pajgiddgjidlcajihkjoacjbplimkgfe": {
+            "blacklist": true
+         },
+         "pbdgmppmccanplobanhfkjndjkmmabgk": {
+            "blacklist": true
+         },
+         "pbekednmpdekknlffkiopooofokfmkla": {
+            "blacklist": true
+         },
+         "pbglijbamgmlcpnnpbfjkbdeheejjloj": {
+            "blacklist": true
+         },
+         "peiijdmlgbelnnmnkighhkpeihmmamio": {
+            "blacklist": true
+         },
+         "pfcelnbmkeoaeicedjomcjkcammlkdbk": {
+            "blacklist": true
+         },
+         "pfhlnanelpgjbhndafjamnpfhkjadoip": {
+            "blacklist": true
+         },
+         "pfoiaildicnbcjojocjlpcibenphhbln": {
+            "blacklist": true
+         },
+         "pfonklmafadkmcedjlodommcoipgbcde": {
+            "blacklist": true
+         },
+         "pgelifedkjaohmjehecojkfldinjlamn": {
+            "blacklist": true
+         },
+         "pgjpnfpidejcmjibaaohcmehfohacckf": {
+            "blacklist": true
+         },
+         "pgldfhecfiofkhnbgcncepnkjkeoahlk": {
+            "blacklist": true
+         },
+         "phkpgooenaonkpnabopdbjjfmphclela": {
+            "blacklist": true
+         },
+         "pihcfdffalbcnmbghijdfcaanagapelf": {
+            "blacklist": true
+         },
+         "pjdhkkcnlbfebiokpeghfffajaabahfo": {
+            "blacklist": true
+         },
+         "pjgbfgdpkbfimabdalhjmmeeelbmkcac": {
+            "blacklist": true
+         },
+         "pjkljhegncpnkpknbcohdijeoejaedia": {
+            "active_bit": false,
+            "active_permissions": {
+               "api": [ "notifications" ]
+            },
+            "app_launcher_ordinal": "t",
+            "from_bookmark": true,
+            "from_webstore": false,
+            "install_time": "12974629473561267",
+            "last_active_pingday": "12991301986746662",
+            "lastpingday": "12991388381144460",
+            "location": 2,
+            "manifest": {
+               "app": {
+                  "launch": {
+                     "container": "tab",
+                     "web_url": "https://mail.google.com/mail/ca"
+                  },
+                  "urls": [ "*://mail.google.com/mail/ca" ]
+               },
+               "current_locale": "es",
+               "default_locale": "en",
+               "description": "Un servicio de correo electr\u00F3nico r\u00E1pido con menos spam y que permite realizar b\u00FAsquedas.",
+               "icons": {
+                  "128": "128.png"
+               },
+               "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCuGglK43iAz3J9BEYK/Mz6ZhloIMMDqQSAaf3vJt4eHbTbSDsu4WdQ9dQDRcKlg8nwQdePBt0C3PSUBtiSNSS37Z3qEGfS7LCju3h6pI1Yr9MQtxw+jUa7kXXIS09VV73pEFUT/F7c6Qe8L5ZxgAcBvXBh1Fie63qb02I9XQ/CQIDAQAB",
+               "name": "Gmail",
+               "options_page": "https://mail.google.com/mail/ca/#settings",
+               "permissions": [ "notifications" ],
+               "update_url": "http://clients2.google.com/service/update2/crx",
+               "version": "7"
+            },
+            "page_ordinal": "n",
+            "path": "pjkljhegncpnkpknbcohdijeoejaedia\\7_0",
+            "state": 1
+         },
+         "pjloefkigphblpjminnlpbhjchjafcfc": {
+            "blacklist": true
+         },
+         "pkbbbncikcipejaiiiioboongndhmjgl": {
+            "blacklist": true
+         },
+         "pkbkkendemaimikinaefldfljliecapm": {
+            "blacklist": true
+         },
+         "pkhidkonipdjidjglnkfcfhnkfnlefbk": {
+            "blacklist": true
+         },
+         "plfijddblbcdcnammpdmfccchkbdekmm": {
+            "blacklist": true
+         },
+         "pnaiiipilbpcceggeanphcpkkihnojan": {
+            "blacklist": true
+         },
+         "pnnbdjcjeiobikdfikegpclkcimgafpp": {
+            "blacklist": true
+         },
+         "pnpfkfanlgljpkpilhgiimfadggfmhcd": {
+            "blacklist": true
+         },
+         "pnpgiaejfbdapllkchhgchjpdbcpiooa": {
+            "blacklist": true
+         },
+         "pobponmhkpmphbnfhpjdagklbkmjhked": {
+            "blacklist": true
+         },
+         "ppmfajacidhcjbddpgmcmigffpppcadd": {
+            "blacklist": true
+         }
+      },
+      "toolbar": [ "ndibdjnfmopecpmkdieinmbadjfpblof" ],
+      "toolbarsize": -1
+   },
+   "homepage": "http://www.google.com/",
+   "homepage_is_newtabpage": true,
+   "http_throttling": {
+      "enabled": true
+   },
+   "instant": {
+      "enabled_time": "12974500581339900"
+   },
+   "intl": {
+      "accept_languages": "ca"
+   },
+   "net": {
+      "http_server_properties": {
+         "0.docs.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            } ],
+            "supports_spdy": true
+         },
+         "0.drive.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            } ],
+            "supports_spdy": true
+         },
+         "98820146-a-62cb3a1a-s-sites.googlegroups.com:443": {
+            "supports_spdy": true
+         },
+         "accounts.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "accounts.google.es:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "accounts.google.fr:443": {
+            "supports_spdy": true
+         },
+         "accounts.youtube.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 6
+            }, {
+               "id": 6,
+               "value": 10
+            } ],
+            "supports_spdy": true
+         },
+         "ad-g.doubleclick.net:443": {
+            "supports_spdy": true
+         },
+         "ad.doubleclick.net:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 32
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "adwords.google.com:443": {
+            "supports_spdy": true
+         },
+         "ajax.googleapis.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 14
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "api.twitter.com:443": {
+            "supports_spdy": true
+         },
+         "apis.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 15
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "blob-s-docs.googlegroups.com:443": {
+            "supports_spdy": true
+         },
+         "blogger.googleusercontent.com:443": {
+            "supports_spdy": true
+         },
+         "calendar.google.com:443": {
+            "supports_spdy": true
+         },
+         "cbks2.google.com:443": {
+            "supports_spdy": true
+         },
+         "cbks3.google.com:443": {
+            "supports_spdy": true
+         },
+         "chart.googleapis.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 2
+            } ],
+            "supports_spdy": true
+         },
+         "chatenabled.mail.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 10
+            } ],
+            "supports_spdy": true
+         },
+         "clients1.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 4
+            }, {
+               "id": 6,
+               "value": 12
+            } ],
+            "supports_spdy": true
+         },
+         "clients1.google.es:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 39
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "clients2.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "clients6.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 32
+            }, {
+               "id": 6,
+               "value": 1
+            } ],
+            "supports_spdy": true
+         },
+         "commondatastorage.googleapis.com:443": {
+            "supports_spdy": true
+         },
+         "csi.gstatic.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "developers.google.com:443": {
+            "supports_spdy": true
+         },
+         "doc-10-78-docsviewer.googleusercontent.com:443": {
+            "supports_spdy": true
+         },
+         "docs.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 57
+            }, {
+               "id": 6,
+               "value": 1
+            } ],
+            "supports_spdy": true
+         },
+         "encrypted-tbn0.google.com:443": {
+            "supports_spdy": true
+         },
+         "encrypted-tbn1.google.com:443": {
+            "supports_spdy": true
+         },
+         "encrypted-tbn2.google.com:443": {
+            "supports_spdy": true
+         },
+         "encrypted-tbn3.google.com:443": {
+            "supports_spdy": true
+         },
+         "encrypted.google.com:443": {
+            "supports_spdy": true
+         },
+         "fls.doubleclick.net:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 2
+            }, {
+               "id": 6,
+               "value": 5
+            } ],
+            "supports_spdy": true
+         },
+         "fls.uk.doubleclick.net:443": {
+            "supports_spdy": true
+         },
+         "fonts.googleapis.com:443": {
+            "supports_spdy": true
+         },
+         "gg.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 32
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "gmail.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 10
+            } ],
+            "supports_spdy": true
+         },
+         "googleads.g.doubleclick.net:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 16
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "groups.google.com:443": {
+            "supports_spdy": true
+         },
+         "id.google.es:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "img.youtube.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 25
+            }, {
+               "id": 6,
+               "value": 4
+            } ],
+            "supports_spdy": true
+         },
+         "iphttps.appspot.com:443": {
+            "supports_spdy": true
+         },
+         "khms0.google.es:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 8
+            }, {
+               "id": 6,
+               "value": 9
+            } ],
+            "supports_spdy": true
+         },
+         "kibbles.googlecode.com:443": {
+            "supports_spdy": true
+         },
+         "lh3.googleusercontent.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 20
+            }, {
+               "id": 6,
+               "value": 1
+            } ],
+            "supports_spdy": true
+         },
+         "lh4.googleusercontent.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 11
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "lh5.ggpht.com:443": {
+            "supports_spdy": true
+         },
+         "lh5.googleusercontent.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 32
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "lh6.googleusercontent.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 32
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "mail-attachment.googleusercontent.com:443": {
+            "supports_spdy": true
+         },
+         "mail.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 10
+            } ],
+            "supports_spdy": true
+         },
+         "maps.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 15
+            }, {
+               "id": 6,
+               "value": 5
+            } ],
+            "supports_spdy": true
+         },
+         "maps.google.es:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 11
+            }, {
+               "id": 6,
+               "value": 19
+            } ],
+            "supports_spdy": true
+         },
+         "maps.googleapis.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 29
+            }, {
+               "id": 6,
+               "value": 26
+            } ],
+            "supports_spdy": true
+         },
+         "maps.gstatic.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 13
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "market.android.com:443": {
+            "supports_spdy": true
+         },
+         "mts0.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "mts1.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 27
+            }, {
+               "id": 6,
+               "value": 4
+            } ],
+            "supports_spdy": true
+         },
+         "news.google.com:443": {
+            "supports_spdy": true
+         },
+         "pagead2.googleadservices.com:443": {
+            "supports_spdy": true
+         },
+         "picasaweb.google.com:443": {
+            "supports_spdy": true
+         },
+         "play.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 19
+            }, {
+               "id": 6,
+               "value": 4
+            } ],
+            "supports_spdy": true
+         },
+         "plus.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "plusone.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 24
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "r.twimg.com:443": {
+            "supports_spdy": true
+         },
+         "s2.googleusercontent.com:443": {
+            "supports_spdy": true
+         },
+         "scribe.twitter.com:443": {
+            "supports_spdy": true
+         },
+         "secure.gravatar.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            } ],
+            "supports_spdy": true
+         },
+         "sites.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 17
+            }, {
+               "id": 6,
+               "value": 6
+            } ],
+            "supports_spdy": true
+         },
+         "ssl.google-analytics.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "ssl.gstatic.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 11
+            }, {
+               "id": 6,
+               "value": 15
+            } ],
+            "supports_spdy": true
+         },
+         "ssl.panoramio.com:443": {
+            "supports_spdy": true
+         },
+         "static.doubleclick.net:443": {
+            "supports_spdy": true
+         },
+         "static.getclicky.com:80": {
+            "alternate_protocol": {
+               "port": 443,
+               "protocol_str": "npn-spdy/2"
+            },
+            "supports_spdy": false
+         },
+         "static.googleusercontent.com:443": {
+            "supports_spdy": true
+         },
+         "stats.g.doubleclick.net:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 9
+            }, {
+               "id": 6,
+               "value": 22
+            } ],
+            "supports_spdy": true
+         },
+         "support.google.com:443": {
+            "supports_spdy": true
+         },
+         "t.co:443": {
+            "supports_spdy": true
+         },
+         "talkgadget.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            } ],
+            "supports_spdy": true
+         },
+         "themes.googleusercontent.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 32
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "toolbarqueries.google.com:443": {
+            "supports_spdy": true
+         },
+         "tpc.googlesyndication.com:443": {
+            "supports_spdy": true
+         },
+         "twitter.com:443": {
+            "supports_spdy": true
+         },
+         "www.google-analytics.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 32
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "www.google.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 16
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "www.google.es:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 10
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "www.googleadservices.com:443": {
+            "settings": [ {
+               "id": 4,
+               "value": 100
+            }, {
+               "id": 5,
+               "value": 16
+            }, {
+               "id": 6,
+               "value": 0
+            } ],
+            "supports_spdy": true
+         },
+         "www.googleapis.com:443": {
+            "supports_spdy": true
+         },
+         "www.gstatic.com:443": {
+            "supports_spdy": true
+         }
+      }
+   },
+   "ntp": {
+      "app_page_names": [ "Aplicacions" ],
+      "gplus_required": false,
+      "promo_closed": false,
+      "promo_end": 1344981600.0,
+      "promo_group": 303,
+      "promo_group_max": 1,
+      "promo_group_timeslice": 0,
+      "promo_increment": 1,
+      "promo_initial_segment": 4,
+      "promo_line": "\u00BFQu\u00E9 opinas de Chrome? \u003Ca href=\"http://survey.googleratings.com/wix/p5963862.aspx?l=10\"\u003ERealiza la encuesta\u003C/a\u003E",
+      "promo_num_groups": 1000,
+      "promo_resource_cache_update": "1346998070.31646",
+      "promo_start": 1344463200.0,
+      "promo_views": 0,
+      "promo_views_max": 15,
+      "shown_page": 2048,
+      "sign_in_promo": {
+         "group_max": 100
+      }
+   },
+   "plugins": {
+      "enabled_internal_pdf3": true,
+      "enabled_nacl": true,
+      "last_internal_directory": "C:\\Users\\Jordi\\AppData\\Local\\Google\\Chrome\\Application\\21.0.1180.89",
+      "plugins_list": [ {
+         "enabled": true,
+         "name": "Remoting Viewer",
+         "path": "internal-remoting-viewer",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Remoting Viewer"
+      }, {
+         "enabled": true,
+         "name": "Native Client",
+         "path": "C:\\Users\\Jordi\\AppData\\Local\\Google\\Chrome\\Application\\21.0.1180.89\\ppGoogleNaClPluginChrome.dll",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Native Client"
+      }, {
+         "enabled": true,
+         "name": "Chrome PDF Viewer",
+         "path": "C:\\Users\\Jordi\\AppData\\Local\\Google\\Chrome\\Application\\21.0.1180.89\\pdf.dll",
+         "version": ""
+      }, {
+         "enabled": true,
+         "name": "Chrome PDF Viewer"
+      }, {
+         "enabled": true,
+         "name": "Shockwave Flash",
+         "path": "C:\\Users\\Jordi\\AppData\\Local\\Google\\Chrome\\Application\\21.0.1180.89\\gcswf32.dll",
+         "version": "11,2,202,235"
+      }, {
+         "enabled": false,
+         "name": "Shockwave Flash",
+         "path": "C:\\Users\\Jordi\\AppData\\Local\\Google\\Chrome\\User Data\\PepperFlash\\11.2.31.144\\pepflashplayer.dll",
+         "version": "11.2.31.144"
+      }, {
+         "enabled": true,
+         "name": "Shockwave Flash",
+         "path": "C:\\Windows\\system32\\Macromed\\Flash\\NPSWF32.dll",
+         "version": "10,1,85,3"
+      }, {
+         "enabled": true,
+         "name": "Flash"
+      }, {
+         "enabled": true,
+         "name": "AVG Internet Security",
+         "path": "C:\\Users\\Jordi\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\jmfkcklnlgedgbglfkkgedjfmejoahla\\12.0.0.1901_0\\plugins/avgnpss.dll",
+         "version": "12.0.0.1901"
+      }, {
+         "enabled": true,
+         "name": "AVG Internet Security"
+      }, {
+         "enabled": true,
+         "name": "Adobe Acrobat",
+         "path": "C:\\Program Files\\Adobe\\Reader 10.0\\Reader\\Browser\\nppdf32.dll",
+         "version": "10.1.3.23"
+      }, {
+         "enabled": false,
+         "name": "Adobe Acrobat"
+      }, {
+         "enabled": true,
+         "name": "Java Deployment Toolkit 6.0.260.3",
+         "path": "C:\\Program Files\\Java\\jre6\\bin\\new_plugin\\npdeployJava1.dll",
+         "version": "6.0.260.3"
+      }, {
+         "enabled": true,
+         "name": "Java(TM) Platform SE 6 U26",
+         "path": "C:\\Program Files\\Java\\jre6\\bin\\new_plugin\\npjp2.dll",
+         "version": "6.0.260.3"
+      }, {
+         "enabled": true,
+         "name": "Java"
+      }, {
+         "enabled": true,
+         "name": "Microsoft\u00AE Windows Media Player Firefox Plugin",
+         "path": "C:\\Program Files\\Mozilla Firefox 3 Beta 2\\plugins\\np-mswmp.dll",
+         "version": "1.0.0.8"
+      }, {
+         "enabled": true,
+         "name": "Windows Media Player"
+      }, {
+         "enabled": true,
+         "name": "DivX Web Player",
+         "path": "C:\\Program Files\\Mozilla Firefox 3 Beta 2\\plugins\\npdivx32.dll",
+         "version": "1, 4, 0, 233"
+      }, {
+         "enabled": true,
+         "name": "DivX Player"
+      }, {
+         "enabled": true,
+         "name": "DivX Player Netscape Plugin",
+         "path": "C:\\Program Files\\Mozilla Firefox 3 Beta 2\\plugins\\npDivxPlayerPlugin.dll",
+         "version": "6, 1, 0, 0"
+      }, {
+         "enabled": true,
+         "name": "DivX Player Netscape Plugin"
+      }, {
+         "enabled": true,
+         "name": "Windows Genuine Advantage",
+         "path": "C:\\Program Files\\Mozilla Firefox 3 Beta 2\\plugins\\npLegitCheckPlugin.dll",
+         "version": "1.9.0042.0"
+      }, {
+         "enabled": true,
+         "name": "Windows Genuine Advantage"
+      }, {
+         "enabled": true,
+         "name": "2007 Microsoft Office system",
+         "path": "C:\\Program Files\\Mozilla Firefox 3 Beta 2\\plugins\\NPOFF12.DLL",
+         "version": "12.0.4518.1014"
+      }, {
+         "enabled": true,
+         "name": "Microsoft Office 2010",
+         "path": "C:\\PROGRA~1\\MICROS~3\\Office14\\NPAUTHZ.DLL",
+         "version": "14.0.4730.1010"
+      }, {
+         "enabled": true,
+         "name": "Microsoft Office 2010",
+         "path": "C:\\PROGRA~1\\MICROS~3\\Office14\\NPSPWRAP.DLL",
+         "version": "14.0.4761.1000"
+      }, {
+         "enabled": true,
+         "name": "Microsoft Office"
+      }, {
+         "enabled": true,
+         "name": "DivX\u00AE Content Upload Plugin",
+         "path": "C:\\Program Files\\DivX\\DivX Content Uploader\\npUpload.dll",
+         "version": "1, 2, 1, 12"
+      }, {
+         "enabled": true,
+         "name": "DivX\u00AE Content Upload Plugin"
+      }, {
+         "enabled": true,
+         "name": "Picasa",
+         "path": "C:\\Program Files\\Google\\Picasa3\\npPicasa3.dll",
+         "version": "3, 1, 0, 0"
+      }, {
+         "enabled": true,
+         "name": "Picasa"
+      }, {
+         "enabled": true,
+         "name": "WPI Detector 1.4",
+         "path": "C:\\Program Files\\Microsoft\\Web Platform Installer\\\\npwpidetector.dll",
+         "version": "1, 1, 0, 2"
+      }, {
+         "enabled": true,
+         "name": "WPI Detector 1.4"
+      }, {
+         "enabled": true,
+         "name": "Windows Live\u0099 Photo Gallery",
+         "path": "C:\\Program Files\\Windows Live\\Photo Gallery\\NPWLPG.dll",
+         "version": "15.4.3538.0513_ship.wlx.w4m4 (ship)"
+      }, {
+         "enabled": true,
+         "name": "Windows Live\u0099 Photo Gallery"
+      }, {
+         "enabled": true,
+         "name": "Google Update",
+         "path": "C:\\Users\\Jordi\\AppData\\Local\\Google\\Update\\1.3.21.111\\npGoogleUpdate3.dll",
+         "version": "1.3.21.111"
+      }, {
+         "enabled": true,
+         "name": "Google Update"
+      }, {
+         "enabled": true,
+         "name": "Shockwave for Director",
+         "path": "C:\\Windows\\system32\\Adobe\\Director\\np32dsw.dll",
+         "version": "11.5.8r612"
+      }, {
+         "enabled": true,
+         "name": "Shockwave"
+      }, {
+         "enabled": true,
+         "name": "Silverlight Plug-In",
+         "path": "c:\\Program Files\\Microsoft Silverlight\\4.1.10329.0\\npctrl.dll",
+         "version": "4.1.10329.0"
+      }, {
+         "enabled": true,
+         "name": "Silverlight"
+      }, {
+         "enabled": true,
+         "name": "Windows Presentation Foundation",
+         "path": "c:\\Windows\\Microsoft.NET\\Framework\\v3.5\\Windows Presentation Foundation\\NPWPF.dll",
+         "version": "3.5.30729.1 built by: SP"
+      }, {
+         "enabled": true,
+         "name": "Windows Presentation Foundation"
+      } ]
+   },
+   "profile": {
+      "avatar_index": 0,
+      "content_settings": {
+         "clear_on_exit_migrated": true,
+         "pref_version": 1
+      },
+      "exited_cleanly": true,
+      "name": "Primer usuario",
+      "per_host_zoom_levels": {
+         "asiathroughthelens.files.wordpress.com": 5.0256853103637695,
+         "biz4ge.net": -0.5778829455375671,
+         "blogs.msdn.com": 1.2239010334014893,
+         "ecx.images-amazon.com": 5.0256853103637695,
+         "es-es.facebook.com": 1.2239010334014893,
+         "images.sodahead.com": 2.2239010334014893,
+         "picasaweb.google.com": -1.5778828859329224,
+         "secure.gravatar.com": 5.0256853103637695,
+         "softwareengineering.vazexqi.com": 2.2239010334014893,
+         "sportsroids.com": 2.2239010334014893,
+         "static.igossip.com": 0.5227587223052979,
+         "suzanefarias.blogspot.com.es": -0.5778829455375671,
+         "tiendaonline.leroymerlin.es": 1.2239010334014893,
+         "twitter.com": 0.5227587223052979,
+         "upload.wikimedia.org": 3.801784038543701,
+         "www.appliedintelligentmarketing.com": 0.5227587223052979,
+         "www.boobpedia.com": 1.2239010334014893,
+         "www.epaperflip.com": 7.603568077087402,
+         "www.glassdoor.com": 1.2239010334014893,
+         "www.google.com": 0.5227587223052979,
+         "www.vilaweb.cat": 0.5227587223052979
+      }
+   },
+   "reverse_autologin": {
+      "enabled": false
+   },
+   "selectfile": {
+      "last_directory": "C:\\temp"
+   },
+   "session": {
+      "restore_on_startup_migrated": true
+   },
+   "spellcheck": {
+      "dictionary": "es"
+   },
+   "sync_promo": {
+      "startup_count": 10,
+      "view_count": 10
+   },
+   "translate": {
+      "enabled": false
+   },
+   "translate_accepted_count": {
+      "de": 1
+   },
+   "translate_denied_count": {
+      "de": 0
+   }
+}
