@@ -48,8 +48,6 @@ protected:
 
 private: 		
 
-	bool _isInstalled();
-
 	bool _findIntl(wstring,int&);
 	bool _findSemicolon(wstring,int&);
 	bool _findStartBlock(wstring,int&);

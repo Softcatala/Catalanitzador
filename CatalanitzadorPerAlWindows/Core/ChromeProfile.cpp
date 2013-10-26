@@ -496,36 +496,26 @@ void ChromeProfile::ParseLanguage(wstring value)
 
 bool ChromeProfile::IsAcceptLanguagesOk() 
 {
-	bool acceptLanguagesFound, localeOk;
+	bool acceptLanguagesFound;
 	wstring langcode, firstlang;
 
-	if(_isInstalled()) 
-	{
-		acceptLanguagesFound = ReadAcceptLanguages(langcode);
-		localeOk = IsUiLocaleOk();
+	acceptLanguagesFound = ReadAcceptLanguages(langcode);	
 
-		if(acceptLanguagesFound)
-		{
-			ParseLanguage(langcode);
-			_getFirstLanguage(firstlang);
-			
-			if(firstlang.compare(CHROME_LANGUAGECODE) == 0) 
-			{
-				return true;
-			}
-		} 
-		else
-		{
-			if(localeOk)
-				return true;
-		}
+	if(acceptLanguagesFound)
+	{
+		ParseLanguage(langcode);
+		_getFirstLanguage(firstlang);
 		
+		if(firstlang.compare(CHROME_LANGUAGECODE) == 0) 
+		{
+			return true;
+		}
 	}
+	else
+	{
+		if(IsUiLocaleOk())
+			return true;
+	}	
 
 	return false;
-}
-
-bool ChromeProfile::_isInstalled()
-{
-	return m_installLocation.size() > 0;
 }
