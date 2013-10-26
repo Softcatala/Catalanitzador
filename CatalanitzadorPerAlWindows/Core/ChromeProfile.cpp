@@ -180,7 +180,7 @@ bool ChromeProfile::IsUiLocaleOk()
 	return langcode.compare(CHROME_LANGUAGECODE) == 0;
 }
 
-bool ChromeProfile::ReadLanguageCode(wstring& langcode)
+bool ChromeProfile::ReadAcceptLanguages(wstring& langcode)
 {
 	bool isLanguageFound = false;
 	
@@ -501,7 +501,7 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 
 	if(_isInstalled()) 
 	{
-		acceptLanguagesFound = ReadLanguageCode(langcode);
+		acceptLanguagesFound = ReadAcceptLanguages(langcode);
 		localeOk = IsUiLocaleOk();
 
 		if(acceptLanguagesFound)

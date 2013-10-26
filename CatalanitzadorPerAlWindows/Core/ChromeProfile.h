@@ -32,11 +32,12 @@ public:
 
 	bool WriteUILocale();
 	virtual bool IsUiLocaleOk();
+
 	virtual bool IsAcceptLanguagesOk();
 	bool UpdateAcceptLanguages();
+	bool ReadAcceptLanguages(wstring& langcode);
 
 	void SetPath(wstring);
-	bool ReadLanguageCode(wstring& langcode);
 	
 protected:
 	void ParseLanguage(wstring regvalue);

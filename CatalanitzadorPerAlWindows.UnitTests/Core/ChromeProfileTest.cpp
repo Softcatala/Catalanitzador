@@ -100,7 +100,7 @@ TEST(ChomeProfileTest, CatatanUI_IsUiLocaleOk)
 	EXPECT_TRUE(chromeProfile.IsUiLocaleOk());
 }
 
-TEST(ChomeProfileTest, SpanishUI_AcceptLanguage_es_de_br_ReadLanguageCode)
+TEST(ChomeProfileTest, SpanishUI_AcceptLanguage_es_de_br_ReadAcceptLanguages)
 {
 	wstring location, langcode;
 	ChomeProfileTest chromeProfile;
@@ -109,13 +109,13 @@ TEST(ChomeProfileTest, SpanishUI_AcceptLanguage_es_de_br_ReadLanguageCode)
 	location += L"Chrome\\SpanishUI_AcceptLanguage_es_de_br\\User Data\\";
 	chromeProfile.SetPath(location);
 
-	bool bRslt = chromeProfile.ReadLanguageCode(langcode);
+	bool bRslt = chromeProfile.ReadAcceptLanguages(langcode);
 	EXPECT_TRUE(bRslt);
 	EXPECT_THAT(langcode, StrCaseEq(L"es,de,br"));
 	EXPECT_FALSE(chromeProfile.IsAcceptLanguagesOk());
 }
 
-TEST(ChomeProfileTest,NoAcceptLanguage_ReadLanguageCode)
+TEST(ChomeProfileTest,NoAcceptLanguage_ReadAcceptLanguages)
 {
 	wstring location, langcode;
 	ChomeProfileTest chromeProfile;
@@ -124,13 +124,13 @@ TEST(ChomeProfileTest,NoAcceptLanguage_ReadLanguageCode)
 	location += L"Chrome\\SpanishUI_NoAcceptLanguage\\User Data\\";
 	chromeProfile.SetPath(location);
 
-	bool bRslt = chromeProfile.ReadLanguageCode(langcode);
+	bool bRslt = chromeProfile.ReadAcceptLanguages(langcode);
 	EXPECT_FALSE(bRslt);
 	EXPECT_THAT(langcode, StrCaseEq(L""));
 	EXPECT_FALSE(chromeProfile.IsAcceptLanguagesOk());
 }
 
-TEST(ChomeProfileTest, NoFile_ReadLanguageCode)
+TEST(ChomeProfileTest, NoFile_ReadAcceptLanguages)
 {
 	wstring location, langcode;
 	ChomeProfileTest chromeProfile;
@@ -138,7 +138,7 @@ TEST(ChomeProfileTest, NoFile_ReadLanguageCode)
 	Application::GetExecutionLocation(location);	
 	chromeProfile.SetPath(location);
 
-	bool bRslt = chromeProfile.ReadLanguageCode(langcode);
+	bool bRslt = chromeProfile.ReadAcceptLanguages(langcode);
 	EXPECT_FALSE(bRslt);
 	EXPECT_THAT(langcode, StrCaseEq(L""));
 	EXPECT_FALSE(chromeProfile.IsAcceptLanguagesOk());
