@@ -26,9 +26,7 @@ enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 				InAcceptedValue, InAppLocaleKey, InAppLocaleSemicolon,
 				InAppLocaleValue, EndParsing };
 
-#ifndef CHROME_LANGUAGECODE
 #define CHROME_LANGUAGECODE L"ca"
-#endif
 
 ChromeProfile::ChromeProfile()
 {
@@ -242,84 +240,81 @@ bool ChromeProfile::WriteUILocale()
 {
 	bool languageWrittenSuccessfully = false;
 
-	if(m_installLocation.empty() == false)
+	wifstream reader;
+	wofstream writer;	
+	wstring pathr = m_installLocation + GetUIRelPathAndFile();
+	wstring pathw = m_installLocation + GetUIRelPathAndFile() + L".new";
+
+	reader.open(pathr.c_str());
+	if (reader.is_open() == false)
 	{
-		wifstream reader;
-		wofstream writer;
-		wstring line;
-		wstring pathr = GetUIRelPathAndFile();
-		wstring pathw = GetUIRelPathAndFile() + L".new";
-		pathr = m_installLocation + pathr;
-		pathw = m_installLocation + pathw;
-		reader.open(pathr.c_str());
-		writer.open(pathw.c_str());
+		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for reading %u", (wchar_t*) pathr.c_str());
+		return languageWrittenSuccessfully;
+	}
+
+	writer.open(pathw.c_str());
+	if (writer.is_open() == false)
+	{
+		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for writing %u", (wchar_t*) pathw.c_str());
+		reader.close();
+		return languageWrittenSuccessfully;
+	}
+	
+	int currentState = NoState;	
+	int pos = 0;
+	wstring oldLang, line, lastLine;
+	
+	while (!(getline(reader,line)).eof())
+	{
+		if(currentState == NoState) {
+			if(_findIntl(line,pos))
+				currentState = InIntl;
+		}
+
+		if(currentState == InIntl) {
+			if(_findSemicolon(line,pos))
+				currentState = InIntlSemicolon;
+		}
+
+		if(currentState == InIntlSemicolon) {
+			if(_findStartBlock(line,pos))
+				currentState = InIntlBlock;
+		}
+
+		if(currentState == InIntlBlock) {
+			if(_findAppLocaleKey(line,pos))
+				currentState = InAppLocaleKey;
+		}
 		
-		if(reader.is_open() && writer.is_open()) 
-		{
-			int currentState = NoState;
-			
-			int pos = 0;
-			wstring oldLang;
-			wstring lastLine = L"";
+		if(currentState == InAppLocaleKey) {
+			if(_findSemicolon(line,pos))
+				currentState = InAppLocaleSemicolon;
+		}
 
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAppLocaleKey(line,pos))
-						currentState = InAppLocaleKey;
-				}
-				
-				if(currentState == InAppLocaleKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAppLocaleSemicolon;
-				}
-
-				if(currentState == InAppLocaleSemicolon) {
-					if(_findLanguageString(line,pos,oldLang)) {
-						currentState = EndParsing;
-						line.replace(pos,oldLang.length(),CHROME_LANGUAGECODE);
-						languageWrittenSuccessfully = true;
-					}
-				}
-
-				pos = wstring::npos;
-
-				writer << lastLine << L"\n";
-				lastLine = line;
-			}
-			
-			if(!languageWrittenSuccessfully) {
-				writer << "\t,\"intl\":{\"app_locale\":\"ca\"}\n";
+		if(currentState == InAppLocaleSemicolon) {
+			if(_findLanguageString(line,pos,oldLang)) {
+				currentState = EndParsing;
+				line.replace(pos,oldLang.length(),CHROME_LANGUAGECODE);
 				languageWrittenSuccessfully = true;
-
 			}
-			writer << lastLine << L"\n";
 		}
 
-		if(reader.is_open())
-			reader.close();
+		pos = wstring::npos;
+		writer << lastLine << L"\n";
+		lastLine = line;
+	}
+	
+	if(!languageWrittenSuccessfully) {
+		writer << "\t,\"intl\":{\"app_locale\":\"ca\"}\n";
+		languageWrittenSuccessfully = true;
+	}
 
-		if(writer.is_open())
-			writer.close();
-		
-		if(languageWrittenSuccessfully) {
-			languageWrittenSuccessfully = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-		}
+	writer << lastLine << L"\n";	
+	reader.close();
+	writer.close();
+	
+	if(languageWrittenSuccessfully) {
+		languageWrittenSuccessfully = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
 	}
 
 	return languageWrittenSuccessfully;
@@ -329,84 +324,83 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 {	
 	bool languageWrittenSuccessfully = false;
 	
-	if(m_installLocation.empty() == false)
+	wifstream reader;
+	wofstream writer;	
+	wstring pathr = m_installLocation + GetPreferencesRelPathAndFile();
+	wstring pathw = m_installLocation + GetPreferencesRelPathAndFile() + L".new";
+	
+	reader.open(pathr.c_str());
+	if (reader.is_open() == false)
 	{
-		wifstream reader;
-		wofstream writer;
-		wstring line;
-		wstring pathr = GetPreferencesRelPathAndFile();
-		wstring pathw = GetPreferencesRelPathAndFile() + L".new";
-		pathr = m_installLocation + pathr;
-		pathw = m_installLocation + pathw;
-		reader.open(pathr.c_str());
-		writer.open(pathw.c_str());
+		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for reading %u", (wchar_t*) pathr.c_str());
+		return languageWrittenSuccessfully;
+	}
+
+	writer.open(pathw.c_str());
+	if (writer.is_open() == false)
+	{
+		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for writing %u", (wchar_t*) pathw.c_str());
+		reader.close();
+		return languageWrittenSuccessfully;
+	}
+	
+	int currentState = NoState;
+	
+	int pos = 0;
+	wstring oldLang, line, lastLine;		
+
+	while(!(getline(reader,line)).eof())
+	{
+		if(currentState == NoState) {
+			if(_findIntl(line,pos))
+				currentState = InIntl;
+		}
+
+		if(currentState == InIntl) {
+			if(_findSemicolon(line,pos))
+				currentState = InIntlSemicolon;
+		}
+
+		if(currentState == InIntlSemicolon) {
+			if(_findStartBlock(line,pos))
+				currentState = InIntlBlock;
+		}
+
+		if(currentState == InIntlBlock) {
+			if(_findAcceptedKey(line,pos))
+				currentState = InAcceptedKey;
+		}
 		
-		if(reader.is_open() && writer.is_open()) 
-		{
-			int currentState = NoState;
-			
-			int pos = 0;
-			wstring oldLang;
-			wstring lastLine = L"";
+		if(currentState == InAcceptedKey) {
+			if(_findSemicolon(line,pos))
+				currentState = InAcceptedSemicolon;
+		}
 
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAcceptedKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,oldLang)) {
-						currentState = EndParsing;
-						line.replace(pos,oldLang.length(),langcode);
-						languageWrittenSuccessfully = true;
-					}
-				}
-
-				pos = wstring::npos;
-
-				writer << lastLine << L"\n";
-				lastLine = line;
-			}
-			
-			if(!languageWrittenSuccessfully) {
-				writer << "\t,\"intl\":{\"accept_languages\":\"ca\"}\n";
+		if(currentState == InAcceptedSemicolon) {
+			if(_findLanguageString(line,pos,oldLang)) {
+				currentState = EndParsing;
+				line.replace(pos,oldLang.length(),langcode);
 				languageWrittenSuccessfully = true;
-
 			}
-			writer << lastLine << L"\n";
 		}
 
-		if(reader.is_open())
-			reader.close();
+		pos = wstring::npos;
 
-		if(writer.is_open())
-			writer.close();
-		
-		if(languageWrittenSuccessfully) {
-			languageWrittenSuccessfully = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-		}
+		writer << lastLine << L"\n";
+		lastLine = line;
+	}
+	
+	if(!languageWrittenSuccessfully) {
+		writer << "\t,\"intl\":{\"accept_languages\":\"ca\"}\n";
+		languageWrittenSuccessfully = true;
+	}
+
+	writer << lastLine << L"\n";
+	reader.close();
+	writer.close();
+	
+	if(languageWrittenSuccessfully) {
+		languageWrittenSuccessfully = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
 	}
 
 	return languageWrittenSuccessfully;
@@ -426,7 +420,7 @@ void ChromeProfile::AddCatalanToArrayAndRemoveOldIfExists()
 	vector <wstring>languages;
 	vector<wstring>::iterator it;
 
-	// Delete previous ocurrences of Catalan locale that were not first
+	// Delete previous occurrences of Catalan locale that were not first
 	for (it = m_languages.begin(); it != m_languages.end(); ++it)
 	{
 		wstring element = *it;

@@ -118,7 +118,7 @@ void FirefoxAcceptLanguages::_addCatalanToArrayAndRemoveOldIfExists()
 {
 	vector<wstring>::iterator it;
 
-	// Delete previous ocurrences of Catalan locale that were not first
+	// Delete previous occurrences of Catalan locale that were not first
 	for (it = m_languages.begin(); it != m_languages.end(); ++it)
 	{
 		wstring element = *it;
