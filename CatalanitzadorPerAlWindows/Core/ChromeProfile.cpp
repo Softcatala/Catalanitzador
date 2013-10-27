@@ -123,57 +123,54 @@ bool ChromeProfile::_findLanguageString(wstring line,int & pos,wstring & langcod
 
 bool ChromeProfile::IsUiLocaleOk()
 {	
-	wstring langcode;
-	
-	if(m_installLocation.empty() == false)
+	wifstream reader;
+	wstring path = m_installLocation + GetUIRelPathAndFile();
+	reader.open(path.c_str());
+
+	if (reader.is_open() == false)
 	{
-		wifstream reader;
-		wstring line;
-		wstring path = GetUIRelPathAndFile();
-		path = m_installLocation + path;
-		reader.open(path.c_str());
-
-		if(reader.is_open()) 
-		{
-			int currentState = NoState;
-			int pos = 0;
-
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAppLocaleKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,langcode))						
-						break;
-				}
-
-				pos = wstring::npos;
-			}
-		}
+		g_log.Log(L"ChromeProfile::IsUiLocaleOk. Cannot open for reading %s", (wchar_t*) path.c_str());
+		return false;
 	}
+
+	int currentState = NoState;
+	int pos = 0;
+	wstring line, langcode;	
+
+	while(!(getline(reader,line)).eof())
+	{
+		if(currentState == NoState) {
+			if(_findIntl(line,pos))
+				currentState = InIntl;
+		}
+
+		if(currentState == InIntl) {
+			if(_findSemicolon(line,pos))
+				currentState = InIntlSemicolon;
+		}
+
+		if(currentState == InIntlSemicolon) {
+			if(_findStartBlock(line,pos))
+				currentState = InIntlBlock;
+		}
+
+		if(currentState == InIntlBlock) {
+			if(_findAppLocaleKey(line,pos))
+				currentState = InAcceptedKey;
+		}
+		
+		if(currentState == InAcceptedKey) {
+			if(_findSemicolon(line,pos))
+				currentState = InAcceptedSemicolon;
+		}
+
+		if(currentState == InAcceptedSemicolon) {
+			if(_findLanguageString(line,pos,langcode))						
+				break;
+		}
+
+		pos = wstring::npos;
+	}	
 
 	return langcode.compare(CHROME_LANGUAGECODE) == 0;
 }
@@ -181,65 +178,63 @@ bool ChromeProfile::IsUiLocaleOk()
 bool ChromeProfile::ReadAcceptLanguages(wstring& langcode)
 {
 	bool isLanguageFound = false;
+	wifstream reader;
+	wstring path = m_installLocation + GetPreferencesRelPathAndFile();
 	
-	if(m_installLocation.empty() == false) 
+	reader.open(path.c_str());
+
+	if (reader.is_open() == false)
 	{
-		wifstream reader;
-		wstring line;
-		wstring path = GetPreferencesRelPathAndFile();
-		path = m_installLocation + path;
-		reader.open(path.c_str());
-
-		if(reader.is_open()) 
-		{
-			int currentState = NoState;			
-			int pos = 0;
-
-			while(!(getline(reader,line)).eof() && !isLanguageFound)
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-
-				if(currentState == InIntlBlock) {
-					if(_findAcceptedKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,langcode))
-						isLanguageFound = true;
-				}
-
-				pos = wstring::npos;
-			}
-			reader.close();
-		}
+		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+		return isLanguageFound;
 	}
 
+	int currentState = NoState;
+	int pos = 0;
+	wstring line;	
+
+	while(!(getline(reader,line)).eof() && !isLanguageFound)
+	{
+		if(currentState == NoState) {
+			if(_findIntl(line,pos))
+				currentState = InIntl;
+		}
+
+		if(currentState == InIntl) {
+			if(_findSemicolon(line,pos))
+				currentState = InIntlSemicolon;
+		}
+
+		if(currentState == InIntlSemicolon) {
+			if(_findStartBlock(line,pos))
+				currentState = InIntlBlock;
+		}
+
+		if(currentState == InIntlBlock) {
+			if(_findAcceptedKey(line,pos))
+				currentState = InAcceptedKey;
+		}
+		
+		if(currentState == InAcceptedKey) {
+			if(_findSemicolon(line,pos))
+				currentState = InAcceptedSemicolon;
+		}
+
+		if(currentState == InAcceptedSemicolon) {
+			if(_findLanguageString(line,pos,langcode))
+				isLanguageFound = true;
+		}
+
+		pos = wstring::npos;
+	}
+
+	reader.close();
 	return isLanguageFound;
 }
 
 bool ChromeProfile::WriteUILocale()
 {
 	bool languageWrittenSuccessfully = false;
-
 	wifstream reader;
 	wofstream writer;	
 	wstring pathr = m_installLocation + GetUIRelPathAndFile();
@@ -248,14 +243,14 @@ bool ChromeProfile::WriteUILocale()
 	reader.open(pathr.c_str());
 	if (reader.is_open() == false)
 	{
-		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for reading %u", (wchar_t*) pathr.c_str());
+		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for reading %s", (wchar_t*) pathr.c_str());
 		return languageWrittenSuccessfully;
 	}
 
 	writer.open(pathw.c_str());
 	if (writer.is_open() == false)
 	{
-		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for writing %u", (wchar_t*) pathw.c_str());
+		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for writing %s", (wchar_t*) pathw.c_str());
 		reader.close();
 		return languageWrittenSuccessfully;
 	}
@@ -322,24 +317,23 @@ bool ChromeProfile::WriteUILocale()
 
 bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 {	
-	bool languageWrittenSuccessfully = false;
-	
+	bool languageWrittenSuccessfully = false;	
 	wifstream reader;
-	wofstream writer;	
+	wofstream writer;
 	wstring pathr = m_installLocation + GetPreferencesRelPathAndFile();
 	wstring pathw = m_installLocation + GetPreferencesRelPathAndFile() + L".new";
 	
 	reader.open(pathr.c_str());
 	if (reader.is_open() == false)
 	{
-		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for reading %u", (wchar_t*) pathr.c_str());
+		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for reading %s", (wchar_t*) pathr.c_str());
 		return languageWrittenSuccessfully;
 	}
 
 	writer.open(pathw.c_str());
 	if (writer.is_open() == false)
 	{
-		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for writing %u", (wchar_t*) pathw.c_str());
+		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) pathw.c_str());
 		reader.close();
 		return languageWrittenSuccessfully;
 	}
