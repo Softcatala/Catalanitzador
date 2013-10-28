@@ -30,12 +30,7 @@ enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
 
 ChromeProfile::ChromeProfile()
 {
-	SetPath(L"");
-}
 
-ChromeProfile::ChromeProfile(wstring installLocation)
-{
-	SetPath(installLocation);
 }
 
 void ChromeProfile::SetPath(wstring newPath)

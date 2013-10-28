@@ -28,7 +28,6 @@ class ChromeProfile
 {
 public:
 	ChromeProfile();
-	ChromeProfile(wstring);
 
 	bool WriteUILocale();
 	virtual bool IsUiLocaleOk();

@@ -31,7 +31,6 @@ class ChomeProfileTest : public ChromeProfile
 public:	
 
 	ChomeProfileTest() : ChromeProfile() {};
-	ChomeProfileTest(wstring str) : ChromeProfile(str) {};
 
 	void SetUIRelPathAndFile(wstring pathfile) { m_ui_file = pathfile; }
 	void SetPreferencesRelPathAndFile(wstring pathfile) { m_preferences_file = pathfile; }
