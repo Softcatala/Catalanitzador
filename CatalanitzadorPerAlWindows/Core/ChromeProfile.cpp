@@ -21,10 +21,7 @@
 #include "StdAfx.h"
 #include "ChromeProfile.h"
 
-enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
-				InIntlBlock, InAcceptedKey, InAcceptedSemicolon, 
-				InAcceptedValue, InAppLocaleKey, InAppLocaleSemicolon,
-				InAppLocaleValue, EndParsing };
+enum JSONChromeState { NoState, SchemaFound, EndParsing };
 
 #define CHROME_LANGUAGECODE L"ca"
 
@@ -47,6 +44,24 @@ bool ChromeProfile::_findIntl(wstring line, int & pos)
 	return pos != wstring::npos;
 }
 
+bool ChromeProfile::_readSchema(wstring line, int& pos)
+{
+	int currentState = NoState;
+
+	if (_findIntl(line,pos))
+	{
+		if (_findSemicolon(line,pos))
+		{
+			if(_findStartBlock(line,pos))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
 bool ChromeProfile::_findSemicolon(wstring line, int & pos)
 {
 	if(pos == wstring::npos) pos = 0;
@@ -65,22 +80,28 @@ bool ChromeProfile::_findStartBlock(wstring line, int & pos)
 	return pos != wstring::npos;
 }
 
-bool ChromeProfile::_findAcceptedKey(wstring line, int & pos)
+bool  ChromeProfile::_findProperty(wstring line, wstring key, int & pos)
 {
 	if(pos == wstring::npos) pos = 0;
 	
-	pos = line.find(L"\"accept_languages\"",pos);
-
+	pos = line.find(key, pos);
 	return pos != wstring::npos;
 }
 
-bool ChromeProfile::_findAppLocaleKey(wstring line, int & pos)
+bool ChromeProfile::_readPropertyValue(wstring line, wstring key, int& pos, wstring& value)
 {
-	if(pos == wstring::npos) pos = 0;
+	if (pos == wstring::npos) pos = 0;
 	
-	pos = line.find(L"\"app_locale\"",pos);
+	if (_findProperty(line, key, pos))
+	{
+		if(_findSemicolon(line,pos))
+		{
+			_findLanguageString(line, pos, value);
+			return true;
+		}
+	}
 
-	return pos != wstring::npos;
+	return false;
 }
 
 bool ChromeProfile::_findLanguageString(wstring line,int & pos,wstring & langcode) 
@@ -135,34 +156,15 @@ bool ChromeProfile::IsUiLocaleOk()
 	while(!(getline(reader,line)).eof())
 	{
 		if(currentState == NoState) {
-			if(_findIntl(line,pos))
-				currentState = InIntl;
+			if(_readSchema(line,pos))
+				currentState = SchemaFound;
 		}
 
-		if(currentState == InIntl) {
-			if(_findSemicolon(line,pos))
-				currentState = InIntlSemicolon;
-		}
-
-		if(currentState == InIntlSemicolon) {
-			if(_findStartBlock(line,pos))
-				currentState = InIntlBlock;
-		}
-
-		if(currentState == InIntlBlock) {
-			if(_findAppLocaleKey(line,pos))
-				currentState = InAcceptedKey;
-		}
-		
-		if(currentState == InAcceptedKey) {
-			if(_findSemicolon(line,pos))
-				currentState = InAcceptedSemicolon;
-		}
-
-		if(currentState == InAcceptedSemicolon) {
-			if(_findLanguageString(line,pos,langcode))						
+		if (currentState == SchemaFound) {
+			if (_readPropertyValue(line, L"\"app_locale\"", pos, langcode)) {
 				break;
-		}
+			}
+		}		
 
 		pos = wstring::npos;
 	}	
@@ -191,33 +193,14 @@ bool ChromeProfile::ReadAcceptLanguages(wstring& langcode)
 	while(!(getline(reader,line)).eof() && !isLanguageFound)
 	{
 		if(currentState == NoState) {
-			if(_findIntl(line,pos))
-				currentState = InIntl;
+			if(_readSchema(line,pos))
+				currentState = SchemaFound;
 		}
 
-		if(currentState == InIntl) {
-			if(_findSemicolon(line,pos))
-				currentState = InIntlSemicolon;
-		}
-
-		if(currentState == InIntlSemicolon) {
-			if(_findStartBlock(line,pos))
-				currentState = InIntlBlock;
-		}
-
-		if(currentState == InIntlBlock) {
-			if(_findAcceptedKey(line,pos))
-				currentState = InAcceptedKey;
-		}
-		
-		if(currentState == InAcceptedKey) {
-			if(_findSemicolon(line,pos))
-				currentState = InAcceptedSemicolon;
-		}
-
-		if(currentState == InAcceptedSemicolon) {
-			if(_findLanguageString(line,pos,langcode))
+		if(currentState == SchemaFound) {
+			if (_readPropertyValue(line, L"\"accept_languages\"", pos, langcode)) {
 				isLanguageFound = true;
+			}
 		}
 
 		pos = wstring::npos;
@@ -257,38 +240,18 @@ bool ChromeProfile::WriteUILocale()
 	while (!(getline(reader,line)).eof())
 	{
 		if(currentState == NoState) {
-			if(_findIntl(line,pos))
-				currentState = InIntl;
+			if(_readSchema(line,pos))
+				currentState = SchemaFound;
 		}
 
-		if(currentState == InIntl) {
-			if(_findSemicolon(line,pos))
-				currentState = InIntlSemicolon;
-		}
-
-		if(currentState == InIntlSemicolon) {
-			if(_findStartBlock(line,pos))
-				currentState = InIntlBlock;
-		}
-
-		if(currentState == InIntlBlock) {
-			if(_findAppLocaleKey(line,pos))
-				currentState = InAppLocaleKey;
-		}
-		
-		if(currentState == InAppLocaleKey) {
-			if(_findSemicolon(line,pos))
-				currentState = InAppLocaleSemicolon;
-		}
-
-		if(currentState == InAppLocaleSemicolon) {
-			if(_findLanguageString(line,pos,oldLang)) {
+		if(currentState == SchemaFound) {
+			if (_readPropertyValue(line, L"\"app_locale\"", pos, oldLang)) {				
 				currentState = EndParsing;
 				line.replace(pos,oldLang.length(),CHROME_LANGUAGECODE);
 				languageWrittenSuccessfully = true;
-			}
+			}		
 		}
-
+		
 		pos = wstring::npos;
 		writer << lastLine << L"\n";
 		lastLine = line;
@@ -341,32 +304,12 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 	while(!(getline(reader,line)).eof())
 	{
 		if(currentState == NoState) {
-			if(_findIntl(line,pos))
-				currentState = InIntl;
+			if(_readSchema(line,pos))
+				currentState = SchemaFound;
 		}
 
-		if(currentState == InIntl) {
-			if(_findSemicolon(line,pos))
-				currentState = InIntlSemicolon;
-		}
-
-		if(currentState == InIntlSemicolon) {
-			if(_findStartBlock(line,pos))
-				currentState = InIntlBlock;
-		}
-
-		if(currentState == InIntlBlock) {
-			if(_findAcceptedKey(line,pos))
-				currentState = InAcceptedKey;
-		}
-		
-		if(currentState == InAcceptedKey) {
-			if(_findSemicolon(line,pos))
-				currentState = InAcceptedSemicolon;
-		}
-
-		if(currentState == InAcceptedSemicolon) {
-			if(_findLanguageString(line,pos,oldLang)) {
+		if(currentState == SchemaFound) {
+			if (_readPropertyValue(line, L"\"accept_languages\"", pos, oldLang)) {
 				currentState = EndParsing;
 				line.replace(pos,oldLang.length(),langcode);
 				languageWrittenSuccessfully = true;
@@ -374,7 +317,6 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 		}
 
 		pos = wstring::npos;
-
 		writer << lastLine << L"\n";
 		lastLine = line;
 	}

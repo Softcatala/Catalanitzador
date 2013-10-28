@@ -50,13 +50,12 @@ private:
 	bool _findIntl(wstring,int&);
 	bool _findSemicolon(wstring,int&);
 	bool _findStartBlock(wstring,int&);
-	bool _findAcceptedKey(wstring,int&);
-	bool _findAcceptedValue(wstring,int&);
-	bool _findLanguageString(wstring,int &,wstring &);
-	bool _findAppLocaleKey(wstring line, int & pos);
+	bool _findLanguageString(wstring,int &,wstring &);	
+	bool _findProperty(wstring line, wstring key, int & pos);
+	bool _readSchema(wstring line, int & pos);
+	bool _readPropertyValue(wstring line, wstring key, int& pos, wstring& value);
 
-	void _getFirstLanguage(wstring& regvalue);
-	
+	void _getFirstLanguage(wstring& regvalue);	
 	bool _writeAcceptLanguageCode(wstring langcode);
 	
 	wstring m_installLocation;
