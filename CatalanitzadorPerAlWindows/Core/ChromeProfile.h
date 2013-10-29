@@ -24,6 +24,24 @@
 
 using namespace std;
 
+class AcceptLanguagePropertyValue
+{
+
+public:
+
+	AcceptLanguagePropertyValue(wstring value);
+	wstring GetWithCatalanAdded();
+	wstring GetFirstLanguage();
+
+private:
+
+	wstring _createJSONString(vector<wstring> languages);
+	void _addCatalanToArrayAndRemoveOldIfExists(vector<wstring>& languages);
+	vector<wstring> _getLanguagesFromAcceptString(wstring value);
+
+	wstring value;
+};
+
 class ChromeProfile
 {
 public:
@@ -33,19 +51,23 @@ public:
 	virtual bool IsUiLocaleOk();
 
 	virtual bool IsAcceptLanguagesOk();
-	bool UpdateAcceptLanguages();
+	void SetAcceptLanguages();
 	bool ReadAcceptLanguages(wstring& langcode);
+
+	bool IsSpellCheckerLanguageOk();
+	void SetSpellCheckerLanguage();
+	bool WriteSpellAndAcceptLanguages();
 
 	void SetPath(wstring);
 	
 protected:
-	void ParseLanguage(wstring regvalue);
-	void CreateJSONString(wstring &regvalue);
-	void AddCatalanToArrayAndRemoveOldIfExists();
+
 	virtual wstring GetUIRelPathAndFile() { return L"/../User Data/Local State"; }
 	virtual wstring GetPreferencesRelPathAndFile() { return L"/../User Data/Default/Preferences"; }
 
 private: 		
+
+	vector<wstring> _getLanguagesFromAcceptString(wstring value);
 
 	bool _findIntl(wstring,int&);
 	bool _findSemicolon(wstring,int&);
@@ -54,10 +76,15 @@ private:
 	bool _findProperty(wstring line, wstring key, int & pos);
 	bool _readSchema(wstring line, int & pos);
 	bool _readPropertyValue(wstring line, wstring key, int& pos, wstring& value);
+	void _getFirstLanguage(wstring& regvalue);
 
-	void _getFirstLanguage(wstring& regvalue);	
-	bool _writeAcceptLanguageCode(wstring langcode);
+	void _readAcceptAndSpellLanguagesFromPreferences();
 	
-	wstring m_installLocation;
-	vector<wstring> m_languages;
+	wstring m_installLocation;	
+	wstring m_spellLanguageToSet;
+	bool m_setCatalanLanguage;
+
+	wstring m_prefCacheAcceptLanguage;
+	wstring m_prefCacheSpellLanguage;	
+	bool m_prefCacheIsValid;
 };

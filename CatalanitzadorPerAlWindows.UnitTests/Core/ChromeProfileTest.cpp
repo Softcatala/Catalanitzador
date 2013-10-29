@@ -83,7 +83,7 @@ TEST(ChomeProfileTest, None_SetPath)
 
 	EXPECT_FALSE(chromeProfile.IsUiLocaleOk());
 	EXPECT_FALSE(chromeProfile.ReadAcceptLanguages(langcode));
-	EXPECT_FALSE(chromeProfile.UpdateAcceptLanguages());
+	EXPECT_FALSE(chromeProfile.WriteSpellAndAcceptLanguages());
 	EXPECT_FALSE(chromeProfile.WriteUILocale());
 }
 
@@ -170,7 +170,7 @@ TEST(ChomeProfileTest, WriteUILocale)
 	EXPECT_TRUE(chromeProfile.IsUiLocaleOk());	
 }
 
-TEST(ChomeProfileTest, NoPrevLanguage_UpdateAcceptLanguages)
+TEST(ChomeProfileTest, NoPrevLanguage_SetAcceptLanguages)
 {
 	wstring location, langcode;
 	ChomeProfileTest chromeProfile;
@@ -184,12 +184,13 @@ TEST(ChomeProfileTest, NoPrevLanguage_UpdateAcceptLanguages)
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
 	chromeProfile.SetPreferencesRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
 
-	chromeProfile.UpdateAcceptLanguages();
+	chromeProfile.SetAcceptLanguages();
+	chromeProfile.WriteSpellAndAcceptLanguages();
 	chromeProfile.ReadAcceptLanguages(langcode);
 	EXPECT_THAT(langcode, StrCaseEq(L"ca"));
 }
 
-TEST(ChomeProfileTest, PrevLanguage_UpdateAcceptLanguages)
+TEST(ChomeProfileTest, PrevLanguage_SetAcceptLanguages)
 {
 	wstring location, langcode;
 	ChomeProfileTest chromeProfile;
@@ -203,9 +204,10 @@ TEST(ChomeProfileTest, PrevLanguage_UpdateAcceptLanguages)
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
 	chromeProfile.SetPreferencesRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
 
-	chromeProfile.UpdateAcceptLanguages();
+	chromeProfile.SetAcceptLanguages();
+	chromeProfile.WriteSpellAndAcceptLanguages();
 	chromeProfile.ReadAcceptLanguages(langcode);
-	EXPECT_THAT(langcode, StrCaseEq(L"ca"));
+	EXPECT_THAT(langcode, StrCaseEq(L"ca,es,de,br"));
 }
 
 TEST(ChomeProfileTest, NoAcceptLangLocaleCa_IsAcceptLanguagesOk)

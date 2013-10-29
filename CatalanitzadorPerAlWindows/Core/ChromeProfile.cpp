@@ -24,10 +24,12 @@
 enum JSONChromeState { NoState, SchemaFound, EndParsing };
 
 #define CHROME_LANGUAGECODE L"ca"
+#define CHROME_SPELLCHECKER_LANGUAGECODE L"ca"
 
 ChromeProfile::ChromeProfile()
 {
-
+	m_prefCacheIsValid = false;
+	m_setCatalanLanguage = false;
 }
 
 void ChromeProfile::SetPath(wstring newPath)
@@ -173,17 +175,31 @@ bool ChromeProfile::IsUiLocaleOk()
 }
 
 bool ChromeProfile::ReadAcceptLanguages(wstring& langcode)
+{	
+	_readAcceptAndSpellLanguagesFromPreferences();	
+	langcode = m_prefCacheAcceptLanguage;
+	return m_prefCacheAcceptLanguage.empty() == false;
+}
+
+void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 {
+	if (m_prefCacheIsValid == true)
+		return;
+
 	bool isLanguageFound = false;
 	wifstream reader;
 	wstring path = m_installLocation + GetPreferencesRelPathAndFile();
 	
+	m_prefCacheAcceptLanguage.erase();
+	m_prefCacheSpellLanguage.erase();
+	m_prefCacheIsValid = true;
+
 	reader.open(path.c_str());
 
 	if (reader.is_open() == false)
 	{
 		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
-		return isLanguageFound;
+		return;
 	}
 
 	int currentState = NoState;
@@ -198,16 +214,13 @@ bool ChromeProfile::ReadAcceptLanguages(wstring& langcode)
 		}
 
 		if(currentState == SchemaFound) {
-			if (_readPropertyValue(line, L"\"accept_languages\"", pos, langcode)) {
-				isLanguageFound = true;
-			}
+			_readPropertyValue(line, L"\"accept_languages\"", pos, m_prefCacheAcceptLanguage);			
 		}
 
 		pos = wstring::npos;
 	}
 
 	reader.close();
-	return isLanguageFound;
 }
 
 bool ChromeProfile::WriteUILocale()
@@ -273,7 +286,8 @@ bool ChromeProfile::WriteUILocale()
 	return languageWrittenSuccessfully;
 }
 
-bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
+
+bool ChromeProfile::WriteSpellAndAcceptLanguages()
 {	
 	bool languageWrittenSuccessfully = false;	
 	wifstream reader;
@@ -284,23 +298,23 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 	reader.open(pathr.c_str());
 	if (reader.is_open() == false)
 	{
-		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for reading %s", (wchar_t*) pathr.c_str());
+		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", (wchar_t*) pathr.c_str());
 		return languageWrittenSuccessfully;
 	}
 
 	writer.open(pathw.c_str());
 	if (writer.is_open() == false)
 	{
-		g_log.Log(L"ChromeProfile::_writeAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) pathw.c_str());
+		g_log.Log(L"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) pathw.c_str());
 		reader.close();
 		return languageWrittenSuccessfully;
 	}
-	
-	int currentState = NoState;
-	
-	int pos = 0;
-	wstring oldLang, line, lastLine;		
 
+	m_prefCacheIsValid = false;
+
+	int currentState = NoState, pos = 0;
+	wstring oldLang, line, lastLine;
+	
 	while(!(getline(reader,line)).eof())
 	{
 		if(currentState == NoState) {
@@ -311,8 +325,15 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 		if(currentState == SchemaFound) {
 			if (_readPropertyValue(line, L"\"accept_languages\"", pos, oldLang)) {
 				currentState = EndParsing;
-				line.replace(pos,oldLang.length(),langcode);
-				languageWrittenSuccessfully = true;
+
+				if (m_setCatalanLanguage)
+				{					
+					AcceptLanguagePropertyValue propertyValue(oldLang);					
+					wstring newLang = propertyValue.GetWithCatalanAdded();
+
+					line.replace(pos,oldLang.length(), newLang);
+					languageWrittenSuccessfully = true;
+				}				
 			}
 		}
 
@@ -321,7 +342,7 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 		lastLine = line;
 	}
 	
-	if(!languageWrittenSuccessfully) {
+	if (m_setCatalanLanguage && !languageWrittenSuccessfully) {
 		writer << "\t,\"intl\":{\"accept_languages\":\"ca\"}\n";
 		languageWrittenSuccessfully = true;
 	}
@@ -337,86 +358,9 @@ bool ChromeProfile::_writeAcceptLanguageCode(wstring langcode)
 	return languageWrittenSuccessfully;
 }
 
-void ChromeProfile::_getFirstLanguage(wstring& jsonvalue)
+void ChromeProfile::SetAcceptLanguages()
 {
-	if(m_languages.size() > 0)
-		jsonvalue = m_languages[0];
-
-	return;
-}
-
-void ChromeProfile::AddCatalanToArrayAndRemoveOldIfExists()
-{	
-	wstring regvalue;
-	vector <wstring>languages;
-	vector<wstring>::iterator it;
-
-	// Delete previous occurrences of Catalan locale that were not first
-	for (it = m_languages.begin(); it != m_languages.end(); ++it)
-	{
-		wstring element = *it;
-		std::transform(element.begin(), element.end(), element.begin(), ::tolower);
-
-		if (element.compare(L"ca") == 0)
-		{
-			m_languages.erase(it);
-			break;
-		}
-	}
-
-	wstring str(L"ca");
-	it = m_languages.begin();
-	m_languages.insert(it, str);
-}
-
-bool ChromeProfile::UpdateAcceptLanguages()
-{
-	wstring langCode;
-		
-	AddCatalanToArrayAndRemoveOldIfExists();
-	CreateJSONString(langCode);
-	return _writeAcceptLanguageCode(langCode);
-}
-
-void ChromeProfile::CreateJSONString(wstring &jsonvalue)
-{
-	int languages = m_languages.size();	
-	
-	if (languages == 1)
-	{
-		jsonvalue = m_languages.at(0);
-		return;
-	}
-
-	jsonvalue = m_languages.at(0);
-		
-	for (int i = 1; i < languages; i++)
-	{
-		jsonvalue += L"," + m_languages.at(i);
-	}
-}
-
-void ChromeProfile::ParseLanguage(wstring value)
-{
-	wstring language;
-
-	m_languages.clear();
-	
-	for (unsigned int i = 0; i < value.size (); i++)
-	{
-		if (value[i] == L',')
-		{
-			m_languages.push_back(language);
-			language.clear();
-		} else {
-			language += value[i];
-		}
-	}
-
-	if (language.empty() == false)
-	{
-		m_languages.push_back(language);
-	}
+	m_setCatalanLanguage = true;
 }
 
 bool ChromeProfile::IsAcceptLanguagesOk() 
@@ -428,8 +372,8 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 
 	if(acceptLanguagesFound)
 	{
-		ParseLanguage(langcode);
-		_getFirstLanguage(firstlang);
+		AcceptLanguagePropertyValue propertyValue(langcode);
+		firstlang = propertyValue.GetFirstLanguage();
 		
 		if(firstlang.compare(CHROME_LANGUAGECODE) == 0) 
 		{
@@ -443,4 +387,123 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 	}	
 
 	return false;
+}
+
+bool ChromeProfile::IsSpellCheckerLanguageOk() 
+{
+	_readAcceptAndSpellLanguagesFromPreferences();
+
+	if (m_prefCacheSpellLanguage.empty() == false)
+	{
+		if (m_prefCacheSpellLanguage.compare(CHROME_SPELLCHECKER_LANGUAGECODE) == 0)
+		{
+			return true;
+		}
+	}
+	else
+	{
+		if(IsUiLocaleOk())
+			return true;
+	}
+
+	return false;
+}
+
+void ChromeProfile::SetSpellCheckerLanguage()
+{
+	m_spellLanguageToSet = CHROME_SPELLCHECKER_LANGUAGECODE;
+}
+
+//
+// AcceptLanguagePropertyValue
+// 
+
+AcceptLanguagePropertyValue::AcceptLanguagePropertyValue(wstring _value)
+{
+	value = _value;
+}
+
+wstring AcceptLanguagePropertyValue::GetWithCatalanAdded()
+{
+	vector<wstring> languages;
+	
+	languages = _getLanguagesFromAcceptString(value);
+	_addCatalanToArrayAndRemoveOldIfExists(languages);
+	return _createJSONString(languages);
+}
+
+wstring AcceptLanguagePropertyValue::_createJSONString(vector<wstring> languages)
+{	
+	if (languages.size() == 1)
+	{
+		return languages.at(0);
+	}
+
+	wstring jsonvalue;
+	jsonvalue = languages.at(0);
+		
+	for (unsigned int i = 1; i < languages.size(); i++)
+	{
+		jsonvalue += L"," + languages.at(i);
+	}
+	return jsonvalue;
+}
+
+vector<wstring> AcceptLanguagePropertyValue::_getLanguagesFromAcceptString(wstring value)
+{
+	wstring language;
+	vector<wstring> languages;	
+	
+	for (unsigned int i = 0; i < value.size (); i++)
+	{
+		if (value[i] == L',')
+		{
+			languages.push_back(language);
+			language.clear();
+		} else {
+			language += value[i];
+		}
+	}
+
+	if (language.empty() == false)
+	{
+		languages.push_back(language);
+	}
+	return languages;
+}
+
+wstring AcceptLanguagePropertyValue::GetFirstLanguage()
+{
+	wstring jsonvalue;
+	vector<wstring> languages;
+
+	languages = _getLanguagesFromAcceptString(value);
+
+	if(languages.size() > 0)
+		jsonvalue = languages[0];	
+
+	return jsonvalue;
+}
+
+void AcceptLanguagePropertyValue::_addCatalanToArrayAndRemoveOldIfExists(vector<wstring>& languages)
+{	
+	wstring regvalue;	
+	vector<wstring>::iterator it;
+
+	// Delete previous occurrences of Catalan locale that were not first
+	for (it = languages.begin(); it != languages.end(); ++it)
+	{
+		wstring element = *it;
+		std::transform(element.begin(), element.end(), element.begin(), ::tolower);
+
+		if (element.compare(L"ca") == 0)
+		{
+			languages.erase(it);
+			break;
+		}
+	}
+
+	wstring str(L"ca");
+	it = languages.begin();
+	languages.insert(it, str);
 }

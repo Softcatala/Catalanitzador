@@ -100,7 +100,8 @@ void ChromeAction::Execute()
 	}
 
 	SetStatus(InProgress);
-	acceptLanguageStatus = m_chromeProfile->UpdateAcceptLanguages();
+	m_chromeProfile->SetAcceptLanguages();
+	acceptLanguageStatus = m_chromeProfile->WriteSpellAndAcceptLanguages();
 
 	if(uiStatus && acceptLanguageStatus) {
 		SetStatus(Successful);
