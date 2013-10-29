@@ -26,10 +26,13 @@ enum JSONChromeState { NoState, SchemaFound, EndParsing };
 #define CHROME_LANGUAGECODE L"ca"
 #define CHROME_SPELLCHECKER_LANGUAGECODE L"ca"
 
+#define INTL_SCHEMA_NAME L"\"intl\""
+
 ChromeProfile::ChromeProfile()
 {
 	m_prefCacheIsValid = false;
-	m_setCatalanLanguage = false;
+	m_setCatalanAsAcceptLanguage = false;
+	m_setCatalanAsSpellLanguage = false;
 }
 
 void ChromeProfile::SetPath(wstring newPath)
@@ -37,20 +40,13 @@ void ChromeProfile::SetPath(wstring newPath)
 	m_installLocation = newPath;
 }
 
-bool ChromeProfile::_findIntl(wstring line, int & pos)
+bool ChromeProfile::_readSchema(wstring key, wstring line, int& pos)
 {
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L"\"intl\"",pos);
+	if (pos == wstring::npos) pos = 0;
 
-	return pos != wstring::npos;
-}
+	pos = line.find(key, pos);
 
-bool ChromeProfile::_readSchema(wstring line, int& pos)
-{
-	int currentState = NoState;
-
-	if (_findIntl(line,pos))
+	if ( pos != wstring::npos)
 	{
 		if (_findSemicolon(line,pos))
 		{
@@ -62,7 +58,6 @@ bool ChromeProfile::_readSchema(wstring line, int& pos)
 	}
 	return false;
 }
-
 
 bool ChromeProfile::_findSemicolon(wstring line, int & pos)
 {
@@ -158,7 +153,7 @@ bool ChromeProfile::IsUiLocaleOk()
 	while(!(getline(reader,line)).eof())
 	{
 		if(currentState == NoState) {
-			if(_readSchema(line,pos))
+			if(_readSchema(INTL_SCHEMA_NAME, line,pos))
 				currentState = SchemaFound;
 		}
 
@@ -185,8 +180,7 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 {
 	if (m_prefCacheIsValid == true)
 		return;
-
-	bool isLanguageFound = false;
+	
 	wifstream reader;
 	wstring path = m_installLocation + GetPreferencesRelPathAndFile();
 	
@@ -201,21 +195,21 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
 		return;
 	}
-
-	int currentState = NoState;
+	
 	int pos = 0;
-	wstring line;	
+	wstring line;
+	bool acceptLanguagesRead = false;
+	bool spellLanguageRead = false;
 
-	while(!(getline(reader,line)).eof() && !isLanguageFound)
+	while(!(getline(reader,line)).eof())
 	{
-		if(currentState == NoState) {
-			if(_readSchema(line,pos))
-				currentState = SchemaFound;
-		}
+		// We are try to read two properties from differents schemas
+		// Since we do have a real parser. We do not know when a schema starts or ends
+		if (acceptLanguagesRead == false && _readPropertyValue(line, L"\"accept_languages\"", pos, m_prefCacheAcceptLanguage))
+			acceptLanguagesRead = true;
 
-		if(currentState == SchemaFound) {
-			_readPropertyValue(line, L"\"accept_languages\"", pos, m_prefCacheAcceptLanguage);			
-		}
+		if (spellLanguageRead == false && _readPropertyValue(line, L"\"dictionary\"", pos, m_prefCacheSpellLanguage))
+			spellLanguageRead = true;
 
 		pos = wstring::npos;
 	}
@@ -253,7 +247,7 @@ bool ChromeProfile::WriteUILocale()
 	while (!(getline(reader,line)).eof())
 	{
 		if(currentState == NoState) {
-			if(_readSchema(line,pos))
+			if(_readSchema(INTL_SCHEMA_NAME, line,pos))
 				currentState = SchemaFound;
 		}
 
@@ -289,7 +283,6 @@ bool ChromeProfile::WriteUILocale()
 
 bool ChromeProfile::WriteSpellAndAcceptLanguages()
 {	
-	bool languageWrittenSuccessfully = false;	
 	wifstream reader;
 	wofstream writer;
 	wstring pathr = m_installLocation + GetPreferencesRelPathAndFile();
@@ -299,7 +292,7 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 	if (reader.is_open() == false)
 	{
 		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", (wchar_t*) pathr.c_str());
-		return languageWrittenSuccessfully;
+		return false;
 	}
 
 	writer.open(pathw.c_str());
@@ -307,33 +300,40 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 	{
 		g_log.Log(L"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) pathw.c_str());
 		reader.close();
-		return languageWrittenSuccessfully;
+		return false;
 	}
 
 	m_prefCacheIsValid = false;
 
 	int currentState = NoState, pos = 0;
 	wstring oldLang, line, lastLine;
+	bool acceptLanguagesDone = false;
+	bool spellLanguageDone = false;
 	
-	while(!(getline(reader,line)).eof())
+	while (!(getline(reader,line)).eof())
 	{
-		if(currentState == NoState) {
-			if(_readSchema(line,pos))
-				currentState = SchemaFound;
+		// We are try to read two properties from differents schemas
+		// Since we do have a real parser. We do not know when a schema starts or ends		
+		if (acceptLanguagesDone == false && _readPropertyValue(line, L"\"accept_languages\"", pos, oldLang))
+		{
+			acceptLanguagesDone = true;
+
+			if (m_setCatalanAsAcceptLanguage)
+			{
+				AcceptLanguagePropertyValue propertyValue(oldLang);
+				wstring newLang = propertyValue.GetWithCatalanAdded();
+
+				line.replace(pos,oldLang.length(), newLang);
+			}
 		}
 
-		if(currentState == SchemaFound) {
-			if (_readPropertyValue(line, L"\"accept_languages\"", pos, oldLang)) {
-				currentState = EndParsing;
+		if (spellLanguageDone == false && _readPropertyValue(line, L"\"dictionary\"", pos, oldLang))
+		{
+			spellLanguageDone = true;
 
-				if (m_setCatalanLanguage)
-				{					
-					AcceptLanguagePropertyValue propertyValue(oldLang);					
-					wstring newLang = propertyValue.GetWithCatalanAdded();
-
-					line.replace(pos,oldLang.length(), newLang);
-					languageWrittenSuccessfully = true;
-				}				
+			if (m_setCatalanAsSpellLanguage)
+			{
+				line.replace(pos,oldLang.length(), CHROME_SPELLCHECKER_LANGUAGECODE);
 			}
 		}
 
@@ -342,25 +342,30 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 		lastLine = line;
 	}
 	
-	if (m_setCatalanLanguage && !languageWrittenSuccessfully) {
+	if (m_setCatalanAsAcceptLanguage && !acceptLanguagesDone) {
 		writer << "\t,\"intl\":{\"accept_languages\":\"ca\"}\n";
-		languageWrittenSuccessfully = true;
+		acceptLanguagesDone = true;
+	}
+
+	if (m_setCatalanAsSpellLanguage && !spellLanguageDone) {
+		writer << "\t,\"spellcheck\":{\"dictionary\":\"ca\"}\n";
+		spellLanguageDone = true;
 	}
 
 	writer << lastLine << L"\n";
 	reader.close();
 	writer.close();
 	
-	if(languageWrittenSuccessfully) {
-		languageWrittenSuccessfully = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
+	if (acceptLanguagesDone|| spellLanguageDone) {
+		return MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
 	}
 
-	return languageWrittenSuccessfully;
+	return true;
 }
 
-void ChromeProfile::SetAcceptLanguages()
+void ChromeProfile::SetCatalanAsAcceptLanguages()
 {
-	m_setCatalanLanguage = true;
+	m_setCatalanAsAcceptLanguage = true;
 }
 
 bool ChromeProfile::IsAcceptLanguagesOk() 
@@ -409,9 +414,9 @@ bool ChromeProfile::IsSpellCheckerLanguageOk()
 	return false;
 }
 
-void ChromeProfile::SetSpellCheckerLanguage()
+void ChromeProfile::SetCatalanAsSpellCheckerLanguage()
 {
-	m_spellLanguageToSet = CHROME_SPELLCHECKER_LANGUAGECODE;
+	m_setCatalanAsSpellLanguage = true;	
 }
 
 //

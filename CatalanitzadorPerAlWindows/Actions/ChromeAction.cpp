@@ -100,7 +100,7 @@ void ChromeAction::Execute()
 	}
 
 	SetStatus(InProgress);
-	m_chromeProfile->SetAcceptLanguages();
+	m_chromeProfile->SetCatalanAsAcceptLanguages();
 	acceptLanguageStatus = m_chromeProfile->WriteSpellAndAcceptLanguages();
 
 	if(uiStatus && acceptLanguageStatus) {

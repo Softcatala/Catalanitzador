@@ -2277,7 +2277,7 @@
       "restore_on_startup_migrated": true
    },
    "spellcheck": {
-      "dictionary": "es"
+      "dictionary": "ca"
    },
    "sync_promo": {
       "startup_count": 10,

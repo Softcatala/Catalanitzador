@@ -184,7 +184,7 @@ TEST(ChomeProfileTest, NoPrevLanguage_SetAcceptLanguages)
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
 	chromeProfile.SetPreferencesRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
 
-	chromeProfile.SetAcceptLanguages();
+	chromeProfile.SetCatalanAsAcceptLanguages();
 	chromeProfile.WriteSpellAndAcceptLanguages();
 	chromeProfile.ReadAcceptLanguages(langcode);
 	EXPECT_THAT(langcode, StrCaseEq(L"ca"));
@@ -204,7 +204,7 @@ TEST(ChomeProfileTest, PrevLanguage_SetAcceptLanguages)
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
 	chromeProfile.SetPreferencesRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
 
-	chromeProfile.SetAcceptLanguages();
+	chromeProfile.SetCatalanAsAcceptLanguages();
 	chromeProfile.WriteSpellAndAcceptLanguages();
 	chromeProfile.ReadAcceptLanguages(langcode);
 	EXPECT_THAT(langcode, StrCaseEq(L"ca,es,de,br"));
@@ -263,4 +263,42 @@ TEST(ChomeProfileTest, CaAcceptLangLocaleNonFirst_IsAcceptLanguagesOk)
 	location += L"Chrome\\SpanishUI_AcceptLanguage_es_ca\\User Data\\";
 	chromeProfile.SetPath(location);	
 	EXPECT_FALSE(chromeProfile.IsAcceptLanguagesOk());
+}
+
+TEST(ChomeProfileTest, CaSpellChecker_IsSpellCheckerLanguageOk)
+{
+	wstring location;
+	ChomeProfileTest chromeProfile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\SpanishUI_AcceptLanguage_ca\\User Data\\";
+	chromeProfile.SetPath(location);
+
+	EXPECT_TRUE(chromeProfile.IsSpellCheckerLanguageOk());
+}
+
+TEST(ChomeProfileTest, EsSpellChecker_IsSpellCheckerLanguageOk)
+{
+	wstring location;
+	ChomeProfileTest chromeProfile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\SpanishUI_AcceptLanguage_es_ca\\User Data\\";
+	chromeProfile.SetPath(location);
+
+	EXPECT_FALSE(chromeProfile.IsSpellCheckerLanguageOk());
+}
+
+TEST(ChomeProfileTest, EsSpellChecker_SetCatalanAsSpellCheckerLanguage)
+{
+	wstring location;
+	ChomeProfileTest chromeProfile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\SpanishUI_AcceptLanguage_es_ca\\User Data\\";
+	chromeProfile.SetPath(location);
+	chromeProfile.SetCatalanAsSpellCheckerLanguage();
+	chromeProfile.WriteSpellAndAcceptLanguages();	
+
+	EXPECT_TRUE(chromeProfile.IsSpellCheckerLanguageOk());
 }
