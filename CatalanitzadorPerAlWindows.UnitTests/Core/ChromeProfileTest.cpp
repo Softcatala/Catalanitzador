@@ -293,12 +293,18 @@ TEST(ChomeProfileTest, EsSpellChecker_SetCatalanAsSpellCheckerLanguage)
 {
 	wstring location;
 	ChomeProfileTest chromeProfile;
+	TempFile tempFile;
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\SpanishUI_AcceptLanguage_es_ca\\User Data\\";
-	chromeProfile.SetPath(location);
+	location += L"/../User Data/Default/Preferences";
+	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
+
+	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
+	chromeProfile.SetPreferencesRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
+
 	chromeProfile.SetCatalanAsSpellCheckerLanguage();
-	chromeProfile.WriteSpellAndAcceptLanguages();	
+	chromeProfile.WriteSpellAndAcceptLanguages();
 
 	EXPECT_TRUE(chromeProfile.IsSpellCheckerLanguageOk());
 }

@@ -92,20 +92,28 @@ bool ChromeAction::IsNeed()
 
 void ChromeAction::Execute()
 {
-	bool uiStatus = m_chromeProfile->IsUiLocaleOk();
-	bool acceptLanguageStatus;
+	SetStatus(InProgress);
 
-	if(!uiStatus) {
-		uiStatus = m_chromeProfile->WriteUILocale();
+	if (m_chromeProfile->IsUiLocaleOk() == false) {
+		m_chromeProfile->WriteUILocale();
 	}
 
-	SetStatus(InProgress);
-	m_chromeProfile->SetCatalanAsAcceptLanguages();
-	acceptLanguageStatus = m_chromeProfile->WriteSpellAndAcceptLanguages();
+	if (m_chromeProfile->IsAcceptLanguagesOk() == false) {
+		m_chromeProfile->SetCatalanAsAcceptLanguages();
+	}
 
-	if(uiStatus && acceptLanguageStatus) {
+	if (m_chromeProfile->IsSpellCheckerLanguageOk() == false) {
+		m_chromeProfile->SetCatalanAsSpellCheckerLanguage();
+	}
+
+	m_chromeProfile->WriteSpellAndAcceptLanguages();
+	
+	if (m_chromeProfile->IsUiLocaleOk() && m_chromeProfile->IsAcceptLanguagesOk() && m_chromeProfile->IsSpellCheckerLanguageOk()) 
+	{
 		SetStatus(Successful);
-	} else {
+	} 
+	else 
+	{
 		SetStatus(FinishedWithError);
 	}
 	g_log.Log(L"ChromeAction::Execute returns %s", status == Successful ? L"Successful" : L"FinishedWithError");
@@ -233,7 +241,7 @@ const wchar_t* ChromeAction::GetVersion()
 
 void ChromeAction::CheckPrerequirements(Action * action)
 {	
-	bool acceptLanguagesOk, localeOk;
+	bool acceptLanguagesOk, localeOk, spellCheckLanguageOk;
 	wstring langcode, firstlang;
 	
 	if (_isInstalled())
@@ -242,8 +250,9 @@ void ChromeAction::CheckPrerequirements(Action * action)
 		
 		acceptLanguagesOk = m_chromeProfile->IsAcceptLanguagesOk();
 		localeOk = m_chromeProfile->IsUiLocaleOk();
+		spellCheckLanguageOk = m_chromeProfile->IsSpellCheckerLanguageOk();
 
-		if(acceptLanguagesOk && localeOk)
+		if(acceptLanguagesOk && localeOk && spellCheckLanguageOk)
 		{
 			SetStatus(AlreadyApplied);
 		}
