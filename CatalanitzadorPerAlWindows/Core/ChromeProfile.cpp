@@ -138,8 +138,8 @@ bool ChromeProfile::IsUiLocaleOk()
 {	
 	wifstream reader;
 	wstring path = m_installLocation + GetUIRelPathAndFile();
+	
 	reader.open(path.c_str());
-
 	if (reader.is_open() == false)
 	{
 		g_log.Log(L"ChromeProfile::IsUiLocaleOk. Cannot open for reading %s", (wchar_t*) path.c_str());
@@ -148,7 +148,8 @@ bool ChromeProfile::IsUiLocaleOk()
 
 	int currentState = NoState;
 	int pos = 0;
-	wstring line, langcode;	
+	wstring line, langcode;
+	bool rslt;
 
 	while(!(getline(reader,line)).eof())
 	{
@@ -166,7 +167,9 @@ bool ChromeProfile::IsUiLocaleOk()
 		pos = wstring::npos;
 	}	
 
-	return langcode.compare(CHROME_LANGUAGECODE) == 0;
+	rslt = langcode.compare(CHROME_LANGUAGECODE) == 0;
+	g_log.Log(L"ChromeProfile::IsUiLocaleOk: %u", (wchar_t*) rslt);
+	return rslt;
 }
 
 bool ChromeProfile::ReadAcceptLanguages(wstring& langcode)
@@ -280,7 +283,6 @@ bool ChromeProfile::WriteUILocale()
 	return languageWrittenSuccessfully;
 }
 
-
 bool ChromeProfile::WriteSpellAndAcceptLanguages()
 {	
 	wifstream reader;
@@ -370,9 +372,10 @@ void ChromeProfile::SetCatalanAsAcceptLanguages()
 
 bool ChromeProfile::IsAcceptLanguagesOk() 
 {
-	bool acceptLanguagesFound;
+	bool acceptLanguagesFound, bRslt;
 	wstring langcode, firstlang;
 
+	bRslt = false;
 	acceptLanguagesFound = ReadAcceptLanguages(langcode);	
 
 	if(acceptLanguagesFound)
@@ -382,36 +385,40 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 		
 		if(firstlang.compare(CHROME_LANGUAGECODE) == 0) 
 		{
-			return true;
+			bRslt = true;
 		}
 	}
 	else
 	{
 		if(IsUiLocaleOk())
-			return true;
+			bRslt = true;
 	}	
 
-	return false;
+	g_log.Log(L"ChromeProfile::IsAcceptLanguagesOk: %u", (wchar_t*) bRslt);
+	return bRslt;
 }
 
 bool ChromeProfile::IsSpellCheckerLanguageOk() 
 {
+	bool bRslt = false;
+
 	_readAcceptAndSpellLanguagesFromPreferences();
 
 	if (m_prefCacheSpellLanguage.empty() == false)
 	{
 		if (m_prefCacheSpellLanguage.compare(CHROME_SPELLCHECKER_LANGUAGECODE) == 0)
 		{
-			return true;
+			bRslt = true;
 		}
 	}
 	else
 	{
 		if(IsUiLocaleOk())
-			return true;
+			bRslt = true;
 	}
 
-	return false;
+	g_log.Log(L"ChromeProfile::IsSpellCheckerLanguageOk: %u", (wchar_t*) bRslt);
+	return bRslt;
 }
 
 void ChromeProfile::SetCatalanAsSpellCheckerLanguage()
