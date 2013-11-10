@@ -125,7 +125,6 @@ TEST(AdobeReaderActionTest, CheckPrerequirements_NotSelected)
 	SetFileVersion(fileVersionInfoMock, VERSION_STRING, VERSION);
 	skypeAction.CheckPrerequirements(NULL);
 
-	ActionStatus s = skypeAction.GetStatus();
 	EXPECT_FALSE(skypeAction.GetStatus() == CannotBeApplied);
 }
 
@@ -138,8 +137,7 @@ TEST(AdobeReaderActionTest, CheckPrerequirements_CannotBeApplied)
 	_setProgramLocation(registryMockobj, L"None");
 	SetFileVersion(fileVersionInfoMock, VERSION_STRING, VERSION);
 	skypeAction.CheckPrerequirements(NULL);
-
-	ActionStatus s = skypeAction.GetStatus();
+	
 	EXPECT_THAT(skypeAction.GetStatus(), CannotBeApplied);
 }
 

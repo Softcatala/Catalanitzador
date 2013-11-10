@@ -158,10 +158,9 @@ bool Windows8LPIAction::IsDownloadNeed()
 // Checks if the Catalan language pack is already installed
 // This code works if the langpack is installed or has just been installed (and the user did not reboot)
 bool Windows8LPIAction::_isLangPackInstalledForLanguage(wstring langcode)
-{	
+{
 	bool bExists = false;
 	wstring key;
-	OperatingVersion version = m_OSVersion->GetVersion();
 
 	key = L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\";
 	key += langcode;
