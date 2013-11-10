@@ -80,6 +80,8 @@ wchar_t* IELPIAction::_getDownloadID()
 			return _getDownloadIDIE9();
 		case InternetExplorerVersion::IE10:
 			return _getDownloadIDIE10();
+		case InternetExplorerVersion::IE11:
+			return _getDownloadIDIE11();
 		default:
 			break;
 	}
@@ -147,6 +149,25 @@ wchar_t* IELPIAction::_getDownloadIDIE10()
 			else
 			{
 				return L"IE10_7";
+			}
+		default:
+			break;
+	}
+	return NULL;
+}
+
+wchar_t* IELPIAction::_getDownloadIDIE11()
+{
+	switch (m_OSVersion->GetVersion())
+	{		
+		case Windows7:
+			if (m_OSVersion->IsWindows64Bits())
+			{
+				return L"IE11_7_64";
+			}
+			else
+			{
+				return L"IE11_7";
 			}
 		default:
 			break;
@@ -269,6 +290,7 @@ void IELPIAction::Execute()
 		break;
 	case InternetExplorerVersion::IE9:
 	case InternetExplorerVersion::IE10:
+	case InternetExplorerVersion::IE11:
 			GetSystemDirectory(szParams, MAX_PATH);
 			wcscat_s(szParams, L"\\wusa.exe ");
 			wcscat_s(szParams, m_filename);
@@ -363,7 +385,8 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 					return AppliedInWinLPI;
 				}
 				case InternetExplorerVersion::IE9:
-				case InternetExplorerVersion::IE10:					
+				case InternetExplorerVersion::IE10:
+				case InternetExplorerVersion::IE11:
 					if (WindowsLPISelected == false)
 					{
 						return NeedsWinLPI;

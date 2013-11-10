@@ -255,3 +255,49 @@ TEST(IELPIActionTest, CheckPrerequirements_WindowsXP_IE5)
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(lipAction.GetStatus(), CannotBeApplied);
 }
+
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE11_Windows7)
+{
+	CreateIELPIAction;
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	lipAction.SetIEVersion(InternetExplorerVersion::IE11);
+
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
+}
+
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE11_Windows81)
+{
+	CreateIELPIAction;
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
+	lipAction.SetIEVersion(InternetExplorerVersion::IE11);
+
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
+}
+
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE11_Windows7_64bits)
+{
+	CreateIELPIAction;
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	lipAction.SetIEVersion(InternetExplorerVersion::IE11);
+
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::NeedsWinLPI);
+}
+
+TEST(IELPIActionTest, _checkPrerequirementsDependand_IE11_Windows81_64bits)
+{
+	CreateIELPIAction;
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	lipAction.SetIEVersion(InternetExplorerVersion::IE11);
+
+	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
+}
