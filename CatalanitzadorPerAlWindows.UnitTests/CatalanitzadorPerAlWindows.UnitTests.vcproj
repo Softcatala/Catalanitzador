@@ -380,10 +380,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\FirefoxAcceptLanguagesTest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Core\GuidTest.cpp"
 				>
 			</File>
@@ -507,6 +503,14 @@
 					</File>
 				</Filter>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Applications"
+			>
+			<File
+				RelativePath=".\Applications\FirefoxAcceptLanguagesTest.cpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

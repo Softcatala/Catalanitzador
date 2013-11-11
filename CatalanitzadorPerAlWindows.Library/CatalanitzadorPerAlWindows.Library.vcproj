@@ -419,38 +419,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxAcceptLanguages.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxAcceptLanguages.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxChannel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxChannel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxMozillaServer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxMozillaServer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxPreferencesFile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\FirefoxPreferencesFile.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Core\Guid.cpp"
 				>
 			</File>
@@ -958,6 +926,38 @@
 		<Filter
 			Name="Applications"
 			>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxAcceptLanguages.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxAcceptLanguages.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxChannel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxChannel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxMozillaServer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxMozillaServer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxPreferencesFile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxPreferencesFile.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.cpp"
 				>
