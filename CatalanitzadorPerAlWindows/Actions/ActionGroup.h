@@ -25,5 +25,6 @@ enum ActionGroup
 	ActionGroupWindows,
 	ActionGroupInternet,
 	ActionGroupOfficeAutomation,
+	ActionGroupLanguageTools,
 	ActionGroupLast // Keep this always as last element
 };

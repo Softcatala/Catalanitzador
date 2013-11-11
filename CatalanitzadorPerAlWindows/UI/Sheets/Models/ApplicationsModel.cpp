@@ -24,7 +24,7 @@
 #include "WindowsLiveAction.h"
 
 // An index to ActionGroup
-static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_INTERNET, IDS_GROUPNAME_OFFICE};
+static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_INTERNET, IDS_GROUPNAME_OFFICE, IDS_GROUPNAME_OFFICE};
 
 wstring ApplicationsModel::_getGroupName(ActionGroup actionGroup)
 {
