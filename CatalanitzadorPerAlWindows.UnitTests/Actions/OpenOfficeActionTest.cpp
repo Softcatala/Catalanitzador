@@ -76,7 +76,15 @@ void SetOpenOfficeVersion(RegistryMock& registryMockobj, wstring version)
 {
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(OPENOFFICCE_PROGRAM_REGKEY), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(version), Return(true)));
-	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));	
+	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
+}
+
+void SetOpenOffice4Version(RegistryMock& registryMockobj, wstring version)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(OPENOFFICCE_PROGRAM_REGKEY), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(OPENOFFICCE4_PROGRAM_REGKEY), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(version), Return(true)));
+	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
 }
 
 TEST(OpenOfficeActionTest, _readVersionInstalled)
@@ -86,7 +94,17 @@ TEST(OpenOfficeActionTest, _readVersionInstalled)
 	
 	SetOpenOfficeVersion(registryMockobj, OPENOFFICE_VERSION);	
 	openofficeAction._readVersionInstalled();
-	EXPECT_THAT(openofficeAction.GetVersion(), StrCaseEq(OPENOFFICE_VERSION));	
+	EXPECT_THAT(openofficeAction.GetVersion(), StrCaseEq(OPENOFFICE_VERSION));
+}
+
+TEST(OpenOfficeActionTest, _readVersionInstalled_ApacheOpenOffice)
+{
+	const wchar_t* OPENOFFICE_VERSION = L"4.01";
+	CreateOpenOfficeAction;
+	
+	SetOpenOffice4Version(registryMockobj, OPENOFFICE_VERSION);
+	openofficeAction._readVersionInstalled();
+	EXPECT_THAT(openofficeAction.GetVersion(), StrCaseEq(OPENOFFICE_VERSION));
 }
 
 TEST(OpenOfficeActionTest, CheckPrerequirements_NonSupportedVersion)
@@ -95,6 +113,16 @@ TEST(OpenOfficeActionTest, CheckPrerequirements_NonSupportedVersion)
 	CreateOpenOfficeAction;
 	
 	SetOpenOfficeVersion(registryMockobj, OPENOFFICE_VERSION);	
+	openofficeAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(openofficeAction.GetStatus(), CannotBeApplied);
+}
+
+TEST(OpenOfficeActionTest, CheckPrerequirements_NonSupportedVersion_ApacheOpenOffice)
+{
+	const wchar_t* OPENOFFICE_VERSION = L"4.01";
+	CreateOpenOfficeAction;
+	
+	SetOpenOffice4Version(registryMockobj, OPENOFFICE_VERSION);
 	openofficeAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(openofficeAction.GetStatus(), CannotBeApplied);
 }

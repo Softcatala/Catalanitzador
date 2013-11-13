@@ -110,7 +110,8 @@ void OpenOfficeAction::_readVersionInstalled()
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, OPENOFFICCE_PROGRAM_REGKEY, false))
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, OPENOFFICCE_PROGRAM_REGKEY, false) ||
+		m_registry->OpenKey(HKEY_LOCAL_MACHINE, OPENOFFICCE4_PROGRAM_REGKEY, false))
 	{
 		while (bKeys)
 		{

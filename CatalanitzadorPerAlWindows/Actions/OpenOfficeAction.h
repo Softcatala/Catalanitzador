@@ -28,6 +28,7 @@
 #include "ActionExecution.h"
 
 #define OPENOFFICCE_PROGRAM_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
+#define OPENOFFICCE4_PROGRAM_REGKEY L"SOFTWARE\\OpenOffice\\OpenOffice"
 
 class OpenOfficeAction : public Action, public ActionExecution
 {
