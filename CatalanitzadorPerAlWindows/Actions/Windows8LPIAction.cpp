@@ -83,7 +83,7 @@ LPCWSTR Windows8LPIAction::GetLicenseID()
 
 wchar_t* Windows8LPIAction::_getDownloadID()
 {
-	_selectLanguagePackage();	
+	_selectLanguagePackage();
 	return (wchar_t*) m_packageDownloadId.c_str();
 }
 
@@ -102,13 +102,31 @@ void Windows8LPIAction::_selectLanguagePackage()
 		{
 			if (m_OSVersion->IsWindows64Bits())
 			{
-				m_packageDownloadId = L"Win81_ca_64";
-				m_packageLanguageCode = CATALAN_LANGPACKCODE;
+				if (GetUseDialectalVariant())
+				{
+					m_packageDownloadId = L"Win81_va_64";
+					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+				}
+				else
+				{
+					m_packageDownloadId = L"Win81_ca_64";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;
+				}
 			}
 			else
 			{
-				m_packageDownloadId = L"Win81_ca_32";
-				m_packageLanguageCode = CATALAN_LANGPACKCODE;
+				if (GetUseDialectalVariant())
+				{
+					m_packageDownloadId = L"Win81_va_32";
+					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+				}
+				else
+				{
+					m_packageDownloadId = L"Win81_ca_32";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;
+				}
+				
+				
 			}
 			break;
 		}

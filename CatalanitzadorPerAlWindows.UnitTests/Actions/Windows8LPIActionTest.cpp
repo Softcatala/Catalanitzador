@@ -193,7 +193,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_32)
 	lipAction.SetUseDialectalVariant(true);
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_32"));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_va_32"));
 }
 
 TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_64)
@@ -203,7 +203,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_64)
 	lipAction.SetUseDialectalVariant(true);
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows81));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
-	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_64"));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_va_64"));
 }
 
 TEST(Windows8LPIActionTest, _setLanguagePanel_Catalan)
