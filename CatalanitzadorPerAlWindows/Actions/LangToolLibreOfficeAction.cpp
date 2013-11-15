@@ -21,11 +21,12 @@
 #include "ConfigurationInstance.h"
 #include "LangToolLibreOfficeAction.h"
 
-LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
+LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : 
+Action(downloadManager), m_office(registry)
 {
 	m_registry = registry;
 	m_runner = runner;
-	m_szFilename[0] = NULL;	
+	m_szFilename[0] = NULL;
 }
 
 LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
@@ -38,7 +39,7 @@ LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
 
 wchar_t* LangToolLibreOfficeAction::GetName()
 {
-	return L"Language Tool per a LibreOffice/OpenOffice";
+	return L"Instal·la Language Tool per a LibreOffice/OpenOffice";
 }
 
 wchar_t* LangToolLibreOfficeAction::GetDescription()
@@ -61,7 +62,7 @@ void LangToolLibreOfficeAction::Execute()
 	wstring app;
 	wstring params;
 
-	_readLibreOfficeInstallPath(app);
+	app = m_office.GetInstallationPath();
 	app += L"unopkg.com";
 
 	params = L" add ";
@@ -88,7 +89,6 @@ bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
-
 	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, progress, data);
 }
 
@@ -111,63 +111,6 @@ bool LangToolLibreOfficeAction::_readJavaVersion(wstring& version)
 
 	g_log.Log(L"LangToolLibreOfficeAction::_readVersion version %s", (wchar_t*) version.c_str());
 	return version.empty() == false;
-}
-
-#define LIBREOFFICE_REGKEY L"SOFTWARE\\LibreOffice\\LibreOffice"
-
-bool LangToolLibreOfficeAction::_readLibreOfficeInstallPath(wstring& path)
-{
-	wstring key;
-	bool bRslt = false;
-
-	key = LIBREOFFICE_REGKEY;
-	key += L"\\";
-	key += m_version;
-
-	path.erase();
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
-	{
-		wchar_t szFileName[MAX_PATH];
-
-		if (m_registry->GetString(L"path", szFileName, sizeof(szFileName)))
-		{
-			// This is the path to the executable, remove filename at the end
-			int i;
-			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
-
-			szFileName[i + 1] = NULL;
-			path = szFileName;
-		}
-		m_registry->Close();
-	}
-	g_log.Log(L"OpenOfficeAction::_isLangPackInstalled '%u'", (wchar_t *) bRslt);
-	return bRslt;
-}
-
-bool LangToolLibreOfficeAction::_readLibreOfficeVersionInstalled()
-{
-	bool bKeys = true;
-	DWORD dwIndex = 0;
-	
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, LIBREOFFICE_REGKEY, false))
-	{
-		while (bKeys)
-		{
-			wstring key;
-
-			bKeys = m_registry->RegEnumKey(dwIndex, key);
-			dwIndex++;
-
-			if (bKeys)
-			{
-				m_version = key;
-				break;
-			}
-		}
-		m_registry->Close();
-	}
-	g_log.Log(L"LangToolLibreOfficeAction::_readLibreOfficeVersionInstalled '%s'", (wchar_t *) m_version.c_str());	
-	return m_version.empty() == false;
 }
 
 ActionStatus LangToolLibreOfficeAction::GetStatus()
@@ -205,7 +148,7 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		return;
 	}
 
-	if (_readLibreOfficeVersionInstalled() == false)
+	if (m_office.IsInstalled() == false)
 	{
 		wcscpy_s(szCannotBeApplied, L"El LibreOffice està instal·lat");
 		SetStatus(CannotBeApplied);

@@ -23,8 +23,7 @@
 #include "IRunner.h"
 #include "IOSVersion.h"
 #include "IRegistry.h"
-#include "TriBool.h"
-
+#include "LibreOffice.h"
 
 class LangToolLibreOfficeAction : public Action
 {
@@ -45,11 +44,11 @@ public:
 
 protected:
 
-		bool _readJavaVersion(wstring& version);
-		bool _readLibreOfficeVersionInstalled();
-		bool _readLibreOfficeInstallPath(wstring& path);
+		bool _readJavaVersion(wstring& version);	
 
 private:
+
+		LibreOffice m_office;
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wchar_t m_szFilename[MAX_PATH];
