@@ -36,9 +36,9 @@ public:
 	MSOfficeLPIActionTest::MSOfficeLPIActionTest(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager)
 		: MSOfficeLPIAction(registry, runner, downloadManager) {};
 	
-	public: using MSOfficeLPIAction::_getVersionInstalled;
-	public: using MSOfficeLPIAction::_isLangPackInstalled;
-
+	using MSOfficeLPIAction::_getVersionInstalled;
+	using MSOfficeLPIAction::_isLangPackInstalled;
+	using MSOfficeLPIAction::_getDownloadID;
 };
 
 #define CreateMSOfficeAction \
@@ -253,4 +253,60 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_NotInstalled)
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(officeAction.IsNeed());
 	EXPECT_EQ(officeAction.GetStatus(), NotInstalled);
+}
+
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2003)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2003);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2003");
+}
+
+
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2007)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2007);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2007");
+}
+
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2010_32)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2010);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2010_32");
+}
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2010_64)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2010_64);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2010_64");
+}
+
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2013_32)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2013);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2013_ca_32");
+}
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2013_64)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2013_64);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2013_ca_64");
+}
+
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2013_32_va)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2013);
+	officeAction.SetUseDialectalVariant(true);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2013_va_32");
+}
+TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2013_64_va)
+{
+	CreateMSOfficeAction;
+	MockOfficeInstalled(registryMockobj, MSOffice2013_64);
+	officeAction.SetUseDialectalVariant(true);
+	EXPECT_EQ(officeAction._getDownloadID(), L"2013_va_64");
 }
