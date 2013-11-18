@@ -46,7 +46,6 @@ WindowsLPIBaseAction(downloadManager)
 	m_OSVersion = OSVersion;
 	m_runner = runner;
 	m_executionStep = ExecutionStepNone;
-	m_selectLanguagePackageCalled = false;
 }
 
 Windows8LPIAction::~Windows8LPIAction()
@@ -89,11 +88,6 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 
 void Windows8LPIAction::_selectLanguagePackage()
 {
-	if (m_selectLanguagePackageCalled)
-	{
-		return;
-	}
-
 	OperatingVersion version = m_OSVersion->GetVersion();	
 
 	switch (version)
@@ -164,8 +158,6 @@ void Windows8LPIAction::_selectLanguagePackage()
 			m_packageLanguageCode.clear();
 			m_packageDownloadId.clear();
 	}
-
-	m_selectLanguagePackageCalled = true;
 }
 
 bool Windows8LPIAction::IsDownloadNeed()

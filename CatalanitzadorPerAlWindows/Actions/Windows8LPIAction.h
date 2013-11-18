@@ -88,6 +88,5 @@ private:
 		ExecutionStep m_executionStep;
 		wstring m_packageDownloadId;
 		wstring m_packageLanguageCode;
-		bool m_selectLanguagePackageCalled;			
 };
 
