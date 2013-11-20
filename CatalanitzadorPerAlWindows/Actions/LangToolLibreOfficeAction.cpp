@@ -54,7 +54,21 @@ const wchar_t* LangToolLibreOfficeAction::GetVersion()
 
 bool LangToolLibreOfficeAction::IsNeed()
 {
-	return true;
+	bool bNeed;
+
+	switch(GetStatus())
+	{		
+		case NotInstalled:
+		case AlreadyApplied:
+		case CannotBeApplied:
+			bNeed = false;
+			break;
+		default:
+			bNeed = true;
+			break;
+	}
+	g_log.Log(L"LangToolLibreOfficeAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());
+	return bNeed;
 }
 
 void LangToolLibreOfficeAction::Execute()
@@ -68,9 +82,9 @@ void LangToolLibreOfficeAction::Execute()
 	params = L" add ";
 	params += m_szFilename;
 	
-	SetStatus(InProgress);	
+	SetStatus(InProgress);
 	g_log.Log(L"LangToolLibreOfficeAction::Execute '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
-	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());		
+	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());
 }
 
 bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
@@ -130,7 +144,20 @@ ApplicationVersion g_javaMinVersion (L"1.7");
 
 void LangToolLibreOfficeAction::CheckPrerequirements(Action * action) 
 {
-	wstring javaStrVersion, libreOfficeVersion;	
+	wstring javaStrVersion, libreOfficeVersion;
+	
+	if (m_office.IsInstalled() == false)
+	{
+		wcscpy_s(szCannotBeApplied, L"El LibreOffice no està instal·lat");
+		SetStatus(CannotBeApplied);
+		return;
+	}	
+	
+	if (m_office.IsExtensionInstalled(L"org.languagetool.openoffice.Main"))
+	{		
+		SetStatus(AlreadyApplied);
+		return;
+	}
 
 	if (_readJavaVersion(javaStrVersion) == false)
 	{
@@ -147,13 +174,4 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		SetStatus(CannotBeApplied);
 		return;
 	}
-
-	if (m_office.IsInstalled() == false)
-	{
-		wcscpy_s(szCannotBeApplied, L"El LibreOffice està instal·lat");
-		SetStatus(CannotBeApplied);
-		return;
-	}
-
-	// TODO: Is the extension already installed?
 }

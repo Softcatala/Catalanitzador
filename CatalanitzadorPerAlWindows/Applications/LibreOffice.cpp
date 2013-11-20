@@ -19,8 +19,10 @@
 
 #include "stdafx.h"
 #include "LibreOffice.h"
-
-#define LIBREOFFICE_REGKEY L"SOFTWARE\\LibreOffice\\LibreOffice"
+#include "TempFile.h"
+#include "XmlParser.h"
+#include "ApplicationVersion.h"
+#include <algorithm>
 
 LibreOffice::LibreOffice(IRegistry* registry)
 {
@@ -57,18 +59,14 @@ wstring LibreOffice::GetVersion()
 
 wstring LibreOffice::GetInstallationPath()
 {
-	
 	if (m_installationPathRead == false)
 	{
-		_readLibreOfficeVersionInstalled();
+		_readLibreOfficeInstallPath();
 	}
 	return m_installationPath;
 }
 
-
-
-
-void LibreOffice::_readLibreOfficeInstallPath(wstring& path)
+void LibreOffice::_readLibreOfficeInstallPath()
 {
 	if (m_installationPathRead)
 		return;
@@ -79,9 +77,9 @@ void LibreOffice::_readLibreOfficeInstallPath(wstring& path)
 
 	key = LIBREOFFICE_REGKEY;
 	key += L"\\";
-	key += m_version;
+	key += GetVersion();
 
-	path.erase();
+	m_installationPath.erase();
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
 	{
 		wchar_t szFileName[MAX_PATH];
@@ -93,12 +91,11 @@ void LibreOffice::_readLibreOfficeInstallPath(wstring& path)
 			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
 
 			szFileName[i + 1] = NULL;
-			path = szFileName;
+			m_installationPath = szFileName;
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"LibreOffice::_isLangPackInstalled '%u'", (wchar_t *) bRslt);
-	//return bRslt;
+	g_log.Log(L"LibreOffice::_readLibreOfficeInstallPath '%s'", (wchar_t *) m_installationPath.c_str());
 }
 
 bool LibreOffice::_readLibreOfficeVersionInstalled()
@@ -125,4 +122,82 @@ bool LibreOffice::_readLibreOfficeVersionInstalled()
 	}
 	g_log.Log(L"LibreOffice::_readLibreOfficeVersionInstalled '%s'", (wchar_t *) m_version.c_str());	
 	return m_version.empty() == false;
+}
+
+wstring LibreOffice::_getAppDataDir()
+{
+	wchar_t szPath[MAX_PATH];	
+	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
+	return wstring(szPath);
+}
+
+wstring LibreOffice::_getPreferencesFile()
+{
+	wchar_t directory[1024];
+	wstring location;
+	ApplicationVersion applicationVersion(GetVersion());
+	
+	location = _getAppDataDir();
+	// This is based on the assumption that directory changes with every major version happened in versions 3 and 4
+	swprintf_s(directory, L"\\LibreOffice\\%u\\user\\", applicationVersion.GetMajorVersion());	
+	location += directory;
+	return location;
+}
+
+wstring LibreOffice::_getExtensionsFile()
+{
+	wstring location;
+	location = _getPreferencesFile();
+	location += L"uno_packages\\cache\\registry\\com.sun.star.comp.deployment.component.PackageRegistryBackend\\backenddb.xml";
+	return location;
+}
+
+bool LibreOffice::_readNodeCallback(XmlNode node, void *data)
+{
+	if (node.GetName().compare(L"comp:name")==0)
+	{
+		vector <wstring>* extensions = (vector <wstring>*) data;
+		wstring text = node.GetText();
+		extensions->push_back(text);
+	}	
+	return true;
+}
+
+void LibreOffice::_parseXmlConfiguration(vector <wstring>& extensions)
+{
+	wstring preferences;
+
+	preferences = _getPreferencesFile();
+	preferences += L"uno_packages\\cache\\registry\\com.sun.star.comp.deployment.component.PackageRegistryBackend\\backenddb.xml";
+
+	XmlParser parser;
+
+	if (parser.Load(preferences) == false)
+	{
+		g_log.Log(L"LibreOffice::_parseXmlConfiguration. Could not open '%s'", (wchar_t *) preferences.c_str());
+		return;
+	}
+
+	parser.Parse(_readNodeCallback, &extensions);
+}
+
+void LibreOffice::_readListOfExtensions(vector <wstring>& extensions)
+{	
+	_parseXmlConfiguration(extensions);
+	return;
+}
+
+bool LibreOffice::IsExtensionInstalled(wstring extension)
+{
+	vector <wstring> extensions;
+
+	_readListOfExtensions(extensions);
+
+	for (unsigned int i = 0; i < extensions.size(); i++)
+	{
+		wstring e = extensions.at(i);
+		if (e == extension)
+			return true;
+	}
+	return false;
 }

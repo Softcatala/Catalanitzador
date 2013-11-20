@@ -479,10 +479,6 @@
 				RelativePath=".\Support\Application.h"
 				>
 			</File>
-			<File
-				RelativePath=".\Support\TempFile.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="UI"
@@ -509,6 +505,10 @@
 			>
 			<File
 				RelativePath=".\Applications\FirefoxAcceptLanguagesTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Applications\LibreOfficeTest.cpp"
 				>
 			</File>
 		</Filter>

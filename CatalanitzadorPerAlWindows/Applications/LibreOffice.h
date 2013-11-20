@@ -21,20 +21,35 @@
 
 #include "TriBool.h"
 #include "IRegistry.h"
+#include "XmlParser.h"
+#include <vector>
+
+#define LIBREOFFICE_REGKEY L"SOFTWARE\\LibreOffice\\LibreOffice"
 
 class LibreOffice
 {
 public:
 
 		LibreOffice(IRegistry* registry);
+
 		bool IsInstalled();
 		wstring GetVersion();
 		wstring GetInstallationPath();
+		bool IsExtensionInstalled(wstring extension);
+
+protected:
+
+		bool _readLibreOfficeVersionInstalled();
+		void _readLibreOfficeInstallPath();
+		virtual wstring _getAppDataDir();
+		virtual wstring _getPreferencesFile();
+		virtual wstring _getExtensionsFile();
 
 private:
 
-		bool _readLibreOfficeVersionInstalled();
-		void _readLibreOfficeInstallPath(wstring& path);
+		void _parseXmlConfiguration(vector <wstring>& extensions);
+		void _readListOfExtensions(vector <wstring>& extensions);
+		static bool _readNodeCallback(XmlNode node, void *data);		
 		
 		TriBool m_isInstalled;
 		wstring m_version;
