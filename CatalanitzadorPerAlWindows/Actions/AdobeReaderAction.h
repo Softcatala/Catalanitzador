@@ -47,7 +47,6 @@ protected:
 
 		void _enumVersions(vector <wstring>& versions);
 		void _readInstalledLang(wstring version);
-		int _getMajorVersion();		
 
 		wstring m_lang;
 

@@ -39,7 +39,6 @@ public:
 	public: 
 			using AdobeReaderAction::_enumVersions;	
 			using AdobeReaderAction::_readInstalledLang;
-			using AdobeReaderAction::_getMajorVersion;
 
 			wstring GetLanguage() {return m_lang;}
 };
@@ -151,15 +150,3 @@ TEST(AdobeReaderActionTest, IsNeed_No_CannotBeApplied)
 	EXPECT_FALSE(adobeAction.IsNeed());
 }
 
-TEST(AdobeReaderActionTest, _getMajorVersion)
-{
-	CreateAdobeReaderAction;
-	const wchar_t* ADOBEREADER_VERSION = L"9.5";
-	const wchar_t* LANGCODE = L"CAT";
-
-	_setMockForVersion(registryMockobj, ADOBEREADER_VERSION);
-	_setMockForLanguage(registryMockobj, ADOBEREADER_VERSION, LANGCODE);
-	adobeAction.CheckPrerequirements(NULL);
-
-	EXPECT_THAT(adobeAction._getMajorVersion(), 9);
-}

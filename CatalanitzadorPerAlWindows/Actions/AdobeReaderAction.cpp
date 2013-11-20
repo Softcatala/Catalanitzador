@@ -143,20 +143,6 @@ void AdobeReaderAction::_readVersionInstalled()
 		(wchar_t *) m_version.c_str(), (wchar_t *) m_lang.c_str(), (wchar_t *) versions.size());
 }
 
-int AdobeReaderAction::_getMajorVersion()
-{
-	size_t pos;
-
-	pos = m_version.find_first_of(L".", 0);
-
-	if (pos == string::npos)
-	{
-		return -1;
-	}
-
-	return _wtoi(m_version.substr(0, pos).c_str());
-}
-
 void AdobeReaderAction::_readUninstallGUID()
 {
 	wstring key(ACROBAT_REGKEY);
