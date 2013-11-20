@@ -39,6 +39,7 @@ class ApplicationVersion
 			bool operator <= (ApplicationVersion other);
 
 			wstring& GetString() {return m_version;}
+			int GetMajorVersion();
 
 	private:
 

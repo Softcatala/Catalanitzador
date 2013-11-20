@@ -131,3 +131,16 @@ bool ApplicationVersion::operator <= (ApplicationVersion other)
 
 	return *this == other;
 }
+
+int ApplicationVersion::GetMajorVersion()
+{
+	vector <int> components;
+
+	components = GetComponents();
+
+	if (components.size() > 0)
+	{
+		return components.at(0);
+	}
+	return 0;
+}

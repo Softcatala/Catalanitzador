@@ -163,9 +163,23 @@ TEST(VersionTest, GetComponents_TwoVsThree)
 TEST(VersionTest, GetComponents_OneVsTwo)
 {	
 	ApplicationVersion versionA (L"0.9");
-	ApplicationVersion versionB (L"1.2");	
+	ApplicationVersion versionB (L"1.2");
 	ApplicationVersion versionC (L"1");
 
 	EXPECT_TRUE(versionA < versionC);
 	EXPECT_TRUE(versionB > versionC);
+}
+
+TEST(VersionTest, GetMajorVersion_TwoDigits)
+{
+	ApplicationVersion version (L"3.2");
+
+	EXPECT_THAT(version.GetMajorVersion(), 3);
+}
+
+TEST(VersionTest, GetMajorVersion_None)
+{
+	ApplicationVersion version;
+
+	EXPECT_THAT(version.GetMajorVersion(), 0);
 }
