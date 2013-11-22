@@ -23,6 +23,10 @@
 #include "OSVersion.h"
 #include "FileVersionInfo.h"
 
+#define ITUNES_REGKEY L"Software\\Apple Computer, Inc.\\iTunes"
+#define CATALAN_LANGCODE L"1027"
+
+
 iTunesAction::iTunesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
 {	
 	m_fileVersionInfo = fileVersionInfo;
@@ -71,7 +75,6 @@ void iTunesAction::Execute()
 
 void iTunesAction::_getProgramLocation(wstring& location)
 {
-	wchar_t* ITUNES_REGKEY = L"SOFTWARE\\Apple Computer, Inc.\\iTunes";
 	wchar_t szAppPath[MAX_PATH];
 	wchar_t szProgFolder[MAX_PATH];
 	
@@ -123,9 +126,6 @@ int iTunesAction::_getMajorVersion()
 	return m_fileVersionInfo->GetMajorVersion();
 }
 
-#define ITUNES_USERKEY L"Software\\Apple Computer, Inc.\\iTunes"
-#define CATALAN_LANGCODE L"1027"
-
 bool iTunesAction::_isDefaultLanguage()
 {
 	TriBool defaultUser;
@@ -135,7 +135,7 @@ bool iTunesAction::_isDefaultLanguage()
 
 	if (defaultUser.IsUndefined()) 
 	{		
-		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ITUNES_USERKEY, false))
+		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ITUNES_REGKEY, false))
 		{
 			if (m_registry->GetString(L"InstalledLangID", szLang, sizeof(szLang)))
 			{
@@ -155,7 +155,7 @@ TriBool iTunesAction::_isDefaultLanguageForUser()
 	wchar_t szLang[1024];
 	TriBool defaultLanguage;
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_USERKEY, false))
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_REGKEY, false))
 	{
 		if (m_registry->GetString(L"LangID", szLang, sizeof(szLang)))
 		{
@@ -172,7 +172,7 @@ bool iTunesAction::_setDefaultLanguageForUser()
 {
 	bool bInstalled = false;
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_USERKEY, true))
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, ITUNES_REGKEY, true))
 	{
 		m_registry->SetString(L"LangID", CATALAN_LANGCODE);
 		m_registry->Close();

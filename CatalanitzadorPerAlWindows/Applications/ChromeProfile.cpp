@@ -207,7 +207,7 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 	while(!(getline(reader,line)).eof())
 	{
 		// We are try to read two properties from differents schemas
-		// Since we do have a real parser. We do not know when a schema starts or ends
+		// Since we do not have a real parser. We do not know when a schema starts or ends
 		if (acceptLanguagesRead == false && _readPropertyValue(line, L"\"accept_languages\"", pos, m_prefCacheAcceptLanguage))
 			acceptLanguagesRead = true;
 
@@ -315,7 +315,7 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 	while (!(getline(reader,line)).eof())
 	{
 		// We are try to read two properties from differents schemas
-		// Since we do have a real parser. We do not know when a schema starts or ends		
+		// Since we do not have a real parser. We do not know when a schema starts or ends		
 		if (acceptLanguagesDone == false && _readPropertyValue(line, L"\"accept_languages\"", pos, oldLang))
 		{
 			acceptLanguagesDone = true;

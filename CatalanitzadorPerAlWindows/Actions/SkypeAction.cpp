@@ -193,8 +193,6 @@ void SkypeAction::CheckPrerequirements(Action * action)
 
 	if (wcslen(GetVersion()) > 0)
 	{
-		ApplicationVersion version(GetVersion());
-
 		if (_getMajorVersion() < FIRST_MAJOR_VERSION_WITH_CATALAN)
 		{
 			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
