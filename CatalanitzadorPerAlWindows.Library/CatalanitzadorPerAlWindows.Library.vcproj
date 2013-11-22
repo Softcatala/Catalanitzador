@@ -395,14 +395,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\ChromeProfile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Core\ChromeProfile.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Core\CommandLine.cpp"
 				>
 			</File>
@@ -930,6 +922,14 @@
 		<Filter
 			Name="Applications"
 			>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\ChromeProfile.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\ChromeProfile.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxAcceptLanguages.cpp"
 				>

@@ -372,10 +372,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Core\ChromeProfileTest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Core\CommandLineTest.cpp"
 				>
 			</File>
@@ -503,6 +499,10 @@
 		<Filter
 			Name="Applications"
 			>
+			<File
+				RelativePath=".\Applications\ChromeProfileTest.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\Applications\FirefoxAcceptLanguagesTest.cpp"
 				>
