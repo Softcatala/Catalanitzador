@@ -29,6 +29,7 @@ using ::testing::Return;
 using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::HasSubstr;
+using ::testing::DoAll;
 
 #define SPANISH_LOCALE 0x0c0a
 #define FRENCH_LOCALE 0x040c
@@ -47,6 +48,7 @@ public:
 			using Windows8LPIAction::_getDownloadID;
 			using Windows8LPIAction::_setLanguagePanel;
 			using Windows8LPIAction::_getScriptFile;
+			using Windows8LPIAction::_isLanguagePanelFirstForLanguage;
 };
 
 #define CreateWindowsLIPAction \
@@ -62,6 +64,12 @@ void SetLangPackInstalled(RegistryMock& registryMockobj, bool enabled)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES"), false)).WillRepeatedly(Return(enabled));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-es-valencia"), false)).WillRepeatedly(Return(enabled));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-es-valencia"), false)).WillRepeatedly(Return(enabled));
+}
+
+void SetPanelLanguage(RegistryMock& registryMockobj, const wchar_t* language)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\International\\User Profile"), false)).WillRepeatedly(Return(true));	
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Languages"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(false)));
 }
 
 TEST(Windows8LPIActionTest, _isLangPackInstalled_True)
@@ -265,4 +273,21 @@ TEST(Windows8LPIActionTest, CheckPrerequirements_Portuguese)
 	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(CannotBeApplied, lipAction.GetStatus());
+}
+
+TEST(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Catalan)
+{
+	CreateWindowsLIPAction;
+	const wchar_t* LANGUAGE_CODE = L"ca";
+
+	SetPanelLanguage(registryMockobj, LANGUAGE_CODE);	
+	EXPECT_TRUE(lipAction._isLanguagePanelFirstForLanguage(LANGUAGE_CODE));
+}
+
+TEST(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Spanish)
+{
+	CreateWindowsLIPAction;	
+
+	SetPanelLanguage(registryMockobj, L"es");
+	EXPECT_FALSE(lipAction._isLanguagePanelFirstForLanguage(L"ca"));
 }

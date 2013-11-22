@@ -345,16 +345,13 @@ bool Windows8LPIAction::_isAlreadyApplied()
 bool Windows8LPIAction::_isLanguagePanelFirstForLanguage(wstring expectedcode)
 {
 	bool bRslt;
-	wstring langcode, firstlang;
+	wstring langcode;
 
-	// TODO: Read always return a single language
-	_readLanguageCode(langcode);
-	//_parseLanguage(langcode);
-	_getFirstLanguage(firstlang);
+	_readPanelLanguageCode(langcode);
 	
-	std::transform(firstlang.begin(), firstlang.end(), firstlang.begin(), ::tolower);
-	bRslt = firstlang.compare(expectedcode) == 0;
-	g_log.Log(L"Windows8LPIAction::_isLanguagePanelFirstForLanguage '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) firstlang.c_str());
+	std::transform(langcode.begin(), langcode.end(), langcode.begin(), ::tolower);
+	bRslt = langcode.compare(expectedcode) == 0;
+	g_log.Log(L"Windows8LPIAction::_isLanguagePanelFirstForLanguage '%u' (%s)", (wchar_t *) bRslt, (wchar_t *) langcode.c_str());
 	return bRslt;
 }
 
@@ -364,60 +361,21 @@ bool Windows8LPIAction::_isLanguagePanelFirst()
 		_isLanguagePanelFirstForLanguage(VALENCIAN_PANEL_LANGCODE);
 }
 
-void Windows8LPIAction::_getFirstLanguage(wstring& regvalue)
+void Windows8LPIAction::_readPanelLanguageCode(wstring& language)
 {
-	if (m_languages.size() > 0)
-	{		
-		regvalue = m_languages[0];
-		std::transform(regvalue.begin(), regvalue.end(), regvalue.begin(), ::tolower);
-		return;
-	}
+	wchar_t szValue[1024] = L"";
 	
-	regvalue.clear();
-	return;
-}
-
-void Windows8LPIAction::_parseLanguage(wstring regvalue)
-{
-	wstring language;
-	
-	m_languages.clear();
-	for (unsigned int i = 0; i < regvalue.size (); i++)
-	{
-		if (regvalue[i] == L' ')
-		{
-			m_languages.push_back(language);
-			language.clear();
-			continue;
-		}
-
-		language += regvalue[i];
-	}
-
-	if (language.empty() == false)
-	{
-		m_languages.push_back(language);
-	}
-}
-
-void Windows8LPIAction::_readLanguageCode(wstring& languages)
-{
-	wchar_t szValue[1024];
-
-	m_languages.clear();
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\International\\User Profile", false))
 	{
-		if (m_registry->GetString(L"Languages", szValue, sizeof (szValue)))
-		{
-			
-		}
-		// TODO: Temp. Also GetString when multiple langs returns error and reads the first one
-		languages = szValue;
+		// Languages is a registry key of type REG_MULTI_SZ. As such can have serveral strings.
+		// By using GetString (instead of a MULTI_SZ read) we only read the first one and the call returns error
+		// This is OK since we just need the first language
+		m_registry->GetString(L"Languages", szValue, sizeof (szValue));
+		language = szValue;
 
-		if (languages.size() > 0)
-		{
-			m_languages.push_back(szValue);
-			g_log.Log(L"Windows8LPIAction::_readLanguageCode is '%s'", szValue);
+		if (language.size() > 0)
+		{			
+			g_log.Log(L"Windows8LPIAction::_readPanelLanguageCode is '%s'", szValue);
 		}
 		m_registry->Close();
 	}

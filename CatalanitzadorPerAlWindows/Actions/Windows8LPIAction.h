@@ -53,6 +53,7 @@ protected:
 		void _setLanguagePanel();
 		const wstring _getScriptFile() {return m_scriptfile;}
 		bool _isASupportedSystemLanguage();
+		bool _isLanguagePanelFirstForLanguage(wstring langcode);
 		
 private:
 
@@ -65,20 +66,16 @@ private:
 		
 		bool _isDefaultLanguage();
 		void _setDefaultLanguage();
-		void _setLanguagePanelLanguages(const wstring primaryCode, const wstring secondaryCode);		
+		void _setLanguagePanelLanguages(const wstring primaryCode, const wstring secondaryCode);
 		bool _isLanguagePanelFirst();
-		void _readLanguageCode(wstring& languages);
-		void _parseLanguage(wstring regvalue);
-		void _getFirstLanguage(wstring& regvalue);
+		void _readPanelLanguageCode(wstring& language);
 		bool _isAlreadyApplied();
 		void _buildLanguagePanelPowerShellScript(const wstring primaryCode, const wstring secondaryCode, string& script);
 		void _runLanguagePanelPowerShellScript(const string script);
 		bool _isLangPackInstalledForLanguage(wstring langcode);
 		bool _isDefaultLanguageForLanguage(wstring langcode);
-		bool _isLanguagePanelFirstForLanguage(wstring langcode);
 		void _selectLanguagePackage();
-
-		vector <wstring> m_languages;
+		
 		wstring m_filename;
 		wstring m_scriptfile;
 		IRunner* m_runner;
