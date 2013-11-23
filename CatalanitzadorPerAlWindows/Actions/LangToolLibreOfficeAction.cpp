@@ -39,12 +39,12 @@ LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
 
 wchar_t* LangToolLibreOfficeAction::GetName()
 {
-	return L"Instal·la Language Tool per a LibreOffice/OpenOffice";
+	return _getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_NAME, szName);
 }
 
 wchar_t* LangToolLibreOfficeAction::GetDescription()
 {
-	return L"Language Tool per a LibreOffice/OpenOffice";
+	return _getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_DESCRIPTION, szDescription);
 }
 
 const wchar_t* LangToolLibreOfficeAction::GetVersion()
