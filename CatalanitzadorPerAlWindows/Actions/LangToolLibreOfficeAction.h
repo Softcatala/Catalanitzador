@@ -24,6 +24,7 @@
 #include "IOSVersion.h"
 #include "IRegistry.h"
 #include "LibreOffice.h"
+#include "ApacheOpenOffice.h"
 
 class LangToolLibreOfficeAction : public Action
 {
@@ -48,7 +49,9 @@ protected:
 
 private:
 
-		LibreOffice m_office;
+		LibreOffice m_libreOffice;
+		ApacheOpenOffice m_apacheOpenOffice;
+		OpenOffice* m_installingOffice;
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wchar_t m_szFilename[MAX_PATH];

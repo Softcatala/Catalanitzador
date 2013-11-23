@@ -923,6 +923,14 @@
 			Name="Applications"
 			>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\ApacheOpenOffice.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\ApacheOpenOffice.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\ChromeProfile.cpp"
 				>
 			</File>
@@ -968,6 +976,14 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\LibreOffice.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\OpenOffice.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\OpenOffice.h"
 				>
 			</File>
 			<File

@@ -18,9 +18,9 @@
  */
 
 #include "stdafx.h"
-#include "LibreOffice.h"
+#include "ApacheOpenOffice.h"
 
-LibreOffice::LibreOffice(IRegistry* registry) : OpenOffice(registry)
+ApacheOpenOffice::ApacheOpenOffice(IRegistry* registry) : OpenOffice(registry)
 {
 
 }

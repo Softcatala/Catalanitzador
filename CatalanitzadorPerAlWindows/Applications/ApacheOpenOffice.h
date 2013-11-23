@@ -17,10 +17,22 @@
  * 02111-1307, USA.
  */
 
-#include "stdafx.h"
-#include "LibreOffice.h"
+#pragma once
 
-LibreOffice::LibreOffice(IRegistry* registry) : OpenOffice(registry)
+#include "OpenOffice.h"
+
+//
+// Apache OpenOffice is a decendent of OpenOffice
+// The first release was version 3.4.0, on 8 May 2012
+//
+class ApacheOpenOffice : public OpenOffice
 {
+public:
 
-}
+		ApacheOpenOffice(IRegistry* registry);
+
+		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\OpenOffice\\OpenOffice"; }
+		virtual wchar_t * GetUserDirectory() { return L"\\OpenOffice\\%u\\user\\"; }
+};
+
+

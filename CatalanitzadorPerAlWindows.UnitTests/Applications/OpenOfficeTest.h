@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2013 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,10 +17,6 @@
  * 02111-1307, USA.
  */
 
-#include "stdafx.h"
-#include "LibreOffice.h"
+#include "OpenOffice.h"
 
-LibreOffice::LibreOffice(IRegistry* registry) : OpenOffice(registry)
-{
-
-}
+void SetOpenOfficeAppVersion(RegistryMock& registryMockobj, wstring key, wstring version);

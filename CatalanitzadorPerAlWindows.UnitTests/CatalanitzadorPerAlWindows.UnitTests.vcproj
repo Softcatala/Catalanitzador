@@ -500,6 +500,10 @@
 			Name="Applications"
 			>
 			<File
+				RelativePath=".\Applications\ApacheOpenOfficeTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Applications\ChromeProfileTest.cpp"
 				>
 			</File>
@@ -509,6 +513,14 @@
 			</File>
 			<File
 				RelativePath=".\Applications\LibreOfficeTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Applications\OpenOfficeTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Applications\OpenOfficeTest.h"
 				>
 			</File>
 		</Filter>

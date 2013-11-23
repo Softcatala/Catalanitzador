@@ -22,7 +22,7 @@
 #include "LangToolLibreOfficeAction.h"
 
 LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : 
-Action(downloadManager), m_office(registry)
+Action(downloadManager), m_libreOffice(registry), m_apacheOpenOffice(registry)
 {
 	m_registry = registry;
 	m_runner = runner;
@@ -72,19 +72,9 @@ bool LangToolLibreOfficeAction::IsNeed()
 }
 
 void LangToolLibreOfficeAction::Execute()
-{	
-	wstring app;
-	wstring params;
-
-	app = m_office.GetInstallationPath();
-	app += L"unopkg.com";
-
-	params = L" add ";
-	params += m_szFilename;
-	
+{
 	SetStatus(InProgress);
-	g_log.Log(L"LangToolLibreOfficeAction::Execute '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
-	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());
+	m_installingOffice->InstallExtension(m_runner, m_szFilename);	
 }
 
 bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
@@ -133,30 +123,65 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 	{
 		if (m_runner->IsRunning())
 			return InProgress;
+
+		if (m_installingOffice->IsInstalled())
+		{
+			SetStatus(Successful);
+		}
+		else
+		{
+			SetStatus(FinishedWithError);
+		}
 		
-		SetStatus(Successful);
 		g_log.Log(L"LangToolLibreOfficeAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 	}
 	return status;
 }
 
 ApplicationVersion g_javaMinVersion (L"1.7");
+#define EXTENSION_NAME L"org.languagetool.openoffice.Main"
 
 void LangToolLibreOfficeAction::CheckPrerequirements(Action * action) 
 {
 	wstring javaStrVersion, libreOfficeVersion;
+	bool bLibreInstalled, bApacheInstalled;
+
+	bLibreInstalled = m_libreOffice.IsInstalled();
+	bApacheInstalled = m_apacheOpenOffice.IsInstalled();
+
+	g_log.Log(L"LangToolLibreOfficeAction::CheckPrerequirements: Libreoffice %u, Apacheoffice %u'",
+		(wchar_t*) bLibreInstalled, (wchar_t*) bApacheInstalled);
 	
-	if (m_office.IsInstalled() == false)
+	if (bLibreInstalled == false && bApacheInstalled == false)
 	{
-		wcscpy_s(szCannotBeApplied, L"El LibreOffice no està instal·lat");
+		wcscpy_s(szCannotBeApplied, L"El LibreOffice o l'Apache OpenOffice no es troben instal·lats");
 		SetStatus(CannotBeApplied);
 		return;
 	}	
 	
-	if (m_office.IsExtensionInstalled(L"org.languagetool.openoffice.Main"))
-	{		
-		SetStatus(AlreadyApplied);
-		return;
+	if (bLibreInstalled)
+	{
+		if (m_libreOffice.IsExtensionInstalled(EXTENSION_NAME))
+		{
+			SetStatus(AlreadyApplied);
+			return;
+		}
+		else
+		{
+			m_installingOffice = &m_libreOffice;
+		}
+	}
+	else if (bApacheInstalled)
+	{
+		if (m_apacheOpenOffice.IsExtensionInstalled(EXTENSION_NAME))
+		{
+			SetStatus(AlreadyApplied);
+			return;
+		}
+		else
+		{
+			m_installingOffice = &m_apacheOpenOffice;
+		}
 	}
 
 	if (_readJavaVersion(javaStrVersion) == false)
