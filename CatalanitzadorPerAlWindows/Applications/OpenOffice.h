@@ -29,6 +29,7 @@
 // This class contains the logic for the OpenOffice.org (OOo) project that was discontinued in April 2011
 // This class is used as base class for supporting derivated suites like Apache OpenOffice and LibreOffice
 //
+// The class OpenOfficeAction contains logic that we may consider porting here
 class OpenOffice
 {
 public:
