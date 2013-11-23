@@ -49,7 +49,18 @@ wchar_t* LangToolLibreOfficeAction::GetDescription()
 
 const wchar_t* LangToolLibreOfficeAction::GetVersion()
 {
-	return L"";
+	if (m_version.size() == 0)
+	{
+		if (m_libreOffice.IsInstalled())
+		{
+			m_version = L"LOO " + m_libreOffice.GetVersion();
+		}
+		else if (m_apacheOpenOffice.IsInstalled())
+		{
+			m_version = L"AOO " + m_apacheOpenOffice.GetVersion();
+		}
+	}
+	return m_version.c_str();
 }
 
 bool LangToolLibreOfficeAction::IsNeed()
