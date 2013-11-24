@@ -45,16 +45,22 @@ public:
 
 protected:
 
-		bool _readJavaVersion(wstring& version);	
+		bool _readJavaVersion(wstring& version);
+		bool _isOpenOfficeInstalled(bool& bLibreInstalled, bool& bApacheInstalled);
+		bool _isExtensionInstalled(bool bLibreInstalled, bool bApacheInstalled);
+		void _setupNeededJavaConfiguration();
 
 private:
 
 		LibreOffice m_libreOffice;
-		ApacheOpenOffice m_apacheOpenOffice;
-		OpenOffice* m_installingOffice;
+		ApacheOpenOffice m_apacheOpenOffice;		
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wchar_t m_szFilename[MAX_PATH];
 		wstring m_version;
+
+		OpenOffice* m_installingOffice;
+		bool m_shouldInstallJava;
+		bool m_shouldConfigureJava;
 };
 

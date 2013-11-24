@@ -23,7 +23,7 @@
 #include "IRegistry.h"
 #include "IRunner.h"
 #include "XmlParser.h"
-#include <vector>
+#include "OpenOfficeJavaConfiguration.h"
 
 //
 // This class contains the logic for the OpenOffice.org (OOo) project that was discontinued in April 2011
@@ -44,6 +44,7 @@ public:
 		wstring GetInstallationPath();
 		bool IsExtensionInstalled(wstring extension);
 		void InstallExtension(IRunner* runner, wstring file);
+		wstring GetJavaConfiguredVersion();
 
 protected:
 
@@ -64,5 +65,6 @@ private:
 		wstring m_installationPath;
 		bool m_installationPathRead;
 		IRegistry* m_registry;
+		OpenOfficeJavaConfiguration m_javaConfiguration;
 };
 

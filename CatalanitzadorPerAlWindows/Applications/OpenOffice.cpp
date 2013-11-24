@@ -24,7 +24,7 @@
 #include "ApplicationVersion.h"
 #include <algorithm>
 
-OpenOffice::OpenOffice(IRegistry* registry)
+OpenOffice::OpenOffice(IRegistry* registry) 
 {
 	m_installationPathRead = false;
 	m_registry = registry;
@@ -216,3 +216,10 @@ void OpenOffice::InstallExtension(IRunner* runner, wstring file)
 	g_log.Log(L"OpenOffice::InstallExtension '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
 	runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());
 }
+
+wstring OpenOffice::GetJavaConfiguredVersion() 
+{
+	m_javaConfiguration.SetUserDirectory(_getPreferencesFile());
+	return m_javaConfiguration.GetDefaultJavaVersion();
+}
+

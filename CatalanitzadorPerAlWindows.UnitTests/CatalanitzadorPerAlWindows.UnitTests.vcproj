@@ -516,6 +516,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Applications\OpenOfficeJavaConfigurationTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Applications\OpenOfficeTest.cpp"
 				>
 			</File>

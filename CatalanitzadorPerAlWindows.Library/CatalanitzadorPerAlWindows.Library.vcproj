@@ -987,6 +987,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\OpenOfficeJavaConfiguration.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\OpenOfficeJavaConfiguration.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.cpp"
 				>
 			</File>
