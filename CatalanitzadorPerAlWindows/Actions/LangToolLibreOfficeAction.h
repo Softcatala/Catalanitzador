@@ -52,12 +52,23 @@ protected:
 
 private:
 
+		void _installJava();
+	
+		enum ExecutionStep
+		{
+			ExecutionStepNone,
+			ExecutionStep1,
+			ExecutionStep2	
+		};
+				
 		LibreOffice m_libreOffice;
 		ApacheOpenOffice m_apacheOpenOffice;		
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wchar_t m_szFilename[MAX_PATH];
+		wchar_t m_szFilenameJava[MAX_PATH];
 		wstring m_version;
+		ExecutionStep m_executionStep;
 
 		OpenOffice* m_installingOffice;
 		bool m_shouldInstallJava;

@@ -27,6 +27,8 @@ Action(downloadManager), m_libreOffice(registry), m_apacheOpenOffice(registry)
 	m_registry = registry;
 	m_runner = runner;
 	m_szFilename[0] = NULL;
+	m_szFilenameJava[0] = NULL;
+	m_executionStep = ExecutionStepNone;
 }
 
 LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
@@ -34,6 +36,11 @@ LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
 	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_szFilename);
+	}
+
+	if (m_szFilenameJava[0] != NULL  && GetFileAttributes(m_szFilenameJava) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_szFilenameJava);
 	}
 }
 
@@ -82,26 +89,51 @@ bool LangToolLibreOfficeAction::IsNeed()
 	return bNeed;
 }
 
+void LangToolLibreOfficeAction::_installJava()
+{
+	wstring app, params;	
+
+	app = m_szFilenameJava;
+	params = L" /s";	
+
+	g_log.Log(L"LangToolLibreOfficeAction::_installJava. '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
+	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());	
+}
+
 void LangToolLibreOfficeAction::Execute()
 {
 	SetStatus(InProgress);
-	m_installingOffice->InstallExtension(m_runner, m_szFilename);	
+
+	if (m_shouldInstallJava)
+	{
+		_installJava();
+	}
+	else
+	{
+		m_installingOffice->InstallExtension(m_runner, m_szFilename);	
+	}
+
+	SetStatus(InProgress);
+	m_executionStep = ExecutionStep1;
 }
 
 bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	wstring sha1;
-	Sha1Sum sha1sum;
+	Sha1Sum sha1sum;	
 	ConfigurationFileActionDownload downloadVersion;
+
+	if (m_shouldInstallJava)
+	{
+		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"Java");
+		GetTempPath(MAX_PATH, m_szFilenameJava);
+		wcscat_s(m_szFilenameJava, downloadVersion.GetFilename().c_str());
+
+		if (m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilenameJava, progress, data) == false)
+			return false;
+	}
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"LanguageTool");
-
-	if (downloadVersion.IsEmpty())
-	{
-		g_log.Log(L"LangToolLibreOfficeAction::Download. ConfigurationFileActionDownload empty");
-		return true;
-	}
-
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
 	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, progress, data);
@@ -135,6 +167,27 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
+		switch (m_executionStep)
+		{
+			case ExecutionStepNone:
+				break;
+			case ExecutionStep1:
+			{
+				if (m_shouldInstallJava)
+				{
+					m_installingOffice->InstallExtension(m_runner, m_szFilename);	
+					m_executionStep = ExecutionStep2;
+					return InProgress;
+				}
+				break;
+			}				
+			case ExecutionStep2:
+				break;
+			default:
+				assert(false);
+				break;
+		}
+
 		if (m_installingOffice->IsInstalled())
 		{
 			SetStatus(Successful);
@@ -157,7 +210,7 @@ bool LangToolLibreOfficeAction::_isOpenOfficeInstalled(bool& bLibreInstalled, bo
 	bLibreInstalled = m_libreOffice.IsInstalled();
 	bApacheInstalled = m_apacheOpenOffice.IsInstalled();
 
-	g_log.Log(L"LangToolLibreOfficeAction::_isOpenOfficeInstalled: Libreoffice %u, ApacheOpenOffice %u'",
+	g_log.Log(L"LangToolLibreOfficeAction::_isOpenOfficeInstalled: Libreoffice %u, ApacheOpenOffice %u",
 		(wchar_t*) bLibreInstalled, (wchar_t*) bApacheInstalled);
 	
 	if (bLibreInstalled == false && bApacheInstalled == false)
