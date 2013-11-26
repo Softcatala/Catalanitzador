@@ -73,7 +73,7 @@ wstring OpenOfficeJavaConfiguration::GetDefaultJavaVersion()
 	if (parser.Load(file) == false)
 	{
 		g_log.Log(L"OpenOfficeJavaConfiguration::GetDefaultJavaVersion. Could not open '%s'", (wchar_t *) file.c_str());
-		return false;
+		return m_javaVersion;
 	}
 
 	parser.Parse(_readNodeCallback, this);
