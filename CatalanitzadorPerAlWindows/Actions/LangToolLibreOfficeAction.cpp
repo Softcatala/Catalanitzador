@@ -156,7 +156,6 @@ bool LangToolLibreOfficeAction::_readJavaVersion(wstring& version)
 		m_registry->Close();
 	}
 
-	g_log.Log(L"LangToolLibreOfficeAction::_readVersion version %s", (wchar_t*) version.c_str());
 	return version.empty() == false;
 }
 
