@@ -39,7 +39,7 @@ LangToolFirefoxAction::~LangToolFirefoxAction()
 
 wchar_t* LangToolFirefoxAction::GetName()
 {
-	return L"Instal·la LanguageTool per al Firefox";
+	return L"LanguageTool per al Firefox";
 }
 
 wchar_t* LangToolFirefoxAction::GetDescription()
