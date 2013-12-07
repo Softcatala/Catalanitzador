@@ -38,6 +38,7 @@
 #include "iTunesAction.h"
 #include "SkypeAction.h"
 #include "LangToolLibreOfficeAction.h"
+#include "LangToolFirefoxAction.h"
 
 Actions::Actions(DownloadManager* downloadManager)
 {
@@ -132,6 +133,7 @@ void Actions::_buildListOfActions()
 	m_actions.push_back(new SkypeAction(_getNewRegistry(), _getFileVersionInfo()));
 
 	m_actions.push_back(new LangToolLibreOfficeAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
+	m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 }
 
 Action * Actions::GetActionFromID(ActionID actionID)

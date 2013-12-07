@@ -731,6 +731,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\LangToolFirefoxAction.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Actions\LangToolFirefoxAction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\LangToolLibreOfficeAction.cpp"
 				>
 			</File>
