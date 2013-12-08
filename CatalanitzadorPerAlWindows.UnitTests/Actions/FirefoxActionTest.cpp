@@ -34,26 +34,44 @@ class FirefoxActionForTest : public FirefoxAction
 
 		FirefoxActionForTest(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : FirefoxAction(registry, runner, downloadManager) 
 		{
-			firefoxAcceptLanguagesAction = NULL;
-			firefoxLangPackAction = NULL;
+			_firefoxAcceptLanguagesAction = NULL;
+			_firefoxLangPackAction = NULL;
 		};
 
-		FirefoxLangPackAction* firefoxLangPackAction;
-		FirefoxAcceptLanguagesAction* firefoxAcceptLanguagesAction;
+		FirefoxLangPackAction* _firefoxLangPackAction;
+		FirefoxAcceptLanguagesAction* _firefoxAcceptLanguagesAction;
 
 		using FirefoxAction::_readVersionAndLocale;
 		using FirefoxAction::_getLocale;
 		using FirefoxAction::_readInstallPath;
 
-		void SetFirefoxLangPackAction(FirefoxLangPackAction* action) {firefoxLangPackAction = action;}
-		void SetFirefoxAcceptLanguagesAction(FirefoxAcceptLanguagesAction* action) {firefoxAcceptLanguagesAction = action;}
-
-		void SetSubActionsStatus(ActionStatus firefoxLangPackStatus, ActionStatus firefoxAcceptLanguagesStatus)
+		virtual FirefoxLangPackAction * _getLangPackAction() 
 		{
-			ActionMock firefoxLangPackAction, firefoxAcceptLanguagesAction;
+			if (_firefoxLangPackAction)
+				return _firefoxLangPackAction;
+
+			return FirefoxAction::_getLangPackAction();
+		}
+
+		virtual FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction()
+		{
+			if (_firefoxAcceptLanguagesAction)
+				return _firefoxAcceptLanguagesAction;
+
+			return FirefoxAction::_getAcceptLanguagesAction();
+		}
+
+		void SetFirefoxLangPackAction(FirefoxLangPackAction* action) {_firefoxLangPackAction = action;}
+		void SetFirefoxAcceptLanguagesAction(FirefoxAcceptLanguagesAction* action) {_firefoxAcceptLanguagesAction = action;}
+
+		void SetSubActionsStatus(ActionMock& firefoxLangPackAction, ActionMock& firefoxAcceptLanguagesAction, 
+			ActionStatus firefoxLangPackStatus, ActionStatus firefoxAcceptLanguagesStatus)
+		{			
+			EXPECT_CALL(firefoxLangPackAction, CheckPrerequirements(_));
+			EXPECT_CALL(firefoxAcceptLanguagesAction, CheckPrerequirements(_));
 			EXPECT_CALL(firefoxLangPackAction, GetStatus()).WillRepeatedly(Return(firefoxLangPackStatus));
 			EXPECT_CALL(firefoxAcceptLanguagesAction, GetStatus()).WillRepeatedly(Return(firefoxAcceptLanguagesStatus));
-			
+
 			SetFirefoxLangPackAction((FirefoxLangPackAction*) &firefoxLangPackAction);
 			SetFirefoxAcceptLanguagesAction((FirefoxAcceptLanguagesAction*) &firefoxAcceptLanguagesAction);
 		}
@@ -177,13 +195,14 @@ TEST(FirefoxActionTest, CheckPrerequirements_BothSubAtionsStatusAlready)
 	RunnerMock runnerMockobj;
 	const wchar_t* PATH = L"MyPath";
 	const wchar_t* VERSION = L"12.0 (ca)";
+	ActionMock firefoxLangPackAction, firefoxAcceptLanguagesAction;
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
 
 	_setMockForLocale(registryMockobj, VERSION);
 	_setMockForInstalldir(registryMockobj, VERSION, PATH);
 
-	firefoxAction.SetSubActionsStatus(AlreadyApplied, AlreadyApplied);
+	firefoxAction.SetSubActionsStatus(firefoxLangPackAction, firefoxAcceptLanguagesAction, AlreadyApplied, AlreadyApplied);
 	firefoxAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(firefoxAction.GetStatus(), AlreadyApplied);
 }
@@ -194,12 +213,13 @@ TEST(FirefoxActionTest, CheckPrerequirements_SubAtionsCannotBeAppliedAndStatusAl
 	RunnerMock runnerMockobj;
 	const wchar_t* PATH = L"MyPath";
 	const wchar_t* VERSION = L"12.0 (ca)";
+	ActionMock firefoxLangPackAction, firefoxAcceptLanguagesAction;
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
 	_setMockForLocale(registryMockobj, VERSION);
 	_setMockForInstalldir(registryMockobj, VERSION, PATH);
 
-	firefoxAction.SetSubActionsStatus(CannotBeApplied, AlreadyApplied);
+	firefoxAction.SetSubActionsStatus(firefoxLangPackAction, firefoxAcceptLanguagesAction, CannotBeApplied, AlreadyApplied);
 	firefoxAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(firefoxAction.GetStatus(), AlreadyApplied);
 }
@@ -210,13 +230,14 @@ TEST(FirefoxActionTest, CheckPrerequirements_SubAtionsStatusAlreadyAndCannotBeAp
 	RunnerMock runnerMockobj;
 	const wchar_t* PATH = L"MyPath";
 	const wchar_t* VERSION = L"12.0 (ca)";
+	ActionMock firefoxLangPackAction, firefoxAcceptLanguagesAction;
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
 
 	_setMockForLocale(registryMockobj, VERSION);
 	_setMockForInstalldir(registryMockobj, VERSION, PATH);
 
-	firefoxAction.SetSubActionsStatus(AlreadyApplied, CannotBeApplied);
+	firefoxAction.SetSubActionsStatus(firefoxLangPackAction, firefoxAcceptLanguagesAction, AlreadyApplied, CannotBeApplied);
 	firefoxAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(firefoxAction.GetStatus(), AlreadyApplied);
 }

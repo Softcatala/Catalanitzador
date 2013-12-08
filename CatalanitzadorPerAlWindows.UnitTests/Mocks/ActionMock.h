@@ -32,5 +32,5 @@ public:
 		MOCK_CONST_METHOD0(GetID, ActionID());
 		MOCK_METHOD0(IsNeed, bool());
 		MOCK_METHOD0(Execute, void());
-		
+		MOCK_METHOD1(CheckPrerequirements, void(Action *));
 };
