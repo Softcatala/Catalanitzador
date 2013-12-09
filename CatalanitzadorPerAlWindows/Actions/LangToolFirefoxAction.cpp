@@ -72,7 +72,7 @@ bool LangToolFirefoxAction::IsNeed()
 	return bNeed;
 }
 
-const wchar_t* EXTENSION_ID_GUID = L"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
+const wchar_t* FIREFOX_EXTENSION_ID_GUID = L"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
 const wchar_t* APPLICATION_ID_GUID = L"jid1-j3KiX1n7UXrjxQ@jetpack";
 
 void LangToolFirefoxAction::Execute()
@@ -83,7 +83,7 @@ void LangToolFirefoxAction::Execute()
 
 	extensionsDirectory = m_firefox.GetUserDataDirectory();
 	extensionsDirectory += L"Extensions\\";
-	extensionsDirectory += EXTENSION_ID_GUID;
+	extensionsDirectory += FIREFOX_EXTENSION_ID_GUID;
 
 	if (CreateDirectory(extensionsDirectory.c_str(), NULL) == FALSE)
 	{
