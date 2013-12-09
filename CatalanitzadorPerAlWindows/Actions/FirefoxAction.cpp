@@ -113,11 +113,9 @@ void FirefoxAction::SetStatus(ActionStatus value)
 wstring FirefoxAction::_getProfileRootDir()
 {
 	wstring location;
-	wchar_t szPath[MAX_PATH];
 	
-	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
-	location = szPath;
-	location += L"\\Mozilla\\Firefox\\";
+	location = m_firefox.GetUserDataDirectory();
+	location += L"Firefox\\";
 	return location;
 }
 

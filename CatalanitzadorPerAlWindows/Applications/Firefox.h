@@ -31,6 +31,7 @@ public:
 		wstring GetLocale();
 		wstring GetInstallPath();
 		void InvalidateCache() {m_cachedValues = false; }
+		wstring GetUserDataDirectory();
 		
 protected:
 

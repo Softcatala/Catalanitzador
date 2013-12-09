@@ -23,6 +23,7 @@
 #include "IRunner.h"
 #include "IOSVersion.h"
 #include "IRegistry.h"
+#include "Firefox.h"
 
 
 class LangToolFirefoxAction : public Action
@@ -33,7 +34,7 @@ public:
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
-		virtual ActionID GetID() const { return LangToolLibreOfficeActionID;};
+		virtual ActionID GetID() const { return LangToolFirefoxActionID;};
 		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
@@ -47,6 +48,8 @@ private:
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wchar_t m_szFilename[MAX_PATH];
-		wstring m_version;		
+		wstring m_version;
+		Firefox m_firefox;
+
 };
 

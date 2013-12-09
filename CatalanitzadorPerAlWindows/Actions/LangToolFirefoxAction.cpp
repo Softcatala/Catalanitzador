@@ -22,7 +22,7 @@
 #include "LangToolFirefoxAction.h"
 
 LangToolFirefoxAction::LangToolFirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : 
-Action(downloadManager)
+Action(downloadManager), m_firefox(registry)
 {
 	m_registry = registry;
 	m_runner = runner;
@@ -49,6 +49,7 @@ wchar_t* LangToolFirefoxAction::GetDescription()
 
 const wchar_t* LangToolFirefoxAction::GetVersion()
 {
+	m_version = m_firefox.GetVersion();
 	return m_version.c_str();
 }
 
@@ -71,22 +72,48 @@ bool LangToolFirefoxAction::IsNeed()
 	return bNeed;
 }
 
+const wchar_t* EXTENSION_ID_GUID = L"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
+const wchar_t* APPLICATION_ID_GUID = L"jid1-j3KiX1n7UXrjxQ@jetpack";
 
 void LangToolFirefoxAction::Execute()
 {
+	wstring extensionsDirectory, targetfile;
 
+	SetStatus(InProgress);
 
+	extensionsDirectory = m_firefox.GetUserDataDirectory();
+	extensionsDirectory += L"Extensions\\";
+	extensionsDirectory += EXTENSION_ID_GUID;
+
+	if (CreateDirectory(extensionsDirectory.c_str(), NULL) == FALSE)
+	{
+		g_log.Log(L"LangToolFirefoxAction::Execute. Cannot create directory '%s'", (wchar_t*) extensionsDirectory.c_str());
+		return;
+	}
+
+	targetfile = extensionsDirectory;
+	targetfile += L"\\";
+	targetfile += APPLICATION_ID_GUID;
+	targetfile += L".xpi";
+
+	if (CopyFile(m_szFilename, targetfile.c_str(), false) == FALSE)
+	{
+		g_log.Log(L"LangToolFirefoxAction::Execute. Unable to copy extension");
+		return;
+	}
+
+	SetStatus(Successful);
 }
 
 bool LangToolFirefoxAction::Download(ProgressStatus progress, void *data)
-{
-	wstring sha1;
-	Sha1Sum sha1sum;	
+{	
+	wstring filename;
 	ConfigurationFileActionDownload downloadVersion;
 
-	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"LanguageTool");
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
+
 	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, progress, data);
 }
 
@@ -106,6 +133,29 @@ ActionStatus LangToolFirefoxAction::GetStatus()
 // https://developer.mozilla.org/en-US/docs/Adding_Extensions_using_the_Windows_Registry
 // https://developer.mozilla.org/en-US/docs/Installing_extensions
 void LangToolFirefoxAction::CheckPrerequirements(Action * action) 
-{	
+{
+	m_version = m_firefox.GetVersion();
+
+	if (m_version.size() > 0)
+	{
+		// TODO : Is extension already installed?
+		
+		// Is version supported
+		ConfigurationFileActionDownload downloadVersion;
+		
+		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(m_version));
+		if (downloadVersion.IsEmpty())
+		{
+			_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
+			g_log.Log(L"LangToolFirefoxAction::CheckPrerequirements. Version not supported");
+			SetStatus(CannotBeApplied);
+			return;
+		}
+	}
+	else
+	{
+		_setStatusNotInstalled();
+		return;
+	}	
 
 }

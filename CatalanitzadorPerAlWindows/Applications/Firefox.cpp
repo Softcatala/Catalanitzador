@@ -105,7 +105,6 @@ wstring Firefox::_getVersionAndLocaleFromRegistry()
 	return version;
 }
 
-
 void Firefox::_readInstallPath()
 {
 	// Installation path should not change from execution to execution
@@ -131,4 +130,15 @@ void Firefox::_readInstallPath()
 		m_installPath = szPath;
 	}
 	m_registry->Close();
+}
+
+wstring Firefox::GetUserDataDirectory()
+{
+	wstring location;
+	wchar_t szPath[MAX_PATH];
+	
+	SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
+	location = szPath;
+	location += L"\\Mozilla\\";
+	return location;
 }

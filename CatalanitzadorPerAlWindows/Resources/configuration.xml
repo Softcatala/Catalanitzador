@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2013-11-14T03:00:00</date>
+		<date>2013-12-09T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -394,7 +394,7 @@
 	  		</download>
 		</action>		
 		
-		<!-- LangugeTool LibreOffice / Apache OpenOffice -->
+		<!-- LanguageTool LibreOffice / Apache OpenOffice -->
 		<action>
 	 		<id>18</id>
 	 		<download>
@@ -409,6 +409,18 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe.sha1</sha1_url_1>
 				<filename>jre-7u45-windows-i586.exe</filename>
 	  		</download>
+		</action>
+		
+		<!-- LanguageTool Firefox -->
+		<action>
+	 		<id>19</id>
+	 		<download>
+	  			<min_version>19.0</min_version>
+	  			<max_version>99.99.99</max_version>
+	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.4-fx.xpi</url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.4-fx.xpi.sha1</sha1_url_1>
+				<filename>languagetoolfx_stil_und_grammatikprufung-0.4-fx.xpi</filename>
+	  		</download>	  		
 		</action>
 	</actions>
 </configuration>

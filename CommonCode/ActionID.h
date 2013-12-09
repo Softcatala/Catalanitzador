@@ -41,5 +41,6 @@ enum ActionID
     MacSystemActionActionID = 15,
     MacSpellCheckerActionID = 16,
 	FirefoxLangPackActionID = 17,
-	LangToolLibreOfficeActionID = 18
+	LangToolLibreOfficeActionID = 18,
+	LangToolFirefoxActionID = 19
 };
