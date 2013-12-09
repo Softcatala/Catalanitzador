@@ -25,6 +25,7 @@
 #include "ActionExecution.h"
 #include "FirefoxLangPackAction.h"
 #include "FirefoxAcceptLanguagesAction.h"
+#include "Firefox.h"
 
 using namespace std;
 
@@ -50,19 +51,13 @@ public:
 		virtual void SetStatus(ActionStatus value);
 		
 protected:
-
-		wstring _getLocale();	
+		
 		wstring _getProfileRootDir();
-		void _readVersionAndLocale();		
-		bool _isAcceptLanguageOk();
-		void _readInstallPath(wstring& path);
+		bool _isAcceptLanguageOk();	
 		virtual FirefoxLangPackAction * _getLangPackAction();
 		virtual FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction();
 
 private:
-
-		wstring _getVersionAndLocaleFromRegistry();
-		void _extractLocaleAndVersion(wstring version);
 		
 		IRegistry* m_registry;
 		IRunner* m_runner;
@@ -70,7 +65,7 @@ private:
 		wstring m_version;
 		FirefoxLangPackAction* m_firefoxLangPackAction;
 		FirefoxAcceptLanguagesAction* m_firefoxAcceptLanguagesAction;
-		bool m_cachedVersionAndLocale;
+		Firefox m_firefox;
 		bool m_doFirefoxLangPackAction;
 		bool m_doFirefoxAcceptLanguagesAction;
 };

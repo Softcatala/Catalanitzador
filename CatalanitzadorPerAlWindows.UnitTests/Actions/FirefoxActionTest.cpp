@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "FirefoxAction.h"
+#include "FirefoxTest.h"
 #include "Serializer.h"
 #include "XmlParser.h"
 
@@ -27,6 +28,7 @@ using ::testing::Return;
 using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
+
 
 class FirefoxActionForTest : public FirefoxAction
 {
@@ -40,10 +42,6 @@ class FirefoxActionForTest : public FirefoxAction
 
 		FirefoxLangPackAction* _firefoxLangPackAction;
 		FirefoxAcceptLanguagesAction* _firefoxAcceptLanguagesAction;
-
-		using FirefoxAction::_readVersionAndLocale;
-		using FirefoxAction::_getLocale;
-		using FirefoxAction::_readInstallPath;
 
 		virtual FirefoxLangPackAction * _getLangPackAction() 
 		{
@@ -77,20 +75,6 @@ class FirefoxActionForTest : public FirefoxAction
 		}
 };
 
-void _setMockForLocale(RegistryMock& registryMockobj, const wchar_t* locale)
-{
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).	WillRepeatedly(DoAll(SetArgCharStringPar2(locale), Return(true)));
-}
-
-void _setMockForInstalldir(RegistryMock& registryMockobj, const wchar_t* locale, const wchar_t* installdir)
-{
-	wchar_t szKeyName[2048];
-
-	swprintf_s(szKeyName, L"SOFTWARE\\Mozilla\\Mozilla Firefox\\%s\\Main", locale);
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(szKeyName), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Install Directory"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(installdir), Return(true)));
-}
 
 bool FirefoxSerializerReadActionsIDs(XmlNode node, void *data)
 {
@@ -116,36 +100,6 @@ bool FirefoxSerializerReadActionsIDs(XmlNode node, void *data)
 	return true;
 }
 
-
-TEST(FirefoxActionTest, _readVersionAndLocale)
-{
-	RegistryMock registryMockobj;
-	RunnerMock runnerMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());
-
-	_setMockForLocale(registryMockobj, L"12.0 (ca)");
-
-	firefoxAction._readVersionAndLocale();
-	EXPECT_THAT(firefoxAction.GetVersion(), StrCaseEq(L"12.0"));
-	EXPECT_THAT(firefoxAction._getLocale(), StrCaseEq(L"ca"));	
-}
-
-TEST(FirefoxActionTest, _readInstallPath)
-{
-	RegistryMock registryMockobj;
-	RunnerMock runnerMockobj;
-	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());
-	const wchar_t* PATH = L"MyPath";
-	const wchar_t* VERSION = L"12.0 (ca)";
-	wstring path;	
-
-	_setMockForLocale(registryMockobj, VERSION);
-	_setMockForInstalldir(registryMockobj, VERSION, PATH);
-
-	firefoxAction._readInstallPath(path);
-	EXPECT_THAT(path.c_str(), StrCaseEq(PATH));
-}
-
 TEST(FirefoxActionTest, _Serialize)
 {
 	bool bRslt;
@@ -157,8 +111,8 @@ TEST(FirefoxActionTest, _Serialize)
 	const wchar_t* VERSION = L"12.0 (ca)";
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());
-	_setMockForLocale(registryMockobj, VERSION);
-	_setMockForInstalldir(registryMockobj, VERSION, L"");
+	FirefoxTest::_setMockForLocale(registryMockobj, VERSION);
+	FirefoxTest::_setMockForInstalldir(registryMockobj, VERSION, L"");
 
 	serializer.OpenHeader();
 	firefoxAction.Serialize(serializer.GetStream());
@@ -182,8 +136,8 @@ TEST(FirefoxActionTest, CheckPrerequirements_NotInstalled)
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
 
-	_setMockForLocale(registryMockobj, VERSION);
-	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+	FirefoxTest::_setMockForLocale(registryMockobj, VERSION);
+	FirefoxTest::_setMockForInstalldir(registryMockobj, VERSION, PATH);
 
 	firefoxAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(firefoxAction.GetStatus(), NotInstalled);
@@ -199,8 +153,8 @@ TEST(FirefoxActionTest, CheckPrerequirements_BothSubAtionsStatusAlready)
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
 
-	_setMockForLocale(registryMockobj, VERSION);
-	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+	FirefoxTest::_setMockForLocale(registryMockobj, VERSION);
+	FirefoxTest::_setMockForInstalldir(registryMockobj, VERSION, PATH);
 
 	firefoxAction.SetSubActionsStatus(firefoxLangPackAction, firefoxAcceptLanguagesAction, AlreadyApplied, AlreadyApplied);
 	firefoxAction.CheckPrerequirements(NULL);
@@ -216,8 +170,8 @@ TEST(FirefoxActionTest, CheckPrerequirements_SubAtionsCannotBeAppliedAndStatusAl
 	ActionMock firefoxLangPackAction, firefoxAcceptLanguagesAction;
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
-	_setMockForLocale(registryMockobj, VERSION);
-	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+	FirefoxTest::_setMockForLocale(registryMockobj, VERSION);
+	FirefoxTest::_setMockForInstalldir(registryMockobj, VERSION, PATH);
 
 	firefoxAction.SetSubActionsStatus(firefoxLangPackAction, firefoxAcceptLanguagesAction, CannotBeApplied, AlreadyApplied);
 	firefoxAction.CheckPrerequirements(NULL);
@@ -234,8 +188,8 @@ TEST(FirefoxActionTest, CheckPrerequirements_SubAtionsStatusAlreadyAndCannotBeAp
 
 	FirefoxActionForTest firefoxAction(&registryMockobj, (IRunner *)&runnerMockobj, &DownloadManager());	
 
-	_setMockForLocale(registryMockobj, VERSION);
-	_setMockForInstalldir(registryMockobj, VERSION, PATH);
+	FirefoxTest::_setMockForLocale(registryMockobj, VERSION);
+	FirefoxTest::_setMockForInstalldir(registryMockobj, VERSION, PATH);
 
 	firefoxAction.SetSubActionsStatus(firefoxLangPackAction, firefoxAcceptLanguagesAction, AlreadyApplied, CannotBeApplied);
 	firefoxAction.CheckPrerequirements(NULL);

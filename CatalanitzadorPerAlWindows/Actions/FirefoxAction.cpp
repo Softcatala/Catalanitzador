@@ -20,11 +20,11 @@
 #include "stdafx.h"
 #include "FirefoxAction.h"
 
-FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
+FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager), 
+m_firefox(registry)
 {
 	m_registry = registry;
 	m_runner = runner;
-	m_cachedVersionAndLocale = false;
 	m_firefoxLangPackAction = NULL;
 	m_firefoxAcceptLanguagesAction = NULL;
 	m_doFirefoxLangPackAction = false;
@@ -69,8 +69,8 @@ FirefoxLangPackAction * FirefoxAction::_getLangPackAction()
 	{
 		wstring path;
 
-		_readInstallPath(path);		
-		m_firefoxLangPackAction = new FirefoxLangPackAction(m_runner, path, _getLocale(), GetVersion(), m_downloadManager);
+		path = m_firefox.GetInstallPath();
+		m_firefoxLangPackAction = new FirefoxLangPackAction(m_runner, path, m_firefox.GetLocale(), GetVersion(), m_downloadManager);
 	}
 	return m_firefoxLangPackAction;
 }
@@ -79,7 +79,7 @@ FirefoxAcceptLanguagesAction * FirefoxAction::_getAcceptLanguagesAction()
 {
 	if (m_firefoxAcceptLanguagesAction == NULL)
 	{
-		m_firefoxAcceptLanguagesAction = new FirefoxAcceptLanguagesAction(_getProfileRootDir(), _getLocale(), GetVersion());
+		m_firefoxAcceptLanguagesAction = new FirefoxAcceptLanguagesAction(_getProfileRootDir(), m_firefox.GetLocale(), GetVersion());
 	}
 	return m_firefoxAcceptLanguagesAction;
 }
@@ -157,8 +157,8 @@ ActionStatus FirefoxAction::GetStatus()
 		// Re-read locale after language pack
 		if (m_doFirefoxLangPackAction)
 		{
-			m_cachedVersionAndLocale = false;
-			_getLangPackAction()->SetLocaleAndUpdateStatus(_getLocale());
+			m_firefox.InvalidateCache();
+			_getLangPackAction()->SetLocaleAndUpdateStatus(m_firefox.GetLocale());
 		}
 
 		if (m_doFirefoxAcceptLanguagesAction)
@@ -183,99 +183,8 @@ ActionStatus FirefoxAction::GetStatus()
 
 const wchar_t* FirefoxAction::GetVersion()
 {
-	_readVersionAndLocale();	
+	m_version = m_firefox.GetVersion();
 	return m_version.c_str();
-}
-
-wstring FirefoxAction::_getLocale()
-{	
-	_readVersionAndLocale();	
-	return m_locale;
-}
-
-void FirefoxAction::_extractLocaleAndVersion(wstring version)
-{	
-	int start, end;
-
-	start = version.find(L" ");
-	if (start != wstring::npos)
-	{
-		m_version = version.substr(0, start);			
-
-		start = version.find(L"(", start);
-
-		if (start != wstring::npos)
-		{
-			start++;
-			end = version.find(L")", start);
-			if (end != wstring::npos)
-			{
-				m_locale = version.substr(start, end-start);
-			}
-		}
-	}
-}
-
-#define FIREFOX_REGKEY L"SOFTWARE\\Mozilla\\Mozilla Firefox"
-
-wstring FirefoxAction::_getVersionAndLocaleFromRegistry()
-{
-	wstring version;
-
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false) == false)
-	{
-		g_log.Log(L"FirefoxAction::_getVersionAndLocaleFromRegistry. Cannot open registry key");
-		return version;
-	}
-	
-	wchar_t szVersion[1024];
-	
-	if (m_registry->GetString(L"CurrentVersion", szVersion, sizeof(szVersion)))
-	{
-		g_log.Log(L"FirefoxAction::_getVersionAndLocaleFromRegistry. Firefox version %s", (wchar_t*) szVersion);
-		version = szVersion;
-	}
-
-	m_registry->Close();
-	return version;
-}
-
-void FirefoxAction::_readVersionAndLocale()
-{
-	if (m_cachedVersionAndLocale)
-		return;
-
-	wstring version;
-	version = _getVersionAndLocaleFromRegistry();
-	_extractLocaleAndVersion(version);
-	m_cachedVersionAndLocale = true;
-}
-
-void FirefoxAction::_readInstallPath(wstring& path)
-{
-	wstring version;
-
-	version = _getVersionAndLocaleFromRegistry();
-
-	if (version.empty())
-		return;
-
-	wstring key(FIREFOX_REGKEY);
-	key += L"\\" + version + L"\\Main";
-
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false) == false)
-	{
-		g_log.Log(L"FirefoxAction::_readInstallPath. Cannot open registry key");
-		return;
-	}
-	
-	wchar_t szPath[MAX_PATH];
-	
-	if (m_registry->GetString(L"Install Directory", szPath, sizeof(szPath)))
-	{
-		path = szPath;
-	}
-	m_registry->Close();
 }
 
 void FirefoxAction::Serialize(ostream* stream)

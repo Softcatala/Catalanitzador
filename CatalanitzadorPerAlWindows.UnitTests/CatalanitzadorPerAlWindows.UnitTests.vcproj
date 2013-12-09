@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Models\&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Models\&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -122,7 +122,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Models\&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Models\&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -509,6 +509,14 @@
 			</File>
 			<File
 				RelativePath=".\Applications\FirefoxAcceptLanguagesTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Applications\FirefoxTest .h"
+				>
+			</File>
+			<File
+				RelativePath=".\Applications\FirefoxTest.cpp"
 				>
 			</File>
 			<File
