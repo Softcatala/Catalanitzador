@@ -51,7 +51,18 @@ wchar_t* LangToolLibreOfficeAction::GetName()
 
 wchar_t* LangToolLibreOfficeAction::GetDescription()
 {
-	return _getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_DESCRIPTION, szDescription);
+	_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_DESCRIPTION, szDescription);
+	
+	if (m_shouldInstallJava)
+	{
+		wchar_t szJava[MAX_LOADSTRING];
+
+		_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_REQUIERESJAVA, szJava);
+		wcscat_s(szDescription, L"\r\n\r\n");
+		wcscat_s(szDescription, szJava);
+	}
+	
+	return szDescription;
 }
 
 const wchar_t* LangToolLibreOfficeAction::GetVersion()
