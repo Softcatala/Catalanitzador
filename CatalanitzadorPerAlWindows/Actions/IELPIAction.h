@@ -34,7 +34,7 @@ public:
 		virtual wchar_t* GetName() {return L""; }
 		virtual wchar_t* GetDescription() {return L""; }
 		virtual ActionID GetID() const { return IELPIActionID;};
-		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
+		virtual ActionGroup GetGroup() const {return ActionGroupBrowsers;}
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();		
 		virtual void Execute();

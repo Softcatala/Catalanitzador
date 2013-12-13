@@ -39,7 +39,7 @@ public:
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
 		virtual ActionID GetID() const { return ChromeActionID;};
-		virtual ActionGroup GetGroup() const {return ActionGroupInternet;}
+		virtual ActionGroup GetGroup() const {return ActionGroupBrowsers;}
 		virtual bool IsDownloadNeed() {return false;}
 		virtual bool IsNeed();
 		virtual void Execute();

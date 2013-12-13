@@ -23,8 +23,8 @@ enum ActionGroup
 {
 	ActionGroupNone, // Used for actions not shown to the user
 	ActionGroupWindows,
-	ActionGroupInternet,
 	ActionGroupOfficeAutomation,
-	ActionGroupLanguageTools,
+	ActionGroupBrowsers,
+	ActionGroupInternet,
 	ActionGroupLast // Keep this always as last element
 };
