@@ -20,9 +20,12 @@
 #include "stdafx.h"
 #include "ConfigurationInstance.h"
 #include "LangToolFirefoxAction.h"
+#include "FirefoxPreferencesFile.h"
+
+const wchar_t* APPLICATION_ID_GUID = L"jid1-j3KiX1n7UXrjxQ@jetpack";
 
 LangToolFirefoxAction::LangToolFirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : 
-Action(downloadManager), m_firefox(registry)
+Action(downloadManager), m_firefox(registry), m_firefoxAddOn(m_firefox.GetUserDataDirectory(), m_firefox.GetProfileRootDir())
 {
 	m_registry = registry;
 	m_runner = runner;
@@ -72,37 +75,20 @@ bool LangToolFirefoxAction::IsNeed()
 	return bNeed;
 }
 
-const wchar_t* FIREFOX_EXTENSION_ID_GUID = L"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
-const wchar_t* APPLICATION_ID_GUID = L"jid1-j3KiX1n7UXrjxQ@jetpack";
-
 void LangToolFirefoxAction::Execute()
 {
-	wstring extensionsDirectory, targetfile;
-
 	SetStatus(InProgress);
 
-	extensionsDirectory = m_firefox.GetUserDataDirectory();
-	extensionsDirectory += L"Extensions\\";
-	extensionsDirectory += FIREFOX_EXTENSION_ID_GUID;
+	m_firefoxAddOn.InstallAddOn(APPLICATION_ID_GUID, m_szFilename);
 
-	if (CreateDirectory(extensionsDirectory.c_str(), NULL) == FALSE)
+	if (m_firefoxAddOn.IsAddOnInstalled(APPLICATION_ID_GUID))
 	{
-		g_log.Log(L"LangToolFirefoxAction::Execute. Cannot create directory '%s'", (wchar_t*) extensionsDirectory.c_str());
-		return;
+		SetStatus(Successful);
 	}
-
-	targetfile = extensionsDirectory;
-	targetfile += L"\\";
-	targetfile += APPLICATION_ID_GUID;
-	targetfile += L".xpi";
-
-	if (CopyFile(m_szFilename, targetfile.c_str(), false) == FALSE)
+	else
 	{
-		g_log.Log(L"LangToolFirefoxAction::Execute. Unable to copy extension");
-		return;
+		SetStatus(FinishedWithError);
 	}
-
-	SetStatus(Successful);
 }
 
 bool LangToolFirefoxAction::Download(ProgressStatus progress, void *data)
@@ -129,16 +115,17 @@ ActionStatus LangToolFirefoxAction::GetStatus()
 	return status;
 }
 
-
-// https://developer.mozilla.org/en-US/docs/Adding_Extensions_using_the_Windows_Registry
-// https://developer.mozilla.org/en-US/docs/Installing_extensions
 void LangToolFirefoxAction::CheckPrerequirements(Action * action) 
 {
 	m_version = m_firefox.GetVersion();
 
 	if (m_version.size() > 0)
 	{
-		// TODO : Is extension already installed?
+		if (m_firefoxAddOn.IsAddOnInstalled(APPLICATION_ID_GUID))
+		{
+			SetStatus(AlreadyApplied);
+			return;
+		}
 		
 		// Is version supported
 		ConfigurationFileActionDownload downloadVersion;
@@ -156,6 +143,5 @@ void LangToolFirefoxAction::CheckPrerequirements(Action * action)
 	{
 		_setStatusNotInstalled();
 		return;
-	}	
-
+	}
 }

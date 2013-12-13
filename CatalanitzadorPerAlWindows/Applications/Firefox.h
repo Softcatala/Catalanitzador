@@ -32,6 +32,7 @@ public:
 		wstring GetInstallPath();
 		void InvalidateCache() {m_cachedValues = false; }
 		wstring GetUserDataDirectory();
+		wstring GetProfileRootDir();
 		
 protected:
 

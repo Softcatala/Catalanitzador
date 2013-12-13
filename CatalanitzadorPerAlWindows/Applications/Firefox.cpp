@@ -142,3 +142,12 @@ wstring Firefox::GetUserDataDirectory()
 	location += L"\\Mozilla\\";
 	return location;
 }
+
+wstring Firefox::GetProfileRootDir()
+{
+	wstring location;
+	
+	location = GetUserDataDirectory();
+	location += L"Firefox\\";
+	return location;
+}

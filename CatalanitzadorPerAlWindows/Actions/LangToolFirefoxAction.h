@@ -21,9 +21,9 @@
 
 #include "Action.h"
 #include "IRunner.h"
-#include "IOSVersion.h"
 #include "IRegistry.h"
 #include "Firefox.h"
+#include "FirefoxAddOn.h"
 
 
 class LangToolFirefoxAction : public Action
@@ -50,6 +50,6 @@ private:
 		wchar_t m_szFilename[MAX_PATH];
 		wstring m_version;
 		Firefox m_firefox;
-
+		FirefoxAddOn m_firefoxAddOn;
 };
 

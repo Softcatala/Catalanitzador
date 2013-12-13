@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,20 +19,17 @@
 
 #pragma once
 
-class FirefoxPreferencesFile
+class FirefoxAddOn
 {
 public:
-		FirefoxPreferencesFile(wstring profileRootDir);
-		bool GetPreferencesDirectory(wstring& directory);
+		FirefoxAddOn(wstring userDataDirectory, wstring profileRootDir);
 
-protected:
-		bool _readValue(wstring location, wstring key, wstring& value);
-		wstring _getProfileRootDir() {return m_profileRootDir;}
-		void _getProfilesIniLocation(wstring &location);
-		bool _getPreferencesFile(wstring &location);
-		bool _getProfileDirectoryFromProfilesIni(wstring file, wstring &profileLocation);
+		void InstallAddOn(wstring applicationID, wstring file);
+		bool IsAddOnInstalled(wstring applicationID);
 
 private:
-		wstring m_profileRootDir;
+
+		wstring m_userDataDirectory;
+		wstring m_profileRootDir;		
 };
 

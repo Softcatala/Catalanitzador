@@ -963,6 +963,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxAddOn.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxAddOn.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\FirefoxChannel.cpp"
 				>
 			</File>

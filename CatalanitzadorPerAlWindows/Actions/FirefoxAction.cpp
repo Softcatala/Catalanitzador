@@ -112,11 +112,7 @@ void FirefoxAction::SetStatus(ActionStatus value)
 
 wstring FirefoxAction::_getProfileRootDir()
 {
-	wstring location;
-	
-	location = m_firefox.GetUserDataDirectory();
-	location += L"Firefox\\";
-	return location;
+	return m_firefox.GetProfileRootDir();
 }
 
 bool FirefoxAction::IsDownloadNeed()

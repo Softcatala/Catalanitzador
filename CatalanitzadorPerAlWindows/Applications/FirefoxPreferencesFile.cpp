@@ -29,7 +29,7 @@ FirefoxPreferencesFile::FirefoxPreferencesFile(wstring profileRootDir)
 
 #define	PATHKEY L"Path="
 
-bool FirefoxPreferencesFile::_getProfileLocationFromProfilesIni(wstring file, wstring &profileLocation)
+bool FirefoxPreferencesFile::_getProfileDirectoryFromProfilesIni(wstring file, wstring &profileLocation)
 {
 	wifstream reader;
 	wstring line;
@@ -39,7 +39,7 @@ bool FirefoxPreferencesFile::_getProfileLocationFromProfilesIni(wstring file, ws
 
 	if (!reader.is_open())
 	{
-		g_log.Log(L"FirefoxPreferencesFile::_getProfileLocationFromProfilesIni. Cannot open file %s", (wchar_t *) file.c_str());
+		g_log.Log(L"FirefoxPreferencesFile::_getProfileDirectoryFromProfilesIni. Cannot open file %s", (wchar_t *) file.c_str());
 		return false;
 	}
 
@@ -52,7 +52,7 @@ bool FirefoxPreferencesFile::_getProfileLocationFromProfilesIni(wstring file, ws
 		return true;
 	}
 
-	g_log.Log(L"FirefoxPreferencesFile::_getProfileLocationFromProfilesIni. Path key not found");
+	g_log.Log(L"FirefoxPreferencesFile::_getProfileDirectoryFromProfilesIni. Path key not found");
 	return false;
 }
 
@@ -62,13 +62,17 @@ void FirefoxPreferencesFile::_getProfilesIniLocation(wstring &location)
 	location += L"profiles.ini";
 }
 
-bool FirefoxPreferencesFile::_getPreferencesFile(wstring &location)
+bool FirefoxPreferencesFile::GetPreferencesDirectory(wstring& directory)
 {
 	wstring profileIni;
 
 	_getProfilesIniLocation(profileIni);
-	
-	if (_getProfileLocationFromProfilesIni(profileIni, location))
+	return _getProfileDirectoryFromProfilesIni(profileIni, directory);
+}
+
+bool FirefoxPreferencesFile::_getPreferencesFile(wstring &location)
+{	
+	if (GetPreferencesDirectory(location))
 	{	
 		location += L"\\prefs.js";
 		return true;
