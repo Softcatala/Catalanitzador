@@ -42,12 +42,12 @@ LangToolFirefoxAction::~LangToolFirefoxAction()
 
 wchar_t* LangToolFirefoxAction::GetName()
 {
-	return L"LanguageTool per al Firefox";
+	return _getStringFromResourceIDName(IDS_LANGUAGETOOL_FIREFOX_NAME, szName);
 }
 
 wchar_t* LangToolFirefoxAction::GetDescription()
 {
-	return L"Instal·la LanguageTool al Firefox descripció";
+	return _getStringFromResourceIDName(IDS_LANGUAGETOOL_FIREFOX_DESCRIPTION, szName);
 }
 
 const wchar_t* LangToolFirefoxAction::GetVersion()
