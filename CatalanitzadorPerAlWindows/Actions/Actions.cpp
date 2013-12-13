@@ -125,15 +125,14 @@ void Actions::_buildListOfActions()
 
 	m_actions.push_back(new ChromeAction( _getNewRegistry()));
 	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
+	m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
+	m_actions.push_back(new LangToolLibreOfficeAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));	
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new WindowsLiveAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
 	m_actions.push_back(new iTunesAction(_getNewRegistry(), _getFileVersionInfo()));
 	m_actions.push_back(new SkypeAction(_getNewRegistry(), _getFileVersionInfo()));
-
-	m_actions.push_back(new LangToolLibreOfficeAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 }
 
 Action * Actions::GetActionFromID(ActionID actionID)
