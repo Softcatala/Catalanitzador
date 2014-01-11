@@ -37,21 +37,25 @@ FirefoxAddOn::FirefoxAddOn(wstring userDataDirectory, wstring profileRootDir)
 	m_profileRootDir = profileRootDir;
 }
 
+// There are 3 places where extensions can be installed
+//
+// 1. %PROGRAMFILES%\Mozilla Firefox\browser\extensions
+// 2. %appdata%\Extensions\{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\jid1-j3KiX1n7UXrjxQ@jetpack.xpi
+// 3. %appdata%\Mozilla\Firefox\Profiles\PROFILE_DIR\extensions
+//
+//  Only option 3 allows us to update the extensions after they have been installed
+//
 // https://developer.mozilla.org/en-US/docs/Installing_extensions
 void FirefoxAddOn::InstallAddOn(wstring applicationID, wstring file)
 {
 	wstring extensionsDirectory, targetfile;
 	wchar_t szPath[MAX_PATH];
+	wstring path;
+	FirefoxPreferencesFile preferences(m_profileRootDir);
 
-	swprintf_s(szPath, L"%sExtensions\\%s", m_userDataDirectory.c_str(), FIREFOX_EXTENSION_ID_GUID);
-	if (GetFileAttributes(szPath) == INVALID_FILE_ATTRIBUTES && CreateDirectory(szPath, NULL) == FALSE)
-	{
-		g_log.Log(L"FirefoxAddOn::InstallAddOn. Cannot create directory '%s'", (wchar_t*) extensionsDirectory.c_str());
-		return;
-	}
+	preferences.GetPreferencesDirectory(path);
 
-	swprintf_s(szPath, L"%sExtensions\\%s\\%s.xpi", m_userDataDirectory.c_str(), FIREFOX_EXTENSION_ID_GUID, applicationID.c_str());
-	
+	swprintf_s(szPath, L"%s\\extensions\\%s.xpi", path.c_str(), applicationID.c_str());	
 	if (CopyFile(file.c_str(), szPath, false) == FALSE)
 	{
 		g_log.Log(L"FirefoxAddOn::InstallAddOn. Unable to copy extension");
