@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2013-12-09T03:00:00</date>
+		<date>2014-01-12T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -401,12 +401,16 @@
 	  			<version>LanguageTool</version>
 	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.3.oxt</url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.3.oxt.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.3.oxt</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.3.oxt</url_3>
 				<filename>LanguageTool-2.3.oxt</filename>
 	  		</download>
 	  		<download>
 	  			<version>Java</version>
 	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe</url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe</url_3>
 				<filename>jre-7u45-windows-i586.exe</filename>
 	  		</download>
 		</action>
@@ -419,6 +423,7 @@
 	  			<max_version>99.99.99</max_version>
 	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.4-fx.xpi</url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.4-fx.xpi.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.4-fx.xpi</url_2>
 				<filename>languagetoolfx_stil_und_grammatikprufung-0.4-fx.xpi</filename>
 	  		</download>	  		
 		</action>
