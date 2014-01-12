@@ -280,6 +280,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mocks\DownloadInternetMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\FileVersionInfoMock.h"
 				>
 			</File>
@@ -373,6 +377,10 @@
 			</File>
 			<File
 				RelativePath=".\Core\CommandLineTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\DownloadManagerTest.cpp"
 				>
 			</File>
 			<File

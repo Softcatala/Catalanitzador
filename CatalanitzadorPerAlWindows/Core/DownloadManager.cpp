@@ -21,6 +21,15 @@
 #include "DownloadManager.h"
 #define SHA1_EXTENSION L".sha1"
 
+DownloadManager::DownloadManager()
+{
+	m_inetAcccess = &m_defaultInetAcccess;
+}
+
+DownloadManager::DownloadManager(IDownloadInet* inetAcccess)
+{
+	m_inetAcccess = inetAcccess;
+}
 
 bool DownloadManager::_getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_file, Sha1Sum &sha1sum)
 {	
@@ -28,7 +37,7 @@ bool DownloadManager::_getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_f
 	bool bRslt;
 
 	sha1_file += SHA1_EXTENSION;	
-	bRslt = inetacccess.GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
+	bRslt = m_inetAcccess->GetFile((wchar_t *)sha1_url.c_str(), (wchar_t *)sha1_file.c_str(), NULL, NULL);
 	g_log.Log(L"DownloadManager::_getAssociatedFileSha1Sum '%s' is %u", (wchar_t *) sha1_url.c_str(), (wchar_t *) bRslt);
 
 	sha1sum.SetFile(sha1_file);
@@ -46,7 +55,7 @@ int DownloadManager::GetFileSize(ConfigurationFileActionDownload configuration) 
 	for (unsigned index = 0; index < configuration.GetUrls().size(); index++)
 	{
 		url = configuration.GetUrls().at(index);
-		size = inetacccess.GetFileSize((wchar_t *)url.c_str());
+		size = m_inetAcccess->GetFileSize((wchar_t *)url.c_str());
 
 		if (size > 0)
 			break;		
@@ -64,7 +73,7 @@ bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDown
 	for (unsigned index = 0; index < configuration.GetUrls().size(); index++)
 	{
 		url = configuration.GetUrls().at(index);
-		bRslt = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
+		bRslt = m_inetAcccess->GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
 		g_log.Log(L"DownloadManager::GetFileAndVerifyAssociatedSha1 '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
 
 		if (bRslt == false)
@@ -89,7 +98,7 @@ bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDown
 	{
 		url = configuration.GetUrls().at(index);
 		sha1_url = configuration.GetSha1Urls().at(index);
-		bRslt = inetacccess.GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
+		bRslt = m_inetAcccess->GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
 		g_log.Log(L"DownloadManager::GetFileAndVerifyAssociatedSha1 '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
 
 		if (bRslt == false)

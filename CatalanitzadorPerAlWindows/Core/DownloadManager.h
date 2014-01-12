@@ -29,7 +29,10 @@ using namespace std;
 
 class DownloadManager
 {
-	public:		
+	public:
+
+		DownloadManager();
+		DownloadManager(IDownloadInet* inetAcccess);
 		
 		bool GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data);
 		bool GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, Sha1Sum sha1sum, ProgressStatus progress, void *data);
@@ -40,4 +43,6 @@ class DownloadManager
 		bool _getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_file, Sha1Sum &sha1sum);
 
 		vector <ConfigurationFileActionDownloads> m_fileActionsDownloads;
+		IDownloadInet* m_inetAcccess;
+		DownloadInet m_defaultInetAcccess;
 };
