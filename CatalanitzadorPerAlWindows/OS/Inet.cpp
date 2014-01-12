@@ -22,14 +22,14 @@
 
 Inet::Inet()
 {
-	hInternet = InternetOpen(0, INTERNET_OPEN_TYPE_PRECONFIG, 0, 0, 0);
+	m_hInternet = InternetOpen(0, INTERNET_OPEN_TYPE_PRECONFIG, 0, 0, 0);
 }
 
 Inet::~Inet()
 {
-	if (hInternet != NULL)
+	if (m_hInternet != NULL)
 	{
-		InternetCloseHandle(hInternet);
+		InternetCloseHandle(m_hInternet);
 	}
 }
 

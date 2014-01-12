@@ -25,6 +25,7 @@
 #include "IRegistry.h"
 #include "LibreOffice.h"
 #include "ApacheOpenOffice.h"
+#include "MultipleDownloads.h"
 
 class LangToolLibreOfficeAction : public Action
 {
@@ -69,6 +70,7 @@ private:
 		wchar_t m_szFilenameJava[MAX_PATH];
 		wstring m_version;
 		ExecutionStep m_executionStep;
+		MultipleDownloads m_multipleDownloads;
 
 		OpenOffice* m_installingOffice;
 		bool m_shouldInstallJava;

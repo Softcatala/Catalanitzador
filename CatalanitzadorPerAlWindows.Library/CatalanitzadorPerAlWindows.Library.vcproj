@@ -451,6 +451,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\MultipleDownloads.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\MultipleDownloads.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CommonCode\Serializable.h"
 				>
 			</File>

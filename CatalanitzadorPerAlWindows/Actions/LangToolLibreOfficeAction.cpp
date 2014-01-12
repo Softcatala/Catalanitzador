@@ -22,7 +22,7 @@
 #include "LangToolLibreOfficeAction.h"
 
 LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : 
-Action(downloadManager), m_libreOffice(registry), m_apacheOpenOffice(registry)
+Action(downloadManager), m_libreOffice(registry), m_apacheOpenOffice(registry), m_multipleDownloads(downloadManager)
 {
 	m_registry = registry;
 	m_runner = runner;
@@ -131,7 +131,7 @@ void LangToolLibreOfficeAction::Execute()
 bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 {
 	wstring sha1;
-	Sha1Sum sha1sum;	
+	Sha1Sum sha1sum;
 	ConfigurationFileActionDownload downloadVersion;
 
 	if (m_shouldInstallJava)
@@ -139,15 +139,14 @@ bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"Java");
 		GetTempPath(MAX_PATH, m_szFilenameJava);
 		wcscat_s(m_szFilenameJava, downloadVersion.GetFilename().c_str());
-
-		if (m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilenameJava, progress, data) == false)
-			return false;
+		m_multipleDownloads.AddDownload(downloadVersion, m_szFilenameJava);		
 	}
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"LanguageTool");
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
-	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, progress, data);
+	m_multipleDownloads.AddDownload(downloadVersion, m_szFilename);
+	return m_multipleDownloads.Download(progress, data);
 }
 
 

@@ -31,8 +31,9 @@ class DownloadManager
 {
 	public:		
 		
-		bool GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data);		
+		bool GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data);
 		bool GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, Sha1Sum sha1sum, ProgressStatus progress, void *data);
+		int GetFileSize(ConfigurationFileActionDownload configuration) const;
 		
 	private:
 

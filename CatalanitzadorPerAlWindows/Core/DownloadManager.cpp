@@ -37,6 +37,22 @@ bool DownloadManager::_getAssociatedFileSha1Sum(wstring sha1_url, wstring sha1_f
 	return sha1sum.GetSum().empty() == false;
 }
 
+int DownloadManager::GetFileSize(ConfigurationFileActionDownload configuration) const
+{
+	DownloadInet inetacccess;	
+	wstring url;
+	int size = 0;
+
+	for (unsigned index = 0; index < configuration.GetUrls().size(); index++)
+	{
+		url = configuration.GetUrls().at(index);
+		size = inetacccess.GetFileSize((wchar_t *)url.c_str());
+
+		if (size > 0)
+			break;		
+	}
+	return size;
+}
 
 bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, Sha1Sum sha1_read, ProgressStatus progress, void *data)
 {

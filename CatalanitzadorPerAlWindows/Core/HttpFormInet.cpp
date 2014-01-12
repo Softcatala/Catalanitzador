@@ -73,7 +73,7 @@ bool HttpFormInet::PostForm(wstring _url, vector <string> variables, vector <str
 	const wchar_t* accept[2]= {L"*/*", NULL};
 	Url url(_url);
 	
-	hConnect = InternetConnect(hInternet, url.GetHostname(),
+	hConnect = InternetConnect(m_hInternet, url.GetHostname(),
 		INTERNET_DEFAULT_HTTP_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 1);
 
 	if (hConnect == NULL)

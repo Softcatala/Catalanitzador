@@ -24,9 +24,11 @@
 class HttpDownloadInet : public IDownloadInet
 {
 public:
+		virtual int GetFileSize(wchar_t* URL) const;
 		virtual bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data);
 
 private:
 		int _getStatusCode(HINTERNET hRemoteFile) const;
 		int _getFileSize(HINTERNET hRemoteFile) const;
+		HINTERNET _internetOpenUrl(wchar_t* URL) const;		
 };

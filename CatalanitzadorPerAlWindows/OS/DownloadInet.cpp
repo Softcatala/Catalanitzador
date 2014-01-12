@@ -26,6 +26,27 @@
 #define HTTP_SCHEME L"http"
 #define FTP_SCHEME L"ftp"
 
+
+int DownloadInet::GetFileSize(wchar_t* URL) const
+{
+	Url url(URL);
+
+	if (wcscmp(url.GetScheme(), HTTP_SCHEME) == 0)
+	{
+		HttpDownloadInet httpDownloadInet;
+		return httpDownloadInet.GetFileSize(URL);
+	}
+
+	if (wcscmp(url.GetScheme(), FTP_SCHEME) == 0)
+	{
+		FtpDownloadInet ftpDownloadInet;
+		return ftpDownloadInet.GetFileSize(URL);
+	}
+
+	assert(true);
+	return 0;
+}
+
 bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data)
 {
 	Url url(URL);
@@ -33,13 +54,13 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 	if (wcscmp(url.GetScheme(), HTTP_SCHEME) == 0)
 	{
 		HttpDownloadInet httpDownloadInet;
-		return httpDownloadInet.GetFile(URL, file, progress, data);		
+		return httpDownloadInet.GetFile(URL, file, progress, data);
 	}
 
 	if (wcscmp(url.GetScheme(), FTP_SCHEME) == 0)
 	{
 		FtpDownloadInet ftpDownloadInet;
-		return ftpDownloadInet.GetFile(URL, file, progress, data);		
+		return ftpDownloadInet.GetFile(URL, file, progress, data);
 	}
 
 	assert(true);

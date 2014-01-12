@@ -31,5 +31,5 @@ public:
 		
 		static bool IsThereConnection();
 protected:
-		HINTERNET hInternet;
+		HINTERNET m_hInternet;
 };

@@ -388,6 +388,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\MultipleDownloadsTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\SerializerTest.cpp"
 				>
 			</File>

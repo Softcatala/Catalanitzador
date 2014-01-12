@@ -25,6 +25,46 @@
 #define ERROR_SERVER_ERROR 500
 #define ERROR_FILE_NOTFOUND 404
 
+HINTERNET HttpDownloadInet::_internetOpenUrl(wchar_t* URL) const
+{
+	HINTERNET hRemoteFile;
+
+	hRemoteFile = InternetOpenUrl(m_hInternet, URL, NULL, 0,
+#if DEVELOPMENT_VERSION
+		0, // Allows catching (speeds ups downloads during development)
+#else
+		INTERNET_FLAG_RELOAD, // Prevents local caching (for release version)
+#endif
+		0);	
+
+	if (hRemoteFile == 0)
+		return NULL;
+
+	int status = _getStatusCode(hRemoteFile);
+	if (status == ERROR_FILE_NOTFOUND || status == ERROR_SERVER_ERROR)
+	{
+		g_log.Log(L"HttpDownloadInet::_internetOpenUrl. Error '%u' getting '%s'", (wchar_t *) status, URL);
+		InternetCloseHandle(hRemoteFile);
+		return NULL;
+	}
+	return hRemoteFile;
+}
+
+int HttpDownloadInet::GetFileSize(wchar_t* URL) const
+{
+	int nTotal;	
+	HINTERNET hRemoteFile;
+
+	hRemoteFile = _internetOpenUrl(URL);
+
+	if (hRemoteFile == NULL)
+		return 0;	
+	
+	nTotal = _getFileSize(hRemoteFile);
+	InternetCloseHandle(hRemoteFile);
+	return nTotal;
+}
+
 int HttpDownloadInet::_getFileSize(HINTERNET hRemoteFile) const
 {
 	wchar_t szSizeBuffer[64];
@@ -57,24 +97,10 @@ bool HttpDownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progr
 	int nTotal, nCurrent;	
 	Url url(URL);
 
-	hRemoteFile = InternetOpenUrl(hInternet, URL, NULL, 0,
-#if DEVELOPMENT_VERSION
-		0, // Allows catching (speeds ups downloads during development)
-#else
-		INTERNET_FLAG_RELOAD, // Prevents local caching (for release version)
-#endif
-		0);	
+	hRemoteFile = _internetOpenUrl(URL);
 
-	if (hRemoteFile == 0)	
-		return false;	
-
-	int status = _getStatusCode(hRemoteFile);
-	if (status == ERROR_FILE_NOTFOUND || status == ERROR_SERVER_ERROR)
-	{
-		g_log.Log(L"HttpDownloadInet::GetFile. Error '%u' getting '%s'", (wchar_t *) status, URL);
-		InternetCloseHandle(hRemoteFile);
+	if (hRemoteFile == NULL)
 		return false;
-	}	
 	
 	hWrite = CreateFile(file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 

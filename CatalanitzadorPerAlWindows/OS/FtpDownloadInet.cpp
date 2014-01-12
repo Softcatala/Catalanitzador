@@ -25,6 +25,41 @@
 #define DEFAULT_FTP_USERNAME L"anonymous"
 #define DEFAULT_FTP_PASSWORD L"anonymous@catalanitzador"
 
+int FtpDownloadInet::GetFileSize(wchar_t* URL) const
+{
+	HINTERNET hFtp = NULL;
+	HINTERNET hRemoteFile;	
+	int nTotal;
+	Url url(URL);
+ 
+	hFtp = InternetConnect(m_hInternet, url.GetHostname(),
+		0, DEFAULT_FTP_USERNAME, DEFAULT_FTP_PASSWORD, INTERNET_SERVICE_FTP, INTERNET_FLAG_PASSIVE,0);
+
+	if (hFtp == 0)
+	{
+		DWORD status = GetLastError();
+
+		g_log.Log(L"FtpDownloadInet::GetFileSize. Error '%u' calling InternetConnect and getting '%s'", (wchar_t *) status, URL);
+		return false;
+	}
+
+	hRemoteFile = FtpOpenFile(hFtp, url.GetPathAndFileName(), GENERIC_READ, FTP_TRANSFER_TYPE_BINARY,0);
+	
+	if (hRemoteFile == 0)
+	{
+		DWORD status = GetLastError();
+
+		g_log.Log(L"FtpDownloadInet::GetFileSize. Error '%u' calling FtpOpenFile and getting '%s'", (wchar_t *) status, URL);
+		return false;
+	}
+
+	nTotal = _getFileSize(hRemoteFile);
+
+	InternetCloseHandle(hFtp);
+	InternetCloseHandle(hRemoteFile);
+	return nTotal;
+}
+
 int FtpDownloadInet::_getFileSize(HINTERNET hRemoteFile) const
 {	
 	DWORD lpdwFileSizeHigh, lpdwFileSizeLow;
@@ -41,7 +76,7 @@ bool FtpDownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progre
 	int nTotal, nCurrent;	
 	Url url(URL);
  
-	hFtp = InternetConnect(hInternet, url.GetHostname(),
+	hFtp = InternetConnect(m_hInternet, url.GetHostname(),
 		0, DEFAULT_FTP_USERNAME, DEFAULT_FTP_PASSWORD, INTERNET_SERVICE_FTP, INTERNET_FLAG_PASSIVE,0);
 
 	if (hFtp == 0)
@@ -92,7 +127,6 @@ bool FtpDownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progre
 
 		WriteFile(hWrite, buffer, dwRead, &dwWritten, NULL);
 	}
-
 	
 	InternetCloseHandle(hFtp);
 	CloseHandle(hWrite);

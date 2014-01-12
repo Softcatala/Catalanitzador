@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2013 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,17 +16,31 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
- 
-#pragma once
 
-#include "Inet.h"
+#include "stdafx.h"
+#include "Defines.h"
+#include "ApplicationVersion.h"
+#include "MultipleDownloads.h"
 
-typedef bool (*ProgressStatus)(int nTotal, int nCurrent, void *data);
+using ::testing::StrCaseEq;
+using ::testing::StrCaseNe;
 
-class IDownloadInet : public Inet
+class MultipleDownloadsTest : public MultipleDownloads
 {
-public:
-		virtual int GetFileSize(wchar_t* URL) const = 0;
-		virtual bool GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress, void *data) = 0;
 
+public:
+		MultipleDownloadsTest() : MultipleDownloads(NULL) {}
+		int _getFileDownloadsSize()  const { return m_downloads.size(); }
 };
+
+
+TEST(MultipleDownloadTest, AddDownload)
+{
+	MultipleDownloadsTest multipleDownloads;
+	ConfigurationFileActionDownload configuration;
+
+	wstring file;
+	multipleDownloads.AddDownload(configuration, file);
+	
+	EXPECT_THAT(multipleDownloads._getFileDownloadsSize(), 1);	
+}
