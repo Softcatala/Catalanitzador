@@ -29,15 +29,15 @@ using ::testing::StrCaseEq;
 
 class ApacheOpenOfficeTest : public ApacheOpenOffice
 {
-public:	
-	
+public:
+
 	ApacheOpenOfficeTest::ApacheOpenOfficeTest(IRegistry* registry)
 		: ApacheOpenOffice(registry) {};
-	
-	public:
 
-		virtual wstring _getAppDataDir() {return L"\\directory"; }
-		using ApacheOpenOffice::_getPreferencesFile;
+
+	virtual wstring _getAppDataDir() {return L"\\directory"; }
+	using ApacheOpenOffice::_getPreferencesFile;
+
 };
 
 
