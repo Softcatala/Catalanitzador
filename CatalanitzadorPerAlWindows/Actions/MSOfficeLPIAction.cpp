@@ -502,8 +502,7 @@ void MSOfficeLPIAction::_setDefaultLanguage()
 
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
-		if (_getVersionInstalled() == MSOffice2013 || _getVersionInstalled() == MSOffice2010 || _getVersionInstalled() == MSOffice2007 ||
-			_getVersionInstalled() == MSOffice2013_64 || _getVersionInstalled() == MSOffice2010_64)
+		if (_getVersionInstalled() != MSOffice2003)
 		{
 			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");
 			g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	

@@ -70,6 +70,7 @@ protected:
 		MSOfficeVersion _getVersionInstalled();
 		bool _isLangPackInstalled();
 		wchar_t* _getDownloadID();
+		void _setDefaultLanguage();
 
 private:
 
@@ -84,7 +85,6 @@ private:
 		void _readVersionInstalled();
 		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys, bool b64bits);
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
-		void _setDefaultLanguage();		
 		void _removeOffice2003TempFiles();
 		RegKeyVersion _getRegKeys();
 		void _readIsLangPackInstalled();

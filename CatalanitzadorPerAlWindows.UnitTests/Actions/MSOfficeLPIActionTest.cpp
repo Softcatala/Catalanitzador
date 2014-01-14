@@ -26,8 +26,18 @@ using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
 
+
+using ::testing::Return;
+using ::testing::_;
+using ::testing::StrCaseEq;
+using ::testing::HasSubstr;
+using ::testing::DoAll;
+using ::testing::Eq;
+
 #define CATALAN_LANGUAGE_CODE L"1027"
 #define VALENCIAN_LANGUAGE_CODE L"2051"
+DWORD CATALAN_LCID  = _wtoi(CATALAN_LANGUAGE_CODE);
+DWORD VALENCIAN_LCID = _wtoi(VALENCIAN_LANGUAGE_CODE);
 
 class MSOfficeLPIActionTest : public MSOfficeLPIAction
 {
@@ -39,6 +49,7 @@ public:
 	using MSOfficeLPIAction::_getVersionInstalled;
 	using MSOfficeLPIAction::_isLangPackInstalled;
 	using MSOfficeLPIAction::_getDownloadID;
+	using MSOfficeLPIAction::_setDefaultLanguage;
 };
 
 #define CreateMSOfficeAction \
@@ -309,4 +320,70 @@ TEST(MSOfficeLPIActionTest, _getDownloadID_MSOffice2013_64_va)
 	MockOfficeInstalled(registryMockobj, MSOffice2013_64);
 	officeAction.SetUseDialectalVariant(true);
 	EXPECT_EQ(officeAction._getDownloadID(), L"2013_va_64");
+}
+
+TEST(MSOfficeLPIActionTest, _setDefaultLanguage_2003)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2003);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\11.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(0).WillRepeatedly(Return(true));
+	officeAction._setDefaultLanguage();	
+}
+
+TEST(MSOfficeLPIActionTest, _setDefaultLanguage_2007)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2007);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\12.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	officeAction._setDefaultLanguage();
+}
+
+TEST(MSOfficeLPIActionTest, _setDefaultLanguage_2010)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2010);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\14.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	officeAction._setDefaultLanguage();
+}
+
+TEST(MSOfficeLPIActionTest, _setDefaultLanguage_2010_64)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2010_64);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\14.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	officeAction._setDefaultLanguage();
+}
+
+TEST(MSOfficeLPIActionTest, _setDefaultLanguage_2013)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2013);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\15.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	officeAction._setDefaultLanguage();
+}
+
+TEST(MSOfficeLPIActionTest, _setDefaultLanguage_2013_64)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(registryMockobj, MSOffice2013_64);
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\15.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	officeAction._setDefaultLanguage();
 }
