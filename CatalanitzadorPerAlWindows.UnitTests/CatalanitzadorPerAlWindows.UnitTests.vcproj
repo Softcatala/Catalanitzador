@@ -547,6 +547,10 @@
 				RelativePath=".\Applications\OpenOfficeTest.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Applications\OutLookHotmailConnectorTest.cpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

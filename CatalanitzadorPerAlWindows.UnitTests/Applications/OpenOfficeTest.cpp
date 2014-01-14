@@ -26,7 +26,6 @@ using ::testing::Return;
 using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
-using ::testing::HasSubstr;
 
 #define OPENOFFICE_REGKEY L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"
 #define ENUM_REG_INDEX0 0

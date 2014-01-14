@@ -24,6 +24,9 @@
 #include "IOSVersion.h"
 #include "IRegistry.h"
 #include "TriBool.h"
+#include "OutLookHotmailConnector.h"
+#include "MultipleDownloads.h"
+
 
 enum MSOfficeVersion
 {
@@ -36,7 +39,6 @@ enum MSOfficeVersion
 	MSOffice2013,
 	MSOffice2013_64
 };
-
 
 struct RegKeyVersion
 {
@@ -85,9 +87,8 @@ private:
 		void _setDefaultLanguage();		
 		void _removeOffice2003TempFiles();
 		RegKeyVersion _getRegKeys();
-		bool _needsInstallConnector();
-		bool _executeInstallConnector();
 		void _readIsLangPackInstalled();
+		OutLookHotmailConnector* _getOutLookHotmailConnector();
 
 		TriBool m_bLangPackInstalled;
 		bool m_bLangPackInstalled64bits;
@@ -95,11 +96,12 @@ private:
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
 		wchar_t m_szTempPath2003[MAX_PATH];
-		MSOfficeVersion m_MSVersion;
-		wstring m_connectorFile;
+		MSOfficeVersion m_MSVersion;		
 		ExecutionStep m_executionStep;
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		wstring m_msiexecLog;
+		OutLookHotmailConnector* m_OutLookHotmailConnector;
+		MultipleDownloads m_multipleDownloads;
 };
 

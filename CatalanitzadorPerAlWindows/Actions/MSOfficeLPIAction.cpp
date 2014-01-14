@@ -56,7 +56,7 @@ RegKeyVersion RegKeys2013 =
 	false
 };
 
-MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
+MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager), m_multipleDownloads(downloadManager)
 {
 	m_registry = registry;
 	m_runner = runner;
@@ -67,6 +67,7 @@ MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, Downl
 	m_executionStep = ExecutionStepNone;
 	m_bLangPackInstalled64bits = false;
 	GetTempPath(MAX_PATH, m_szTempPath);
+	m_OutLookHotmailConnector = NULL;
 }
 
 MSOfficeLPIAction::~MSOfficeLPIAction()
@@ -76,15 +77,13 @@ MSOfficeLPIAction::~MSOfficeLPIAction()
 		DeleteFile(m_szFullFilename);
 	}
 
-	if (m_connectorFile.size() > 0  && GetFileAttributes(m_connectorFile.c_str()) != INVALID_FILE_ATTRIBUTES)
-	{
-		DeleteFile(m_connectorFile.c_str());
-	}
-
 	if (m_msiexecLog.empty() == false && GetFileAttributes(m_msiexecLog.c_str()) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_msiexecLog.c_str());
 	}
+
+	if (m_OutLookHotmailConnector)
+		delete m_OutLookHotmailConnector;
 
 	_removeOffice2003TempFiles();
 }
@@ -363,38 +362,9 @@ bool MSOfficeLPIAction::IsNeed()
 	return bNeed;
 }
 
-#define CONNECTOR_REGKEY L"SOFTWARE\\Microsoft\\Office\\Outlook\\Addins\\MSNCON.Addin.1"
-
-bool MSOfficeLPIAction::_needsInstallConnector()
-{
-	bool bNeed = false;
-	MSOfficeVersion officeVersion;
-
-	officeVersion = _getVersionInstalled();
-	if (officeVersion == MSOffice2003 || officeVersion == MSOffice2007 || officeVersion == MSOffice2010)
-	{		
-		wstring path;
-		wchar_t szPath[MAX_PATH];
-
-		// Connector installed
-		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, CONNECTOR_REGKEY, false) == true)
-		{
-			m_registry->Close();			
-			SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
-			path=szPath;
-
-			// Is the Catalan version?
-			path+=L"\\Common Files\\System\\MSMAPI\\1027\\MSNCON32.DLL";
-			bNeed = GetFileAttributes(path.c_str()) == INVALID_FILE_ATTRIBUTES;
-		}
-	}
-	g_log.Log(L"MSOfficeLPIAction::_needsInstallConnector returns %u", (wchar_t *) bNeed);
-	return bNeed;	
-}
 
 bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 {
-	bool bFile1, bFile2;
 	ConfigurationFileActionDownload downloadVersion;
 
 	assert(_getDownloadID() != NULL);
@@ -402,21 +372,18 @@ bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));	
 	wcscpy_s(m_szFilename, downloadVersion.GetFilename().c_str());
 	wcscpy_s(m_szFullFilename, m_szTempPath);
-	wcscat_s(m_szFullFilename, m_szFilename);	
-	bFile1 = m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFullFilename, progress, data);
+	wcscat_s(m_szFullFilename, m_szFilename);
+	m_multipleDownloads.AddDownload(downloadVersion, m_szFullFilename);
 
-	if (_needsInstallConnector())
+	if (_getOutLookHotmailConnector()->IsNeed())
 	{
-		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(L"OutlookHotmailConnector"));
-		m_connectorFile = m_szTempPath;
-		m_connectorFile += downloadVersion.GetFilename().c_str();		
-		bFile2 = m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_connectorFile, progress, data);
-		return bFile1 == true && bFile2 == true;
+		wstring tempFile;
+
+		_getOutLookHotmailConnector()->GetDownloadConfigurationAndTempFile(downloadVersion, tempFile);
+		m_multipleDownloads.AddDownload(downloadVersion, tempFile);
 	}
-	else
-	{
-		return bFile1;
-	}
+
+	return m_multipleDownloads.Download(progress, data);
 }
 
 bool MSOfficeLPIAction::_extractCabFile(wchar_t * file, wchar_t * path)
@@ -427,6 +394,7 @@ bool MSOfficeLPIAction::_extractCabFile(wchar_t * file, wchar_t * path)
 	
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s(szApp, L"\\expand.exe ");
+
 
 	swprintf_s (szParams, L" %s %s -f:*", file, path);
 	g_log.Log(L"MSOfficeLPIAction::_extractCabFile '%s' with params '%s'", szApp, szParams);
@@ -545,19 +513,6 @@ void MSOfficeLPIAction::_setDefaultLanguage()
 	g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set UILanguage %u", (wchar_t *) bSetKey);	
 }
 
-bool MSOfficeLPIAction::_executeInstallConnector()
-{
-	if (_needsInstallConnector() == false)
-		return false;
-
-	wchar_t szParams[MAX_PATH];
-
-	wcscpy_s(szParams, L" /quiet");
-	m_runner->Execute((wchar_t *)m_connectorFile.c_str(), szParams);
-	g_log.Log(L"MSOfficeLPIAction::_executeInstallConnector. Microsoft Office Connector '%s' with params '%s'", (wchar_t *)m_connectorFile.c_str(), szParams);
-	return true;
-}
-
 ActionStatus MSOfficeLPIAction::GetStatus()
 {
 	if (status == InProgress)
@@ -571,7 +526,7 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 				break;
 			case ExecutionStep1:
 			{
-				if (_executeInstallConnector() == true)
+				if (_getOutLookHotmailConnector()->Execute(m_runner) == true)
 				{
 					m_executionStep = ExecutionStep2;
 					return InProgress;
@@ -610,7 +565,18 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 	}
 	return status;
 }
-	
+
+OutLookHotmailConnector* MSOfficeLPIAction::_getOutLookHotmailConnector()
+{
+	if (m_OutLookHotmailConnector == NULL)
+	{
+		bool MSOffice2013OrHigher = _getVersionInstalled() == MSOffice2013 || _getVersionInstalled() == MSOffice2013_64;
+		m_OutLookHotmailConnector = new OutLookHotmailConnector(MSOffice2013OrHigher, m_registry);
+	}
+
+	return m_OutLookHotmailConnector;
+}
+
 void MSOfficeLPIAction::CheckPrerequirements(Action * action) 
 {
 	if (_getVersionInstalled() == NoMSOffice)
