@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,16 +23,19 @@
 #include "OSVersion.h"
 #include "Resources.h"
 
-ConfigureLocaleAction::ConfigureLocaleAction()
+ConfigureLocaleAction::ConfigureLocaleAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
-	szCfgFile[0] = NULL;
+	m_registry = registry;
+	m_runner = runner;
+	m_OSVersion = OSVersion;
+	m_szCfgFile[0] = NULL;
 }
 
 ConfigureLocaleAction::~ConfigureLocaleAction()
 {
-	if (szCfgFile[0] != NULL && GetFileAttributes(szCfgFile) != INVALID_FILE_ATTRIBUTES)
+	if (m_szCfgFile[0] != NULL && GetFileAttributes(m_szCfgFile) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile(szCfgFile);
+		DeleteFile(m_szCfgFile);
 	}	
 }
 
@@ -46,21 +49,20 @@ wchar_t* ConfigureLocaleAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_CONFIGURELOCALEACTION_DESCRIPTION, szDescription);
 }
 
-bool ConfigureLocaleAction::_isCatalanLocaleActive()
+bool ConfigureLocaleAction::IsCatalanLocaleActive()
 {
 	wchar_t szValue[1024];
 	bool bCatalanActive = false;
-
-	Registry registry;
-	if (registry.OpenKey(HKEY_CURRENT_USER, L"Control Panel\\International", false))
+	
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\International", false))
 	{
-		if (registry.GetString(L"Locale", szValue, sizeof (szValue)))
+		if (m_registry->GetString(L"Locale", szValue, sizeof (szValue)))
 		{
 			// 0403 locale code for CA-ES
 			if (wcsstr(szValue, L"0403") != NULL)
 				bCatalanActive = true;
 		}
-		registry.Close();
+		m_registry->Close();
 	}
 	return bCatalanActive;
 }
@@ -69,7 +71,7 @@ bool ConfigureLocaleAction::IsNeed()
 {	
 	bool bNeed;
 
-	bNeed = _isCatalanLocaleActive() == false;
+	bNeed = IsCatalanLocaleActive() == false;
 
 	if (bNeed == false)
 		status = AlreadyApplied;
@@ -83,16 +85,15 @@ void ConfigureLocaleAction::Execute()
 	wchar_t szConfigFileName[MAX_PATH];
 	wchar_t szParams[MAX_PATH];
 	wchar_t szApp[MAX_PATH];
-	LPCWSTR resource;
-	OSVersion version;
+	LPCWSTR resource;	
 
-	GetTempPath(MAX_PATH, szCfgFile);
+	GetTempPath(MAX_PATH, m_szCfgFile);
 
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s(szApp, L"\\control.exe ");
 	status = InProgress;
 
-	if (version.GetVersion() == WindowsXP)
+	if (m_OSVersion->GetVersion() == WindowsXP)
 	{
 		//Documentation: http://support.microsoft.com/default.aspx?scid=kb;en-us;289125
 		wcscpy_s(szConfigFileName, L"regopts.txt");
@@ -104,30 +105,30 @@ void ConfigureLocaleAction::Execute()
 		wcscpy_s(szConfigFileName, L"regopts.xml");
 		resource = (LPCWSTR)IDR_CONFIG_LOCALE_WINVISTA;
 	}
-	wcscat_s(szCfgFile, szConfigFileName);
+	wcscat_s(m_szCfgFile, szConfigFileName);
 
-	Resources::DumpResource(L"CONFIG_FILES", resource, szCfgFile);
-	swprintf_s(szParams, L" intl.cpl,,/f:\"%s\"", szCfgFile);
+	Resources::DumpResource(L"CONFIG_FILES", resource, m_szCfgFile);
+	swprintf_s(szParams, L" intl.cpl,,/f:\"%s\"", m_szCfgFile);
 
-	g_log.Log(L"ConfigureLocaleAction::Execute '%s' with params '%s'", szApp, szParams);
-	status = InProgress;
-	m_runner.Execute(szApp, szParams);
+	g_log.Log(L"ConfigureLocaleAction::Execute '%s' with params '%s'", szApp, szParams);	
+	SetStatus(InProgress);
+	m_runner->Execute(szApp, szParams);
 }
 
 ActionStatus ConfigureLocaleAction::GetStatus()
 {
 	if (status == InProgress)
 	{
-		if (m_runner.IsRunning())
+		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (_isCatalanLocaleActive())
+		if (IsCatalanLocaleActive())
 		{
-			status = Successful;	
+			SetStatus(Successful);
 		}
 		else
 		{
-			status = FinishedWithError;
+			SetStatus(FinishedWithError);
 		}
 		
 		g_log.Log(L"ConfigureLocaleAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");

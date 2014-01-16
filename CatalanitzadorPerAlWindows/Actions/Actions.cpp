@@ -119,7 +119,7 @@ void Actions::_buildListOfActions()
 		
 	if (osversion.GetVersion() != Windows8 && osversion.GetVersion() != Windows81)
 	{
-		m_actions.push_back(new ConfigureLocaleAction());
+		m_actions.push_back(new ConfigureLocaleAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 		m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	}
 

@@ -328,6 +328,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\ConfigureLocaleActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\FirefoxActionTest.cpp"
 				>
 			</File>

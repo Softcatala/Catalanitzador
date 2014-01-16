@@ -20,12 +20,14 @@
 #pragma once
 
 #include "Action.h"
-#include "Runner.h"
+#include "IRunner.h"
+#include "IRegistry.h"
+#include "IOSVersion.h"
 
 class ConfigureLocaleAction : public Action
 {
 public:
-		ConfigureLocaleAction();
+		ConfigureLocaleAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
 		~ConfigureLocaleAction();
 
 		virtual wchar_t* GetName();
@@ -36,10 +38,13 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
-private:
-		bool _isCatalanLocaleActive();		
+		bool IsCatalanLocaleActive();
 
-		wchar_t szCfgFile[MAX_PATH];
-		Runner m_runner;
+private:		
+
+		wchar_t m_szCfgFile[MAX_PATH];
+		IRegistry* m_registry;
+		IRunner* m_runner;
+		IOSVersion* m_OSVersion;
 };
 
