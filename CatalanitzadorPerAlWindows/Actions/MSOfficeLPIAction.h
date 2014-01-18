@@ -71,6 +71,7 @@ protected:
 		bool _isLangPackInstalled();
 		wchar_t* _getDownloadID();
 		void _setDefaultLanguage();
+		bool _isDefaultLanguage();
 
 private:
 
@@ -89,6 +90,7 @@ private:
 		RegKeyVersion _getRegKeys();
 		void _readIsLangPackInstalled();
 		OutLookHotmailConnector* _getOutLookHotmailConnector();
+		void _readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
 
 		TriBool m_bLangPackInstalled;
 		bool m_bLangPackInstalled64bits;

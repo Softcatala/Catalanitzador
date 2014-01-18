@@ -24,6 +24,9 @@
 #include "Url.h"
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
+#include "ConfigureLocaleAction.h"
+
+#include <algorithm>
 
 #define CATALAN_LCID L"1027" // 0x403
 #define VALENCIAN_LCID L"2051" // 0x803
@@ -487,6 +490,60 @@ RegKeyVersion MSOfficeLPIAction::_getRegKeys()
 		default:
 			return RegKeys2013;
 	}
+}
+
+void MSOfficeLPIAction::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
+{
+	wchar_t szKeyName [1024];
+
+	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, false))
+	{
+		DWORD lcid;
+		if (m_registry->GetDWORD(L"UILanguage", &lcid))
+		{			
+			if (lcid == _wtoi(VALENCIAN_LCID) || lcid == _wtoi(CATALAN_LCID))
+				isCatalanSetAsDefaultLanguage = true;
+		}
+
+		if (_getVersionInstalled() != MSOffice2003)
+		{
+			wstring value;
+			wchar_t szValue[2048];
+			if (m_registry->GetString(L"FollowSystemUI", szValue, sizeof(szValue)))
+			{
+				value = szValue;
+				std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+				if (value.compare(L"off") == 0)
+					followSystemUIOff = true;
+			}
+		}
+		m_registry->Close();
+	}
+
+}
+
+bool MSOfficeLPIAction::_isDefaultLanguage()
+{
+	ConfigureLocaleAction configureLocaleAction((IOSVersion*) NULL, m_registry, (IRunner*)NULL);
+	bool isDefaultLanguage = false;
+	bool isCatalanSetAsDefaultLanguage = false;
+	bool followSystemUIOff = false;
+
+	_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);
+
+	if (followSystemUIOff)
+	{
+		if (isCatalanSetAsDefaultLanguage)
+			isDefaultLanguage = true;
+	}
+	else
+	{
+		 if (configureLocaleAction.IsCatalanLocaleActive())
+			isDefaultLanguage = true;
+	}
+
+	return isDefaultLanguage;
 }
 
 void MSOfficeLPIAction::_setDefaultLanguage()
