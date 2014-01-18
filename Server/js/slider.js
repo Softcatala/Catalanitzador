@@ -13,4 +13,10 @@ $(document).ready(function(){
 		  $('#internet8_advice').hide();
 		});
 
+    $('#slider_android').bxSlider({
+                    mode: 'fade',
+                    auto: true,
+                    controls: false
+                    });
+
   });
