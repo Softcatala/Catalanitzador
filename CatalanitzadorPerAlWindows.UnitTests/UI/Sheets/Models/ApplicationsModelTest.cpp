@@ -21,7 +21,7 @@
 #include "Defines.h"
 #include "ApplicationsModel.h"
 #include "ActionTest.h"
-
+#include "ConfigurationInstance.h"
 
 class ActionGroupWindowsTest : public ActionTest
 {
@@ -33,6 +33,7 @@ public:
 		}
 
 		virtual ActionGroup GetGroup() const {return ActionGroupWindows;}
+		virtual ActionID GetID() const {return WindowsLPIActionID;}
 
 private:
 		DownloadManager m_testDownloadManager;
@@ -42,6 +43,17 @@ private:
 class ApplicationsModelTest : public ApplicationsModel
 {
 public:
+
+	ApplicationsModelTest() 
+	{
+		ConfigurationRemote remote;
+		ConfigurationInstance::Get().SetRemote(remote);
+	}
+
+	~ApplicationsModelTest() 
+	{
+		ConfigurationInstance::Reset();
+	}
 
 	using ApplicationsModel::_anyActionNeedsInternetConnection;
 };
@@ -116,7 +128,7 @@ TEST(ApplicationsModelTest, BuildListOfItems_Selected)
 	CreateApplicationModelObject;
 	ActionGroupWindowsTest actionGroupWindows;
 	ActionNotNeededTest actionNotNeeded;
-
+	
 	actions.push_back((Action *)&actionGroupWindows);
 	actions.push_back((Action *)&actionNotNeeded);
 	applicationModel.BuildListOfItems();
@@ -127,6 +139,28 @@ TEST(ApplicationsModelTest, BuildListOfItems_Selected)
 	EXPECT_FALSE(applicationItems.at(1).GetIsDisabled());
 	EXPECT_FALSE(applicationItems.at(2).GetIsGroupName());
 	EXPECT_TRUE(applicationItems.at(2).GetIsDisabled());
+}
+
+TEST(ApplicationsModelTest, BuildListOfItems_Configuration)
+{
+	CreateApplicationModelObject;
+	ActionNotNeededTest actionNotNeeded;
+	ActionNotNeededTest actionNotNeededConfiguration;
+
+	// Configure actionNotNeededConfiguration to be NotSelected
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads configurationFileActionDownloads;
+	remote.AddFileActionDownloads(configurationFileActionDownloads);
+	configurationFileActionDownloads.SetActionID(WindowsLPIActionID);
+	configurationFileActionDownloads.SetActionDefaultStatus(NotSelected);
+	ConfigurationInstance::Get().SetRemote(remote);
+	
+	actions.push_back((Action *)&actionNotNeeded);
+	actions.push_back((Action *)&actionNotNeededConfiguration);	
+	applicationModel.BuildListOfItems();
+	applicationItems = applicationModel.GetItems();
+	
+	EXPECT_THAT(actionNotNeededConfiguration.GetStatus(), NotSelected);	
 }
 
 TEST(ApplicationsModelTest, DoLicensesNeedToBeAccepted_NotAccepted)

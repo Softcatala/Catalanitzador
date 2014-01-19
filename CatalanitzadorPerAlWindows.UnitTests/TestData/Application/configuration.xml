@@ -23,6 +23,7 @@
 		<!-- OpenOffice.org -->
 		<action>
 	 		<id>9</id>
+	 		<status>0</status>
 	 		<download>
 	  			<min_version>3.2.0</min_version>
 	  			<max_version>3.2.99</max_version>

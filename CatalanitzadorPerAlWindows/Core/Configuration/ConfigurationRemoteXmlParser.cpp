@@ -124,6 +124,11 @@ void ConfigurationRemoteXmlParser::ParseBlockActions(XmlNode node)
 		ActionID actionID = (ActionID) _wtoi(node.GetText().c_str());
 		m_pFileActionDownloads->SetActionID(actionID);
 	}
+	else if (node.GetName().compare(L"status")==0)
+	{
+		ActionStatus actionStatus = (ActionStatus) _wtoi(node.GetText().c_str());
+		m_pFileActionDownloads->SetActionDefaultStatus(actionStatus);
+	}
 }
 
 void ConfigurationRemoteXmlParser::ParseBlockDownload(XmlNode node)
