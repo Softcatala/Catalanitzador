@@ -21,31 +21,11 @@
 
 #include "Action.h"
 #include "IRunner.h"
-#include "IOSVersion.h"
 #include "IRegistry.h"
 #include "TriBool.h"
 #include "OutLookHotmailConnector.h"
 #include "MultipleDownloads.h"
-
-
-enum MSOfficeVersion
-{
-	MSOfficeUnKnown,
-	NoMSOffice,
-	MSOffice2003,
-	MSOffice2007,
-	MSOffice2010,
-	MSOffice2010_64,
-	MSOffice2013,
-	MSOffice2013_64
-};
-
-struct RegKeyVersion
-{
-	wchar_t* VersionNumber;
-	wchar_t* InstalledLangMapKey;
-	bool InstalledLangMapKeyIsDWord;
-};
+#include "MSOffice.h"
 
 class MSOfficeLPIAction : public Action
 {
@@ -66,12 +46,10 @@ public:
 		virtual void CheckPrerequirements(Action * action);
 
 protected:
-		
-		MSOfficeVersion _getVersionInstalled();
+
 		bool _isLangPackInstalled();
 		wchar_t* _getDownloadID();
-		void _setDefaultLanguage();
-		bool _isDefaultLanguage();
+		MSOfficeVersion _getVersionInstalled();
 
 private:
 
@@ -80,18 +58,12 @@ private:
 			ExecutionStepNone,
 			ExecutionStep1,
 			ExecutionStep2	
-		};
+		};				
 		
-		bool _isVersionInstalled(RegKeyVersion regkeys, bool b64bits);
-		void _readVersionInstalled();
-		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys, bool b64bits);
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
-		void _removeOffice2003TempFiles();
-		RegKeyVersion _getRegKeys();
-		void _readIsLangPackInstalled();
+		void _removeOffice2003TempFiles();		
 		OutLookHotmailConnector* _getOutLookHotmailConnector();
-		void _readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
-
+		
 		TriBool m_bLangPackInstalled;
 		bool m_bLangPackInstalled64bits;
 		wchar_t m_szFullFilename[MAX_PATH];
@@ -105,5 +77,6 @@ private:
 		wstring m_msiexecLog;
 		OutLookHotmailConnector* m_OutLookHotmailConnector;
 		MultipleDownloads m_multipleDownloads;
+		MSOffice m_MSOffice;
 };
 

@@ -24,42 +24,12 @@
 #include "Url.h"
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
-#include "ConfigureLocaleAction.h"
-
-#include <algorithm>
 
 #define CATALAN_LCID L"1027" // 0x403
 #define VALENCIAN_LCID L"2051" // 0x803
 
-RegKeyVersion RegKeys2003 = 
-{
-	L"11.0", 
-	L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback",	
-	true
-};
-
-RegKeyVersion RegKeys2007 = 
-{
-	L"12.0",
-	L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs",
-	false
-};
-
-RegKeyVersion RegKeys2010 = 
-{
-	L"14.0",
-	L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs",
-	false
-};
-
-RegKeyVersion RegKeys2013 =
-{
-	L"15.0",
-	L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs",
-	false
-};
-
-MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager), m_multipleDownloads(downloadManager)
+MSOfficeLPIAction::MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) :
+	Action(downloadManager), m_multipleDownloads(downloadManager), m_MSOffice(registry, runner)
 {
 	m_registry = registry;
 	m_runner = runner;
@@ -168,106 +138,13 @@ void MSOfficeLPIAction::_removeOffice2003TempFiles()
 	RemoveDirectory(m_szTempPath2003);
 }
 
-bool MSOfficeLPIAction::_isVersionInstalled(RegKeyVersion regkeys, bool b64bits)
-{
-	wchar_t szValue[1024];
-	wchar_t szKey[1024];
-	bool Installed = false;
 
-	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", regkeys.VersionNumber);
-
-	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, szKey, false) :
-		m_registry->OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
-	{	
-		if (m_registry->GetString(L"Path", szValue, sizeof (szValue)))
-		{
-			if (wcslen(szValue) > 0)
-				Installed = true;
-		}
-		m_registry->Close();
-	}
-	return Installed;
-}
-
-bool MSOfficeLPIAction::_isLangPackForVersionInstalled(RegKeyVersion regkeys, bool b64bits)
-{	
-	bool Installed = false;
-
-	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false) :
-		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))	
-	{		
-		if (regkeys.InstalledLangMapKeyIsDWord)
-		{
-			DWORD dwValue;
-			if (m_registry->GetDWORD(CATALAN_LCID, &dwValue) || m_registry->GetDWORD(VALENCIAN_LCID, &dwValue))
-				Installed = true;
-		}		
-		else
-		{
-			wchar_t szValue[1024];
-			if (m_registry->GetString(CATALAN_LCID, szValue, sizeof (szValue)))
-			{
-				if (wcslen (szValue) > 0)
-					Installed = true;
-			}
-
-			if (m_registry->GetString(VALENCIAN_LCID, szValue, sizeof (szValue)))
-			{
-				if (wcslen (szValue) > 0)
-					Installed = true;
-			}
-		}
-		m_registry->Close();
-	}
-
-	g_log.Log(L"MSOfficeLPIAction::_isLangPackForVersionInstalled returns '%s', 64 bits %u, installed %u", regkeys.InstalledLangMapKey,
-		(wchar_t*) b64bits, (wchar_t *)Installed);
-
-	return Installed;
-}
-
-void MSOfficeLPIAction::_readIsLangPackInstalled()
-{
-	switch (_getVersionInstalled())
-	{
-	case MSOffice2013:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2013, false);
-		m_bLangPackInstalled64bits = false;
-		break;
-	case MSOffice2013_64:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2013, true);
-		m_bLangPackInstalled64bits = true;
-		break;
-	case MSOffice2010:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010, false);
-		m_bLangPackInstalled64bits = false;
-		break;
-	case MSOffice2010_64:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2010, true);
-		m_bLangPackInstalled64bits = true;
-		break;
-	case MSOffice2007:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2007, false);
-		m_bLangPackInstalled64bits = false;
-		break;
-	case MSOffice2003:
-		m_bLangPackInstalled = _isLangPackForVersionInstalled(RegKeys2003, false);
-		m_bLangPackInstalled64bits = false;
-		break;
-	default:
-		assert(false);
-		break;
-	}
-
-	g_log.Log(L"MSOfficeLPIAction::_readIsLangPackInstalled returns '%s', 64 bits %u", m_bLangPackInstalled.ToString(), 
-		(wchar_t*) m_bLangPackInstalled64bits);
-}
 
 bool MSOfficeLPIAction::_isLangPackInstalled()
 {
 	if (m_bLangPackInstalled.IsUndefined())
-	{
-		_readIsLangPackInstalled();
+	{		
+		m_MSOffice._readIsLangPackInstalled(_getVersionInstalled(), m_bLangPackInstalled, m_bLangPackInstalled64bits);
 	}
 	return m_bLangPackInstalled == true;
 }
@@ -276,40 +153,11 @@ MSOfficeVersion MSOfficeLPIAction::_getVersionInstalled()
 {
 	if (m_MSVersion == MSOfficeUnKnown)
 	{
-		_readVersionInstalled();
+		m_MSVersion = m_MSOffice._readVersionInstalled();
 	}
 	return m_MSVersion;
 }
 
-void MSOfficeLPIAction::_readVersionInstalled()
-{
-	wstring version;
-
-	if (_isVersionInstalled(RegKeys2013, false))
-	{
-		m_MSVersion = MSOffice2013;
-	} else if (_isVersionInstalled(RegKeys2010, false))
-	{
-		m_MSVersion = MSOffice2010;
-	} else if (_isVersionInstalled(RegKeys2007, false))
-	{
-		m_MSVersion = MSOffice2007;
-	} else if (_isVersionInstalled(RegKeys2003, false))
-	{
-		m_MSVersion = MSOffice2003;
-	} else if (_isVersionInstalled(RegKeys2013, true))
-	{
-		m_MSVersion = MSOffice2013_64;
-	} else if (_isVersionInstalled(RegKeys2010, true))
-	{
-		m_MSVersion = MSOffice2010_64;
-	} else
-	{
-		m_MSVersion = NoMSOffice;
-	}
-
-	g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) GetVersion());
-}
 
 wchar_t*  MSOfficeLPIAction::_getDownloadID()
 {
@@ -474,100 +322,6 @@ void MSOfficeLPIAction::Execute()
 	m_runner->Execute(szApp, szParams);
 }
 
-RegKeyVersion MSOfficeLPIAction::_getRegKeys()
-{
-	switch (_getVersionInstalled())
-	{
-		case MSOffice2003:
-			return RegKeys2003;
-		case MSOffice2007:
-			return RegKeys2007;
-		case MSOffice2010:
-		case MSOffice2010_64:
-			return RegKeys2010;
-		case MSOffice2013:
-		case MSOffice2013_64:
-		default:
-			return RegKeys2013;
-	}
-}
-
-void MSOfficeLPIAction::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
-{
-	wchar_t szKeyName [1024];
-
-	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, false))
-	{
-		DWORD lcid;
-		if (m_registry->GetDWORD(L"UILanguage", &lcid))
-		{			
-			if (lcid == _wtoi(VALENCIAN_LCID) || lcid == _wtoi(CATALAN_LCID))
-				isCatalanSetAsDefaultLanguage = true;
-		}
-
-		if (_getVersionInstalled() != MSOffice2003)
-		{
-			wstring value;
-			wchar_t szValue[2048];
-			if (m_registry->GetString(L"FollowSystemUI", szValue, sizeof(szValue)))
-			{
-				value = szValue;
-				std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-				if (value.compare(L"off") == 0)
-					followSystemUIOff = true;
-			}
-		}
-		m_registry->Close();
-	}
-
-}
-
-bool MSOfficeLPIAction::_isDefaultLanguage()
-{
-	ConfigureLocaleAction configureLocaleAction((IOSVersion*) NULL, m_registry, (IRunner*)NULL);
-	bool isDefaultLanguage = false;
-	bool isCatalanSetAsDefaultLanguage = false;
-	bool followSystemUIOff = false;
-
-	_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);
-
-	if (followSystemUIOff)
-	{
-		if (isCatalanSetAsDefaultLanguage)
-			isDefaultLanguage = true;
-	}
-	else
-	{
-		 if (configureLocaleAction.IsCatalanLocaleActive())
-			isDefaultLanguage = true;
-	}
-
-	return isDefaultLanguage;
-}
-
-void MSOfficeLPIAction::_setDefaultLanguage()
-{
-	BOOL bSetKey = FALSE;
-	wchar_t szKeyName [1024];
-
-	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, true))
-	{
-		int lcid = _wtoi(GetUseDialectalVariant() ? VALENCIAN_LCID : CATALAN_LCID);
-		bSetKey = m_registry->SetDWORD(L"UILanguage", lcid);
-
-		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
-		// and use the specified language instead
-		if (_getVersionInstalled() != MSOffice2003)
-		{
-			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");
-			g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	
-		}		
-		m_registry->Close();
-	}
-	g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set UILanguage %u", (wchar_t *) bSetKey);	
-}
 
 ActionStatus MSOfficeLPIAction::GetStatus()
 {
@@ -595,11 +349,11 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 				assert(false);
 				break;
 		}
-
-		if (_isLangPackForVersionInstalled(_getRegKeys(), m_bLangPackInstalled64bits))
+		
+		if (m_MSOffice._isLangPackForVersionInstalled(_getVersionInstalled(), m_bLangPackInstalled64bits))		
 		{
 			SetStatus(Successful);
-			_setDefaultLanguage();
+			m_MSOffice._setDefaultLanguage(_getVersionInstalled());
 		}
 		else
 		{
