@@ -141,7 +141,7 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe</url_3>
-				<filename>Languageinterfacepack-x64-ca-es-valencia.exe</filename>
+				<filename>Languageinterfacepack-2013-x64-ca-es-valencia.exe</filename>
 	  		</download>
 	 		<download>
 	  			<version>2013_va_32</version>
@@ -149,7 +149,7 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe</url_3>
-				<filename>languageinterfacepack-x86-ca-es-valencia.exe</filename>
+				<filename>languageinterfacepack-2013-x86-ca-es-valencia.exe</filename>
 	  		</download>
 	 		<download>
 	  			<version>2013_ca_64</version>
@@ -157,7 +157,7 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe</url_3>
-				<filename>Languageinterfacepack-x64-ca-es.exe</filename>
+				<filename>Languageinterfacepack-2013-x64-ca-es.exe</filename>
 	  		</download>
 	 		<download>
 	  			<version>2013_ca_32</version>
@@ -165,7 +165,7 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe</url_3>
-				<filename>LanguageInterfacePack-x86-ca-es.exe</filename>
+				<filename>LanguageInterfacePack-2013-x86-ca-es.exe</filename>
 	  		</download>
 	  		<download>
 	  			<version>2010_64</version>
@@ -173,7 +173,7 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe</url_3>
-				<filename>LanguageInterfacePack-x64-ca-es.exe</filename>
+				<filename>LanguageInterfacePack-2010-x64-ca-es.exe</filename>
 	  		</download>
 	 		<download>
 	  			<version>2010_32</version>
@@ -181,7 +181,7 @@
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_3>
-				<filename>LanguageInterfacePack-x86-ca-es.exe</filename>
+				<filename>LanguageInterfacePack-2010-x86-ca-es.exe</filename>
 	  		</download>
 	  		<download>
 	  			<version>2007</version>

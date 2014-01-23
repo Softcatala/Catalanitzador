@@ -20,6 +20,9 @@
 #include "stdafx.h"
 #include "MSOffice.h"
 #include "ConfigureLocaleAction.h"
+#include "Runner.h"
+#include "ConfigurationInstance.h"
+#include "LogExtractor.h"
 
 #include <algorithm>
 
@@ -27,98 +30,114 @@
 #define VALENCIAN_LCID L"2051" // 0x803
 
 
-// TODO: http://stackoverflow.com/questions/6243487/initialisation-lists-in-constructors-trying-to-initialize-a-structure
-RegKeyVersion RegKeys2003 = 
+MSOffice::RegKeyVersion MSOffice::RegKeys2003 =
 {
 	L"11.0", 
-	L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback",	
+	L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback",
 	true
 };
 
-RegKeyVersion RegKeys2007 = 
+MSOffice::RegKeyVersion MSOffice::RegKeys2007 = 
 {
 	L"12.0",
 	L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\LanguageResources\\InstalledUIs",
 	false
 };
 
-RegKeyVersion RegKeys2010 = 
+MSOffice::RegKeyVersion MSOffice::RegKeys2010 =
 {
 	L"14.0",
 	L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\LanguageResources\\InstalledUIs",
 	false
 };
 
-RegKeyVersion RegKeys2013 =
+MSOffice::RegKeyVersion MSOffice::RegKeys2013 =
 {
 	L"15.0",
 	L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs",
 	false
 };
 
-MSOffice::MSOffice(IRegistry* registry, IRunner* runner)
+MSOffice::MSOffice(IRegistry* registry, IRunner* runner, MSOfficeVersion version)
 {
 	m_registry = registry;
-	m_runner = runner;	
+	m_runner = runner;
+	m_MSVersion = version;
+	m_dialectalVariant = false;
+
+	m_szFullFilename[0] = NULL;
+	m_szTempPath2003[0] = NULL;
+	m_szFilename[0] = NULL;	
+	GetTempPath(MAX_PATH, m_szTempPath);
 }
 
-bool MSOffice::_isVersionInstalled(RegKeyVersion regkeys, bool b64bits)
+MSOffice::~MSOffice()
 {
-	wchar_t szValue[1024];
-	wchar_t szKey[1024];
-	bool Installed = false;
+	if (m_szFullFilename[0] != NULL  && GetFileAttributes(m_szFullFilename) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_szFullFilename);
+	}
 
-	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", regkeys.VersionNumber);
+	if (m_msiexecLog.empty() == false && GetFileAttributes(m_msiexecLog.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_msiexecLog.c_str());
+	}
 
-	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, szKey, false) :
-		m_registry->OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
-	{	
-		if (m_registry->GetString(L"Path", szValue, sizeof (szValue)))
+	_removeOffice2003TempFiles();
+}
+
+const wchar_t* MSOffice::GetVersion()
+{
+	switch (m_MSVersion)
+	{
+		case MSOffice2003:
+			return L"2003";
+		case MSOffice2007:
+			return L"2007";
+		case MSOffice2010:
+			return L"2010";
+		case MSOffice2010_64:
+			return L"2010_64bits";
+		case MSOffice2013:
+			return L"2013";
+		case MSOffice2013_64:
+			return L"2013_64bits";
+		default:
+			return L"";
+	}
+}
+
+// This deletes the contents of the extracted CAB file for MS Office 2003
+void MSOffice::_removeOffice2003TempFiles()
+{
+	if (m_MSVersion != MSOffice2003 || m_szTempPath2003[0] == NULL)
+		return;
+	
+	wchar_t szFile[MAX_PATH];
+	wchar_t* files[] = {L"DW20.ADM_1027", L"DWINTL20.DLL_0001_1027", L"LIP.MSI",
+		L"lip.xml", L"OSE.EXE", L"SETUP.CHM_1027", L"SETUP.EXE", L"SETUP.INI", L"lip1027.cab",
+		NULL};
+
+	for(int i = 0; files[i] != NULL; i++)
+	{
+		wcscpy_s(szFile, m_szTempPath2003);
+		wcscat_s(szFile, L"\\");
+		wcscat_s(szFile, files[i]);
+
+		if (DeleteFile(szFile) == FALSE)
 		{
-			if (wcslen(szValue) > 0)
-				Installed = true;
+			g_log.Log(L"MSOffice::_removeOffice2003TempFiles. Cannot delete '%s'", (wchar_t *) szFile);
 		}
-		m_registry->Close();
-	}
-	return Installed;
-}
-
-MSOfficeVersion MSOffice::_readVersionInstalled()
-{
-	MSOfficeVersion version;
-
-	if (_isVersionInstalled(RegKeys2013, false))
-	{
-		version = MSOffice2013;
-	} else if (_isVersionInstalled(RegKeys2010, false))
-	{
-		version = MSOffice2010;
-	} else if (_isVersionInstalled(RegKeys2007, false))
-	{
-		version = MSOffice2007;
-	} else if (_isVersionInstalled(RegKeys2003, false))
-	{
-		version = MSOffice2003;
-	} else if (_isVersionInstalled(RegKeys2013, true))
-	{
-		version = MSOffice2013_64;
-	} else if (_isVersionInstalled(RegKeys2010, true))
-	{
-		version = MSOffice2010_64;
-	} else
-	{
-		version = NoMSOffice;
 	}
 
-	//g_log.Log(L"MSOfficeLPIAction::_readVersionInstalled '%s'", (wchar_t*) GetVersion());
-	return version;
+	RemoveDirectory(m_szTempPath2003);
 }
 
-bool MSOffice::_isLangPackForVersionInstalled(MSOfficeVersion version, bool b64bits)
+bool MSOffice::IsLangPackInstalled()
 {	
-	bool Installed = false;
-
-	RegKeyVersion regkeys = _getRegKeys(version);
+	bool isInstalled = false;
+	RegKeyVersion regkeys = _getRegKeys();
+	bool b64bits = (m_MSVersion == MSOffice2010_64 || m_MSVersion == MSOffice2013_64);
 
 	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false) :
 		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))	
@@ -127,7 +146,7 @@ bool MSOffice::_isLangPackForVersionInstalled(MSOfficeVersion version, bool b64b
 		{
 			DWORD dwValue;
 			if (m_registry->GetDWORD(CATALAN_LCID, &dwValue) || m_registry->GetDWORD(VALENCIAN_LCID, &dwValue))
-				Installed = true;
+				isInstalled = true;
 		}		
 		else
 		{
@@ -135,67 +154,29 @@ bool MSOffice::_isLangPackForVersionInstalled(MSOfficeVersion version, bool b64b
 			if (m_registry->GetString(CATALAN_LCID, szValue, sizeof (szValue)))
 			{
 				if (wcslen (szValue) > 0)
-					Installed = true;
+					isInstalled = true;
 			}
 
 			if (m_registry->GetString(VALENCIAN_LCID, szValue, sizeof (szValue)))
 			{
 				if (wcslen (szValue) > 0)
-					Installed = true;
+					isInstalled = true;
 			}
 		}
 		m_registry->Close();
 	}
 
-	g_log.Log(L"MSOfficeLPIAction::_isLangPackForVersionInstalled returns '%s', 64 bits %u, installed %u", regkeys.InstalledLangMapKey,
-		(wchar_t*) b64bits, (wchar_t *)Installed);
+	g_log.Log(L"MSOffice::IsLangPackInstalled (%s) 64 bits %u, installed %u", (wchar_t *) GetVersion(),
+		(wchar_t*) b64bits, (wchar_t *)isInstalled);
 
-	return Installed;
+	return isInstalled;
 }
 
-
-void MSOffice::_readIsLangPackInstalled(MSOfficeVersion version, TriBool& langPackInstalled, bool& langPackInstalled64bits)
-{
-	switch (version)
-	{
-	case MSOffice2013:
-		langPackInstalled = _isLangPackForVersionInstalled(version, false);
-		langPackInstalled64bits = false;
-		break;
-	case MSOffice2013_64:
-		langPackInstalled = _isLangPackForVersionInstalled(version, true);
-		langPackInstalled64bits = true;
-		break;
-	case MSOffice2010:
-		langPackInstalled = _isLangPackForVersionInstalled(version, false);
-		langPackInstalled64bits = false;
-		break;
-	case MSOffice2010_64:
-		langPackInstalled = _isLangPackForVersionInstalled(version, true);
-		langPackInstalled64bits = true;
-		break;
-	case MSOffice2007:
-		langPackInstalled = _isLangPackForVersionInstalled(version, false);
-		langPackInstalled64bits = false;
-		break;
-	case MSOffice2003:
-		langPackInstalled = _isLangPackForVersionInstalled(version, false);
-		langPackInstalled64bits = false;
-		break;
-	default:
-		assert(false);
-		break;
-	}
-
-	//g_log.Log(L"MSOfficeLPIAction::_readIsLangPackInstalled returns '%s', 64 bits %u", langPackInstalled.ToString(), 
-	//	(wchar_t*) langPackInstalled64bits);
-}
-
-void MSOffice::_readDefaultLanguage(MSOfficeVersion officeVersion, bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
+void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
 {
 	wchar_t szKeyName [1024];
 
-	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys(officeVersion).VersionNumber);
+	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, false))
 	{
 		DWORD lcid;
@@ -205,7 +186,7 @@ void MSOffice::_readDefaultLanguage(MSOfficeVersion officeVersion, bool& isCatal
 				isCatalanSetAsDefaultLanguage = true;
 		}
 
-		if (officeVersion != MSOffice2003)
+		if (m_MSVersion != MSOffice2003)
 		{
 			wstring value;
 			wchar_t szValue[2048];
@@ -221,14 +202,14 @@ void MSOffice::_readDefaultLanguage(MSOfficeVersion officeVersion, bool& isCatal
 	}
 }
 
-bool MSOffice::_isDefaultLanguage(MSOfficeVersion officeVersion)
+bool MSOffice::IsDefaultLanguage()
 {
 	ConfigureLocaleAction configureLocaleAction((IOSVersion*) NULL, m_registry, (IRunner*)NULL);
 	bool isDefaultLanguage = false;
 	bool isCatalanSetAsDefaultLanguage = false;
 	bool followSystemUIOff = false;
 
-	_readDefaultLanguage(officeVersion, isCatalanSetAsDefaultLanguage, followSystemUIOff);
+	_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);
 
 	if (followSystemUIOff)
 	{
@@ -241,37 +222,35 @@ bool MSOffice::_isDefaultLanguage(MSOfficeVersion officeVersion)
 			isDefaultLanguage = true;
 	}
 
+	g_log.Log(L"MSOffice::IsDefaultLanguage (%s) returns '%u'", (wchar_t*) GetVersion(), (wchar_t*) isDefaultLanguage);
 	return isDefaultLanguage;
 }
 
-
-void MSOffice::_setDefaultLanguage(MSOfficeVersion officeVersion)
+void MSOffice::SetDefaultLanguage()
 {
 	BOOL bSetKey = FALSE;
 	wchar_t szKeyName [1024];
 
-	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys(officeVersion).VersionNumber);
+	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, true))
-	{
-		//TODO
-		int lcid = _wtoi(CATALAN_LCID); //_wtoi(GetUseDialectalVariant() ? VALENCIAN_LCID : CATALAN_LCID);
+	{		
+		int lcid = _wtoi(GetUseDialectalVariant() ? VALENCIAN_LCID : CATALAN_LCID);
 		bSetKey = m_registry->SetDWORD(L"UILanguage", lcid);
 
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
-		if (officeVersion != MSOffice2003)
+		if (m_MSVersion != MSOffice2003)
 		{
-			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");
-			g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set FollowSystemUI %u", (wchar_t *) bSetFollowKey);	
+			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");			
 		}		
 		m_registry->Close();
 	}
-	g_log.Log(L"MSOfficeLPIAction::_setDefaultLanguage, set UILanguage %u", (wchar_t *) bSetKey);	
+	g_log.Log(L"MSOffice::SetDefaultLanguage (%s), set UILanguage %u", (wchar_t*) GetVersion(), (wchar_t *) bSetKey);	
 }
 
-RegKeyVersion MSOffice::_getRegKeys(MSOfficeVersion officeVersion)
+MSOffice::RegKeyVersion MSOffice::_getRegKeys()
 {
-	switch (officeVersion)
+	switch (m_MSVersion)
 	{
 		case MSOffice2003:
 			return RegKeys2003;
@@ -285,4 +264,150 @@ RegKeyVersion MSOffice::_getRegKeys(MSOfficeVersion officeVersion)
 		default:
 			return RegKeys2013;
 	}
+}
+
+wchar_t*  MSOffice::_getDownloadID()
+{
+	switch (m_MSVersion)
+	{
+		case MSOffice2003:
+			return L"2003";
+		case MSOffice2007:
+			return L"2007";
+		case MSOffice2010:
+			return L"2010_32";
+		case MSOffice2010_64:
+			return L"2010_64";
+		case MSOffice2013:
+			if (GetUseDialectalVariant())
+			{
+				return L"2013_va_32";
+			}
+			else
+			{
+				return L"2013_ca_32";
+			}			
+		case MSOffice2013_64:
+			if (GetUseDialectalVariant())
+			{
+				return L"2013_va_64";
+			}
+			else
+			{
+				return L"2013_ca_64";
+			}
+		default:
+			return NULL;
+	}
+}
+
+bool MSOffice::_extractCabFile(wchar_t * file, wchar_t * path)
+{
+	Runner runnerCab;
+	wchar_t szParams[MAX_PATH];
+	wchar_t szApp[MAX_PATH];
+	
+	GetSystemDirectory(szApp, MAX_PATH);
+	wcscat_s(szApp, L"\\expand.exe ");
+
+	swprintf_s (szParams, L" %s %s -f:*", file, path);
+	g_log.Log(L"MSOffice::_extractCabFile '%s' with params '%s'", szApp, szParams);
+	runnerCab.Execute(szApp, szParams);
+	runnerCab.WaitUntilFinished();
+	return true;
+}
+
+void MSOffice::Execute()
+{
+	wchar_t szParams[MAX_PATH] = L"";
+	wchar_t szApp[MAX_PATH] = L"";
+
+	switch (m_MSVersion)
+	{
+		case MSOffice2013_64:
+		case MSOffice2013:
+		case MSOffice2010_64:
+		case MSOffice2010:		
+		{
+			wchar_t logFile[MAX_PATH];
+
+			wcscpy_s(szApp, m_szFullFilename);
+			wcscpy_s(szParams, L" /passive /norestart /quiet");
+
+			GetTempPath(MAX_PATH, logFile);
+			wcscat_s(logFile, L"msofficelip.log");
+			wcscat_s(szParams, L" /log:");
+			wcscat_s(szParams, logFile);
+			m_msiexecLog = logFile;
+			break;
+		}
+		case MSOffice2007:
+		{
+			wcscpy_s(szApp, m_szFullFilename);
+			wcscpy_s(szParams, L" /quiet");
+			break;
+		}
+		case MSOffice2003:
+		{
+			wchar_t szMSI[MAX_PATH];
+
+			// Unique temporary file (needs to create it)
+			GetTempFileName(m_szTempPath, L"CAT", 0, m_szTempPath2003);
+			DeleteFile(m_szTempPath2003);
+
+			if (CreateDirectory(m_szTempPath2003, NULL) == FALSE)
+			{
+				g_log.Log(L"MSOffice::Execute. Cannot create temp directory '%s'", m_szTempPath2003);
+				break;
+			}
+		
+			_extractCabFile(m_szFullFilename, m_szTempPath2003);
+
+			GetSystemDirectory(szApp, MAX_PATH);
+			wcscat_s(szApp, L"\\msiexec.exe ");
+
+			wcscpy_s(szMSI, m_szTempPath2003);
+			wcscat_s(szMSI, L"\\");
+			wcscat_s(szMSI, L"lip.msi");
+
+			wcscpy_s(szParams, L" /i ");
+			wcscat_s(szParams, szMSI);
+			wcscat_s(szParams, L" /qn");
+			break;
+		}
+	default:
+		break;
+	}
+
+	g_log.Log(L"MSOffice::Execute (%s) '%s' with params '%s'", (wchar_t*) GetVersion(), szApp, szParams);
+	m_runner->Execute(szApp, szParams);
+}
+
+void MSOffice::AddDownloads(MultipleDownloads& multipleDownloads)
+{	
+	ConfigurationFileActionDownload downloadVersion;
+
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(_getID(),
+		wstring(_getDownloadID()));
+
+	wcscpy_s(m_szFilename, downloadVersion.GetFilename().c_str());
+	wcscpy_s(m_szFullFilename, m_szTempPath);
+	wcscat_s(m_szFullFilename, m_szFilename);
+	multipleDownloads.AddDownload(downloadVersion, m_szFullFilename);
+}
+
+
+#define LINES_TODUMP 7
+#define KEYWORD_TOSEARCH L"Error"
+
+void MSOffice::DumpLogOnError()
+{
+	if (m_msiexecLog.empty() == true)
+		return;
+
+	LogExtractor logExtractor(m_msiexecLog, LINES_TODUMP);
+	logExtractor.SetExtractLastOccurrence(true);
+	logExtractor.SetFileIsUnicode(false);
+	logExtractor.ExtractLogFragmentForKeyword(KEYWORD_TOSEARCH);
+	logExtractor.DumpLines();	
 }

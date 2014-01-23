@@ -1019,6 +1019,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\MSOfficeFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\MSOfficeFactory.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\OpenOffice.cpp"
 				>
 			</File>

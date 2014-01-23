@@ -20,9 +20,9 @@
 #pragma once
 
 #include "IRunner.h"
-#include "IOSVersion.h"
 #include "IRegistry.h"
-#include "TriBool.h"
+#include "OutLookHotmailConnector.h"
+#include "MultipleDownloads.h"
 
 enum MSOfficeVersion
 {
@@ -36,36 +36,58 @@ enum MSOfficeVersion
 	MSOffice2013_64
 };
 
-struct RegKeyVersion
-{
-	wchar_t* VersionNumber;
-	wchar_t* InstalledLangMapKey;
-	bool InstalledLangMapKeyIsDWord;
-};
-
-
 class MSOffice
 {
 public:
-		MSOffice(IRegistry* registry, IRunner* runner);
+		MSOffice(IRegistry* registry, IRunner* runner, MSOfficeVersion version);
+		~MSOffice();
 
-		MSOfficeVersion _readVersionInstalled();
-		void _readIsLangPackInstalled(MSOfficeVersion version, TriBool& langPackInstalled, bool& langPackInstalled64bits);
-		bool _isLangPackForVersionInstalled(MSOfficeVersion version, bool b64bits);
-		void _setDefaultLanguage(MSOfficeVersion officeVersion);
-		bool _isDefaultLanguage(MSOfficeVersion officeVersion);
-		
+		bool GetUseDialectalVariant() { return m_dialectalVariant; }
+		void SetUseDialectalVariant(bool dialectalVariant) {m_dialectalVariant = dialectalVariant;}
+		MSOfficeVersion GetVersionEnum() { return m_MSVersion; }
+		void Execute();		
+		void SetDefaultLanguage();
+		bool IsLangPackInstalled();
+		bool IsDefaultLanguage();
+		const wchar_t* GetVersion();
+		void AddDownloads(MultipleDownloads& multipleDownloads);
+		void DumpLogOnError();		
+
 protected:
+
+		wchar_t* _getDownloadID();
 		
-
 private:
+		
+		struct RegKeyVersion
+		{
+			wchar_t* VersionNumber;
+			wchar_t* InstalledLangMapKey;
+			bool InstalledLangMapKeyIsDWord;
+		};
 
-		RegKeyVersion _getRegKeys(MSOfficeVersion officeVersion);
-		void _readDefaultLanguage(MSOfficeVersion officeVersion, bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
-		bool _isVersionInstalled(RegKeyVersion regkeys, bool b64bits);
+		RegKeyVersion _getRegKeys();
 
+		static RegKeyVersion RegKeys2003;
+		static RegKeyVersion RegKeys2007;
+		static RegKeyVersion RegKeys2010;
+		static RegKeyVersion RegKeys2013;
+
+		ActionID _getID() const { return MSOfficeLPIActionID;};
+		bool _extractCabFile(wchar_t * file, wchar_t * path);
+		void _removeOffice2003TempFiles();
+		void _readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
+		
 		IRunner* m_runner;
-		IRegistry* m_registry;		
+		IRegistry* m_registry;
+		bool m_dialectalVariant;		
+		MSOfficeVersion m_MSVersion;
+		wstring m_msiexecLog;
+
+		wchar_t m_szFullFilename[MAX_PATH];
+		wchar_t m_szFilename[MAX_PATH];
+		wchar_t m_szTempPath[MAX_PATH];
+		wchar_t m_szTempPath2003[MAX_PATH];
 };
 
 
