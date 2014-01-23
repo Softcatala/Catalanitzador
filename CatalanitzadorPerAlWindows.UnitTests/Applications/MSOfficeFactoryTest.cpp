@@ -27,7 +27,7 @@ using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::Eq;
 
-void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version)
+void MockOfficeInstalled(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, MSOfficeVersion version)
 {
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).
 		WillRepeatedly(Return(version == MSOffice2003));
@@ -49,15 +49,16 @@ void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version)
 
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));
+
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(version == MSOffice2013_64 || MSOffice2010_64));
 }
 
 TEST(MSOfficeFactoryTest, _isVersionInstalled_2003)
 {
 	RegistryMock registryMockobj;
 	OSVersionMock osVersionMock;
-
-	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	MockOfficeInstalled(registryMockobj, MSOffice2003);
+	
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2003);
 	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2003));
 }
 
@@ -65,9 +66,8 @@ TEST(MSOfficeFactoryTest, _isVersionInstalled_2007)
 {
 	RegistryMock registryMockobj;
 	OSVersionMock osVersionMock;
-
-	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	MockOfficeInstalled(registryMockobj, MSOffice2007);
+	
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2007);
 	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2007));	
 }
 
@@ -76,8 +76,7 @@ TEST(MSOfficeFactoryTest, _isVersionInstalled_2010)
 	RegistryMock registryMockobj;
 	OSVersionMock osVersionMock;
 
-	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	MockOfficeInstalled(registryMockobj, MSOffice2010);
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2010);
 	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2010));	
 }
 
@@ -86,8 +85,7 @@ TEST(MSOfficeFactoryTest, _isVersionInstalled_2010_64)
 	RegistryMock registryMockobj;
 	OSVersionMock osVersionMock;
 
-	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
-	MockOfficeInstalled(registryMockobj, MSOffice2010_64);
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2010_64);
 	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2010_64));	
 }
 
@@ -95,8 +93,7 @@ TEST(MSOfficeFactoryTest, _isVersionInstalled_2013_64)
 {
 	RegistryMock registryMockobj;
 	OSVersionMock osVersionMock;
-
-	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
-	MockOfficeInstalled(registryMockobj, MSOffice2013_64);
+	
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
 	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2013_64));	
 }

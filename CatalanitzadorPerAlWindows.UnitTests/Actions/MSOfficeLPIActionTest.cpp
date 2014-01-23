@@ -30,16 +30,17 @@ using ::testing::Eq;
 #define CreateMSOfficeAction \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	MSOfficeLPIAction officeAction(&registryMockobj, &runnerMock, &DownloadManager());
+	OSVersionMock osVersionMock; \
+	MSOfficeLPIAction officeAction(&osVersionMock, &registryMockobj, &runnerMock, &DownloadManager());
 
 extern void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
-extern void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
+extern void MockOfficeInstalled(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, MSOfficeVersion version);
 
 TEST(MSOfficeLPIActionTest, _IsNeeded_2003_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOfficeInstalled(registryMockobj, MSOffice2003);
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2003);
 	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 
 	officeAction.CheckPrerequirements(NULL);
@@ -50,7 +51,7 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_2007_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOfficeInstalled(registryMockobj, MSOffice2007);
+	MockOfficeInstalled(osVersionMock,registryMockobj, MSOffice2007);
 	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 	
 	officeAction.CheckPrerequirements(NULL);
@@ -61,22 +62,22 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_2010_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOfficeInstalled(registryMockobj, MSOffice2010);
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2010);
 	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(officeAction.IsNeed());
 }
 
-/*TEST(MSOfficeLPIActionTest, _IsNeeded_201064_NoLangPack)
+TEST(MSOfficeLPIActionTest, _IsNeeded_201064_NoLangPack)
 {
 	CreateMSOfficeAction;
 
-	MockOfficeInstalled(registryMockobj, MSOffice2010_64);
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2010_64);
 	SetLangPacksInstalled(registryMockobj, NoMSOffice);
 	
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(officeAction.IsNeed());
-}*/
+}
 
 TEST(MSOfficeLPIActionTest, _IsNeeded_NotInstalled)
 {
