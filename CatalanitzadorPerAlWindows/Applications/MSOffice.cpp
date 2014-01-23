@@ -241,7 +241,7 @@ void MSOffice::SetDefaultLanguage()
 		// and use the specified language instead
 		if (m_MSVersion != MSOffice2003)
 		{
-			BOOL bSetFollowKey = m_registry->SetString(L"FollowSystemUI", L"Off");			
+			m_registry->SetString(L"FollowSystemUI", L"Off");
 		}		
 		m_registry->Close();
 	}

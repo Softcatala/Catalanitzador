@@ -27,14 +27,13 @@ using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::Eq;
 
-extern void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
-
 #define CreateMSOfficeAction \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
 	MSOfficeLPIAction officeAction(&registryMockobj, &runnerMock, &DownloadManager());
 
 extern void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
+extern void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
 
 TEST(MSOfficeLPIActionTest, _IsNeeded_2003_NoLangPack)
 {

@@ -43,7 +43,7 @@ protected:
 
 private:
 		
-		bool m_MSOffice2013OrHigher;
+		bool m_MSOffice2010OrPrevious;
 		wstring m_installerLocation;
 		IRegistry *m_registry;
 };

@@ -178,7 +178,10 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 			}
 			case ExecutionStepOutLookConnector:
 				m_executionStep = ExecutionCompleted;
-				_getOutLookHotmailConnector()->Execute(m_runner);
+				if (_getOutLookHotmailConnector()->IsNeed())
+				{
+					_getOutLookHotmailConnector()->Execute(m_runner);
+				}
 				return InProgress;
 			case ExecutionCompleted:
 				break;
@@ -213,18 +216,19 @@ OutLookHotmailConnector* MSOfficeLPIAction::_getOutLookHotmailConnector()
 {
 	if (m_OutLookHotmailConnector == NULL)
 	{
-		bool MSOffice2013OrHigher = false;
+		bool MSOffice2010OrPrevious = false;
 
 		for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 		{
-			if (m_MSOffices.at(i).GetVersionEnum() == MSOffice2013 || 
-				m_MSOffices.at(i).GetVersionEnum() == MSOffice2013_64)
+			MSOfficeVersion version = m_MSOffices.at(i).GetVersionEnum();
+
+			if (version== MSOffice2010_64 || version == MSOffice2010 || version == 2007 ||  version == 2003)
 			{
-				MSOffice2013OrHigher = true;
+				MSOffice2010OrPrevious = true;
 				break;
 			}
 		}		
-		m_OutLookHotmailConnector = new OutLookHotmailConnector(MSOffice2013OrHigher, m_registry);
+		m_OutLookHotmailConnector = new OutLookHotmailConnector(MSOffice2010OrPrevious, m_registry);
 	}
 
 	return m_OutLookHotmailConnector;

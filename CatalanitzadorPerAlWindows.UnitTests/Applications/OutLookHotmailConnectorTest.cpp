@@ -33,8 +33,8 @@ class OutLookHotmailConnectorTest : public OutLookHotmailConnector
 {
 public:
 
-	OutLookHotmailConnectorTest::OutLookHotmailConnectorTest(bool MSOffice2013OrHigher, IRegistry* registry)
-		: OutLookHotmailConnector(MSOffice2013OrHigher, registry) {};
+	OutLookHotmailConnectorTest::OutLookHotmailConnectorTest(bool MSOffice2010OrPrevious, IRegistry* registry)
+		: OutLookHotmailConnector(MSOffice2010OrPrevious, registry) {};
 
 	virtual wstring _getOutLookPathToCatalanLibrary() { return m_outlookPath; }
 	void _SetOutLookPathToCatalanLibrary(wstring path) { m_outlookPath = path; }
@@ -44,16 +44,16 @@ private:
 	wstring m_outlookPath;
 };
 
-#define CreateAOutLookHotmailConnector(MSOffice2013OrHigher) \
+#define CreateAOutLookHotmailConnector(MSOffice2010OrPrevious) \
 	RegistryMock registryMockobj; \
-	OutLookHotmailConnectorTest outLookHotmailConnector(MSOffice2013OrHigher, &registryMockobj);
+	OutLookHotmailConnectorTest outLookHotmailConnector(MSOffice2010OrPrevious, &registryMockobj);
 
 #define CONNECTOR_REGKEY L"SOFTWARE\\Microsoft\\Office\\Outlook\\Addins\\MSNCON.Addin.1"
 
 
 TEST(OutLookHotmailConnectorTest, IsNeed_False_NotInstalled)
 {
-	CreateAOutLookHotmailConnector(true);
+	CreateAOutLookHotmailConnector(false);
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(CONNECTOR_REGKEY), false)).WillRepeatedly(Return(false));
  	EXPECT_FALSE(outLookHotmailConnector.IsNeed());
@@ -61,7 +61,7 @@ TEST(OutLookHotmailConnectorTest, IsNeed_False_NotInstalled)
 
 TEST(OutLookHotmailConnectorTest, IsNeed_False_CatalanConnectorInstalled)
 {
-	CreateAOutLookHotmailConnector(false);
+	CreateAOutLookHotmailConnector(true);
 	TempFile tempFile;
 	
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(CONNECTOR_REGKEY), false)).WillRepeatedly(Return(true));
@@ -75,7 +75,7 @@ TEST(OutLookHotmailConnectorTest, IsNeed_False_CatalanConnectorInstalled)
 
 TEST(OutLookHotmailConnectorTest, IsNeed_True_RegKeyButNoDll)
 {
-	CreateAOutLookHotmailConnector(false);
+	CreateAOutLookHotmailConnector(true);
 	TempFile tempFile;
 	
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(CONNECTOR_REGKEY), false)).WillRepeatedly(Return(true));
@@ -86,7 +86,7 @@ TEST(OutLookHotmailConnectorTest, IsNeed_True_RegKeyButNoDll)
 
 TEST(OutLookHotmailConnectorTest, Execute)
 {
-	CreateAOutLookHotmailConnector(false);
+	CreateAOutLookHotmailConnector(true);
 	TempFile tempFile;
 	RunnerMock runnerMock;
 	
