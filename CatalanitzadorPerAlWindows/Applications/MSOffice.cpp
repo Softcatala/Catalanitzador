@@ -334,8 +334,8 @@ void MSOffice::Execute()
 			wcscpy_s(szApp, m_szFullFilename);
 			wcscpy_s(szParams, L" /passive /norestart /quiet");
 
-			GetTempPath(MAX_PATH, logFile);
-			wcscat_s(logFile, L"msofficelip.log");
+			// We need temporary unique files for the logs since we can execute several MS instances
+			GetTempFileName(m_szTempPath, L"mslog", 0, logFile);
 			wcscat_s(szParams, L" /log:");
 			wcscat_s(szParams, logFile);
 			m_msiexecLog = logFile;
