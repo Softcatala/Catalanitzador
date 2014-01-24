@@ -140,14 +140,14 @@ bool MSOffice::IsLangPackInstalled()
 	bool b64bits = (m_MSVersion == MSOffice2010_64 || m_MSVersion == MSOffice2013_64);
 
 	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false) :
-		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))	
+		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
 	{		
 		if (regkeys.InstalledLangMapKeyIsDWord)
 		{
 			DWORD dwValue;
 			if (m_registry->GetDWORD(CATALAN_LCID, &dwValue) || m_registry->GetDWORD(VALENCIAN_LCID, &dwValue))
 				isInstalled = true;
-		}		
+		}
 		else
 		{
 			wchar_t szValue[1024];

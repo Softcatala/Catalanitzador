@@ -104,11 +104,11 @@ bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 {
 	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
-		if (m_MSOffices[i].IsLangPackInstalled() == false)
-			m_MSOffices.at(i).AddDownloads(m_multipleDownloads);
-
 		// When download is requested the user has started the installation, let's set dialect at this point
 		m_MSOffices.at(i).SetUseDialectalVariant(GetUseDialectalVariant());
+	
+		if (m_MSOffices[i].IsLangPackInstalled() == false)
+			m_MSOffices.at(i).AddDownloads(m_multipleDownloads);
 	}
 
 	if (_getOutLookHotmailConnector()->IsNeed())
