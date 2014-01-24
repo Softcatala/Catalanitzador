@@ -33,8 +33,12 @@ using ::testing::Eq;
 	OSVersionMock osVersionMock; \
 	MSOfficeLPIAction officeAction(&osVersionMock, &registryMockobj, &runnerMock, &DownloadManager());
 
-extern void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
 extern void MockOfficeInstalled(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, MSOfficeVersion version);
+extern void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
+extern void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool FollowSystemUIOff, DWORD language);
+extern DWORD CATALAN_LCID;
+extern DWORD VALENCIAN_LCID;
+extern DWORD SPANISH_LCID;
 
 TEST(MSOfficeLPIActionTest, _IsNeeded_2003_NoLangPack)
 {
@@ -78,6 +82,33 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_201064_NoLangPack)
 	officeAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(officeAction.IsNeed());
 }
+
+TEST(MSOfficeLPIActionTest, _IsNeeded_201364_LangPackAndnODefaultLang)
+{
+	CreateMSOfficeAction;
+	bool FollowSystemUIOff = true;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
+	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);	
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, SPANISH_LCID);
+
+	officeAction.CheckPrerequirements(NULL);
+	EXPECT_TRUE(officeAction.IsNeed());
+}
+
+TEST(MSOfficeLPIActionTest, _IsNeeded_201364_LangPackAndDefaultLang)
+{
+	CreateMSOfficeAction;
+	bool FollowSystemUIOff = true;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
+	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);	
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, CATALAN_LCID);
+
+	officeAction.CheckPrerequirements(NULL);
+	EXPECT_FALSE(officeAction.IsNeed());
+}
+
 
 TEST(MSOfficeLPIActionTest, _IsNeeded_NotInstalled)
 {
