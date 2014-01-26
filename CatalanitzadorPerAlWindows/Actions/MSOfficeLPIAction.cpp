@@ -228,7 +228,7 @@ OutLookHotmailConnector* MSOfficeLPIAction::_getOutLookHotmailConnector()
 		{
 			MSOfficeVersion version = m_MSOffices.at(i).GetVersionEnum();
 
-			if (version== MSOffice2010_64 || version == MSOffice2010 || version == 2007 ||  version == 2003)
+			if (version == MSOffice2010 || version == MSOffice2007 || version == MSOffice2003)
 			{
 				MSOffice2010OrPrevious = true;
 				break;
