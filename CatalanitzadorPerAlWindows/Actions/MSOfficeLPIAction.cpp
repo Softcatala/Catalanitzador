@@ -21,7 +21,6 @@
 
 #include "MSOfficeLPIAction.h"
 #include "MSOfficeFactory.h"
-#include "OSVersion.h"
 
 MSOfficeLPIAction::MSOfficeLPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) :
 	Action(downloadManager), m_multipleDownloads(downloadManager)
@@ -104,7 +103,7 @@ bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 {
 	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
-		// When download is requested the user has started the installation, let's set dialect at this point
+		// When download is requested the user has started the installation, let's set the dialect at this point
 		m_MSOffices.at(i).SetUseDialectalVariant(GetUseDialectalVariant());
 	
 		if (m_MSOffices[i].IsLangPackInstalled() == false)
