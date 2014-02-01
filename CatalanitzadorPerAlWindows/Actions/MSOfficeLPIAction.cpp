@@ -50,25 +50,28 @@ wchar_t* MSOfficeLPIAction::GetDescription()
 }
 
 LPCWSTR MSOfficeLPIAction::GetLicenseID()
-{	
-	if (m_MSOffices.size() > 0)
+{
+	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
-		switch (m_MSOffices.at(0).GetVersionEnum())
+		if (m_MSOffices[i].DoesRequiereInstallLangPack())
 		{
-			case MSOffice2003:
-				return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2003);
-			case MSOffice2007:
-				return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
-			case MSOffice2010:
-			case MSOffice2010_64:
-				return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2010);
-			case MSOffice2013:
-			case MSOffice2013_64:
-				return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2013);
-			default:
-				break;
+			switch (m_MSOffices.at(i).GetVersionEnum())
+			{
+				case MSOffice2003:
+					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2003);
+				case MSOffice2007:
+					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2007);
+				case MSOffice2010:
+				case MSOffice2010_64:
+					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2010);
+				case MSOffice2013:
+				case MSOffice2013_64:
+					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2013);
+				default:
+					break;
+			}
 		}
-	}
+	}	
 	return NULL;
 }
 

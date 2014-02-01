@@ -27,6 +27,7 @@ using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::Eq;
 using ::testing::SetArgPointee;
+using ::testing::StrCaseNe;
 
 #define CATALAN_LANGUAGE_CODE L"1027"
 #define VALENCIAN_LANGUAGE_CODE L"2051"
@@ -34,13 +35,22 @@ DWORD CATALAN_LCID  = _wtoi(CATALAN_LANGUAGE_CODE);
 DWORD VALENCIAN_LCID = _wtoi(VALENCIAN_LANGUAGE_CODE);
 DWORD SPANISH_LCID = 1034;
 
-
 class MSOfficeTest : public MSOffice
 {
 public:
 
 	MSOfficeTest::MSOfficeTest(IRegistry* registry, IRunner* runner, MSOfficeVersion version)
 		: MSOffice(registry, runner, version) {};
+
+	void _setPackageCodeToSet(wstring packageCodeToSet)
+	{
+		m_packageCodeToSet = packageCodeToSet;		
+	}
+
+	void _setInstalledLangPackCode(wstring installedLangPackCode)
+	{		
+		m_installedLangPackCode = installedLangPackCode;
+	}
 
 	using MSOffice::_getDownloadID;	
 };
@@ -62,7 +72,7 @@ void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool Follo
 		WillRepeatedly(DoAll(SetArgPointee<1>(language), Return(true)));
 }
 
-void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version)
+void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version, const wchar_t* langCode)
 {	
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\LanguageResources\\ParentFallback"), false)).
 		WillRepeatedly(Return(version == MSOffice2003));
@@ -84,15 +94,26 @@ void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion versio
 
 	if (version == MSOffice2003)
 	{
-		EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(CATALAN_LANGUAGE_CODE),_)).WillRepeatedly(Return(true));
+		EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(langCode),_)).WillRepeatedly(Return(true));
 	}
 	else if (version != MSOfficeUnKnown && version != NoMSOffice)
 	{
-		EXPECT_CALL(registryMockobj, GetString(StrCaseEq(CATALAN_LANGUAGE_CODE),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));
-		EXPECT_CALL(registryMockobj, GetString(StrCaseEq(VALENCIAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
+		EXPECT_CALL(registryMockobj, GetString(StrCaseEq(langCode),_,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(L"1"), Return(true)));		
+		if (_wcsnicmp(langCode, CATALAN_LANGUAGE_CODE, wcslen(CATALAN_LANGUAGE_CODE)) == 0)
+		{
+			EXPECT_CALL(registryMockobj, GetString(StrCaseEq(VALENCIAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
+		}
+		else
+		{
+			EXPECT_CALL(registryMockobj, GetString(StrCaseEq(CATALAN_LANGUAGE_CODE),_,_)).WillRepeatedly(Return(false));
+		}
 	}
 }
 
+void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version)
+{
+	SetLangPacksInstalled(registryMockobj, version, CATALAN_LANGUAGE_CODE);
+}
 
 TEST(MSOfficeTest, SetDefaultLanguage_2003)
 {
@@ -101,6 +122,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2003)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\11.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(0);
+	office._setInstalledLangPackCode(CATALAN_LANGUAGE_CODE);
 	office.SetDefaultLanguage();
 }
 
@@ -111,6 +133,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2007)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\12.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	office._setInstalledLangPackCode(CATALAN_LANGUAGE_CODE);
 	office.SetDefaultLanguage();
 }
 
@@ -121,6 +144,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2010)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\14.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	office._setInstalledLangPackCode(CATALAN_LANGUAGE_CODE);
 	office.SetDefaultLanguage();
 }
 
@@ -131,6 +155,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2010_64)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\14.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	office._setInstalledLangPackCode(CATALAN_LANGUAGE_CODE);
 	office.SetDefaultLanguage();
 }
 
@@ -141,6 +166,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2013)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\15.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	office._setInstalledLangPackCode(CATALAN_LANGUAGE_CODE);
 	office.SetDefaultLanguage();
 }
 
@@ -151,6 +177,18 @@ TEST(MSOfficeTest, SetDefaultLanguage_2013_64)
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\15.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(CATALAN_LCID) )).Times(1).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));
+	office._setInstalledLangPackCode(CATALAN_LANGUAGE_CODE);
+	office.SetDefaultLanguage();
+}
+
+TEST(MSOfficeTest, SetDefaultLanguage_SetLanguageOnly_Valencian)
+{
+	CreateMSoffice(MSOffice2013);
+	
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\15.0\\Common\\LanguageResources"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(VALENCIAN_LCID) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"FollowSystemUI"), StrCaseEq(L"Off"))).Times(1).WillRepeatedly(Return(true));	
+	office._setPackageCodeToSet(VALENCIAN_LANGUAGE_CODE);
 	office.SetDefaultLanguage();
 }
 
@@ -234,7 +272,7 @@ TEST(MSOfficeTest, IsLangPackInstalled_2003)
 {
 	CreateMSoffice(MSOffice2003);
 	
-	SetLangPacksInstalled(registryMockobj, MSOffice2003);	
+	SetLangPacksInstalled(registryMockobj, MSOffice2003);
 	EXPECT_TRUE(office.IsLangPackInstalled());
 }
 

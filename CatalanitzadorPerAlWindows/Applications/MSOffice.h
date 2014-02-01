@@ -51,11 +51,14 @@ public:
 		bool IsDefaultLanguage();
 		const wchar_t* GetVersion();
 		void AddDownloads(MultipleDownloads& multipleDownloads);
-		void DumpLogOnError();		
+		void DumpLogOnError();
+		bool DoesRequiereInstallLangPack() { return m_installedLangPackCode.size() == 0; }
 
 protected:
 
 		wchar_t* _getDownloadID();
+		wstring m_packageCodeToSet;
+		wstring m_installedLangPackCode;		
 		
 private:
 		
@@ -82,7 +85,7 @@ private:
 		IRegistry* m_registry;
 		bool m_dialectalVariant;		
 		MSOfficeVersion m_MSVersion;
-		wstring m_msiexecLog;
+		wstring m_msiexecLog;		
 
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];

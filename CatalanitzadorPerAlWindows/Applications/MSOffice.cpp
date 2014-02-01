@@ -141,12 +141,23 @@ bool MSOffice::IsLangPackInstalled()
 
 	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false) :
 		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
-	{		
+	{
+		m_installedLangPackCode.empty();
+
 		if (regkeys.InstalledLangMapKeyIsDWord)
 		{
 			DWORD dwValue;
-			if (m_registry->GetDWORD(CATALAN_LCID, &dwValue) || m_registry->GetDWORD(VALENCIAN_LCID, &dwValue))
-				isInstalled = true;
+			if (m_registry->GetDWORD(CATALAN_LCID, &dwValue))
+			{
+				m_installedLangPackCode = CATALAN_LCID;
+			}
+			else
+			{
+				if (m_registry->GetDWORD(VALENCIAN_LCID, &dwValue))
+				{
+					m_installedLangPackCode = VALENCIAN_LCID;
+				}
+			}
 		}
 		else
 		{
@@ -154,15 +165,23 @@ bool MSOffice::IsLangPackInstalled()
 			if (m_registry->GetString(CATALAN_LCID, szValue, sizeof (szValue)))
 			{
 				if (wcslen (szValue) > 0)
-					isInstalled = true;
+				{
+					m_installedLangPackCode = CATALAN_LCID;
+				}
 			}
 
 			if (m_registry->GetString(VALENCIAN_LCID, szValue, sizeof (szValue)))
 			{
 				if (wcslen (szValue) > 0)
-					isInstalled = true;
+				{
+					m_installedLangPackCode = VALENCIAN_LCID;
+				}
 			}
 		}
+
+		if (m_installedLangPackCode.size() > 0)
+			isInstalled = true;
+
 		m_registry->Close();
 	}
 
@@ -230,11 +249,25 @@ void MSOffice::SetDefaultLanguage()
 {
 	BOOL bSetKey = FALSE;
 	wchar_t szKeyName [1024];
+	int lcid = 0;
 
 	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, true))
 	{		
-		int lcid = _wtoi(GetUseDialectalVariant() ? VALENCIAN_LCID : CATALAN_LCID);
+
+		// Always set the language to match the installed langpack
+		// GetUseDialectalVariant is only used as guidance when installing a language pack, when setting the language
+		// of already existing installation we use the already exisitng language pack (ca or va) indepedenly of what
+		// the user has selected
+		if (m_packageCodeToSet.size() > 0)
+		{
+			lcid = _wtoi(m_packageCodeToSet.c_str());
+		}
+		else
+		{
+			lcid = _wtoi(m_installedLangPackCode.c_str());
+		}
+
 		bSetKey = m_registry->SetDWORD(L"UILanguage", lcid);
 
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
@@ -245,7 +278,7 @@ void MSOffice::SetDefaultLanguage()
 		}		
 		m_registry->Close();
 	}
-	g_log.Log(L"MSOffice::SetDefaultLanguage (%s), set UILanguage %u", (wchar_t*) GetVersion(), (wchar_t *) bSetKey);	
+	g_log.Log(L"MSOffice::SetDefaultLanguage (%s), set UILanguage %u, lcid %u", (wchar_t*) GetVersion(), (wchar_t *) bSetKey, (wchar_t *) lcid);
 }
 
 MSOffice::RegKeyVersion MSOffice::_getRegKeys()
@@ -271,29 +304,37 @@ wchar_t*  MSOffice::_getDownloadID()
 	switch (m_MSVersion)
 	{
 		case MSOffice2003:
+			m_packageCodeToSet = CATALAN_LCID;
 			return L"2003";
 		case MSOffice2007:
+			m_packageCodeToSet = CATALAN_LCID;
 			return L"2007";
 		case MSOffice2010:
+			m_packageCodeToSet = CATALAN_LCID;
 			return L"2010_32";
 		case MSOffice2010_64:
+			m_packageCodeToSet = CATALAN_LCID;
 			return L"2010_64";
 		case MSOffice2013:
 			if (GetUseDialectalVariant())
 			{
+				m_packageCodeToSet = VALENCIAN_LCID;
 				return L"2013_va_32";
 			}
 			else
 			{
+				m_packageCodeToSet = CATALAN_LCID;
 				return L"2013_ca_32";
 			}			
 		case MSOffice2013_64:
 			if (GetUseDialectalVariant())
 			{
+				m_packageCodeToSet = VALENCIAN_LCID;
 				return L"2013_va_64";
 			}
 			else
 			{
+				m_packageCodeToSet = CATALAN_LCID;
 				return L"2013_ca_64";
 			}
 		default:
