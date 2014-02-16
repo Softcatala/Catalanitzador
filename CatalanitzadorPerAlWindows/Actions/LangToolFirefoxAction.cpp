@@ -89,6 +89,8 @@ void LangToolFirefoxAction::Execute()
 	{
 		SetStatus(FinishedWithError);
 	}
+
+	g_log.Log(L"LangToolFirefoxAction::Execute is '%s'", GetStatus() == Successful ? L"Successful" : L"FinishedWithError");
 }
 
 bool LangToolFirefoxAction::Download(ProgressStatus progress, void *data)
