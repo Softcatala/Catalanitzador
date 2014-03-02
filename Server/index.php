@@ -1,4 +1,5 @@
-<?php include('header.html'); ?>
+<?php $title = "Catalanitzador de Softcatalà"; ?>
+<?php include('header.php'); ?>
 
 <div class="center">
     <div class="container">

@@ -1,4 +1,5 @@
-<?php include('header.html'); ?>
+<?php $title = "Catalanitzador de Softcatalà - Com configurar l'Android en català"; ?>
+<?php include('header.php'); ?>
 
 <div class="center">
     <div class="container">

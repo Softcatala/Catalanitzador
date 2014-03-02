@@ -1,4 +1,5 @@
-<?php include('header.html'); ?>
+<?php $title = "Catalanitzador de Softcatalà - Com configurar l'iOS en català"; ?>
+<?php include('header.php'); ?>
 
 <?php
 $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
