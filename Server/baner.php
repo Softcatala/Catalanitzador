@@ -1,4 +1,5 @@
-<?php include('header.html'); ?>
+<?php $title = "Catalanitzador de Softcatalà - Enllaceu el Catalanitzador des del vostre web"; ?>
+<?php include('header.php'); ?>
 
 
 <div class="center banerpage">

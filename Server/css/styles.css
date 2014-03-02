@@ -218,6 +218,56 @@ div.outcome { text-align: left; margin: 20px 0 48px 85px; }
 /*Popup*/
 div.com_installar { top: 30%; left: 30%; position: absolute; display: none; z-index: 2147483647; cursor: pointer;}
 
+div.com_installar_box { width: 523px; display:block; margin-top: 20px; background: #FFF; border: 5px solid #d8d8d8; border-radius: 10px; text-align: left; padding: 20px;}
+div.com_installar_box h3 { color: #B40F0D; font-size: 20px; border-bottom:1px dotted #9999CC; padding-bottom: 2px;}
+div.com_installar_box ol { font-size: 15px; padding: 10px 18px;}
+div.com_installar_box .tanca_button {background: none repeat scroll 0 0 #454649;
+    border-radius: 7px;
+    color: #FFFFFF;
+    float: right;
+    font-size: 14px;
+    padding: 1px 10px;
+    position: relative;
+    top: -36px;
+  }
+
+ol {
+    counter-reset:li; /* Initiate a counter */
+    margin-left:0; /* Remove the default left margin */
+    padding-left:0; /* Remove the default left padding */
+}
+ol > li {
+    list-style: none outside none;
+    margin: 0 0 6px 11px;
+    padding: 8px;
+    position: relative;
+}
+ol > li:before {
+    border-radius: 14px;
+    content:counter(li); /* Use the counter as content */
+    counter-increment:li; /* Increment the counter by 1 */
+    /* Position and style the number */
+    position:absolute;
+    top:6px;
+    left:-2em;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    width:2em;
+    /* Some space between the number and the content in browsers that support
+       generated content but not positioning it (Camino 2 is one example) */
+    margin-right:8px;
+    padding:4px;
+    color:#fff;
+    background:#454649;
+    font-weight:bold;
+    font-family:"Helvetica Neue", Arial, sans-serif;
+    text-align:center;
+}
+li ol,
+li ul {margin-top:6px;}
+ol ol li:last-child {margin-bottom:0;}
+
 /*Compatdor*/
 a { text-decoration: none;}
 div.a_stats { display: block; margin-top: -55px; }

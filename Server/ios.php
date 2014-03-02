@@ -1,4 +1,5 @@
 <?php $title = "Catalanitzador de Softcatalà - Com configurar l'iOS en català"; ?>
+<?php $description = "Catalanitzador de Softcatalà: explicació pas a pas de com configurar l'iOS en català"; ?>
 <?php include('header.php'); ?>
 
 <?php

@@ -1,4 +1,5 @@
 <?php $title = "Catalanitzador de Softcatalà - Com configurar l'Android en català"; ?>
+<?php $description = "Catalanitzador de Softcatalà: explicació pas a pas de com configurar l'Android en català"; ?>
 <?php include('header.php'); ?>
 
 <div class="center">

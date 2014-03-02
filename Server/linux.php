@@ -1,4 +1,5 @@
 <?php $title = "Catalanitzador de Softcatalà - Com configurar el Linux en català"; ?>
+<?php $description = "Catalanitzador de Softcatalà: explicació pas a pas de com configurar el Linux en català"; ?>
 <?php include('header.php'); ?>
 
 <div class="center">

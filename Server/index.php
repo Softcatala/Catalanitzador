@@ -1,4 +1,5 @@
 <?php $title = "Catalanitzador de Softcatalà"; ?>
+<?php $description = "Catalanitzador de Softcatalà: poseu de forma automàtica el vostre Windows o Mac OS X en català! Amb aquesta aplicació podreu catalanitzar el vostre ordinador de forma molt senzilla."; ?>
 <?php include('header.php'); ?>
 
 <div class="center">
@@ -36,7 +37,9 @@
                 </a>
                 <br class="p"/>
                 <div class="notes_installacio">
-                <a id="com_installar" title="Com fer la instal·lació"><img src="/images/com_installar.png"/></a>
+                <a id="com_installar" title="Com fer la instal·lació">
+                    <img src="/images/com_installar.png"/>
+                </a>
                 <div class="avis_altres_so">
                 * Nota: No és possible automatitzar el procés en dispositius mòbils. 
                 Aquí us mostrem el procediment pas a pas per a que configureu el vostre dispositiu mòbil en català.
