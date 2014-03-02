@@ -24,6 +24,22 @@
 
 using ::testing::StrCaseEq;
 
+#define CATALANITZADORACTION_INDEX 0
+#define OPENOFFICEACTION_INDEX 1
+#define VERSION32_INDEX 0
+#define VERSION33_INDEX 1
+
+#define OO32_URL_1 L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0"
+#define OO32_URL_2 L"ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab"
+#define OO32_URL_3 L"ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab"
+#define OO32_SHA1_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab.sha1"                   
+
+#define OO33_URL_1 L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0"
+#define OO33_URL_2 L"ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab"
+#define OO33_URL_3 L"ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab"
+#define OO33_SHA1_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab.sha1"
+
+
 void _getConfigurationFileLocation(wstring &location)
 {
 	Application::GetExecutionLocation(location);
@@ -54,19 +70,31 @@ TEST(ConfigurationRemoteXmlParserTest, GetFileActionsDownloads)
 	EXPECT_THAT(configurationXmlParser.GetConfiguration().GetFileActionsDownloads().size(), 2);
 }
 
-#define OPENOFFICEACTION_INDEX 1
-#define VERSION32_INDEX 0
-#define VERSION33_INDEX 1
+TEST(ConfigurationRemoteXmlParserTest, GetFileActionsDownloadStatus_Defined)
+{
+	wstring file;	
 
-#define OO32_URL_1 L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0"
-#define OO32_URL_2 L"ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab"
-#define OO32_URL_3 L"ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab"
-#define OO32_SHA1_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice32-langpack.cab.sha1"                   
+ 	_getConfigurationFileLocation(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(file);
+	configurationXmlParser.Parse();
 
-#define OO33_URL_1 L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab&id=3490&mirall=catalanitzador&so=win32&versio=1.0"
-#define OO33_URL_2 L"ftp://ftp.udl.cat/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab"
-#define OO33_URL_3 L"ftp://ftp.urv.es/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab"
-#define OO33_SHA1_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/OpenOffice.org/openoffice33-langpack.cab.sha1"
+	ConfigurationFileActionDownloads openOffice = configurationXmlParser.GetConfiguration().GetFileActionsDownloads().at(OPENOFFICEACTION_INDEX);	
+	EXPECT_TRUE(openOffice.GetActionDefaultStatusHasValue());
+	EXPECT_THAT(openOffice.GetActionDefaultStatus(), NotSelected);
+}
+
+TEST(ConfigurationRemoteXmlParserTest, GetFileActionsDownloadStatus_NotDefined)
+{
+	wstring file;
+
+ 	_getConfigurationFileLocation(file);
+	ConfigurationRemoteXmlParser configurationXmlParser(file);
+	configurationXmlParser.Parse();
+
+	ConfigurationFileActionDownloads openOffice = configurationXmlParser.GetConfiguration().GetFileActionsDownloads().at(CATALANITZADORACTION_INDEX);	
+	EXPECT_FALSE(openOffice.GetActionDefaultStatusHasValue());
+}
+
 						
 TEST(ConfigurationRemoteXmlParserTest, GetAction)
 {
@@ -81,7 +109,7 @@ TEST(ConfigurationRemoteXmlParserTest, GetAction)
 	downloads = configurationXmlParser.GetConfiguration().GetFileActionsDownloads().at(OPENOFFICEACTION_INDEX);
 	download32 = downloads.GetFileActionDownloadCollection().at(VERSION32_INDEX);
 	download33 = downloads.GetFileActionDownloadCollection().at(VERSION33_INDEX);
-
+	
 	EXPECT_THAT(downloads.GetFileActionDownloadCollection().size(), 2);
 	
 	EXPECT_TRUE(download32.GetMinVersion() == ApplicationVersion(L"3.2.0"));

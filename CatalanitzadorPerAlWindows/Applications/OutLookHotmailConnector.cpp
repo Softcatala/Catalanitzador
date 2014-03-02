@@ -23,10 +23,10 @@
 
 #define CONNECTOR_REGKEY L"SOFTWARE\\Microsoft\\Office\\Outlook\\Addins\\MSNCON.Addin.1"
 
-OutLookHotmailConnector::OutLookHotmailConnector(bool MSOffice2013OrHigher, IRegistry *registry)
+OutLookHotmailConnector::OutLookHotmailConnector(bool MSOffice2010OrPrevious, IRegistry *registry)
 {
 	m_registry = registry;
-	m_MSOffice2013OrHigher = MSOffice2013OrHigher;	
+	m_MSOffice2010OrPrevious = MSOffice2010OrPrevious;	
 }
 
 OutLookHotmailConnector::~OutLookHotmailConnector()
@@ -64,13 +64,13 @@ bool OutLookHotmailConnector::IsNeed()
 {
 	bool bNeed = false;	
 	
-	if (m_MSOffice2013OrHigher == false)
-	{	
-		wstring path;		
-
+	if (m_MSOffice2010OrPrevious)
+	{
 		// Connector installed
 		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, CONNECTOR_REGKEY, false) == true)
 		{
+			wstring path;
+
 			// Is the Catalan version?
 			path = _getOutLookPathToCatalanLibrary();
 			bNeed = GetFileAttributes(path.c_str()) == INVALID_FILE_ATTRIBUTES;

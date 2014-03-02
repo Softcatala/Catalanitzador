@@ -20,6 +20,7 @@
 #pragma once
 
 #include "ActionID.h"
+#include "ActionStatus.h"
 #include "ApplicationVersion.h"
 #include "ConfigurationFileActionDownload.h"
 #include "ApplicationVersion.h"
@@ -28,13 +29,22 @@
 
 using namespace std;
 
+// TODO: This should be renamed to ConfigurationAction
 class ConfigurationFileActionDownloads
 {
 	public:
-			ConfigurationFileActionDownloads() {}
+			ConfigurationFileActionDownloads() : m_actionStatusHasValue(false) {}
 
 			ActionID GetActionID() {return m_actionID;}
 			void SetActionID(ActionID actionID) {m_actionID = actionID;}
+
+			ActionStatus GetActionDefaultStatus() {return m_actionStatus;}
+			bool GetActionDefaultStatusHasValue() {return m_actionStatusHasValue;}
+			void SetActionDefaultStatus(ActionStatus actionStatus) 
+			{
+				m_actionStatus = actionStatus;
+				m_actionStatusHasValue = true;
+			}
 	
 			vector <ConfigurationFileActionDownload>& GetFileActionDownloadCollection() {return m_fileActionsDownload;}
 			ConfigurationFileActionDownload& GetFileDownloadForVersion(ApplicationVersion version);
@@ -49,6 +59,8 @@ class ConfigurationFileActionDownloads
 	private:
 
 			ActionID m_actionID;
+			ActionStatus m_actionStatus;
+			bool m_actionStatusHasValue;
 			vector <ConfigurationFileActionDownload> m_fileActionsDownload;
 			ConfigurationFileActionDownload m_fileActionsDownloadEmpty;
 };

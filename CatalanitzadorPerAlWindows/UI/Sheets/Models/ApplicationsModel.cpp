@@ -22,6 +22,7 @@
 #include "ApplicationsPropertyPageUI.h"
 #include "Runner.h"
 #include "WindowsLiveAction.h"
+#include "ConfigurationInstance.h"
 
 // An index to ActionGroup
 static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_OFFICE, IDS_GROUPNAME_BROWSERS, IDS_GROUPNAME_INTERNET };
@@ -58,6 +59,26 @@ wstring ApplicationsModel::_getActionDisplayName(Action *action)
 	return name;
 }
 
+ActionStatus ApplicationsModel::_getDefaultStatusForAction(ActionID actionID)
+{
+	vector <ConfigurationFileActionDownloads> configurationFileDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();
+	ActionStatus defaultStatus = Selected;
+
+	for (unsigned int i = 0; i < configurationFileDownloads.size(); i++)
+	{
+		if (configurationFileDownloads.at(i).GetActionID() == actionID)
+		{
+			if (configurationFileDownloads.at(i).GetActionDefaultStatusHasValue())
+			{
+				defaultStatus = configurationFileDownloads.at(i).GetActionDefaultStatus();
+				break;
+			}
+		}
+	}
+
+	return defaultStatus;
+}
+
 void ApplicationsModel::BuildListOfItems()
 {
 	for (int g = 0; g < ActionGroupLast; g++)
@@ -81,7 +102,9 @@ void ApplicationsModel::BuildListOfItems()
 			}
 
 			if (needed)
-				action->SetStatus(Selected);
+			{				
+				action->SetStatus(_getDefaultStatusForAction(action->GetID()));
+			}
 
 			ApplicationItem applicationItem(_getActionDisplayName(action), action, false, needed == false);
 			applicationItem.SetImageIndex(_getImageIndex(action->GetStatus()));

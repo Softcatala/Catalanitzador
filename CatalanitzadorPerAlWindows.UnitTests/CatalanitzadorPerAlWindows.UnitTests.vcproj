@@ -540,6 +540,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Applications\MSOfficeFactoryTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Applications\MSOfficeTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Applications\OpenOfficeJavaConfigurationTest.cpp"
 				>
 			</File>

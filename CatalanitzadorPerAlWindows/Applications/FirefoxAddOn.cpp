@@ -54,11 +54,18 @@ void FirefoxAddOn::InstallAddOn(wstring applicationID, wstring file)
 	FirefoxPreferencesFile preferences(m_profileRootDir);
 
 	preferences.GetPreferencesDirectory(path);
+	// Create directory if it is necessary
+	swprintf_s(szPath, L"%s\\extensions", path.c_str());
 
-	swprintf_s(szPath, L"%s\\extensions\\%s.xpi", path.c_str(), applicationID.c_str());	
+	if (GetFileAttributes(szPath) == INVALID_FILE_ATTRIBUTES)
+	{
+		CreateDirectory(szPath, NULL);
+	}
+
+	swprintf_s(szPath, L"%s\\extensions\\%s.xpi", path.c_str(), applicationID.c_str());
 	if (CopyFile(file.c_str(), szPath, false) == FALSE)
 	{
-		g_log.Log(L"FirefoxAddOn::InstallAddOn. Unable to copy extension");
+		g_log.Log(L"FirefoxAddOn::InstallAddOn. Unable to copy extension to '%s'", szPath);
 		return;
 	}
 }

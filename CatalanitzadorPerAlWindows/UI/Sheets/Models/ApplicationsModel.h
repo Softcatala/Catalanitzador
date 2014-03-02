@@ -48,6 +48,7 @@ protected:
 		bool _anyActionNeedsInternetConnection();
 
 private:
+		ActionStatus _getDefaultStatusForAction(ActionID actionID);
 		wstring _getActionDisplayName(Action *action);
 		void _processDependantItem(Action* action);
 		ImageIndex _getImageIndex(ActionStatus status);

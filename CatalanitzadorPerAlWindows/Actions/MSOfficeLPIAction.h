@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,36 +21,15 @@
 
 #include "Action.h"
 #include "IRunner.h"
-#include "IOSVersion.h"
 #include "IRegistry.h"
-#include "TriBool.h"
-#include "OutLookHotmailConnector.h"
 #include "MultipleDownloads.h"
-
-
-enum MSOfficeVersion
-{
-	MSOfficeUnKnown,
-	NoMSOffice,
-	MSOffice2003,
-	MSOffice2007,
-	MSOffice2010,
-	MSOffice2010_64,
-	MSOffice2013,
-	MSOffice2013_64
-};
-
-struct RegKeyVersion
-{
-	wchar_t* VersionNumber;
-	wchar_t* InstalledLangMapKey;
-	bool InstalledLangMapKeyIsDWord;
-};
+#include "MSOffice.h"
+#include "IOSVersion.h"
 
 class MSOfficeLPIAction : public Action
 {
 public:
-		MSOfficeLPIAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
+		MSOfficeLPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
 		~MSOfficeLPIAction();
 
 		virtual wchar_t* GetName();
@@ -64,44 +43,27 @@ public:
 		virtual const wchar_t* GetVersion();
 		virtual LPCWSTR GetLicenseID();
 		virtual void CheckPrerequirements(Action * action);
-
-protected:
-		
-		MSOfficeVersion _getVersionInstalled();
-		bool _isLangPackInstalled();
-		wchar_t* _getDownloadID();
-		void _setDefaultLanguage();
+		virtual void Serialize(ostream* stream);
 
 private:
+
+		OutLookHotmailConnector* _getOutLookHotmailConnector();
 
 		enum ExecutionStep
 		{
 			ExecutionStepNone,
-			ExecutionStep1,
-			ExecutionStep2	
+			ExecutionStepMSOffice,
+			ExecutionStepOutLookConnector,
+			ExecutionCompleted
 		};
 		
-		bool _isVersionInstalled(RegKeyVersion regkeys, bool b64bits);
-		void _readVersionInstalled();
-		bool _isLangPackForVersionInstalled(RegKeyVersion regkeys, bool b64bits);
-		bool _extractCabFile(wchar_t * file, wchar_t * path);
-		void _removeOffice2003TempFiles();
-		RegKeyVersion _getRegKeys();
-		void _readIsLangPackInstalled();
-		OutLookHotmailConnector* _getOutLookHotmailConnector();
-
-		TriBool m_bLangPackInstalled;
-		bool m_bLangPackInstalled64bits;
-		wchar_t m_szFullFilename[MAX_PATH];
-		wchar_t m_szFilename[MAX_PATH];
-		wchar_t m_szTempPath[MAX_PATH];
-		wchar_t m_szTempPath2003[MAX_PATH];
-		MSOfficeVersion m_MSVersion;		
 		ExecutionStep m_executionStep;
+		unsigned int m_executionStepIndex;
 		IRunner* m_runner;
 		IRegistry* m_registry;
-		wstring m_msiexecLog;
-		OutLookHotmailConnector* m_OutLookHotmailConnector;
+		IOSVersion* m_OSVersion;
 		MultipleDownloads m_multipleDownloads;
+		OutLookHotmailConnector* m_OutLookHotmailConnector;
+		vector <MSOffice> m_MSOffices;
 };
 
