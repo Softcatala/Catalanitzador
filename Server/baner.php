@@ -1,4 +1,5 @@
 <?php $title = "Catalanitzador de Softcatalà - Enllaceu el Catalanitzador des del vostre web"; ?>
+<?php $description = "Catalanitzador de Softcatalà: enllaceu el Catalanitzador des del vostre web"; ?>
 <?php include('header.php'); ?>
 
 
