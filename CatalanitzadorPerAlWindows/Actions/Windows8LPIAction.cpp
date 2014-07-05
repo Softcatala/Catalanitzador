@@ -472,13 +472,17 @@ void Windows8LPIAction::_setDefaultLanguage()
 		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage current user done: %s", packageLanguageCode);
 	}
 
-	// Sets the language for all users
-	/*if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\Settings", true) == TRUE)
+	// Sets the preferred language for all users. Impacts:
+	//   1. When we logging, this settings helps to show the "Welcome" message in the localized language
+	//   2. Sets the installed language as default for all users
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\Settings", true) == TRUE)
 	{
-		m_registry->SetMultiString(L"PreferredUILanguages", L"ca-ES");
+		wchar_t* packageLanguageCode = (wchar_t *) m_packageLanguageCode.c_str();
+
+		m_registry->SetMultiString(L"PreferredUILanguages", packageLanguageCode);
 		m_registry->Close();
-		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage all users done");
-	}*/
+		g_log.Log(L"Windows8LPIAction::_setDefaultLanguage all users to %s done", packageLanguageCode);
+	}
 }
 
 
