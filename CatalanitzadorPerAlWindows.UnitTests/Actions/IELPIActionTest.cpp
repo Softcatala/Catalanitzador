@@ -38,6 +38,7 @@ public:
 	
 	public: using IELPIAction::_checkPrerequirements;
 	public: using IELPIAction::_checkPrerequirementsDependand;
+	public: using IELPIAction::_canInstallSpellChecker;
 
 	void SetIEVersion(InternetExplorerVersion::IEVersion version)
 	{
@@ -290,3 +291,27 @@ TEST(IELPIActionTest, _checkPrerequirementsDependand_IE11_Windows81_64bits)
 
 	EXPECT_THAT(lipAction._checkPrerequirementsDependand(&winLIPAction), IELPIAction::AppliedInWinLPI);
 }
+
+
+TEST(IELPIActionTest, _canInstallSpellChecker_IE11_W7)
+{
+	CreateIELPIAction;	
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows7));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	lipAction.SetIEVersion(InternetExplorerVersion::IE11);
+
+	EXPECT_TRUE(lipAction._canInstallSpellChecker());
+}
+
+TEST(IELPIActionTest, _canInstallSpellChecker_IE11_W8)
+{
+	CreateIELPIAction;	
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	lipAction.SetIEVersion(InternetExplorerVersion::IE11);
+
+	EXPECT_FALSE(lipAction._canInstallSpellChecker());
+}
+

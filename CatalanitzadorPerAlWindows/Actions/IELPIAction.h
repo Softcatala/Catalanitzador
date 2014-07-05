@@ -24,6 +24,7 @@
 #include "IOSVersion.h"
 #include "InternetExplorerVersion.h"
 #include "IFileVersionInfo.h"
+#include "MultipleDownloads.h"
 
 class IELPIAction : public Action
 {
@@ -59,9 +60,11 @@ protected:
 		virtual InternetExplorerVersion::IEVersion _getIEVersion();		
 		Prerequirements _checkPrerequirementsDependand(Action * action);
 		Prerequirements _checkPrerequirements();
+		void _installSpellChecker();
+		bool _canInstallSpellChecker();
 
 private:
-
+		
 		wchar_t* _getDownloadID();
 		wchar_t* _getDownloadIDIE8();
 		wchar_t* _getDownloadIDIE9();
@@ -73,11 +76,13 @@ private:
 		bool _wasInstalled();
 
 		wchar_t m_filename[MAX_PATH];
+		wchar_t m_filenameSpellChecker[MAX_PATH];
 		wchar_t m_szTempDir[MAX_PATH];		
 		IRunner* m_runner;
 		IOSVersion* m_OSVersion;
 		IFileVersionInfo* m_fileVersionInfo;
 		InternetExplorerVersion m_explorerVersion;
+		MultipleDownloads m_multipleDownloads;
 		wstring m_version;
 };
 

@@ -293,6 +293,14 @@
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x64-ca-es.msu</url_3>
 				<filename>IE11-Windows6.1-LanguagePack-x64-ca-es.msu</filename>
 	  		</download>
+	  		<download>
+	  			<version>IE11_7_SpellChecker</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=6935&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu</url_3>
+				<filename>IE11-w7-Spelling-ca.msu</filename>
+	  		</download>
 	  	</action>	
 		
 		<!-- OpenOffice.org -->

@@ -28,12 +28,13 @@
 #include "LogExtractor.h"
 
 IELPIAction::IELPIAction(IOSVersion* OSVersion, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager) :
-Action(downloadManager), m_explorerVersion(fileVersionInfo)
+Action(downloadManager), m_explorerVersion(fileVersionInfo), m_multipleDownloads(downloadManager)
 {
 	m_OSVersion = OSVersion;
 	m_runner = runner;
 	m_filename[0] = NULL;
-	m_szTempDir[0] = NULL;	
+	m_szTempDir[0] = NULL;
+	m_filenameSpellChecker[0] = NULL;
 }
 
 IELPIAction::~IELPIAction()
@@ -41,6 +42,11 @@ IELPIAction::~IELPIAction()
 	if (m_filename[0] != NULL  && GetFileAttributes(m_filename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_filename);
+	}
+	
+	if (m_filenameSpellChecker[0] != NULL  && GetFileAttributes(m_filenameSpellChecker) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_filenameSpellChecker);
 	}
 
 	if (m_szTempDir[0] != NULL)
@@ -249,17 +255,49 @@ bool IELPIAction::_createTempDirectory()
 bool IELPIAction::Download(ProgressStatus progress, void *data)
 {
 	if (_createTempDirectory() == false)
-		return false;	
+		return false;
 
-	wstring filename;	
+	wstring sha1;
+	Sha1Sum sha1sum;
 	ConfigurationFileActionDownload downloadVersion;
 
-	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), _getDownloadID());	
+	if (_canInstallSpellChecker())
+	{
+		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"IE11_7_SpellChecker");
+		GetTempPath(MAX_PATH, m_filenameSpellChecker);
+		wcscat_s(m_filenameSpellChecker, downloadVersion.GetFilename().c_str());
+		m_multipleDownloads.AddDownload(downloadVersion, m_filenameSpellChecker);
+	}
+	
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(),  _getDownloadID());
 	wcscpy_s(m_filename, m_szTempDir);
 	wcscat_s(m_filename, L"\\");
 	wcscat_s(m_filename, downloadVersion.GetFilename().c_str());
+	m_multipleDownloads.AddDownload(downloadVersion, m_filename);
+	return m_multipleDownloads.Download(progress, data);
+}
 
-	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_filename, progress, data);
+bool IELPIAction::_canInstallSpellChecker()
+{
+	return _getIEVersion() == InternetExplorerVersion::IE11 && m_OSVersion->GetVersion() == Windows7;
+}
+
+void IELPIAction::_installSpellChecker()
+{
+	if (!_canInstallSpellChecker())
+		return;
+
+	wchar_t szParams[MAX_PATH] = L"";
+	bool is64BitsPackage = false;
+
+	GetSystemDirectory(szParams, MAX_PATH);
+	wcscat_s(szParams, L"\\wusa.exe ");
+	wcscat_s(szParams, m_filenameSpellChecker);
+	wcscat_s(szParams, L" /quiet /norestart");
+
+	g_log.Log(L"IELPIAction::_installSpellChecker '%s', 64 bits %u", szParams, (wchar_t *)is64BitsPackage);
+	m_runner->Execute(NULL, szParams, is64BitsPackage);
+	m_runner->WaitUntilFinished();
 }
 
 void IELPIAction::Execute()
@@ -314,6 +352,7 @@ ActionStatus IELPIAction::GetStatus()
 
 		if (_wasInstalled()) 
 		{
+			_installSpellChecker();
 			SetStatus(Successful);
 		}
 		else 
