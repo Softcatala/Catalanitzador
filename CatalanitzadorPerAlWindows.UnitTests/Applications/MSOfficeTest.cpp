@@ -201,7 +201,7 @@ TEST(MSOfficeTest, IsDefaultLanguage_True_YesFollowOffAndUiCatalan)
 	EXPECT_TRUE(office.IsDefaultLanguage());
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_True_YesFollowOffAndUiSpanish)
+TEST(MSOfficeTest, IsDefaultLanguage_False_YesFollowOffAndUiSpanish)
 {
 	CreateMSoffice(MSOffice2013);
 
@@ -210,7 +210,7 @@ TEST(MSOfficeTest, IsDefaultLanguage_True_YesFollowOffAndUiSpanish)
 	EXPECT_FALSE(office.IsDefaultLanguage());
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_True_NoFollowOffAndUiCatalan)
+TEST(MSOfficeTest, IsDefaultLanguage_False_NoFollowOffAndUiCatalan)
 {
 	CreateMSoffice(MSOffice2013);
 
