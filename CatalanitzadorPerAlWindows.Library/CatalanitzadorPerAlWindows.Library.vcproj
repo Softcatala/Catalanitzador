@@ -335,6 +335,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\Win32I18N.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\OS\Win32I18N.h"
 				>
 			</File>

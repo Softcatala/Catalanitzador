@@ -25,11 +25,12 @@
 #include "MultipleDownloads.h"
 #include "MSOffice.h"
 #include "IOSVersion.h"
+#include "IWin32I18N.h"
 
 class MSOfficeLPIAction : public Action
 {
 public:
-		MSOfficeLPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
+		MSOfficeLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager);
 		~MSOfficeLPIAction();
 
 		virtual wchar_t* GetName();
@@ -62,6 +63,7 @@ private:
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		IOSVersion* m_OSVersion;
+		IWin32I18N* m_win32I18N;
 		MultipleDownloads m_multipleDownloads;
 		OutLookHotmailConnector* m_OutLookHotmailConnector;
 		vector <MSOffice> m_MSOffices;

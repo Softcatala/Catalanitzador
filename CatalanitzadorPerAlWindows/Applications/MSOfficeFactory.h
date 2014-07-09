@@ -28,7 +28,7 @@ class MSOfficeFactory
 {
 public:
 
-		static vector <MSOffice> GetInstalledOfficeInstances(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
+		static vector <MSOffice> GetInstalledOfficeInstances(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner);
 		// This should be private but it is not possible to change member visibility with using on static members
 		static bool _isVersionInstalled(IOSVersion* OSVersion, IRegistry* registry, MSOfficeVersion version);		
 };

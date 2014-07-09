@@ -24,7 +24,8 @@
 class Win32I18NMock : public IWin32I18N
 {
  public:
-
+	 
+	 MOCK_METHOD0(GetUserDefaultUILanguage, LANGID());
 	 MOCK_METHOD0(GetSystemDefaultUILanguage, LANGID());
 	 MOCK_METHOD0(EnumUILanguages, vector <LANGID>());
 };

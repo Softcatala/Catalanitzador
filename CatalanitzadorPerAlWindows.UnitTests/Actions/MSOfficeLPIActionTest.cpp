@@ -31,7 +31,8 @@ using ::testing::Eq;
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
 	OSVersionMock osVersionMock; \
-	MSOfficeLPIAction officeAction(&osVersionMock, &registryMockobj, &runnerMock, &DownloadManager());
+	Win32I18NMock win32I18NMockobj; \
+	MSOfficeLPIAction officeAction(&osVersionMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
 
 extern void MockOfficeInstalled(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, MSOfficeVersion version);
 extern void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);

@@ -114,7 +114,7 @@ void Actions::_buildListOfActions()
 		m_actions.push_back(new WindowsLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
 	
-	m_actions.push_back(new MSOfficeLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner(), m_pDownloadManager));	
+	m_actions.push_back(new MSOfficeLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));	
 	m_actions.push_back(new IEAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), _getNewOSVersion(), m_pDownloadManager));
 		
 	if (osversion.GetVersion() != Windows8 && osversion.GetVersion() != Windows81)

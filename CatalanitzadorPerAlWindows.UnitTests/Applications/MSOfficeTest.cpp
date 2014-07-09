@@ -39,8 +39,8 @@ class MSOfficeTest : public MSOffice
 {
 public:
 
-	MSOfficeTest::MSOfficeTest(IRegistry* registry, IRunner* runner, MSOfficeVersion version)
-		: MSOffice(registry, runner, version) {};
+	MSOfficeTest::MSOfficeTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version)
+		: MSOffice(OSVersion, registry, win32I18N, runner, version) {};
 
 	void _setPackageCodeToSet(wstring packageCodeToSet)
 	{
@@ -58,10 +58,11 @@ public:
 #define CreateMSoffice(version) \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	MSOfficeTest office(&registryMockobj, &runnerMock, version);
+	OSVersionMock osVersionMock; \
+	Win32I18NMock win32I18NMockobj; \
+	MSOfficeTest office(&osVersionMock, &registryMockobj, &win32I18NMockobj, &runnerMock, version);
 
 extern void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
-extern void SetLocaleMockForLanguage(RegistryMock& registryMockobj, const wchar_t* language);
 
 void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool FollowSystemUIOff, DWORD language)
 {
@@ -210,14 +211,29 @@ TEST(MSOfficeTest, IsDefaultLanguage_False_YesFollowOffAndUiSpanish)
 	EXPECT_FALSE(office.IsDefaultLanguage());
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_False_NoFollowOffAndUiCatalan)
+#define SPANISH_PRIMARY_LANG 0xc
+#define CATALAN_PRIMARY_LANG 0x3
+
+TEST(MSOfficeTest, IsDefaultLanguage_False_NoFollowOffAndUiCatalanSysSpanish)
 {
 	CreateMSoffice(MSOffice2013);
 
 	bool FollowSystemUIOff = false;
 	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, CATALAN_LCID);
-	SetLocaleMockForLanguage(registryMockobj, L"0xc0a");
+	EXPECT_CALL(win32I18NMockobj, GetUserDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_PRIMARY_LANG));
+
 	EXPECT_FALSE(office.IsDefaultLanguage());
+}
+
+TEST(MSOfficeTest, IsDefaultLanguage_True_NoFollowOffAndUiSpanishSysCatalan)
+{
+	CreateMSoffice(MSOffice2013);
+
+	bool FollowSystemUIOff = false;
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, SPANISH_LCID);
+	EXPECT_CALL(win32I18NMockobj, GetUserDefaultUILanguage()).Times(1).WillRepeatedly(Return(CATALAN_PRIMARY_LANG));
+
+	EXPECT_TRUE(office.IsDefaultLanguage());
 }
 
 TEST(MSOfficeTest, _getDownloadID_MSOffice2003)

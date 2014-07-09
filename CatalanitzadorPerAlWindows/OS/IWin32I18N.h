@@ -21,13 +21,13 @@
 
 #include <windows.h>
 
-#include <windows.h>
 #include <vector>
 using namespace std;
 
 class IWin32I18N
 {
-public:
+public:	    
+		virtual LANGID GetUserDefaultUILanguage(void) = 0;
 		virtual LANGID GetSystemDefaultUILanguage(void) = 0;
 		virtual vector <LANGID> EnumUILanguages(void) = 0;
 };

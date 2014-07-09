@@ -70,7 +70,7 @@ bool MSOfficeFactory::_isVersionInstalled(IOSVersion* OSVersion,IRegistry* regis
 	return isInstalled;
 }
 
-vector <MSOffice> MSOfficeFactory::GetInstalledOfficeInstances(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
+vector <MSOffice> MSOfficeFactory::GetInstalledOfficeInstances(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	vector <MSOffice> instances;
 	
@@ -78,7 +78,7 @@ vector <MSOffice> MSOfficeFactory::GetInstalledOfficeInstances(IOSVersion* OSVer
 	{
 		if (_isVersionInstalled(OSVersion, registry, installedVersions[i].version))
 		{
-			MSOffice instance(registry, runner, installedVersions[i].version);
+			MSOffice instance(OSVersion, registry, win32I18N, runner, installedVersions[i].version);
 			instances.push_back(instance);
 		}
 	}

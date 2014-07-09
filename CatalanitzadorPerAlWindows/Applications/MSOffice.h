@@ -23,6 +23,8 @@
 #include "IRegistry.h"
 #include "OutLookHotmailConnector.h"
 #include "MultipleDownloads.h"
+#include "IOSVersion.h"
+#include "IWin32I18N.h"
 
 enum MSOfficeVersion
 {
@@ -39,7 +41,7 @@ enum MSOfficeVersion
 class MSOffice
 {
 public:
-		MSOffice(IRegistry* registry, IRunner* runner, MSOfficeVersion version);
+		MSOffice(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version);
 		~MSOffice();
 
 		bool GetUseDialectalVariant() { return m_dialectalVariant; }
@@ -83,9 +85,11 @@ private:
 		
 		IRunner* m_runner;
 		IRegistry* m_registry;
-		bool m_dialectalVariant;		
+		IOSVersion* m_OSVersion;
+		IWin32I18N* m_win32I18N;
+		bool m_dialectalVariant;
 		MSOfficeVersion m_MSVersion;
-		wstring m_msiexecLog;		
+		wstring m_msiexecLog;
 
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];

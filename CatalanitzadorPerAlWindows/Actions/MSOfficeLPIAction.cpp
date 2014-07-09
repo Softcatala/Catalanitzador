@@ -22,12 +22,13 @@
 #include "MSOfficeLPIAction.h"
 #include "MSOfficeFactory.h"
 
-MSOfficeLPIAction::MSOfficeLPIAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) :
+MSOfficeLPIAction::MSOfficeLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager) :
 	Action(downloadManager), m_multipleDownloads(downloadManager)
 {
 	m_OSVersion = OSVersion;
 	m_registry = registry;
 	m_runner = runner;
+	m_win32I18N = win32I18N;
 	m_executionStep = ExecutionStepNone;	
 	m_executionStepIndex = -1;
 	m_OutLookHotmailConnector = NULL;
@@ -244,7 +245,7 @@ OutLookHotmailConnector* MSOfficeLPIAction::_getOutLookHotmailConnector()
 
 void MSOfficeLPIAction::CheckPrerequirements(Action * action) 
 {
-	m_MSOffices = MSOfficeFactory::GetInstalledOfficeInstances(m_OSVersion, m_registry, m_runner);
+	m_MSOffices = MSOfficeFactory::GetInstalledOfficeInstances(m_OSVersion, m_registry, m_win32I18N, m_runner);
 
 	if (m_MSOffices.size() == 0)
 	{

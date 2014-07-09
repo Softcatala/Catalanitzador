@@ -18,20 +18,36 @@
  */
 
 #pragma once
+ 
+#include "stdafx.h"
+#include "Win32I18N.h"
 
-#include "IWin32I18N.h"
-#include <windows.h>
-#include <vector>
-using namespace std;
+LANGID Win32I18N::GetUserDefaultUILanguage(void)
+{ 
+	LANGID langid;
+	langid = ::GetUserDefaultUILanguage();
+	return PRIMARYLANGID(langid);
+}
 
-class Win32I18N : public IWin32I18N
+LANGID Win32I18N::GetSystemDefaultUILanguage(void)
+{ 
+	return ::GetSystemDefaultUILanguage();
+}
+
+BOOL CALLBACK Win32I18N::_enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam)
 {
-public:
-		virtual LANGID GetUserDefaultUILanguage(void);
-		virtual LANGID GetSystemDefaultUILanguage(void);		
-		virtual vector <LANGID> EnumUILanguages(void);
+	vector <LANGID>* langs = (vector <LANGID>*) lParam;
+	LANGID langid;
 
-private:
-		static BOOL CALLBACK _enumUILanguagesProc(LPTSTR lpUILanguageString, LONG_PTR lParam);
-};
+	langid = (LANGID)wcstol(lpUILanguageString, NULL, 16);
+	langs->push_back(langid);
+	return TRUE;
+}
 
+vector <LANGID> Win32I18N::EnumUILanguages(void)
+{
+	vector <LANGID> langs;
+
+	::EnumUILanguages(Win32I18N::_enumUILanguagesProc, MUI_LANGUAGE_ID, (LONG_PTR)&langs);
+	return langs;
+}

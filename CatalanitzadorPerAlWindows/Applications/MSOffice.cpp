@@ -28,6 +28,7 @@
 
 #define CATALAN_LCID L"1027" // 0x403
 #define VALENCIAN_LCID L"2051" // 0x803
+#define CATALAN_PRIMARY_LCID 0x03
 
 
 MSOffice::RegKeyVersion MSOffice::RegKeys2003 =
@@ -58,10 +59,13 @@ MSOffice::RegKeyVersion MSOffice::RegKeys2013 =
 	false
 };
 
-MSOffice::MSOffice(IRegistry* registry, IRunner* runner, MSOfficeVersion version)
+MSOffice::MSOffice(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version)
 {
 	m_registry = registry;
+	m_OSVersion = OSVersion;
 	m_runner = runner;
+	m_win32I18N = win32I18N;
+
 	m_MSVersion = version;
 	m_dialectalVariant = false;
 
@@ -191,6 +195,8 @@ bool MSOffice::IsLangPackInstalled()
 	return isInstalled;
 }
 
+#define UNDEFINED_LCID -1
+
 void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
 {
 	wchar_t szKeyName [1024];
@@ -198,14 +204,19 @@ void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& f
 	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, false))
 	{
-		DWORD lcid;
+		DWORD lcid = UNDEFINED_LCID;
 		if (m_registry->GetDWORD(L"UILanguage", &lcid))
 		{			
 			if (lcid == _wtoi(VALENCIAN_LCID) || lcid == _wtoi(CATALAN_LCID))
 				isCatalanSetAsDefaultLanguage = true;
 		}
 
-		if (m_MSVersion != MSOffice2003)
+		// If FollowSystemUI is true Office uses Windows's language pack language to decide which language to use		
+		if (m_MSVersion == MSOffice2003)
+		{
+			followSystemUIOff = (lcid == 0 ? false : true);
+		}
+		else				
 		{
 			wstring value;
 			wchar_t szValue[2048];
@@ -219,7 +230,10 @@ void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& f
 		}
 		m_registry->Close();
 	}
+	g_log.Log(L"MSOffice::_readDefaultLanguage. isCatalanSetAsDefaultLanguage: %x, FollowSystemUI %u",
+		(wchar_t* )isCatalanSetAsDefaultLanguage, (wchar_t* )followSystemUIOff);
 }
+
 
 bool MSOffice::IsDefaultLanguage()
 {
@@ -227,9 +241,9 @@ bool MSOffice::IsDefaultLanguage()
 	bool isDefaultLanguage = false;
 	bool isCatalanSetAsDefaultLanguage = false;
 	bool followSystemUIOff = false;
-
+	
 	_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);
-
+	
 	if (followSystemUIOff)
 	{
 		if (isCatalanSetAsDefaultLanguage)
@@ -237,7 +251,7 @@ bool MSOffice::IsDefaultLanguage()
 	}
 	else
 	{
-		 if (configureLocaleAction.IsCatalanLocaleActive())
+		 if (m_win32I18N->GetUserDefaultUILanguage() == CATALAN_PRIMARY_LCID)
 			isDefaultLanguage = true;
 	}
 
