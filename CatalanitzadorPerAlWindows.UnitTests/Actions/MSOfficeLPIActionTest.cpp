@@ -36,7 +36,7 @@ using ::testing::Eq;
 
 extern void MockOfficeInstalled(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, MSOfficeVersion version);
 extern void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
-extern void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool FollowSystemUIOff, DWORD language);
+extern void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool FollowSystemUIOff, DWORD language, const wchar_t* version = L"15.0");
 extern DWORD CATALAN_LCID;
 extern DWORD VALENCIAN_LCID;
 extern DWORD SPANISH_LCID;

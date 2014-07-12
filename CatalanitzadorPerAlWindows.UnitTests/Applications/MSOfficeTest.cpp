@@ -33,6 +33,7 @@ using ::testing::StrCaseNe;
 #define VALENCIAN_LANGUAGE_CODE L"2051"
 DWORD CATALAN_LCID  = _wtoi(CATALAN_LANGUAGE_CODE);
 DWORD VALENCIAN_LCID = _wtoi(VALENCIAN_LANGUAGE_CODE);
+DWORD NOFOLLOWSYSTEMOFF_FALSE_LCID_2003 = 0;
 DWORD SPANISH_LCID = 1034;
 
 class MSOfficeTest : public MSOffice
@@ -64,9 +65,12 @@ public:
 
 extern void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
 
-void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool FollowSystemUIOff, DWORD language)
+void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool FollowSystemUIOff, DWORD language, const wchar_t* version = L"15.0")
 {
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Software\\Microsoft\\Office\\15.0\\Common\\LanguageResources"), false)).WillRepeatedly(Return(true));
+	wchar_t szKeyName[2048];
+	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", version);
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(szKeyName), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"FollowSystemUI"),_ ,_)).
 			WillRepeatedly(DoAll(SetArgCharStringPar2(FollowSystemUIOff ? L"Off" : L"On"), Return(true)));	
 	EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(L"UILanguage"),_)).
@@ -235,6 +239,29 @@ TEST(MSOfficeTest, IsDefaultLanguage_True_NoFollowOffAndUiSpanishSysCatalan)
 
 	EXPECT_TRUE(office.IsDefaultLanguage());
 }
+
+TEST(MSOfficeTest, IsDefaultLanguage_False_MSOffice2003_NoFollowOnAndUiCatalanSysSpanish)
+{
+	CreateMSoffice(MSOffice2003);
+
+	// No follow in 2003 is driven by LCID
+	bool FollowSystemUIOff = true;
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, NOFOLLOWSYSTEMOFF_FALSE_LCID_2003, L"11.0");
+	EXPECT_CALL(win32I18NMockobj, GetUserDefaultUILanguage()).Times(1).WillRepeatedly(Return(SPANISH_PRIMARY_LANG));
+	EXPECT_FALSE(office.IsDefaultLanguage());
+}
+
+TEST(MSOfficeTest, IsDefaultLanguage_True_MSOffice2003_NoFollowOnAndUiCatalanSysSpanish)
+{
+	CreateMSoffice(MSOffice2003);
+
+	// No follow in 2003 is driven by LCID
+	bool FollowSystemUIOff = true;	
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, NOFOLLOWSYSTEMOFF_FALSE_LCID_2003, L"11.0");
+	EXPECT_CALL(win32I18NMockobj, GetUserDefaultUILanguage()).Times(1).WillRepeatedly(Return(CATALAN_PRIMARY_LANG));
+	EXPECT_TRUE(office.IsDefaultLanguage());
+}
+
 
 TEST(MSOfficeTest, _getDownloadID_MSOffice2003)
 {
