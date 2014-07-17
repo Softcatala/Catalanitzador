@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 	var pathname = window.location.pathname;
 
-	if (pathname == "/baner.html") {
+	if (pathname == "/baner.php") {
 			$(".enllaceu").addClass("enllaceu-actiu");
 	}
 	

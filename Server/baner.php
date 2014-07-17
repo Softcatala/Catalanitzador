@@ -54,7 +54,7 @@
     </div>
 </div>
 
-
+<script src="/js/baner.js" type="text/javascript"></script>
 <?php include('footer.html'); ?>
 
 
