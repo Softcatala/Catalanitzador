@@ -60,27 +60,31 @@ void Firefox::_readVersionAndLocale()
 
 void Firefox::_extractLocaleAndVersion(wstring versionWithLocale)
 {	
-	int start, end;
+	int pos, start, end;
 
 	m_version.empty();
 	m_locale.empty();
 	start = versionWithLocale.find(L" ");
-	if (start != wstring::npos)
+
+	if (start == wstring::npos)
+		return;
+	
+	m_version = versionWithLocale.substr(0, start);			
+
+	end = versionWithLocale.rfind(L")");
+
+	if (end != wstring::npos)
 	{
-		m_version = versionWithLocale.substr(0, start);			
-
-		start = versionWithLocale.find(L"(", start);
-
-		if (start != wstring::npos)
+		for (pos = end  - 1; pos > start; pos--)
 		{
-			start++;
-			end = versionWithLocale.find(L")", start);
-			if (end != wstring::npos)
+			if (versionWithLocale[pos] == L' ' || versionWithLocale[pos] == L'(')
 			{
-				m_locale = versionWithLocale.substr(start, end-start);
+				pos++;
+				m_locale = versionWithLocale.substr(pos, end - pos);
+				break;
 			}
 		}
-	}
+	}	
 }
 
 wstring Firefox::_getVersionAndLocaleFromRegistry()

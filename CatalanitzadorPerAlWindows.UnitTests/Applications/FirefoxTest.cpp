@@ -35,9 +35,33 @@ TEST(FirefoxActionTest, _readVersionAndLocale)
 	EXPECT_THAT(firefox.GetLocale(), StrCaseEq(L"ca"));	
 }
 
+TEST(FirefoxActionTest, _readVersionAndLocale_x86)
+{
+	RegistryMock registryMockobj;
+	FirefoxTest firefox(&registryMockobj);
+
+	firefox._setMockForLocale(registryMockobj, L"31.0 (x86 ca)");
+
+	firefox._readVersionAndLocale();
+	EXPECT_THAT(firefox.GetVersion(), StrCaseEq(L"31.0"));
+	EXPECT_THAT(firefox.GetLocale(), StrCaseEq(L"ca"));	
+}
+
+TEST(FirefoxActionTest, _readVersionAndLocale_empty)
+{
+	RegistryMock registryMockobj;
+	FirefoxTest firefox(&registryMockobj);
+
+	firefox._setMockForLocale(registryMockobj, L"");
+
+	firefox._readVersionAndLocale();
+	EXPECT_THAT(firefox.GetVersion(), StrCaseEq(L""));
+	EXPECT_THAT(firefox.GetLocale(), StrCaseEq(L""));
+}
+
 TEST(FirefoxActionTest, _readInstallPath)
 {
-	RegistryMock registryMockobj;	
+	RegistryMock registryMockobj;
 	FirefoxTest firefox(&registryMockobj);
 	const wchar_t* PATH = L"MyPath";
 	const wchar_t* VERSION = L"12.0 (ca)";
