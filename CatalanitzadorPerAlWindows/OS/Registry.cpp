@@ -38,6 +38,8 @@ bool Registry::OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 		bWriteAccess ? KEY_READ|KEY_WRITE:KEY_READ, &hKey) == ERROR_SUCCESS;
 }
 
+// Used to be able to read the 64 bits registry without been redirected to the Win32 version
+// E.g.: to read 64 bits apps version settings
 bool Registry::OpenKeyNoWOWRedirect(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 {
 	assert(hKey == NULL);
