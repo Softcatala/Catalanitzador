@@ -312,6 +312,10 @@
 			Name="Actions"
 			>
 			<File
+				RelativePath=".\Actions\ActionsTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\AdobeReaderActionTest.cpp"
 				>
 			</File>

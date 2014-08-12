@@ -80,12 +80,32 @@ bool ConfigureLocaleAction::IsNeed()
 	return bNeed;
 }
 
+// Starting on Windows 8.1 this can be done using a PowerShell WinCultureFromLanguageListOptOut  CmdLet
+void ConfigureLocaleAction::_userLocaleFromLanguageProfileOptOut()
+{
+	if (m_OSVersion->GetVersion() != Windows8 && m_OSVersion->GetVersion() != Windows81)
+		return;
+
+	const DWORD _TRUE = 1;
+	BOOL bSetKey = FALSE;
+	
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\International\\User Profile", true) == TRUE)
+	{
+		bSetKey = m_registry->SetDWORD(L"UserLocaleFromLanguageProfileOptOut", _TRUE);
+		m_registry->Close();
+	}
+
+	g_log.Log(L"ConfigureLocaleAction::_userLocaleFromLanguageProfileOptOut: %u", (wchar_t *) bSetKey);
+}
+
 void ConfigureLocaleAction::Execute()
 {	
 	wchar_t szConfigFileName[MAX_PATH];
 	wchar_t szParams[MAX_PATH];
 	wchar_t szApp[MAX_PATH];
-	LPCWSTR resource;	
+	LPCWSTR resource;
+
+	_userLocaleFromLanguageProfileOptOut();
 
 	GetTempPath(MAX_PATH, m_szCfgFile);
 

@@ -40,6 +40,10 @@ public:
 		virtual ActionStatus GetStatus();
 		bool IsCatalanLocaleActive();
 
+protected:
+
+		void _userLocaleFromLanguageProfileOptOut();
+
 private:		
 
 		wchar_t m_szCfgFile[MAX_PATH];

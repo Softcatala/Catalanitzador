@@ -35,6 +35,7 @@ class Actions
 {
     public:
 		Actions(DownloadManager* downloadManager);
+		Actions(DownloadManager* downloadManager, IOSVersion* pOSVersion);
 		~Actions();
 		vector <Action *> GetActions() {return m_actions; }
 		Action* GetActionFromID(ActionID actionID);
@@ -42,7 +43,7 @@ class Actions
 		void CheckPrerequirements();
 
 	private:
-		void _buildListOfActions();		
+		void _buildListOfActions(IOSVersion* pOSversion);
 
 		IOSVersion* _getNewOSVersion();
 		IRegistry* _getNewRegistry();

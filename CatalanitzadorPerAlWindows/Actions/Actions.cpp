@@ -43,7 +43,14 @@
 Actions::Actions(DownloadManager* downloadManager)
 {
 	m_pDownloadManager = downloadManager;
-	_buildListOfActions();
+	OSVersion version;
+	_buildListOfActions(&version);
+}
+
+Actions::Actions(DownloadManager* downloadManager, IOSVersion* pOSVersion)
+{
+	m_pDownloadManager = downloadManager;
+	_buildListOfActions(pOSVersion);
 }
 
 Actions::~Actions()
@@ -101,11 +108,9 @@ IFileVersionInfo* Actions::_getFileVersionInfo()
 	return fileVersionInfo;
 }
 
-void Actions::_buildListOfActions()
+void Actions::_buildListOfActions(IOSVersion* pOSversion)
 {
-	OSVersion osversion;
-
-	if (osversion.GetVersion() == Windows8 || osversion.GetVersion() == Windows81)
+	if (pOSversion->GetVersion() == Windows8 || pOSversion->GetVersion() == Windows81)
 	{
 		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
@@ -116,10 +121,10 @@ void Actions::_buildListOfActions()
 	
 	m_actions.push_back(new MSOfficeLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));	
 	m_actions.push_back(new IEAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), _getNewOSVersion(), m_pDownloadManager));
+	m_actions.push_back(new ConfigureLocaleAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 		
-	if (osversion.GetVersion() != Windows8 && osversion.GetVersion() != Windows81)
+	if (pOSversion->GetVersion() != Windows8 && pOSversion->GetVersion() != Windows81)
 	{
-		m_actions.push_back(new ConfigureLocaleAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 		m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	}
 

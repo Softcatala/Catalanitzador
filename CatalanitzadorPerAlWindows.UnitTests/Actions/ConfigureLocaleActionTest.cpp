@@ -29,12 +29,24 @@ using ::testing::_;
 using ::testing::DoAll;
 using ::testing::StrCaseEq;
 using ::testing::HasSubstr;
+using ::testing::Assign;
+
+class ConfigureLocaleActionTest : public ConfigureLocaleAction
+{
+public:
+	
+	ConfigureLocaleActionTest::ConfigureLocaleActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
+		: ConfigureLocaleAction(OSVersion, registry, runner) {};
+	
+	public:
+			using ConfigureLocaleAction::_userLocaleFromLanguageProfileOptOut;
+};
 
 #define CreateConfigureLocaleAction \
 	OSVersionMock osVersionMock; \
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMock; \
-	ConfigureLocaleAction configureLocaleAction(&osVersionMock, &registryMockobj, &runnerMock);
+	ConfigureLocaleActionTest configureLocaleAction(&osVersionMock, &registryMockobj, &runnerMock);
 
 
 void SetLocaleMockForLanguage(RegistryMock& registryMockobj, const wchar_t* language)
@@ -42,6 +54,13 @@ void SetLocaleMockForLanguage(RegistryMock& registryMockobj, const wchar_t* lang
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\International"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Locale"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(true)));
+}
+
+void SetUserLocaleFromLanguageProfileOptOutMock(RegistryMock& registryMockobj, bool &rslt)
+{	
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(L"Control Panel\\International\\User Profile"), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UserLocaleFromLanguageProfileOptOut"), _)).
+		WillRepeatedly(DoAll(Assign(&rslt, true), Return(true)));
 }
 
 TEST(ConfigureLocaleActionTest, IsCatalanLocaleActive_Yes)
@@ -79,3 +98,28 @@ TEST(ConfigureLocaleActionTest, Execute_Windows7)
 
 	configureLocaleAction.Execute();
 }
+
+TEST(ConfigureLocaleActionTest, _userLocaleFromLanguageProfileOptOut_WXP)
+{
+	CreateConfigureLocaleAction;
+	bool rslt = false;
+
+	EXPECT_CALL(osVersionMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	SetUserLocaleFromLanguageProfileOptOutMock(registryMockobj, rslt);
+	configureLocaleAction._userLocaleFromLanguageProfileOptOut();
+
+	EXPECT_FALSE(rslt);
+}
+
+TEST(ConfigureLocaleActionTest, _userLocaleFromLanguageProfileOptOut_W8)
+{
+	CreateConfigureLocaleAction;
+	bool rslt = false;
+
+	EXPECT_CALL(osVersionMock, GetVersion()).WillRepeatedly(Return(Windows8));
+	SetUserLocaleFromLanguageProfileOptOutMock(registryMockobj, rslt);
+
+	configureLocaleAction._userLocaleFromLanguageProfileOptOut();
+	EXPECT_TRUE(rslt);
+}
+
