@@ -224,7 +224,7 @@ bool LangToolLibreOfficeAction::_isOpenOfficeInstalled(bool& bLibreInstalled, bo
 	
 	if (bLibreInstalled == false && bApacheInstalled == false)
 	{
-		wcscpy_s(szCannotBeApplied, L"El LibreOffice o l'Apache OpenOffice no es troben instal·lats");
+		_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_CANNOTINSTALL, szCannotBeApplied);
 		SetStatus(CannotBeApplied);
 		return false;
 	}
