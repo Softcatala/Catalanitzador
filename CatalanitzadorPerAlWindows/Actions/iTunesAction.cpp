@@ -139,7 +139,7 @@ bool iTunesAction::_isDefaultLanguage()
 		{
 			if (m_registry->GetString(L"InstalledLangID", szLang, sizeof(szLang)))
 			{
-				g_log.Log(L"iTunesAction::_isDefaultLanguageForUser. Machine key %s", (wchar_t *) szLang);
+				g_log.Log(L"iTunesAction::_isDefaultLanguage. Machine key %s", (wchar_t *) szLang);
 				defaultUser = _wcsnicmp(szLang, CATALAN_LANGCODE, sizeof(CATALAN_LANGCODE)) == 0;
 			}
 			m_registry->Close();
