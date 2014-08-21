@@ -41,7 +41,6 @@ public:
 
 		bool IsInstalled();
 		wstring GetVersion();
-		wstring GetInstallationPath();
 		bool IsExtensionInstalled(wstring extension);
 		void InstallExtension(IRunner* runner, wstring file);
 		wstring GetJavaConfiguredVersion();
@@ -53,6 +52,7 @@ protected:
 		virtual wstring _getAppDataDir();
 		virtual wstring _getPreferencesFile();
 		virtual wstring _getExtensionsFile();
+		wstring _getInstallationPath();
 
 private:
 

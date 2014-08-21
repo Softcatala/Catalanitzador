@@ -57,7 +57,7 @@ wstring OpenOffice::GetVersion()
 	return m_version;
 }
 
-wstring OpenOffice::GetInstallationPath()
+wstring OpenOffice::_getInstallationPath()
 {
 	if (m_installationPathRead == false)
 	{
@@ -207,7 +207,7 @@ void OpenOffice::InstallExtension(IRunner* runner, wstring file)
 	wstring app;
 	wstring params;
 
-	app = GetInstallationPath();
+	app = _getInstallationPath();
 	app += L"unopkg.com";
 
 	params = L" add ";

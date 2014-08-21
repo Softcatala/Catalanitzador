@@ -44,7 +44,8 @@ public:
 
 		using OpenOffice::_readVersionInstalled;
 		using OpenOffice::_readInstallPath;
-		using OpenOffice::_getPreferencesFile;		
+		using OpenOffice::_getPreferencesFile;
+		using OpenOffice::_getInstallationPath;
 };
 
 
@@ -89,7 +90,7 @@ TEST(OpenOfficeTest, _readOpenOfficeInstallPath)
 	SetOpenOfficeInstallPath(registryMockobj, OPENOFFICE_VERSION, L"\\somepath\\bin.exe");
 
 	OpenOffice._readInstallPath();
-	wstring path = OpenOffice.GetInstallationPath();
+	wstring path = OpenOffice._getInstallationPath();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\somepath\\"));
 }
 
