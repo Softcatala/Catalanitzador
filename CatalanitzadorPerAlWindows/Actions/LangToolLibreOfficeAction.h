@@ -27,8 +27,9 @@
 #include "LibreOffice.h"
 #include "ApacheOpenOffice.h"
 #include "MultipleDownloads.h"
+#include "ActionExecution.h"
 
-class LangToolLibreOfficeAction : public Action
+class LangToolLibreOfficeAction : public Action, public ActionExecution
 {
 public:
 		LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager);
@@ -42,8 +43,10 @@ public:
 		virtual bool IsNeed();
 		virtual void Execute();
 		virtual ActionStatus GetStatus();
-		virtual const wchar_t* GetVersion();		
+		virtual const wchar_t* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
+		virtual ExecutionProcess GetExecutingProcess();
+		virtual void FinishExecution(ExecutionProcess process) {};
 
 protected:
 

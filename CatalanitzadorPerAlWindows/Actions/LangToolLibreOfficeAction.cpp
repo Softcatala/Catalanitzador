@@ -21,6 +21,11 @@
 #include "ConfigurationInstance.h"
 #include "LangToolLibreOfficeAction.h"
 
+#define LISTENER_WINDOWCLASS    L"SO Listener Class"
+#define KILLTRAY_MESSAGE        L"SO KillTray"
+#define SOFFICE_PROCESSNAME		L"soffice.bin"
+
+
 LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager) :
 Action(downloadManager), m_multipleDownloads(downloadManager)
 {
@@ -31,6 +36,8 @@ Action(downloadManager), m_multipleDownloads(downloadManager)
 	m_szFilename[0] = NULL;
 	m_szFilenameJava[0] = NULL;
 	m_executionStep = ExecutionStepNone;
+
+	_addExecutionProcess(ExecutionProcess(SOFFICE_PROCESSNAME, L"", false));
 }
 
 LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
@@ -65,6 +72,27 @@ wchar_t* LangToolLibreOfficeAction::GetDescription()
 	}
 	
 	return szDescription;
+}
+
+ExecutionProcess LangToolLibreOfficeAction::GetExecutingProcess()
+{	
+	ExecutionProcess process;
+
+	process = ActionExecution::GetExecutingProcess();
+
+	if (process.IsEmpty() == false)
+	{
+		return process;
+	}
+
+	if (FindWindowEx(NULL, NULL, LISTENER_WINDOWCLASS, NULL) == NULL)
+	{
+		return ExecutionProcess();
+	}
+	else
+	{
+		return ExecutionProcess(KILLTRAY_MESSAGE, L"", true);
+	}
 }
 
 const wchar_t* LangToolLibreOfficeAction::GetVersion()
