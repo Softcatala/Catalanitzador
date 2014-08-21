@@ -263,11 +263,10 @@ bool LangToolLibreOfficeAction::_shouldInstallJava()
 bool LangToolLibreOfficeAction::_doesJavaNeedsConfiguration()
 {
 	bool bShouldConfigureJava;
-	wstring javaStrVersion;
 
 	wstring javaConfigured = m_installingOffice->GetJavaConfiguredVersion();
 	ApplicationVersion appJavaConfigured(javaConfigured);
-	bShouldConfigureJava = ApplicationVersion(javaStrVersion) < g_javaMinVersion;
+	bShouldConfigureJava = appJavaConfigured < g_javaMinVersion;
 
 	g_log.Log(L"LangToolLibreOfficeAction::_doesJavaNeedsConfiguration: %u", (wchar_t*) bShouldConfigureJava);
 	return bShouldConfigureJava;

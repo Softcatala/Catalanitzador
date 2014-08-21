@@ -62,6 +62,6 @@ TEST(OpenOfficeJavaConfigurationTest, GetDefaultJavaVersion_Enabled16)
 	OpenOfficeJavaConfigurationTest openOfficeJava;	
 	
 	openOfficeJava._setSettingFile(L"javasettings_Windows_x86-EnabledJava16.xml");
-	EXPECT_THAT(openOfficeJava.GetDefaultJavaVersion(), StrCaseEq(L"1.6.0_34"));
+	EXPECT_THAT(openOfficeJava.GetDefaultJavaVersion(), StrCaseEq(L"1.6.0"));
 	EXPECT_TRUE(openOfficeJava.IsJavaEnabled());
 }

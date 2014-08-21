@@ -60,6 +60,18 @@ bool OpenOfficeJavaConfiguration::_readNodeCallback(XmlNode node, void *data)
 	return true;
 }
 
+// Java version numbers are in the format "1.6.0_34" but remove the last part to be able
+// to processed using ApplicationVersion
+void OpenOfficeJavaConfiguration::_removeJavaMinorRevision(wstring& revision)
+{
+	int pos = revision.find(L"_");
+
+	if (pos != string::npos)
+	{
+		revision.erase(pos, string::npos);
+	}
+}
+
 wstring OpenOfficeJavaConfiguration::GetDefaultJavaVersion()
 {
 	XmlParser parser;
@@ -77,6 +89,7 @@ wstring OpenOfficeJavaConfiguration::GetDefaultJavaVersion()
 	}
 
 	parser.Parse(_readNodeCallback, this);
+	_removeJavaMinorRevision(m_javaVersion);
 	return m_javaVersion;
 }
 

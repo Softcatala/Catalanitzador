@@ -45,6 +45,7 @@ protected:
 private:
 
 		static bool _readNodeCallback(XmlNode node, void *data);
+		void _removeJavaMinorRevision(wstring& revision);
 
 		wstring m_userDirectory;
 		bool m_javaEnabled;
