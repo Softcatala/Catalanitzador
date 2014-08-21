@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"

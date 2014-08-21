@@ -23,6 +23,7 @@
 #include "IRunner.h"
 #include "IOSVersion.h"
 #include "IRegistry.h"
+#include "IOpenOffice.h"
 #include "LibreOffice.h"
 #include "ApacheOpenOffice.h"
 #include "MultipleDownloads.h"
@@ -30,7 +31,7 @@
 class LangToolLibreOfficeAction : public Action
 {
 public:
-		LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager);
+		LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager);
 		~LangToolLibreOfficeAction();
 
 		virtual wchar_t* GetName();
@@ -46,13 +47,14 @@ public:
 
 protected:
 
-		bool _readJavaVersion(wstring& version);
-		bool _isOpenOfficeInstalled(bool& bLibreInstalled, bool& bApacheInstalled);
-		bool _isExtensionInstalled(bool bLibreInstalled, bool bApacheInstalled);
-		void _setupNeededJavaConfiguration();
+		bool _shouldInstallJava();
+		bool _doesJavaNeedsConfiguration();
 
 private:
 
+		bool _readJavaVersion(wstring& version);
+		bool _isOpenOfficeInstalled(bool& bLibreInstalled, bool& bApacheInstalled);
+		bool _isExtensionInstalled(bool bLibreInstalled, bool bApacheInstalled);
 		void _installJava();
 	
 		enum ExecutionStep
@@ -62,8 +64,8 @@ private:
 			ExecutionStep2	
 		};
 				
-		LibreOffice m_libreOffice;
-		ApacheOpenOffice m_apacheOpenOffice;		
+		IOpenOffice* m_libreOffice;
+		IOpenOffice* m_apacheOpenOffice;
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wchar_t m_szFilename[MAX_PATH];
@@ -72,7 +74,7 @@ private:
 		ExecutionStep m_executionStep;
 		MultipleDownloads m_multipleDownloads;
 
-		OpenOffice* m_installingOffice;
+		IOpenOffice* m_installingOffice;
 		bool m_shouldInstallJava;
 		bool m_shouldConfigureJava;
 };

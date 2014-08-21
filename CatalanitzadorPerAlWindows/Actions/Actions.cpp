@@ -39,6 +39,8 @@
 #include "SkypeAction.h"
 #include "LangToolLibreOfficeAction.h"
 #include "LangToolFirefoxAction.h"
+#include "LibreOffice.h"
+#include "ApacheOpenOffice.h"
 
 Actions::Actions(DownloadManager* downloadManager)
 {
@@ -108,6 +110,22 @@ IFileVersionInfo* Actions::_getFileVersionInfo()
 	return fileVersionInfo;
 }
 
+IOpenOffice* Actions::_getLibreOffice(IRegistry* registry)
+{
+	IOpenOffice* openOffice;
+	openOffice = (IOpenOffice *)new LibreOffice(registry);
+	m_objectsToDelete.push_back(openOffice);
+	return openOffice;
+}
+
+IOpenOffice* Actions::_getApacheOpenOffice(IRegistry* registry)
+{
+	IOpenOffice* openOffice;
+	openOffice = (IOpenOffice *)new ApacheOpenOffice(registry);
+	m_objectsToDelete.push_back(openOffice);
+	return openOffice;
+}
+
 void Actions::_buildListOfActions(IOSVersion* pOSversion)
 {
 	if (pOSversion->GetVersion() == Windows8 || pOSversion->GetVersion() == Windows81)
@@ -132,7 +150,11 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new LangToolLibreOfficeAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));	
+
+	IRegistry* langToolLibreOfficeRegistry = _getNewRegistry();
+	m_actions.push_back(new LangToolLibreOfficeAction(langToolLibreOfficeRegistry, _getNewRunner(),
+		_getLibreOffice(langToolLibreOfficeRegistry), _getApacheOpenOffice(langToolLibreOfficeRegistry), m_pDownloadManager));
+
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new WindowsLiveAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));

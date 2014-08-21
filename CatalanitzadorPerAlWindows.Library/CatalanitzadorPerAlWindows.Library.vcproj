@@ -1007,6 +1007,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\IOpenOffice.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\LibreOffice.cpp"
 				>
 			</File>

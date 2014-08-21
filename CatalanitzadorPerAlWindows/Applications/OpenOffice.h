@@ -19,10 +19,10 @@
 
 #pragma once
 
-#include "TriBool.h"
 #include "IRegistry.h"
 #include "IRunner.h"
 #include "XmlParser.h"
+#include "IOpenOffice.h"
 #include "OpenOfficeJavaConfiguration.h"
 
 //
@@ -30,7 +30,7 @@
 // This class is used as base class for supporting derivated suites like Apache OpenOffice and LibreOffice
 //
 // The class OpenOfficeAction contains logic that we may consider porting here
-class OpenOffice
+class OpenOffice : public IOpenOffice
 {
 public:
 
@@ -39,11 +39,11 @@ public:
 		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"; }
 		virtual wchar_t * GetUserDirectory() { return L"\\OpenOffice.org\\%u\\user\\"; }
 
-		bool IsInstalled();
-		wstring GetVersion();
-		bool IsExtensionInstalled(wstring extension);
-		void InstallExtension(IRunner* runner, wstring file);
-		wstring GetJavaConfiguredVersion();
+		virtual bool IsInstalled();
+		virtual wstring GetVersion();
+		virtual bool IsExtensionInstalled(wstring extension);
+		virtual void InstallExtension(IRunner* runner, wstring file);
+		virtual wstring GetJavaConfiguredVersion();
 
 protected:
 

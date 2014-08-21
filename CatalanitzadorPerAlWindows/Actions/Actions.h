@@ -24,6 +24,7 @@
 #include "IWin32I18N.h"
 #include "IRegistry.h"
 #include "IRunner.h"
+#include "IOpenOffice.h"
 #include "IFileVersionInfo.h"
 #include "DownloadManager.h"
 
@@ -50,6 +51,8 @@ class Actions
 		IRunner* _getNewRunner();
 		IWin32I18N* _getNewWin32I18N();
 		IFileVersionInfo* _getFileVersionInfo();
+		IOpenOffice* _getLibreOffice(IRegistry* registry);
+		IOpenOffice* _getApacheOpenOffice(IRegistry* registry);
 
 		vector <Action *> m_actions;
 		vector <void *> m_objectsToDelete;

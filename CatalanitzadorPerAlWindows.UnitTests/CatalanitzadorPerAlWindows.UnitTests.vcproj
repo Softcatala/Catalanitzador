@@ -292,6 +292,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mocks\OpenOfficeMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\OSVersionMock.h"
 				>
 			</File>
@@ -349,6 +353,10 @@
 			</File>
 			<File
 				RelativePath=".\Actions\iTunesActionTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\LangToolLibreOfficeActionTest.cpp"
 				>
 			</File>
 			<File

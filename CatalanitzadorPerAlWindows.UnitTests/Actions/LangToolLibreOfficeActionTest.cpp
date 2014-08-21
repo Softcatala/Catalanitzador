@@ -1,0 +1,115 @@
+﻿/* 
+ * Copyright (C) 2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
+ * 02111-1307, USA.
+ */
+
+#include "stdafx.h"
+#include "Defines.h"
+#include "OpenOfficeMock.h"
+#include "LangToolLibreOfficeAction.h"
+
+using ::testing::Return;
+using ::testing::_;
+using ::testing::StrCaseEq;
+using ::testing::DoAll;
+
+#define EXTENSION_NAME L"org.languagetool.openoffice.Main"
+
+#define CreateLTOOAction \
+	OSVersionMock osVersionExMock; \
+	RunnerMock runnerMock; \
+	RegistryMock registryMock; \
+	OpenOfficeMock libreOfficeMock; \
+	OpenOfficeMock apacheOpenOfficeMock; \
+	LangToolLibreOfficeActionTest action(&registryMock, &runnerMock, &libreOfficeMock, &apacheOpenOfficeMock, &DownloadManager());
+
+
+class LangToolLibreOfficeActionTest : public LangToolLibreOfficeAction
+{
+public:
+	
+	LangToolLibreOfficeActionTest(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager)
+		: LangToolLibreOfficeAction(registry, runner, libreOffice, apacheOpenOffice, downloadManager){};
+
+	public:
+		using LangToolLibreOfficeAction::_shouldInstallJava;
+		using LangToolLibreOfficeAction::_doesJavaNeedsConfiguration;
+};
+
+void _setMockForJava(RegistryMock& registryMockobj, const wchar_t* version)
+{	
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(version), Return(true)));
+}
+
+TEST(LangToolLibreOfficeActionTest, CheckPrerequirements_NotInstalled)
+{
+	CreateLTOOAction;
+
+	EXPECT_CALL(libreOfficeMock, IsInstalled()).WillRepeatedly(Return(false));
+	EXPECT_CALL(apacheOpenOfficeMock, IsInstalled()).WillRepeatedly(Return(false));
+
+	action.CheckPrerequirements(NULL);
+	EXPECT_THAT(action.GetStatus(), NotInstalled);
+}
+
+TEST(LangToolLibreOfficeActionTest, CheckPrerequirements_LibreOffice_AlreadyApplied)
+{
+	CreateLTOOAction;
+
+	EXPECT_CALL(libreOfficeMock, IsInstalled()).WillRepeatedly(Return(true));
+	EXPECT_CALL(apacheOpenOfficeMock, IsInstalled()).WillRepeatedly(Return(false));
+
+	EXPECT_CALL(libreOfficeMock, IsExtensionInstalled(StrCaseEq(EXTENSION_NAME))).WillRepeatedly(Return(true));
+	EXPECT_CALL(apacheOpenOfficeMock, IsExtensionInstalled(StrCaseEq(EXTENSION_NAME))).WillRepeatedly(Return(false));
+
+	action.CheckPrerequirements(NULL);
+	EXPECT_THAT(action.GetStatus(), AlreadyApplied);
+}
+
+TEST(LangToolLibreOfficeActionTest, CheckPrerequirements_OpenOffice_AlreadyApplied)
+{
+	CreateLTOOAction;
+
+	EXPECT_CALL(libreOfficeMock, IsInstalled()).WillRepeatedly(Return(false));
+	EXPECT_CALL(apacheOpenOfficeMock, IsInstalled()).WillRepeatedly(Return(true));
+
+	EXPECT_CALL(libreOfficeMock, IsExtensionInstalled(StrCaseEq(EXTENSION_NAME))).WillRepeatedly(Return(false));
+	EXPECT_CALL(apacheOpenOfficeMock, IsExtensionInstalled(StrCaseEq(EXTENSION_NAME))).WillRepeatedly(Return(true));
+
+	action.CheckPrerequirements(NULL);
+	EXPECT_THAT(action.GetStatus(), AlreadyApplied);
+}
+
+TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_Yes)
+{
+	CreateLTOOAction;
+
+	_setMockForJava(registryMock, L"1.6");	
+	EXPECT_TRUE(action._shouldInstallJava());
+}
+
+TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_No)
+{
+	CreateLTOOAction;
+
+	_setMockForJava(registryMock, L"1.7");
+	EXPECT_FALSE(action._shouldInstallJava());
+}
+
+
+
