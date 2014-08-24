@@ -272,7 +272,7 @@ bool ApplicationsPropertyPageUI::_onNext()
 
 	if (_checkRunningApps() == true)
 		return false;
-	
+
 	m_model->LogRunningProcesses();
 
 	if (m_model->ShouldShowNoInternetConnectionDialog())
@@ -280,6 +280,17 @@ bool ApplicationsPropertyPageUI::_onNext()
 		_showNoInternetConnectionDialog();
 		return false;
 	}
+
+	vector <wstring> manualSteps = m_model->GetManualSteps();
+
+	for (unsigned int i = 0; i < manualSteps.size(); i++)
+	{		
+		wchar_t szCaption [MAX_LOADSTRING];
+		
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+		MessageBox(getHandle(), manualSteps[i].c_str(), szCaption, MB_ICONWARNING | MB_OK);
+	}
+
 	return true;
 }
 

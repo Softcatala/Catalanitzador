@@ -42,6 +42,7 @@ public:
 		bool DoLicensesNeedToBeAccepted();
 		void LogRunningProcesses();
 		bool WindowsLiveRebootRequired();
+		vector <wstring> GetManualSteps();
 
 protected:
 

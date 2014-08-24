@@ -42,6 +42,7 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion();		
 		virtual void CheckPrerequirements(Action * action);
+		virtual const wchar_t* GetManualStep();
 
 private:
 
@@ -51,5 +52,6 @@ private:
 		wstring m_version;
 		Firefox m_firefox;
 		FirefoxAddOn m_firefoxAddOn;
+		wstring m_manualSteps;
 };
 

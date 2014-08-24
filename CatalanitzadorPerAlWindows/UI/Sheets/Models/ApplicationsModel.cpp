@@ -294,3 +294,34 @@ void ApplicationsModel::LogRunningProcesses()
 	}
 	g_log.Log(L"ApplicationsModel::LogRunningProcesses: %s", (wchar_t *) log.c_str());
 }
+
+
+vector <wstring> ApplicationsModel::GetManualSteps()
+{	
+	vector <wstring> steps;
+
+	for (unsigned int i = 0; i < m_availableActions->size (); i++)
+	{
+		Action* action = m_availableActions->at(i);
+		if (action->GetStatus() != Selected)
+			continue;
+
+		const wchar_t* manualSteps = action->GetManualStep();
+
+		if (wcslen(manualSteps) == 0)
+			continue;
+		
+		wstring step;
+		wchar_t szMessage[MAX_LOADSTRING];
+		wchar_t szFormatted[MAX_LOADSTRING];
+		
+		LoadString(GetModuleHandle(NULL), IDS_MANUAL_STEPS_WARNING, szMessage, MAX_LOADSTRING);
+		wsprintf(szFormatted, szMessage, action->GetName());
+		step = szFormatted;
+
+		step += manualSteps;
+		steps.push_back(step);
+	}
+
+	return steps;
+}

@@ -56,6 +56,19 @@ const wchar_t* LangToolFirefoxAction::GetVersion()
 	return m_version.c_str();
 }
 
+const wchar_t* LangToolFirefoxAction::GetManualStep()
+{
+	if (m_manualSteps.length() == 0)
+	{
+		wchar_t szMessage [MAX_LOADSTRING];
+		LoadString(GetModuleHandle(NULL), IDS_LANGUAGETOOL_FIREFOX_MANUALSTEP, szMessage, MAX_LOADSTRING);	
+
+		m_manualSteps = szMessage;
+	}
+
+	return m_manualSteps.c_str();
+}
+
 bool LangToolFirefoxAction::IsNeed()
 {
 	bool bNeed;

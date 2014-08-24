@@ -82,6 +82,15 @@ public:
 		virtual LPCWSTR GetLicenseID() { return MAKEINTRESOURCE(0x1); };
 };
 
+#define TEXT_STEP L"Text step in action"
+
+class ActionHasStep : public ActionTest
+{
+public:
+
+		virtual const wchar_t* GetManualStep() { return TEXT_STEP;}
+};
+
 #define CreateApplicationModelObject \
 	ApplicationsModelTest applicationModel; \
 	vector <Action *> actions; \
@@ -207,4 +216,32 @@ TEST(ApplicationsModelTest, _anyActionNeedsInternetConnection_False)
 	applicationModel.BuildListOfItems();
 	
 	EXPECT_FALSE(applicationModel._anyActionNeedsInternetConnection());	
+}
+
+
+TEST(ApplicationsModelTest, DoLicensesNeedToBeAccepted_GetManualSteps_No)
+{
+	CreateApplicationModelObject;
+	ActionHasLicense actionHasLicense;
+
+	actionHasLicense.SetStatus(Selected);
+	actions.push_back((Action *)&actionHasLicense);	
+
+	vector <wstring> steps = applicationModel.GetManualSteps();
+	
+	EXPECT_THAT(0, steps.size());
+}
+
+TEST(ApplicationsModelTest, DoLicensesNeedToBeAccepted_GetManualSteps_Yes)
+{
+	CreateApplicationModelObject;
+	ActionHasStep actionHasStep;
+
+	actionHasStep.SetStatus(Selected);
+	actions.push_back((Action *)&actionHasStep);
+
+	vector <wstring> steps = applicationModel.GetManualSteps();
+	
+	EXPECT_THAT(1, steps.size());
+	EXPECT_TRUE(steps[0].find(TEXT_STEP) != string::npos);
 }
