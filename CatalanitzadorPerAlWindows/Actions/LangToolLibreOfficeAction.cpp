@@ -25,6 +25,9 @@
 #define KILLTRAY_MESSAGE        L"SO KillTray"
 #define SOFFICE_PROCESSNAME		L"soffice.bin"
 
+ApplicationVersion g_javaMinVersion (L"1.7");
+#define EXTENSION_NAME L"org.languagetool.openoffice.Main"
+
 
 LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager) :
 Action(downloadManager), m_multipleDownloads(downloadManager)
@@ -36,6 +39,8 @@ Action(downloadManager), m_multipleDownloads(downloadManager)
 	m_szFilename[0] = NULL;
 	m_szFilenameJava[0] = NULL;
 	m_executionStep = ExecutionStepNone;
+	m_shouldInstallJava = false;
+	m_shouldConfigureJava = false;
 
 	_addExecutionProcess(ExecutionProcess(SOFFICE_PROCESSNAME, L"", false));
 }
@@ -227,7 +232,7 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 				break;
 		}
 
-		if (m_installingOffice->IsInstalled())
+		if (m_installingOffice->IsExtensionInstalled(EXTENSION_NAME))
 		{
 			SetStatus(Successful);
 		}
@@ -241,9 +246,6 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 	return status;
 }
 
-ApplicationVersion g_javaMinVersion (L"1.7");
-#define EXTENSION_NAME L"org.languagetool.openoffice.Main"
-
 bool LangToolLibreOfficeAction::_isOpenOfficeInstalled(bool& bLibreInstalled, bool& bApacheInstalled)
 {
 	bLibreInstalled = m_libreOffice->IsInstalled();
@@ -253,25 +255,6 @@ bool LangToolLibreOfficeAction::_isOpenOfficeInstalled(bool& bLibreInstalled, bo
 		(wchar_t*) bLibreInstalled, (wchar_t*) bApacheInstalled);
 	
 	return bLibreInstalled || bApacheInstalled;
-}
-
-bool LangToolLibreOfficeAction::_isExtensionInstalled(bool bLibreInstalled, bool bApacheInstalled)
-{
-	if (bLibreInstalled)
-	{
-		if (m_libreOffice->IsExtensionInstalled(EXTENSION_NAME))
-		{
-			return true;
-		}		
-	}
-	else if (bApacheInstalled)
-	{
-		if (m_apacheOpenOffice->IsExtensionInstalled(EXTENSION_NAME))
-		{		
-			return true;
-		}		
-	}
-	return false;
 }
 
 bool LangToolLibreOfficeAction::_shouldInstallJava()
@@ -288,13 +271,38 @@ bool LangToolLibreOfficeAction::_shouldInstallJava()
 	return bShouldInstallJava;
 }
 
+// If there is only one version of Java OpenOffice can figure it iself
+// It is not, you need to selected manually 
 bool LangToolLibreOfficeAction::_doesJavaNeedsConfiguration()
 {
-	bool bShouldConfigureJava;
-
-	wstring javaConfigured = m_installingOffice->GetJavaConfiguredVersion();
-	ApplicationVersion appJavaConfigured(javaConfigured);
-	bShouldConfigureJava = appJavaConfigured < g_javaMinVersion;
+	bool bShouldConfigureJava, bNoJavaInstalled, bShouldInstallJava;
+	wstring javaConfigured, javaStrVersion;
+	
+	_readJavaVersion(javaStrVersion);
+	javaConfigured = m_installingOffice->GetJavaConfiguredVersion();
+	bShouldInstallJava = ApplicationVersion(javaStrVersion) < g_javaMinVersion;
+	bNoJavaInstalled = javaStrVersion.length() == 0;	
+	
+	// If Java is not installed we are OK if it is not configured in OpenOffice
+	if (bNoJavaInstalled)
+	{
+		bShouldConfigureJava = javaConfigured.length() > 0;
+	}
+	else
+	{
+		// You need to configure Java since you will end up with two
+		// runtimes installed. If you have previusly selected Java cannot be
+		// for sure the right version since it was not installed
+		if (bShouldInstallJava)
+		{
+			bShouldConfigureJava = true;
+		}
+		else
+		{
+			// If Java is installed, then you should have picked up the right version
+			bShouldConfigureJava =  ApplicationVersion(javaConfigured) < g_javaMinVersion;
+		}
+	}
 
 	g_log.Log(L"LangToolLibreOfficeAction::_doesJavaNeedsConfiguration: %u", (wchar_t*) bShouldConfigureJava);
 	return bShouldConfigureJava;
@@ -309,23 +317,34 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_CANNOTINSTALL, szCannotBeApplied);
 		SetStatus(NotInstalled);
 		return;
-	}			
-
-	if (_isExtensionInstalled(bLibreInstalled, bApacheInstalled))
-	{
-		SetStatus(AlreadyApplied);
-		return;
 	}
 
 	if (bLibreInstalled)
 	{
-		m_installingOffice = m_libreOffice;	
+		m_installingOffice = m_libreOffice;
 	}
 	else if (bApacheInstalled)
 	{
-		m_installingOffice = m_apacheOpenOffice;		
+		m_installingOffice = m_apacheOpenOffice;
 	}
 
+	if (m_installingOffice->IsExtensionInstalled(EXTENSION_NAME))
+	{
+		SetStatus(AlreadyApplied);
+		return;
+	}
+	
 	m_shouldInstallJava = _shouldInstallJava();
 	m_shouldConfigureJava = _doesJavaNeedsConfiguration();
+
+	// Configuring the right JRE for OpenOffice if really complex. OpenOffice does not do it iself.
+	// It includes determining the correct JRE, vendor, version, etc. It also may affect other installed extensions
+	// See: http://cgit.freedesktop.org/libreoffice/core/tree/jvmfwk/source/javasettings_template.xml
+	if (m_shouldConfigureJava)
+	{
+		_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_CANNOTAUTOMATEINSTALL, szCannotBeApplied);
+		g_log.Log(L"LangToolFirefoxAction::CheckPrerequirements. Cannot configure automatically");		
+		SetStatus(CannotBeApplied);
+		return;
+	}
 }

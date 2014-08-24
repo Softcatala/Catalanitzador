@@ -57,7 +57,6 @@ private:
 
 		bool _readJavaVersion(wstring& version);
 		bool _isOpenOfficeInstalled(bool& bLibreInstalled, bool& bApacheInstalled);
-		bool _isExtensionInstalled(bool bLibreInstalled, bool bApacheInstalled);
 		void _installJava();
 	
 		enum ExecutionStep
