@@ -54,7 +54,7 @@ private:
 		wstring _getMostRecentWLSetupLogFile();
 		void _dumpWLSetupErrors();
 		void _getInstallerLocation(wstring& location);		
-		bool _isLangSelected2011();
+		bool _isLangSelected2011or2012();
 		bool _isLangSelected2009();
 		void _readVersionInstalled();
 

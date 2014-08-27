@@ -170,7 +170,7 @@ int WindowsLiveAction::_getMajorVersion()
 #define LANG_REGKEY L"Software\\Microsoft\\Windows Live\\Common\\"
 #define LANGUAGE_CODE L"CA"
 
-bool WindowsLiveAction::_isLangSelected2011()
+bool WindowsLiveAction::_isLangSelected2011or2012()
 {
 	bool bSelected = false;
 	wchar_t szLanguage[MAX_PATH] = L"";
@@ -183,7 +183,7 @@ bool WindowsLiveAction::_isLangSelected2011()
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"WindowsLiveAction::_isLangSelected2011. Language %s", szLanguage);
+	g_log.Log(L"WindowsLiveAction::_isLangSelected2011or2012. Language %s", szLanguage);
 	return bSelected;
 }
 
@@ -211,7 +211,7 @@ bool WindowsLiveAction::_isLangSelected()
 		return _isLangSelected2009();
 	}
 
-	return _isLangSelected2011();
+	return _isLangSelected2011or2012();
 }
 
 #define REBOOT_REQUIRED_KEY L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired"
