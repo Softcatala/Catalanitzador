@@ -41,6 +41,7 @@ Action(downloadManager), m_multipleDownloads(downloadManager)
 	m_executionStep = ExecutionStepNone;
 	m_shouldInstallJava = false;
 	m_shouldConfigureJava = false;
+	m_installingOffice = NULL;
 
 	_addExecutionProcess(ExecutionProcess(SOFFICE_PROCESSNAME, L"", false));
 }
@@ -299,11 +300,20 @@ bool LangToolLibreOfficeAction::_doesJavaNeedsConfiguration()
 		}
 		else
 		{
-			// If Java is installed, then you should have picked up the right version
-			bShouldConfigureJava =  ApplicationVersion(javaConfigured) < g_javaMinVersion;
+			if (javaConfigured.length() == 0)
+			{
+				// If no Java, and no configured version OpenOffice should be able to pick up
+				// the right version
+				bShouldConfigureJava = false;
+			}
+			else
+			{
+				// If Java is installed, then you should have picked up the right version
+				bShouldConfigureJava =  ApplicationVersion(javaConfigured) < g_javaMinVersion;
+			}
 		}
 	}
-
+	
 	g_log.Log(L"LangToolLibreOfficeAction::_doesJavaNeedsConfiguration: %u", (wchar_t*) bShouldConfigureJava);
 	return bShouldConfigureJava;
 }

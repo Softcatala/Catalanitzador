@@ -46,14 +46,23 @@ public:
 		: LangToolLibreOfficeAction(registry, runner, libreOffice, apacheOpenOffice, downloadManager){};
 
 	public:
+
+		void _setInstallingOpenOffice(IOpenOffice* openOffice) {m_installingOffice = openOffice; }
+
 		using LangToolLibreOfficeAction::_shouldInstallJava;
 		using LangToolLibreOfficeAction::_doesJavaNeedsConfiguration;
+	
 };
 
 void _setMockForJava(RegistryMock& registryMockobj, const wchar_t* version)
 {	
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(version), Return(true)));
+}
+
+void _setMockForNoJava(RegistryMock& registryMockobj)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(false));	
 }
 
 TEST(LangToolLibreOfficeActionTest, CheckPrerequirements_NotInstalled)
@@ -99,7 +108,7 @@ TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_Yes)
 {
 	CreateLTOOAction;
 
-	_setMockForJava(registryMock, L"1.6");	
+	_setMockForJava(registryMock, L"1.6");
 	EXPECT_TRUE(action._shouldInstallJava());
 }
 
@@ -111,5 +120,42 @@ TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_No)
 	EXPECT_FALSE(action._shouldInstallJava());
 }
 
+TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_NoJava_NoJavaConfig)
+{
+	CreateLTOOAction;
 
+	_setMockForNoJava(registryMock);	
+	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L""));
+	action._setInstallingOpenOffice(&libreOfficeMock);
+	EXPECT_FALSE(action._doesJavaNeedsConfiguration());
+}
 
+TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java17_NoJavaConfig)
+{
+	CreateLTOOAction;
+
+	_setMockForJava(registryMock, L"1.7");	
+	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L""));
+	action._setInstallingOpenOffice(&libreOfficeMock);
+	EXPECT_FALSE(action._doesJavaNeedsConfiguration());
+}
+
+TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java17_Java17Config)
+{
+	CreateLTOOAction;
+
+	_setMockForJava(registryMock, L"1.7");
+	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L"1.7"));
+	action._setInstallingOpenOffice(&libreOfficeMock);
+	EXPECT_FALSE(action._doesJavaNeedsConfiguration());
+}
+
+TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java17_Java16Config)
+{
+	CreateLTOOAction;
+
+	_setMockForJava(registryMock, L"1.7");	
+	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L"1.6"));
+	action._setInstallingOpenOffice(&libreOfficeMock);
+	EXPECT_TRUE(action._doesJavaNeedsConfiguration());
+}

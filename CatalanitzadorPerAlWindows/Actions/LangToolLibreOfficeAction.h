@@ -52,6 +52,7 @@ protected:
 
 		bool _shouldInstallJava();
 		bool _doesJavaNeedsConfiguration();
+		IOpenOffice* m_installingOffice;
 
 private:
 
@@ -75,8 +76,7 @@ private:
 		wstring m_version;
 		ExecutionStep m_executionStep;
 		MultipleDownloads m_multipleDownloads;
-
-		IOpenOffice* m_installingOffice;
+		
 		bool m_shouldInstallJava;
 		bool m_shouldConfigureJava;
 };
