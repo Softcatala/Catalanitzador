@@ -20,25 +20,12 @@
 #include "stdafx.h"
 #include "IEAction.h"
 
-IEAction::IEAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion, DownloadManager* downloadManager) : Action(downloadManager)
+IEAction::IEAction(IELPIAction* LPIAction, IEAcceptLanguagesAction* acceptLanguagesAction)
 {
-	m_registry = registry;
-	m_runner = runner;
-	m_OSVersion = OSVersion;
-	m_fileVersionInfo = fileVersionInfo;
-	m_LPIAction = NULL;
-	m_acceptLanguagesAction = NULL;
+	m_LPIAction = LPIAction;
+	m_acceptLanguagesAction = acceptLanguagesAction;
 	m_doAcceptLanguagesAction = false;
 	m_doLPIAction = false;
-}
-
-IEAction::~IEAction()
-{
-	if (m_LPIAction)
-		delete m_LPIAction;
-
-	if (m_acceptLanguagesAction)
-		delete m_acceptLanguagesAction;
 }
 
 wchar_t* IEAction::GetName()
@@ -53,19 +40,11 @@ wchar_t* IEAction::GetDescription()
 
 IELPIAction * IEAction::_getLPIAction()
 {
-	if (m_LPIAction == NULL)
-	{
-		m_LPIAction = new IELPIAction(m_OSVersion, m_runner, m_fileVersionInfo, m_downloadManager);
-	}
 	return m_LPIAction;
 }
 
 IEAcceptLanguagesAction * IEAction::_getAcceptLanguagesAction()
 {
-	if (m_acceptLanguagesAction == NULL)
-	{
-		m_acceptLanguagesAction = new IEAcceptLanguagesAction(m_registry, m_fileVersionInfo, m_OSVersion);
-	}
 	return m_acceptLanguagesAction;	
 }
 
@@ -168,7 +147,10 @@ void IEAction::Serialize(ostream* stream)
 }
 
 void IEAction::CheckPrerequirements(Action * action)
-{	
+{
+	// General approach
+	//	1. In one sub-action is can be perform this action should be perform
+	//	2. If a sub-action is already done and the other cannot be applied give result on CannotBeApplied and explain why	
 	_getLPIAction()->CheckPrerequirements(action);
 	_getAcceptLanguagesAction()->CheckPrerequirements(action);
 
@@ -179,12 +161,11 @@ void IEAction::CheckPrerequirements(Action * action)
 			return;
 	}
 
-	// We do not have a good way of communication when one subactions cannot be applied
-	// but the other can
-	if (_getLPIAction()->GetStatus() == CannotBeApplied &&
-		_getAcceptLanguagesAction()->GetStatus() == AlreadyApplied)
+	if ((_getLPIAction()->GetStatus() == CannotBeApplied &&	_getAcceptLanguagesAction()->GetStatus() == AlreadyApplied) ||
+		_getLPIAction()->GetStatus() == AlreadyApplied && _getAcceptLanguagesAction()->GetStatus() == CannotBeApplied)
 	{
-			SetStatus(AlreadyApplied);
+			wcscpy_s(szCannotBeApplied, _getLPIAction()->GetCannotNotBeApplied());
+			SetStatus(CannotBeApplied);
 			return;
 	}
 

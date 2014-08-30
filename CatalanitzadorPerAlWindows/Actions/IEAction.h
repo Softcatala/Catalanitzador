@@ -33,8 +33,7 @@ using namespace std;
 class IEAction : public Action
 {
 public:
-		IEAction(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion, DownloadManager* downloadManager);
-		~IEAction();
+		IEAction(IELPIAction* LPIAction, IEAcceptLanguagesAction* acceptLanguagesAction);
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();

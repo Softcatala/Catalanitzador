@@ -348,6 +348,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Actions\IEActionTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Actions\IELPIActionTest.cpp"
 				>
 			</File>

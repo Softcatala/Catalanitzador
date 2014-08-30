@@ -126,6 +126,23 @@ IOpenOffice* Actions::_getApacheOpenOffice(IRegistry* registry)
 	return openOffice;
 }
 
+
+IELPIAction* Actions::_getIELPIAction()
+{
+	IELPIAction* action;
+	action = new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager);
+	m_objectsToDelete.push_back(action);
+	return action;
+}
+
+IEAcceptLanguagesAction* Actions::_getIEAcceptLanguagesAction()
+{
+	IEAcceptLanguagesAction* action;
+	action = new IEAcceptLanguagesAction(_getNewRegistry(),  _getFileVersionInfo(), _getNewOSVersion());
+	m_objectsToDelete.push_back(action);
+	return action;
+}
+
 void Actions::_buildListOfActions(IOSVersion* pOSversion)
 {
 	if (pOSversion->GetVersion() == Windows8 || pOSversion->GetVersion() == Windows81)
@@ -138,7 +155,7 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 	}
 	
 	m_actions.push_back(new MSOfficeLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));	
-	m_actions.push_back(new IEAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), _getNewOSVersion(), m_pDownloadManager));
+	m_actions.push_back(new IEAction(_getIELPIAction(), _getIEAcceptLanguagesAction()));
 	m_actions.push_back(new ConfigureLocaleAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 		
 	if (pOSversion->GetVersion() != Windows8 && pOSversion->GetVersion() != Windows81)
