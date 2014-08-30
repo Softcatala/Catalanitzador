@@ -85,11 +85,7 @@ bool IEAction::IsNeed()
 {
 	bool bNeed;
 
-	m_doAcceptLanguagesAction = _getAcceptLanguagesAction()->IsNeed();
-	m_doLPIAction = _getLPIAction()->IsNeed();
-
 	bNeed = m_doLPIAction || m_doAcceptLanguagesAction;
-
 	g_log.Log(L"IEAction::IsNeed returns %u (status %u)", (wchar_t *) bNeed, (wchar_t*) GetStatus());	
 	return bNeed;
 }
@@ -199,4 +195,11 @@ void IEAction::CheckPrerequirements(Action * action)
 			SetStatus(CannotBeApplied);
 			return;
 	}
+
+	// ApplicationsModel::_processDependantItem only calls IEAction::IsNeed if the status has changed for the whole action
+	// However, we need to re-evaluate if both suboptions are needed.
+	// For example, LPIAction and AcceptLanguagesAction are needed, the user unselects the Windows LangPack, and then
+	// LPIAction is not needed but AcceptLanguagesAction it is. However, the overall status IEAction has not changed
+	m_doAcceptLanguagesAction = _getAcceptLanguagesAction()->IsNeed();
+	m_doLPIAction = _getLPIAction()->IsNeed();
 }
