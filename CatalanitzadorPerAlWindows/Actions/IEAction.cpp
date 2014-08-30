@@ -136,8 +136,7 @@ void IEAction::Execute()
 ActionStatus IEAction::GetStatus()
 {
 	if (status == InProgress)
-	{		
-		
+	{
 		if (m_doLPIAction && _getLPIAction()->GetStatus() == InProgress)
 			return InProgress;
 
@@ -196,11 +195,8 @@ void IEAction::CheckPrerequirements(Action * action)
 	if (_getLPIAction()->GetStatus() == CannotBeApplied &&
 		_getAcceptLanguagesAction()->GetStatus() == CannotBeApplied)
 	{
+			wcscpy_s(szCannotBeApplied, _getLPIAction()->GetCannotNotBeApplied());
 			SetStatus(CannotBeApplied);
-	}
-
-	if (_getLPIAction()->GetStatus() == CannotBeApplied)
-	{
-		wcscpy_s(szCannotBeApplied, _getLPIAction()->GetCannotNotBeApplied());		
+			return;
 	}
 }
