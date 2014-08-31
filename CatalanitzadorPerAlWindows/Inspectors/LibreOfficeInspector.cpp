@@ -59,7 +59,7 @@ void LibreOfficeInspector::_readVersionInstalled()
 void LibreOfficeInspector::Execute()
 {	
 	_readVersionInstalled();
-	_readLanguage();
+	_readLocale();
 	_getUIFilesInstalled();
 	_getDictInstalled();
 }
@@ -80,26 +80,19 @@ void LibreOfficeInspector::_getPreferencesFile(wstring& location)
 	
 }
 
-void LibreOfficeInspector::_readLocale(wstring &locale)
-{
-	wchar_t szValue[1024];
-
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\International", false))
-	{
-		if (m_registry->GetString(L"Locale", szValue, sizeof (szValue)))
-		{
-			locale = szValue;
-		}
-		m_registry->Close();
-	}
-}
-
-
 enum LanguageParsingState
 {
 	ItemOther,
 	ItemLinguisticGeneral,
-	PropUILocale
+	PropUILocale,
+	ItemSetupL10N,
+	PropOoLocale
+};
+
+struct LOOConfigData
+{
+	wstring UILocale;
+	wstring ooLocale;
 };
 
 
@@ -107,74 +100,100 @@ LanguageParsingState g_parsing_state = ItemOther;
 
 bool LibreOfficeInspector::_readNodeCallback(XmlNode node, void *data)
 {
-	vector <XmlAttribute>* attributes;
-	bool bIsItem;
+	if (node.GetName().compare(L"value")==0)
+	{
+		LOOConfigData* configData = (LOOConfigData*) data;
 
-	if (g_parsing_state == PropUILocale && node.GetName().compare(L"value")==0)
-	{		
-		wstring* lang_found = (wstring *) data;
-		*lang_found = node.GetText();
+		if (g_parsing_state == PropUILocale)
+			configData->UILocale = node.GetText();
+		else if (g_parsing_state == PropOoLocale)
+			configData->ooLocale = node.GetText();
+		
 		g_parsing_state = ItemOther;
-		return false;
+		return true;
 	}
 
+	bool bIsItem, bIsProp;
+
 	bIsItem = node.GetName().compare(L"item") == 0;
+	bIsProp = node.GetName().compare(L"prop") == 0;
 
-	if (bIsItem && g_parsing_state != ItemOther)
-	{
-		g_parsing_state = ItemOther;
-	}	
+	if (bIsItem && g_parsing_state != ItemOther)	
+		g_parsing_state = ItemOther;	
 
-	attributes = node.GetAttributes();
+	vector <XmlAttribute>* attributes = node.GetAttributes();
 	for (unsigned int i = 0; i < attributes->size(); i++)
 	{
 		XmlAttribute attribute;
 
 		attribute = attributes->at(i);
 
-		if (g_parsing_state == ItemOther && bIsItem && attribute.GetName() == L"oor:path" && attribute.GetValue() == L"/org.openoffice.Office.Linguistic/General")
+		if (g_parsing_state == ItemOther && bIsItem && attribute.GetName() == L"oor:path")
 		{
-			g_parsing_state = ItemLinguisticGeneral;			
-		}
+			if (attribute.GetValue() == L"/org.openoffice.Office.Linguistic/General")
+			{
+				g_parsing_state = ItemLinguisticGeneral;
+				continue;
+			}
+			if (attribute.GetValue() == L"/org.openoffice.Setup/L10N")
+			{
+				g_parsing_state = ItemSetupL10N;
+				continue;
+			}
+		}		
 
-		if (g_parsing_state == ItemLinguisticGeneral && attribute.GetName() == L"oor:name" && attribute.GetValue() == L"UILocale")
+		if (bIsProp && g_parsing_state == ItemLinguisticGeneral && attribute.GetName() == L"oor:name" && attribute.GetValue() == L"UILocale")
 		{
 			g_parsing_state = PropUILocale;
-		}		
+			continue;
+		}
+
+		if (bIsProp && g_parsing_state == ItemSetupL10N && attribute.GetName() == L"oor:name" && attribute.GetValue() == L"ooLocale")
+		{
+			g_parsing_state = PropOoLocale;
+			continue;
+		}
 	}
 	
 	return true;
 }
 
-
-void LibreOfficeInspector::_readLanguage()
+// See how LibreOffice manages this
+//	http://code.woboq.org/libreoffice/libreoffice/cui/source/options/optgdlg.cxx.html
+//	http://code.woboq.org/libreoffice/libreoffice/desktop/source/app/langselect.cxx.html
+//
+void LibreOfficeInspector::_readLocale()
 {
 	XmlParser parser;
-	wstring lang_found, file;	
+	wstring file, locale;
+	LOOConfigData configData;
 
-	_getPreferencesFile(file);
-
-	if (parser.Load(file))
+	if (m_version.size() >  0)
 	{
-		parser.Parse(_readNodeCallback, &lang_found);
+		_getPreferencesFile(file);
 
-		if (m_version.size() > 0 && lang_found.size() == 0)
-		{
-			wstring locale;
+		if (parser.Load(file))
+		{			
+			parser.Parse(_readNodeCallback, &configData);
 
-			_readLocale(locale);
-			lang_found = L"locale:" + locale;
+			if (configData.UILocale.length() > 0)
+			{
+				locale = configData.UILocale;
+			} else if (configData.ooLocale.length() > 0)
+			{
+				locale = configData.ooLocale;
+			}
+
+			g_log.Log(L"LibreOfficeInspector::_readLocale. Preferences file '%s', language '%s'", (wchar_t *)file.c_str(), 
+				(wchar_t *) locale.c_str());
 		}
-
-		g_log.Log(L"LibreOfficeInspector::_readLanguage. Preferences file '%s', language '%s'", (wchar_t *)file.c_str(), 
-			(wchar_t *) lang_found.c_str());		
-	}
-	else
-	{
-		g_log.Log(L"LibreOfficeInspector::_readLanguage. Could not open '%s'", (wchar_t *) file.c_str());
+		else
+		{
+			g_log.Log(L"LibreOfficeInspector::_readLocale. Could not open '%s'", (wchar_t *) file.c_str());
+		}
 	}
 
-	m_KeyValues.push_back(InspectorKeyValue(L"lang",lang_found));
+	m_KeyValues.push_back(InspectorKeyValue(L"lang", locale));
 }
 
 void LibreOfficeInspector::_getUIFilesInstalled()
