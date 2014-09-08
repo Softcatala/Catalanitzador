@@ -15,10 +15,12 @@
         11 => 'Windows Live', 
         12 => 'CatalanitzadorUpdate', 
         13 => 'Skype',
-	14 => 'iTunes',
-	15 => 'MacSystemAction',
-	16 => 'MacSpellChecker',
-	17 => 'FirefoxLangPack'
+        14 => 'iTunes',
+        15 => 'MacSystemAction',
+        16 => 'MacSpellChecker',
+        17 => 'FirefoxLangPack',
+        18 => 'LangToolLibreOffice',
+        19 => 'LangToolFirefox'
     );
 
 
@@ -26,14 +28,14 @@
 
     // ActionStatus
     $action_status = array( 
-        0 => 'NotSelected',	  // The user did not select the action
-        1 => 'Selected',	  // Selected but no started
+        0 => 'NotSelected',       // The user did not select the action
+        1 => 'Selected',          // Selected but no started
         2 => 'CannotBeApplied',   // The action cannot be applied (e.g. Windows ES needed US found or application not found)
-        3 => 'AlreadyApplied',	  // Action not needed
-        4 => 'InProgress',	  // Selected and in progress
-        5 => 'Successful',	  // End up OK
+        3 => 'AlreadyApplied',    // Action not needed
+        4 => 'InProgress',        // Selected and in progress
+        5 => 'Successful',        // End up OK
         6 => 'FinishedWithError', // End up with error
-        7 => 'NotInstalled'	  // Software is not installed
+        7 => 'NotInstalled'       // Software is not installed
     );
 
     // actions we don't want to show in the main table
@@ -41,7 +43,7 @@
     
     $system_platform = array(
         0 => 'Windows',
-	1 => 'MacOS X'
+    1 => 'MacOS X'
     );
 
     // OS
