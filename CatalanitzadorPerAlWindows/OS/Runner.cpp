@@ -24,6 +24,7 @@
 
 bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 {
+	BOOL bRslt;
 	STARTUPINFO si;
 	PVOID OldValue = NULL;
 	Wow64 wow64;
@@ -38,22 +39,21 @@ bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 	}
 
 	// Start the child process
-	if (!CreateProcess(program, params,         
-		NULL,  NULL,  FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi))
+	bRslt = CreateProcess(program, params, NULL,  NULL,  FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+
+	if (!bRslt)
 	{
 		int error = GetLastError();
 		g_log.Log (L"Runner::Execute. Error %u running '%s' with params '%s'", (wchar_t *)error,
 			program, params);
-
-		return false;
-	}
-
-	if (b64bits)
-	{
-		wow64.RevertRedirection(OldValue);		
 	}
 	
-	return true;
+	if (b64bits)
+	{
+		wow64.RevertRedirection(OldValue);
+	}
+	
+	return bRslt == TRUE;
 }
 
 bool Runner::IsRunning() const
