@@ -353,7 +353,7 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 	if (m_shouldConfigureJava)
 	{
 		_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_CANNOTAUTOMATEINSTALL, szCannotBeApplied);
-		g_log.Log(L"LangToolFirefoxAction::CheckPrerequirements. Cannot configure automatically");		
+		g_log.Log(L"LangToolLibreOfficeAction::CheckPrerequirements. Cannot configure automatically");		
 		SetStatus(CannotBeApplied);
 		return;
 	}
