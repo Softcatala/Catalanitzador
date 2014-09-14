@@ -165,16 +165,13 @@ bool OpenOffice::_readNodeCallback(XmlNode node, void *data)
 
 void OpenOffice::_parseXmlConfiguration(vector <wstring>& extensions)
 {
-	wstring preferences;
-
-	preferences = _getPreferencesFile();
-	preferences += L"uno_packages\\cache\\registry\\com.sun.star.comp.deployment.component.PackageRegistryBackend\\backenddb.xml";
-
+	wstring extensionsFile;
 	XmlParser parser;
 
-	if (parser.Load(preferences) == false)
+	extensionsFile = _getExtensionsFile();
+	if (parser.Load(extensionsFile) == false)
 	{
-		g_log.Log(L"OpenOffice::_parseXmlConfiguration. Could not open '%s'", (wchar_t *) preferences.c_str());
+		g_log.Log(L"OpenOffice::_parseXmlConfiguration. Could not open '%s'", (wchar_t *) extensionsFile.c_str());
 		return;
 	}
 
