@@ -155,15 +155,24 @@ void MSOfficeLPIAction::Execute()
 
 void MSOfficeLPIAction::Serialize(ostream* stream)
 {
-	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
+	char szText[1024];
+
+	if (m_MSOffices.size())
 	{
-		char szText[1024];
-		string version;
+		for (unsigned int i = 0; i < m_MSOffices.size(); i++)
+		{
+			string version;
 
-		StringConversion::ToMultiByte(wstring(m_MSOffices.at(i).GetVersion()), version);
-		sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n",
-			GetID(), version.c_str(), status);
+			StringConversion::ToMultiByte(wstring(m_MSOffices.at(i).GetVersion()), version);
+			sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n",
+				GetID(), version.c_str(), status);
 
+			*stream << szText;
+		}
+	}
+	else
+	{
+		sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n", GetID(), "", status);
 		*stream << szText;
 	}
 }

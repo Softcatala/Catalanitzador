@@ -26,6 +26,7 @@ using ::testing::_;
 using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::Eq;
+using ::testing::HasSubstr;
 
 #define CreateMSOfficeAction \
 	RegistryMock registryMockobj; \
@@ -119,3 +120,33 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_NotInstalled)
 	EXPECT_FALSE(officeAction.IsNeed());
 	EXPECT_EQ(officeAction.GetStatus(), NotInstalled);
 }
+
+TEST(MSOfficeLPIActionTest, Serialize_One_Instance)
+{
+	CreateMSOfficeAction;
+	ostringstream stream;
+	bool FollowSystemUIOff = true;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
+	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, CATALAN_LCID);
+	officeAction.CheckPrerequirements(NULL);
+
+	officeAction.Serialize(&stream);	
+	EXPECT_THAT(stream.str(), HasSubstr("<action id='2' version='2013_64bits' result='3'/>"));
+}
+
+TEST(MSOfficeLPIActionTest, Serialize_None)
+{
+	CreateMSOfficeAction;
+	ostringstream stream;
+	bool FollowSystemUIOff = true;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, NoMSOffice);
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
+	officeAction.CheckPrerequirements(NULL);
+
+	officeAction.Serialize(&stream);
+	EXPECT_THAT(stream.str(), HasSubstr("<action id='2' version='' result='7'/>"));
+}
+
