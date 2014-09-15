@@ -23,7 +23,7 @@
 
 using ::testing::StrCaseEq;
 
-TEST(UrlTest, UrlFormEncode)
+TEST(UrlTest, EncodeParameter)
 {	
 	wstring input, expected, encoded;
 
