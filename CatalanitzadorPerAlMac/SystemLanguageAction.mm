@@ -111,6 +111,11 @@ bool SystemLanguageAction::IsNeed()
 	return bNeed;
 }
 
+bool SystemLanguageAction::IsRebootNeed() const
+{
+	return status == Successful;
+}
+
 void SystemLanguageAction::CheckPrerequirements(Action * action)
 {
     OSVersion version;

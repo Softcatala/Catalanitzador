@@ -164,6 +164,11 @@ bool SpellCheckerAction::IsNeed()
 	return bNeed;
 }
 
+bool SpellCheckerAction::IsRebootNeed() const
+{
+	return status == Successful;
+}
+
 void SpellCheckerAction::CheckPrerequirements(Action * action)
 {
      OSVersion version;

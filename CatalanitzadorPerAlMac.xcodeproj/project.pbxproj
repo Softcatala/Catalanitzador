@@ -10,6 +10,8 @@
 		8D00EADC16C545C100939FA5 /* Català.aff in Resources */ = {isa = PBXBuildFile; fileRef = 8D00EADA16C545C100939FA5 /* Català.aff */; };
 		8D00EADD16C545C100939FA5 /* Català.dic in Resources */ = {isa = PBXBuildFile; fileRef = 8D00EADB16C545C100939FA5 /* Català.dic */; };
 		8D15274C16C169F7007786D9 /* app-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8D15274B16C169F7007786D9 /* app-icon.icns */; };
+		8D2E32E419C94D370074B298 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D2E32E319C94D370074B298 /* Carbon.framework */; };
+		8D367A9819C9584600932920 /* Reboot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D367A9719C9584600932920 /* Reboot.mm */; };
 		8D50D35516BD23CB00653AE7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D50D35416BD23CB00653AE7 /* Cocoa.framework */; };
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
 		8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36316BD23CB00653AE7 /* Credits.rtf */; };
@@ -32,6 +34,9 @@
 		8D00EADA16C545C100939FA5 /* Català.aff */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.aff"; path = "spellchecker/Català.aff"; sourceTree = "<group>"; };
 		8D00EADB16C545C100939FA5 /* Català.dic */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Català.dic"; path = "spellchecker/Català.dic"; sourceTree = "<group>"; };
 		8D15274B16C169F7007786D9 /* app-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "app-icon.icns"; sourceTree = "<group>"; };
+		8D2E32E319C94D370074B298 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		8D367A9619C9584600932920 /* Reboot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reboot.h; path = OS/Reboot.h; sourceTree = "<group>"; };
+		8D367A9719C9584600932920 /* Reboot.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Reboot.mm; path = OS/Reboot.mm; sourceTree = "<group>"; };
 		8D380DA616E5322000C0F2C7 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Version.h; path = CommonCode/Version.h; sourceTree = SOURCE_ROOT; };
 		8D50D35116BD23CB00653AE7 /* CatalanitzadorPerAlMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatalanitzadorPerAlMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D50D35416BD23CB00653AE7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -78,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D2E32E419C94D370074B298 /* Carbon.framework in Frameworks */,
 				8DEEBCF116C3FBBC002BD942 /* Security.framework in Frameworks */,
 				8D50D35516BD23CB00653AE7 /* Cocoa.framework in Frameworks */,
 			);
@@ -108,6 +114,7 @@
 		8D50D35316BD23CB00653AE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8D2E32E319C94D370074B298 /* Carbon.framework */,
 				8D50D35416BD23CB00653AE7 /* Cocoa.framework */,
 				8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */,
 				8D50D35616BD23CB00653AE7 /* Other Frameworks */,
@@ -155,6 +162,8 @@
 		8D9465AB16D01197009BBA39 /* OS */ = {
 			isa = PBXGroup;
 			children = (
+				8D367A9619C9584600932920 /* Reboot.h */,
+				8D367A9719C9584600932920 /* Reboot.mm */,
 				8D9465AC16D011A6009BBA39 /* OSVersion.h */,
 				8D9465AD16D011A6009BBA39 /* OSVersion.mm */,
 			);
@@ -289,6 +298,7 @@
 				8D94658916CF9CA2009BBA39 /* ChromeAction.mm in Sources */,
 				8D94658A16CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm in Sources */,
 				8D9465AA16D00FBD009BBA39 /* Action.cpp in Sources */,
+				8D367A9819C9584600932920 /* Reboot.mm in Sources */,
 				8D9465AE16D011A6009BBA39 /* OSVersion.mm in Sources */,
 				8D9465B416D01A3A009BBA39 /* Serializer.mm in Sources */,
 				8DE8843016D40C53002F2349 /* HttpFormInet.mm in Sources */,

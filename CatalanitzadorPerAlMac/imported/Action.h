@@ -70,6 +70,10 @@ public:
         // the action are satisfied, such as the software is installed, is
         // the right version, etc.
         virtual void CheckPrerequirements(Action * action){};
+
+	
+		// If the user needs to reboot the PC after executing the action to make the changes effective
+		virtual bool IsRebootNeed() const { return false;}
     
 protected:
     
@@ -87,13 +91,8 @@ protected:
 		// needed to execute this action
 		virtual bool IsDownloadNeed();
 
-		// If the user needs to reboot the PC after executing the action to make the changes effective
-		virtual bool IsRebootNeed() const { return false;}
-
 		// If a download is needed, executes the download of the files
 		virtual bool Download(ProgressStatus, void *data) {return true;}
-	
-      
 
 		// An action may depend in another action to be selected to be able to execute it
 		// For example, Internet Explorer 6 language pack is part of the Windows language pack

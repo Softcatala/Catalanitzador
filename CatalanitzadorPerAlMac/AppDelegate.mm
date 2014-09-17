@@ -27,6 +27,7 @@
 #import "HttpFormInet.h"
 #include "Version.h"
 #include "RemoteURLs.h"
+#include "Reboot.h"
 
 @implementation AppDelegate
 
@@ -36,7 +37,7 @@ FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
 ChromeAction chromeAction;
 NSString *statsFilename = nil;
-
+NSString *alertTitle = @"Catalanitzador per al Mac";
 
 -(NSInteger) numberOfRowsInTableView: (NSTableView *) tableView
 {
@@ -221,6 +222,38 @@ void _upload(Serializer& serializer)
     }
 }
 
+- (bool)IsRebootNeeded
+{
+	bool rebootNeed = false;
+
+	for (int i = 0; i < actions.size(); i++)
+    {
+        if (actions.at(i)->IsRebootNeed())
+        {
+			rebootNeed = true;
+			break;
+        }
+    }
+	
+	return rebootNeed;
+}
+
+- (void)AskIfUserWantsToReboot
+{
+	NSAlert *alert = [[NSAlert alloc] init];
+	[alert setMessageText:alertTitle];
+	[alert setInformativeText:@"Els canvis fets a la configuració requereixen reiniciar l'ordinador. Podeu fer-ho ara o més endavant. Voleu reiniciar-lo ara mateix?"];
+	[alert setAlertStyle:0];
+	[alert addButtonWithTitle:@"Sí"];
+	[alert addButtonWithTitle:@"Cancel·lar"];
+	
+	if ([alert runModal] == NSAlertFirstButtonReturn)
+	{
+		Reboot reboot;
+		reboot.RestartNow();
+	}
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     bool anyAction = false;
@@ -273,7 +306,7 @@ void _upload(Serializer& serializer)
     {
         if (chromeAction.IsApplicationRunning())
         {
-            _showDialogBox(@"Catalanitzador per al Mac",
+            _showDialogBox(alertTitle,
                            @"Cal que tanqueu el navegador Chrome abans de continuar. No es pot canviar la llengua de navegació si està obert.");
             return;
         }
@@ -283,7 +316,7 @@ void _upload(Serializer& serializer)
     {
         if (firefoxAction.IsApplicationRunning())
         {
-            _showDialogBox(@"Catalanitzador per al Mac",
+            _showDialogBox(alertTitle,
                            @"Cal que tanqueu el navegador Firefox abans de continuar. No es pot canviar la llengua de navegació si està obert.");
             return;
         }
@@ -330,6 +363,10 @@ void _upload(Serializer& serializer)
     
     [_ApplicationsList reloadData];
     [self sendStatistics];
+	
+	if ([self IsRebootNeeded])
+		[self AskIfUserWantsToReboot];
+	
 }
 - (IBAction)ApplicationListSelector:(id)sender {
 }

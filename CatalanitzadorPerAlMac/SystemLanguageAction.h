@@ -38,7 +38,8 @@ public:
         virtual bool IsNeed();
         virtual void Execute();
         virtual const char* GetVersion();
-        virtual void CheckPrerequirements(Action * action);
+		virtual void CheckPrerequirements(Action * action);
+		virtual bool IsRebootNeed() const;
 
 private:
         NSArray* _getCurrentLanguages();
