@@ -96,7 +96,7 @@ void LogExtractor::ExtractLogFragmentForKeyword(wstring keyword)
 	std::transform(keyword.begin(), keyword.end(), keyword.begin(), ::tolower);
 
 	stream = _openFile();
-	if (_openFile() == NULL)
+	if (stream == NULL)
 	{
 		return;
 	}
