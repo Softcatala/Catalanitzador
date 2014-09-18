@@ -260,23 +260,6 @@ bool ApplicationsModel::DoLicensesNeedToBeAccepted()
 	return false;	
 }
 
-bool ApplicationsModel::WindowsLiveRebootRequired()
-{	
-	for (unsigned int i = 0; i < m_availableActions->size (); i++)
-	{
-		Action* action = m_availableActions->at(i);
-
-		if (action->GetID() != WindowsLiveActionID)
-			continue;
-
-		WindowsLiveAction* live = (WindowsLiveAction *) action;
-		return live->IsNeed() && live->IsPreRebootRequired();
-	}
-	assert(false);
-	return false;	
-}
-
-
 void ApplicationsModel::LogRunningProcesses()
 {
 	Runner runner;
