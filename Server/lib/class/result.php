@@ -39,7 +39,9 @@ class result
         $ProductType = $db->escape( $this->ProductType );
         $Name = $db->escape( $this->Name );
         $guid = $db->escape( $this->guid);
-        $LogFile = $db->escape( $this->LogFile);
+        $LogFile = $db->escapenostrip( $this->LogFile );
+
+	//$db->query("SET @@sql_mode=CONCAT_WS(',', @@sql_mode, 'NO_BACKSLASH_ESCAPES');");
 
         $applications_query = $db->get_var ( "SELECT ID FROM applications WHERE  MajorVersion = '$MajorVersion' AND MinorVersion = '$MinorVersion' AND Revision = '$Revision'");
         $operatings_query = $db->get_var ( "SELECT ID FROM operatings WHERE OSMajorVersion = '$OSMajorVersion' AND OSMinorVersion = '$OSMinorVersion' AND SPMajorVersion = '$SPMajorVersion' AND  SPMinorVersion = '$SPMinorVersion' AND  SuiteMask = '$SuiteMask' AND System = '$System' AND ProductType ='$ProductType' AND Name ='$Name' AND Bits ='$Bits' ");

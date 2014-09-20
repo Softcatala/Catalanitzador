@@ -94,6 +94,12 @@
 			return mysql_real_escape_string(stripslashes($str), $this->dbh);
 		}
 
+                function escapenostrip($str)
+                {
+                        if (!$this->dbh)  $this->connect();
+                        return mysql_real_escape_string($str, $this->dbh);
+                }
+
 		// ==================================================================
 		//	Print SQL/DB error.
 

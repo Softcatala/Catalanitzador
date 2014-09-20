@@ -9,13 +9,12 @@ require( 'lib/class/result.php' );
 if ( isset ($_GET['debug']))
     error_reporting(E_ALL);
 
-
-
 $result = new Result();
 
 if (isset($_POST['xml'])){
     $xmlstring = utf8_decode($_POST['xml']);
-    $xmlstring = str_replace ( '\\', '', $xmlstring);
+    //$xmlstring = str_replace ( "\", "\\", $xmlstring);
+
 
     //Transform the xml string into a simplexml object
     $xml = simplexml_load_string($xmlstring, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
