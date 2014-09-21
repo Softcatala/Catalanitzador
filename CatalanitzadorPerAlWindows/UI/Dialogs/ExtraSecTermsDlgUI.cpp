@@ -51,7 +51,8 @@ void ExtraSecTermsDlgUI::_onInitDialog()
 
 	if (systemRestore.Init() == true)
 	{
-		CheckDlgButton(getHandle(), IDC_SYSTEMRESTORE, *m_pSystemRestore);
+		BOOL systemRestore = m_systemRestore  ? TRUE: FALSE;
+		CheckDlgButton(getHandle(), IDC_SYSTEMRESTORE, systemRestore);
 	}
 	else
 	{
@@ -63,6 +64,6 @@ void ExtraSecTermsDlgUI::_onCommand(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == IDOK)
 	{
-		*m_pSystemRestore = IsDlgButtonChecked(getHandle(), IDC_SYSTEMRESTORE)==BST_CHECKED;
+		m_systemRestore = IsDlgButtonChecked(getHandle(), IDC_SYSTEMRESTORE) == BST_CHECKED;
 	}
 }

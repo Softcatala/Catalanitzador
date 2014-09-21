@@ -40,7 +40,7 @@ class Actions
 		Actions(DownloadManager* downloadManager);
 		Actions(DownloadManager* downloadManager, IOSVersion* pOSVersion);
 		~Actions();
-		vector <Action *> GetActions() {return m_actions; }
+		vector <Action *> * GetActions() {return &m_actions; }
 		Action* GetActionFromID(ActionID actionID);
 
 		void CheckPrerequirements();

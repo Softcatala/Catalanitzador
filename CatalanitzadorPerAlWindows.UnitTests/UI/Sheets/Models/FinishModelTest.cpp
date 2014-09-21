@@ -64,9 +64,9 @@ public:
 
 TEST(FinishModelTest, _calculateIndicatorsForProgressBar_50)
 {
-	FinishModelTest finishModel;
-	vector <Action *> actions;	
-	finishModel.SetActions(&actions);
+	FinishModelTest finishModel;	
+	vector <Action *> actions;
+	finishModel.SetActionsForUT(&actions);
 		
 	ActionTestSetStatus actionTestSuccessful;
 	ActionTestSetStatus actionTestFinishedWithError;
@@ -84,7 +84,7 @@ TEST(FinishModelTest, _calculateIndicatorsForProgressBar_0)
 {
 	FinishModelTest finishModel;
 	vector <Action *> actions;	
-	finishModel.SetActions(&actions);
+	finishModel.SetActionsForUT(&actions);
 	
 	ActionTestSetStatus actionTestFinishedWithError;	
 	actionTestFinishedWithError.SetStatus(FinishedWithError);	
@@ -97,8 +97,8 @@ TEST(FinishModelTest, _calculateIndicatorsForProgressBar_0)
 TEST(FinishModelTest, _calculateIndicatorsForProgressBar_100)
 {
 	FinishModelTest finishModel;
-	vector <Action *> actions;	
-	finishModel.SetActions(&actions);
+	vector <Action *> actions;
+	finishModel.SetActionsForUT(&actions);
 
 	ActionTestSetStatus actionTestSuccessful;
 	actionTestSuccessful.SetStatus(Successful);	
@@ -174,7 +174,7 @@ TEST(FinishModelTest, IsRebootNeed_No)
 {
 	FinishModelTest finishModel;
 	vector <Action *> actions;	
-	finishModel.SetActions(&actions);
+	finishModel.SetActionsForUT(&actions);
 
 	ActionTest actionTest;
 	actions.push_back((Action *)&actionTest);
@@ -186,7 +186,7 @@ TEST(FinishModelTest, IsRebootNeed_Yes)
 {
 	FinishModelTest finishModel;
 	vector <Action *> actions;	
-	finishModel.SetActions(&actions);
+	finishModel.SetActionsForUT(&actions);
 
 	ActionTest actionTest;
 	ActionTestRebootNeed actionTestRebootNeed;

@@ -32,6 +32,7 @@ class CommandLine
 			CommandLine(Actions* pActions);
 			void Process(wstring commandLine);
 			bool GetRunningCheck() const {return m_bRunningCheck;}
+			bool GetSilent() const {return m_bSilent;}
 			
 	private:
 
@@ -40,6 +41,7 @@ class CommandLine
 			bool _readCommandLineParameter(wchar_t** pcommandline, wstring& parameter);
 			
 			bool m_bRunningCheck;
+			bool m_bSilent;
 			int NORUNNING_PARAMETER_LEN;
 			int VERSION_PARAMETER_LEN;
 			int USEAEROLOOK_PARAMETER_LEN;
@@ -47,6 +49,5 @@ class CommandLine
 			int NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN;
 			int CONFIGURATIONDOWNLOADURL_PARAMETER_LEN;
 			int HELP_PARAMETER_LEN;
-	
-
+			int SILENT_PARAMETER_LEN;
 };

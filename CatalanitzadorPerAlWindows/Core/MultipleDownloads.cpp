@@ -33,10 +33,10 @@ void MultipleDownloads::AddDownload(ConfigurationFileActionDownload configuratio
 	m_downloads.push_back(fileDownload);
 }
 
-void MultipleDownloads::_downloadStatus(int total, int current, void *data)
+bool MultipleDownloads::_downloadStatus(int total, int current, void *data)
 {
 	MultipleDownloads* pThis = (MultipleDownloads *) data;	
-	pThis->m_temporaryProgress(pThis->m_totalBytesToDownload, pThis->m_previousDownloadedBytes + current, 
+	return pThis->m_temporaryProgress(pThis->m_totalBytesToDownload, pThis->m_previousDownloadedBytes + current, 
 		pThis->m_temporaryData);
 }
 

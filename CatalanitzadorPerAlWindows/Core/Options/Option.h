@@ -65,6 +65,9 @@ class Option : public Serializable
 			*stream << text;			
 		}
 
+		OptionID GetOptionId() {return m_optionID;}
+		wstring GetValue() {return m_value;}
+
 	private:
 
 		OptionID m_optionID;

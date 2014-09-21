@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,30 +24,26 @@
 #include <vector>
 
 #include "Serializer.h"
-#include "UploadStatisticsThread.h"
-#include "HttpFormInet.h"
+#include "ApplicationExecutor.h"
 
 using namespace std;
 
 class FinishModel
 {
-public:
+public:			
 		FinishModel();
-		~FinishModel();
+		FinishModel(ApplicationExecutor* applicationExecutor);
 
-		void SetActions(vector <Action *> * value) {m_actions =  value; }
-		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
-		void SetSendStats(bool *pbSendStats) { m_pbSendStats = pbSendStats;}
-		void SetShowSecDlg(bool *pbShowSecDlg) { m_pbShowSecDlg = pbShowSecDlg;}
-		void SetSystemRestore(int *pSystemRestore) { m_pSystemRestore = pSystemRestore;}
-		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}
+		void SetActionsForUT(vector <Action *> * value) {m_actionsForUT =  value; }
+		vector <Action *> * GetActions();
+
+		void SerializeOptionsSendStatistics();
+		void WaitForStatisticsToCompleteOrTimeOut() { m_applicationExecutor->WaitForStatisticsToCompleteOrTimeOut(); }
 
 		double GetCompletionPercentage();
 		bool HasErrors();
 		bool IsRebootNeed();
 		void Reboot();
-		void SerializeOptionsSendStatistics();
-		void WaitForStatisticsToCompleteOrTimeOut();
 		void OpenTwitter();
 		void OpenFacebook();
 		void OpenGooglePlus();
@@ -62,22 +58,13 @@ protected:
 
 private:
 
-		void _sendStatistics();
+		void _commonConstructor();
 		void _calculateIndicatorsForProgressBar();
-		void _saveToDisk();
-		void _serializeOptions();
+		void _setSocialOptions();
 		
-		UploadStatisticsThread * m_uploadStatistics;
-		vector <Action *> * m_actions;
-		Serializer* m_serializer;
-		HttpFormInet m_httpFormInet;
-
-		bool* m_pbSendStats;
-		wstring m_xmlFile;
+		ApplicationExecutor* m_applicationExecutor;
+		vector <Action *> * m_actionsForUT;
+		
 		float m_completionPercentage;
 		bool m_errors;
-		int* m_pSystemRestore;
-		bool* m_pbDialectalVariant;
-		bool* m_pbShowSecDlg;
-		bool m_sentStats;
 };

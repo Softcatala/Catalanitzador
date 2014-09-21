@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,14 +20,14 @@
 #include "stdafx.h"
 #include "InstallPropertyPageUI.h"
 #include "PropertySheetUI.h"
-#include "OSVersion.h"
 #include "DownloadErrorDlgUI.h"
-#include "WindowsXPDialogCanceler.h"
-#include "Inspectors.h"
 #include "ActiveX.h"
 #include <exdisp.h>
 
 #define TIMER_ID 1714
+
+const float BYTES_TO_MEGABYTES = 1024*1024;
+
 
 void InstallPropertyPageUI::_openURLInIE()
 {
@@ -46,94 +46,52 @@ void InstallPropertyPageUI::_openURLInIE()
 
 void InstallPropertyPageUI::_onInitDialog()
 {
-	hTotalProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TOTAL);
-	hTaskProgressBar = GetDlgItem (getHandle(), IDC_INSTALL_PROGRESS_TASK);
-	hDescription = GetDlgItem (getHandle(), IDC_INSTALL_DESCRIPTION);
-	ShowWindowOnce = FALSE;
+	m_hTotalProgressBar = GetDlgItem(getHandle(), IDC_INSTALL_PROGRESS_TOTAL);
+	m_hTaskProgressBar = GetDlgItem(getHandle(), IDC_INSTALL_PROGRESS_TASK);
+	m_hDescription = GetDlgItem(getHandle(), IDC_INSTALL_DESCRIPTION);
+	m_showWindowOnce = false;
 	_openURLInIE();
 }
 
 void InstallPropertyPageUI::_onShowWindow()
 {
-	if (ShowWindowOnce == FALSE)
+	if (m_showWindowOnce == false)
 	{
 		SetTimer(getHandle(), TIMER_ID, 500, NULL);
-		ShowWindowOnce = TRUE;
+		m_showWindowOnce = true;
 	}
 }
 
-const float BYTES_TO_MEGABYTES = 1024*1024;
-
-struct DownloadData
+bool InstallPropertyPageUI::_downloadStatus(int total, int current, void *data)
 {
-	InstallPropertyPageUI* pThis;
-	Action* action;
-};
-
-void InstallPropertyPageUI::_downloadStatus(int total, int current, void *data)
-{
-	DownloadData* downloadData = (DownloadData *) data;	
+	NotifyActionData* notifyActionData = (NotifyActionData *) data;
+	InstallPropertyPageUI* pThis = (InstallPropertyPageUI *) notifyActionData->pThis;
 	wchar_t szString[MAX_LOADSTRING];
 	wchar_t szText[MAX_LOADSTRING];
 
-	SendMessage(downloadData->pThis->hTaskProgressBar, PBM_SETRANGE32, 0, total);
-	SendMessage(downloadData->pThis->hTaskProgressBar, PBM_SETPOS, current, 0);
+	pThis->_setTaskMarqueeMode(false);
+
+	SendMessage(pThis->m_hTaskProgressBar, PBM_SETRANGE32, 0, total);
+	SendMessage(pThis->m_hTaskProgressBar, PBM_SETPOS, current, 0);
 
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_DOWNLOAD, szString, MAX_LOADSTRING);
-	swprintf_s(szText, szString, downloadData->action->GetName(), ((float)current) / BYTES_TO_MEGABYTES, ((float)total) / BYTES_TO_MEGABYTES);
-	SendMessage(downloadData->pThis->hDescription, WM_SETTEXT, 0, (LPARAM) szText);
+	swprintf_s(szText, szString, notifyActionData->action->GetName(), ((float)current) / BYTES_TO_MEGABYTES, ((float)total) / BYTES_TO_MEGABYTES);
+	SendMessage(pThis->m_hDescription, WM_SETTEXT, 0, (LPARAM) szText);
+	Window::ProcessMessages();
+	return true;
 }
 
-void InstallPropertyPageUI::_execute(Action* action)
-{
+void InstallPropertyPageUI::_notifyExecutionStarts(NotifyActionData* notifyActionData)
+{	
 	wchar_t szString [MAX_LOADSTRING];
 	wchar_t szText [MAX_LOADSTRING];
+	InstallPropertyPageUI* pThis = (InstallPropertyPageUI*) notifyActionData->pThis;
 
-	_setTaskMarqueeMode(true);
-
+	pThis->_setTaskMarqueeMode(true);
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_EXECUTING, szString, MAX_LOADSTRING);
-	swprintf_s (szText, szString, action->GetName());
-	SendMessage (hDescription, WM_SETTEXT, 0, (LPARAM) szText);	
-
+	swprintf_s(szText, szString, notifyActionData->action->GetName());
+	SendMessage(pThis->m_hDescription, WM_SETTEXT, 0, (LPARAM) szText);
 	Window::ProcessMessages();
-	action->Execute();
-}
-
-bool InstallPropertyPageUI::_download(Action* action)
-{
-	bool bDownload;
-	bool bError = false;
-	DownloadData downloadData;
-
-	if (action->IsDownloadNeed() == false)
-		return true;
-
-	_setTaskMarqueeMode(false);
-
-	Window::ProcessMessages();
-
-	bDownload = true;
-	while (bDownload)
-	{
-		downloadData.pThis = this;
-		downloadData.action = action;
-		if (action->Download((ProgressStatus)_downloadStatus, &downloadData) == false)
-		{
-			DownloadErrorDlgUI dlgError(action->GetName());
-			if (dlgError.Run(getHandle()) != IDOK)
-			{
-				bDownload = false;
-				bError = true;
-			}
-		}
-		else
-		{
-			bDownload = false;
-		}
-	}
-
-	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
-	return bError == false;
 }
 
 void InstallPropertyPageUI::_completed()
@@ -143,186 +101,90 @@ void InstallPropertyPageUI::_completed()
 
 	_setTaskMarqueeMode(false);
 
-	SendMessage(hTaskProgressBar, PBM_SETRANGE32, 0, nCompleted);
-	SendMessage(hTaskProgressBar, PBM_SETPOS, nCompleted, 0);
+	SendMessage(m_hTaskProgressBar, PBM_SETRANGE32, 0, nCompleted);
+	SendMessage(m_hTaskProgressBar, PBM_SETPOS, nCompleted, 0);
 
-	SendMessage(hTotalProgressBar, PBM_SETRANGE32, 0, nCompleted);
-	SendMessage(hTotalProgressBar, PBM_SETPOS, nCompleted, 0);
+	SendMessage(m_hTotalProgressBar, PBM_SETRANGE32, 0, nCompleted);
+	SendMessage(m_hTotalProgressBar, PBM_SETPOS, nCompleted, 0);
 
 	LoadString(GetModuleHandle(NULL), IDS_INSTALL_COMPLETED, szString, MAX_LOADSTRING);
-	SendMessage(hDescription, WM_SETTEXT, 0, (LPARAM) szString);
+	SendMessage(m_hDescription, WM_SETTEXT, 0, (LPARAM) szString);
 	
 	// Enable Wizard next button
 	SendMessage(getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, PSWIZB_NEXT);
 }
 
-void InstallPropertyPageUI::_updateSelectedActionsCounts()
-{
-	Action* action;
-
-	m_selActions = m_downloads = 0;
-
-	for (unsigned int i = 0; i < m_actions->size(); i++)
-	{
-		action = m_actions->at(i);
-		if (action->GetStatus() == Selected)
-		{
-			m_selActions++;
-			if (action->IsDownloadNeed())
-			{
-				m_downloads++;
-			}
-		}
-	}
-}
-
+// When Marquee mode is on the progress bar shows an animation for process that we cannot estimate duration
 void InstallPropertyPageUI::_setTaskMarqueeMode(bool enable)
 {
-	LONG_PTR style = GetWindowLongPtr(hTaskProgressBar, GWL_STYLE);
+	if (m_marqueeMode.IsUndefined() == false && m_marqueeMode == enable)
+		return;
+
+	LONG_PTR style = GetWindowLongPtr(m_hTaskProgressBar, GWL_STYLE);
 
 	if (enable)
 	{
-		SetWindowLongPtr(hTaskProgressBar, GWL_STYLE, style | PBS_MARQUEE);
-		SendMessage(hTaskProgressBar, PBM_SETMARQUEE, TRUE, 0);
+		SetWindowLongPtr(m_hTaskProgressBar, GWL_STYLE, style | PBS_MARQUEE);
+		SendMessage(m_hTaskProgressBar, PBM_SETMARQUEE, TRUE, 0);
 	}
 	else
 	{
-		SendMessage(hTaskProgressBar, PBM_SETMARQUEE, FALSE, 0);
-		SetWindowLongPtr(hTaskProgressBar, GWL_STYLE, style &~ PBS_MARQUEE);
+		SendMessage(m_hTaskProgressBar, PBM_SETMARQUEE, FALSE, 0);
+		SetWindowLongPtr(m_hTaskProgressBar, GWL_STYLE, style &~ PBS_MARQUEE);
 	}
+
+	m_marqueeMode = enable;
+	Window::ProcessMessages();
 }
 
-#define SLEEP_TIME 50 // miliseconds
-#define TIME_TO_READ_COUNTER 10 * 1000 / SLEEP_TIME // 10 seconds
-#define MAX_WAIT_TIME 45 * 60 // 45 minutes
-
-void InstallPropertyPageUI::_waitExecutionComplete(Action* action)
-{
-	LARGE_INTEGER li;
-	INT64 start;
-	int cnt = 0;
-	double frequency = 0.0;
-
-	start = GetTickCount();
-	
-	if (QueryPerformanceFrequency(&li))
-	{
-		 frequency = double(li.QuadPart);
-		 QueryPerformanceCounter(&li);
-		 start = li.QuadPart;
-	}
-	else
-	{
-		g_log.Log(L"InstallPropertyPageUI::_waitExecutionComplete. QueryPerformanceFrequency failed");
-	}
-
-	while (true)
-	{
-		ActionStatus status = action->GetStatus();
-
-		if (status == Successful || status == FinishedWithError)
-			break;
-
-		Window::ProcessMessages();
-		Sleep(SLEEP_TIME);
-		Window::ProcessMessages();
-		cnt++;
-
-		if (frequency > 0 && cnt > TIME_TO_READ_COUNTER)
-		{
-			double diff;
-			
-			QueryPerformanceCounter(&li);
-			diff = double(li.QuadPart - start) / frequency;
-
-			if (diff > MAX_WAIT_TIME)
-			{
-				g_log.Log(L"InstallPropertyPageUI::_waitExecutionComplete. Timeout");
-				break;
-			}
-			cnt = 0;
-		}
-	}
-}
-
-void InstallPropertyPageUI::_systemRestore(SystemRestoreThread& systemRestore)
+void InstallPropertyPageUI::_systemRestore()
 {
 	wchar_t szText[MAX_LOADSTRING];
 		
 	_setTaskMarqueeMode(true);
-
 	LoadString(GetModuleHandle(NULL), IDS_CREATINGSYSTEMRESTORE, szText, MAX_LOADSTRING);
-	SendMessage(hDescription, WM_SETTEXT, 0, (LPARAM) szText);
+	SendMessage(m_hDescription, WM_SETTEXT, 0, (LPARAM) szText);	
+	Window::ProcessMessages();
+}
 
-	systemRestore.Start();
-	systemRestore.Wait();
-	SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+void InstallPropertyPageUI::_notifyExecutionCompleted(NotifyActionData* notifyActionData)
+{
+	InstallPropertyPageUI* pThis = (InstallPropertyPageUI*) notifyActionData->pThis;
+	SendMessage(pThis->m_hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+	Window::ProcessMessages();
+}
+
+void InstallPropertyPageUI::_setTotalProgressBar()
+{
+	int totalSteps = m_model->GetTotalSteps();
+
+	SendMessage(m_hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, totalSteps));
+	SendMessage(m_hTotalProgressBar, PBM_SETSTEP, 10, 0L);
+	Window::ProcessMessages();
+}
+
+bool InstallPropertyPageUI::_notifyDownloadError(NotifyActionData* notifyActionData)
+{
+	InstallPropertyPageUI* pThis = (InstallPropertyPageUI*) notifyActionData->pThis;
+	DownloadErrorDlgUI dlgError(notifyActionData->action->GetName());
+	return dlgError.Run(pThis->getHandle()) != IDOK;
+}
+
+void InstallPropertyPageUI::_notifyDownloadCompleted(NotifyActionData* notifyActionData)
+{
+	InstallPropertyPageUI* pThis = (InstallPropertyPageUI*) notifyActionData->pThis;
+	SendMessage(pThis->m_hTotalProgressBar, PBM_DELTAPOS, 1, 0);
+	Window::ProcessMessages();
 }
 
 void InstallPropertyPageUI::_onTimer()
 {
-	SystemRestoreThread systemRestore;
-	Action* action;
-	WindowsXPDialogCanceler dialogCanceler;
-	int cnt;
-
 	KillTimer(getHandle(), TIMER_ID);
-	
-	dialogCanceler.Start();
 
-	_updateSelectedActionsCounts();
+	m_model->PrepareStart();
+	_setTotalProgressBar();
 
-	cnt = m_downloads + m_selActions;
-
-	if (m_selActions > 0 && *m_pSystemRestore == TRUE)
-		cnt++;	
-
-	SendMessage(hTotalProgressBar, PBM_SETRANGE, 0, MAKELPARAM (0, cnt));
-	SendMessage(hTotalProgressBar, PBM_SETSTEP, 10, 0L);
-	
-	if (m_selActions > 0 && *m_pSystemRestore == TRUE)
-	{
-		_systemRestore(systemRestore);
-	}
-
-	m_serializer->StartAction();
-	for (unsigned int i = 0; i < m_actions->size(); i++)
-	{
-		action = m_actions->at(i);
-
-		if (action->GetStatus() != Selected)
-		{
-			m_serializer->Serialize(action);
-			continue;
-		}
-
-		if (_download(action) == true)
-		{
-			_execute(action);
-			_waitExecutionComplete(action);
-		}
-		else
-		{
-			action->SetStatus(NotSelected);
-		}
-
-		SendMessage(hTotalProgressBar, PBM_DELTAPOS, 1, 0); // 'Execute' completed
-		m_serializer->Serialize(action);
-		Window::ProcessMessages();
-	}
-
-	dialogCanceler.Stop();
-	m_serializer->EndAction();
-
-	Inspectors inspectors;
-	inspectors.Execute();
-	inspectors.Serialize(m_serializer->GetStream());
+	_systemRestore();
+	m_model->Start(_notifyExecutionStarts, _downloadStatus, _notifyDownloadError, _notifyDownloadCompleted, _notifyExecutionCompleted, this);
 	_completed();
-
-	if (m_selActions > 0 && *m_pSystemRestore == TRUE)
-	{
-		systemRestore.End();
-	}
 }
-
-

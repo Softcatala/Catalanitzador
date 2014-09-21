@@ -470,6 +470,10 @@
 					RelativePath=".\Core\Options\OptionsTest.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Core\Options\OptionTest.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

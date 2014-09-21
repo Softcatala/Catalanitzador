@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2014 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,25 +17,20 @@
  * 02111-1307, USA.
  */
  
+ 
 #pragma once
 
-#include "DlgUI.h"
+#include "stdafx.h"
+#include "Action.h"
 
-class ExtraSecTermsDlgUI : public DlgUI
+class SilentInstallation
 {
-public:
-		ExtraSecTermsDlgUI();
-		~ExtraSecTermsDlgUI();
-		
-		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_EXTRASECTERMS);}
-		virtual	void _onInitDialog();
-		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
 
-		void SetSystemRestore(bool systemRestore) { m_systemRestore = systemRestore;}
-		bool GetSystemRestore() { return m_systemRestore; }
+public:
+		
+		void Run();
 
 private:
 
-		HFONT		m_hFont;
-		bool		m_systemRestore;
+		void _unSelectRunningActions(vector <Action *>* actions);		
 };

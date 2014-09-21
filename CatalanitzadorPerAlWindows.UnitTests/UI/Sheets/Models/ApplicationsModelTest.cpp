@@ -30,12 +30,13 @@ public:
 		ActionGroupWindowsTest()
 		{
 			m_downloadManager =  &m_testDownloadManager;
+			SetStatus(Selected);
 		}
 
 		virtual ActionGroup GetGroup() const {return ActionGroupWindows;}
 		virtual ActionID GetID() const {return WindowsLPIActionID;}
 
-private:
+protected:
 		DownloadManager m_testDownloadManager;
 		
 };
@@ -44,7 +45,7 @@ class ApplicationsModelTest : public ApplicationsModel
 {
 public:
 
-	ApplicationsModelTest() 
+	ApplicationsModelTest() : ApplicationsModel(NULL)
 	{
 		ConfigurationRemote remote;
 		ConfigurationInstance::Get().SetRemote(remote);
@@ -67,7 +68,12 @@ public:
 class ActionNotNeededTest : public ActionGroupWindowsTest
 {
 public:
-		virtual bool IsNeed() {return false;}
+		ActionNotNeededTest()
+		{
+			m_downloadManager =  &m_testDownloadManager;
+			SetStatus(NotSelected);
+			SetStatus(AlreadyApplied);
+		}		
 };
 
 class ActionNoDownloadTest : public ActionGroupWindowsTest
@@ -95,14 +101,14 @@ public:
 	ApplicationsModelTest applicationModel; \
 	vector <Action *> actions; \
 	vector <ApplicationItem> applicationItems; \
-	applicationModel.SetActions(&actions);
+	applicationModel.SetActionsForUT(&actions);
 
 
 TEST(ApplicationsModelTest, BuildListOfItems_SingleGroup)
 {
 	CreateApplicationModelObject;	
 	ActionGroupWindowsTest actionGroupWindows1;
-	ActionGroupWindowsTest actionGroupWindows2;	
+	ActionGroupWindowsTest actionGroupWindows2;
 
 	actions.push_back((Action *)&actionGroupWindows1);
 	actions.push_back((Action *)&actionGroupWindows2);	
@@ -150,6 +156,10 @@ TEST(ApplicationsModelTest, BuildListOfItems_Selected)
 	EXPECT_TRUE(applicationItems.at(2).GetIsDisabled());
 }
 
+/*
+
+TODO: Move to ApplicationExecutorTest
+
 TEST(ApplicationsModelTest, BuildListOfItems_Configuration)
 {
 	CreateApplicationModelObject;
@@ -170,7 +180,7 @@ TEST(ApplicationsModelTest, BuildListOfItems_Configuration)
 	applicationItems = applicationModel.GetItems();
 	
 	EXPECT_THAT(actionNotNeededConfiguration.GetStatus(), NotSelected);	
-}
+}*/
 
 TEST(ApplicationsModelTest, DoLicensesNeedToBeAccepted_NotAccepted)
 {

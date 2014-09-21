@@ -52,7 +52,7 @@ class MultipleDownloads
 
 	private:
 
-		static void _downloadStatus(int total, int current, void *data);
+		static bool _downloadStatus(int total, int current, void *data);
 		int _getFileSizes();
 
 		DownloadManager* m_downloadManager;

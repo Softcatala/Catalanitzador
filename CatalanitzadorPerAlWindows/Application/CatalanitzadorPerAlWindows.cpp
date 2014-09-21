@@ -38,9 +38,12 @@
 #include "HttpFormInet.h"
 #include "ApplicationsModel.h"
 #include "FinishModel.h"
+#include "InstallModel.h"
+#include "SilentInstallation.h"
+#include "ApplicationExecutor.h"
+#include "WelcomeModel.h"
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
-: m_actions(&m_downloadManager)
 {
 	m_hInstance = hInstance;
 	m_hEvent = NULL;
@@ -57,7 +60,9 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 void CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
 	Registry registry;
-	CommandLine commandLineProcessor(&m_actions);
+	DownloadManager downloadManager;
+	Actions actions(&downloadManager);
+	CommandLine commandLineProcessor(&actions);
 
 	_initLog();
 	commandLineProcessor.Process(commandLine);
@@ -75,9 +80,18 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 	m_serializer.Serialize(&guid);
 	guid.Store();
 	
-	if (_supportedOS() == true && _hasAdminPermissionsDialog() == true)
+	if (_supportedOS() == false || _hasAdminPermissionsDialog() == false)
+		return;
+
+	OleInitialize(0);
+
+	if (commandLineProcessor.GetSilent())
 	{
-		OleInitialize(0);
+		SilentInstallation silentInstallation;
+		silentInstallation.Run();
+	}
+	else
+	{		
 		AXRegister();
 		_createWizard();
 	}
@@ -164,66 +178,38 @@ bool CatalanitzadorPerAWindows::_isAlreadyRunning()
 void CatalanitzadorPerAWindows::_createWizard()
 {
 	ApplicationSheetUI sheet;
-	WelcomePropertyPageUI welcome;
-	ApplicationsModel applicationModel;
+	ApplicationExecutor applicationExecutor;
+	WelcomeModel welcomeModel(&applicationExecutor);
+	WelcomePropertyPageUI welcome(&welcomeModel);
+	ApplicationsModel applicationModel(&applicationExecutor);
 	ApplicationsPropertyPageUI applications(&applicationModel);
-	InstallPropertyPageUI install;
-	FinishModel finishModel;
+	ApplicationsModel applicationsModel(&applicationExecutor);
+	InstallModel installModel(&applicationExecutor);
+	InstallPropertyPageUI install(&installModel);
+	FinishModel finishModel(&applicationExecutor);
 	FinishPropertyPageUI finish(&finishModel);
-	SystemRestore sysRestore;
-	bool bSendStats = true;
-	int systemRestore = TRUE;
-	bool bDialectVariant = false;
-	bool bShowSecDlg = false;
-
-#if _DEBUG
-	bSendStats = false;
-	systemRestore = FALSE;
-#endif
-
-	if (sysRestore.Init() == false)
-		systemRestore = -1;
-
-	vector <Action *> acts = m_actions.GetActions();
 	
+	applicationExecutor.SetSerializer(&m_serializer);
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
-	welcome.SetSendStats(&bSendStats);
-	welcome.SetSystemRestore(&systemRestore);
-	welcome.SetActions(&m_actions);
-	welcome.SetShowSecDlg(&bShowSecDlg);
 	welcome.createPage(m_hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	sheet.addPage(&welcome);
-
-	applicationModel.SetActions(&acts);
+	
 	applicationModel.SetView((IApplicationsPropertyPageUI *)&applications);	
 	applications.createPage(m_hInstance, IDD_APPLICATIONS, IDD_APPLICATIONS_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_APPLICATIONS));
 	applications.setParent(&sheet);
 	applications.setPageButtons(NextBackButtons);
-	applications.SetActions(&acts);
-	applications.SetDialectVariant(&bDialectVariant);
 	sheet.addPage(&applications);
 
 	install.setParent(&sheet);
 	install.setPageButtons(CancelButtonOnly);
-	install.SetActions(&acts);
-	install.SetSerializer(&m_serializer);
-	install.SetSystemRestore(&systemRestore);
 	install.StartSlideShowUnpack();
 	install.createPage(m_hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
 	sheet.addPage(&install);
 
-	
 	finish.setParent(&sheet);
 	finish.setPageButtons(FinishButtonOnly);
-	finishModel.SetSystemRestore(&systemRestore);
-	finishModel.SetSendStats(&bSendStats);
-	finishModel.SetSerializer(&m_serializer);
-	finishModel.SetActions(&acts);
-	finishModel.SetDialectVariant(&bDialectVariant);
-	finishModel.SetShowSecDlg(&bShowSecDlg);
-	
-	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));	
+	finish.createPage(m_hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));
 	sheet.addPage(&finish);
 
 	sheet.runModal(m_hInstance, NULL, (LPWSTR)IDS_WIZARD_TITLE);

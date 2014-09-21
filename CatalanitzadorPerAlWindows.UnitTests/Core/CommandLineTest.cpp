@@ -70,7 +70,7 @@ TEST(CommandLineTest, _RunningCheckWithVersion)
 	const wchar_t* VERSION = L"0.1.3";
 	wstring version_found;
 	Actions acts(NULL);
-	vector <Action *>  actions = acts.GetActions();
+	vector <Action *>*  actions = acts.GetActions();
 
 	wstring parameters(L"/norunningcheck:");
 	CommandLine commandLine(&acts);
@@ -83,12 +83,12 @@ TEST(CommandLineTest, _RunningCheckWithVersion)
 	
 	EXPECT_FALSE(commandLine.GetRunningCheck());
 	
-	for (unsigned int i = 0; i < actions.size(); i++)
+	for (unsigned int i = 0; i < actions->size(); i++)
 	{
-		if (actions.at(i)->GetID() != CatalanitzadorUpdateActionID)
+		if (actions->at(i)->GetID() != CatalanitzadorUpdateActionID)
 			continue;
 
-		version_found = actions.at(i)->GetVersion();
+		version_found = actions->at(i)->GetVersion();
 		break;
 	}
 

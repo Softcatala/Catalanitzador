@@ -262,14 +262,6 @@
 		<Filter
 			Name="UI"
 			>
-			<File
-				RelativePath=".\UI\WindowsXPDialogCanceler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\UI\WindowsXPDialogCanceler.h"
-				>
-			</File>
 			<Filter
 				Name="Dialogs"
 				>
@@ -456,6 +448,14 @@
 			</File>
 			<File
 				RelativePath="..\CommonCode\RemoteURLs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\SilentInstallation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\SilentInstallation.h"
 				>
 			</File>
 			<File

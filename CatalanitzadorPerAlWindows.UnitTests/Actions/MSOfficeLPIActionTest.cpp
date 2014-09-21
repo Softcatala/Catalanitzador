@@ -23,7 +23,6 @@
 
 using ::testing::Return;
 using ::testing::_;
-using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::Eq;
 using ::testing::HasSubstr;

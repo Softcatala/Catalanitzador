@@ -21,8 +21,6 @@
 #include "ApplicationsModel.h"
 #include "ApplicationsPropertyPageUI.h"
 #include "Runner.h"
-#include "WindowsLiveAction.h"
-#include "ConfigurationInstance.h"
 
 // An index to ActionGroup
 static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_OFFICE, IDS_GROUPNAME_BROWSERS, IDS_GROUPNAME_INTERNET };
@@ -33,6 +31,14 @@ wstring ApplicationsModel::_getGroupName(ActionGroup actionGroup)
 	LoadString(GetModuleHandle(NULL), groupNames[actionGroup], szGroupName, MAX_LOADSTRING);
 
 	return wstring(szGroupName);
+}
+
+vector <Action *> * ApplicationsModel::GetActions()
+{
+	if (m_actionsForUT != NULL)
+		return m_actionsForUT;
+
+	return m_applicationExecutor->GetActions();
 }
 
 void ApplicationsModel::_processDependantItems()
@@ -59,25 +65,6 @@ wstring ApplicationsModel::_getActionDisplayName(Action *action)
 	return name;
 }
 
-ActionStatus ApplicationsModel::_getDefaultStatusForAction(ActionID actionID)
-{
-	vector <ConfigurationFileActionDownloads> configurationFileDownloads = ConfigurationInstance::Get().GetRemote().GetFileActionsDownloads();
-	ActionStatus defaultStatus = Selected;
-
-	for (unsigned int i = 0; i < configurationFileDownloads.size(); i++)
-	{
-		if (configurationFileDownloads.at(i).GetActionID() == actionID)
-		{
-			if (configurationFileDownloads.at(i).GetActionDefaultStatusHasValue())
-			{
-				defaultStatus = configurationFileDownloads.at(i).GetActionDefaultStatus();
-				break;
-			}
-		}
-	}
-
-	return defaultStatus;
-}
 
 void ApplicationsModel::BuildListOfItems()
 {
@@ -85,14 +72,12 @@ void ApplicationsModel::BuildListOfItems()
 	{
 		bool bFirstHit = false;
 
-		for (unsigned int i = 0; i < m_availableActions->size(); i++)
+		for (unsigned int i = 0; i < GetActions()->size(); i++)
 		{		
-			Action* action = m_availableActions->at(i);
+			Action* action = GetActions()->at(i);
 
 			if (action->IsVisible() == false || action->GetGroup() != (ActionGroup)g)
 				continue;
-
-			bool needed = action->IsNeed();
 
 			if (bFirstHit == false)
 			{				
@@ -101,12 +86,10 @@ void ApplicationsModel::BuildListOfItems()
 				bFirstHit = true;
 			}
 
-			if (needed)
-			{				
-				action->SetStatus(_getDefaultStatusForAction(action->GetID()));
-			}
+			bool disabled = action->GetStatus() == NotInstalled || 	action->GetStatus() == AlreadyApplied || 
+				action->GetStatus() == CannotBeApplied;
 
-			ApplicationItem applicationItem(_getActionDisplayName(action), action, false, needed == false);
+			ApplicationItem applicationItem(_getActionDisplayName(action), action, false, disabled);
 			applicationItem.SetImageIndex(_getImageIndex(action->GetStatus()));
 			m_items.push_back(applicationItem);
 		}
@@ -161,7 +144,7 @@ void ApplicationsModel::ProcessClickOnItem(ApplicationItem applicationItem)
 
 void ApplicationsModel::_processDependantItem(Action* action)
 {	
-	Action* dependant = action->AnotherActionDependsOnMe(m_availableActions);
+	Action* dependant = action->AnotherActionDependsOnMe(GetActions());
 
 	if (dependant == NULL)
 		return;
@@ -247,9 +230,9 @@ vector <ApplicationLegendItem> ApplicationsModel::GetLegendItems()
 
 bool ApplicationsModel::DoLicensesNeedToBeAccepted()
 {	
-	for (unsigned int i = 0; i < m_availableActions->size (); i++)
+	for (unsigned int i = 0; i < GetActions()->size (); i++)
 	{
-		Action* action = m_availableActions->at(i);
+		Action* action = GetActions()->at(i);
 
 		if (action->GetStatus() != Selected)
 			continue;
@@ -283,9 +266,9 @@ vector <wstring> ApplicationsModel::GetManualSteps()
 {	
 	vector <wstring> steps;
 
-	for (unsigned int i = 0; i < m_availableActions->size (); i++)
+	for (unsigned int i = 0; i < GetActions()->size (); i++)
 	{
-		Action* action = m_availableActions->at(i);
+		Action* action = GetActions()->at(i);
 		if (action->GetStatus() != Selected)
 			continue;
 

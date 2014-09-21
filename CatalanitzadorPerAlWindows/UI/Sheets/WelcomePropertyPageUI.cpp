@@ -27,9 +27,12 @@
 #include "ConfigurationInstance.h"
 #include "DownloadNewVersionDlgUI.h"
 
-WelcomePropertyPageUI::WelcomePropertyPageUI()
+
+WelcomePropertyPageUI::WelcomePropertyPageUI(WelcomeModel* welcomeModel)
 {
+	m_model = welcomeModel;
 	m_hFont = NULL;
+	m_showSecDlgOption = false;
 }
 
 WelcomePropertyPageUI::~WelcomePropertyPageUI()
@@ -73,7 +76,8 @@ void WelcomePropertyPageUI::_onInitDialog()
 		SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
 	}
 
-	CheckDlgButton(getHandle(), IDC_SENDRESULTS, *m_pbSendStats);
+	BOOL sendStats = m_model->GetDefaultSendStats() ? TRUE: FALSE;
+	CheckDlgButton(getHandle(), IDC_SENDRESULTS, sendStats);
 	_setTransparentBitmaps();
 	_initPropertySheet();
 }
@@ -97,22 +101,22 @@ void WelcomePropertyPageUI::_updateCatalanitzadorAction(Action* catalanitzadorAc
 	{
 		if (_doesUserWantToUpdate())
 		{
-			DownloadNewVersionDlgUI downloadNewVersionDlgUI(m_pActions->GetActionFromID(CatalanitzadorUpdateActionID));
+			DownloadNewVersionDlgUI downloadNewVersionDlgUI(GetActionsObject()->GetActionFromID(CatalanitzadorUpdateActionID));
 			if (downloadNewVersionDlgUI.Run(getHandle()) == IDCANCEL)
 			{
 				catalanitzadorAction->SetStatus(NotSelected);
 			}
-		}		
+		}
 		else
 		{
-			catalanitzadorAction->SetStatus(NotSelected);			
+			catalanitzadorAction->SetStatus(NotSelected);
 		}	
 	}	
 }
 
 bool WelcomePropertyPageUI::_onNext()
 {
-	Action* catalanitzadorAction = m_pActions->GetActionFromID(CatalanitzadorUpdateActionID);
+	Action* catalanitzadorAction = GetActionsObject()->GetActionFromID(CatalanitzadorUpdateActionID);
 
 	// Disable Next button after has been click to prevent user clicking twice
 	SendMessage(getParent()->getHandle(), PSM_SETWIZBUTTONS, 0, 0);
@@ -123,8 +127,10 @@ bool WelcomePropertyPageUI::_onNext()
 		_updateCatalanitzadorAction(catalanitzadorAction);
 	}
 	
-	m_pActions->CheckPrerequirements();
-	*m_pbSendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS)==BST_CHECKED;
+	m_model->SetShowSecDlgOption(m_showSecDlgOption);
+	bool sendStats = IsDlgButtonChecked(getHandle(),IDC_SENDRESULTS) == BST_CHECKED;
+	m_model->SetSendStats(sendStats);
+	m_model->CheckPrerequirements();
 	return true;
 }
 
@@ -143,9 +149,10 @@ NotificationResult WelcomePropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/
 			case IDC_SYSLINK_SECTERMS:
 			{
 				ExtraSecTermsDlgUI extraSecTermsDlgUI;
-				extraSecTermsDlgUI.SetSystemRestore(m_pSystemRestore);
+				extraSecTermsDlgUI.SetSystemRestore(m_model->GetDefaultSystemRestore());
 				extraSecTermsDlgUI.Run(getHandle());
-				*m_pbShowSecDlg = true;
+				m_model->SetSystemRestore(extraSecTermsDlgUI.GetSystemRestore());
+				m_showSecDlgOption = true;		
 				break;
 			}
 			default:

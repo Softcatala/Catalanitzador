@@ -33,9 +33,7 @@ class ApplicationsPropertyPageUI: public PropertyPageUI, IApplicationsPropertyPa
 public:		
 		ApplicationsPropertyPageUI(ApplicationsModel* model);
 		~ApplicationsPropertyPageUI();
-		void SetActions(vector <Action *> * value) { m_availableActions =  value;}
-		void SetDialectVariant(bool *dialectalVariant) { m_pbDialectalVariant = dialectalVariant;}	
-
+		
 		virtual void UpdateItem(ApplicationItem item);
 
 private:
@@ -48,20 +46,17 @@ private:
 		virtual	bool _onNext();
 		void _showNoInternetConnectionDialog();
 		void _setBoldControls();
-		void _setLegendControl();		
-		bool _licenseAccepted();		
+		void _setLegendControl();
+		bool _licenseAccepted();
 		void _enableOrDisableLicenseControls();
 		void _getActionDisplayName(Action *action, wstring& name);
-		bool _checkRunningApps();		
+		bool _checkRunningApps();
 		bool _anyActionNeedsInternetConnection();
 		static void _onClickItemEvent(int nItem, void* data);
 		
 		CheckedListView m_listview;
 		CheckedListView m_listviewLegend;
-		vector <Action *> * m_availableActions;
-		typedef pair <Action *, bool> ActionBool_Pair;
-		map <Action *, bool> m_disabledActions;		
+		map <Action *, bool> m_disabledActions;
 		HFONT m_hFont;
-		bool* m_pbDialectalVariant;
 		ApplicationsModel* m_model;
 };

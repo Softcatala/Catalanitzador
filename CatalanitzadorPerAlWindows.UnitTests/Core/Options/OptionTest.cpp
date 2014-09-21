@@ -26,31 +26,48 @@
 using ::testing::HasSubstr;
 using ::testing::StrCaseEq;
 
-TEST(OptionsTest, Option_SetNew)
+TEST(OptionTest, Option_ValueString)
 {
 	const wchar_t* VALUE = L"123";
+	ostringstream stream;
 
 	Option option(OptionSystemRestore, wstring(VALUE));
-	Options options;
-	options.Set(option);
+	option.Serialize(&stream);
 	
-	EXPECT_THAT(1, options.GetOptions().size());
+	EXPECT_THAT(stream.str(), HasSubstr("<option id='0' value='123'/>"));
 }
 
-TEST(OptionsTest, Option_SetAlreadyExisting)
+TEST(OptionTest, Option_ValueInt)
 {
-	const wchar_t* VALUE1 = L"123";
-	const wchar_t* VALUE2 = L"321";
+	const int VALUE = 12345;
+	ostringstream stream;
 
-	Options options;
-
-	Option option(OptionSystemRestore, wstring(VALUE1));	
-	options.Set(option);
-
-	Option option2(OptionSystemRestore, wstring(VALUE2));
-	options.Set(option2);
+	Option option(OptionSystemRestore, VALUE);
+	option.Serialize(&stream);
 	
-	EXPECT_THAT(1, options.GetOptions().size());
-	wstring value = options.GetOptions().at(0).GetValue();
-	EXPECT_THAT(VALUE2, StrCaseEq(value.c_str()));
+	EXPECT_THAT(stream.str(), HasSubstr("<option id='0' value='12345'/>"));
 }
+
+TEST(OptionTest, Option_ValueBool)
+{
+	const bool VALUE = true;
+	ostringstream stream;
+
+	Option option(OptionSystemRestore, VALUE);
+	option.Serialize(&stream);
+	
+	EXPECT_THAT(stream.str(), HasSubstr("<option id='0' value='1'/>"));
+}
+
+TEST(OptionTest, Option_Getters)
+{
+	const wchar_t* VALUE = L"123";
+	ostringstream stream;
+
+	Option option(OptionSystemRestore, wstring(VALUE));
+	option.Serialize(&stream);
+	
+	EXPECT_THAT(option.GetOptionId(), OptionSystemRestore);
+	EXPECT_THAT(option.GetValue(), StrCaseEq(VALUE));
+}
+

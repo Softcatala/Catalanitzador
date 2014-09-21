@@ -30,9 +30,10 @@ class Options
 	public:
 			
 		void Serialize(ostream* stream);
-		void Add(Option option);		
+		void Set(Option option);
+		vector <Option> GetOptions() { return m_options; }
 
 	private:
 		
-		vector <Option> m_options;		
+		vector <Option> m_options;
 };

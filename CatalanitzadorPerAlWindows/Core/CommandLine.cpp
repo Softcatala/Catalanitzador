@@ -31,6 +31,7 @@
 #define NOCONFIGURATIONDOWNLOAD_PARAMETER L"/NoConfigurationDownload"
 #define CONFIGURATIONDOWNLOADURL_PARAMETER L"/ConfigurationDownloadUrl"
 #define HELP_PARAMETER L"/Help"
+#define SILENT_PARAMETER L"/Silent"
 
 #define HELP_TEXT L"Sintaxis d'ús:\n\n\
 /version:X.Y.Z - Fa creure al Catalanitzador que és la versió indicada \n\
@@ -38,13 +39,15 @@
 /UseAeroLook - Usa l'aspecte Aero \n\
 /UseClassicLook - Usa l'aspecte clàssic \n\
 /NoConfigurationDownload - No baixis la configuració del servidor \n\
-/ConfigurationDownloadUrl:url - Usa aquesta URL per baixar la configuració \n"
+/ConfigurationDownloadUrl:url - Usa aquesta URL per baixar la configuració \n\
+/Silent - Instal·lació desatesa\n"
 
 CommandLine::CommandLine(Actions* pActions)
 {
 	m_pActions = pActions;
 
 	m_bRunningCheck = true;
+	m_bSilent = false;
 	NORUNNING_PARAMETER_LEN = wcslen(NORUNNING_PARAMETER);
 	VERSION_PARAMETER_LEN = wcslen(VERSION_PARAMETER);
 	USEAEROLOOK_PARAMETER_LEN = wcslen(USEAEROLOOK_PARAMETER);
@@ -52,6 +55,7 @@ CommandLine::CommandLine(Actions* pActions)
 	HELP_PARAMETER_LEN = wcslen(HELP_PARAMETER);
 	NOCONFIGURATIONDOWNLOAD_PARAMETER_LEN = wcslen(NOCONFIGURATIONDOWNLOAD_PARAMETER);
 	CONFIGURATIONDOWNLOADURL_PARAMETER_LEN = wcslen(CONFIGURATIONDOWNLOADURL_PARAMETER);
+	SILENT_PARAMETER_LEN = wcslen(SILENT_PARAMETER);
 }
 
 void CommandLine::_createCatalanitzadorUpdateAction(wstring version)
@@ -127,7 +131,11 @@ void CommandLine::Process(wstring commandLine)
 			{
 				ConfigurationInstance::Get().SetDownloadConfigurationUrl(url);
 			}
-		}
+		} else if (_wcsnicmp(pch, SILENT_PARAMETER, SILENT_PARAMETER_LEN) == 0)
+		{
+			m_bSilent = true;
+			pch += SILENT_PARAMETER_LEN;
+		} 
 		else
 			pch++;
 	}

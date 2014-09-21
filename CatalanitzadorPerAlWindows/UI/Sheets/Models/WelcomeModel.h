@@ -1,5 +1,5 @@
-﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+/* 
+ * Copyright (C) 2014 Jordi Mas i Hern�ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,23 +19,28 @@
  
 #pragma once
 
-#include "DlgUI.h"
+#include "ApplicationExecutor.h"
 
-class ExtraSecTermsDlgUI : public DlgUI
+using namespace std;
+
+class WelcomeModel
 {
 public:
-		ExtraSecTermsDlgUI();
-		~ExtraSecTermsDlgUI();
-		
-		virtual LPCTSTR GetResourceTemplate() {return MAKEINTRESOURCE(IDD_EXTRASECTERMS);}
-		virtual	void _onInitDialog();
-		virtual void _onCommand(WPARAM wParam, LPARAM lParam);
 
-		void SetSystemRestore(bool systemRestore) { m_systemRestore = systemRestore;}
-		bool GetSystemRestore() { return m_systemRestore; }
+		WelcomeModel(ApplicationExecutor* applicationExecutor) {m_applicationExecutor = applicationExecutor; }
+
+		void CheckPrerequirements() { m_applicationExecutor->CheckPrerequirements();}
+
+		void SetSendStats(bool sendStats) { m_applicationExecutor->SetSendStats(sendStats); }
+		bool GetDefaultSendStats();
+
+		void SetSystemRestore(bool systemRestore) { m_applicationExecutor->SetSystemRestore(systemRestore); }
+		bool GetDefaultSystemRestore();
+
+		void SetShowSecDlgOption(bool showSecDlg);
+		Actions* GetActionsObject() {return m_applicationExecutor->GetActionsObject(); }
 
 private:
 
-		HFONT		m_hFont;
-		bool		m_systemRestore;
+		ApplicationExecutor* m_applicationExecutor;
 };

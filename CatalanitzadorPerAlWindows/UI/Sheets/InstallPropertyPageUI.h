@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,44 +23,42 @@
 #include "Action.h"
 #include "Serializer.h"
 #include "SlideshowThread.h"
-#include "SystemRestoreThread.h"
+#include "InstallModel.h"
+#include "TriBool.h"
 
 #include <vector>
 using namespace std;
 
 class InstallPropertyPageUI: public PropertyPageUI
 {
-public:		
-		
-		void SetActions(vector <Action *> * value) { m_actions = value;}
-		void StartSlideShowUnpack() { m_slideshow.Start();}
-		void SetSystemRestore(int *pSystemRestore) { m_pSystemRestore = pSystemRestore;}
-		void SetSerializer(Serializer* serializer) { m_serializer = serializer; }
+public:	
+		InstallPropertyPageUI(InstallModel* installModel) { m_model = installModel;}
+				
+		void StartSlideShowUnpack() { m_slideshow.Start();}	
 		
 private:
 		virtual void _onInitDialog();
 		virtual	void _onShowWindow();
-		virtual	void _onTimer();
-		static void _downloadStatus(int total, int current, void *data);
+		virtual	void _onTimer();		
 
-		void _execute(Action* action);
-		bool _download(Action* action);
+		static bool _downloadStatus(int total, int current, void *data);
+		static void _notifyExecutionCompleted(NotifyActionData* notifyActionData);
+		static void _notifyExecutionStarts(NotifyActionData* notifyActionData);
+		static void _notifyDownloadCompleted(NotifyActionData* notifyActionData);
+		static bool _notifyDownloadError(NotifyActionData* notifyActionData);
+		
 		void _completed();
-		void _updateSelectedActionsCounts();
-		void _windowsXPAsksCDWarning();
 		void _setTaskMarqueeMode(bool enable);
-		void _waitExecutionComplete(Action* action);
 		void _openURLInIE();
-		void _systemRestore(SystemRestoreThread& systemRestore);
+		void _systemRestore();
+		void _setTotalProgressBar();
 
 		vector <Action *> * m_actions;
-		HWND hTotalProgressBar;
-		HWND hTaskProgressBar;
-		HWND hDescription;
-		BOOL ShowWindowOnce;
-		int m_selActions;
-		int m_downloads;
-		int* m_pSystemRestore;
-		Serializer* m_serializer;
+		HWND m_hTotalProgressBar;
+		HWND m_hTaskProgressBar;
+		HWND m_hDescription;
+		bool m_showWindowOnce;
 		SlideshowThread m_slideshow;
+		InstallModel* m_model;
+		TriBool m_marqueeMode;
 };

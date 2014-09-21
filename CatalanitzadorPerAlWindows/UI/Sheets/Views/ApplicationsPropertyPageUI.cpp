@@ -108,6 +108,7 @@ void ApplicationsPropertyPageUI::_onInitDialog()
 	m_listview.InsertSingleColumnAllWidth();
 	m_listview.SetClickItem(_onClickItemEvent, this);
 	
+	m_model->SelectDefaultActions();
 	m_model->BuildListOfItems();
 
 	// TODO: Move to a PopulateMethod
@@ -229,21 +230,14 @@ void ApplicationsPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lPa
 	if (wParam == IDC_SHOWLICENSES_BUTTON)
 	{
 		ShowLicensesDlgUI licencesDlg;
-		licencesDlg.SetActions(m_availableActions);
+		licencesDlg.SetActions(m_model->GetActions());
 		licencesDlg.Run(hWnd);
 	} else if (wParam == IDC_DIALECTVARIANT_CHECKBOX)
 	{
 		bool variant;
 
 		variant = IsDlgButtonChecked(getHandle(),IDC_DIALECTVARIANT_CHECKBOX)==BST_CHECKED;
-		*m_pbDialectalVariant = variant;
-
-		//TODO: Move to the model
-		for (unsigned int i = 0; i < m_availableActions->size (); i++)
-		{
-			Action* action = m_availableActions->at(i);
-			action->SetUseDialectalVariant(variant);
-		}
+		m_model->SetDialectVariant(variant);
 	}
 }
 
@@ -290,9 +284,9 @@ void ApplicationsPropertyPageUI::_showNoInternetConnectionDialog()
 //TODO: Move to the model
 bool ApplicationsPropertyPageUI::_checkRunningApps()
 {
-	for (unsigned int i = 0; i < m_availableActions->size(); i++)
+	for (unsigned int i = 0; i < m_model->GetActions()->size(); i++)
 	{
-		Action* action = m_availableActions->at(i);
+		Action* action = m_model->GetActions()->at(i);
 
 		if (action->GetStatus() != Selected)
 			continue;

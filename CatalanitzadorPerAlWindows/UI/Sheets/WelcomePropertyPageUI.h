@@ -23,6 +23,7 @@
 #include "ConfigurationDownloadThread.h"
 #include "Action.h"
 #include "Actions.h"
+#include "WelcomeModel.h"
 
 #include <vector>
 
@@ -31,14 +32,11 @@ using namespace std;
 class WelcomePropertyPageUI: public PropertyPageUI
 {
 public:
-		WelcomePropertyPageUI();
+		WelcomePropertyPageUI(WelcomeModel* welcomeModel);
 		~WelcomePropertyPageUI();
-
-		void SetSendStats(bool *pbSendStats) { m_pbSendStats = pbSendStats;}
-		void SetShowSecDlg(bool *pbShowSecDlg) { m_pbShowSecDlg = pbShowSecDlg;}
-		void SetSystemRestore(int *pSystemRestore) { m_pSystemRestore = pSystemRestore;}
-		void SetActions(Actions* pActions) { m_pActions = pActions;}
-		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);		
+		Actions* GetActionsObject() { return m_model->GetActionsObject();}
+		
+		virtual NotificationResult _onNotify(LPNMHDR /*hdr*/, int /*iCtrlID*/);
 
 private:
 		virtual void _onInitDialog();
@@ -48,10 +46,8 @@ private:
 		void _updateCatalanitzadorAction(Action* action);
 		bool _doesUserWantToUpdate();
 
-		HFONT		m_hFont;
-		bool*		m_pbSendStats;
-		bool*		m_pbShowSecDlg;
-		int*		m_pSystemRestore;
-		Actions*	m_pActions;
+		HFONT m_hFont;
 		ConfigurationDownloadThread m_configurationDownload;
+		WelcomeModel* m_model;
+		bool m_showSecDlgOption;
 };

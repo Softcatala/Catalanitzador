@@ -33,7 +33,17 @@ void Options::Serialize(ostream* stream)
 	*stream << "\t</options>\n";
 }
 
-void Options::Add(Option option)
+void Options::Set(Option option)
 {
+	for (unsigned int i= 0; i < m_options.size(); i++)
+	{		
+		if (m_options[i].GetOptionId() == option.GetOptionId())
+		{
+			Option newOption(option.GetOptionId(), option.GetValue());
+			m_options[i] = option;
+			return;
+		}
+	}
+
 	m_options.push_back(option);
 }

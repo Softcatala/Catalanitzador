@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,36 +25,37 @@
 #include "Authorization.h"
 #include "FinishModel.h"
 #include "Url.h"
-#include "Option.h"
-#include "OptionID.h"
-#include "Options.h"
 
 
 FinishModel::FinishModel()
 {
+	m_applicationExecutor = NULL;
+	_commonConstructor();
+}
+
+FinishModel::FinishModel(ApplicationExecutor* applicationExecutor)
+{
+	_commonConstructor();
+	m_applicationExecutor = applicationExecutor;
+}
+
+
+void FinishModel::_commonConstructor()
+{
 	m_errors = false;
-	m_uploadStatistics = NULL;
 	m_completionPercentage = -1;
-	m_sentStats = false;
 	m_openTwitter = false;
 	m_openFacebook = false;
 	m_openGooglePlus = false;
+	m_actionsForUT = NULL;
 }
 
-FinishModel::~FinishModel()
+vector <Action *> * FinishModel::GetActions()
 {
-	if (m_uploadStatistics != NULL)
-	{
-		delete m_uploadStatistics;
-		m_uploadStatistics = NULL;
-	}
+	if (m_actionsForUT != NULL)
+		return m_actionsForUT;
 
-#if !DEVELOPMENT_VERSION
-	if (m_xmlFile.size() > 0)
-	{
-		DeleteFile(m_xmlFile.c_str());
-	}
-#endif
+	return m_applicationExecutor->GetActions();
 }
 
 void FinishModel::_calculateIndicatorsForProgressBar()
@@ -63,9 +64,9 @@ void FinishModel::_calculateIndicatorsForProgressBar()
 	int done, doable;
 	
 	doable = done = 0;
-	for (unsigned int i = 0; i < m_actions->size(); i++)
+	for (unsigned int i = 0; i < GetActions()->size(); i++)
 	{
-		action = m_actions->at(i);
+		action = GetActions()->at(i);
 
 		// Not visible action for which we do not want to show statistics
 		if (action->IsVisible() == false)
@@ -117,9 +118,9 @@ bool FinishModel::IsRebootNeed()
 {
 	Action* action;
 
-	for (unsigned int i = 0; i < m_actions->size(); i++)
+	for (unsigned int i = 0; i < GetActions()->size(); i++)
 	{
-		action = m_actions->at(i);
+		action = GetActions()->at(i);
 
 		if (action->IsRebootNeed())
 		{
@@ -133,42 +134,6 @@ void FinishModel::Reboot()
 {
 	Authorization::RequestShutdownPrivileges();
 	ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0);
-}
-
-void FinishModel::_saveToDisk()
-{
-	wchar_t szXML[MAX_PATH];
-
-	GetTempPath(MAX_PATH, szXML);	
-	wcscat_s(szXML, L"statistics.xml");
-	m_xmlFile = szXML;
-	m_serializer->SaveToFile(m_xmlFile);
-}
-void FinishModel::SerializeOptionsSendStatistics()
-{
-	if (m_sentStats == true)
-		return;
-
-	_serializeOptions();
-	_sendStatistics();
-	m_sentStats = true;
-}
-
-void FinishModel::_sendStatistics()
-{
-	if (*m_pbSendStats)
-	{
-		m_uploadStatistics = new UploadStatisticsThread(&m_httpFormInet, m_serializer, m_errors);
-		m_uploadStatistics->Start();
-	}
-
-	_saveToDisk();
-}
-
-void FinishModel::WaitForStatisticsToCompleteOrTimeOut()
-{
-	if (m_uploadStatistics!= NULL)
-		m_uploadStatistics->Wait();
 }
 
 void FinishModel::_shellExecuteURL(wstring url)
@@ -214,26 +179,20 @@ void FinishModel::OpenGooglePlus()
 
 void FinishModel::OpenMailTo()
 {
-	_shellExecuteURL(CONTACT_EMAIL);	
+	_shellExecuteURL(CONTACT_EMAIL);
 }
 
-void FinishModel::_serializeOptions()
+void FinishModel::SerializeOptionsSendStatistics() 
 {
-	Options options;
-	Option sysOption(OptionSystemRestore, *m_pSystemRestore);
-	Option dialectOption(OptionDialect, *m_pbDialectalVariant);
-	Option showSecDlgOption(OptionShowSecDlg, *m_pbShowSecDlg);
-	Option twitterOption(OptionShareTwitter, m_openTwitter);
-	Option faceBookOption(OptionShareFacebook, m_openFacebook);
-	Option googlePlusSecDlgOption(OptionShareGooglePlus, m_openGooglePlus);
-
-	options.Add(sysOption);
-	options.Add(dialectOption);
-	options.Add(showSecDlgOption);
-	options.Add(twitterOption);
-	options.Add(faceBookOption);
-	options.Add(googlePlusSecDlgOption);
-	options.Serialize(m_serializer->GetStream());
-	m_serializer->CloseHeader();
+	_setSocialOptions();
+	m_applicationExecutor->SerializeOptionsSendStatistics(); 
 }
+
+void FinishModel::_setSocialOptions()
+{
+	m_applicationExecutor->SetOption(Option(OptionShareTwitter, m_openTwitter));
+	m_applicationExecutor->SetOption(Option(OptionShareFacebook, m_openFacebook));
+	m_applicationExecutor->SetOption(Option(OptionShareGooglePlus, m_openGooglePlus));
+}
+
 

@@ -30,11 +30,11 @@ HINTERNET HttpDownloadInet::_internetOpenUrl(wchar_t* URL) const
 	HINTERNET hRemoteFile;
 
 	hRemoteFile = InternetOpenUrl(m_hInternet, URL, NULL, 0,
-#if DEVELOPMENT_VERSION
-		0, // Allows catching (speeds ups downloads during development)
-#else
+//#if DEVELOPMENT_VERSION
+//		0, // Allows catching (speeds ups downloads during development)
+//#else
 		INTERNET_FLAG_RELOAD, // Prevents local caching (for release version)
-#endif
+//#endif
 		0);	
 
 	if (hRemoteFile == 0)

@@ -21,7 +21,7 @@
 
 #include "Inet.h"
 
-typedef bool (*ProgressStatus)(int nTotal, int nCurrent, void *data);
+typedef bool (*ProgressStatus)(int total, int current, void *data);
 
 class IDownloadInet : public Inet
 {

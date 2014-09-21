@@ -23,6 +23,8 @@
 #include "ApplicationItem.h"
 #include "ApplicationLegendItem.h"
 #include "IApplicationsPropertyPageUI.h"
+#include "ApplicationExecutor.h"
+
 #include <string>
 #include <vector>
 
@@ -30,9 +32,19 @@ using namespace std;
 
 class ApplicationsModel
 {
-public:		
+public:
 
-		void SetActions(vector <Action *> * value) {m_availableActions =  value; }
+		ApplicationsModel(ApplicationExecutor* applicationExecutor) 
+		{
+			m_actionsForUT = NULL;
+			m_applicationExecutor = applicationExecutor; 
+		}
+
+		void SetActionsForUT(vector <Action *> * value) {m_actionsForUT =  value; }
+		vector <Action *> * GetActions();
+		void SetDialectVariant(bool dialectVariant) {m_applicationExecutor->SetDialectVariant(dialectVariant); }
+		
+		void SelectDefaultActions() {m_applicationExecutor->SelectDefaultActions(); }
 		void BuildListOfItems();
 		vector <ApplicationItem> & GetItems() {return m_items;}
 		void ProcessClickOnItem(ApplicationItem applicationItem);
@@ -48,16 +60,16 @@ protected:
 		bool _anyActionNeedsInternetConnection();
 
 private:
-		ActionStatus _getDefaultStatusForAction(ActionID actionID);
+
 		wstring _getActionDisplayName(Action *action);
 		void _processDependantItem(Action* action);
 		ImageIndex _getImageIndex(ActionStatus status);
 		wstring _getGroupName(ActionGroup actionGroup);
 		int _getItemIndexForItemData(void *data);
 		void _processDependantItems();
-
-		vector <Action *> * m_availableActions;
+		
+		vector <Action *> * m_actionsForUT;
 		vector <ApplicationItem> m_items;
 		IApplicationsPropertyPageUI* m_applicationsView;
-
+		ApplicationExecutor* m_applicationExecutor;
 };

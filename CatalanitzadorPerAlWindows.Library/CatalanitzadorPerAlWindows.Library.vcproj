@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\libs\gtest\include\&quot;;&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)\libs\gmock\include&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Inspectors&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -105,7 +105,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\OS&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Resources&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Application&quot;;&quot;$(SolutionDir)\CommonCode&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\UI&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications&quot;;&quot;$(SolutionDir)CatalanitzadorPerAlWindows\Inspectors&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -390,6 +390,14 @@
 		<Filter
 			Name="Core"
 			>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\ApplicationExecutor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\ApplicationExecutor.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Core\ApplicationVersion.cpp"
 				>
@@ -856,6 +864,18 @@
 						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\FinishModel.h"
 						>
 					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\InstallModel.h"
+						>
+					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\WelcomeModel.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\WelcomeModel.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Controls"
@@ -1064,6 +1084,14 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\WindowsXPDialogCanceler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\WindowsXPDialogCanceler.h"
 				>
 			</File>
 		</Filter>
