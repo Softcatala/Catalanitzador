@@ -35,6 +35,7 @@ class MultipleDownloads
 	public:
 		MultipleDownloads(DownloadManager* downloadManager);
 
+		void EmptyList();
 		void SetProgress(ProgressStatus progress, void *data);
 		void AddDownload(ConfigurationFileActionDownload configuration, wstring file);
 		bool Download(ProgressStatus progress, void *data);		

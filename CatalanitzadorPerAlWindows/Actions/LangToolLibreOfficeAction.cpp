@@ -170,6 +170,7 @@ bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 	Sha1Sum sha1sum;
 	ConfigurationFileActionDownload downloadVersion;
 
+	m_multipleDownloads.EmptyList();
 	if (m_shouldInstallJava)
 	{
 		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"Java");

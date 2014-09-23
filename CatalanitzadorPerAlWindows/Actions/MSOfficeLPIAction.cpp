@@ -105,6 +105,8 @@ bool MSOfficeLPIAction::IsNeed()
 
 bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 {
+	m_multipleDownloads.EmptyList();
+
 	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
 		// When download is requested the user has started the installation, let's set the dialect at this point

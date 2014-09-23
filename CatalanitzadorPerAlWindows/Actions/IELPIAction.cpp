@@ -261,6 +261,7 @@ bool IELPIAction::Download(ProgressStatus progress, void *data)
 	Sha1Sum sha1sum;
 	ConfigurationFileActionDownload downloadVersion;
 
+	m_multipleDownloads.EmptyList();
 	if (_canInstallSpellChecker())
 	{
 		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"IE11_7_SpellChecker");

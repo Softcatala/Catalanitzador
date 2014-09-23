@@ -33,6 +33,13 @@ void MultipleDownloads::AddDownload(ConfigurationFileActionDownload configuratio
 	m_downloads.push_back(fileDownload);
 }
 
+// Downloads are added when calling Action::Download. Since the download can be called more than once
+// for error retry we need the ability to empty the list
+void MultipleDownloads::EmptyList()
+{
+	m_downloads.clear();
+}
+
 bool MultipleDownloads::_downloadStatus(int total, int current, void *data)
 {
 	MultipleDownloads* pThis = (MultipleDownloads *) data;	
