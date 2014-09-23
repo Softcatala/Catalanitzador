@@ -59,7 +59,7 @@ void SilentInstallation::_unSelectRunningActions(vector <Action *>* actions)
 		
 		action->SetStatus(NotSelected);
 
-		g_log.Log(L"SilentInstallation::_unSelectRunningActions. Action '%s' has running applications. Unselected it.",
+		g_log.Log(L"SilentInstallation::_unSelectRunningActions. Action '%s' has running applications. Unselecting it.",
 			action->GetName());
 	}
 }

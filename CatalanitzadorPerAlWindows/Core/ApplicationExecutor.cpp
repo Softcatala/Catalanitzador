@@ -99,7 +99,7 @@ void ApplicationExecutor::_waitExecutionComplete(Action* action)
 	}
 	else
 	{
-		g_log.Log(L"InstalApplicationExecutor::_waitExecutionComplete. QueryPerformanceFrequency failed");
+		g_log.Log(L"ApplicationExecutor::_waitExecutionComplete. QueryPerformanceFrequency failed");
 	}
 
 	while (true)

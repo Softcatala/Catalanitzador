@@ -20,9 +20,6 @@
 #pragma once
 
 #include "Action.h"
-#include <string>
-#include <vector>
-
 #include "ApplicationExecutor.h"
 
 using namespace std;

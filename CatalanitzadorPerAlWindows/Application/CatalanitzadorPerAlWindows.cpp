@@ -183,7 +183,6 @@ void CatalanitzadorPerAWindows::_createWizard()
 	WelcomePropertyPageUI welcome(&welcomeModel);
 	ApplicationsModel applicationModel(&applicationExecutor);
 	ApplicationsPropertyPageUI applications(&applicationModel);
-	ApplicationsModel applicationsModel(&applicationExecutor);
 	InstallModel installModel(&applicationExecutor);
 	InstallPropertyPageUI install(&installModel);
 	FinishModel finishModel(&applicationExecutor);

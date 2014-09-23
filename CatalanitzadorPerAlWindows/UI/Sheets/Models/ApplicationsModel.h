@@ -34,11 +34,7 @@ class ApplicationsModel
 {
 public:
 
-		ApplicationsModel(ApplicationExecutor* applicationExecutor) 
-		{
-			m_actionsForUT = NULL;
-			m_applicationExecutor = applicationExecutor; 
-		}
+		ApplicationsModel(ApplicationExecutor* applicationExecutor);
 
 		void SetActionsForUT(vector <Action *> * value) {m_actionsForUT =  value; }
 		vector <Action *> * GetActions();

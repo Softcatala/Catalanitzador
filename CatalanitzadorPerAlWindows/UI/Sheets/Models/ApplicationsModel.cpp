@@ -25,6 +25,14 @@
 // An index to ActionGroup
 static const int groupNames [] = {IDS_GROUPNAME_NONE, IDS_GROUPNAME_WINDOWS, IDS_GROUPNAME_OFFICE, IDS_GROUPNAME_BROWSERS, IDS_GROUPNAME_INTERNET };
 
+
+ApplicationsModel::ApplicationsModel(ApplicationExecutor* applicationExecutor) 
+{
+	m_actionsForUT = NULL;
+	m_applicationExecutor = applicationExecutor; 
+}
+
+
 wstring ApplicationsModel::_getGroupName(ActionGroup actionGroup)
 {
 	wchar_t szGroupName[MAX_LOADSTRING];

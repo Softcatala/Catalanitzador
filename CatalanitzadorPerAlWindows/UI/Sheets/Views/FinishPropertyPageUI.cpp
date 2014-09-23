@@ -118,6 +118,7 @@ NotificationResult FinishPropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/)
 
 void FinishPropertyPageUI::_sendStats()
 {
+	// Prevents to send the stats in by a destructor call if the user did not arrive to see this page
 	if (m_didUserArriveToFinishPage)
 	{
 		m_model->SerializeOptionsSendStatistics();
