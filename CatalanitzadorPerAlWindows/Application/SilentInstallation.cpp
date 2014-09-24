@@ -21,7 +21,6 @@
 
 #include "SilentInstallation.h"
 #include "ActionExecution.h"
-#include "ApplicationExecutor.h"
 
 static void _notifyExecutionStarts(NotifyActionData* notifyActionData) {}
 static void _notifyDownloadCompleted(NotifyActionData* notifyActionData) { }
@@ -65,16 +64,12 @@ void SilentInstallation::_unSelectRunningActions(vector <Action *>* actions)
 }
 
 
-void SilentInstallation::Run()
-{
-	ApplicationExecutor applicationExecutor;
-	Serializer serializer;
-	
+void SilentInstallation::Run(ApplicationExecutor& applicationExecutor)
+{	
 	applicationExecutor.CheckPrerequirements();
 	applicationExecutor.SelectDefaultActions();
 	_unSelectRunningActions(applicationExecutor.GetActions());
-
-	applicationExecutor.SetSerializer(&serializer);
+	
 	applicationExecutor.PrepareStart();
 	applicationExecutor.Start(_notifyExecutionStarts, _downloadStatus, _notifyDownloadError, _notifyDownloadCompleted, _notifyExecutionCompleted, this);
 	applicationExecutor.SerializeOptionsSendStatistics();

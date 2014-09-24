@@ -459,6 +459,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Application\UIInstallation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Application\UIInstallation.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CommonCode\Version.h"
 				>
 			</File>

@@ -21,17 +21,16 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Action.h"
 #include "ApplicationExecutor.h"
 
-class SilentInstallation
+class UIInstallation
 {
 
 public:
 		
-		void Run(ApplicationExecutor& applicationExecutor);
+		void Run(HINSTANCE  hInstance, ApplicationExecutor& applicationExecutor);
 
 private:
 
-		void _unSelectRunningActions(vector <Action *>* actions);		
+		
 };

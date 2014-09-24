@@ -304,7 +304,6 @@ void ApplicationExecutor::_serializeOptions()
 {
 	SetOption(Option(OptionSystemRestore, m_doSystemRestore));
 	SetOption(Option(OptionDialect, m_dialectVariantSet));
-	SetOption(Option(OptionDialect, m_dialectVariantSet));
 
 	m_options.Serialize(m_serializer->GetStream());
 	m_serializer->CloseHeader();

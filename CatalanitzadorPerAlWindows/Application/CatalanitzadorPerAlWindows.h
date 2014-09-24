@@ -23,6 +23,7 @@
 #include "stdafx.h"
 #include "Serializer.h"
 #include "OSVersion.h"
+#include "ApplicationExecutor.h"
 
 #include <string>
 using namespace std;
@@ -40,12 +41,11 @@ private:
 
 		void _initLog();
 		bool _supportedOS();
-		void _createWizard();
 		bool _isAlreadyRunning();
 		bool _hasAdminPermissionsDialog();
 		
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;
 		Serializer m_serializer;
-		OSVersion m_osVersion;		
+		OSVersion m_osVersion;
 };
