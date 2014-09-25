@@ -63,7 +63,7 @@ class StatsOptions {
     public function GetOptionValues($id) {
         $optionValues = array();
         
-        if(!isset($id) || empty($id)) { return $optionValues; }
+        if(!isset($id) || (empty($id) && !is_int($id))) { return $optionValues; }
         
         $v = $this->_catalanitzador->get_version_selected();
         $p = $this->_catalanitzador->get_platform_selected();  
