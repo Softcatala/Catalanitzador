@@ -272,6 +272,10 @@
 			Name="Mocks"
 			>
 			<File
+				RelativePath=".\Mocks\ActionExecutionMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\ActionMock.h"
 				>
 			</File>
@@ -421,6 +425,10 @@
 			</File>
 			<File
 				RelativePath=".\Core\SerializerTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\SilentInstallationTest.cpp"
 				>
 			</File>
 			<File

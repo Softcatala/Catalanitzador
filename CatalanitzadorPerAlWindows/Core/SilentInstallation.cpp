@@ -63,7 +63,6 @@ void SilentInstallation::_unSelectRunningActions(vector <Action *>* actions)
 	}
 }
 
-
 void SilentInstallation::Run(ApplicationExecutor& applicationExecutor)
 {	
 	applicationExecutor.CheckPrerequirements();

@@ -20,7 +20,6 @@
  
 #pragma once
 
-#include "stdafx.h"
 #include "Action.h"
 #include "ApplicationExecutor.h"
 
@@ -31,7 +30,7 @@ public:
 		
 		void Run(ApplicationExecutor& applicationExecutor);
 
-private:
-
-		void _unSelectRunningActions(vector <Action *>* actions);		
+protected:
+		
+		void _unSelectRunningActions(vector <Action *>* actions);
 };
