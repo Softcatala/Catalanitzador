@@ -185,3 +185,17 @@
 		<?php print_char(16,'macspell',"l Corrector de Mac"); ?>
 	</script>
 	<?php } ?>
+	<?php if(has_action_data(18)) { ?>
+        <h2>Versions del LanguageTool al LibreOffice</h2>
+	<div id="ltlibo_versions" style="height: 300px; margin: 0 auto"></div>
+	<script type="text/javascript">
+		<?php print_char(18,'ltlibo',"l LanguageTool al LibreOffice"); ?>
+	</script>
+	<?php } ?>
+	<?php if(has_action_data(19)) { ?>
+        <h2>Versions del LanguageTool al Firefox</h2>
+	<div id="ltmoz_versions" style="height: 300px; margin: 0 auto"></div>
+	<script type="text/javascript">
+		<?php print_char(19,'ltmoz',"l LanguageTool al Firefox"); ?>
+	</script>
+	<?php } ?>
