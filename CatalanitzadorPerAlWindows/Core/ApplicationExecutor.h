@@ -73,6 +73,8 @@ class ApplicationExecutor
 			int GetTotalSteps() { return m_totalSteps; }
 			vector <Action *> * GetActions() {return m_actions.GetActions(); }
 			Actions* GetActionsObject() {return &m_actions; }
+			bool GetSystemRestore() {return m_doSystemRestore; }
+			bool GetSendStats() {return m_sendStats; }
 
 			/* Setters */
 			void SetOption(Option option);

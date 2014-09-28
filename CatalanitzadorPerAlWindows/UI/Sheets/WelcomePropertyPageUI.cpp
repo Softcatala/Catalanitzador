@@ -76,7 +76,7 @@ void WelcomePropertyPageUI::_onInitDialog()
 		SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
 	}
 
-	BOOL sendStats = m_model->GetDefaultSendStats() ? TRUE: FALSE;
+	BOOL sendStats = m_model->GetSendStats() ? TRUE: FALSE;
 	CheckDlgButton(getHandle(), IDC_SENDRESULTS, sendStats);
 	_setTransparentBitmaps();
 	_initPropertySheet();
@@ -149,7 +149,7 @@ NotificationResult WelcomePropertyPageUI::_onNotify(LPNMHDR hdr, int /*iCtrlID*/
 			case IDC_SYSLINK_SECTERMS:
 			{
 				ExtraSecTermsDlgUI extraSecTermsDlgUI;
-				extraSecTermsDlgUI.SetSystemRestore(m_model->GetDefaultSystemRestore());
+				extraSecTermsDlgUI.SetSystemRestore(m_model->GetSystemRestore());
 				extraSecTermsDlgUI.Run(getHandle());
 				m_model->SetSystemRestore(extraSecTermsDlgUI.GetSystemRestore());
 				m_showSecDlgOption = true;		

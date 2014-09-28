@@ -32,10 +32,10 @@ public:
 		void CheckPrerequirements() { m_applicationExecutor->CheckPrerequirements();}
 
 		void SetSendStats(bool sendStats) { m_applicationExecutor->SetSendStats(sendStats); }
-		bool GetDefaultSendStats();
+		bool GetSendStats() { return m_applicationExecutor->GetSendStats(); }
 
 		void SetSystemRestore(bool systemRestore) { m_applicationExecutor->SetSystemRestore(systemRestore); }
-		bool GetDefaultSystemRestore();
+		bool GetSystemRestore() { return m_applicationExecutor->GetSystemRestore(); }
 
 		void SetShowSecDlgOption(bool showSecDlg);
 		Actions* GetActionsObject() {return m_applicationExecutor->GetActionsObject(); }

@@ -30,14 +30,21 @@ ApplicationExecutor::ApplicationExecutor() : m_actions(&m_downloadManager)
 {
 	m_serializer = NULL;
 	m_uploadStatistics = NULL;
-	m_sendStats = true;	
 	m_sentStats = false;
-	m_doSystemRestore = true;
 	m_errors = false;
 	m_dialectVariantSet = false;
 	m_selActions = 0;
 	m_downloads = 0;
 	m_selActions = 0;
+
+#if _DEBUG
+	m_doSystemRestore = false;
+	m_sendStats = false;
+#else
+	m_doSystemRestore = true;
+	m_sendStats = true;
+#endif
+
 }
 
 ApplicationExecutor::~ApplicationExecutor()
@@ -244,7 +251,7 @@ void ApplicationExecutor::_updateSelectedActionsCounts()
 
 	m_totalSteps = m_downloads + m_selActions;
 
-	if (m_selActions > 0 && m_doSystemRestore == TRUE)
+	if (m_selActions > 0 && m_doSystemRestore)
 		m_totalSteps++;
 }
 

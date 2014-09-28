@@ -21,23 +21,6 @@
 
 #include "WelcomeModel.h"
 
-bool WelcomeModel::GetDefaultSendStats() 
-{ 
-#if _DEBUG
-	return false;
-#endif
-	return true;
-}
-		
-
-bool WelcomeModel::GetDefaultSystemRestore()
-{ 
-#if _DEBUG
-	return false;
-#endif
-	return true;
-}
-
 void WelcomeModel::SetShowSecDlgOption(bool showSecDlg)
 {
 	Option optionShowSecDlg(OptionShowSecDlg, showSecDlg);
