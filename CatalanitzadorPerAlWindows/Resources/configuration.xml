@@ -407,11 +407,11 @@
 	 		<id>18</id>
 	 		<download>
 	  			<version>LanguageTool</version>
-	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.6.oxt</url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.6.oxt.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.6.oxt</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.6.oxt</url_3>
-				<filename>LanguageTool-2.6.oxt</filename>
+	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt</url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt</url_3>
+				<filename>LanguageTool-2.7.oxt</filename>
 	  		</download>
 	  		<download>
 	  			<version>Java</version>
