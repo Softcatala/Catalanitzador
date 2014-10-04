@@ -28,6 +28,6 @@ class Resources
 	public:
 			static bool DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file);
 			static bool LoadResourceToString(LPCWSTR type, LPCWSTR resource, wstring& text);
-			static bool Resources::EnumResources(LPCWSTR type, vector <wstring>& resources);
-			static BOOL CALLBACK  Resources::EnumResNameProcCallback(HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LONG_PTR lParam);
+			static bool EnumResources(LPCWSTR type, vector <wstring>& resources);
+			static BOOL CALLBACK EnumResNameProcCallback(HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LONG_PTR lParam);
 };
