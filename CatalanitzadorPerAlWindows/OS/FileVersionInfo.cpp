@@ -75,9 +75,13 @@ void FileVersionInfo::_readVersion()
 		}
 
 		GlobalFree((HGLOBAL)lpVI);
+		g_log.Log(L"FileVersionInfo::ReadVersion. File '%s' version '%s'", (wchar_t*) m_file.c_str(), (wchar_t*) m_version.c_str());
 	}
-
-	g_log.Log(L"FileVersionInfo::ReadVersion. File '%s' version '%s'", (wchar_t*) m_file.c_str(), (wchar_t*) m_version.c_str());	
+	else
+	{
+		g_log.Log(L"FileVersionInfo::ReadVersion. File '%s' version '%s', error '%x'", (wchar_t*) m_file.c_str(), (wchar_t*) m_version.c_str(),
+			(wchar_t*) GetLastError());
+	}
 }
 
 
