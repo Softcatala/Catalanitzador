@@ -32,6 +32,7 @@ public:
 		bool RequestCloseToProcessID(DWORD processID, bool bPost);
 		bool TerminateProcessID(DWORD processID);
 		vector <wstring> Runner::GetRunningProcessesNames() const;
+		DWORD GetExitCode() const;
 
 private:
 		static BOOL CALLBACK EnumWindowsProcClosePost(HWND hWnd, LPARAM lParam);

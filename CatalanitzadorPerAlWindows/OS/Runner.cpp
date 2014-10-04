@@ -52,16 +52,21 @@ bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 	{
 		wow64.RevertRedirection(OldValue);
 	}
-	
+
 	return bRslt == TRUE;
 }
 
 bool Runner::IsRunning() const
 {
+	return GetExitCode() == STILL_ACTIVE;
+}
+
+DWORD Runner::GetExitCode() const
+{
 	DWORD dwStatus;
 
 	GetExitCodeProcess(pi.hProcess, &dwStatus);
-	return dwStatus == STILL_ACTIVE;
+	return dwStatus;
 }
 
 void Runner::WaitUntilFinished() const
