@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,10 +19,23 @@
  
 #pragma once
 
+#include "IOSVersion.h"
+
 class Authorization
 {
 public:
 		static bool UserHasAdminPermissions();
 		static bool RequestShutdownPrivileges();
+
+		bool IsRunningElevatedWithOtherUser(IOSVersion* osVersion);
+		wstring GetCurrentUser();
+		wstring GetLoggedUser();
+		TOKEN_ELEVATION_TYPE GetElevationType();
+		void Impersonate();
+
+private:
+	
+		PTOKEN_USER _allocateToken(HANDLE token);
+		wstring _getUserFromProcessHandle(HANDLE processHandle);
 		
 };

@@ -46,6 +46,28 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 		CloseHandle(m_hEvent);
 }
 
+void CatalanitzadorPerAWindows::_warnImpersonateUser()
+{	
+	Authorization authorization;
+
+	if (authorization.IsRunningElevatedWithOtherUser(&m_osVersion))
+	{
+		wchar_t szMsg[MAX_LOADSTRING];
+		wchar_t szCaption [MAX_LOADSTRING];	
+
+		LoadString(GetModuleHandle(NULL), IDS_MSGBOX_CAPTION, szCaption, MAX_LOADSTRING);
+		swprintf_s(szMsg,
+			L"L'usuari actual és '%s' però l'usuari de sessió és '%s'. " \
+			L"No es podran catalanitzar les aplicacions que utilitzen configuracions personalitzades per cada usuari (com ara el Chrome o el Firefox, etc).\r\n\r\n" \
+			L"Parleu amb el vostre administrador de sistemes. Recomanem que assigneu permisos temporals d'administrador a l'usuari '%s', executeu el Catalanitzador, " \
+			L"i després retireu els permisos d'administrador.",
+			authorization.GetCurrentUser().c_str(),
+			authorization.GetLoggedUser().c_str(),
+			authorization.GetLoggedUser().c_str());
+		MessageBox(NULL, szMsg, szCaption, MB_OK | MB_ICONINFORMATION);
+	}
+}
+
 void CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
 	Registry registry;
@@ -72,6 +94,8 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 	if (_supportedOS() == false || _hasAdminPermissionsDialog() == false)
 		return;
 
+	_warnImpersonateUser();
+
 	OleInitialize(0);
 
 	ApplicationExecutor applicationExecutor;
@@ -79,7 +103,6 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 	applicationExecutor.SetSerializer(&m_serializer);
 	Option optionShowSecDlg(OptionSilentInstall, commandLineProcessor.GetSilent());
 	applicationExecutor.SetOption(optionShowSecDlg);
-	
 
 	if (commandLineProcessor.GetSilent())
 	{
