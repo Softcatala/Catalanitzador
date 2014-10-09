@@ -33,6 +33,7 @@ public:
 		bool Execute();
 		bool IsNeed();	
 		bool ReadLanguageCode();
+		void InvalidateCache() {m_CachedLanguageCode = false; }
 
 protected:
 

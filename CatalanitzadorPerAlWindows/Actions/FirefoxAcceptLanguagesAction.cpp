@@ -50,6 +50,7 @@ void FirefoxAcceptLanguagesAction::Execute()
 {	
 	SetStatus(InProgress);
 	m_acceptLanguages.Execute();
+	m_acceptLanguages.InvalidateCache();
 	
 	if (_isAcceptLanguageOk())
 	{
