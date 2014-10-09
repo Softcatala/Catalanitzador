@@ -208,7 +208,7 @@ void Authorization::Impersonate()
 	if (shell != NULL)
 		GetWindowThreadProcessId(shell, &processId);
 	else
-	g_log.Log(L"Authorization::Impersonate. GetWindowThreadProcessId NULL shell");
+		g_log.Log(L"Authorization::Impersonate. GetWindowThreadProcessId NULL shell");
 
 	HANDLE processHandle = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, processId);
 	HANDLE token;	
