@@ -141,7 +141,7 @@ void LangToolLibreOfficeAction::_installJava()
 	wstring app, params;	
 
 	app = m_szFilenameJava;
-	params = L" /s";	
+	params = L" /s";
 
 	g_log.Log(L"LangToolLibreOfficeAction::_installJava. '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
 	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());	
@@ -157,7 +157,7 @@ void LangToolLibreOfficeAction::Execute()
 	}
 	else
 	{
-		m_installingOffice->InstallExtension(m_runner, m_szFilename);	
+		m_installingOffice->InstallExtension(m_runner, m_szFilename);
 	}
 
 	SetStatus(InProgress);
@@ -221,12 +221,18 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 			{
 				if (m_shouldInstallJava)
 				{
-					m_installingOffice->InstallExtension(m_runner, m_szFilename);	
-					m_executionStep = ExecutionStep2;
-					return InProgress;
+					bool successfullyInstalled = _shouldInstallJava() == false;
+					g_log.Log(L"LangToolLibreOfficeAction::GetStatus. Java installed successfully %u", (wchar_t*) successfullyInstalled);
+
+					if (successfullyInstalled)
+					{
+						m_installingOffice->InstallExtension(m_runner, m_szFilename);
+						m_executionStep = ExecutionStep2;
+						return InProgress;
+					}
 				}
 				break;
-			}				
+			}
 			case ExecutionStep2:
 				break;
 			default:
