@@ -151,7 +151,9 @@ bool ApplicationExecutor::_download(Action* action, ProgressStatus _downloadStat
 	{
 		if (action->Download(_downloadStatus, data) == false)
 		{
-			if (notifyDownloadError(data))
+			bool skipDownload = notifyDownloadError(data);
+
+			if (skipDownload)
 			{
 				bDownload = false;
 				bError = true;
