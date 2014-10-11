@@ -213,6 +213,8 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
+		g_log.Log(L"LangToolLibreOfficeAction::GetStatus: Process returned %x", (wchar_t*) m_runner->GetExitCode());
+
 		switch (m_executionStep)
 		{
 			case ExecutionStepNone:
