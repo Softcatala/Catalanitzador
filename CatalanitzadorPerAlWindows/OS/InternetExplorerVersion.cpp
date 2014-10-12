@@ -92,6 +92,6 @@ InternetExplorerVersion::IEVersion InternetExplorerVersion::_readIEVersion()
 		}
 	}
 
-	g_log.Log(L"IELPIAction::_readIEVersion returns IE '%u'", (wchar_t *) version);
+	g_log.Log(L"InternetExplorerVersion::_readIEVersion returns IE '%u'", (wchar_t *) version);
 	return version;
 }
