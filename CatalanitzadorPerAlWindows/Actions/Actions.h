@@ -55,10 +55,10 @@ class Actions
 		IFileVersionInfo* _getFileVersionInfo();
 		IOpenOffice* _getLibreOffice(IRegistry* registry);
 		IOpenOffice* _getApacheOpenOffice(IRegistry* registry);
-		IELPIAction* _getIELPIAction();
 		IEAcceptLanguagesAction* _getIEAcceptLanguagesAction();
 
 		vector <Action *> m_actions;
 		vector <void *> m_objectsToDelete;
+		IELPIAction* m_ieLPIAction;
 		DownloadManager* m_pDownloadManager;
 };

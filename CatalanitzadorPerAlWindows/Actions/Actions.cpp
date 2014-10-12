@@ -65,8 +65,15 @@ Actions::~Actions()
 	
 	for (unsigned int i = 0; i < m_objectsToDelete.size(); i++)
 	{
+		// Pointers on this array are free'd but if the object has a destructor
+		// it is not called
 		void* object = m_objectsToDelete.at(i);
 		delete object;
+	}
+
+	if (m_ieLPIAction)
+	{
+		delete m_ieLPIAction;
 	}
 }
 
@@ -126,15 +133,6 @@ IOpenOffice* Actions::_getApacheOpenOffice(IRegistry* registry)
 	return openOffice;
 }
 
-
-IELPIAction* Actions::_getIELPIAction()
-{
-	IELPIAction* action;
-	action = new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager);
-	m_objectsToDelete.push_back(action);
-	return action;
-}
-
 IEAcceptLanguagesAction* Actions::_getIEAcceptLanguagesAction()
 {
 	IEAcceptLanguagesAction* action;
@@ -145,6 +143,8 @@ IEAcceptLanguagesAction* Actions::_getIEAcceptLanguagesAction()
 
 void Actions::_buildListOfActions(IOSVersion* pOSversion)
 {
+	m_ieLPIAction = new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager);
+
 	if (pOSversion->GetVersion() == Windows8 || pOSversion->GetVersion() == Windows81)
 	{
 		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
@@ -155,7 +155,7 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 	}
 	
 	m_actions.push_back(new MSOfficeLPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));	
-	m_actions.push_back(new IEAction(_getIELPIAction(), _getIEAcceptLanguagesAction()));
+	m_actions.push_back(new IEAction(m_ieLPIAction, _getIEAcceptLanguagesAction()));
 	m_actions.push_back(new ConfigureLocaleAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 		
 	if (pOSversion->GetVersion() != Windows8 && pOSversion->GetVersion() != Windows81)
