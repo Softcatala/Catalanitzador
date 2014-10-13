@@ -42,7 +42,6 @@ FinishModel::FinishModel(ApplicationExecutor* applicationExecutor)
 
 void FinishModel::_commonConstructor()
 {
-	m_errors = false;
 	m_completionPercentage = -1;
 	m_openTwitter = false;
 	m_openFacebook = false;
@@ -84,7 +83,6 @@ void FinishModel::_calculateIndicatorsForProgressBar()
 				break;
 			case FinishedWithError:
 				doable++;
-				m_errors = true;
 				break;
 			default:
 				break;
@@ -111,7 +109,7 @@ bool FinishModel::HasErrors()
 		_calculateIndicatorsForProgressBar();
 	}
 
-	return m_errors; 
+	return m_applicationExecutor->HasErrors();
 }
 
 bool FinishModel::IsRebootNeed()

@@ -66,5 +66,4 @@ private:
 		vector <Action *> * m_actionsForUT;
 		
 		float m_completionPercentage;
-		bool m_errors;
 };

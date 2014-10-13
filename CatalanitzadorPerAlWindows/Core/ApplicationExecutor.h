@@ -75,6 +75,7 @@ class ApplicationExecutor
 			Actions* GetActionsObject() {return &m_actions; }
 			bool GetSystemRestore() {return m_doSystemRestore; }
 			bool GetSendStats() {return m_sendStats; }
+			bool HasErrors() {return m_errors; }
 
 			/* Setters */
 			void SetOption(Option option);
@@ -85,6 +86,7 @@ class ApplicationExecutor
 
 	private:
 
+			bool _calculateHasErrors();
 			ActionStatus _getDefaultStatusForAction(ActionID actionID);
 			void _serializeOptions();
 

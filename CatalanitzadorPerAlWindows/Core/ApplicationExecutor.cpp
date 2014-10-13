@@ -220,6 +220,8 @@ void ApplicationExecutor::Start(NotifyExecutionStarts notifyExecutionStarts,
 		m_serializer->Serialize(action);
 	}
 
+	m_errors = _calculateHasErrors();
+
 	dialogCanceler.Stop();
 	m_serializer->EndAction();
 	_serializeInspectors();	
@@ -363,3 +365,15 @@ void ApplicationExecutor::SetDialectVariant(bool dialectVariant)
 	}
 }
 
+
+bool ApplicationExecutor::_calculateHasErrors()
+{
+	for (unsigned int i = 0; i < GetActions()->size(); i++)
+	{
+		Action* action = GetActions()->at(i);
+		if (action->GetStatus() == FinishedWithError)
+			return true;
+	}
+
+	return false;
+}
