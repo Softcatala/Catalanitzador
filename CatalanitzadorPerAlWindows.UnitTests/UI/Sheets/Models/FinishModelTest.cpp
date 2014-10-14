@@ -76,8 +76,7 @@ TEST(FinishModelTest, _calculateIndicatorsForProgressBar_50)
 	actions.push_back((Action *)&actionTestSuccessful);
 	actions.push_back((Action *)&actionTestFinishedWithError);
 	
-	EXPECT_EQ(50.0, finishModel.GetCompletionPercentage());
-	EXPECT_TRUE(finishModel.HasErrors());
+	EXPECT_EQ(50.0, finishModel.GetCompletionPercentage());	
 }
 
 TEST(FinishModelTest, _calculateIndicatorsForProgressBar_0)
@@ -90,8 +89,7 @@ TEST(FinishModelTest, _calculateIndicatorsForProgressBar_0)
 	actionTestFinishedWithError.SetStatus(FinishedWithError);	
 	actions.push_back((Action *)&actionTestFinishedWithError);
 	
-	EXPECT_EQ(0.0, finishModel.GetCompletionPercentage());
-	EXPECT_TRUE(finishModel.HasErrors());
+	EXPECT_EQ(0.0, finishModel.GetCompletionPercentage());	
 }
 
 TEST(FinishModelTest, _calculateIndicatorsForProgressBar_100)
@@ -104,8 +102,7 @@ TEST(FinishModelTest, _calculateIndicatorsForProgressBar_100)
 	actionTestSuccessful.SetStatus(Successful);	
 	actions.push_back((Action *)&actionTestSuccessful);
 	
-	EXPECT_EQ(100.0, finishModel.GetCompletionPercentage());
-	EXPECT_FALSE(finishModel.HasErrors());
+	EXPECT_EQ(100.0, finishModel.GetCompletionPercentage());	
 }
 
 TEST(FinishModelTest, OpenTwitter)
