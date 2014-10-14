@@ -35,7 +35,7 @@ public:
 		CatalanitzadorPerAWindows(HINSTANCE hInstance);
 		~CatalanitzadorPerAWindows();
 
-		void Run(wstring commandLine);
+		int Run(wstring commandLine);
 
 private:
 

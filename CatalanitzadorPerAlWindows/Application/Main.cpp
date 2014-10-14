@@ -36,6 +36,5 @@ int CALLBACK WinMain(HINSTANCE hInstance,
 	wstring commandLine;
 
 	StringConversion::ToWideChar(lpCmdLine, commandLine);
-	app.Run(commandLine);
-	return TRUE;
+	return app.Run(commandLine);
 }

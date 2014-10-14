@@ -31,6 +31,9 @@
 #include "SilentInstallation.h"
 #include "UIInstallation.h"
 
+#define RETURN_OK 0
+#define RETURN_ERROR 1
+
 
 CatalanitzadorPerAWindows::CatalanitzadorPerAWindows(HINSTANCE hInstance)
 {
@@ -64,7 +67,7 @@ void CatalanitzadorPerAWindows::_warnImpersonateUser()
 	}
 }
 
-void CatalanitzadorPerAWindows::Run(wstring commandLine)
+int CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
 	Registry registry;
 	DownloadManager downloadManager;
@@ -77,7 +80,7 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 	if (commandLineProcessor.GetRunningCheck() == true)
 	{
 		if (_isAlreadyRunning() == true)
-			return;	
+			return RETURN_ERROR;
 	}
 
 	Guid guid(&registry);
@@ -88,7 +91,7 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 	guid.Store();
 	
 	if (_supportedOS() == false || _hasAdminPermissionsDialog() == false)
-		return;
+		return RETURN_ERROR;
 
 	_warnImpersonateUser();
 
@@ -111,6 +114,8 @@ void CatalanitzadorPerAWindows::Run(wstring commandLine)
 		UIInstallation uiInstallation;
 		uiInstallation.Run(m_hInstance, applicationExecutor);
 	}
+
+	return applicationExecutor.HasErrors() ?  RETURN_ERROR :  RETURN_OK;
 }
 
 void CatalanitzadorPerAWindows::_initLog()
