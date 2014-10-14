@@ -134,7 +134,7 @@ void LangToolFirefoxAction::CheckPrerequirements(Action * action)
 {
 	m_version = m_firefox.GetVersion();
 
-	if (m_version.size() > 0)
+	if (m_version.size() > 0 && m_firefoxAddOn.CanInstallAddOns())
 	{
 		if (m_firefoxAddOn.IsAddOnInstalled(APPLICATION_ID_GUID))
 		{

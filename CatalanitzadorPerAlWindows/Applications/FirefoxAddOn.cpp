@@ -102,3 +102,14 @@ bool FirefoxAddOn::IsAddOnInstalled(wstring applicationID)
 	}	
 	return false;
 }
+
+bool FirefoxAddOn::CanInstallAddOns()
+{
+	FirefoxPreferencesFile preferences(m_profileRootDir);
+	bool canInstall;
+	wstring path;
+	
+	canInstall = preferences.GetPreferencesDirectory(path);
+	g_log.Log(L"FirefoxAddOn::CanInstallAddOns. Result %u", (wchar_t*) canInstall);
+	return canInstall;
+}

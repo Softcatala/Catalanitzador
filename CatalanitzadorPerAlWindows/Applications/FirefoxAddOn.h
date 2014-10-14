@@ -26,6 +26,7 @@ public:
 
 		void InstallAddOn(wstring applicationID, wstring file);
 		bool IsAddOnInstalled(wstring applicationID);
+		bool CanInstallAddOns();
 
 private:
 
