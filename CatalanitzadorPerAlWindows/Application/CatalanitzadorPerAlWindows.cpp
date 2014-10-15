@@ -49,7 +49,7 @@ CatalanitzadorPerAWindows::~CatalanitzadorPerAWindows()
 		CloseHandle(m_hEvent);
 }
 
-void CatalanitzadorPerAWindows::_warnImpersonateUser()
+bool CatalanitzadorPerAWindows::_warnImpersonateUser()
 {	
 	Authorization authorization;
 
@@ -64,11 +64,14 @@ void CatalanitzadorPerAWindows::_warnImpersonateUser()
 			authorization.GetLoggedUser().c_str());
 
 		MessageBox(NULL, szText, szCaption, MB_OK | MB_ICONINFORMATION);
+		return true;
 	}
+	return false;
 }
 
 int CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
+	bool impersonated;
 	Registry registry;
 	DownloadManager downloadManager;
 	Actions actions(&downloadManager);
@@ -93,7 +96,7 @@ int CatalanitzadorPerAWindows::Run(wstring commandLine)
 	if (_supportedOS() == false || _hasAdminPermissionsDialog() == false)
 		return RETURN_ERROR;
 
-	_warnImpersonateUser();
+	impersonated = _warnImpersonateUser();
 
 	OleInitialize(0);
 
@@ -102,6 +105,9 @@ int CatalanitzadorPerAWindows::Run(wstring commandLine)
 	applicationExecutor.SetSerializer(&m_serializer);
 	Option optionShowSecDlg(OptionSilentInstall, commandLineProcessor.GetSilent());
 	applicationExecutor.SetOption(optionShowSecDlg);
+
+	Option optionShowImpersonatedDlg(OptionShowImpersonatedDlg, impersonated);
+	applicationExecutor.SetOption(optionShowImpersonatedDlg);
 
 	if (commandLineProcessor.GetSilent())
 	{

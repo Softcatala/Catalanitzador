@@ -29,5 +29,6 @@ enum OptionID
 	OptionShareTwitter = 3,
 	OptionShareFacebook = 4,
 	OptionShareGooglePlus = 5,
-	OptionSilentInstall = 6
+	OptionSilentInstall = 6,
+	OptionShowImpersonatedDlg = 7
 };

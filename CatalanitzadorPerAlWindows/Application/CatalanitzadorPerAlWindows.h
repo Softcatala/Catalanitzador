@@ -43,7 +43,7 @@ private:
 		bool _supportedOS();
 		bool _isAlreadyRunning();
 		bool _hasAdminPermissionsDialog();
-		void _warnImpersonateUser();
+		bool _warnImpersonateUser();
 		
 		HINSTANCE m_hInstance;
 		HANDLE m_hEvent;
