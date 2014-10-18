@@ -27,7 +27,6 @@
 @property (assign) IBOutlet NSButton *SendStats;
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSButton *DoChanges;
-- (IBAction)Selector:(id)sender;
 @property (assign) IBOutlet NSButton *ConfigureLocale;
 @property (assign) IBOutlet NSTextField *Results;
 
