@@ -37,7 +37,7 @@ public:
 	public:
 
 		virtual wstring _getAppDataDir() {return L"\\directory"; }
-		using LibreOffice::_getPreferencesFile;
+		using LibreOffice::_getPreferencesDirectory;
 };
 
 
@@ -51,6 +51,6 @@ TEST(LibreOfficeTest, _getPreferencesFile_Version34)
 	CreateLibreOffice;
 	
 	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, APACHE_VERSION);
-	wstring path = OpenOffice._getPreferencesFile();
+	wstring path = OpenOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\3\\user\\"));
 }

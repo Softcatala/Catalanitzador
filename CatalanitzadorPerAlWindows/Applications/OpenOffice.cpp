@@ -131,7 +131,7 @@ wstring OpenOffice::_getAppDataDir()
 	return wstring(szPath);
 }
 
-wstring OpenOffice::_getPreferencesFile()
+wstring OpenOffice::_getPreferencesDirectory()
 {
 	wchar_t directory[1024];
 	wstring location;
@@ -147,7 +147,7 @@ wstring OpenOffice::_getPreferencesFile()
 wstring OpenOffice::_getExtensionsFile()
 {
 	wstring location;
-	location = _getPreferencesFile();
+	location = _getPreferencesDirectory();
 	location += L"uno_packages\\cache\\registry\\com.sun.star.comp.deployment.component.PackageRegistryBackend\\backenddb.xml";
 	return location;
 }
@@ -216,7 +216,7 @@ void OpenOffice::InstallExtension(IRunner* runner, wstring file)
 
 wstring OpenOffice::GetJavaConfiguredVersion() 
 {
-	m_javaConfiguration.SetUserDirectory(_getPreferencesFile());
+	m_javaConfiguration.SetUserDirectory(_getPreferencesDirectory());
 	return m_javaConfiguration.GetDefaultJavaVersion();
 }
 

@@ -44,7 +44,7 @@ public:
 
 		using OpenOffice::_readVersionInstalled;
 		using OpenOffice::_readInstallPath;
-		using OpenOffice::_getPreferencesFile;
+		using OpenOffice::_getPreferencesDirectory;
 		using OpenOffice::_getInstallationPath;
 };
 
@@ -100,7 +100,7 @@ TEST(OpenOfficeTest, _getPreferencesFile_Version4)
 	CreateOpenOffice;
 	
 	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
-	wstring path = OpenOffice._getPreferencesFile();
+	wstring path = OpenOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice.org\\4\\user\\"));
 }
 
@@ -110,6 +110,6 @@ TEST(OpenOfficeTest, _getPreferencesFile_Version34)
 	CreateOpenOffice;
 	
 	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
-	wstring path = OpenOffice._getPreferencesFile();
+	wstring path = OpenOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice.org\\3\\user\\"));
 }

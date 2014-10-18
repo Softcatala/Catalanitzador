@@ -50,7 +50,7 @@ protected:
 		bool _readVersionInstalled();
 		void _readInstallPath();
 		virtual wstring _getAppDataDir();
-		virtual wstring _getPreferencesFile();
+		virtual wstring _getPreferencesDirectory();
 		virtual wstring _getExtensionsFile();
 		wstring _getInstallationPath();
 
