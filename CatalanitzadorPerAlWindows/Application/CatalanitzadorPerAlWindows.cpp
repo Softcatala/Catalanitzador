@@ -73,13 +73,12 @@ int CatalanitzadorPerAWindows::Run(wstring commandLine)
 {
 	bool impersonated;
 	Registry registry;
-	DownloadManager downloadManager;
-	Actions actions(&downloadManager);
-	CommandLine commandLineProcessor(&actions);
+	ApplicationExecutor applicationExecutor;
+	CommandLine commandLineProcessor(applicationExecutor.GetActionsObject());
 
 	_initLog();
 	commandLineProcessor.Process(commandLine);
-	
+
 	if (commandLineProcessor.GetRunningCheck() == true)
 	{
 		if (_isAlreadyRunning() == true)
@@ -99,8 +98,6 @@ int CatalanitzadorPerAWindows::Run(wstring commandLine)
 	impersonated = _warnImpersonateUser();
 
 	OleInitialize(0);
-
-	ApplicationExecutor applicationExecutor;
 
 	applicationExecutor.SetSerializer(&m_serializer);
 	Option optionShowSecDlg(OptionSilentInstall, commandLineProcessor.GetSilent());
