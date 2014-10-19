@@ -25,129 +25,129 @@ using namespace std;
 
 SpellCheckerAction::SpellCheckerAction() : Action()
 {
-    m_authorizationRef = NULL;
+	m_authorizationRef = NULL;
 }
 
 SpellCheckerAction::~SpellCheckerAction()
 {
-    if (m_authorizationRef)
-    {
-        AuthorizationFree(m_authorizationRef, kAuthorizationFlagDestroyRights);
-        m_authorizationRef = NULL;
-    }
+	if (m_authorizationRef)
+	{
+		AuthorizationFree(m_authorizationRef, kAuthorizationFlagDestroyRights);
+		m_authorizationRef = NULL;
+	}
 }
 
 bool SpellCheckerAction::requestPermissions()
 {
-    OSStatus status;
+	OSStatus status;
  
-    status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &m_authorizationRef);
-    
-    if (status != errAuthorizationSuccess)
-    {
-        NSLog(@"SpellCheckerAction::requestPermissions. AuthorizationCreate failed: %d", status);
-        return false;
-    }
-    
-    AuthorizationItem right = {kAuthorizationRightExecute, 0, NULL, 0};
-    AuthorizationRights rights = {1, &right};
-    AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed |
-    kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
-    
-    status = AuthorizationCopyRights(m_authorizationRef, &rights, NULL, flags, NULL);
-    if (status != errAuthorizationSuccess)
-    {
-        NSLog(@"SpellCheckerAction::requestPermissions. AuthorizationCopyRights failed: %d", status);
-        return false;
-    }
-    
-    return true;
+	status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &m_authorizationRef);
+	
+	if (status != errAuthorizationSuccess)
+	{
+		NSLog(@"SpellCheckerAction::requestPermissions. AuthorizationCreate failed: %d", status);
+		return false;
+	}
+	
+	AuthorizationItem right = {kAuthorizationRightExecute, 0, NULL, 0};
+	AuthorizationRights rights = {1, &right};
+	AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed |
+	kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
+	
+	status = AuthorizationCopyRights(m_authorizationRef, &rights, NULL, flags, NULL);
+	if (status != errAuthorizationSuccess)
+	{
+		NSLog(@"SpellCheckerAction::requestPermissions. AuthorizationCopyRights failed: %d", status);
+		return false;
+	}
+	
+	return true;
 }
 
 NSString* SpellCheckerAction::_getBundlePath(CFStringRef file, CFStringRef extension)
 {
-    CFURLRef url;
-    CFBundleRef mainBundle;
-    
-    mainBundle = CFBundleGetMainBundle();
-    url = CFBundleCopyResourceURL(mainBundle, file, extension, NULL);
-    CFStringRef path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-    return (NSString *)path;
+	CFURLRef url;
+	CFBundleRef mainBundle;
+	
+	mainBundle = CFBundleGetMainBundle();
+	url = CFBundleCopyResourceURL(mainBundle, file, extension, NULL);
+	CFStringRef path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
+	return (NSString *)path;
 }
 
 bool SpellCheckerAction::_copyfile(NSString* src, NSString* trg)
 {
-    NSString * trkitMoveUtilityPath = @"/bin/cp";
-    OSStatus status;
-    
-    char * args[3] = {
-        [0] = (char *)[[src stringByStandardizingPath] UTF8String],
-        [1] = (char *)[[trg stringByStandardizingPath] UTF8String],
-        [2] = NULL
-    };
-    
-    status = AuthorizationExecuteWithPrivileges(m_authorizationRef,
-                                                [[trkitMoveUtilityPath stringByStandardizingPath] UTF8String],
-                                                0, args, NULL);
-    return status == errAuthorizationSuccess;
+	NSString * trkitMoveUtilityPath = @"/bin/cp";
+	OSStatus status;
+	
+	char * args[3] = {
+		[0] = (char *)[[src stringByStandardizingPath] UTF8String],
+		[1] = (char *)[[trg stringByStandardizingPath] UTF8String],
+		[2] = NULL
+	};
+	
+	status = AuthorizationExecuteWithPrivileges(m_authorizationRef,
+												[[trkitMoveUtilityPath stringByStandardizingPath] UTF8String],
+												0, args, NULL);
+	return status == errAuthorizationSuccess;
 }
 
 
 const char* SpellCheckerAction::GetVersion()
 {
-    if (m_version.empty())
-    {
-        char szVersion[1024];
-        OSVersion version;
-        
-        sprintf(szVersion, "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
-        m_version = szVersion;
-    }
-    
-    return m_version.c_str();
+	if (m_version.empty())
+	{
+		char szVersion[1024];
+		OSVersion version;
+		
+		sprintf(szVersion, "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
+		m_version = szVersion;
+	}
+	
+	return m_version.c_str();
 }
 
 
 void SpellCheckerAction::Execute()
 {
-    NSString* srcFile;
-    bool isOk;
-    
-    requestPermissions();
-    
-    srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
-    _copyfile(srcFile, @"/Library/Spelling/Català.aff");
-
-    srcFile = _getBundlePath(CFSTR("Català"), CFSTR("dic"));
-    _copyfile(srcFile, @"/Library/Spelling/Català.dic");
-    
-    isOk = _isDictionaryInstalled();
-    SetStatus(isOk ? Successful : FinishedWithError);
-    
-    NSLog(@"SpellCheckerAction::Execute. Result %u", isOk);
+	NSString* srcFile;
+	bool isOk;
+	
+	requestPermissions();
+	
+	srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
+	_copyfile(srcFile, @"/Library/Spelling/Català.aff");
+	
+	srcFile = _getBundlePath(CFSTR("Català"), CFSTR("dic"));
+	_copyfile(srcFile, @"/Library/Spelling/Català.dic");
+	
+	isOk = _isDictionaryInstalled();
+	SetStatus(isOk ? Successful : FinishedWithError);
+	
+	NSLog(@"SpellCheckerAction::Execute. Result %u", isOk);
 }
 
 bool SpellCheckerAction::_isDictionaryInstalled()
 {
-    bool installed;
-    NSString* DICTIONARY_FILE_MANUAL(@"/Library/Spelling/catala.aff");
-    NSString* DICTIONARY_FILE(@"/Library/Spelling/Català.aff");
-    
-    installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE];
-    
-    if (installed == false)
-    {
-        installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE_MANUAL];
-    }
-    
-    NSLog(@"SpellCheckerAction::_isDictionaryInstalled %u", installed);
-    return installed;
+	bool installed;
+	NSString* DICTIONARY_FILE_MANUAL(@"/Library/Spelling/catala.aff");
+	NSString* DICTIONARY_FILE(@"/Library/Spelling/Català.aff");
+	
+	installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE];
+	
+	if (installed == false)
+	{
+		installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE_MANUAL];
+	}
+	
+	NSLog(@"SpellCheckerAction::_isDictionaryInstalled %u", installed);
+	return installed;
 }
 
 bool SpellCheckerAction::IsNeed()
 {
-    bool bNeed;
-    
+	bool bNeed;
+	
 	switch(GetStatus())
 	{
 		case NotInstalled:
@@ -159,8 +159,8 @@ bool SpellCheckerAction::IsNeed()
 			bNeed = true;
 			break;
 	}
-    
-    NSLog(@"SpellCheckerAction::IsNeed. %u", bNeed);
+	
+	NSLog(@"SpellCheckerAction::IsNeed. %u", bNeed);
 	return bNeed;
 }
 
@@ -171,19 +171,19 @@ bool SpellCheckerAction::IsRebootNeed() const
 
 void SpellCheckerAction::CheckPrerequirements(Action * action)
 {
-     OSVersion version;
-    
+	OSVersion version;
+	
 	if (version.GetMajorVersion() > 10 ||
-        (version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 7))
-    {
-        if (_isDictionaryInstalled())
-        {
-            SetStatus(AlreadyApplied);
-        }
-    }
-    else
-    {
-        m_cannotBeApplied = "No es pot realitzar aquesta acció en aquesta versió del sistema.";
-        SetStatus(CannotBeApplied);
-    }
+		(version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 7))
+	{
+		if (_isDictionaryInstalled())
+		{
+			SetStatus(AlreadyApplied);
+		}
+	}
+	else
+	{
+		m_cannotBeApplied = "No es pot realitzar aquesta acció en aquesta versió del sistema.";
+		SetStatus(CannotBeApplied);
+	}
 }

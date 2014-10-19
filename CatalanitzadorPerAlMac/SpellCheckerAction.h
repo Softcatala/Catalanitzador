@@ -27,29 +27,29 @@
 class SpellCheckerAction: public Action
 {
 public:
-        SpellCheckerAction();
-        ~SpellCheckerAction();
-    
-        virtual const char* GetName() {return "Instal·la el corrector ortogràfic català al sistema";}
-    
-        virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic de Softcatalà al sistema en aplicacions com ara Mail i Pages.";}
-    
-        virtual ActionID GetID() const {return MacSystemActionActionID;}
-    
-        virtual bool IsNeed();
-        virtual void Execute();
-        virtual const char* GetVersion();
-		virtual void CheckPrerequirements(Action * action);
-		virtual bool IsRebootNeed() const;
-
+	SpellCheckerAction();
+	~SpellCheckerAction();
+	
+	virtual const char* GetName() {return "Instal·la el corrector ortogràfic català al sistema";}
+	
+	virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic de Softcatalà al sistema en aplicacions com ara Mail i Pages.";}
+	
+	virtual ActionID GetID() const {return MacSystemActionActionID;}
+	
+	virtual bool IsNeed();
+	virtual void Execute();
+	virtual const char* GetVersion();
+	virtual void CheckPrerequirements(Action * action);
+	virtual bool IsRebootNeed() const;
+	
 private:
-    
-        bool requestPermissions();
-        NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
-        bool _copyfile(NSString* src, NSString* trg);
-        bool _isDictionaryInstalled();
-
-        string m_version;
-        AuthorizationRef m_authorizationRef;
+	
+	bool requestPermissions();
+	NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
+	bool _copyfile(NSString* src, NSString* trg);
+	bool _isDictionaryInstalled();
+	
+	string m_version;
+	AuthorizationRef m_authorizationRef;
 };
 
