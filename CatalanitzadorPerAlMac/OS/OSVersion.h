@@ -29,21 +29,21 @@ using namespace std;
 class OSVersion: public Serializable
 {
 public:
-    
-        OSVersion();
-    
-        SInt32 GetMajorVersion() const { return m_major;}
-        SInt32 GetMinorVersion() const { return m_minor;}
-        SInt32 GetBugFix() const { return m_bugfix;}
-    
-        void Serialize(ostream* stream);
-
+	
+	OSVersion();
+	
+	SInt32 GetMajorVersion() const { return m_major;}
+	SInt32 GetMinorVersion() const { return m_minor;}
+	SInt32 GetBugFix() const { return m_bugfix;}
+	
+	void Serialize(ostream* stream);
+	
 private:
-    
-        void _readVersions();
-    
-        SInt32 m_major;
-        SInt32 m_minor;
-        SInt32 m_bugfix;
+	
+	void _readVersions();
+	
+	SInt32 m_major;
+	SInt32 m_minor;
+	SInt32 m_bugfix;
 };
 

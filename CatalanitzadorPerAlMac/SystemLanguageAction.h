@@ -27,24 +27,24 @@
 class SystemLanguageAction: public Action
 {
 public:
-        SystemLanguageAction() : Action() {};
-    
-        virtual const char* GetName() {return "Configura el català com a llengua del sistema";}
-    
-        virtual const char* GetDescription()  {return "El vostre sistema apareixerà en català i s'indicarà a la resta d'aplicacions que el català és la llengua predeterminada.";}
-    
-        virtual ActionID GetID() const {return MacSpellCheckerActionID;}
-    
-        virtual bool IsNeed();
-        virtual void Execute();
-        virtual const char* GetVersion();
-		virtual void CheckPrerequirements(Action * action);
-		virtual bool IsRebootNeed() const;
-
+	SystemLanguageAction() : Action() {};
+	
+	virtual const char* GetName() {return "Configura el català com a llengua del sistema";}
+	
+	virtual const char* GetDescription()  {return "El vostre sistema apareixerà en català i s'indicarà a la resta d'aplicacions que el català és la llengua predeterminada.";}
+	
+	virtual ActionID GetID() const {return MacSpellCheckerActionID;}
+	
+	virtual bool IsNeed();
+	virtual void Execute();
+	virtual const char* GetVersion();
+	virtual void CheckPrerequirements(Action * action);
+	virtual bool IsRebootNeed() const;
+	
 private:
-        NSArray* _getCurrentLanguages();
-        void _setLocale();
-        bool _isCurrentLocaleOk();
-        string m_version;
+	NSArray* _getCurrentLanguages();
+	void _setLocale();
+	bool _isCurrentLocaleOk();
+	string m_version;
 };
 

@@ -25,30 +25,30 @@
 class FirefoxAction: public Action
 {
 public:
-    
-    FirefoxAction();
-    ~FirefoxAction();
-    
-    virtual const char* GetName() {return "Configura la llengua de navegació del Firefox";}
-    
-    virtual const char* GetDescription()  {return "La llengua de navegació dóna a conèixer la nostra preferència lingüística al món. Quan un lloc web està disponible en diverses llengües, la llengua de navegació determina en quina llengua es presentarà a l'usuari.";}
-
-    virtual ActionID GetID() const {return FirefoxActionID;}
-    
-    virtual bool IsNeed();
-    virtual void Execute();
-    virtual const char* GetVersion();
-    virtual void CheckPrerequirements(Action * action);
-    
-    bool IsApplicationRunning();
-    
+	
+	FirefoxAction();
+	~FirefoxAction();
+	
+	virtual const char* GetName() {return "Configura la llengua de navegació del Firefox";}
+	
+	virtual const char* GetDescription()  {return "La llengua de navegació dóna a conèixer la nostra preferència lingüística al món. Quan un lloc web està disponible en diverses llengües, la llengua de navegació determina en quina llengua es presentarà a l'usuari.";}
+	
+	virtual ActionID GetID() const {return FirefoxActionID;}
+	
+	virtual bool IsNeed();
+	virtual void Execute();
+	virtual const char* GetVersion();
+	virtual void CheckPrerequirements(Action * action);
+	
+	bool IsApplicationRunning();
+	
 private:
-
-    bool _isInstalled();
-    string _getInstalledLang();
-    FirefoxAcceptLanguages* _getAcceptLanguages();
-    
-    FirefoxAcceptLanguages* m_acceptLanguages;
-    string m_version;
+	
+	bool _isInstalled();
+	string _getInstalledLang();
+	FirefoxAcceptLanguages* _getAcceptLanguages();
+	
+	FirefoxAcceptLanguages* m_acceptLanguages;
+	string m_version;
 };
 

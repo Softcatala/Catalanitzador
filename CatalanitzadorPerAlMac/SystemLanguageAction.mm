@@ -23,78 +23,78 @@
 
 NSArray* SystemLanguageAction::_getCurrentLanguages()
 {
-    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
-    NSDictionary* globalDomain = [defs persistentDomainForName:@"NSGlobalDomain"];
-    NSArray* languages = [globalDomain objectForKey:@"AppleLanguages"];
-
-    return languages;
+	NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+	NSDictionary* globalDomain = [defs persistentDomainForName:@"NSGlobalDomain"];
+	NSArray* languages = [globalDomain objectForKey:@"AppleLanguages"];
+	
+	return languages;
 }
 
 void SystemLanguageAction::_setLocale()
 {
-    NSTask* task = [[NSTask alloc] init];
-    NSArray* prevLanguages = _getCurrentLanguages();
-    NSArray* arguments = [NSArray arrayWithObjects: @"write", @"NSGlobalDomain",
-                          @"AppleLanguages", @"-array", @"ca" , nil];
-    
-    unsigned long cnt = [prevLanguages count] + [arguments count];
-    NSMutableArray *myArray = [NSMutableArray arrayWithCapacity:cnt];
-    
-    [myArray addObjectsFromArray:arguments];
-    
-    // Copy all previous languages except Catalan that is already first one
-    for (NSString* language in prevLanguages)
-    {
-        if ([language isEqualToString:@"ca"] ==false)
-            [myArray addObject:language];
-    }
-        
-    [task setLaunchPath:@"/usr/bin/defaults"];
-    [task setArguments: myArray];
-    [task launch];
-    [task waitUntilExit];
+	NSTask* task = [[NSTask alloc] init];
+	NSArray* prevLanguages = _getCurrentLanguages();
+	NSArray* arguments = [NSArray arrayWithObjects: @"write", @"NSGlobalDomain",
+						  @"AppleLanguages", @"-array", @"ca" , nil];
+	
+	unsigned long cnt = [prevLanguages count] + [arguments count];
+	NSMutableArray *myArray = [NSMutableArray arrayWithCapacity:cnt];
+	
+	[myArray addObjectsFromArray:arguments];
+	
+	// Copy all previous languages except Catalan that is already first one
+	for (NSString* language in prevLanguages)
+	{
+		if ([language isEqualToString:@"ca"] ==false)
+			[myArray addObject:language];
+	}
+	
+	[task setLaunchPath:@"/usr/bin/defaults"];
+	[task setArguments: myArray];
+	[task launch];
+	[task waitUntilExit];
 }
 
 bool SystemLanguageAction::_isCurrentLocaleOk()
 {
-    NSArray* languages = _getCurrentLanguages();
-    NSString* language = [languages objectAtIndex:0];
-    
-    if ([language isEqualToString:@"ca"])
-        return true;
-    else
-        return false;
+	NSArray* languages = _getCurrentLanguages();
+	NSString* language = [languages objectAtIndex:0];
+	
+	if ([language isEqualToString:@"ca"])
+		return true;
+	else
+		return false;
 }
 
 const char* SystemLanguageAction::GetVersion()
 {
-    if (m_version.empty())
-    {
-        char szVersion[1024];
-        OSVersion version;
-        
-        sprintf(szVersion, "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
-        m_version = szVersion;
-    }
-    
-    return m_version.c_str();
+	if (m_version.empty())
+	{
+		char szVersion[1024];
+		OSVersion version;
+		
+		sprintf(szVersion, "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
+		m_version = szVersion;
+	}
+	
+	return m_version.c_str();
 }
 
 void SystemLanguageAction::Execute()
 {
-    bool isOk;
-    
-    _setLocale();
-    isOk = _isCurrentLocaleOk();
-    SetStatus(isOk ? Successful : FinishedWithError);
-    
-    NSLog(@"SystemLanguageAction::Execute. Result %u", isOk);
+	bool isOk;
+	
+	_setLocale();
+	isOk = _isCurrentLocaleOk();
+	SetStatus(isOk ? Successful : FinishedWithError);
+	
+	NSLog(@"SystemLanguageAction::Execute. Result %u", isOk);
 }
 
 bool SystemLanguageAction::IsNeed()
 {
-    bool bNeed;
-    
+	bool bNeed;
+	
 	switch(GetStatus())
 	{
 		case NotInstalled:
@@ -106,8 +106,8 @@ bool SystemLanguageAction::IsNeed()
 			bNeed = true;
 			break;
 	}
-    
-    NSLog(@"SystemLanguageAction::IsNeed. %u", bNeed);
+	
+	NSLog(@"SystemLanguageAction::IsNeed. %u", bNeed);
 	return bNeed;
 }
 
@@ -118,20 +118,20 @@ bool SystemLanguageAction::IsRebootNeed() const
 
 void SystemLanguageAction::CheckPrerequirements(Action * action)
 {
-    OSVersion version;
-    
-    if (version.GetMajorVersion() > 10 ||
-        (version.GetMajorVersion() == 10 && version.GetMinorVersion() > 7) ||
-        (version.GetMajorVersion() == 10 && version.GetMinorVersion() == 7 && version.GetBugFix() >= 3))
-    {
-        if (_isCurrentLocaleOk() == true)
-        {
-            SetStatus(AlreadyApplied);
-        }
-    }
-    else
-    {
-        m_cannotBeApplied = "No es pot realitzar aquesta acció en aquesta versió del sistema.";
-        SetStatus(CannotBeApplied);
-    }
+	OSVersion version;
+	
+	if (version.GetMajorVersion() > 10 ||
+		(version.GetMajorVersion() == 10 && version.GetMinorVersion() > 7) ||
+		(version.GetMajorVersion() == 10 && version.GetMinorVersion() == 7 && version.GetBugFix() >= 3))
+	{
+		if (_isCurrentLocaleOk() == true)
+		{
+			SetStatus(AlreadyApplied);
+		}
+	}
+	else
+	{
+		m_cannotBeApplied = "No es pot realitzar aquesta acció en aquesta versió del sistema.";
+		SetStatus(CannotBeApplied);
+	}
 }

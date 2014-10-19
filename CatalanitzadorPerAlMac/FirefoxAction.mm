@@ -22,120 +22,120 @@
 
 FirefoxAction::FirefoxAction() : Action()
 {
-    m_acceptLanguages = NULL;
+	m_acceptLanguages = NULL;
 }
 
 FirefoxAction::~FirefoxAction()
 {
-    if (m_acceptLanguages)
-        delete m_acceptLanguages;
+	if (m_acceptLanguages)
+		delete m_acceptLanguages;
 }
 
 bool FirefoxAction::IsApplicationRunning()
 {
-    NSDictionary *info;
-    bool foundApp = false;
-    OSErr err;
-    ProcessSerialNumber psn = {0, kNoProcess};
-
-    while (!foundApp)
-    {
-        err = GetNextProcess(&psn);
-    
-        if (!err)
-        {
-            info = (NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
-            foundApp = [@"org.mozilla.firefox" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
-        }
-        else
-        {
-            break;
-        }
-    }
-   
-    NSLog(@"FirefoxAction::IsApplicationRunning. Result %u", foundApp);
-    return foundApp;
+	NSDictionary *info;
+	bool foundApp = false;
+	OSErr err;
+	ProcessSerialNumber psn = {0, kNoProcess};
+	
+	while (!foundApp)
+	{
+		err = GetNextProcess(&psn);
+		
+		if (!err)
+		{
+			info = (NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
+			foundApp = [@"org.mozilla.firefox" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
+		}
+		else
+		{
+			break;
+		}
+	}
+	
+	NSLog(@"FirefoxAction::IsApplicationRunning. Result %u", foundApp);
+	return foundApp;
 }
 
 bool FirefoxAction::_isInstalled()
 {
-    string APP_FILE = "/Applications/Firefox.app/Contents/MacOS/firefox";
-    bool installed = false;
-    fstream reader;
-    
-    reader.open(APP_FILE.c_str());
-    
-    if (reader.is_open())
-    {
-        reader.close();
-        installed = true;
-    }
-    
-    NSLog(@"FirefoxAction::_isInstalled. Installed %u", installed);
-    return installed;
+	string APP_FILE = "/Applications/Firefox.app/Contents/MacOS/firefox";
+	bool installed = false;
+	fstream reader;
+	
+	reader.open(APP_FILE.c_str());
+	
+	if (reader.is_open())
+	{
+		reader.close();
+		installed = true;
+	}
+	
+	NSLog(@"FirefoxAction::_isInstalled. Installed %u", installed);
+	return installed;
 }
 
 string FirefoxAction::_getInstalledLang()
 {
-    string CATALAN_RESOURCE_FILE = "/Applications/Firefox.app/Contents/Resources/ca.lproj/InfoPlist.strings";
-    string language;
-    fstream reader;
-    
-    reader.open(CATALAN_RESOURCE_FILE.c_str());
-    
-    if (reader.is_open())
-    {
-        reader.close();
-        language = "ca";
-    }
-    else
-        language = "xx";
-    
-    NSLog(@"FirefoxAction::_getInstalledLang. Language %s", language.c_str());
-    return language;
+	string CATALAN_RESOURCE_FILE = "/Applications/Firefox.app/Contents/Resources/ca.lproj/InfoPlist.strings";
+	string language;
+	fstream reader;
+	
+	reader.open(CATALAN_RESOURCE_FILE.c_str());
+	
+	if (reader.is_open())
+	{
+		reader.close();
+		language = "ca";
+	}
+	else
+		language = "xx";
+	
+	NSLog(@"FirefoxAction::_getInstalledLang. Language %s", language.c_str());
+	return language;
 }
 
 FirefoxAcceptLanguages * FirefoxAction::_getAcceptLanguages()
 {
-    if (m_acceptLanguages == NULL)
-    {
-        string fullPath, installLang;
-        NSString* homeDir = NSHomeDirectory();
-        
-        fullPath = [homeDir UTF8String];
-        fullPath += "/Library/Application Support/Firefox/";
-        installLang = _getInstalledLang();
-        
-        m_acceptLanguages = new FirefoxAcceptLanguages(fullPath, installLang);
-    }
-    return m_acceptLanguages;
+	if (m_acceptLanguages == NULL)
+	{
+		string fullPath, installLang;
+		NSString* homeDir = NSHomeDirectory();
+		
+		fullPath = [homeDir UTF8String];
+		fullPath += "/Library/Application Support/Firefox/";
+		installLang = _getInstalledLang();
+		
+		m_acceptLanguages = new FirefoxAcceptLanguages(fullPath, installLang);
+	}
+	return m_acceptLanguages;
 }
 
 
 const char* FirefoxAction::GetVersion()
 {
-    if (m_version.empty())
-    {
-        NSBundle* bundle;
-        
-        bundle = [[NSBundle alloc] initWithPath: @"/Applications/Firefox.app/"];
-        NSDictionary* infoDict = [bundle infoDictionary];
-        NSString* version = [infoDict objectForKey:@"CFBundleShortVersionString"];
-        
-        if (version != NULL)
-        {
-            m_version = [version UTF8String];
-        }
-    }
-    
-    return m_version.c_str();
+	if (m_version.empty())
+	{
+		NSBundle* bundle;
+		
+		bundle = [[NSBundle alloc] initWithPath: @"/Applications/Firefox.app/"];
+		NSDictionary* infoDict = [bundle infoDictionary];
+		NSString* version = [infoDict objectForKey:@"CFBundleShortVersionString"];
+		
+		if (version != NULL)
+		{
+			m_version = [version UTF8String];
+		}
+	}
+	
+	return m_version.c_str();
 }
 
 
 bool FirefoxAction::IsNeed()
 {
-    bool bNeed;
-    
+	bool bNeed;
+	
 	switch(GetStatus())
 	{
 		case NotInstalled:
@@ -147,33 +147,33 @@ bool FirefoxAction::IsNeed()
 			bNeed = true;
 			break;
 	}
-    
-    NSLog(@"FirefoxAction::IsNeed. %u", bNeed);
+	
+	NSLog(@"FirefoxAction::IsNeed. %u", bNeed);
 	return bNeed;
 }
 
 void FirefoxAction::Execute()
 {
-    bool isOk;
-    
-    _getAcceptLanguages()->Execute();
-    isOk = _getAcceptLanguages()->IsNeed() == false;
-    SetStatus(isOk ? Successful : FinishedWithError);
-    
-    NSLog(@"FirefoxAction::Execute. Result %u", isOk);
+	bool isOk;
+	
+	_getAcceptLanguages()->Execute();
+	isOk = _getAcceptLanguages()->IsNeed() == false;
+	SetStatus(isOk ? Successful : FinishedWithError);
+	
+	NSLog(@"FirefoxAction::Execute. Result %u", isOk);
 }
 
 void FirefoxAction::CheckPrerequirements(Action * action)
 {
 	if (_isInstalled())
 	{
-        if (_getAcceptLanguages()->IsNeed() == false)
-        {
-            SetStatus(AlreadyApplied);
-        }
- 	}
-    else
-    {
+		if (_getAcceptLanguages()->IsNeed() == false)
+		{
+			SetStatus(AlreadyApplied);
+		}
+	}
+	else
+	{
 		_setStatusNotInstalled();
 	}
 }

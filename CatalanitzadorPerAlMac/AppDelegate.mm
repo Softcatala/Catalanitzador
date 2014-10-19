@@ -41,105 +41,105 @@ NSString *alertTitle = @"Catalanitzador per al Mac";
 
 -(NSInteger) numberOfRowsInTableView: (NSTableView *) tableView
 {
-    return actions.size();
+	return actions.size();
 }
 
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    NSButtonCell *buttonCell;
-    buttonCell = [aTableColumn dataCell];
-    Action* action = actions.at(rowIndex);
-    
-    if (action->GetStatus() == Selected)
-    {
-        action->SetStatus(NotSelected);
-    }
-    else if (action->GetStatus() == NotSelected)
-    {
-        action->SetStatus(Selected);
-    }
+	NSButtonCell *buttonCell;
+	buttonCell = [aTableColumn dataCell];
+	Action* action = actions.at(rowIndex);
+	
+	if (action->GetStatus() == Selected)
+	{
+		action->SetStatus(NotSelected);
+	}
+	else if (action->GetStatus() == NotSelected)
+	{
+		action->SetStatus(Selected);
+	}
 }
 
 
 -(id) tableView:(NSTableView *) tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
-    NSButtonCell *buttonCell;
-    NSString* text;
-    buttonCell = [tableColumn dataCell];
-    Action* action = actions.at(rowIndex);
-    
-    text = [NSString stringWithUTF8String: action->GetName()];
-    
-    // Action already executed show it disabled
-    if (action->GetStatus() == Successful || action->GetStatus() == FinishedWithError)
-    {
-        [buttonCell setEnabled:NO];
-    }
-    else
-    {
-        if (action->IsNeed())
-        {
-            [buttonCell setEnabled:YES];
-        }
-        else
-        {
-            [buttonCell setEnabled:NO];
-        }
-    }
-    
-    [buttonCell setTitle:text];
-    
-    ActionStatus status = action->GetStatus();
+	NSButtonCell *buttonCell;
+	NSString* text;
+	buttonCell = [tableColumn dataCell];
+	Action* action = actions.at(rowIndex);
+	
+	text = [NSString stringWithUTF8String: action->GetName()];
+	
+	// Action already executed show it disabled
+	if (action->GetStatus() == Successful || action->GetStatus() == FinishedWithError)
+	{
+		[buttonCell setEnabled:NO];
+	}
+	else
+	{
+		if (action->IsNeed())
+		{
+			[buttonCell setEnabled:YES];
+		}
+		else
+		{
+			[buttonCell setEnabled:NO];
+		}
+	}
+	
+	[buttonCell setTitle:text];
+	
+	ActionStatus status = action->GetStatus();
  
-    if (status == Selected || status == AlreadyApplied  || 
-        status == FinishedWithError || status == Successful)
-    {
-        return [NSNumber numberWithBool:YES];
-    }
-    else
-        return [NSNumber numberWithBool:NO];
+	if (status == Selected || status == AlreadyApplied  ||
+		status == FinishedWithError || status == Successful)
+	{
+		return [NSNumber numberWithBool:YES];
+	}
+	else
+		return [NSNumber numberWithBool:NO];
 }
 
 - (void)updateDescriptionForRow:(NSInteger)rowIndex
 {
-    NSString* text;
-    Action* action = actions.at(rowIndex);
-    text = [NSString stringWithUTF8String: action->GetDescription()];
-    [_ActionDescription setTitle:text];
-    
-    const char* cannotBeAppliedText = action->GetCannotNotBeApplied();
-    text = [NSString stringWithUTF8String: cannotBeAppliedText];
-    [_CannotBeAppliedReason setTitle:text];
-    
-    if (strlen(cannotBeAppliedText) > 0)
-    {
-        [_CannotBeApplied setHidden:NO];
-    }
-    else
-    {
-        [_CannotBeApplied setHidden:YES];
-    }
+	NSString* text;
+	Action* action = actions.at(rowIndex);
+	text = [NSString stringWithUTF8String: action->GetDescription()];
+	[_ActionDescription setTitle:text];
+	
+	const char* cannotBeAppliedText = action->GetCannotNotBeApplied();
+	text = [NSString stringWithUTF8String: cannotBeAppliedText];
+	[_CannotBeAppliedReason setTitle:text];
+	
+	if (strlen(cannotBeAppliedText) > 0)
+	{
+		[_CannotBeApplied setHidden:NO];
+	}
+	else
+	{
+		[_CannotBeApplied setHidden:YES];
+	}
 }
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
-    [self updateDescriptionForRow:rowIndex];
-    return TRUE;
+	[self updateDescriptionForRow:rowIndex];
+	return TRUE;
 }
 
 void _showDialogBox(NSString* title, NSString* text)
 {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText:title];
-    [alert setInformativeText:text];
-    [alert setAlertStyle:0];
-    [alert runModal];
+	NSAlert *alert = [[NSAlert alloc] init];
+	[alert setMessageText:title];
+	[alert setInformativeText:text];
+	[alert setAlertStyle:0];
+	[alert runModal];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
 {
-    return YES;
+	return YES;
 }
 
 void redirectNSLogToDocumentFolder()
@@ -148,92 +148,92 @@ void redirectNSLogToDocumentFolder()
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	NSString *fileName = @"CatalanitzadorPerAlMac.log";
 	NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
-    
+	
 	freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
 - (void)setDefaultRow:(int)row
 {
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:row];
-    [_ApplicationsList selectRowIndexes:indexSet byExtendingSelection:NO];
-    [self updateDescriptionForRow:row];
+	NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:row];
+	[_ApplicationsList selectRowIndexes:indexSet byExtendingSelection:NO];
+	[self updateDescriptionForRow:row];
 }
 
 void _initLog()
 {
-    OSVersion version;
-    
-    NSLog(@"Catalanitzador per al Mac version %s built on: %s, %s", STRING_VERSION_RESOURCES,  __DATE__, __TIME__);
-    NSLog(@"Mac OS version: %u.%u.%u", version.GetMajorVersion(),
-          version.GetMinorVersion(), version.GetBugFix());
+	OSVersion version;
+	
+	NSLog(@"Catalanitzador per al Mac version %s built on: %s, %s", STRING_VERSION_RESOURCES,  __DATE__, __TIME__);
+	NSLog(@"Mac OS version: %u.%u.%u", version.GetMajorVersion(),
+		  version.GetMinorVersion(), version.GetBugFix());
 }
 
 void _serialize(Serializer& serializer)
 {
-    serializer.OpenHeader();
-    
-    serializer.StartAction();
-    for (int i = 0; i < actions.size(); i++)
-    {
-        actions.at(i)->Serialize(serializer.GetStream());
-    }
-    serializer.EndAction();
-    serializer.CloseHeader();
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+	serializer.OpenHeader();
+	
+	serializer.StartAction();
+	for (int i = 0; i < actions.size(); i++)
+	{
+		actions.at(i)->Serialize(serializer.GetStream());
+	}
+	serializer.EndAction();
+	serializer.CloseHeader();
+	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	NSString *fileName = @"statistics.xml";
 	statsFilename = [documentsDirectory stringByAppendingPathComponent:fileName];
-    statsFilename = [statsFilename copy];
-    serializer.SaveToFile([statsFilename UTF8String]);
+	statsFilename = [statsFilename copy];
+	serializer.SaveToFile([statsFilename UTF8String]);
 }
 
 
 void _upload(Serializer& serializer)
 {
-    string serialize;
-    vector <string> variables;
-    vector <string> values;
-    
-    serializer.SaveToString(serialize);
-    
-    variables.push_back("xml");
-    values.push_back(serialize);
-
-    HttpFormInet access;
-    access.PostForm(UPLOAD_URL, variables, values);
+	string serialize;
+	vector <string> variables;
+	vector <string> values;
+	
+	serializer.SaveToString(serialize);
+	
+	variables.push_back("xml");
+	values.push_back(serialize);
+	
+	HttpFormInet access;
+	access.PostForm(UPLOAD_URL, variables, values);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    if (statsFilename != nil)
-    {
-        [[NSFileManager defaultManager] removeItemAtPath:statsFilename error:nil];
-    }
+	if (statsFilename != nil)
+	{
+		[[NSFileManager defaultManager] removeItemAtPath:statsFilename error:nil];
+	}
 }
 
 - (void)sendStatistics
 {
-    if ([_SendStats state] != NSOffState)
-    {
-        Serializer serializer;
-        _serialize(serializer);
-        _upload(serializer);
-    }
+	if ([_SendStats state] != NSOffState)
+	{
+		Serializer serializer;
+		_serialize(serializer);
+		_upload(serializer);
+	}
 }
 
 - (bool)IsRebootNeeded
 {
 	bool rebootNeed = false;
-
+	
 	for (int i = 0; i < actions.size(); i++)
-    {
-        if (actions.at(i)->IsRebootNeed())
-        {
+	{
+		if (actions.at(i)->IsRebootNeed())
+		{
 			rebootNeed = true;
 			break;
-        }
-    }
+		}
+	}
 	
 	return rebootNeed;
 }
@@ -256,113 +256,113 @@ void _upload(Serializer& serializer)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    bool anyAction = false;
-    
-    redirectNSLogToDocumentFolder();
-    _initLog();
-    
-    actions.push_back(&systemLanguageAction);
-    actions.push_back(&firefoxAction);
-    actions.push_back(&spellCheckerAction);
-    actions.push_back(&chromeAction);
-    
-    [NSApp activateIgnoringOtherApps:YES];
-    [_DoChanges setKeyEquivalent:@"\r"];
-    
-    for (int i = 0; i < actions.size(); i++)
-    {
-        actions.at(i)->CheckPrerequirements(NULL);
-        if (actions.at(i)->IsNeed() == true)
-        {
-            anyAction = true;
-        }
-    }
-    
-    if (anyAction == false)
-    {
-        [_DoChanges setEnabled:NO];
-        [_Results setStringValue:@"Aquest ordinador ja es troba catalanitzat!"];
-        [self sendStatistics];
-    }
-    
-    [_ApplicationsList setDataSource:self];
-    [_ApplicationsList setDelegate:self];
-    [self setDefaultRow:0];
+	bool anyAction = false;
+	
+	redirectNSLogToDocumentFolder();
+	_initLog();
+	
+	actions.push_back(&systemLanguageAction);
+	actions.push_back(&firefoxAction);
+	actions.push_back(&spellCheckerAction);
+	actions.push_back(&chromeAction);
+	
+	[NSApp activateIgnoringOtherApps:YES];
+	[_DoChanges setKeyEquivalent:@"\r"];
+	
+	for (int i = 0; i < actions.size(); i++)
+	{
+		actions.at(i)->CheckPrerequirements(NULL);
+		if (actions.at(i)->IsNeed() == true)
+		{
+			anyAction = true;
+		}
+	}
+	
+	if (anyAction == false)
+	{
+		[_DoChanges setEnabled:NO];
+		[_Results setStringValue:@"Aquest ordinador ja es troba catalanitzat!"];
+		[self sendStatistics];
+	}
+	
+	[_ApplicationsList setDataSource:self];
+	[_ApplicationsList setDelegate:self];
+	[self setDefaultRow:0];
 }
 
 - (IBAction)Cancel:(id)sender {
-    
-    [NSApp terminate:self];
+	
+	[NSApp terminate:self];
 }
 - (IBAction)SaveChanges:(id)sender {
-
-    bool correct = true;
-    bool chromeSelected, firefoxSelected;
-    
-    chromeSelected = chromeAction.IsNeed() && chromeAction.GetStatus() == Selected;
-    firefoxSelected = firefoxAction.IsNeed() && firefoxAction.GetStatus() == Selected;
-    
-    if (chromeSelected)
-    {
-        if (chromeAction.IsApplicationRunning())
-        {
-            _showDialogBox(alertTitle,
-                           @"Cal que tanqueu el navegador Chrome abans de continuar. No es pot canviar la llengua de navegació si està obert.");
-            return;
-        }
-    }
-    
-    if (firefoxSelected)
-    {
-        if (firefoxAction.IsApplicationRunning())
-        {
-            _showDialogBox(alertTitle,
-                           @"Cal que tanqueu el navegador Firefox abans de continuar. No es pot canviar la llengua de navegació si està obert.");
-            return;
-        }
-    }
-    
-    if (chromeSelected)
-    {
-        chromeAction.Execute();
-        if (chromeAction.GetStatus() != Successful)
-            correct = false;
-    }
-    
-    if (firefoxSelected)
-    {
-        firefoxAction.Execute();
-        if (firefoxAction.GetStatus() != Successful)
-            correct = false;
-    }
-    
-    if (systemLanguageAction.IsNeed() && systemLanguageAction.GetStatus() == Selected)
-    {
-        systemLanguageAction.Execute();
-        if (systemLanguageAction.GetStatus() != Successful)
-            correct = false;
-    }
-        
-    if (spellCheckerAction.IsNeed() && spellCheckerAction.GetStatus() == Selected)
-    {
-        spellCheckerAction.Execute();
-        if (spellCheckerAction.GetStatus() != Successful)
-            correct = false;
-    }
-    
-    [_DoChanges setEnabled:NO];
-    
-    if (correct)
-    {
-        [_Results setStringValue:@"Els canvis s'han aplicat correctament"];
-    }
-    else
-    {
-         [_Results setStringValue:@"No tots els canvis s'han aplicat correctament"];
-    }
-    
-    [_ApplicationsList reloadData];
-    [self sendStatistics];
+	
+	bool correct = true;
+	bool chromeSelected, firefoxSelected;
+	
+	chromeSelected = chromeAction.IsNeed() && chromeAction.GetStatus() == Selected;
+	firefoxSelected = firefoxAction.IsNeed() && firefoxAction.GetStatus() == Selected;
+	
+	if (chromeSelected)
+	{
+		if (chromeAction.IsApplicationRunning())
+		{
+			_showDialogBox(alertTitle,
+						   @"Cal que tanqueu el navegador Chrome abans de continuar. No es pot canviar la llengua de navegació si està obert.");
+			return;
+		}
+	}
+	
+	if (firefoxSelected)
+	{
+		if (firefoxAction.IsApplicationRunning())
+		{
+			_showDialogBox(alertTitle,
+						   @"Cal que tanqueu el navegador Firefox abans de continuar. No es pot canviar la llengua de navegació si està obert.");
+			return;
+		}
+	}
+	
+	if (chromeSelected)
+	{
+		chromeAction.Execute();
+		if (chromeAction.GetStatus() != Successful)
+			correct = false;
+	}
+	
+	if (firefoxSelected)
+	{
+		firefoxAction.Execute();
+		if (firefoxAction.GetStatus() != Successful)
+			correct = false;
+	}
+	
+	if (systemLanguageAction.IsNeed() && systemLanguageAction.GetStatus() == Selected)
+	{
+		systemLanguageAction.Execute();
+		if (systemLanguageAction.GetStatus() != Successful)
+			correct = false;
+	}
+	
+	if (spellCheckerAction.IsNeed() && spellCheckerAction.GetStatus() == Selected)
+	{
+		spellCheckerAction.Execute();
+		if (spellCheckerAction.GetStatus() != Successful)
+			correct = false;
+	}
+	
+	[_DoChanges setEnabled:NO];
+	
+	if (correct)
+	{
+		[_Results setStringValue:@"Els canvis s'han aplicat correctament"];
+	}
+	else
+	{
+		[_Results setStringValue:@"No tots els canvis s'han aplicat correctament"];
+	}
+	
+	[_ApplicationsList reloadData];
+	[self sendStatistics];
 	
 	if ([self IsRebootNeeded])
 		[self AskIfUserWantsToReboot];
