@@ -294,65 +294,60 @@ void _upload(Serializer& serializer)
 	
 	[NSApp terminate:self];
 }
-- (IBAction)SaveChanges:(id)sender {
+
+- (bool)AskUserToCloseOpenApps
+{
 	
-	bool correct = true;
-	bool chromeSelected, firefoxSelected;
-	
-	chromeSelected = chromeAction.IsNeed() && chromeAction.GetStatus() == Selected;
-	firefoxSelected = firefoxAction.IsNeed() && firefoxAction.GetStatus() == Selected;
-	
-	if (chromeSelected)
+	if (chromeAction.IsNeed() && chromeAction.GetStatus() == Selected)
 	{
 		if (chromeAction.IsApplicationRunning())
 		{
 			_showDialogBox(alertTitle,
 						   @"Cal que tanqueu el navegador Chrome abans de continuar. No es pot canviar la llengua de navegació si està obert.");
-			return;
+			return true;
 		}
 	}
 	
-	if (firefoxSelected)
+	if (firefoxAction.IsNeed() && firefoxAction.GetStatus() == Selected)
 	{
 		if (firefoxAction.IsApplicationRunning())
 		{
 			_showDialogBox(alertTitle,
 						   @"Cal que tanqueu el navegador Firefox abans de continuar. No es pot canviar la llengua de navegació si està obert.");
-			return;
+			return true;
 		}
 	}
 	
-	if (chromeSelected)
-	{
-		chromeAction.Execute();
-		if (chromeAction.GetStatus() != Successful)
-			correct = false;
-	}
+	return false;
+}
+
+
+- (bool)ExecuteActions
+{
+	bool correct = true;
 	
-	if (firefoxSelected)
+	for (int i = 0; i < actions.size(); i++)
 	{
-		firefoxAction.Execute();
-		if (firefoxAction.GetStatus() != Successful)
-			correct = false;
+		Action* action = actions.at(i);
+		
+		if (action->IsNeed() && action->GetStatus() == Selected)
+		{
+			action->Execute();
+			if (action->GetStatus() != Successful)
+				correct = false;
+		}
 	}
-	
-	if (systemLanguageAction.IsNeed() && systemLanguageAction.GetStatus() == Selected)
-	{
-		systemLanguageAction.Execute();
-		if (systemLanguageAction.GetStatus() != Successful)
-			correct = false;
-	}
-	
-	if (spellCheckerAction.IsNeed() && spellCheckerAction.GetStatus() == Selected)
-	{
-		spellCheckerAction.Execute();
-		if (spellCheckerAction.GetStatus() != Successful)
-			correct = false;
-	}
+	return correct;
+}
+
+- (IBAction)SaveChanges:(id)sender
+{
+	if ([self AskUserToCloseOpenApps] == true)
+		return;
 	
 	[_DoChanges setEnabled:NO];
 	
-	if (correct)
+	if ([self ExecuteActions])
 	{
 		[_Results setStringValue:@"Els canvis s'han aplicat correctament"];
 	}
