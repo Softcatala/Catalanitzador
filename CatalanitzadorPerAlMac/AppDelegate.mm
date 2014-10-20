@@ -282,7 +282,6 @@ void _upload(Serializer& serializer)
 	{
 		[_DoChanges setEnabled:NO];
 		[_Results setStringValue:@"Aquest ordinador ja es troba catalanitzat!"];
-		[self sendStatistics];
 	}
 	
 	[_ApplicationsList setDataSource:self];
