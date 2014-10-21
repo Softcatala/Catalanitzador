@@ -15,7 +15,8 @@ class StatsOptions {
             3 => "OptionShareTwitter", 
             4 => "OptionShareFacebook", 
             5 => "OptionShareGooglePlus", 
-            6 => "OptionSilentInstall"
+            6 => "OptionSilentInstall",
+            7 => "OptionShowImpersonatedDlg"
         );
         
         $this->_db = $db;
