@@ -36,6 +36,10 @@ void AboutBoxDlgUI::_onInitDialog()
 	StringConversion::ToWideChar(string(STRING_VERSION_RESOURCES), version);
 
 	version = ConfigurationInstance::Get().GetVersion().GetString();
+
+#if DEVELOPMENT_VERSION
+	version += L" (dev)";
+#endif
 	
 	LoadString(GetModuleHandle(NULL), IDS_ABOUTDLG_VERSION, szResource, MAX_LOADSTRING);
 	swprintf_s(szString, szResource, version.c_str(), date.c_str(), time.c_str());
