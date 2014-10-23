@@ -358,10 +358,15 @@ void _upload(Serializer& serializer)
 	[_ApplicationsList reloadData];
 	[self sendStatistics];
 	
-	if ([self IsRebootNeeded])
-		[self AskIfUserWantsToReboot];
-	
 }
 - (IBAction)ApplicationListSelector:(id)sender {
 }
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+	
+	if ([self IsRebootNeeded])
+		[self AskIfUserWantsToReboot];
+	
+	return NSTerminateNow;
+}
+
 @end
