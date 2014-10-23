@@ -114,12 +114,14 @@ void SpellCheckerAction::Execute()
 	bool isOk;
 	
 	requestPermissions();
-	
+
+	// NOTE: do not use special chars (like accents) in the target file name
+	// We were not able to reproduce it but users reported problems with the dictionary
 	srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
-	_copyfile(srcFile, @"/Library/Spelling/Català.aff");
+	_copyfile(srcFile, @"/Library/Spelling/Catala.aff");
 	
 	srcFile = _getBundlePath(CFSTR("Català"), CFSTR("dic"));
-	_copyfile(srcFile, @"/Library/Spelling/Català.dic");
+	_copyfile(srcFile, @"/Library/Spelling/Catala.dic");
 	
 	isOk = _isDictionaryInstalled();
 	SetStatus(isOk ? Successful : FinishedWithError);
