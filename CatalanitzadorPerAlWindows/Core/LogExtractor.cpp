@@ -166,7 +166,7 @@ void LogExtractor::ExtractLines()
 	m_lines.clear();
 	
 	stream = _openFile();
-	if (_openFile() == NULL)
+	if (stream == NULL)
 	{
 		return;
 	}
