@@ -28,6 +28,7 @@
 #include "Version.h"
 #include "RemoteURLs.h"
 #include "Reboot.h"
+#include "DictationAction.h"
 
 @implementation AppDelegate
 
@@ -36,6 +37,8 @@ SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
 ChromeAction chromeAction;
+DictationAction dictationAction;
+
 NSString *statsFilename = nil;
 NSString *alertTitle = @"Catalanitzador per al Mac";
 
@@ -265,6 +268,7 @@ void _upload(Serializer& serializer)
 	actions.push_back(&firefoxAction);
 	actions.push_back(&spellCheckerAction);
 	actions.push_back(&chromeAction);
+	actions.push_back(&dictationAction);
 	
 	[NSApp activateIgnoringOtherApps:YES];
 	[_DoChanges setKeyEquivalent:@"\r"];
