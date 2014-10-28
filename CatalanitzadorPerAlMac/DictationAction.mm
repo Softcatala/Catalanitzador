@@ -26,7 +26,7 @@ static NSString *const g_dictationIMUserDefaultPersistentDomain = @"com.apple.sp
 static NSString *const g_dictationIMMasterDictationEnabled = @"DictationIMMasterDictationEnabled";
 static NSString *const g_dictationIMUseOnlyOfflineDictation = @"DictationIMUseOnlyOfflineDictation";
 static NSString *const g_dictationIMLocaleIdentifier = @"DictationIMLocaleIdentifier";
-static NSString *const g_localeIdentifierToSet = @"ca-ES";
+static NSString *const g_localeIdentifierToSet = @"ca_ES";
 
 DictationAction::DictationAction()
 {
@@ -138,7 +138,7 @@ bool DictationAction::_isLocaleSet()
 	NSDictionary* globalDomain = [defs persistentDomainForName:g_dictationIMUserDefaultPersistentDomain];
 	NSString* locale = [globalDomain objectForKey:g_dictationIMLocaleIdentifier];
 	
-	bool isSet = [locale isEqualToString:g_localeIdentifierToSet] == false;
+	bool isSet = [locale isEqualToString:g_localeIdentifierToSet];
 	NSLog(@"DictationAction::_isLocaleSet. Result %u", isSet);
 	return isSet;
 }
