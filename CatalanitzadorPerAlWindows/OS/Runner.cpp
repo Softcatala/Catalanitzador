@@ -31,7 +31,7 @@ bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 
 	ZeroMemory (&si, sizeof (si));
 	si.cb = sizeof(si);
-	ZeroMemory (&pi, sizeof (pi));
+	ZeroMemory (&m_pi, sizeof (m_pi));
 	
 	if (b64bits)
 	{
@@ -39,7 +39,7 @@ bool Runner::Execute(wchar_t* program, wchar_t* params, bool b64bits)
 	}
 
 	// Start the child process
-	bRslt = CreateProcess(program, params, NULL,  NULL,  FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+	bRslt = CreateProcess(program, params, NULL,  NULL,  FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &m_pi);
 
 	if (!bRslt)
 	{
@@ -65,13 +65,13 @@ DWORD Runner::GetExitCode() const
 {
 	DWORD dwStatus;
 
-	GetExitCodeProcess(pi.hProcess, &dwStatus);
+	GetExitCodeProcess(m_pi.hProcess, &dwStatus);
 	return dwStatus;
 }
 
 void Runner::WaitUntilFinished() const
 {
-	WaitForSingleObject(pi.hProcess, INFINITE);
+	WaitForSingleObject(m_pi.hProcess, INFINITE);
 }
 
 vector <DWORD> Runner::GetProcessID(wstring name) const

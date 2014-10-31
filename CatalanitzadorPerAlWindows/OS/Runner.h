@@ -39,5 +39,5 @@ private:
 		static BOOL CALLBACK EnumWindowsProcCloseSend(HWND hWnd, LPARAM lParam);
 		static BOOL CALLBACK EnumWindowsProcQuit(HWND hWnd, LPARAM lParam);
 
-		PROCESS_INFORMATION pi;
+		PROCESS_INFORMATION m_pi;
 };
