@@ -98,6 +98,7 @@
 </div>
 
 <?php include('footer.html'); ?>
+<?php include('footer_sc.php'); ?>
 
 
 

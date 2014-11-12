@@ -13,14 +13,9 @@ $result = new Result();
 
 if (isset($_POST['xml'])){
     $xmlstring = utf8_decode($_POST['xml']);
-    //$xmlstring = str_replace ( "\", "\\", $xmlstring);
-
 
     //Transform the xml string into a simplexml object
     $xml = simplexml_load_string($xmlstring, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
-
-    //If the xml is a file
-    //$xml = simplexml_load_file("xml/model.xml");
 
     if (!empty($xml)){
         //Application

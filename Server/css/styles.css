@@ -14,14 +14,14 @@
 /* reset.css */
 html {margin:0;padding:0;border:0;}
 body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a, img, q, dl, dt, dd, ol, ul, li {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
-body {line-height:1.5;background:white;}
+body {line-height:1.5 !important;background:white;}
 a img {border:none;}
 :focus {outline:0;}
 br.p { clear: both;}
 
 /* typography.css */
 html {font-size:100.01%;}
-body {font-size:75%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif; margin: 0 auto; text-align:center !important; }
+body {font-size:75%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif  !important; margin: 0 auto; text-align:center !important; }
 h1, h2, h3, h4, h5, h6 {font-weight:normal;color:#111;}
 h1 {font-size:3em;line-height:1;margin-bottom:0.5em;}
 h2 {font-size:27px;color:#454649; text-align: left; margin-bottom:0.75em;}
@@ -176,7 +176,7 @@ div.center_bottom .center_column #tweets .twtr-widget .twtr-tweet {
 }
 div.center_bottom .center_column #tweets .twtr-join-conv { display: none;}
 
-div.bottom { height: auto; background: #cfcfcf; margin: 0 auto; text-align: center; color: #000;}
+div.bottom { height: auto; background: #cfcfcf; margin: 0 auto; text-align: center; color: #000; font-size: 12px;}
 div.bottom ul { padding: 20px 0px;  }
 div.bottom ul li { list-style: none; display: inline; }
 div.bottom ul li.seguiunos { display: inline; margin-top: -79px; margin-left: 25px; vertical-align: middle; color: #FFF; font-weight: bold; }
@@ -190,8 +190,8 @@ a.altres { display: inline-block; margin-right: 30px; }
 div.bottom2 { height: auto; background-color: #000; margin: 0 auto; text-align: center; color: #FFF;}
 div.bottom2 ul { padding: 20px 0px;  }
 div.bottom2 ul li { list-style: none; display: inline; }
-div.bottom2 ul li.seguiunos { display: inline; margin-left: 25px; vertical-align: middle; color: #FFF; font-weight: bold; }
-div.bottom2 ul li.social_petit { display: inline; margin-left: 8px; vertical-align: middle; color: #FFF; font-weight: bold; }
+div.bottom2 ul li.seguiunos { display: inline; margin-left: 25px; font-size: 14px; vertical-align: middle; color: #FFF; font-weight: bold; }
+div.bottom2 ul li.social_petit { display: inline-block; margin-top: 5px; margin-left: 8px; vertical-align: middle; color: #FFF; font-weight: bold; }
 .left { float: left; }
 
 /** Banner **/
@@ -317,6 +317,8 @@ a.download_button:hover {
     background-image: -webkit-linear-gradient(top,#b40f0d,#D14836);
     background-image: linear-gradient(center top , #b40f0d, #D14836);
     behavior: url(PIE.htc);
+    color: white;
+    text-decoration: none;
 }
 
 div.sos { display: block; float: left; height: 35px; width: 55px; position: relative; z-index: 1000000; }

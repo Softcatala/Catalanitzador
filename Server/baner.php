@@ -40,14 +40,14 @@
 	</div>
 
 	<div class="outcome">
-	<a href="http://catalanitzador.softcatala.org/?baner=234_60"><img src="/images/baner/Catalanitzador_baner234_60_winOSX.gif" alt="Catalanitzador de Softcatalà" /></a>	
+	<a href="http://www.softcatala.org/catalanitzador/?baner=234_60"><img src="/images/baner/Catalanitzador_baner234_60_winOSX.gif" alt="Catalanitzador de Softcatalà" /></a>	
 	</div>
 
 	<h3>Afegiu el codi següent allà on trieu dins del cos del vostre bloc o lloc web…</h3>
 	<div class="step">
                 <div class="step-number">2</div>
 		<div class="step-script">
-			<code>&lt;a href="http://catalanitzador.softcatala.org/?baner=234_60"&gt;&lt;img src="http://catalanitzador.softcatala.org/images/baner/Catalanitzador_baner234_60_winOSX.gif" alt="Catalanitzador de Softcatalà" /&gt;&lt;/a&gt;</code>
+			<code>&lt;a href="http://www.softcatala.org/catalanitzador/?baner=234_60"&gt;&lt;img src="http://www.softcatala.org/catalanitzador/images/baner/Catalanitzador_baner234_60_winOSX.gif" alt="Catalanitzador de Softcatalà" /&gt;&lt;/a&gt;</code>
 		</div>
         </div>
 	</div>

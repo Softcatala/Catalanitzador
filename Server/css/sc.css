@@ -1,0 +1,1009 @@
+html{}
+
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #ffffff;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	color: #000000;
+	overflow: auto;
+}
+
+ a{color:#3B5998;}
+a:hover{color:#3B5998;text-decoration:underline;}
+
+#container { 
+width: 1015px;
+text-align: left;
+margin:auto;
+} 
+
+.fondo1{ background-image:url(http://www.softcatala.org/img/fonswikip.jpg);background-repeat:repeat-x;} 
+.fondo2{ background-image:url(http://www.softcatala.org/img/fonswikip2.jpg);background-repeat:repeat-x;} 
+.fondo3{ background-image:url(http://www.softcatala.org/img/fonsscp.jpg);background-repeat:repeat-x;} 
+.fondo4{ background-image:url(http://www.softcatala.org/img/fonsnoticiesp.jpg);background-repeat:repeat-x;} 
+.fondo5{ background-image:url(http://www.softcatala.org/img/fonshomep.png);background-repeat:repeat-x;background-color:#E5E3D8;} 
+.fondo6{ background-image:url(http://www.softcatala.org/img/fonsforos.jpg);background-repeat:repeat-x;background-color:#ffffff;}
+.fondo7{ background-image:url(http://www.softcatala.org/img/fonsscperror.jpg);background-repeat:repeat-x;}
+
+#boxheader{clear: both;
+    display: block;
+    height: 100px;
+    margin: 0 auto;
+    background: url('/images/fons_superior_sc.png') repeat-x;
+}
+#boxheadersc_inside{clear: both;
+    display: block;
+    height: 98px;
+    margin: 0 auto;
+    width: 1025px;}
+
+.logo{width:230px;float:left;position:relative;display:inline;text-align:left;}
+
+.logo_home{display: inline;
+    float: left;
+    margin-left: 5px;
+    margin-top: -2px;
+    position: relative;
+    text-align: right;
+    width: 192px;}
+.logo_home img{border:none;}
+
+.boxdies{width:106px;height:119px;float:left;position:relative;float:left;display:inline;margin-right:5px;}
+
+.boxdies h1{width:10%;float:left;position:relative;top:30px;left:33px;font-family:Arial, Helvetica, sans-serif;font-size:22px;color:#ffffff;font-weight:bold;margin:0;padding:0;}
+
+.boxdies h2{width:99%;float:left;position:relative;top:27px;left:38px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:10px;color:#ffffff;font-weight:bold;margin:0;padding:0;}
+
+
+.boxdies h3{width:99%;float:left;position:relative;top:45px;left:0px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:9px;color:#7E0F0D;font-weight:bold;margin:0;padding:0;text-align:center;}
+
+.boxdies h3 b{color:#000000;}
+
+.boxdies2{width:106px;height:119px;float:left;position:relative;float:right;display:inline;}
+
+.boxdies2 h1{width:10%;float:left;position:relative;top:30px;left:27px;font-family:Arial, Helvetica, sans-serif;font-size:22px;color:#ffffff;font-weight:bold;margin:0;padding:0;}
+
+.boxdies2 h2{width:99%;float:left;position:relative;top:27px;left:33px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:10px;color:#ffffff;font-weight:bold;margin:0;padding:0;}
+
+
+.boxdies2 h3{width:99%;float:left;position:relative;top:45px;left:0px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:9px;color:#7E0F0D;font-weight:bold;margin:0;padding:0;text-align:center;}
+
+.boxdies2 h3 b{color:#000000;}
+
+.menutop{width:68%;float:right;display:inline;position:relative;margin-right:25px;}
+
+.menutop h1{float:left;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#505150;padding:0;margin:20px 0px 0px 0px;font-weight:normal;}
+
+.menutop h1 a{color:#505150;font-weight:bold;text-decoration:none;}
+.menutop h1 a:hover{color:#505150;font-weight:bold;text-decoration:underline;}
+
+
+.menutop ul{width:100%;float:left;list-style:none;margin:15px 0px 0px 0px;padding:0;text-align:justify;}
+
+.menutop li{float:right;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;font-weight:bold;color:#ffffff;background-color:#BA2626;margin-left:2px;padding:3px 1.60%;text-align:center;}
+
+.menutop li a{color:#ffffff;text-decoration:none;}
+.menutop li a:hover{color:#ffffff;text-decoration:underline;}
+
+.boxcerca{width:60%;float:right;text-align:right;margin:13px 0px 0px 0px;}
+
+.cerca{font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#2F2F2F;font-weight:bold;}
+.i1{width:30%;height:18px;border:1px solid #BA2626;font-family:Verdana, Arial, Helvetica, sans-serif;color:#2F2F2F;font-weight:normal;font-size:11px;padding:1px 0px 1px 0px;}
+.i2{width:200px;height:15px;border:1px solid #BA2626;font-family:Verdana, Arial, Helvetica, sans-serif;color:#2F2F2F;font-weight:normal;font-size:11px;padding:2px 0px 0px 0px;}
+
+.botcercar{width:10%;height:16px;display:inline;background-color:#FFFFFF;border:1px solid #BA2626;color:#BA2626;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;font-weight:bold;text-align:center;padding:2px;position:relative;_top:-1px;}
+
+
+.botcercar a{color:#BA2626;text-decoration:none;}
+
+.botcercar a:hover{color:#BA2626;text-decoration:underline;}
+
+.boxpuzzle{width:98%;height:160px;float:left;display:block;}
+
+.boxpuzzle ul{width:auto;float:left;list-style:none;margin:0;padding-right:5px;}
+.boxpuzzle li{width:auto;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#ffffff;font-weight:normal;display:inline;}
+
+
+.boxpuzzle li a{color:#ffffff;text-decoration:none;}
+.boxpuzzle li a:hover{color:#ffffff;text-decoration:underline;}
+
+.puzzle{width:auto;height:159px;float:left;display:inline;background-image:url(http://www.softcatala.org/img/puzzle.jpg);background-repeat:no-repeat;background-position:left;margin:0 0 0 3%;}
+
+.wiki{font-family:Arial, Helvetica, sans-serif;font-size:40px;color:#ffffff;font-style:italic;font-weight:bold;position:relative;margin-top:40px;}
+.orange{color:#F87C01;font-style:normal;}
+
+.blanco{font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#ffffff;text-decoration:underline;font-style:normal;}
+
+.blanco a{color:#ffffff;text-decoration:underline;}
+.blanco a:hover{color:#ffffff;text-decoration:underline;}
+
+
+#posleft30{position:relative;left:30px;}
+
+
+
+#sidebar1 {
+	float: left; 
+	width:215px; 
+	_width:22%;
+	background: #ffffff; 
+	padding: 15px 0px 0px 1%; 
+	text-align:center;
+}
+
+
+
+#sidebar2 {
+	float: left; 
+	width:2%; 
+
+	padding: 15px 0px 0px 0; 
+	text-align:center;
+	
+}
+
+#sidebar3 {
+	float: left; 
+	width:4%; 
+
+	padding: 15px 0px 0px 0; 
+	text-align:center;
+	
+}
+#sidebar4 {
+	float: left; 
+	width:41px; 
+
+	padding: 15px 0px 0px 0; 
+	text-align:center;
+	
+}
+
+.thrColHybHdr .sidebar_home {
+	float: left; 
+    	width:225px; 
+	padding: 0px 0px 0px 0; 
+	text-align:center;
+}
+
+.thrColHybHdr .sidebar_home2 {
+	float: left; 
+    width:298px; 
+    position:relative;
+	left:0px;
+	background: #ffffff; 
+	padding: 15px 0px 15px 0; 
+	text-align:center;
+}
+
+/* CONTINGUT CENTRAL */
+#mainContent {
+width:75%;
+_width:73%;
+float:left;
+display:inline;
+background-color:#ffffff;
+ 	margin: 0 0em 0 0em; 
+	padding: 0 0em 0 1em; 
+} 
+
+
+/* CONTINGUT CENTRAL */
+
+#scint {
+width:99.9%;
+float:left;
+display:inline;
+
+ 	margin: 0 0 0 auto; 
+	padding: 0 5px 0 5px; 
+} 
+
+
+
+#scint h1{font-family:Arial, Helvetica, sans-serif;font-size:30px;color:#ffffff;padding:0;margin:15px 0px 0px 0px;}
+
+#scint h2{font-family:Arial, Helvetica, sans-serif;font-size:11px;color:#F87C01;font-weight:bold;padding:0;margin:0px 0px 0px 0px;}
+
+
+#scintnoti {
+width:95%;
+float:left;
+display:inline;
+
+ 	margin: 18px 0 0 auto; 
+	padding: 0 0em 0 0; 
+} 
+
+/** added 10px to margin-top **/
+.txtint{width:99%;float:left;margin-top:10px;}
+
+.txtint p{width:99%;float:left;margin-top:25px;font-family:Verdana, Arial, Helvetica, sans-serif;color:#000000;font-size:11px;line-height:19px;}
+
+.txtint p a{color:#3A33AB;text-decoration:underline;}  
+.txtint p a:hover{color:#3A33AB;text-decoration:underline;}  
+
+/** change 252px to 240px **/
+.boxtit{width:240px;float:left;background-color:#cccccc;padding:5px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;font-weight:normal;}
+.boxtit2{width:195px;float:left;background-color:#cccccc;padding:5px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;font-weight:normal;margin-bottom:5px;margin-top:15px;}
+/**Change top 208 px boxtit**/
+.boxtitp{width:200px;float:left;background-color:#cccccc;padding:5px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;font-weight:normal;}
+
+.logopatro{width:99%;float:left;background-color:#ffffff;padding-bottom:30px;}
+
+.banners{width:93%;float:left;margin-top:15px;position:relative;left:5px;text-align:center;}
+
+
+.boxtraductor{width:97%;padding:0px 0px 10px 10px;float:left;margin-top:15px;background-color:#E5E3D8;}
+
+.sentit{font-size:13px;}
+.sentit a{color:#3A33AB;}
+
+label{display:none;}
+.tra{width:258px;height:20px;font-size:12px;color:#000000;font-family:Verdana, Arial, Helvetica, sans-serif;border:1px solid #000000;padding:2px 0px 2px 3px;}
+
+
+.ico2{position:relative;top:3px;_top:2px;}
+
+/**Substitucio de text a texte per a evitar problemes**/
+.texte{width:99%;float:left;height:250px;border:0;font-size:12px;color:#000000;font-family:Verdana, Arial, Helvetica, sans-serif;}
+
+.acent{text-align:center;}
+
+.grid370b{width:49%;float:left;display:inline;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;}
+
+.grid370{width:45%;float:left;display:inline;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;}
+
+.grid370_home1{width:50%;float:left;display:inline;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;}
+.grid370_home2{width:49%;float:left;display:inline;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;}
+
+.grid370 h1, .grid370b h1{width:99%;float:left;border-bottom:5px solid #AFAFAF;font-family:Arial, Helvetica, sans-serif;font-size:20px;color:#000000;padding:0px 0px 0px 0px;margin:15px 0px 0px 0px;}
+
+.grid370 h2, .grid370b h2{width:99%;float:left;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#3A33AB;font-weight:bold;padding:0px 0px 0px 0px;margin:10px 0px 0px 0px;}
+.grid370 h2 a, .grid370b a{color:#3A33AB;text-decoration:underline;}
+.grid370 h2 a:hover, grid370b a:hover{color:#3A33AB;text-decoration:underline;}
+
+.grid370 ul, .grid370b ul{width:99%;float:left;padding:0px 0px 0px 0px;margin:7px 0px 0px 0px;list-style:none;}
+
+.grid370 li, .grid370b li{width:99%;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#000000;font-weight:normal;padding:0px 0px 0px 0px;margin:7px 0px 0px 0px;}
+.grid370 li a, .grid370b li a{color:#3A33AB;text-decoration:underline;}
+.grid370 li a:hover, .grid370b li a:hover{color:#3A33AB;text-decoration:underline;}
+
+.menu{width:auto;display:block;float:none;}
+
+.menu ul{width:48%;float:left;display:inline;padding:0px 0px 0px 0px;margin:7px 0px 0px 0px;list-style:none;}
+
+.menu  li{width:99%;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#000000;font-weight:normal;padding:0px 0px 0px 10px;margin:7px 0px 0px 0px;background-image:url(http://www.softcatala.org/img/flecha.jpg);background-repeat:no-repeat;background-position:left center;float:left;}
+.menu  li a{color:#3A33AB;text-decoration:underline;}
+.menu  li a:hover{color:#3A33AB;text-decoration:underline;}
+
+#db1{display:block;float:left;width:180px;}
+#db2{display:block;float:left;width:300px;}
+#db3{display:block;float:left;width:350px;}
+
+.ico{position:relative;top:4px;}
+
+
+
+#icopos{background-image:url(http://www.softcatala.org/img/flecha2.jpg);background-position:top left;}
+
+.bot_comprova{width:154px;position:relative;display:inline;top:-20px;float:right;}
+
+
+.nodeco{text-decoration:none;}
+.normal{font-weight:normal;}
+
+
+.gridfull{width:99%;float:left;}
+.gridfull_b{width:690px;_width:660px;float:left;}
+
+.grid95{width:95%;float:left;}
+
+.gridfull h1{font-family:Arial, Helvetica, sans-serif;font-size:30px;font-weight:bold;color:#BA2626;margin:0;padding:0;}
+
+.ruta{font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;font-weight:bold;color:#6C6C6B;}
+.ruta a{color:#6C6C6B;text-decoration:none;}
+.ruta a:hover{color:#6C6C6B;text-decoration:underline;}
+
+.menucentral{width:99%;float:left;padding:0;}
+
+.menucentral2{width:95%;_width:auto;float:left;padding:0;}
+
+.menucentral ul{width:99%;float:left;list-style:none;border-bottom:1px solid #CC6600;padding:0;margin:30px 0px 0px 0px;}
+.menucentral li{width:130px;float:left;display:inline;padding:3px 0px 0px 10px;}
+.menucentral li a{color:#5E5E5E;text-decoration:none;font-size:13px;font-weight:normal;position:relative;top:-5px;}
+.menucentral li a:hover{color:#5E5E5E;text-decoration:none;font-weight:bold;}
+
+/**change selected per seleccionat**/
+
+.selected{display:block;border-top:1px solid #CC6600;border-left:1px solid #CC6600;border-right:1px solid #CC6600;color:#000000;font-size:18px;border-bottom:1px solid #ffffff;position:relative;top:1px;text-align:center;}
+
+
+.imprimir{width:99.5%;float:left;padding:0;margin:5px 0px 0px 0px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;font-weight:normal;color:#BA2626;text-align:right;}
+
+.imprimir a{color:#BA2626;text-decoration:none;}
+
+.imprimir a:hover{color:#BA2626;text-decoration:underline;}
+
+#imprimirnoti{width:15%;float:right;padding:0;margin:0px 0px 0px 0px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;font-weight:normal;color:#BA2626;text-align:right;position:relative;top:-10px;display:inline;}
+
+#imprimirnoti a{color:#BA2626;text-decoration:none;}
+
+#imprimirnoti a:hover{color:#BA2626;text-decoration:underline;}
+
+
+.noti{width:99%;float:left;margin:20px 0px 0px 0px;padding:0px 0px 20px 0px;border-bottom:5px solid #E7E7E7;}
+.img{width:100px;float:left;display:inline;text-align:center;}
+
+.txt{width:85%;float:left;display:inline;line-height:18px;}
+.txt h2{width:99%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:16px;color:#000000;margin:0;padding:0;}
+
+.txt h2 a{color:#000000;text-decoration:none;}
+.txt h2 a:hover{color:#000000;text-decoration:underline;}
+
+
+.txt p{width:99%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#636363;margin:0;padding:0;}
+
+.txt p a{color:#3B5998;text-decoration:underline;}
+.txt p a:hover{color:#3B5998;text-decoration:underline;}
+
+
+
+
+.noti2{width:95%;float:left;margin:10px 0px 0px 0px;padding:0px 0px 10px 0px;border-bottom:5px solid #E7E7E7;}
+.img2{width:65px;float:left;display:inline;text-align:center;margin-left:5px;}
+.txt2{width:70%;float:left;display:inline;line-height:18px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#8E8E8E;}
+.txt2 h2{width:99%;float:left;display:inline;font-weight:bold;font-family:Arial, Verdana, Helvetica, sans-serif;font-size:16px;color:#000000;margin:10px 0px 0px 0px;padding:0;}
+.txt2 h2 a{color:#000000;text-decoration:none;}
+.txt2 h2 a:hover{color:#000000;text-decoration:underline;}
+
+.txt2 p{width:99%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#8E8E8E;margin:0px 0px 0px 0px;padding:0;}
+
+.txt2 p a{color:#8E8E8E;text-decoration:underline;}
+.txt2 p a:hover{color:#8E8E8E;text-decoration:underline;}
+
+
+
+.txt3{width:95%;float:left;display:inline;line-height:18px;}
+
+.txt3 p{width:99%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#000000;margin:0;padding:0;line-height:19px;}
+
+.txt3 p a{color:#3B5998;text-decoration:underline;}
+.txt3 p a:hover{color:#3B5998;text-decoration:underline;}
+
+
+.txt4{width:80%;float:left;display:inline;line-height:18px;position:relative;left:25px;}
+.txt4 h2{width:99%;float:left;display:inline;font-family:Arial, Helvetica, sans-serif;font-size:16px;color:#000000;margin:0;padding:0;}
+
+.txt4 h2 a{color:#000000;text-decoration:none;}
+.txt4 h2 a:hover{color:#000000;text-decoration:underline;}
+
+
+.txt4 p{width:99%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#636363;margin:0;padding:0;}
+
+.txt4 p a{color:#3B5998;text-decoration:underline;}
+.txt4 p a:hover{color:#3B5998;text-decoration:underline;}
+
+
+
+
+#navegacat_int{width:202px;float:left;margin-top:25px;}
+#wiki_int{width:202px;float:left;}
+#wiki_int h1{width:202px;float:left;height:24px;background-image:url(http://www.softcatala.org/img/fonsh1.jpg);background-repeat:repeat-x;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#FFFFFF;font-weight:bold;padding:10px 5px 0px 5px;margin:0;text-align:left;}
+
+#wiki_int #personal-links{width:202px;float:left;height:auto;background-color:#E5E3D8;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;font-weight:bold;padding:5px 5px 0px 5px;margin:0;text-align:left;line-height:12px;}
+
+#wiki_int #personal-links a{color:#000000;text-decoration:none;}
+#wiki_int #personal-links a:hover{color:#000000;text-decoration:underline;}
+
+.menuwiki{width:200px;float:left;background-color:#ffffff;border-left:1px solid #E5E3D8;border-right:1px solid #E5E3D8;border-bottom:1px solid #E5E3D8;text-align:left;padding:10px 5px 10px 5px;margin:0;line-height:18px;}
+
+.menuwiki h3{float:left;color:#BA2626;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;margin:0;padding:0px 0px 5px 0px;}
+
+.menuwiki ul{width:97%;float:left;margin:0;padding:0;list-style:none;}
+
+.menuwiki li{width:98%;float:left;color:#636363;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;margin:3px 0px 0px 0px;padding:0px 10px 0px 0px;}
+
+.menuwiki li a{color:#636363;text-decoration:none;}
+
+.menuwiki li a:hover{color:#000000;text-decoration:underline;}
+
+
+
+#wiki_int2{width:202px;float:left;}
+#wiki_int2 h1{width:202px;float:left;height:24px;background-image:url(http://www.softcatala.org/img/fonsh1.jpg);background-repeat:repeat-x;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#FFFFFF;font-weight:bold;padding:10px 5px 0px 5px;margin:0;text-align:left;}
+
+#wiki_int2 h2{width:202px;float:left;height:auto;background-color:#E5E3D8;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;font-weight:bold;padding:10px 5px 10px 5px;margin:0;text-align:left;line-height:18px;}
+
+#wiki_int2 h2 a{color:#000000;text-decoration:none;}
+#wiki_int2 h2 a:hover{color:#000000;text-decoration:underline;}
+
+.menuwiki2{width:200px;_width:178px;float:left;background-color:#ffffff;border-left:1px solid #E5E3D8;border-right:1px solid #E5E3D8;border-bottom:1px solid #E5E3D8;text-align:left;padding:10px 5px 10px 5px;margin:0;line-height:18px;}
+
+.menuwiki2 h3{float:left;color:#BA2626;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;margin:0;padding:0px 0px 5px 0px;}
+
+.menuwiki2 ul{width:97%;float:left;margin:0;padding:0;list-style:none;}
+
+.menuwiki2 li{width:98%;float:left;color:#636363;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;margin:3px 0px 0px 0px;padding:0px 5px 0px 0px;background-image:none;background-repeat:no-repeat;}
+
+.menuwiki2 img {border:none;}
+
+.menuwiki2 li a{color:#636363;text-decoration:none;}
+
+.menuwiki2 li a:hover{color:#000000;text-decoration:underline;}
+
+.img_sidebar{float:left;margin-top:15px;}
+
+.bzero{border:0;}
+
+.bloque{width:99%;;float:left;display:block;}
+
+.bloque2{width:99%;float:none;display:block;clear:both;}
+
+.logoprog{width:352px;float:left;display:inline;}
+
+/** Boximportant without % **/
+.boximportant{height:43px;float:left;display:inline;background-image:url(http://www.softcatala.org/img/fons_important.jpg);margin-top: 20px;width:150px;}
+
+.leftimportant{width:30px;height:43px;float:left;display:inline;background-image:url(http://www.softcatala.org/img/left_gris.jpg);background-repeat:no-repeat;}
+.rightimportant{width:4px;height:43px;float:right;display:inline;background-image:url(http://www.softcatala.org/img/right_gris.jpg);background-repeat:no-repeat;}
+
+
+.boximportant p{width:75%;float:left;display:inline;margin:0;padding:0;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:10px;color:#FFFFFF;position:relative;left:10px;top:3px;line-height:12px;text-align:center;}
+
+.boximportant p a{font-size:9px;color:#F87C01;font-weight:bold;text-decoration:none;}
+
+.boxwhite2{width:68%;float:left;margin:10px 0px 0px 0px;display:inline;padding:0;text-align:justify;}
+.boxborderstop_white2{width:100%;float:left;}
+.btl_white2{width:5px;height:5px;float:left;background-image:url(http://www.softcatala.org/img/borderTL3.gif);background-repeat:no-repeat;display:inline;}
+.bordercenter_white2{width:91%;height:4px;float:left;background-color:#FFFFFF;border-top:1px solid #D8DCDF;}
+.bordercenter_white3{width:91%;height:4px;float:left;background-color:#FFFFFF;border-bottom:1px solid #D8DCDF;}
+.btr_white2{width:5px;height:5px;float:left;background-image:url(http://www.softcatala.org/img/borderTR3.gif);background-repeat:no-repeat;display:inline;}
+.body_white2{width:88.7%;_width:88%;float:left;height:auto;float:left;background-color:#FFFFFF;padding:10px 10px 10px 10px;border-left:1px solid #D8DCDF;border-right:1px solid #D8DCDF;margin:0;line-height:22px;}
+.bbl_white2{width:5px;height:5px;float:left;background-image:url(http://www.softcatala.org/img/borderBL3.gif);background-repeat:no-repeat;display:inline;}
+.bbr_white2{width:5px;height:5px;float:left;background-image:url(http://www.softcatala.org/img/borderBR3.gif);background-repeat:no-repeat;display:inline;}
+
+.body_white2 h1{width:99%;float:left;font-family:Verdana, Arial, Helvetica, sans-serif;color:#BA2626;font-size:16px;font-weight:bold;margin:0;padding:0px 0px 0px 0px;}
+
+.body_white2 p{width:98%;font-family:Verdana, Arial, Helvetica, sans-serif;color:#191919;font-size:13px;font-weight:normal;margin:0;padding:0;position:relative;left:10px;}
+
+.body_white2 ul{width:98%;float:left;list-style:none;margin:0;padding:0px 0px 0px 0px;line-height:20px;position:relative;left:10px;}
+
+.body_white2 li{width:99%;font-family:Verdana, Arial, Helvetica, sans-serif;color:#191919;font-size:13px;font-weight:normal;background-image:url(http://www.softcatala.org/img/flecha.jpg);background-repeat:no-repeat;background-position:left center;padding:0px 0px 0px 10px;}
+
+.body_white2 li a{color:#3B5998;text-decoration:underline;}
+.body_white2 li a:hover{color:#3B5998;text-decoration:underline;}
+
+.lindot{width:99%;float:left;border-top:1px dotted #999999;margin:15px 0px 0px 0px;padding:0px 0px 15px 0px;}
+
+
+/** Canvis de float left a right **/
+.colder{width:25%;float:right;display:inline;margin:10px 0px 0px 0px;margin-right:5px;margin-left:auto;clear:right;}
+
+.botdescarrega{width:19px;float:left;margin-top:10px;margin-left:25%;}
+
+.titu{width:200px;float:left;position:relative;top:25px;font-family:Arial, Helvetica, sans-serif;font-size:20px;color:#000000;text-align:left;padding:0;margin:0;}
+
+
+.boxprojectes{width:99.5%;height:90px;float:left;background-image:url(http://www.softcatala.org/img/fonsprojectes.jpg);background-repeat:repeat-x;}
+
+
+.boxprojectes h1{color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:30px;margin-left:15px;margin-top:10px;}
+
+
+
+
+.ruta2{font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;font-weight:bold;color:#D1CFC1;position:relative;left:15px;top:10px;}
+.ruta2 a{color:#D1CFC1;text-decoration:none;}
+.ruta2 a:hover{color:#D1CFC1;text-decoration:underline;}
+
+
+/**Suprimit colmenu cap a wiki
+ Suprimida secciÃ³ de plantilla de traducciÃ³
+ Suprimida secciÃ³ de cos del wiki
+**/
+
+.imatges{width:210px;float:left;display:inline;position:relative;left:10px;border:1px solid #ffffff;margin-top:15px;}
+
+
+#boxcola{width:99%;float:left;}
+#boxcola h1{width:70%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;font-size:13px;color:#BA2626;font-weight:bold;padding:0;margin:15px 0px 0px 0px;}
+
+#boxcola h2{width:30%;float:left;display:inline;margin-top:15px;position:relative;left:60px;}
+
+.posico{float:left;display:inline;margin:0px 10px 0px 0px;border:0;}
+
+
+.boxopi{width:695px;float:right;margin:15px 0px 0px 0px;}
+
+.opi{width:99%;height:70px;float:left;background-color:#95ae38;margin:0;padding:0;font-size:13px;}
+
+.opitit{width:99%;float:left;margin:15px 0px 0px 0px;padding:0;font-family:Arial, Helvetica, sans-serif;font-size:22px;color:#000000;line-height:19px;font-weight:bold;}
+
+.opitit a{color:#000000;text-decoration:none;}
+.opitit a:hover{color:#000000;text-decoration:underline;}
+
+/**remove float left from p**/
+
+.boxopi p{margin:7px 0px 0px 0px;padding:0;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#636363;line-height:19px;}
+
+.opicos{width:99%;float:left;margin:10px 0px 0px 0px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:10px;color:#000000;}
+.opicos a{color:#000000;text-decoration:none;}
+.opicos a:hover{color:#000000;text-decoration:underline;}
+
+
+
+.llistes{width:99%;float:left;border-bottom:5px solid #E7E7E7;}
+
+.llistes p{font-size:13px;color:#636363;}
+.llistes p a{color:#000000;text-decoration:none;}
+.llistes p a:hover{color:#000000;text-decoration:underline;}
+
+
+.tit{font-family:Arial, Helvetica, sans-serif;font-size:30px;color:#000000;font-weight:bold;}
+
+
+.boxformulari{width:99%;float:left;background-image:url(http://www.softcatala.org/img/fonsllistes.jpg);background-repeat:repeat-y;margin:15px 0px 0px 0px;}
+
+.formulari{width:90%;float:left;position:relative;left:15px;margin:15px 0px 0px 0px;font-family:Verdana, Arial, Helvetica, sans-serif;color:#ffffff;font-weight:bold;font-size:13px;}
+
+
+
+.i3{width:50%;height:20px;border:0;color:#636363;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;font-weight:normal;}
+
+
+.bot_suscriu{float:right;}
+
+.tit2{font-family:Arial, Helvetica, sans-serif;font-size:20px;color:#000000;font-weight:normal;}
+
+
+#boxnoticies{width:99.9%;float:left;margin:20px 0px 0px 0px;padding:0;}
+#boxnoticies h1{width:99%;float:none;font-family:Arial, Helvetica, sans-serif;font-size:32px;color:#000000;font-weight:bold;margin:10px 0px 20px 0px;padding:0;}
+#boxnoticies h2{font-family:Arial, Verdana, Helvetica, sans-serif;font-size:16px;color:#ffffff;font-weight:bold;margin:10px 0px 0px 0px;padding:0;}
+
+
+.posico2{display:inline;margin:0px 10px 0px 0px;border:0;position:relative;top:4px;}
+
+.fotonot{width:260px;margin-bottom:10px;padding:0;}
+
+/**Make margin top smaller and width as well**/
+#boxcomments{width:650px;max-width:675px;float:left;background-image:url(http://www.softcatala.org/img/fons_comments.jpg);background-repeat:repeat-x;background-color:#94AE38;background-position:top;margin:5px 15px 0px 15px;padding:0px 10px 15px 10px;}
+
+
+#boxcomments h1{font-family:Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;font-weight:bold;width:99.9%;float:none;margin-bottom:10px;padding-bottom:5px;}
+
+.comentari{width:96%;display:block;background-color:#ffffff;padding:10px 0px 10px 10px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;margin:15px 5px 0px 5px;}
+
+.comentari p{width:99%;margin:15px 0px 0px 0px;padding:0;}
+
+
+
+.boxpaginador_home{width:auto;float:left;margin:20px 0px 0px 0px;padding:0px 23px 20px 0px;text-align:center;position:relative;left:25%;}
+
+
+.boxpaginadorforos{width:auto;float:right;margin:0px 0px 0px 0px;padding:0px 23px 0px 0px;}
+
+.button{width:auto;float:left;display:inline;margin:0px 0px 0px 0px;padding:6px 6px 6px 6px;color:#575657;background-color:#ffffff;border:1px solid #575657;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;text-decoration:none;}
+
+.button a{color:#575657;text-decoration:none;}
+
+.button a:hover{color:#575657;text-decoration:none;}
+
+.boxpaginador{width:auto;float:left;display:inline;margin:0px 5px 0px 0px;padding:6px 6px 6px 6px;color:#575657;background-color:#ffffff;border:1px solid #575657;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;text-decoration:none;}
+.boxpaginador a{color:#575657;text-decoration:none;}
+
+.boxpaginador a:hover{color:#575657;text-decoration:none;}
+
+/*Change selected per seleccionat**/
+
+.seleccionat{width:12px;float:left;display:inline;margin:0px 0px 0px 0px;padding:6px 6px 6px 6px;color:#ffffff;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;text-decoration:none;font-weight:bold;}
+
+
+.boxescriu{width:98%;float:left;background-color:#6C8021;margin:0px 0px 0px 0px;padding:30px 0px 0px 10px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;color:#ffffff;font-weight:bold;}
+
+.boxformucom{width:99%;float:left;position:relative;left:8%;}
+
+.com1{width:80%;height:125px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;color:#636363;border:0;}
+
+.form1{width:43.5%;float:left;display:inline;position:relative;left:8%;margin:15px 0px 0px 0px;}
+
+.ic{width:80%;height:18px;border:0;color:#636363;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;font-weight:normal;padding:2px 0px 0px 0px;}
+
+
+.ic2{width:20%;height:18px;border:0;color:#636363;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;font-weight:normal;position:relative;top:-5px;padding:2px 0px 0px 0px;}
+
+
+.boxformucom2{width:99%;float:left;position:relative;left:-12%;_left:-10%;text-align:right;}
+
+
+.bot_envia{width:20%;float:right;margin:15px 0px 0px 0px;padding:0px 0px 15px 0px;}
+
+
+.boxblocs .boxtopten{width:275px;float:left;position:relative;}
+
+.boxblocs .boxtopten ul{width:275px;float:left;list-style:none;padding:0;margin:0;text-align:left;}
+
+.boxblocs .boxtopten li {
+    background-image: none;
+    background-position: left center;
+    background-repeat: no-repeat;
+    clear: both;
+    color: #535353;
+    float: left;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    margin: 0;
+    padding: 4px 0 4px 5px;
+    width: 255px;
+}
+
+.boxblocs .boxtopten li .numtop {
+    color: #BE2730;
+    display: block;
+    float: left;
+    padding-left: 2px;
+    width: 18px;
+    text-align:center;
+}
+
+.boxblocs .boxtopten li .linktop {
+    clear: right;
+    display: inline-block;
+    float: right;
+    text-align: left;
+    width: 233px;
+}
+
+.boxblocs .boxtopten li a{color:#535353;text-decoration:none; font-weight:bold; display:inline;}
+.boxblocs .boxtopten li a:hover{color:#000000;text-decoration:underline;}
+
+.bgris{background-color:#DDE2CC;}
+
+
+#mainhome {
+width:620px;
+float:right;
+display:block;
+margin: 0 75px 0 0.2em; 
+} 
+
+
+.bannerportadah img {display:block; margin: 13px auto 0;}
+
+.txtactu{width:97%;float:left;background-color:#ffffff;}
+
+.textoact{display:inline;float:left;width:78%;text-align:justify;}
+
+.notihome{width:95%;float:left;margin:15px 0px 0px 0px;padding:0px 0px 15px 0px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;position:relative;left:15px;font-weight:normal;border-bottom:1px dotted #000000;}
+
+.nopic{width:99%;}
+
+.notihome h1{width:90%;float:left;margin:0px 0px 0px 0px;padding:0px 0px 3px 0px;font-family:Arial, Helvetica, sans-serif;font-size:16px;color:#000000;font-weight:bold;}
+
+.notihome h1 a{color:#000000;text-decoration:none;}
+.notihome h1 a:hover{color:#000000;text-decoration:underline;}
+
+.notihome h2{width:90%;float:left;margin:0px 0px 0px 0px;padding:0;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#656565;font-weight:normal;}
+
+
+.notihome p{width:90%;float:left;margin:10px 0px 0px 0px;padding:0;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;font-weight:normal;line-height:19px;_line-height:17px;}
+
+/**Change nums -> Moved to style.css
+.imgnotihome{float:right;padding:0;margin-left:2px 10px 2px 0px;}
+**/
+
+.boxblocs{width:95%;float:left;text-align:left;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;position:relative;left:15px;}
+
+.boxblocs ul{width:95%;float:left;list-style:none;padding:0px 0px 15px 0px;margin:15px 0px 0px 0px;}
+
+.boxblocs li{width:95%;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;padding:0px 0px 7px 10px;margin:0;background-image:url(http://www.softcatala.org/img/flecha_red.gif);background-repeat:no-repeat;background-position:left top;}
+.boxblocs li a{color:#555555;font-weight:bold;text-decoration:none;display:block;}
+.boxblocs .social li a{display:inline;}
+.boxblocs li a:hover{color:#000000;text-decoration:underline;}
+
+
+
+.bot_veure{width:120px;float:left;margin:0px 0px 0px 50px;_margin:0px 0px 0px 40px;padding:6px 6px 6px 6px;text-align:center;border:1px solid #575657;background-color:#ffffff;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;text-decoration:none;font-weight:bold;}
+
+.bot_veure a{color:#404040;text-decoration:none;}
+
+.bot_veure a:hover{color:#404040;text-decoration:none;}
+
+.boxnota{width:85%;float:left;font-size:10px;}
+
+
+.f1{width:30%;height:22px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#505150;border:1px solid #5A5A5A;}
+
+.f2{width:30%;height:16px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#505150;position:relative;top:1px;border:1px solid #5A5A5A;}
+
+.f3{width:80%;height:16px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#505150;position:relative;top:1px;border:1px solid #5A5A5A;}
+
+.cerca{color:#505150;font-family:Arial, Helvetica, sans-serif; font-size:16px;position:relative;top:2px;}
+
+.botcer{position:relative;top:9px;_top:5px;}
+
+.boxforos{width:40%;float:left;margin:27px 0px 0px 0px;}
+
+.boxforos2{width:20%;float:left;margin:35px 0px 0px 0px;position:relative;top:-12px;left:20px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#505150;}
+
+
+.boxforos3{width:40%;float:left;margin:0px 0px 0px 0px;padding:0px 0px 15px 0px;position:relative;top:5px; }
+.boxforos3dos{width:38%;float:left;margin:0px 0px 0px 0px;padding:0px 0px 15px 0px;position:relative;top:5px; }
+
+
+.boxforos4{width:10%;float:left;margin:35px 0px 0px 0px;position:relative;top:0px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#505150;}
+
+.boxforos5{width:10%;float:left;margin:0px 0px 0px 0px;position:relative;top:7px;_top:5px;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#505150;}
+
+.bforo{width:99%;float:left;background-color:#505150;padding:0px 0px 15px 0px;}
+
+
+
+
+.tablaforo{width:97%;float:left;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;padding:15px 0px 15px 15px;margin:0px 0px 0px 15px;}
+
+.datosforo{width:95%;float:left;background-color:#ffffff;color:#000000;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;padding:15px 0px 15px 0px;margin:0px 0px 0px 20px;_margin:15px 0px 15px 12px;border-top:1px solid #505150;}
+
+
+.datosforo a{color:inherit;text-decoration:none;}
+
+.datosforo a:hover{color:inherit;text-decoration:underline;}
+
+
+.lin1{border-right:1px solid #cccccc;}
+
+.blu{color:#0033CC;text-decoration:underline;}
+
+
+.padtop10{padding-top:10px; float:left;}
+.respon{position:relative;top:0px;left:10px;}
+.postop10{position:relative;top:10px;left:0px;}
+
+.txtforos{width:99%;float:left;padding:0;margin:0;background-color:#E7E7E7;color:#505150;font-size:11px;font-family:Verdana, Arial, Helvetica, sans-serif;}
+
+.txtforos a{color:#3A33AB;text-decoration:underline;font-weight:bold;}
+.txtforos a:hover{color:#3A33AB;text-decoration:underline;}
+
+
+.txtforos p{width:96%;float:left;padding:20px 2% 20px 2%;margin:0;background-color:#E7E7E7;color:#000000;font-size:13px;font-family:Verdana, Arial, Helvetica, sans-serif;border-top:1px solid #505150;}
+
+#select{background-color:#4B4B4B;}
+
+
+/*Elements variats*/
+
+.pad2{padding:2px;}
+.padright2{padding-right:2px;}
+
+.lingran{border-right:2px solid #BA2626;}
+.lin5{width:975px;height:5px;float:left;background-color:#AFAFAE;margin:10px 0px 0px 0px;padding:0;}
+.lin5_clar{width:95%;height:5px;float:left;background-color:#E7E7E7;margin:20px 0px 0px 0px;padding:0px 0px 0px 0px;}
+
+.bgwhite{background-color:#ffffff;}
+.bgpink{background-color:#F6E4E4;}
+.bggrey{background-color:#484747;}
+
+.nomargin{margin:0;}
+.postop15{position:relative;top:15px;}
+
+.postop49{position:relative;top:49px;}
+
+.postop_10{position:relative;top:-10px;}
+
+.posleft5{position:relative;left:5px;}
+.posleft10{position:relative;left:10px;}
+.posleft15ff{position:relative;left:25px;_left:0;}
+.posleft_10{position:relative;left:-10px;}
+
+.posleft25{position:relative;left:25px;}
+
+.posleft50{position:relative;left:50px;}
+
+.posleft_25{position:relative;left:-50px;_left:-25px;}
+#width99{width:99%;}
+
+
+.margintop10{margin-top:10px;}
+.margintop15{margin-top:15px;}
+.margintop25{margin-top:25px;}
+
+.font11{font-size:11px;}
+.font12{font-size:12px;}
+.font13{font-size:13px;}
+.font14{font-size:14px;}
+.font16{font-size:16px;}
+.font18{font-size:18px;}
+.font22{font-size:22px;}
+.red{color:#BA2626;}
+
+.verdana{font-family:Verdana, Arial, Helvetica, sans-serif;}
+.arial{font-family:Arial, Helvetica, sans-serif;}
+.black{color:#000000;}
+.white{color:#ffffff;}
+.grey2{color:#656565;}
+
+
+
+.aright{text-align:right;}
+
+.img3{float:right;display:inline;}
+
+.grid20{float: left; 
+	width:240px; 
+
+	padding: 15px 0px 0px 0; 
+	text-align:center;}
+
+.grid260{width:20%;float:left;display:inline;padding:0px 0px 0px 0px;margin:15px 0px 0px 0px;position:relative;left:20px;}
+
+
+.grid280{width:260px;float:left;display:inline;}
+
+.grid690{width:70%;float:right;display:inline;padding:0px 0px 0px 0px;margin:0px 10px 0px 0px;}
+
+.gridauto{width:69%;_width:auto;float:left;display:inline;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;position:relative;}
+
+.fltrt { 
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { 
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { 
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+
+/** Peus de pÃ gina **/
+
+#footer { 
+	width:100%;
+	padding: 0px 0px 10px 0px; 
+	background:#E5E3D8;
+	font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;text-align:center;
+} 
+#footer p {
+	margin: 0; 
+	padding: 10px 0; 
+}
+
+#footer .hostatge{
+	margin-left:20px;
+}
+
+#footerhome { 
+	padding: 0px 0px 70px 0px; 
+	margin-top:75px;
+	background:#ffffff;
+	font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px;color:#000000;text-align:center;
+} 
+#footerhome  p {
+	margin: 0; 
+	padding: 10px 0; 
+}
+
+#footerhome  p a {color:#000000;text-decoration:none;}
+
+#footerhome  p a:hover {color:#000000;text-decoration:underline;}
+
+#logospeu {
+height: 60px;
+}
+
+#logospeu img{
+margin-top: auto;
+margin-bottom: auto;
+vertical-align: middle;
+border: 0;
+margin-left: 6px;
+margin-right: 6px;
+}
+
+/** Publicitat **/
+
+#publisuperior {
+clear: both;
+height: 90px;
+margin: 0 auto;
+width: 1006px;
+}
+
+#publisuperior1{
+float:left;
+width: 744px;
+}
+#publisuperior2{
+float:right;
+width:252px;
+margin-right:10px;
+}
+.publieti {
+float:left;
+width:14px;
+z-index:100;
+}
+.publicos {
+float:right;
+}
+#publisuperior1 .publicos{
+width:729px;
+}
+#publisuperior2 .publicos{
+width:237px;
+}
+
+/** Images no border **/
+#publisuperior img {
+border:none;
+}
+
+#boxgoogle_publi img, #navegacat_int img{
+border:none;
+}
+
+.boxgoogle{width:97%;padding:10px 0px 10px 10px;border:1px solid #aaaaaa;float:left;margin-top:15px;}
+
+.google{width:45%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;color:#000000;font-size:11px;line-height:18px;}
+.titgoogle{width:99%;float:left;font-family:Verdana, Arial, Helvetica, sans-serif;color:#0000FF;text-decoration:underline;font-size:11px;font-weight:bold;}
+
+.google a{color:#009900;text-decoration:underline;}
+
+.google a:hover{color:#009900;text-decoration:underline;}
+
+
+
+/**Modified boxgoogle_home**/
+.boxgoogle_home{width:93%;padding:10px 0px 10px 10px;border-bottom:1px solid #aaaaaa;float:left;margin-top:10px;position:relative;left:0px;}
+
+.google_home{width:85%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;color:#000000;font-size:11px;line-height:18px;text-align:left;margin-top:8px;_margin-top:17px;}
+
+.logo_google{float:right;position:relative;left:-15px;border:0;}
+
+
+
+.boxgoogle_int2{width:200px;padding:10px 2px 10px 2px;border:1px solid #aaaaaa;float:left;margin-top:15px;position:relative;left:0px;}
+.boxgoogle_publi{width:200px;padding:5px 2px;border:1px solid #CCCCCC;float:left;margin-top:15px;position:relative;left:0px;background-color:#CCCCCC;height:220px;}
+.boxpubli {text-align:center;color:#717171;font-size:10px;font-weight:bold;}
+.boxgoogle_int{width:93%;padding:10px 0px 10px 10px;border:1px solid #aaaaaa;float:left;margin-top:15px;position:relative;left:0px;}
+
+.google_int{width:85%;float:left;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;color:#000000;font-size:11px;line-height:18px;text-align:left;margin-top:8px;_margin-top:17px;}
+
+.logo_google_int{float:right;position:relative;left:-15px;border:0;}
+
+
+/** PÃ gina d'error**/
+.errorpage {
+margin-top: 15px;
+margin-left: 300px;
+}
+
+.errorpage p{
+font-weight:bold;
+font-size: 13px;
+}
+
+.errorpage ul {
+line-height:20px;
+list-style-image:url(http://www.softcatala.org/img/flecha.jpg);
+list-style-type:none;
+margin-left:20px;
+padding:0;
+width:98%;
+}
+
+.erropage li {
+color:#191919;
+font-family:Verdana,Arial,Helvetica,sans-serif;
+font-size:13px;
+font-weight:normal;
+margin-left:8px;
+padding:0;
+width:99%;
+}
