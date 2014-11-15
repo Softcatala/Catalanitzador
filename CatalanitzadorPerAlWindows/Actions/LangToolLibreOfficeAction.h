@@ -63,8 +63,10 @@ private:
 		enum ExecutionStep
 		{
 			ExecutionStepNone,
-			ExecutionStep1,
-			ExecutionStep2	
+			ExecutionStepInstallJava,
+			ExecutionStepInstallExtension,
+			ExecutionStepRetryInstallExtension,
+			ExecutionStepFinished
 		};
 				
 		IOpenOffice* m_libreOffice;

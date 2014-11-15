@@ -150,18 +150,7 @@ void LangToolLibreOfficeAction::_installJava()
 void LangToolLibreOfficeAction::Execute()
 {
 	SetStatus(InProgress);
-
-	if (m_shouldInstallJava)
-	{
-		_installJava();
-	}
-	else
-	{
-		m_installingOffice->InstallExtension(m_runner, m_szFilename);
-	}
-
-	SetStatus(InProgress);
-	m_executionStep = ExecutionStep1;
+	m_executionStep = ExecutionStepInstallJava;
 }
 
 bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
@@ -219,23 +208,56 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 		{
 			case ExecutionStepNone:
 				break;
-			case ExecutionStep1:
+			case ExecutionStepInstallJava:
 			{
 				if (m_shouldInstallJava)
 				{
-					bool successfullyInstalled = _shouldInstallJava() == false;
-					g_log.Log(L"LangToolLibreOfficeAction::GetStatus. Java installed successfully %u", (wchar_t*) successfullyInstalled);
+					_installJava();
+				}
+				
+				m_executionStep = ExecutionStepInstallExtension;
+				return InProgress;
+			}
+			case ExecutionStepInstallExtension:
+			{
+				bool shouldInstall;
 
-					if (successfullyInstalled)
-					{
-						m_installingOffice->InstallExtension(m_runner, m_szFilename);
-						m_executionStep = ExecutionStep2;
-						return InProgress;
-					}
+				if (m_shouldInstallJava)
+				{
+					bool successfullyInstalled = _shouldInstallJava() == false;					
+					shouldInstall = successfullyInstalled;
+					g_log.Log(L"LangToolLibreOfficeAction::GetStatus. Java installed successfully %u", (wchar_t*) successfullyInstalled);
+				}
+				else
+				{
+					shouldInstall = true;
+				}				
+
+				if (shouldInstall)
+				{
+					m_installingOffice->InstallExtension(m_runner, m_szFilename);
+					m_executionStep = ExecutionStepRetryInstallExtension;
+					return InProgress;
+				}
+				
+				break;
+			}
+			// LibreOffice sometimes files instaling and extension but then it works if you just re-entry again
+			// Has to do with the fact that the first execution creates directories than then the second can use			
+			case ExecutionStepRetryInstallExtension:
+			{
+				if (m_shouldInstallJava && _shouldInstallJava()) // Was not able to install Java
+					break;
+
+				if (m_installingOffice->IsExtensionInstalled(EXTENSION_NAME) == false)
+				{					
+					m_installingOffice->InstallExtension(m_runner, m_szFilename);
+					m_executionStep = ExecutionStepFinished;
+					return InProgress;					
 				}
 				break;
 			}
-			case ExecutionStep2:
+			case ExecutionStepFinished:
 				break;
 			default:
 				assert(false);
