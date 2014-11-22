@@ -10,35 +10,35 @@
         <div class="download_section buttons">
             <div class="download_button">
             <br class="p"/>
-                <a class="download_button" href='<!--# include virtual="./linkrebost.html" -->' onclick="countup()" title="Baixa ara el Catalanitzador!">
-                    <div class="sos"><img src="/images/so/Windows.png"/></div>
+                <a class="download_button" href='<!--#include virtual="./linkrebost.html" -->' onclick="countup()" title="Baixa ara el Catalanitzador!">
+                    <div class="sos"><img src="/catalanitzador/images/so/Windows.png"/></div>
                     Windows
                     <div class="download_so">Baixa'l ara</div>
                 </a>
-                <a class="download_button" href='<!--# include virtual="./linkrebost-mac.html" -->' title="Baixa ara el Catalanitzador!">
-                    <div class="sos"><img src="/images/so/Apple.png"/></div>
+                <a class="download_button" href='<!--#include virtual="./linkrebost-mac.html" -->' title="Baixa ara el Catalanitzador!">
+                    <div class="sos"><img src="/catalanitzador/images/so/Apple.png"/></div>
                     Mac OSX
                     <div class="download_so">Baixa'l ara</div>
                 </a>
-                <a class="download_button" href="/android.php" title="Baixa ara el Catalanitzador!">
-                    <div class="sos"><img src="/images/so/Android.png"/></div>
+                <a class="download_button" href="/catalanitzador/android.php" title="Baixa ara el Catalanitzador!">
+                    <div class="sos"><img src="/catalanitzador/images/so/Android.png"/></div>
                     Android
                     <div class="download_so">Configura-ho</div>
                 </a>
-                <a class="download_button" href="/ios.php" title="Baixa ara el Catalanitzador!">
-                    <div class="sos"><img src="/images/so/Apple.png"/></div>
+                <a class="download_button" href="/catalanitzador/ios.php" title="Baixa ara el Catalanitzador!">
+                    <div class="sos"><img src="/catalanitzador/images/so/Apple.png"/></div>
                     iOS
                     <div class="download_so">Configura-ho</div>
                 </a>
-                <a class="download_button" href="/linux.php" title="Baixa ara el Catalanitzador!">
-                    <div class="sos"><img src="/images/so/Linux.png"/></div>
+                <a class="download_button" href="/catalanitzador/linux.php" title="Baixa ara el Catalanitzador!">
+                    <div class="sos"><img src="/catalanitzador/images/so/Linux.png"/></div>
                     Linux
                     <div class="download_so">Configura-ho</div>
                 </a>
                 <br class="p"/>
                 <div class="notes_installacio">
                 <a id="com_installar" title="Com fer la instal·lació">
-                    <img src="/images/com_installar.png"/>
+                    <img src="/catalanitzador/images/com_installar.png"/>
                 </a>
                 <div class="avis_altres_so">
                 * Nota: No és possible automatitzar el procés en dispositius mòbils. 
@@ -52,7 +52,7 @@
             
             </div>
             <div class="internet8_advise">
-                <strong>Important:</strong> Per instal·lar el Catalanitzador des de l'Explorer 8 o superior haureu de fer clic sobre el botó de «Més opcions». <a href="/images/smartscreen.jpg">Vegeu la imatge aquí</a>.
+                <strong>Important:</strong> Per instal·lar el Catalanitzador des de l'Explorer 8 o superior haureu de fer clic sobre el botó de «Més opcions». <a href="/catalanitzador/images/smartscreen.jpg">Vegeu la imatge aquí</a>.
             </div>
             <br class="p"/>
             La versió per Windows posarà en català:
@@ -80,17 +80,17 @@
         </div>
         <div class="screenshot_section">
             <ul id="slider">
-                <li><img src="/images/captures/captura_0.png" alt="Captures del Catalanitzador"/></li>
-                <li><img src="/images/captures/captura_1.png" alt="Captures del Catalanitzador"/></li>
-                <li><img src="/images/captures/captura_2.png" alt="Captures del Catalanitzador"/></li>
-                <li><img src="/images/captures/captura_3.png" alt="Captures del Catalanitzador"/></li>
-                <li><img src="/images/captures/captura_4.png" alt="Captures del Catalanitzador"/></li>
+                <li><img src="/catalanitzador/images/captures/captura_0.png" alt="Captures del Catalanitzador"/></li>
+                <li><img src="/catalanitzador/images/captures/captura_1.png" alt="Captures del Catalanitzador"/></li>
+                <li><img src="/catalanitzador/images/captures/captura_2.png" alt="Captures del Catalanitzador"/></li>
+                <li><img src="/catalanitzador/images/captures/captura_3.png" alt="Captures del Catalanitzador"/></li>
+                <li><img src="/catalanitzador/images/captures/captura_4.png" alt="Captures del Catalanitzador"/></li>
             </ul>
             
         </div>
         <div class="avis_formes_valencianes" style="">
           <div style="width: 312px; margin-top: -20px; float: right; margin-right: 69px;">
-          <div style="float:left"><img src="/images/avis_formes_valencianes.png" alt="Exclamació Valenciana"/></div>
+          <div style="float:left"><img src="/catalanitzador/images/avis_formes_valencianes.png" alt="Exclamació Valenciana"/></div>
         </div>
         <br class="p"/>
     </div>

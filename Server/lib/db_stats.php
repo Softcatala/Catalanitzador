@@ -2,11 +2,18 @@
 /* We use a library that let us create queries in a really easy way */
 include_once( 'ezdb1.php');
 
-/* Connection data */
+/* Connection data 
 $globals = array();
-$globals['db_user']			= 'root';
-$globals['db_password']			= '';
+$globals['db_user']			= 'cat';
+$globals['db_password']			= '123incata908';
 $globals['db_name']			= 'catalanitzador';
+$globals['db_server']			= 'localhost';
+$globals['mysql_persistent']		= true;*/
+
+$globals = array();
+$globals['db_user']			= 'softvalencia';
+$globals['db_password']			= 'carxofeta&123';
+$globals['db_name']			= 'catalanitzador_dev';
 $globals['db_server']			= 'localhost';
 $globals['mysql_persistent']		= true;
 

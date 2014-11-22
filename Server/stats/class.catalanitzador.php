@@ -9,14 +9,18 @@ class Catalanitzador {
     private $_pselected;
     private $_sql_vselected;
     private $_sql_pselected;
+    private $_date_from;
+    private $_date_to;
 
     public function __construct($db) {
         $this->_db = $db;
         $this->_versions = null;
-	$this->_platforms = null;
+        $this->_platforms = null;
         $this->_vselected = '';
         $this->_pselected = '';
         $this->_sql_vselected = '';
+        $this->_date_from = '';
+        $this->_date_to = '';
     }
 
     public function is_version_selected() {
@@ -27,18 +31,89 @@ class Catalanitzador {
         return $this->_pselected != '';
     }
 
+    private function is_date_from_selected() {
+        return $this->get_date_from() != '';   
+    }
+    
+    private function is_date_to_selected() {
+        return $this->get_date_to() != '';
+    }
+    
+    public function is_date_selected() {
+        return $this->is_date_from_selected() || $this->is_date_to_selected();
+    }
+    
+    private function get_date_to($toweb = false) {
+        $to = $_GET['to'];
+        
+        if(is_numeric($to) && strlen($to) == 8) {
+            
+            $date = DateTime::createFromFormat('dmY', $to);
+            if($date) {
+                $date->add(DateInterval::createFromDateString('1 day'));
+
+                if($toweb) {
+                    return $date->format('d/m/Y');
+                }
+                else {
+                    return $date->format('Y-m-d 00:00:00');
+                }
+            }                  
+        } 
+        return '';
+    }
+
+    private function get_date_from($toweb = false) {
+        $from = $_GET['from'];
+        
+        if(is_numeric($from) && strlen($from) == 8) {
+            
+            $date = DateTime::createFromFormat('dmY', $from);
+            
+            if($date) {
+                if($toweb) {
+                    return $date->format('d/m/Y');
+                }
+                else {
+                    return $date->format('Y-m-d 00:00:00');
+                }
+            }
+        }
+        return '';
+    }
+    
+    public function get_dates() {
+        
+        $d = '';
+        if($this->is_date_selected()) {           
+            if($this->is_date_from_selected()) {
+                $d .= " AND sessions.Date >= '" . $this->get_date_from() . "' ";
+            }
+            if($this->is_date_to_selected()) {
+                $d .= " AND sessions.Date <= '" . $this->get_date_to() . "' ";
+            }
+            return $d;
+        }
+        return '';
+    }
+    
     public function get_versions() {
 
         if ($this->_versions == null) {
-	    
-	    $p = '';
+        
+            $p = '';
             if($this->is_platform_selected()) {
-	        $p = $this->get_platform_selected();
+                $p = $this->get_platform_selected();
                 $p = " AND operatings.System = '$p'";
-	    }
+            }
 
-	    $result_query = "select ApplicationsID, count(sessions.ID) as total from sessions, operatings where sessions.OperatingsID = operatings.ID $p group by ApplicationsID;";
+            $d = $this->get_dates();
 
+            $result_query = " select ApplicationsID, count(sessions.ID) as total from sessions, operatings "
+                          . " where sessions.OperatingsID = operatings.ID $p $d group by ApplicationsID;";
+            
+            
+            echo "<!-- $result_query -->";
             $results = $this->_db->get_results($result_query);
             $r_versions = $this->_db->get_results("select * from applications order by ID asc");
             $versions = array();
@@ -82,7 +157,7 @@ class Catalanitzador {
             return '';
         }
         
-	if (empty($this->_sql_vselected)) {
+        if (empty($this->_sql_vselected)) {
             $v = $_GET['v'];
             if (empty($v) || strlen($v) != 3)
                 return;
@@ -123,7 +198,7 @@ class Catalanitzador {
             }
         }
 
-	return $this->_sql_vselected;
+    return $this->_sql_vselected;
     }
 
     public function get_platform_selected() {
@@ -140,12 +215,12 @@ class Catalanitzador {
             $this->_sql_pselected = $p;
         }
 
-	return $this->_sql_pselected;
+        return $this->_sql_pselected;
     }
 
     function print_platforms_table() {
-	global $system_platform;
-	?>
+    global $system_platform;
+    ?>
         <table id="application_platform">
             <thead>
                 <tr>
@@ -172,11 +247,11 @@ class Catalanitzador {
             echo '<th style="background-color:#CCFFCC">';
         }
 
-        echo '<a href="', Utils::get_query_string('os', ''), '">TOTES</a></th></tr>';	
-	?>
+        echo '<a href="', Utils::get_query_string('os', ''), '">TOTES</a></th></tr>';    
+    ?>
 
-	</thead></table><br />
-	<?php
+    </thead></table><br />
+    <?php
     }
 
     function print_versions_table() {
@@ -243,11 +318,11 @@ class Catalanitzador {
             echo '">', $version, '</a></th>';
         }
 
-	if($this->_vselected == '' && strlen($_GET['v']) == 3) {
-		if($_GET['v'][1]=='x' && $_GET['v'][2]=='x') {
-			$this->_vselected = $_GET['v'];
-		}
-	}
+    if($this->_vselected == '' && strlen($_GET['v']) == 3) {
+        if($_GET['v'][1]=='x' && $_GET['v'][2]=='x') {
+            $this->_vselected = $_GET['v'];
+        }
+    }
 
         if ($this->is_version_selected()) {
             echo '<th>';
@@ -275,6 +350,63 @@ class Catalanitzador {
                 </tbody>
         </table>
         <?php
+    }
+
+    public function print_date_selector() {
+        ?>
+            <script>
+                (function($) {
+                    $(document).ready(function(){
+                       $( "#from" ).datepicker({
+                        defaultDate: "-1d",
+                        changeMonth: true,
+                        dateFormat: 'dd/mm/yy',
+                        onClose: function( selectedDate ) {
+                            $( "#to" ).datepicker( "option", "minDate", selectedDate );
+                        }
+
+                    });
+                    $( "#to" ).datepicker({
+                        defaultDate: "today",
+                        changeMonth: true,
+                        dateFormat: 'dd/mm/yy',
+                        onClose: function( selectedDate ) {
+                            $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+                        }
+                    });
+
+                    $('#addDates').click(function(){
+                        var dateFrom = $('#from').val();
+                        var dateTo = $('#to').val();
+                        
+                        var url = new $.Url(location.href);
+                        url.set('from', dateFrom.replace(/\//g,''));
+                        url.set('to', dateTo.replace(/\//g,''));
+                        
+                        location.href=url.toString();
+                    });
+                    
+                    $('#cleanDates').click(function(){
+                        var url = new $.Url(location.href);
+                        url.remove('from');
+                        url.remove('to');
+                        
+                        location.href=url.toString();
+                    }); 
+                    });
+                })(jQuery);
+                </script>
+                <form action="#">
+                    <strong>Filtra per dates</span><br />
+                    <label for="from">Data inicial:</label>
+                    <input type="text" id="from" name="from" value="<?=$this->get_date_from(TRUE)?>"/> 
+                    <label for="to">Data final:</label>
+                    <input type="text" id="to" name="to" value="<?=$this->get_date_to(TRUE)?>"/> <br />
+                    <input type="button" id="addDates" value="Actualitza" />
+                    <input type="button" id="cleanDates" value="Neteja les dates" /><br /><br />
+                </form>
+        <?php
+        
     }
 
 }

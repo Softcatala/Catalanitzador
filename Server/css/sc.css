@@ -1,7 +1,6 @@
 html{}
 
 body  {
-	font: 100% Verdana, Arial, Helvetica, sans-serif;
 	background: #ffffff;
 	margin: 0;
 	padding: 0;
@@ -31,7 +30,7 @@ margin:auto;
     display: block;
     height: 100px;
     margin: 0 auto;
-    background: url('/images/fons_superior_sc.png') repeat-x;
+    background: url('/catalanitzador/images/fons_superior_sc.png') repeat-x;
 }
 #boxheadersc_inside{clear: both;
     display: block;
@@ -918,11 +917,13 @@ width: 1006px;
 #publisuperior1{
 float:left;
 width: 744px;
+height: 90px;
 }
 #publisuperior2{
 float:right;
 width:252px;
 margin-right:10px;
+height: 90px;
 }
 .publieti {
 float:left;

@@ -4,7 +4,7 @@
 
 <div class="center">
     <div class="container">
-    <span class="breadcrumbs"><a href="/" title="Inici">Inici</a> » Com configurar l'Android en català</span>
+    <span class="breadcrumbs"><a href="/catalanitzador/" title="Inici">Inici</a> » Com configurar l'Android en català</span>
     <h1 class="page">Catalanitzador <span class="so">de Softcatalà</span></h1>
     <h2>Com configurar l'Android en català</h2>
     	<div class="download_section">
@@ -24,7 +24,7 @@ Per saber si podeu configurar el dispositiu Android i, si és així, catalanitza
     <li>Pitgeu el botó Inici.</li>
 </ul>
 
-<br class="p"/>
+<br class="p">
 <p>
 Després de seleccionar el català, les aplicacions que tinguin versió en català es mostraran en català i en navegar sol·licitarem continguts en aquesta llengua.
 </p>
@@ -32,18 +32,18 @@ Després de seleccionar el català, les aplicacions que tinguin versió en catal
 Nota: el text exacte dels menús que cal seleccionar pot variar segons la llengua activa, de la versió del sistema operatiu o del fabricant.
 </p>
 
-<br class="p"/>
+<br class="p">
 
 <p>Si teniu cap dubte o us cal ajuda per configurar el vostre mòbil o tauleta podeu adreçar-vos al <a href="http://www.softcatala.org/forum/viewforum.php?f=8&sid=04e08382c279bf4d89b5add56a481378">fòrum d'Android</a>.</p>
 
-<br class="p"/>
+<br class="p">
 		</div>	
         <div class="so_screenshot_section">
             <ul id="slider_android">
-                <li><img src="/images/so/android1.png" alt="Catalanitzar l'android captura 1"/></li>
-                <li><img src="/images/so/android2.png" alt="Catalanitzar l'android captura 2"/></li>
-                <li><img src="/images/so/android3.png" alt="Catalanitzar l'android captura 3"/></li>
-                <li><img src="/images/so/android4.png" alt="Catalanitzar l'android captura 4"/></li>
+                <li><img src="/catalanitzador/images/so/android1.png" alt="Catalanitzar l'android captura 1"></li>
+                <li><img src="/catalanitzador/images/so/android2.png" alt="Catalanitzar l'android captura 2"></li>
+                <li><img src="/catalanitzador/images/so/android3.png" alt="Catalanitzar l'android captura 3"></li>
+                <li><img src="/catalanitzador/images/so/android4.png" alt="Catalanitzar l'android captura 4"></li>
             </ul>
             
         </div>
@@ -51,3 +51,4 @@ Nota: el text exacte dels menús que cal seleccionar pot variar segons la llengu
 </div>
 
 <?php include('footer.html'); ?>
+<?php include('footer_sc.php'); ?>

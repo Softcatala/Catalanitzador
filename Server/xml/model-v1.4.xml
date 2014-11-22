@@ -3,6 +3,7 @@
 	<application MajorVersion='1' MinorVersion='3' Revision='0' />
 	<session guid='80fca515-02f6-487a-8e8f-8188bc41fc2f' />
 	<operating OSMajorVersion='6' OSMinorVersion='0' SPMajorVersion='2' SPMinorVersion='0' SuiteMask='768' ProductType='1' Bits='32' Name='WindowsVista'/>
+	<log><![CDATA[" This is the log file "]]></log>
 	<actions>
 		<action id='1' version='' result='3'/>
 		<action id='2' version='2010' result='3'/>

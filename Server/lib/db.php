@@ -2,6 +2,7 @@
 /* We use a library that let us create queries in a really easy way */
 include_once( 'ezdb1.php');
 
+/* Connection data */
 $globals = array();
 $globals['db_user']			= 'root';
 $globals['db_password']			= '';

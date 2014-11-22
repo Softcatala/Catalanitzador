@@ -4,7 +4,7 @@
 
 <div class="center">
     <div class="container">
-    <span class="breadcrumbs"><a href="/" title="Inici">Inici</a> » Com configurar el Linux en català</span>
+    <span class="breadcrumbs"><a href="/catalanitzador/" title="Inici">Inici</a> » Com configurar el Linux en català</span>
     <h1 class="page">Catalanitzador <span class="so">de Softcatalà</span></h1>
     <h2>Com configurar el Linux en català</h2>
     	<div class="download_section general">
@@ -24,7 +24,7 @@ i de l'entorn d'escriptori que es faci servir.
     <li>Quan s'iniciï la instal·lació, seleccioneu el català en el segon pas</li>
     <li>A partir d'aquí tot el sistema es configurarà en català</li>
 </ul>
-<br class="p"/>
+<br class="p">
 <h3>Selecció de llengua a l'escriptori</h3>
 <ul class="general">
     <li>Segons l'entorn d'escriptori Linux que feu servir, el procediment de selecció de llengua és diferent</li>
@@ -32,22 +32,22 @@ i de l'entorn d'escriptori que es faci servir.
     des d'allà seleccionar el català</li>
 </ul>
 
-<br class="p"/>
-<br class="p"/>
+<br class="p">
+<br class="p">
 
 <p>Si teniu cap dubte o us cal ajuda per configurar el vostre mòbil o tauleta podeu adreçar-vos al <a href="http://www.softcatala.org/forum/viewforum.php?f=3&sid=04e08382c279bf4d89b5add56a481378">fòrum de Linux</a>.</p>
 
-<br class="p"/>
+<br class="p">
 
 </div>
 
 
        <div class="so_screenshot_section">
             <ul id="slider_android">
-                <li><img src="/images/so/linux1.png" alt="Catalanitzar el Linux captura 1"/></li>
-                <li><img src="/images/so/linux2.png" alt="Catalanitzar el Linux captura 2"/></li>
-                <li><img src="/images/so/linux3.png" alt="Catalanitzar el Linux captura 3"/></li>
-                <li><img src="/images/so/linux4.png" alt="Catalanitzar el Linux captura 4"/></li>
+                <li><img src="/catalanitzador/images/so/linux1.png" alt="Catalanitzar el Linux captura 1"></li>
+                <li><img src="/catalanitzador/images/so/linux2.png" alt="Catalanitzar el Linux captura 2"></li>
+                <li><img src="/catalanitzador/images/so/linux3.png" alt="Catalanitzar el Linux captura 3"></li>
+                <li><img src="/catalanitzador/images/so/linux4.png" alt="Catalanitzar el Linux captura 4"></li>
             </ul>
             
         </div>
@@ -56,3 +56,4 @@ i de l'entorn d'escriptori que es faci servir.
 </div>
 
 <?php include('footer.html'); ?>
+<?php include('footer_sc.php'); ?>

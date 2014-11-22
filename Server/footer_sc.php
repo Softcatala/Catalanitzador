@@ -17,3 +17,6 @@ piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script><noscript><p><img src="http://stats.softcatala.cat/piwik.php?idsite=2" style="border:0" alt=""/></p></noscript>
 <!-- End Piwik Tag -->
+
+</body>
+</html>

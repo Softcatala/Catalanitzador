@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS `inspectors` (
   KEY `InspectorID` (`InspectorID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `sessions` ADD `guid` VARCHAR( 255 ) NOT NULL;
+ALTER TABLE `sessions` ADD `guid` VARCHAR( 255 ) NOT NULL 

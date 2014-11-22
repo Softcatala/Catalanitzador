@@ -1,163 +1,148 @@
-19:35:16.0420 - CatalanitzadorPerAlWindows version 2.4.2. Compiled on Nov  5 2014 - 19:57:48
-19:35:16.0420 - Today is 2014/11/08
-19:35:16.0420 - OS Info. OS version 6.3, SP version 0.0, Build 9600, SuiteMask 256, ProductType 1, 64 bit yes, name Windows81
-19:35:16.0420 - CommandLine::Process: ''
-19:35:16.0420 - Guid::_read. Result 0, guid: ''
-19:35:16.0420 - Guid::_generate. Guid: '636ce6f1-7a9c-48d7-9a7d-f63c1e65afe7'
-19:35:16.0420 - Guid::Store. Result '1'
-19:35:16.0420 - Authorization::RunningElevatedWithOtherUser. Returns 0, current: xmiralles, logged: xmiralles
-19:35:16.0527 - Sha1Sum::ComputeforFile for C:\Users\XMIRAL~1\AppData\Local\Temp\embedded_configuration.xml returns 99826ce2f0792a28fe8eea8231e74060c6959bf4
-19:35:16.0831 - ConfigurationDownloadThread::GetAssociatedFileSha1Sum 'http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml.sha1' is 1
-19:35:16.0831 - Sha1Sum::ReadFromFile for C:\Users\XMIRAL~1\AppData\Local\Temp\configuration.xml.sha1 returns 99826ce2f0792a28fe8eea8231e74060c6959bf4
-19:35:16.0955 - Sha1Sum::ComputeforFile for C:\Users\XMIRAL~1\AppData\Local\Temp\embedded_configuration.xml returns 99826ce2f0792a28fe8eea8231e74060c6959bf4
-19:35:16.0955 - ConfigurationDownloadThread::OnStart. Remote file same version that the embedded
-19:35:19.0333 - CatalanitzadorUpdateAction::IsNeed returns 0 (status 3)
-19:35:19.0333 - Windows8LPIAction::_isASupportedSystemLanguage. Language ID: 809
-19:35:19.0333 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:19.0333 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:19.0333 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:19.0333 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:19.0333 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:19.0333 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:19.0333 - Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang '', preferred pending lang ''
-19:35:19.0333 - Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang '', preferred pending lang ''
-19:35:19.0333 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Internet Explorer\iexplore.exe' version '11.0.9841.0'
-19:35:19.0333 - InternetExplorerVersion::_readIEVersion returns IE '11'
-19:35:19.0333 - IELPIAction::CheckPrerequirements: Ok
-19:35:19.0333 - IEAcceptLanguagesAction::CheckPrerequirements. Applied with language pack.
-19:35:19.0333 - ChromeAction::_findSystemInstallation. InstallLocation C:\Program Files (x86)\Google\Chrome\Application
-19:35:19.0333 - ChromeAction::_findSystemInstallation. Profile C:\Users\xmiralles\AppData\Local\Google\Chrome\User Data
-19:35:19.0333 - ChromeAction::_readInstallLocation - C:\Users\xmiralles\AppData\Local\Google\Chrome\User Data
-19:35:19.0333 - ChromeAction::_readVersion. Chrome version 38.0.2125.111
-19:35:19.0348 - ChromeProfile::IsAcceptLanguagesOk: 0
-19:35:19.0348 - ChromeProfile::IsUiLocaleOk: 0
-19:35:19.0348 - ChromeProfile::IsUiLocaleOk: 0
-19:35:19.0348 - ChromeProfile::IsSpellCheckerLanguageOk: 0
-19:35:19.0348 - Firefox::_getVersionAndLocaleFromRegistry. Cannot open registry key
-19:35:19.0348 - Firefox::_getVersionAndLocaleFromRegistry. Cannot open registry key
-19:35:19.0348 - Firefox::_readInstallPath. Cannot open registry key
-19:35:19.0348 - Firefox::_getVersionAndLocaleFromRegistry. Cannot open registry key
-19:35:19.0348 - OpenOfficeAction::_readVersionInstalled ''
-19:35:19.0348 - OpenOffice::_readVersionInstalled ''
-19:35:19.0348 - OpenOffice::_readVersionInstalled ''
-19:35:19.0348 - LangToolLibreOfficeAction::_isOpenOfficeInstalled: Libreoffice 0, ApacheOpenOffice 0
-19:35:19.0348 - AdobeReaderAction::_readVersionInstalled: version: '', lang: '', versions installed: '0'
-19:35:19.0348 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Windows Live\Installer\wlarp.exe' version '', error '2'
-19:35:19.0348 - SkypeAction::_getProgramLocation ''
-19:35:19.0364 - Windows8LPIAction::IsNeed returns 1 (status 0)
-19:35:19.0364 - MSOfficeLPIAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - IEAction::IsNeed returns 0 (status 2)
-19:35:19.0364 - ConfigureLocaleAction::IsNeed returns 1
-19:35:19.0364 - ChromeAction::IsNeed returns 1 (status 0)
-19:35:19.0364 - FirefoxLangPackAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - FirefoxAcceptLanguagesAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - FirefoxAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - LangToolFirefoxAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - OpenOfficeAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - LangToolLibreOfficeAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - AdobeReaderAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - WindowsLiveAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - iTunesAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - SkypeAction::IsNeed returns 0 (status 7)
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:19.0364 - IELPIAction::CheckPrerequirements: Aquesta versió del Windows no permet definir la llengua de l'Internet Explorer i del sistema de forma separada. Instal·leu el paquet de llengua per al Windows per tenir l'Internet Explorer en català.
-19:35:19.0364 - IEAcceptLanguagesAction::CheckPrerequirements. Applied with language pack.
-19:35:19.0364 - Windows8LPIAction::_isASupportedSystemLanguage. Language ID: 809
-19:35:19.0364 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:19.0364 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:19.0364 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:19.0364 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:19.0364 - Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang '', preferred pending lang ''
-19:35:19.0364 - Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang '', preferred pending lang ''
-19:35:19.0364 - Windows8LPIAction::_isASupportedSystemLanguage. Language ID: 809
-19:35:19.0364 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:19.0364 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:19.0364 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:19.0364 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:19.0364 - Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang '', preferred pending lang ''
-19:35:19.0364 - Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang '', preferred pending lang ''
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:19.0364 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:20.0630 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:20.0630 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:28.0898 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:28.0898 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:28.0927 - Runner::GetProcessID. Process name 'chrome.exe' has 7 processes
-19:35:30.0745 - Runner::GetProcessID. Process name 'chrome.exe' has 7 processes
-19:35:30.0745 - Runner::GetProcessID. Process name 'chrome.exe' has 7 processes
-19:35:33.0692 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:33.0692 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:33.0692 - Runner::GetProcessID. Process name 'chrome.exe' has 0 processes
-19:35:33.0707 - Runner::GetRunningProcessesNames. 5 processes
-19:35:33.0707 - ApplicationsModel::LogRunningProcesses: CSISYNCCLIENT.EXE, IAStorIcon.exe, NvBackend.exe, SpotifyWebHelper.exe, CatalanitzadorPerAlWindows.exe
-19:35:33.0707 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:33.0707 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:34.0407 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:34.0407 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:34.0590 - SystemRestore::Start. Created point 'Catalanitzador per al Windows' with result 1
-19:35:34.0652 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:34.0652 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:38.0059 - DownloadManager::GetFileAndVerifyAssociatedSha1 'http://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x64_2013_06.cab' is 1
-19:35:38.0121 - DownloadManager::_getAssociatedFileSha1Sum 'http://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x64_2013_06.cab.sha1' is 1
-19:35:38.0121 - Sha1Sum::ReadFromFile for C:\Users\XMIRAL~1\AppData\Local\Temp\ca_windows_81_language_interface_pack_x64_2013_06.cab.sha1 returns 099d94e38b379f6bb66179ddc6256b1d5922aaf6
-19:35:38.0168 - Sha1Sum::ComputeforFile for C:\Users\XMIRAL~1\AppData\Local\Temp\ca_windows_81_language_interface_pack_x64_2013_06.cab returns 099d94e38b379f6bb66179ddc6256b1d5922aaf6
-19:35:38.0168 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:38.0168 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:38.0168 - Windows8LPIAction::Execute 'C:\Windows\system32\lpksetup.exe' with params ' /i ca-ES /r /s /p C:\Users\XMIRAL~1\AppData\Local\Temp\ca_windows_81_language_interface_pack_x64_2013_06.cab'
-19:35:38.0965 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:38.0965 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:38.0965 - Windows8LPIAction::_readPanelLanguageCode is 'es-ES'
-19:35:38.0965 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '0' (es-es)
-19:35:38.0965 - Windows8LPIAction::_runLanguagePanelPowerShellScript 'C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe' with params ' -ExecutionPolicy remotesigned C:\Users\XMIRAL~1\AppData\Local\Temp\lang.ps1'
-19:35:38.0965 - Windows8LPIAction::_setLanguagePanelLanguages. Langs: 'ca', ''
-19:35:40.0856 - Windows8LPIAction::_setDefaultLanguage current user done: ca-ES
-19:35:40.0856 - Windows8LPIAction::_setDefaultLanguage all users to ca-ES done
-19:35:40.0856 - Windows8LPIAction::_readPanelLanguageCode is 'ca'
-19:35:40.0856 - Windows8LPIAction::_isLanguagePanelFirstForLanguage '1' (ca)
-19:35:40.0856 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-ES' returns 0
-19:35:40.0856 - Windows8LPIAction::_isLangPackInstalledForLanguage 'ca-es-valencia' returns 0
-19:35:40.0856 - Windows8LPIAction::_isDefaultLanguageForLanguage preferred lang 'ca-ES', preferred pending lang 'ca-ES'
-19:35:50.0871 - LogExtractor::DumpLines. For file 'C:\Users\XMIRAL~1\AppData\Local\Temp\lpksetup-20141108-193538-0.log' and keyword 'Error'
-19:35:50.0871 - '19:35:38:918 : WARN: Unable to open Lpksetup reg key'
-19:35:50.0871 - '19:35:38:918 : PERF: Enumerating installed languages - LEAVE'
-19:35:50.0871 - '19:35:38:918 : Language ca-ES has been disabled for the following reason: 2148468490'
-19:35:50.0871 - '19:35:38:918 : ERROR: 1 languages failed validation for installation:'
-19:35:50.0871 - '19:35:38:934 : ERROR: * ca-ES'
-19:35:50.0871 - '19:35:38:934 : Error found in call to ProcessUnattendedArguments: 0x80070002'
-19:35:50.0871 - '19:35:38:934 : INFO: Session 0xec410f58 finalized, reporting a required reboot'
-19:35:50.0871 - Windows8LPIAction::GetStatus is 'FinishedWithError'
-19:35:50.0903 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Internet Explorer\iexplore.exe' version '11.0.9841.0'
-19:35:50.0903 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Internet Explorer\iexplore.exe' version '11.0.9841.0'
-19:35:50.0918 - ConfigureLocaleAction::_userLocaleFromLanguageProfileOptOut: 1
-19:35:50.0918 - ConfigureLocaleAction::Execute 'C:\Windows\system32\control.exe ' with params ' intl.cpl,,/f:"C:\Users\XMIRAL~1\AppData\Local\Temp\regopts.xml"'
-19:35:51.0450 - ConfigureLocaleAction::GetStatus is 'Successful'
-19:35:51.0450 - ChromeProfile::IsUiLocaleOk: 0
-19:35:51.0481 - ChromeProfile::IsAcceptLanguagesOk: 0
-19:35:51.0481 - ChromeProfile::IsUiLocaleOk: 1
-19:35:51.0481 - ChromeProfile::IsSpellCheckerLanguageOk: 1
-19:35:51.0528 - ChromeProfile::IsUiLocaleOk: 1
-19:35:51.0559 - ChromeProfile::IsAcceptLanguagesOk: 1
-19:35:51.0559 - ChromeProfile::IsUiLocaleOk: 1
-19:35:51.0559 - ChromeProfile::IsSpellCheckerLanguageOk: 1
-19:35:51.0559 - ChromeAction::Execute returns Successful
-19:35:51.0559 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Windows Live\Installer\wlarp.exe' version '', error '2'
-19:35:51.0559 - SkypeAction::_getProgramLocation ''
-19:35:51.0559 - LibreOfficeInspector::_readVersionInstalled ''
-19:35:51.0559 - LibreOfficeInspector::_getUIFilesInstalled ''
-19:35:51.0559 - LibreOfficeInspector::_getDictInstalled ''
-19:35:51.0559 - PDFCreator::_readVersionInstalled ''
-19:35:51.0559 - PDFCreator::_readLangInstalled ''
-19:35:51.0559 - WinRARInspector::_readFilePath ''
-19:35:51.0559 - WinRARInspector::_readVersion version 
-19:35:51.0559 - ThunderbirdInspector::_getVersionAndLocaleFromRegistry. Cannot open registry key
-19:35:51.0559 - ThunderbirdInspector::_readVersion version 
-19:35:51.0559 - ThunderbirdInspector::_readLanguage language 
-19:35:51.0559 - CCleanerInspector::_readVersion version ''
-19:35:51.0559 - CCleanerInspector::_readLangInstalled ''
-19:35:51.0559 - JavaRuntimeInspector::_readVersion version 
-19:35:51.0575 - SystemRestore::End. Called with result 1
+16:53:55.0557 - CatalanitzadorPerAlWindows version 2.4.2. Compiled on Oct 19 2014 - 18:13:07
+16:53:55.0557 - Today is 2014/11/13
+16:53:55.0557 - OS Info. OS version 6.1, SP version 0.0, Build 7600, SuiteMask 768, ProductType 1, 64 bit yes, name Windows7
+16:53:55.0557 - CommandLine::Process: ''
+16:53:55.0557 - Guid::_read. Result 0, guid: ''
+16:53:55.0557 - Guid::_generate. Guid: '492cfd12-5e3f-4cb1-8ec3-a924296c0449'
+16:53:55.0557 - Guid::Store. Result '1'
+16:53:55.0557 - Authorization::RunningElevatedWithOtherUser. Returns 0, current: mestres, logged: mestres
+16:53:55.0760 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\embedded_configuration.xml returns 99826ce2f0792a28fe8eea8231e74060c6959bf4
+16:53:59.0192 - CatalanitzadorUpdateAction::IsNeed returns 0 (status 3)
+16:53:59.0192 - WindowsLPIAction::_isASupportedSystemLanguage. Language ID: c0a
+16:53:59.0192 - WindowsLPIAction::_isLangPackInstalled returns 0
+16:53:59.0207 - MSOfficeLPIAction::CheckPrerequirements. MSOfficce 2003 application installed
+16:53:59.0207 - MSOffice::IsLangPackInstalled (2003) 64 bits 0, installed 0
+16:53:59.0207 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Internet Explorer\iexplore.exe' version '8.0.7600.16385'
+16:53:59.0207 - InternetExplorerVersion::_readIEVersion returns IE '8'
+16:53:59.0207 - IELPIAction::CheckPrerequirements: Ok
+16:53:59.0207 - IEAcceptLanguagesAction::IsNeed returns 1 (status 0)
+16:53:59.0207 - IELPIAction::IsNeed returns 0 (status 2)
+16:53:59.0207 - ConfigureDefaultLanguageAction::_isCatalanKeyboardActive returns 0
+16:53:59.0207 - ConfigureDefaultLanguageAction::_hasSpanishKeyboard is '1'
+16:53:59.0207 - ChromeAction::_readInstallLocation - Chrome is not installed
+16:53:59.0207 - Firefox::_getVersionAndLocaleFromRegistry. Firefox version 32.0 (x86 ca)
+16:53:59.0207 - Firefox::_getVersionAndLocaleFromRegistry. Firefox version 32.0 (x86 ca)
+16:53:59.0207 - FirefoxLangPackAction::_isLocaleInstalled: 1
+16:53:59.0207 - FirefoxPreferencesFile::_readValue open C:\Users\mestres\AppData\Roaming\Mozilla\Firefox\Profiles/ixwo159o.default\prefs.js, read value ''
+16:53:59.0207 - FirefoxAcceptLanguagesAction::_isAcceptLanguageOk: 1
+16:53:59.0207 - Firefox::_getVersionAndLocaleFromRegistry. Firefox version 32.0 (x86 ca)
+16:53:59.0207 - FirefoxAddOn::CanInstallAddOns. Result 1
+16:53:59.0207 - OpenOfficeAction::_readVersionInstalled ''
+16:53:59.0207 - OpenOffice::_readVersionInstalled '4.2'
+16:53:59.0207 - OpenOffice::_readVersionInstalled ''
+16:53:59.0207 - LangToolLibreOfficeAction::_isOpenOfficeInstalled: Libreoffice 1, ApacheOpenOffice 0
+16:53:59.0239 - OpenOffice::_parseXmlConfiguration. Could not open 'C:\Users\mestres\AppData\Roaming\LibreOffice\4\user\uno_packages\cache\registry\com.sun.star.comp.deployment.component.PackageRegistryBackend\backenddb.xml'
+16:53:59.0239 - LangToolLibreOfficeAction::_shouldInstallJava. Java version , should install 1
+16:53:59.0239 - OpenOfficeJavaConfiguration::GetDefaultJavaVersion. Could not open 'C:\Users\mestres\AppData\Roaming\LibreOffice\4\user\config\javasettings_Windows_x86.xml'
+16:53:59.0239 - LangToolLibreOfficeAction::_doesJavaNeedsConfiguration: 0
+16:53:59.0239 - AdobeReaderAction::_readVersionInstalled: version: '', lang: '', versions installed: '0'
+16:53:59.0239 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Windows Live\Installer\wlarp.exe' version '', error '2'
+16:53:59.0239 - SkypeAction::_getProgramLocation ''
+16:53:59.0254 - WindowsLPIAction::IsNeed returns 1 (status 0)
+16:53:59.0254 - MSOfficeLPIAction::IsNeed returns 1 (status 0)
+16:53:59.0254 - IEAction::IsNeed returns 1 (status 0)
+16:53:59.0254 - ConfigureLocaleAction::IsNeed returns 1
+16:53:59.0254 - ConfigureDefaultLanguageAction::IsNeed returns 1 (status 0)
+16:53:59.0254 - ChromeAction::IsNeed returns 0 (status 7)
+16:53:59.0254 - FirefoxLangPackAction::IsNeed returns 0 (status 3)
+16:53:59.0254 - FirefoxAcceptLanguagesAction::IsNeed returns 0 (status 3)
+16:53:59.0254 - FirefoxAction::IsNeed returns 0 (status 3)
+16:53:59.0254 - LangToolFirefoxAction::IsNeed returns 1 (status 0)
+16:53:59.0254 - OpenOfficeAction::IsNeed returns 0 (status 7)
+16:53:59.0254 - LangToolLibreOfficeAction::IsNeed returns 1 (status 0)
+16:53:59.0254 - AdobeReaderAction::IsNeed returns 0 (status 7)
+16:53:59.0254 - WindowsLiveAction::IsNeed returns 0 (status 7)
+16:53:59.0254 - iTunesAction::IsNeed returns 0 (status 7)
+16:53:59.0254 - SkypeAction::IsNeed returns 0 (status 7)
+16:53:59.0254 - IELPIAction::CheckPrerequirements: Aquesta versió del Windows no permet definir la llengua de l'Internet Explorer i del sistema de forma separada. Instal·leu el paquet de llengua per al Windows per tenir l'Internet Explorer en català.
+16:53:59.0254 - IEAcceptLanguagesAction::IsNeed returns 1 (status 1)
+16:53:59.0254 - IELPIAction::IsNeed returns 0 (status 2)
+16:53:59.0254 - WindowsLPIAction::_isASupportedSystemLanguage. Language ID: c0a
+16:53:59.0254 - WindowsLPIAction::_isLangPackInstalled returns 0
+16:53:59.0254 - WindowsLPIAction::_isASupportedSystemLanguage. Language ID: c0a
+16:53:59.0254 - WindowsLPIAction::_isLangPackInstalled returns 0
+16:54:00.0065 - ConfigurationDownloadThread::GetAssociatedFileSha1Sum 'http://www.softcatala.org/pub/beta/catalanitzador/configuration.xml.sha1' is 1
+16:54:00.0065 - Sha1Sum::ReadFromFile for C:\Users\mestres\AppData\Local\Temp\configuration.xml.sha1 returns b79e095f5dc3aa1a404a870ce71486711591f2c7
+16:54:00.0175 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\embedded_configuration.xml returns 99826ce2f0792a28fe8eea8231e74060c6959bf4
+16:54:00.0346 - ConfigurationDownloadThread::_getFile 'http://www.softcatala.org/pub/beta/catalanitzador/configuration.xml' is 1
+16:54:00.0346 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\configuration.xml returns b79e095f5dc3aa1a404a870ce71486711591f2c7
+16:54:00.0362 - ConfigurationDownloadThread::OnStart. Remote file is not newer than the embedded
+16:54:10.0269 - Runner::GetProcessID. Process name 'soffice.bin' has 0 processes
+16:54:10.0269 - Runner::GetRunningProcessesNames. 1 processes
+16:54:10.0269 - ApplicationsModel::LogRunningProcesses: CatalanitzadorPerAlWindows.exe
+16:54:10.0269 - WindowsLPIAction::_isLangPackInstalled returns 0
+16:54:17.0267 - WindowsLPIAction::_isLangPackInstalled returns 0
+16:54:26.0487 - SystemRestore::Start. Created point 'Catalanitzador per al Windows' with result 1
+16:54:26.0534 - WindowsLPIAction::_isLangPackInstalled returns 0
+16:54:34.0069 - DownloadManager::GetFileAndVerifyAssociatedSha1 'http://baixades.softcatala.org/?id=4932&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc' is 1
+16:54:34.0115 - DownloadManager::_getAssociatedFileSha1Sum 'http://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc.sha1' is 1
+16:54:34.0115 - Sha1Sum::ReadFromFile for C:\Users\mestres\AppData\Local\Temp\LIP_ca-ES-64bit.mlc.sha1 returns 90cc08d1f7cac5a227657f12650e2d053eb9ab14
+16:54:34.0147 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\LIP_ca-ES-64bit.mlc returns 90cc08d1f7cac5a227657f12650e2d053eb9ab14
+16:54:34.0147 - WindowsLPIAction::_isLangPackInstalled returns 0
+16:54:34.0147 - WindowsLPIAction::Execute 'C:\Windows\system32\lpksetup.exe' with params ' /i ca-ES /r /s /p C:\Users\mestres\AppData\Local\Temp\LIP_ca-ES-64bit.mlc'
+16:56:36.0295 - WindowsLPIAction::_isLangPackInstalled returns 1
+16:56:36.0295 - WindowsLPIAction::_setDefaultLanguage current user done
+16:56:36.0295 - WindowsLPIAction::_setDefaultLanguage all users done
+16:56:36.0295 - WindowsLPIAction::GetStatus is 'Successful'
+16:56:36.0295 - MSOffice::IsLangPackInstalled (2003) 64 bits 0, installed 0
+16:56:36.0295 - OutLookHotmailConnector::IsNeed returns 0
+16:56:53.0907 - DownloadManager::GetFileAndVerifyAssociatedSha1 'http://baixades.softcatala.org/?id=3444&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab' is 1
+16:56:53.0954 - DownloadManager::_getAssociatedFileSha1Sum 'http://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab.sha1' is 1
+16:56:53.0954 - Sha1Sum::ReadFromFile for C:\Users\mestres\AppData\Local\Temp\office2003-lip.cab.sha1 returns 522cd2c71a0c24b93998ad3c15d3b668d89f2a82
+16:56:54.0017 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\office2003-lip.cab returns 522cd2c71a0c24b93998ad3c15d3b668d89f2a82
+16:56:54.0017 - MSOffice::IsLangPackInstalled (2003) 64 bits 0, installed 0
+16:56:54.0017 - MSOffice::_extractCabFile 'C:\Windows\system32\expand.exe ' with params ' C:\Users\mestres\AppData\Local\Temp\office2003-lip.cab C:\Users\mestres\AppData\Local\Temp\CAT27DF.tmp -f:*'
+16:56:54.0344 - MSOffice::Execute (2003) 'C:\Windows\system32\msiexec.exe ' with params ' /i C:\Users\mestres\AppData\Local\Temp\CAT27DF.tmp\lip.msi /qn'
+16:56:59.0835 - OutLookHotmailConnector::IsNeed returns 0
+16:56:59.0898 - MSOffice::IsLangPackInstalled (2003) 64 bits 0, installed 1
+16:56:59.0898 - MSOffice::SetDefaultLanguage (2003), set UILanguage 1, lcid 1027
+16:56:59.0898 - MSOfficeLPIAction::GetStatus (2003) is 'Successful'
+16:56:59.0898 - IEAcceptLanguagesAction::_writeLanguageCode, set AcceptLanguage 1
+16:56:59.0898 - IEAcceptLanguagesAction::Execute returns Successful
+16:56:59.0898 - IEAction::GetStatus is 'Successful'
+16:56:59.0898 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Internet Explorer\iexplore.exe' version '8.0.7600.16385'
+16:56:59.0898 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Internet Explorer\iexplore.exe' version '8.0.7600.16385'
+16:56:59.0898 - ConfigureLocaleAction::Execute 'C:\Windows\system32\control.exe ' with params ' intl.cpl,,/f:"C:\Users\mestres\AppData\Local\Temp\regopts.xml"'
+16:57:03.0205 - ConfigureLocaleAction::GetStatus is 'Successful'
+16:57:03.0205 - ConfigureDefaultLanguageAction::Execute 'C:\Windows\system32\control.exe ' with params ' intl.cpl,,/f:"C:\Users\mestres\AppData\Local\Temp\regopts.xml"'
+16:57:04.0968 - ConfigureDefaultLanguageAction::_isCatalanKeyboardActive returns 1
+16:57:04.0968 - ConfigureDefaultLanguageAction::GetStatus is 'Successful'
+16:57:05.0139 - DownloadManager::GetFileAndVerifyAssociatedSha1 'http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi' is 1
+16:57:05.0171 - DownloadManager::_getAssociatedFileSha1Sum 'http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi.sha1' is 1
+16:57:05.0171 - Sha1Sum::ReadFromFile for C:\Users\mestres\AppData\Local\Temp\languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi.sha1 returns 49511a175a548b735760a11b19e81a4cd859d355
+16:57:05.0186 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi returns 49511a175a548b735760a11b19e81a4cd859d355
+16:57:05.0186 - LangToolFirefoxAction::Execute is 'Successful'
+16:57:37.0463 - DownloadManager::GetFileAndVerifyAssociatedSha1 'http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe' is 1
+16:57:37.0541 - DownloadManager::_getAssociatedFileSha1Sum 'http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe.sha1' is 1
+16:57:37.0541 - Sha1Sum::ReadFromFile for C:\Users\mestres\AppData\Local\Temp\jre-7u45-windows-i586.exe.sha1 returns a2269c804418186c9b944746f26e225b3e77a571
+16:57:37.0665 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\jre-7u45-windows-i586.exe returns a2269c804418186c9b944746f26e225b3e77a571
+16:58:27.0398 - DownloadManager::GetFileAndVerifyAssociatedSha1 'http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt' is 1
+16:58:27.0445 - DownloadManager::_getAssociatedFileSha1Sum 'http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt.sha1' is 1
+16:58:27.0445 - Sha1Sum::ReadFromFile for C:\Users\mestres\AppData\Local\Temp\LanguageTool-2.7.oxt.sha1 returns 4f21e1666fcb204e2d201a7be4d13cb83cfd4238
+16:58:28.0958 - Sha1Sum::ComputeforFile for C:\Users\mestres\AppData\Local\Temp\LanguageTool-2.7.oxt returns 4f21e1666fcb204e2d201a7be4d13cb83cfd4238
+16:58:28.0958 - LangToolLibreOfficeAction::_installJava. 'C:\Users\mestres\AppData\Local\Temp\jre-7u45-windows-i586.exe' with params ' /s'
+16:58:57.0163 - LangToolLibreOfficeAction::GetStatus: Process returned 0
+16:58:57.0163 - LangToolLibreOfficeAction::_shouldInstallJava. Java version 1.7, should install 0
+16:58:57.0163 - LangToolLibreOfficeAction::GetStatus. Java installed successfully 1
+16:58:57.0163 - OpenOffice::_readInstallPath 'C:\Program Files (x86)\LibreOffice 4\program\'
+16:58:57.0163 - OpenOffice::InstallExtension 'C:\Program Files (x86)\LibreOffice 4\program\unopkg.com' with params ' add C:\Users\mestres\AppData\Local\Temp\LanguageTool-2.7.oxt'
+16:59:16.0164 - LangToolLibreOfficeAction::GetStatus: Process returned 1
+16:59:16.0164 - OpenOffice::_parseXmlConfiguration. Could not open 'C:\Users\mestres\AppData\Roaming\LibreOffice\4\user\uno_packages\cache\registry\com.sun.star.comp.deployment.component.PackageRegistryBackend\backenddb.xml'
+16:59:16.0164 - LangToolLibreOfficeAction::GetStatus is 'FinishedWithError'
+16:59:16.0164 - FileVersionInfo::ReadVersion. File 'C:\Program Files (x86)\Windows Live\Installer\wlarp.exe' version '', error '2'
+16:59:16.0164 - SkypeAction::_getProgramLocation ''
+16:59:16.0164 - LibreOfficeInspector::_readVersionInstalled '4.2'
+16:59:16.0164 - LibreOfficeInspector::_readLocale. Could not open 'C:\Users\mestres\AppData\Roaming\LibreOffice\4\user\registrymodifications.xcu'
+16:59:16.0164 - LibreOfficeInspector::_getUIFilesInstalled ''
+16:59:16.0180 - LibreOfficeInspector::_getDictInstalled 'ca'
+16:59:16.0180 - PDFCreator::_readVersionInstalled ''
+16:59:16.0180 - PDFCreator::_readLangInstalled ''
+16:59:16.0180 - WinRARInspector::_readFilePath ''
+16:59:16.0180 - WinRARInspector::_readVersion version 
+16:59:16.0180 - ThunderbirdInspector::_getVersionAndLocaleFromRegistry. Cannot open registry key
+16:59:16.0180 - ThunderbirdInspector::_readVersion version 
+16:59:16.0180 - ThunderbirdInspector::_readLanguage language 
+16:59:16.0180 - CCleanerInspector::_readVersion version ''
+16:59:16.0180 - CCleanerInspector::_readLangInstalled ''
+16:59:16.0180 - JavaRuntimeInspector::_readVersion version 1.7
+16:59:16.0523 - SystemRestore::End. Called with result 1

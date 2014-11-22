@@ -3,8 +3,8 @@
  * Catalanitzador parser that handles an XML file that contain log stats when a user finishes the «catalanització» of his computer
  *
  */
-require( 'lib/db.php' );
-require( 'lib/class/result.php' );
+require( '/catalanitzador/lib/db.php' );
+require( '/catalanitzador/lib/class/result.php' );
 
 if ( isset ($_GET['debug']))
     error_reporting(E_ALL);
@@ -13,9 +13,15 @@ $result = new Result();
 
 if (isset($_POST['xml'])){
     $xmlstring = utf8_decode($_POST['xml']);
+    //$xmlstring = str_replace ( "\", "\\", $xmlstring);
+    //$xmlstring = addslashes($xmlstring);
+
 
     //Transform the xml string into a simplexml object
     $xml = simplexml_load_string($xmlstring, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
+
+    //If the xml is a file
+    //$xml = simplexml_load_file("xml/model.xml");
 
     if (!empty($xml)){
         //Application

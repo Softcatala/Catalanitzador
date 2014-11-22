@@ -40,7 +40,7 @@
 	</div>
 
 	<div class="outcome">
-	<a href="http://www.softcatala.org/catalanitzador/?baner=234_60"><img src="/images/baner/Catalanitzador_baner234_60_winOSX.gif" alt="Catalanitzador de Softcatalà" /></a>	
+	<a href="http://www.softcatala.org/catalanitzador/?baner=234_60"><img src="/catalanitzador/images/baner/Catalanitzador_baner234_60_winOSX.gif" alt="Catalanitzador de Softcatalà" /></a>	
 	</div>
 
 	<h3>Afegiu el codi següent allà on trieu dins del cos del vostre bloc o lloc web…</h3>
@@ -54,8 +54,9 @@
     </div>
 </div>
 
-<script src="/js/baner.js" type="text/javascript"></script>
+
 <?php include('footer.html'); ?>
+<?php include('footer_sc.php'); ?>
 
 
 

@@ -22,7 +22,7 @@ switch ($lang) {
 
 <div class="center">
     <div class="container">
-    <span class="breadcrumbs"><a href="/" title="Inici">Inici</a> » Com configurar l'iOS en català</span>
+    <span class="breadcrumbs"><a href="/catalanitzador/" title="Inici">Inici</a> » Com configurar l'iOS en català</span>
     <h1 class="page">Catalanitzador <span class="so">de Softcatalà</span></h1>
     <h2>Com configurar l'iOS en català</h2>
     	<div class="download_section general">
@@ -37,21 +37,21 @@ switch ($lang) {
     <li>Després d'uns segons us apareixerà la interfície en català.</li>
 </ul>
 
-<br class="p"/>
+<br class="p">
 
 <p>Si teniu cap dubte o us cal ajuda per configurar el vostre mòbil o tauleta podeu adreçar-vos al <a href="http://www.softcatala.org/forum/viewforum.php?f=2&sid=04e08382c279bf4d89b5add56a481378">fòrum de Mac OS</a>.</p>
 
-<br class="p"/>
+<br class="p">
 
 		</div>    
         <div class="so_screenshot_section">
             <ul id="slider_android">
-                <li><img src="/images/so/ios1_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 1"/></li>
-                <li><img src="/images/so/ios2_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 2"/></li>
-                <li><img src="/images/so/ios3_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 3"/></li>
-                <li><img src="/images/so/ios4_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 4"/></li>
-                <li><img src="/images/so/ios5_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 5"/></li>
-                <li><img src="/images/so/ios_ca.png" alt="Catalanitzar l'ios captura 5"/></li>
+                <li><img src="/catalanitzador/images/so/ios1_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 1"></li>
+                <li><img src="/catalanitzador/images/so/ios2_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 2"></li>
+                <li><img src="/catalanitzador/images/so/ios3_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 3"></li>
+                <li><img src="/catalanitzador/images/so/ios4_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 4"></li>
+                <li><img src="/catalanitzador/images/so/ios5_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 5"></li>
+                <li><img src="/catalanitzador/images/so/ios_ca.png" alt="Catalanitzar l'ios captura 5"></li>
             </ul>
             
         </div>
@@ -59,3 +59,4 @@ switch ($lang) {
 </div>
 
 <?php include('footer.html'); ?>
+<?php include('footer_sc.php'); ?>
