@@ -242,6 +242,7 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 				
 				break;
 			}
+
 			// LibreOffice sometimes files instaling and extension but then it works if you just re-entry again
 			// Has to do with the fact that the first execution creates directories than then the second can use			
 			case ExecutionStepRetryInstallExtension:
