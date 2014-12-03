@@ -27,6 +27,17 @@ using ::testing::StrCaseEq;
 using ::testing::DoAll;
 using ::testing::Eq;
 
+bool _containsOfficeVersion(vector <MSOffice> instances, MSOfficeVersion officeVersion)
+{
+	for (unsigned i = 0; i < instances.size(); i++)
+	{
+		if (instances[i].GetVersionEnum() == officeVersion)
+			return true;
+	}
+
+	return false;
+}
+
 void MockOfficeInstalled(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, MSOfficeVersion version)
 {
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).
@@ -95,5 +106,44 @@ TEST(MSOfficeFactoryTest, _isVersionInstalled_2013_64)
 	OSVersionMock osVersionMock;
 	
 	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
-	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2013_64));	
+	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2013_64));
 }
+
+TEST(MSOfficeFactoryTest, GetInstalledOfficeInstances_2013_64_2010_64)
+{
+	RegistryMock registryMockobj;
+	OSVersionMock osVersionMock;
+	RunnerMock runnerMock;
+	Win32I18NMock win32I18NMock;
+	
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
+	
+	//MSOffice2010_64
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\14.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(true));
+
+	vector <MSOffice> instances = MSOfficeFactory::GetInstalledOfficeInstances(&osVersionMock, &registryMockobj, &win32I18NMock, &runnerMock);
+
+	EXPECT_TRUE(_containsOfficeVersion(instances, MSOffice2013_64));
+	EXPECT_TRUE(_containsOfficeVersion(instances, MSOffice2010_64));
+}
+
+TEST(MSOfficeFactoryTest, GetInstalledOfficeInstances_2013_64_2003)
+{
+	RegistryMock registryMockobj;
+	OSVersionMock osVersionMock;
+	RunnerMock runnerMock;
+	Win32I18NMock win32I18NMock;
+	
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
+	
+	//MSOffice2003
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\11.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(true));
+
+	vector <MSOffice> instances = MSOfficeFactory::GetInstalledOfficeInstances(&osVersionMock, &registryMockobj, &win32I18NMock, &runnerMock);
+
+	EXPECT_TRUE(_containsOfficeVersion(instances, MSOffice2013_64));
+	EXPECT_FALSE(_containsOfficeVersion(instances, MSOffice2003));
+}
+
