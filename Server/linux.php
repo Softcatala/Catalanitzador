@@ -4,7 +4,7 @@
 
 <div class="center">
     <div class="container">
-    <span class="breadcrumbs"><a href="/catalanitzador/" title="Inici">Inici</a> » Com configurar el Linux en català</span>
+    <span class="breadcrumbs"><a href="<?php echo $globals['base_domain'] ?>/" title="Inici">Inici</a> » Com configurar el Linux en català</span>
     <h1 class="page">Catalanitzador <span class="so">de Softcatalà</span></h1>
     <h2>Com configurar el Linux en català</h2>
     	<div class="download_section general">
@@ -44,10 +44,10 @@ i de l'entorn d'escriptori que es faci servir.
 
        <div class="so_screenshot_section">
             <ul id="slider_android">
-                <li><img src="/catalanitzador/images/so/linux1.png" alt="Catalanitzar el Linux captura 1"></li>
-                <li><img src="/catalanitzador/images/so/linux2.png" alt="Catalanitzar el Linux captura 2"></li>
-                <li><img src="/catalanitzador/images/so/linux3.png" alt="Catalanitzar el Linux captura 3"></li>
-                <li><img src="/catalanitzador/images/so/linux4.png" alt="Catalanitzar el Linux captura 4"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/linux1.png" alt="Catalanitzar el Linux captura 1"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/linux2.png" alt="Catalanitzar el Linux captura 2"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/linux3.png" alt="Catalanitzar el Linux captura 3"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/linux4.png" alt="Catalanitzar el Linux captura 4"></li>
             </ul>
             
         </div>

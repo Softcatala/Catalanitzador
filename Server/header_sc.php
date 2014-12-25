@@ -55,7 +55,7 @@
 </div>
 <div class="menutop2">
 <ul>
-<li><a href="http://llistes.softcatala.org">Llistes</a></li>
+<li><a href="/wiki/Aparells">Aparells</a></li>
 <li><a href="/wiki/Projectes">Projectes</a></li>
 <li><a href="/forum">Fòrums</a></li>
 <li><a href="/wiki/Categoria:Rebost">Rebost</a></li>

@@ -22,7 +22,7 @@ switch ($lang) {
 
 <div class="center">
     <div class="container">
-    <span class="breadcrumbs"><a href="/catalanitzador/" title="Inici">Inici</a> » Com configurar l'iOS en català</span>
+    <span class="breadcrumbs"><a href="<?php echo $globals['base_domain'] ?>/" title="Inici">Inici</a> » Com configurar l'iOS en català</span>
     <h1 class="page">Catalanitzador <span class="so">de Softcatalà</span></h1>
     <h2>Com configurar l'iOS en català</h2>
     	<div class="download_section general">
@@ -46,12 +46,12 @@ switch ($lang) {
 		</div>    
         <div class="so_screenshot_section">
             <ul id="slider_android">
-                <li><img src="/catalanitzador/images/so/ios1_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 1"></li>
-                <li><img src="/catalanitzador/images/so/ios2_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 2"></li>
-                <li><img src="/catalanitzador/images/so/ios3_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 3"></li>
-                <li><img src="/catalanitzador/images/so/ios4_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 4"></li>
-                <li><img src="/catalanitzador/images/so/ios5_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 5"></li>
-                <li><img src="/catalanitzador/images/so/ios_ca.png" alt="Catalanitzar l'ios captura 5"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/ios1_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 1"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/ios2_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 2"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/ios3_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 3"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/ios4_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 4"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/ios5_<?php echo $extension ?>.png" alt="Catalanitzar l'ios captura 5"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/ios_ca.png" alt="Catalanitzar l'ios captura 5"></li>
             </ul>
             
         </div>

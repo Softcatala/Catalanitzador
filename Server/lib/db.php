@@ -4,11 +4,12 @@ include_once( 'ezdb1.php');
 
 /* Connection data */
 $globals = array();
-$globals['db_user']			= 'root';
+$globals['base_domain']			= '/catalanitzador';
+$globals['db_user']				= 'root';
 $globals['db_password']			= '';
-$globals['db_name']			= 'catalanitzador';
+$globals['db_name']				= 'catalanitzador';
 $globals['db_server']			= 'localhost';
-$globals['mysql_persistent']		= true;
+$globals['mysql_persistent']	= true;
 
 /* Now we connect to the database */
 $db = new db($globals['db_user'], $globals['db_password'], $globals['db_name'], $globals['db_server']);

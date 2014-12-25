@@ -81,7 +81,7 @@ margin:auto;
 
 .menutop ul{width:100%;float:left;list-style:none;margin:15px 0px 0px 0px;padding:0;text-align:justify;}
 
-.menutop li{float:right;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;font-weight:bold;color:#ffffff;background-color:#BA2626;margin-left:2px;padding:3px 1.60%;text-align:center;}
+.menutop li{float:right;display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:13px;font-weight:bold;color:#ffffff;background-color:#BA2626;margin-left:1px;padding:3px 1.60%;text-align:center;}
 
 .menutop li a{color:#ffffff;text-decoration:none;}
 .menutop li a:hover{color:#ffffff;text-decoration:underline;}

@@ -1,5 +1,5 @@
 <?php
-require( '/catalanitzador/lib/db.php' );
+require( 'lib/db.php' );
 
 try {
 	$total_sessions = $db->get_var('select count(sessions.ID) from sessions');

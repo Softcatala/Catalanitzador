@@ -4,7 +4,7 @@
 
 <div class="center">
     <div class="container">
-    <span class="breadcrumbs"><a href="/catalanitzador/" title="Inici">Inici</a> » Com configurar l'Android en català</span>
+    <span class="breadcrumbs"><a href="<?php echo $globals['base_domain'] ?>/" title="Inici">Inici</a> » Com configurar l'Android en català</span>
     <h1 class="page">Catalanitzador <span class="so">de Softcatalà</span></h1>
     <h2>Com configurar l'Android en català</h2>
     	<div class="download_section">
@@ -40,10 +40,10 @@ Nota: el text exacte dels menús que cal seleccionar pot variar segons la llengu
 		</div>	
         <div class="so_screenshot_section">
             <ul id="slider_android">
-                <li><img src="/catalanitzador/images/so/android1.png" alt="Catalanitzar l'android captura 1"></li>
-                <li><img src="/catalanitzador/images/so/android2.png" alt="Catalanitzar l'android captura 2"></li>
-                <li><img src="/catalanitzador/images/so/android3.png" alt="Catalanitzar l'android captura 3"></li>
-                <li><img src="/catalanitzador/images/so/android4.png" alt="Catalanitzar l'android captura 4"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/android1.png" alt="Catalanitzar l'android captura 1"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/android2.png" alt="Catalanitzar l'android captura 2"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/android3.png" alt="Catalanitzar l'android captura 3"></li>
+                <li><img src="<?php echo $globals['base_domain'] ?>/images/so/android4.png" alt="Catalanitzar l'android captura 4"></li>
             </ul>
             
         </div>
