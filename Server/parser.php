@@ -3,8 +3,8 @@
  * Catalanitzador parser that handles an XML file that contain log stats when a user finishes the «catalanització» of his computer
  *
  */
-require( '/catalanitzador/lib/db.php' );
-require( '/catalanitzador/lib/class/result.php' );
+require( 'lib/db.php' );
+require( 'lib/class/result.php' );
 
 if ( isset ($_GET['debug']))
     error_reporting(E_ALL);
