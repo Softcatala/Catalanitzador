@@ -70,6 +70,29 @@ bool MSOfficeFactory::_isVersionInstalled(IOSVersion* OSVersion,IRegistry* regis
 	return isInstalled;
 }
 
+void MSOfficeFactory::_removeOffice2003IfNewerIsPresent(vector <MSOffice>& instances)
+{
+	int office2003Idx = -1;
+	bool officeNon2003 = false;
+
+	for (unsigned int i = 0; i < instances.size(); i++)
+	{
+		if (instances[i].GetVersionEnum() == MSOffice2003)
+		{
+			office2003Idx = i;
+		}
+		else
+		{
+			officeNon2003 = true;
+		}
+	}
+
+	if (office2003Idx > 0 && officeNon2003)
+	{
+		instances.erase(instances.begin() + office2003Idx);
+	}
+}
+
 vector <MSOffice> MSOfficeFactory::GetInstalledOfficeInstances(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner)
 {
 	vector <MSOffice> instances;
@@ -82,7 +105,8 @@ vector <MSOffice> MSOfficeFactory::GetInstalledOfficeInstances(IOSVersion* OSVer
 			instances.push_back(instance);
 		}
 	}
-	
+
+	_removeOffice2003IfNewerIsPresent(instances);
 	return instances;
 }
 

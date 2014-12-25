@@ -26,14 +26,14 @@
 
 #if DEVELOPMENT_VERSION
 
-	#define APPLICATON_WEBSITE	L"http://dev-catalanitzador.softcatala.org"
-	#define UPLOAD_URL _STR("http://dev-catalanitzador.softcatala.org/parser.php")
-	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/beta/catalanitzador/configuration.xml"
+	#define APPLICATON_WEBSITE	L"http://www.softcatala.org/dev-catalanitzador/"
+	#define UPLOAD_URL _STR("http://www.softcatala.org/dev-catalanitzador/parser.php")
+	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml"
 
 #else
 	
-	#define APPLICATON_WEBSITE	L"http://catalanitzador.softcatala.org"
-	#define UPLOAD_URL _STR("http://catalanitzador.softcatala.org/parser.php")
+	#define APPLICATON_WEBSITE	L"http://www.softcatala.org/catalanitzador"
+	#define UPLOAD_URL _STR("http://www.softcatala.org/catalanitzador/parser.php")
 	#define REMOTE_CONFIGURATION_URL L"http://www.softcatala.org/pub/softcatala/catalanitzador/configuration.xml"
 
 #endif
