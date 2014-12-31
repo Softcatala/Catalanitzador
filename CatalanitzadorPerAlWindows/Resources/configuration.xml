@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2014-10-15T03:00:00</date>
+		<date>2014-12-31T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -408,11 +408,11 @@
 	 		<id>18</id>
 	 		<download>
 	  			<version>LanguageTool</version>
-	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt</url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.7.oxt</url_3>
-				<filename>LanguageTool-2.7.oxt</filename>
+	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.8.oxt</url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.8.oxt.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.8.oxt</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-2.8.oxt</url_3>
+				<filename>LanguageTool-2.8.oxt</filename>
 	  		</download>
 	  		<download>
 	  			<version>Java</version>
