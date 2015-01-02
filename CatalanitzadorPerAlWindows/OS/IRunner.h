@@ -23,6 +23,7 @@
 #include <vector>
 using namespace std;
 
+#define EXIT_ERROR_CODE -1
 
 class IRunner
 {

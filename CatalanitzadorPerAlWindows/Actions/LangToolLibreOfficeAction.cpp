@@ -202,7 +202,11 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		g_log.Log(L"LangToolLibreOfficeAction::GetStatus: Process returned %x", (wchar_t*) m_runner->GetExitCode());
+		int errorCode = m_runner->GetExitCode();
+		if (errorCode != EXIT_ERROR_CODE)
+		{
+			g_log.Log(L"LangToolLibreOfficeAction::GetStatus: Process returned %x", (wchar_t*) errorCode);
+		}
 
 		switch (m_executionStep)
 		{

@@ -61,15 +61,13 @@ bool Runner::IsRunning() const
 	return GetExitCode() == STILL_ACTIVE;
 }
 
-#define ERROR_CODE -1
-
 DWORD Runner::GetExitCode() const
 {
 	DWORD dwStatus;
 
 	if (GetExitCodeProcess(m_pi.hProcess, &dwStatus) == 0)
 	{
-		dwStatus = ERROR_CODE;
+		dwStatus = EXIT_ERROR_CODE;
 	}
 	return dwStatus;
 }
