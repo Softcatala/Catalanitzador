@@ -65,7 +65,10 @@ DWORD Runner::GetExitCode() const
 {
 	DWORD dwStatus;
 
-	GetExitCodeProcess(m_pi.hProcess, &dwStatus);
+	if (GetExitCodeProcess(m_pi.hProcess, &dwStatus) == 0)
+	{
+		dwStatus = EXIT_ERROR_CODE;
+	}
 	return dwStatus;
 }
 

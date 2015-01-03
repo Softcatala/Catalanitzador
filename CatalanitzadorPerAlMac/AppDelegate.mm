@@ -268,7 +268,10 @@ void _upload(Serializer& serializer)
 	actions.push_back(&firefoxAction);
 	actions.push_back(&spellCheckerAction);
 	actions.push_back(&chromeAction);
+	
+#if DEVELOPMENT_VERSION
 	actions.push_back(&dictationAction);
+#endif
 	
 	[NSApp activateIgnoringOtherApps:YES];
 	[_DoChanges setKeyEquivalent:@"\r"];
