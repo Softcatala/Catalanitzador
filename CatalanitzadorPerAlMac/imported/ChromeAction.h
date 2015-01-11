@@ -58,8 +58,7 @@ private:
 	void _getFirstLanguage(string& regvalue);
 	void _readInstallLocation(string& path);
 	bool _writeAcceptLanguageCode(string langcode);
-	bool _writeUILocale(string langcode);
-	bool _isUILocaleOk();
+	bool _isAcceptLanguagesOk();
 	
 	bool _findIntl(string,int&);
 	bool _findSemicolon(string,int&);
@@ -71,7 +70,6 @@ private:
 	
 	string m_version;
 	vector <string> m_languages;
-	//TriBool m_isInstalled;
 	ActionStatus uiStatus;
 };
 

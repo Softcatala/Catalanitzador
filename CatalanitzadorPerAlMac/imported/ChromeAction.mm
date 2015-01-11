@@ -140,64 +140,6 @@ bool ChromeAction::_findLanguageString(string line,int & pos,string & langcode)
 
 #define LANGUAGECODE "ca"
 
-bool ChromeAction::_isUILocaleOk()
-{
-	string path_t, langcode;
-	_readInstallLocation(path_t);
-	
-	if(path_t.empty() == false)
-	{
-		fstream reader;
-		string line;
-		string path = "/Local State";
-		path = path_t + path;
-		reader.open(path.c_str());
-		
-		if(reader.is_open())
-		{
-			int currentState = NoState;
-			int pos = 0;
-			
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-				
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-				
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-				
-				if(currentState == InIntlBlock) {
-					if(_findAppLocaleKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-				
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,langcode))
-						break;
-				}
-				
-				pos = string::npos;
-			}
-		}
-	}
-	
-	return langcode.compare(LANGUAGECODE) == 0;
-}
-
 bool ChromeAction::_readLanguageCode(string& langcode)
 {
 	bool ret = false;
@@ -255,103 +197,6 @@ bool ChromeAction::_readLanguageCode(string& langcode)
 		}
 	}
 	NSLog(@"ChromeAction::_readLanguageCode. Result %u, lang %s", ret, langcode.c_str());
-	return ret;
-}
-
-bool ChromeAction::_writeUILocale(string langcode)
-{
-	bool ret = false;
-	string path_t;
-	_readInstallLocation(path_t);
-	
-	if(path_t.empty() == false)
-	{
-		fstream reader;
-		fstream writer;
-		string line;
-		string pathr = "/Local State";
-		string pathw = "/Local State.new";
-		pathr = path_t + pathr;
-		pathw = path_t + pathw;
-		reader.open(pathr.c_str());
-		writer.open(pathw.c_str());
-		
-		if(reader.is_open() && writer.is_open())
-		{
-			int currentState = NoState;
-			
-			int pos = 0;
-			string oldLang;
-			string lastLine = "";
-			
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-				
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-				
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-				
-				if(currentState == InIntlBlock) {
-					if(_findAppLocaleKey(line,pos))
-						currentState = InAppLocaleKey;
-				}
-				
-				if(currentState == InAppLocaleKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAppLocaleSemicolon;
-				}
-				
-				if(currentState == InAppLocaleSemicolon) {
-					if(_findLanguageString(line,pos,oldLang)) {
-						currentState = EndParsing;
-						line.replace(pos,oldLang.length(),LANGUAGECODE);
-						ret = true;
-					}
-				}
-				
-				pos = string::npos;
-				
-				writer << lastLine << L"\n";
-				lastLine = line;
-			}
-			
-			if(ret == false) {
-				writer << "\t,\"intl\":{\"app_locale\":\"ca\"}\n";
-				ret = true;
-				
-			}
-			writer << lastLine << L"\n";
-		}
-		
-		if(reader.is_open())
-			reader.close();
-		
-		if(writer.is_open())
-			writer.close();
-		
-		if(ret) {
-			//ret = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-			rename(pathw.c_str(),pathr.c_str());
-		}
-	}
-	
-	if(ret) {
-		uiStatus = Successful;
-		
-	} else {
-		uiStatus = FinishedWithError;
-	}
-	
 	return ret;
 }
 
@@ -545,10 +390,15 @@ void ChromeAction::AddCatalanToArrayAndRemoveOldIfExists()
 void ChromeAction::Execute()
 {
 	string langCode;
+	bool isOk;
 	
 	AddCatalanToArrayAndRemoveOldIfExists();
 	CreateJSONString(langCode);
 	_writeAcceptLanguageCode(langCode);
+	
+	isOk = _isAcceptLanguagesOk();
+	SetStatus(isOk ? Successful : FinishedWithError);
+	NSLog(@"ChromeAction::Execute. Result %u", isOk);
 }
 
 void ChromeAction::_readInstallLocation(string & path)
@@ -600,19 +450,24 @@ void ChromeAction::ParseLanguage(string value)
 	}
 }
 
+bool ChromeAction::_isAcceptLanguagesOk()
+{
+	string langcode, firstlang;
+	
+	_readLanguageCode(langcode);
+	ParseLanguage(langcode);
+	_getFirstLanguage(firstlang);
+	return firstlang.compare("ca") == 0;
+}
+
 void ChromeAction::CheckPrerequirements(Action * action)
 {
 	bool isInstalled;
-	string langcode, firstlang;
 	isInstalled = _isInstalled();
 	
 	if (isInstalled)
 	{
-		_readLanguageCode(langcode);
-		ParseLanguage(langcode);
-		_getFirstLanguage(firstlang);
-		
-		if (firstlang.compare("ca") == 0)
+		if (_isAcceptLanguagesOk())
 		{
 			SetStatus(AlreadyApplied);
 		}
