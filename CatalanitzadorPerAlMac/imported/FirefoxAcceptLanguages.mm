@@ -323,6 +323,7 @@ bool FirefoxAcceptLanguages::Execute()
 	_addFireForLocale();
 	_addCatalanToArrayAndRemoveOldIfExists();
 	_createPrefsString(value);
+	m_CachedLanguageCode = false;
 	return _writeLanguageCode(value);
 }
 
