@@ -34,6 +34,7 @@
             <h2>Versions del Catalanitzador</h2>
             <?php $Catalanitzador->print_platforms_table(); ?>
             <?php $Catalanitzador->print_versions_table(); ?>
+            <?php $Catalanitzador->print_date_selector(); ?>
         </div>
         <br />
 <?php
