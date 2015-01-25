@@ -39,9 +39,3 @@
 <body>
 <?php include('header_ads.php'); ?>
 <?php include('header_sc.php'); ?>
-<div class="top">
-    <div class="container">
-        <a style="margin-top: -5px;" class="left" href="<?php echo $globals['base_domain'] ?>/" title="Catalanitzador de Softcatalà"><img src="<?php echo $globals['base_domain'] ?>/images/logo_catalanitzador.png" alt="Logo catalanitzador" /></a>
-        
-    </div>
-</div>

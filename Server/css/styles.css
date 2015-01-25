@@ -110,7 +110,8 @@ a.bx-prev:hover {background: url ('/catalanitzador/images/fletxa_esquerra.png') 
 
 
 div.center { height: auto; background: url('/catalanitzador/images/center_bg.png') repeat; margin: 0 auto; }
-div.center .container h1 {  font-weight: bold; font-size: 53px; padding-top: 40px; margin-bottom: 3px; text-align: left; margin-left: -2px;}
+div.center .logo_right { float: right; margin-top: 4px;  }
+div.center .container h1 {  font-weight: bold; font-size: 53px; padding-top: 20px; margin-bottom: 3px; text-align: left; margin-left: -2px;}
 div.center .container h1.page { padding-top: 8px;}
 div.center .container h2 { font-size: 27px; color: #454649; text-align: left;}
 div.center .container .subsub { font-size: 18px; float: left;margin-top: -10px;}
