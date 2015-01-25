@@ -4,6 +4,9 @@
 
 <div class="center">
     <div class="container">
+        <div class="logo_right">
+            <a title="Catalanitzador de Softcatalà" href="/dev-catalanitzador/" class="left" style="margin-top: -5px;"><img alt="Logo catalanitzador" src="/dev-catalanitzador/images/logo_catalanitzador.png"></a>
+        </div>
         <h1>Catalanitzador <span class="so">de Softcatalà</span></h1>
         <h2>Catalanitzeu el vostre ordinador o dispositiu mòbil</h2>
         <div class="subsub">A més, navegareu automàticament en català pels llocs web que tinguin versió en la nostra llengua.</div>
