@@ -38,4 +38,4 @@
 </head>
 <body>
 <?php include('header_ads.php'); ?>
-<?php include('header_sc.php'); ?>
+<!--# include virtual="/ssi/header.html" -->

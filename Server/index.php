@@ -101,8 +101,7 @@
 </div>
 
 <?php include('footer.html'); ?>
-<?php include('footer_sc.php'); ?>
-
+<!--# include virtual="/ssi/footer-g.html" -->
 
 
 
