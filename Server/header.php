@@ -19,6 +19,7 @@
         <script type="text/javascript" src="http://www.softcatala.org/js/cookies/jquery.cookie.js"></script>
         <script type="text/javascript" src="http://www.softcatala.org/js/cookies/jquery.cookiecuttr.js"></script>
         <script type="text/javascript" src="http://www.softcatala.org/js/softcatala.js"></script>
+        <script src="<?php echo $globals['base_domain'] ?>/js/baner.js" type="text/javascript"></script>
 
     <!--[if lt IE 7]>
      <script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE7.js" 
