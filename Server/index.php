@@ -5,7 +5,7 @@
 <div class="center">
     <div class="container">
         <div class="logo_right">
-            <a title="Catalanitzador de Softcatalà" href="/dev-catalanitzador/" class="left" style="margin-top: -5px;"><img alt="Logo catalanitzador" src="/dev-catalanitzador/images/logo_catalanitzador.png"></a>
+            <a title="Catalanitzador de Softcatalà" href="<?php echo $globals['base_domain'] ?>" class="left" style="margin-top: -5px;"><img alt="Logo catalanitzador" src="/dev-catalanitzador/images/logo_catalanitzador.png"></a>
         </div>
         <h1>Catalanitzador <span class="so">de Softcatalà</span></h1>
         <h2>Catalanitzeu el vostre ordinador o dispositiu mòbil</h2>

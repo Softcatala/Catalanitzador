@@ -13,9 +13,9 @@
 
 ?>
     <body>
-        <h1>Estadístiques del <a href="http://www.softcatala.org/catalanitzador" 
+        <h1>Estadístiques del <a href="https://www.softcatala.org/catalanitzador"
             title="Catalanitzador per al Windows">Catalanitzador</a> de 
-        <a href="http://www.softcatala.org">Softcatalà</a></h1>
+        <a href="https://www.softcatala.org">Softcatalà</a></h1>
         <div class="last_update">
             Última actualització de les dades: <em><?=date('H:j:s d/m/Y')?></em>
         </div>

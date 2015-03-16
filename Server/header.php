@@ -16,9 +16,9 @@
         <script src="<?php echo $globals['base_domain'] ?>/js/jquery.js" type="text/javascript"></script>
         <script src="<?php echo $globals['base_domain'] ?>/js/jquery.bxSlider.min.js" type="text/javascript"></script>
         <script src="<?php echo $globals['base_domain'] ?>/js/slider.js" type="text/javascript"></script>
-        <script type="text/javascript" src="http://www.softcatala.org/js/cookies/jquery.cookie.js"></script>
-        <script type="text/javascript" src="http://www.softcatala.org/js/cookies/jquery.cookiecuttr.js"></script>
-        <script type="text/javascript" src="http://www.softcatala.org/js/softcatala.js"></script>
+        <script type="text/javascript" src="/js/cookies/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/js/cookies/jquery.cookiecuttr.js"></script>
+        <script type="text/javascript" src="/js/softcatala.js"></script>
         <script src="<?php echo $globals['base_domain'] ?>/js/baner.js" type="text/javascript"></script>
 
     <!--[if lt IE 7]>
@@ -32,8 +32,8 @@
         <meta property="og:title" content="Catalanitzador de Softcatalà" />
         <meta property="og:type" content="product" />
 
-        <meta property="og:url" content="http://www.softcatala.org/catalanitzador" />
-        <meta property="og:image" content="http://www.softcatala.org/catalanitzador/images/logo_share.png" />
+        <meta property="og:url" content="https://www.softcatala.org/catalanitzador" />
+        <meta property="og:image" content="https://www.softcatala.org/catalanitzador/images/logo_share.png" />
         <meta property="og:site_name" content="Catalanitzador de Softcatalà" />
         <meta property="og:description" content="Poseu de forma automàtica el vostre Windows o Mac OS X en català! Amb aquesta aplicació podreu catalanitzar el vostre ordinador de forma molt senzilla." />
 </head>
