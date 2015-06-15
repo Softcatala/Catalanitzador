@@ -136,7 +136,7 @@ void _showDialogBox(NSString* title, NSString* text)
 	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setMessageText:title];
 	[alert setInformativeText:text];
-	[alert setAlertStyle:0];
+	[alert setAlertStyle:NSWarningAlertStyle];
 	[alert runModal];
 }
 
@@ -246,7 +246,7 @@ void _upload(Serializer& serializer)
 	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setMessageText:alertTitle];
 	[alert setInformativeText:@"Els canvis fets a la configuració requereixen reiniciar l'ordinador. Podeu fer-ho ara o més endavant. Voleu reiniciar-lo ara mateix?"];
-	[alert setAlertStyle:0];
+	[alert setAlertStyle:NSWarningAlertStyle];
 	[alert addButtonWithTitle:@"Sí"];
 	[alert addButtonWithTitle:@"Cancel·lar"];
 	
