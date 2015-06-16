@@ -23,7 +23,6 @@
 #include "IRegistry.h"
 #include "Runner.h"
 #include "IOSVersion.h"
-#include "InternetExplorerVersion.h"
 #include "IFileVersionInfo.h"
 #include "IELPIAction.h"
 #include "IEAcceptLanguagesAction.h"

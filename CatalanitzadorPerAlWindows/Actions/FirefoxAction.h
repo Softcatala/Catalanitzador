@@ -53,7 +53,6 @@ public:
 protected:
 		
 		wstring _getProfileRootDir();
-		bool _isAcceptLanguageOk();	
 		virtual FirefoxLangPackAction * _getLangPackAction();
 		virtual FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction();
 

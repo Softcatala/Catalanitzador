@@ -23,7 +23,6 @@
 #include "stdafx.h"
 #include "Serializer.h"
 #include "OSVersion.h"
-#include "ApplicationExecutor.h"
 
 #include <string>
 using namespace std;

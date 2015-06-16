@@ -46,8 +46,7 @@ protected:
 		bool _isDefaultLanguage();
 
 private:
-
-		int _getVersionInstalled();
+		
 		void _getProgramLocation(wstring& location);
 		void _readVersionInstalled();
 		int _getMajorVersion();

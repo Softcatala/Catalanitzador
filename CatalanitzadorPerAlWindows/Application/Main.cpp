@@ -20,7 +20,6 @@
 
 #include <windows.h>
 
-#include "Defines.h"
 #include "LogFile.h"
 #include "CatalanitzadorPerAlWindows.h"
 #include "StringConversion.h"

@@ -20,14 +20,9 @@
 #include "stdafx.h"
 
 #include "Windows8LPIAction.h"
-#include "OSVersion.h"
 #include "Runner.h"
-#include "Url.h"
-#include "Resources.h"
 #include "ConfigurationInstance.h"
-#include "WindowsValidation.h"
 #include "StringConversion.h"
-#include <sstream>
 
 #define VALENCIAN_PANEL_LANGCODE L"ca-es-valencia"
 #define CATALAN_PANEL_LANGCODE L"ca"

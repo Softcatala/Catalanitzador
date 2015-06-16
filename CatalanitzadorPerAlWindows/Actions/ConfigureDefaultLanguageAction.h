@@ -23,7 +23,6 @@
 #include "Runner.h"
 #include "IRegistry.h"
 #include "IOSVersion.h"
-#include "OSVersion.h"
 
 class ConfigureDefaultLanguageAction : public Action
 {

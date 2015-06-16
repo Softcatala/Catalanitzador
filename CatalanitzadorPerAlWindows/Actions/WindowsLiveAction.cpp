@@ -20,8 +20,6 @@
 #include "stdafx.h"
 
 #include "WindowsLiveAction.h"
-#include "Winver.h"
-#include "Url.h"
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
 

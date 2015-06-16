@@ -49,8 +49,6 @@ protected:
 
 private:
 	
-		int _getVersionInstalled();
-		
 		void _readVersionInstalled();
 		int _getMajorVersion();
 		void _setDefaultInstallLanguage();

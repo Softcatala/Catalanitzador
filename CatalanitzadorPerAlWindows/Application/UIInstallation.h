@@ -29,8 +29,5 @@ class UIInstallation
 public:
 		
 		void Run(HINSTANCE  hInstance, ApplicationExecutor& applicationExecutor);
-
-private:
-
 		
 };

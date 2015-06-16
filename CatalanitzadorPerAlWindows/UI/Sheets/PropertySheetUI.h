@@ -20,7 +20,6 @@
 #pragma once
 
 #include <windows.h>
-#include <commctrl.h>
 #include <vector>
 
 class PropertyPageUI;
@@ -38,8 +37,6 @@ class PropertySheetUI
 {
 public:
 	PropertySheetUI();		
-	
-public:
 	
 	int							runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption);	
 	void 						addPage(PropertyPageUI* pPage);

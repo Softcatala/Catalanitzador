@@ -21,7 +21,6 @@
 
 #include "PropertyPageUI.h"
 #include "Action.h"
-#include "Serializer.h"
 #include "SlideshowThread.h"
 #include "InstallModel.h"
 #include "TriBool.h"

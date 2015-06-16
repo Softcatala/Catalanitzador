@@ -20,7 +20,6 @@
 #pragma once
 
 #include "DlgUI.h"
-#include <Action.h>
 
 class AppRunningDlgUI : public DlgUI
 {

@@ -20,10 +20,7 @@
 #pragma once
 
 #include "Action.h"
-#include "IRegistry.h"
 #include "IRunner.h"
-#include "ActionExecution.h"
-#include "FirefoxAcceptLanguages.h"
 #include "FirefoxMozillaServer.h"
 
 using namespace std;

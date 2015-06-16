@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include <time.h>
 #include "Actions.h"
+#include "OSVersion.h"
 #include "WindowsLPIAction.h"
 #include "Windows8LPIAction.h"
 #include "ConfigureLocaleAction.h"

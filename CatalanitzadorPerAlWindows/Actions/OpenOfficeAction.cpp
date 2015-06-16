@@ -20,7 +20,6 @@
 #include "stdafx.h"
 
 #include "OpenOfficeAction.h"
-#include "Url.h"
 #include "ApplicationVersion.h"
 #include "ConfigurationInstance.h"
 

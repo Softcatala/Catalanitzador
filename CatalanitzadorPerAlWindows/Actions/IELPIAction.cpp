@@ -20,9 +20,6 @@
 #include "stdafx.h"
 
 #include "IELPIAction.h"
-#include "OSVersion.h"
-#include "Url.h"
-#include "Winver.h"
 #include "FileVersionInfo.h"
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"

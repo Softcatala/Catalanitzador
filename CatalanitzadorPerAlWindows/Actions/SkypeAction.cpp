@@ -20,9 +20,6 @@
 #include "stdafx.h"
 
 #include "SkypeAction.h"
-#include "OSVersion.h"
-#include "FileVersionInfo.h"
-#include <algorithm>
 
 SkypeAction::SkypeAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
 {	

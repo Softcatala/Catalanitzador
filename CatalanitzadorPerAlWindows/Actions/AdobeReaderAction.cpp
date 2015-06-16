@@ -19,9 +19,7 @@
 
 #include "stdafx.h"
 #include "AdobeReaderAction.h"
-#include "Url.h"
 #include "Runner.h"
-#include "OSVersion.h"
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
 

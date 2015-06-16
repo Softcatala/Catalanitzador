@@ -20,7 +20,6 @@
 #include "stdafx.h"
 #include "ConfigurationInstance.h"
 #include "LangToolFirefoxAction.h"
-#include "FirefoxPreferencesFile.h"
 
 const wchar_t* APPLICATION_ID_GUID = L"jid1-j3KiX1n7UXrjxQ@jetpack";
 

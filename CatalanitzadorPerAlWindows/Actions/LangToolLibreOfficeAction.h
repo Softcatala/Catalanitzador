@@ -21,11 +21,8 @@
 
 #include "Action.h"
 #include "IRunner.h"
-#include "IOSVersion.h"
 #include "IRegistry.h"
 #include "IOpenOffice.h"
-#include "LibreOffice.h"
-#include "ApacheOpenOffice.h"
 #include "MultipleDownloads.h"
 #include "ActionExecution.h"
 

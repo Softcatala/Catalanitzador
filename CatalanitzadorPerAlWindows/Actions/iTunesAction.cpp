@@ -20,8 +20,6 @@
 #include "stdafx.h"
 
 #include "iTunesAction.h"
-#include "OSVersion.h"
-#include "FileVersionInfo.h"
 
 #define ITUNES_REGKEY L"Software\\Apple Computer, Inc.\\iTunes"
 #define CATALAN_LANGCODE L"1027"

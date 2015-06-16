@@ -67,7 +67,6 @@ void IEAcceptLanguagesAction::_getFirstLanguage(wstring& regvalue)
 	}
 	
 	regvalue.clear();
-	return;
 }
 
 bool IEAcceptLanguagesAction::_isCurrentLanguageOk(wstring& firstlang)

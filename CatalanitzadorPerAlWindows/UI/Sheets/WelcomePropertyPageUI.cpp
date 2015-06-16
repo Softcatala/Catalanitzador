@@ -19,7 +19,6 @@
 
 #include "stdafx.h"
 #include "WelcomePropertyPageUI.h"
-#include "SystemRestore.h"
 #include "PropertyPageUI.h"
 #include "PropertySheetUI.h"
 #include "ExtraSecTermsDlgUI.h"

@@ -19,10 +19,6 @@
 
 #include <stdafx.h>
 #include "DownloadNewVersionDlgUI.h"
-#include "DownloadInet.h"
-#include "ConfigurationInstance.h"
-#include "Runner.h"
-#include "Url.h"
 
 #define TIMER_ID 912
 #define PROGRAM_NAME L"Catalanitzador per al Windows"

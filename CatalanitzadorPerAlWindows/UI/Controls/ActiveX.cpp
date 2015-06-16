@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include <comdef.h>
-#include <exdisp.h>
-#include <oledlg.h>
 #include "ActiveX.h"
 
 #pragma warning (disable: 4311)

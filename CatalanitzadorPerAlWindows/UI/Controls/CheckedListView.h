@@ -20,9 +20,7 @@
  
 #pragma once
 #include <CommCtrl.h>
-#include "ActionStatus.h"
 #include "ImageIndex.h"
-
 #include <string>
 using namespace std;
 

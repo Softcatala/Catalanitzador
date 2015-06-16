@@ -20,7 +20,6 @@
 #pragma once
 
 #include "ConfigurationFileActionDownloads.h"
-#include "ApplicationVersion.h"
 #include "DownloadInet.h"
 #include "Sha1Sum.h"
 

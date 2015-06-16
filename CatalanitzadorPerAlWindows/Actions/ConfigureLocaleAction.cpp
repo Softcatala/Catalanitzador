@@ -19,8 +19,6 @@
 
 #include "stdafx.h"
 #include "ConfigureLocaleAction.h"
-#include "Registry.h"
-#include "OSVersion.h"
 #include "Resources.h"
 
 ConfigureLocaleAction::ConfigureLocaleAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)

@@ -25,7 +25,6 @@
 #include "Actions.h"
 #include "WelcomeModel.h"
 
-#include <vector>
 
 using namespace std;
 

@@ -39,7 +39,6 @@ void FirefoxAcceptLanguages::_getFirstLanguage(wstring& regvalue)
 	}
 	
 	regvalue.clear();
-	return;
 }
 
 

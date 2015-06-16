@@ -20,7 +20,6 @@
 #include "stdafx.h"
 #include "PropertyPageUI.h"
 #include "PropertySheetUI.h"
-#include "OSVersion.h"
 #include "ConfigurationInstance.h"
 
 PropertyPageUI::PropertyPageUI()

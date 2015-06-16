@@ -20,10 +20,6 @@
 #include "stdafx.h"
 
 #include "WindowsLPIAction.h"
-#include "OSVersion.h"
-#include "Runner.h"
-#include "Url.h"
-#include "Resources.h"
 #include "ConfigurationInstance.h"
 #include "WindowsValidation.h"
 #include "LogExtractor.h"
