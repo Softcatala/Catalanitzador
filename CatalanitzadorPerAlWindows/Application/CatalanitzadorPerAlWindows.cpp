@@ -139,7 +139,8 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 
 	if (version == Windows2000 ||
 		version == WindowsXP64_2003 ||
-		version == Windows2012)
+		version == Windows2012 ||
+		version == Windows2016)
 	{
 		id = IDS_NOTSUPPORTEDOS;
 	}

@@ -39,5 +39,6 @@ public:
 private:
 		static OperatingVersion _processVistaAnd7(OSVERSIONINFOEX osvi);
 		static OperatingVersion _processXPAnd2000(OSVERSIONINFOEX osvi);
+		static OperatingVersion _process10(OSVERSIONINFOEX osvi);
 		OperatingVersion m_version;
 };

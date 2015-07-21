@@ -51,6 +51,9 @@ OperatingVersion OSVersion::GetVersion()
 		case 6:
 			m_version = _processVistaAnd7(osvi);
 			break;
+		case 10:
+			m_version = _process10(osvi);
+			break;
 		default:
 			m_version = UnKnownOS;
 			break;
@@ -167,6 +170,10 @@ wchar_t* OSVersion::GetVersionText(OperatingVersion version)
 			return L"Windows81";
 		case Windows2012:
 			return L"Windows2012";
+		case Windows10:
+			return L"Windows10";
+		case Windows2016:
+			return L"Windows2016";
 		default:
 			return L"Unknown enum";
 	}	
@@ -229,3 +236,15 @@ OperatingVersion OSVersion::_processVistaAnd7(OSVERSIONINFOEX osvi)
 	return UnKnownOS;
 }
 
+
+OperatingVersion OSVersion::_process10(OSVERSIONINFOEX osvi)
+{
+	if (osvi.dwMinorVersion == 0)
+	{
+		if (osvi.wProductType == VER_NT_WORKSTATION)
+			return Windows10;
+		else 
+			return Windows2016;
+	}
+	return UnKnownOS;
+}

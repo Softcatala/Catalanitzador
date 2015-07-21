@@ -38,7 +38,9 @@ enum OperatingVersion
 	WindowsXP64_2003,
 	Windows8,
 	Windows81,
-	Windows2012
+	Windows2012,
+	Windows10,
+	Windows2016,
 };
 
 class IOSVersion : public Serializable
