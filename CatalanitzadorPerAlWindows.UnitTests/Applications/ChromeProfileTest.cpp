@@ -308,3 +308,38 @@ TEST(ChomeProfileTest, EsSpellChecker_SetCatalanAsSpellCheckerLanguage)
 
 	EXPECT_TRUE(chromeProfile.IsSpellCheckerLanguageOk());
 }
+
+TEST(ChomeProfileTest, OneLineLocalState_ReadUILocale)
+{
+	wstring location;
+	ChomeProfileTest chromeProfile;
+	TempFile tempFile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\OneLineProfile\\User Data\\";
+	location += L"/../User Data/Local State";
+	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
+
+	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
+	chromeProfile.SetUIRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
+
+	EXPECT_TRUE(chromeProfile.IsUiLocaleOk());
+}
+
+TEST(ChomeProfileTest, OneLineLocalState_WriteUILocale)
+{
+	wstring location, langcode;
+	ChomeProfileTest chromeProfile;
+	TempFile tempFile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\OneLineProfile\\User Data\\";
+	location += L"/../User Data/Local State";
+	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
+	
+	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
+	chromeProfile.SetUIRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
+
+	chromeProfile.WriteUILocale();
+	EXPECT_TRUE(chromeProfile.IsUiLocaleOk());	
+}

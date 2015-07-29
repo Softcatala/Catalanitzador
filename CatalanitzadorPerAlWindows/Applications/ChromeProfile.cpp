@@ -151,7 +151,7 @@ bool ChromeProfile::IsUiLocaleOk()
 	wstring line, langcode;
 	bool rslt;
 
-	while(!(getline(reader,line)).eof())
+	while (getline(reader,line))
 	{
 		if(currentState == NoState) {
 			if(_readSchema(INTL_SCHEMA_NAME, line,pos))
@@ -247,7 +247,7 @@ bool ChromeProfile::WriteUILocale()
 	int pos = 0;
 	wstring oldLang, line, lastLine;
 	
-	while (!(getline(reader,line)).eof())
+	while (getline(reader,line))
 	{
 		if(currentState == NoState) {
 			if(_readSchema(INTL_SCHEMA_NAME, line,pos))
