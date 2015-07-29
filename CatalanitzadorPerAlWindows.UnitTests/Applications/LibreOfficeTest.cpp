@@ -47,10 +47,30 @@ public:
 
 TEST(LibreOfficeTest, _getPreferencesFile_Version34)
 {
-	const wchar_t* APACHE_VERSION = L"3.4";
+	const wchar_t* LOO_VERSION = L"3.4";
 	CreateLibreOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, APACHE_VERSION);
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION);
 	wstring path = OpenOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\3\\user\\"));
+}
+
+TEST(LibreOfficeTest, _getPreferencesFile_Version40)
+{
+	const wchar_t* LOO_VERSION = L"4.0";
+	CreateLibreOffice;
+	
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION);
+	wstring path = OpenOffice._getPreferencesDirectory();
+	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\4\\user\\"));
+}
+
+TEST(LibreOfficeTest, _getPreferencesFile_Version50)
+{
+	const wchar_t* LOO_VERSION = L"5.0";
+	CreateLibreOffice;
+	
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION);
+	wstring path = OpenOffice._getPreferencesDirectory();
+	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\4\\user\\"));
 }

@@ -29,5 +29,6 @@ public:
 
 		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\LibreOffice\\LibreOffice"; }
 		virtual wchar_t * GetUserDirectory() { return L"\\LibreOffice\\%u\\user\\"; }
+		virtual wstring _getPreferencesDirectory();
 };
 

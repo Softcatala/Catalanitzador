@@ -19,8 +19,35 @@
 
 #include "stdafx.h"
 #include "LibreOffice.h"
+#include "ApplicationVersion.h"
 
 LibreOffice::LibreOffice(IRegistry* registry) : OpenOffice(registry)
 {
 
+}
+
+wstring LibreOffice::_getPreferencesDirectory()
+{
+	wchar_t directory[1024];
+	wstring location;
+	int major, subdir_num;
+	ApplicationVersion applicationVersion(GetVersion());
+	
+	location = _getAppDataDir();
+	major = applicationVersion.GetMajorVersion();
+
+	if (major == 5)
+	{
+		// Version 5.00 identifies internally as 4.5 and used /4/ subdirectory
+		subdir_num = 4;
+	}
+	else
+	{
+		// This is based on the assumption that directory changes with every major version happened in versions 3 and 4
+		subdir_num = applicationVersion.GetMajorVersion();
+	}
+	
+	swprintf_s(directory, GetUserDirectory(), subdir_num);
+	location += directory;
+	return location;
 }
