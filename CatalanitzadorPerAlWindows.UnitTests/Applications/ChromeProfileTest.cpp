@@ -316,7 +316,7 @@ TEST(ChomeProfileTest, OneLineLocalState_ReadUILocale)
 	TempFile tempFile;
 
 	Application::GetExecutionLocation(location);
-	location += L"Chrome\\OneLineProfile\\User Data\\";
+	location += L"Chrome\\CatalanUI_OneLineProfile\\User Data\\";
 	location += L"/../User Data/Local State";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 
@@ -333,7 +333,7 @@ TEST(ChomeProfileTest, OneLineLocalState_WriteUILocale)
 	TempFile tempFile;
 
 	Application::GetExecutionLocation(location);
-	location += L"Chrome\\OneLineProfile\\User Data\\";
+	location += L"Chrome\\SpanishUI_OneLineProfile\\User Data\\";
 	location += L"/../User Data/Local State";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 	
