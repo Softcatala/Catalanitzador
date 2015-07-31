@@ -343,3 +343,30 @@ TEST(ChomeProfileTest, OneLineLocalState_WriteUILocale)
 	chromeProfile.WriteUILocale();
 	EXPECT_TRUE(chromeProfile.IsUiLocaleOk());	
 }
+
+
+TEST(ChomeProfileTest, OneLinePreferences_EsSpellChecker_IsSpellCheckerLanguageNotOk)
+{
+	wstring location;
+	ChomeProfileTest chromeProfile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\CatalanUI_OneLineProfile\\User Data\\";
+	chromeProfile.SetPath(location);
+
+	EXPECT_FALSE(chromeProfile.IsSpellCheckerLanguageOk());
+}
+
+TEST(ChomeProfileTest, OneLinePreferences_EsSpellChecker_SetCatalanAsSpellCheckerLanguage)
+{
+	wstring location;
+	ChomeProfileTest chromeProfile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\CatalanUI_OneLineProfile\\User Data\\";
+	chromeProfile.SetPath(location);
+
+	chromeProfile.SetCatalanAsSpellCheckerLanguage();
+	chromeProfile.WriteSpellAndAcceptLanguages();
+	EXPECT_TRUE(chromeProfile.IsSpellCheckerLanguageOk());
+}
