@@ -443,6 +443,7 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 			}
 			break;
 		case Windows81: // Includes IE 11
+		case Windows10: // Still included
 			switch (_getIEVersion())
 			{
 				case InternetExplorerVersion::IE11:

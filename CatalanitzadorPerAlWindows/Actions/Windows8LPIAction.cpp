@@ -87,6 +87,37 @@ void Windows8LPIAction::_selectLanguagePackage()
 
 	switch (version)
 	{
+		case Windows10:
+		{
+			if (m_OSVersion->IsWindows64Bits())
+			{
+				if (GetUseDialectalVariant())
+				{
+					m_packageDownloadId = L"";
+					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+				}
+				else
+				{
+					m_packageDownloadId = L"Win10_ca_64";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;
+				}
+			}
+			else
+			{
+				if (GetUseDialectalVariant())
+				{
+					m_packageDownloadId = L"";
+					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+				}
+				else
+				{
+					m_packageDownloadId = L"Win10_ca_32";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;
+				}
+			}
+			break;
+		}
+
 		case Windows81:
 		{
 			if (m_OSVersion->IsWindows64Bits())
@@ -113,9 +144,7 @@ void Windows8LPIAction::_selectLanguagePackage()
 				{
 					m_packageDownloadId = L"Win81_ca_32";
 					m_packageLanguageCode = CATALAN_LANGPACKCODE;
-				}
-				
-				
+				}				
 			}
 			break;
 		}

@@ -146,7 +146,7 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 {
 	m_ieLPIAction = new IELPIAction(_getNewOSVersion(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager);
 
-	if (pOSversion->GetVersion() == Windows8 || pOSversion->GetVersion() == Windows81)
+	if (pOSversion->GetVersion() == Windows8 || pOSversion->GetVersion() == Windows81 || pOSversion->GetVersion() == Windows10)
 	{
 		m_actions.push_back(new Windows8LPIAction(_getNewOSVersion(), _getNewRegistry(), _getNewWin32I18N(), _getNewRunner(), m_pDownloadManager));
 	}
@@ -159,7 +159,7 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 	m_actions.push_back(new IEAction(m_ieLPIAction, _getIEAcceptLanguagesAction()));
 	m_actions.push_back(new ConfigureLocaleAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 		
-	if (pOSversion->GetVersion() != Windows8 && pOSversion->GetVersion() != Windows81)
+	if (pOSversion->GetVersion() != Windows8 && pOSversion->GetVersion() != Windows81 && pOSversion->GetVersion() != Windows10)
 	{
 		m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	}

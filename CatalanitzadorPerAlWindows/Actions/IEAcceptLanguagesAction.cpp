@@ -150,7 +150,7 @@ void IEAcceptLanguagesAction::CheckPrerequirements(Action * action)
 {	
 	wstring firstlang;
 
-	if (m_OSVersion->GetVersion() == Windows8 || m_OSVersion->GetVersion() == Windows81)
+	if (m_OSVersion->GetVersion() == Windows8 || m_OSVersion->GetVersion() == Windows81 || m_OSVersion->GetVersion() == Windows10)
 	{
 		_getStringFromResourceIDName(IDS_IEACCEPTEDLANGUAGESACTION_WINDOWS8, szCannotBeApplied);
 		g_log.Log(L"IEAcceptLanguagesAction::CheckPrerequirements. Applied with language pack.");
