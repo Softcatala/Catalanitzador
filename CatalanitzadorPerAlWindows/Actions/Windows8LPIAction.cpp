@@ -93,7 +93,7 @@ void Windows8LPIAction::_selectLanguagePackage()
 			{
 				if (GetUseDialectalVariant())
 				{
-					m_packageDownloadId = L"";
+					m_packageDownloadId = L"Win10_va_64";
 					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
 				}
 				else
@@ -106,7 +106,7 @@ void Windows8LPIAction::_selectLanguagePackage()
 			{
 				if (GetUseDialectalVariant())
 				{
-					m_packageDownloadId = L"";
+					m_packageDownloadId = L"Win10_va_32";
 					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
 				}
 				else
