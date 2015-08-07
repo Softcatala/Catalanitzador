@@ -24,6 +24,7 @@
 #include "Url.h"
 
 #define HTTP_SCHEME L"http"
+#define HTTPS_SCHEME L"https"
 #define FTP_SCHEME L"ftp"
 
 
@@ -31,7 +32,7 @@ int DownloadInet::GetFileSize(wchar_t* URL) const
 {
 	Url url(URL);
 
-	if (wcscmp(url.GetScheme(), HTTP_SCHEME) == 0)
+	if (wcscmp(url.GetScheme(), HTTP_SCHEME) == 0 || wcscmp(url.GetScheme(), HTTPS_SCHEME) == 0)
 	{
 		HttpDownloadInet httpDownloadInet;
 		return httpDownloadInet.GetFileSize(URL);
@@ -51,7 +52,7 @@ bool DownloadInet::GetFile(wchar_t* URL, wchar_t* file, ProgressStatus progress,
 {
 	Url url(URL);
 
-	if (wcscmp(url.GetScheme(), HTTP_SCHEME) == 0)
+	if (wcscmp(url.GetScheme(), HTTP_SCHEME) == 0 || wcscmp(url.GetScheme(), HTTPS_SCHEME) == 0)
 	{
 		HttpDownloadInet httpDownloadInet;
 		return httpDownloadInet.GetFile(URL, file, progress, data);
