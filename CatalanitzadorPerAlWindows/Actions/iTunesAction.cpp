@@ -25,10 +25,11 @@
 #define CATALAN_LANGCODE L"1027"
 
 
-iTunesAction::iTunesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
-{	
-	m_fileVersionInfo = fileVersionInfo;
+iTunesAction::iTunesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion)
+{
 	m_registry = registry;
+	m_fileVersionInfo = fileVersionInfo;
+	m_OSVersion = OSVersion;
 }
 
 wchar_t* iTunesAction::GetName()
@@ -71,23 +72,44 @@ void iTunesAction::Execute()
 		SetStatus(FinishedWithError);
 }
 
+void iTunesAction::_getSHGetFolderPath(wstring& folder)
+{
+	wchar_t szProgFolder[MAX_PATH];
+
+	SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szProgFolder);
+	folder = szProgFolder;
+}
+
 void iTunesAction::_getProgramLocation(wstring& location)
 {
 	wchar_t szAppPath[MAX_PATH];
 	wchar_t szProgFolder[MAX_PATH];
-	
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ITUNES_REGKEY, false))
+	const wchar_t* PROGRAM_NAMME = L"iTunes.exe";
+
+	// There are two versions of the Windows 64 bits installer:
+	// 1) A new one (12.0 >) that writes the keys as a 64 bits app (the new one) and installs in the x64 program file dir
+	// 2) The old one (12.0 <) that writes the keys as a 32 bits app and x86 program file	
+	if (m_OSVersion->IsWindows64Bits() && m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, ITUNES_REGKEY, false))
 	{
-		if (m_registry->GetString(L"ProgramFolder", szAppPath, sizeof(szAppPath)))
+		if (m_registry->GetString(L"InstallDir", szProgFolder, sizeof(szProgFolder)))
 		{
-			SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szProgFolder);
-			location = szProgFolder;
-			location += L"\\";
-			location += szAppPath;
-			location += L"iTunes.exe";
+			location = szProgFolder;			
+			location += PROGRAM_NAMME;
 		}
 		m_registry->Close();
 	}
+	else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ITUNES_REGKEY, false))
+	{
+		if (m_registry->GetString(L"ProgramFolder", szAppPath, sizeof(szAppPath)))
+		{
+			_getSHGetFolderPath(location);
+			location += L"\\";
+			location += szAppPath;
+			location += PROGRAM_NAMME;
+		}
+		m_registry->Close();
+	}
+	g_log.Log(L"iTunesAction::_getProgramLocation. Returns %s", (wchar_t *) location.c_str());
 }
 
 const wchar_t* iTunesAction::GetVersion()

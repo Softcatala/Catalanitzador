@@ -23,12 +23,13 @@
 #include "IRegistry.h"
 #include "IFileVersionInfo.h"
 #include "TriBool.h"
+#include "IOSVersion.h"
 
 class iTunesAction : public Action
 {
 public:	
 
-		iTunesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo);
+		iTunesAction(IRegistry* registry, IFileVersionInfo* fileVersionInfo, IOSVersion* OSVersion);
 
 		virtual wchar_t* GetName();
 		virtual wchar_t* GetDescription();
@@ -44,16 +45,18 @@ protected:
 
 		TriBool _isDefaultLanguageForUser();
 		bool _isDefaultLanguage();
+		void _getProgramLocation(wstring& location);
+		bool _setDefaultLanguageForUser();
+		virtual void _getSHGetFolderPath(wstring& folder);
 
 private:
-		
-		void _getProgramLocation(wstring& location);
+
 		void _readVersionInstalled();
 		int _getMajorVersion();
-		bool _setDefaultLanguageForUser();
 
 		wstring m_version;
 		IFileVersionInfo* m_fileVersionInfo;
 		IRegistry* m_registry;
+		IOSVersion* m_OSVersion;
 };
 
