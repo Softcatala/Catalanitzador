@@ -93,6 +93,7 @@ bool ChromeAction::IsNeed()
 void ChromeAction::Execute()
 {
 	SetStatus(InProgress);
+	bool writeSpellAndAcceptLanguages = false;
 
 	if (m_chromeProfile->IsUiLocaleOk() == false) {
 		m_chromeProfile->WriteUILocale();
@@ -100,13 +101,18 @@ void ChromeAction::Execute()
 
 	if (m_chromeProfile->IsAcceptLanguagesOk() == false) {
 		m_chromeProfile->SetCatalanAsAcceptLanguages();
+		writeSpellAndAcceptLanguages = true;
 	}
 
 	if (m_chromeProfile->IsSpellCheckerLanguageOk() == false) {
 		m_chromeProfile->SetCatalanAsSpellCheckerLanguage();
+		writeSpellAndAcceptLanguages = true;
 	}
 
-	m_chromeProfile->WriteSpellAndAcceptLanguages();
+	if (writeSpellAndAcceptLanguages)
+	{
+		m_chromeProfile->WriteSpellAndAcceptLanguages();
+	}
 	
 	if (m_chromeProfile->IsUiLocaleOk() && m_chromeProfile->IsAcceptLanguagesOk() && m_chromeProfile->IsSpellCheckerLanguageOk()) 
 	{
