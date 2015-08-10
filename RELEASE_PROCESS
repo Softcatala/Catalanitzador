@@ -63,7 +63,7 @@ using the file.
 ** Mac OS X **
 
 - Go to XCode, Product->Archive
-- When the 'Organizer - Archives' dialog is shown, select 'Export' and then 'Export Developer ID - signes application'
+- When the 'Organizer - Archives' dialog is shown, select 'Export' and then 'Export Developer ID- signed application'
 - Select your digital signature
 - Create a zip file of the output 'zip -r CatalanitzadorPerAlMac.zip CatalanitzadorPerAlMac.app/'
 
