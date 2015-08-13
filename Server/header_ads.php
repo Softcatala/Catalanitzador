@@ -53,28 +53,28 @@
         document.write(OA_pop);
     }
 var OA_fo = '';
-OA_fo += "<"+"script type=\'text/javascript\' src=\'http://ad.softcatala.org/www/delivery/fl.js\'><"+"/script>\n";
+OA_fo += "<"+"script type=\'text/javascript\' src=\'https://ad.softcatala.org/www/delivery/fl.js\'><"+"/script>\n";
 document.write(OA_fo);
 
 </script>
 
 <div id="publisuperior">
 <div id="publisuperior1">
-<div class="publieti"><img title="Publicitat" alt="Publicitat" src="http://www.softcatala.org/img/publicitat.jpg"></div>
+<div class="publieti"><img title="Publicitat" alt="Publicitat" src="https://www.softcatala.org/img/publicitat.jpg"></div>
 <div class="publicos">
 <script type="text/javascript"><!--// <![CDATA[
     /* [id14] Softcatalà - Wiki Publisuperior esquerra */
     OA_show(14);
-// ]]> --></script><noscript><a target="_blank" href="http://ad.softcatala.org/www/delivery/ck.php?n=d7f8765"><img border="0" alt="" src="http://ad.softcatala.org/www/delivery/avw.php?zoneid=14&amp;n=d7f8765" /></a></noscript>
+// ]]> --></script><noscript><a target="_blank" href="https://ad.softcatala.org/www/delivery/ck.php?n=d7f8765"><img border="0" alt="" src="http://ad.softcatala.org/www/delivery/avw.php?zoneid=14&amp;n=d7f8765" /></a></noscript>
 </div>
 </div>
 <div id="publisuperior2">
-<div class="publieti"><img title="Publicitat" alt="Publicitat" src="http://www.softcatala.org/img/publicitat.jpg"></div>
+<div class="publieti"><img title="Publicitat" alt="Publicitat" src="https://www.softcatala.org/img/publicitat.jpg"></div>
 <div class="publicos">
 <script type="text/javascript"><!--// <![CDATA[
 /* [id17] Softcatalà - Genèric Publisuperior dreta */
 OA_show(17);
-// ]]> --></script><noscript><a target="_blank" href="http://ad.softcatala.org/www/delivery/ck.php?n=b548d5e"><img border="0" alt="" src="http://ad.softcatala.org/www/delivery/avw.php?zoneid=17&amp;n=b548d5e" /></a></noscript>
+// ]]> --></script><noscript><a target="_blank" href="https://ad.softcatala.org/www/delivery/ck.php?n=b548d5e"><img border="0" alt="" src="http://ad.softcatala.org/www/delivery/avw.php?zoneid=17&amp;n=b548d5e" /></a></noscript>
 </div>
 </div>
 </div>

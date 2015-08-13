@@ -23,7 +23,7 @@
 </div>
 -->
 <div class="sidebar_home">
-<div class="logo_home"><a href="/"><img title="Softcatalà" alt="Softcatalà" src="http://www.softcatala.org/img/SC_logo.png"></a></div>
+<div class="logo_home"><a href="/"><img title="Softcatalà" alt="Softcatalà" src="https://www.softcatala.org/img/SC_logo.png"></a></div>
 </div>
 <!--i menutop -->
 <div class="menutop">

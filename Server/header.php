@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ca" lang="ca" dir="ltr">
+<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="ca" lang="ca" dir="ltr">
 <?php require( 'lib/db.php' ); ?>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,17 +12,17 @@
 
         <link rel="stylesheet" type="text/css" href="<?php echo $globals['base_domain'] ?>/css/styles.css" media="screen" />
         <link type="text/css" rel="stylesheet" media="all" href="<?php echo $globals['base_domain'] ?>/css/sc.css" />
-        <link href="http://www.softcatala.org/css/cookies/cookiecuttr.css" rel="stylesheet" type="text/css" />
+        <link href="https://www.softcatala.org/css/cookies/cookiecuttr.css" rel="stylesheet" type="text/css" />
         <script src="<?php echo $globals['base_domain'] ?>/js/jquery.js" type="text/javascript"></script>
         <script src="<?php echo $globals['base_domain'] ?>/js/jquery.bxSlider.min.js" type="text/javascript"></script>
         <script src="<?php echo $globals['base_domain'] ?>/js/slider.js" type="text/javascript"></script>
         <script type="text/javascript" src="/js/cookies/jquery.cookie.js"></script>
         <script type="text/javascript" src="/js/cookies/jquery.cookiecuttr.js"></script>
         <script type="text/javascript" src="/js/softcatala.js"></script>
-        <script src="<?php echo $globals['base_domain'] ?>/js/baner.js" type="text/javascript"></script>
-
+	<script src="<?php echo $globals['base_domain'] ?>/js/baner.js" type="text/javascript"></script>
+        
     <!--[if lt IE 7]>
-     <script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE7.js" 
+     <script src="https://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE7.js" 
      type="text/javascript">
      </script>
     <![endif]-->
@@ -39,4 +39,4 @@
 </head>
 <body>
 <?php include('header_ads.php'); ?>
-<!--# include virtual="/ssi/header.html" -->
+<?php include('header_sc.php'); ?>
