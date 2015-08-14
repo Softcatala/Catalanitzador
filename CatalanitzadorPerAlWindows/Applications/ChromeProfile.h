@@ -68,15 +68,6 @@ protected:
 private: 		
 
 	vector<wstring> _getLanguagesFromAcceptString(wstring value);
-	
-	bool _findSemicolon(wstring,int&);
-	bool _findStartBlock(wstring,int&);
-	bool _findLanguageString(wstring,int &,wstring &);	
-	bool _findProperty(wstring line, wstring key, int & pos);	
-	bool _readSchema(wstring key, wstring line, int& pos);
-	bool _readPropertyValue(wstring line, wstring key, int& pos, wstring& value);
-	void _getFirstLanguage(wstring& regvalue);
-
 	void _readAcceptAndSpellLanguagesFromPreferences();
 	
 	wstring m_installLocation;	

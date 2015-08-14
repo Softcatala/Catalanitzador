@@ -21,10 +21,6 @@
 #include "ChromeAction.h"
 #include "Runner.h"
 
-#ifndef CHROME_LANGUAGECODE
-#define CHROME_LANGUAGECODE L"ca"
-#endif
-
 ChromeAction::ChromeAction(IRegistry* registry)
 {
 	m_chromeProfile = NULL;

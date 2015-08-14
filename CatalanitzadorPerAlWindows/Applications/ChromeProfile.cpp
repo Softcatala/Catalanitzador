@@ -20,13 +20,17 @@
 
 #include "StdAfx.h"
 #include "ChromeProfile.h"
+#include "StringConversion.h"
+#include "json/json.h"
 
-enum JSONChromeState { NoState, SchemaFound, EndParsing };
+#define CHROME_ACCEPT_LANGUAGECODE L"ca"
 
-#define CHROME_LANGUAGECODE L"ca"
+#define CHROMEAPP_LANGUAGECODE L"ca"
+#define CHROMEAPP_LANGUAGECODE_STR "ca"
+
 #define CHROME_SPELLCHECKER_LANGUAGECODE L"ca"
+#define CHROME_SPELLCHECKER_LANGUAGECODE_STR "ca"
 
-#define INTL_SCHEMA_NAME L"\"intl\""
 
 ChromeProfile::ChromeProfile()
 {
@@ -40,135 +44,26 @@ void ChromeProfile::SetPath(wstring newPath)
 	m_installLocation = newPath;
 }
 
-bool ChromeProfile::_readSchema(wstring key, wstring line, int& pos)
-{
-	if (pos == wstring::npos) pos = 0;
-
-	pos = line.find(key, pos);
-
-	if ( pos != wstring::npos)
-	{
-		if (_findSemicolon(line,pos))
-		{
-			if(_findStartBlock(line,pos))
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-bool ChromeProfile::_findSemicolon(wstring line, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L":",pos);
-
-	return pos != wstring::npos;
-}
-
-bool ChromeProfile::_findStartBlock(wstring line, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(L"{",pos);
-
-	return pos != wstring::npos;
-}
-
-bool  ChromeProfile::_findProperty(wstring line, wstring key, int & pos)
-{
-	if(pos == wstring::npos) pos = 0;
-	
-	pos = line.find(key, pos);
-	return pos != wstring::npos;
-}
-
-bool ChromeProfile::_readPropertyValue(wstring line, wstring key, int& pos, wstring& value)
-{
-	if (pos == wstring::npos) pos = 0;
-	
-	if (_findProperty(line, key, pos))
-	{
-		if(_findSemicolon(line,pos))
-		{
-			_findLanguageString(line, pos, value);
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool ChromeProfile::_findLanguageString(wstring line,int & pos,wstring & langcode) 
-{
-	wstring tempLang;
-
-	if(pos == wstring::npos) pos = 0;
-
-	wchar_t prev = L'0';
-	bool reading = false;
-	bool found = false;
-
-	for(unsigned int i = pos; i < line.length() && found == false; ++i) {
-		if(line[i] == L'"' && prev != L'\\') {
-			if(reading == false) {
-				// we start parsing the langcode
-				reading = true;
-				pos = i+1;
-			} else {
-				// all langcode string parsed
-				langcode = tempLang;
-				found = true;
-			}
-		} else {
-			if(reading) {
-				tempLang.push_back(line[i]);
-			}
-		}
-		
-		prev = line[i];
-	}
-	
-	return found;
-}
-
 bool ChromeProfile::IsUiLocaleOk()
 {	
-	wifstream reader;
+	Json::Value root;
 	wstring path = m_installLocation + GetUIRelPathAndFile();
-	
-	reader.open(path.c_str());
-	if (reader.is_open() == false)
+	std::ifstream in(path.c_str());
+	Json::Reader reader;
+	string langcode;
+	bool rslt;
+
+	rslt = reader.parse (in, root);
+	if (rslt == false)
 	{
 		g_log.Log(L"ChromeProfile::IsUiLocaleOk. Cannot open for reading %s", (wchar_t*) path.c_str());
 		return false;
 	}
 
-	int currentState = NoState;
-	int pos = 0;
-	wstring line, langcode;
-	bool rslt;
-
-	while (getline(reader,line))
-	{
-		if(currentState == NoState) {
-			if(_readSchema(INTL_SCHEMA_NAME, line,pos))
-				currentState = SchemaFound;
-		}
-
-		if (currentState == SchemaFound) {
-			if (_readPropertyValue(line, L"\"app_locale\"", pos, langcode)) {
-				break;
-			}
-		}		
-
-		pos = wstring::npos;
-	}	
-
-	rslt = langcode.compare(CHROME_LANGUAGECODE) == 0;
+	langcode = root["intl"]["app_locale"].asString();
+	rslt = langcode.compare(CHROMEAPP_LANGUAGECODE_STR) == 0;
 	g_log.Log(L"ChromeProfile::IsUiLocaleOk: %u", (wchar_t*) rslt);
+	in.close();
 	return rslt;
 }
 
@@ -183,185 +78,113 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 {
 	if (m_prefCacheIsValid == true)
 		return;
-	
-	wifstream reader;
+		
 	wstring path = m_installLocation + GetPreferencesRelPathAndFile();
+	Json::Value root;
+	std::ifstream in(path.c_str());
+	Json::Reader reader;
+	string langcode;
+	bool rslt;
 	
 	m_prefCacheAcceptLanguage.erase();
 	m_prefCacheSpellLanguage.erase();
 	m_prefCacheIsValid = true;
-
-	reader.open(path.c_str());
-
-	if (reader.is_open() == false)
+	
+	rslt = reader.parse(in, root);
+	if (rslt == false)
 	{
 		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
 		return;
 	}
-	
-	int pos = 0;
-	wstring line;
-	bool acceptLanguagesRead = false;
-	bool spellLanguageRead = false;
 
-	while(getline(reader,line))
-	{
-		// We are try to read two properties from differents schemas
-		// Since we do not have a real parser. We do not know when a schema starts or ends
-		if (acceptLanguagesRead == false && _readPropertyValue(line, L"\"accept_languages\"", pos, m_prefCacheAcceptLanguage))
-			acceptLanguagesRead = true;
+	string acceptLanguages = root["intl"]["accept_languages"].asString();
+	StringConversion::ToWideChar (acceptLanguages, m_prefCacheAcceptLanguage);
 
-		if (spellLanguageRead == false && _readPropertyValue(line, L"\"dictionary\"", pos, m_prefCacheSpellLanguage))
-			spellLanguageRead = true;
-
-		pos = wstring::npos;
-	}
-
-	reader.close();
+	string spellLanguage = root["spellcheck"]["dictionary"].asString();
+	StringConversion::ToWideChar (spellLanguage, m_prefCacheSpellLanguage);
+	in.close();
 }
 
 bool ChromeProfile::WriteUILocale()
 {
-	bool languageWrittenSuccessfully = false;
-	wifstream reader;
-	wofstream writer;	
-	wstring pathr = m_installLocation + GetUIRelPathAndFile();
-	wstring pathw = m_installLocation + GetUIRelPathAndFile() + L".new";
+	Json::Value root;
+	wstring path = m_installLocation + GetUIRelPathAndFile();
+	std::ifstream in(path.c_str());
+	Json::Reader reader;
+	Json::FastWriter writer;
+	string langcode;
+	bool rslt;
 
-	reader.open(pathr.c_str());
-	if (reader.is_open() == false)
+	rslt = reader.parse(in, root);
+	if (rslt == false)
 	{
-		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for reading %s", (wchar_t*) pathr.c_str());
-		return languageWrittenSuccessfully;
+		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for reading %s", (wchar_t*) path.c_str());
+		return false;
 	}
+	in.close();
 
-	writer.open(pathw.c_str());
-	if (writer.is_open() == false)
+	root["intl"]["app_locale"] = CHROMEAPP_LANGUAGECODE_STR;
+
+	std::ofstream out(path.c_str());
+
+	if (out.fail() == true)
 	{
-		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for writing %s", (wchar_t*) pathw.c_str());
-		reader.close();
-		return languageWrittenSuccessfully;
-	}
-	
-	int currentState = NoState;	
-	int pos = 0;
-	wstring oldLang, line, lastLine;
-	
-	while (getline(reader,line))
-	{
-		if(currentState == NoState) {
-			if(_readSchema(INTL_SCHEMA_NAME, line,pos))
-				currentState = SchemaFound;
-		}
-
-		if(currentState == SchemaFound) {
-			if (_readPropertyValue(line, L"\"app_locale\"", pos, oldLang)) {				
-				currentState = EndParsing;
-				line.replace(pos,oldLang.length(),CHROME_LANGUAGECODE);
-				languageWrittenSuccessfully = true;
-			}		
-		}
-		
-		pos = wstring::npos;
-		writer << lastLine << L"\n";
-		lastLine = line;
-	}
-	
-	if(!languageWrittenSuccessfully) {
-		writer << "\t,\"intl\":{\"app_locale\":\"ca\"}\n";
-		languageWrittenSuccessfully = true;
-	}
-
-	writer << lastLine << L"\n";	
-	reader.close();
-	writer.close();
-	
-	if(languageWrittenSuccessfully) {
-		languageWrittenSuccessfully = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-	}
-
-	return languageWrittenSuccessfully;
-}
-
-bool ChromeProfile::WriteSpellAndAcceptLanguages()
-{	
-	wifstream reader;
-	wofstream writer;
-	wstring pathr = m_installLocation + GetPreferencesRelPathAndFile();
-	wstring pathw = m_installLocation + GetPreferencesRelPathAndFile() + L".new";
-	
-	reader.open(pathr.c_str());
-	if (reader.is_open() == false)
-	{
-		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", (wchar_t*) pathr.c_str());
+		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for writing %s", (wchar_t*) path.c_str());
 		return false;
 	}
 
-	writer.open(pathw.c_str());
-	if (writer.is_open() == false)
+	std::string jsonMessage  = writer.write(root);
+	out << jsonMessage;
+	out.close();
+	return true;	
+}
+
+bool ChromeProfile::WriteSpellAndAcceptLanguages()
+{
+	Json::Value root;
+	wstring path = m_installLocation + GetPreferencesRelPathAndFile();
+	std::ifstream in(path.c_str());
+	Json::Reader reader;
+	Json::FastWriter writer;
+	string acceptLanguages;
+	wstring wLang;
+	bool rslt;
+
+	rslt = reader.parse(in, root);
+	if (rslt == false)
 	{
-		g_log.Log(L"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) pathw.c_str());
-		reader.close();
+		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+		return false;
+	}
+	in.close();
+
+	if (m_setCatalanAsAcceptLanguage)
+	{	
+		acceptLanguages = root["intl"]["accept_languages"].asString();
+		StringConversion::ToWideChar(acceptLanguages, wLang);
+
+		AcceptLanguagePropertyValue propertyValue(wLang);
+		wLang = propertyValue.GetWithCatalanAdded();
+		StringConversion::ToMultiByte(wLang, acceptLanguages);
+		root["intl"]["accept_languages"] = acceptLanguages;
+	}
+
+	if (m_setCatalanAsSpellLanguage)
+	{
+		root["spellcheck"]["dictionary"] = CHROME_SPELLCHECKER_LANGUAGECODE_STR;
+	}
+
+	std::ofstream out(path.c_str());
+	if (out.fail() == true)
+	{
+		g_log.Log(L"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) path.c_str());
 		return false;
 	}
 
 	m_prefCacheIsValid = false;
-
-	int currentState = NoState, pos = 0;
-	wstring oldLang, line, lastLine;
-	bool acceptLanguagesDone = false;
-	bool spellLanguageDone = false;
-	
-	while (getline(reader,line))
-	{
-		// We are try to read two properties from differents schemas
-		// Since we do not have a real parser. We do not know when a schema starts or ends		
-		if (acceptLanguagesDone == false && _readPropertyValue(line, L"\"accept_languages\"", pos, oldLang))
-		{
-			acceptLanguagesDone = true;
-
-			if (m_setCatalanAsAcceptLanguage)
-			{
-				AcceptLanguagePropertyValue propertyValue(oldLang);
-				wstring newLang = propertyValue.GetWithCatalanAdded();
-
-				line.replace(pos,oldLang.length(), newLang);
-			}
-		}
-
-		if (spellLanguageDone == false && _readPropertyValue(line, L"\"dictionary\"", pos, oldLang))
-		{
-			spellLanguageDone = true;
-
-			if (m_setCatalanAsSpellLanguage)
-			{
-				line.replace(pos,oldLang.length(), CHROME_SPELLCHECKER_LANGUAGECODE);
-			}
-		}
-
-		pos = wstring::npos;
-		writer << lastLine << L"\n";
-		lastLine = line;
-	}
-	
-	if (m_setCatalanAsAcceptLanguage && !acceptLanguagesDone) {
-		writer << "\t,\"intl\":{\"accept_languages\":\"ca\"}\n";
-		acceptLanguagesDone = true;
-	}
-
-	if (m_setCatalanAsSpellLanguage && !spellLanguageDone) {
-		writer << "\t,\"spellcheck\":{\"dictionary\":\"ca\"}\n";
-		spellLanguageDone = true;
-	}
-
-	writer << lastLine << L"\n";
-	reader.close();
-	writer.close();
-	
-	if (acceptLanguagesDone|| spellLanguageDone) {
-		return MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-	}
-
+	std::string jsonMessage = writer.write(root);
+	out << jsonMessage;
+	out.close();
 	return true;
 }
 
@@ -378,21 +201,23 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 	bRslt = false;
 	acceptLanguagesFound = ReadAcceptLanguages(langcode);	
 
-	if(acceptLanguagesFound)
+	if (acceptLanguagesFound)
 	{
 		AcceptLanguagePropertyValue propertyValue(langcode);
 		firstlang = propertyValue.GetFirstLanguage();
 		
-		if(firstlang.compare(CHROME_LANGUAGECODE) == 0) 
+		if (firstlang.compare(CHROME_ACCEPT_LANGUAGECODE) == 0)
 		{
 			bRslt = true;
 		}
 	}
 	else
 	{
-		if(IsUiLocaleOk())
+		if (IsUiLocaleOk())
+		{
 			bRslt = true;
-	}	
+		}
+	}
 
 	g_log.Log(L"ChromeProfile::IsAcceptLanguagesOk: %u", (wchar_t*) bRslt);
 	return bRslt;
@@ -413,8 +238,10 @@ bool ChromeProfile::IsSpellCheckerLanguageOk()
 	}
 	else
 	{
-		if(IsUiLocaleOk())
+		if (IsUiLocaleOk())
+		{
 			bRslt = true;
+		}
 	}
 
 	g_log.Log(L"ChromeProfile::IsSpellCheckerLanguageOk: %u", (wchar_t*) bRslt);
