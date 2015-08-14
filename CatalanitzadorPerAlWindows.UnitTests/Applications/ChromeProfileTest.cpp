@@ -361,10 +361,14 @@ TEST(ChomeProfileTest, OneLinePreferences_EsSpellChecker_SetCatalanAsSpellChecke
 {
 	wstring location;
 	ChomeProfileTest chromeProfile;
+	TempFile tempFile;
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\CatalanUI_OneLineProfile\\User Data\\";
-	chromeProfile.SetPath(location);
+	location += L"/../User Data/Default/Preferences";
+	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
+	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
+	chromeProfile.SetPreferencesRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
 
 	chromeProfile.SetCatalanAsSpellCheckerLanguage();
 	chromeProfile.WriteSpellAndAcceptLanguages();
