@@ -154,7 +154,7 @@ TEST(ChomeProfileTest, NoFile_ReadAcceptLanguages)
 
 TEST(ChomeProfileTest, WriteUILocale)
 {
-	wstring location, langcode;
+	wstring location;
 	ChomeProfileTest chromeProfile;
 	TempFile tempFile;
 
@@ -212,7 +212,7 @@ TEST(ChomeProfileTest, PrevLanguage_SetAcceptLanguages)
 
 TEST(ChomeProfileTest, NoAcceptLangLocaleCa_IsAcceptLanguagesOk)
 {
-	wstring location, langcode;
+	wstring location;
 	ChomeProfileTest chromeProfile;
 
 	Application::GetExecutionLocation(location);
@@ -223,7 +223,7 @@ TEST(ChomeProfileTest, NoAcceptLangLocaleCa_IsAcceptLanguagesOk)
 
 TEST(ChomeProfileTest, NonCaAcceptLangLocaleLocaleUIOk_IsAcceptLanguagesOk)
 {
-	wstring location, langcode;
+	wstring location;
 	ChomeProfileTest chromeProfile;
 
 	Application::GetExecutionLocation(location);
@@ -234,7 +234,7 @@ TEST(ChomeProfileTest, NonCaAcceptLangLocaleLocaleUIOk_IsAcceptLanguagesOk)
 
 TEST(ChomeProfileTest, NonCaAcceptLangLocaleLocaleUINonOk_IsAcceptLanguagesOk)
 {
-	wstring location, langcode;
+	wstring location;
 	ChomeProfileTest chromeProfile;
 
 	Application::GetExecutionLocation(location);
@@ -256,7 +256,7 @@ TEST(ChomeProfileTest, CaAcceptLangLocaleFirst_IsAcceptLanguagesOk)
 
 TEST(ChomeProfileTest, CaAcceptLangLocaleNonFirst_IsAcceptLanguagesOk)
 {
-	wstring location, langcode;
+	wstring location;
 	ChomeProfileTest chromeProfile;
 
 	Application::GetExecutionLocation(location);
@@ -328,7 +328,7 @@ TEST(ChomeProfileTest, OneLineLocalState_ReadUILocale)
 
 TEST(ChomeProfileTest, OneLineLocalState_WriteUILocale)
 {
-	wstring location, langcode;
+	wstring location;
 	ChomeProfileTest chromeProfile;
 	TempFile tempFile;
 
