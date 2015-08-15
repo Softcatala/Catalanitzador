@@ -53,17 +53,25 @@ bool ChromeProfile::IsUiLocaleOk()
 	string langcode;
 	bool rslt;
 
+	if (in.fail())
+	{
+		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+		return false;
+	}
+
 	rslt = reader.parse (in, root);
+	in.close();
+
 	if (rslt == false)
 	{
-		g_log.Log(L"ChromeProfile::IsUiLocaleOk. Cannot open for reading %s", (wchar_t*) path.c_str());
+		g_log.Log(L"ChromeProfile::IsUiLocaleOk. Cannot parse %s", (wchar_t*) path.c_str());
 		return false;
 	}
 
 	langcode = root["intl"]["app_locale"].asString();
 	rslt = langcode.compare(CHROMEAPP_LANGUAGECODE_STR) == 0;
 	g_log.Log(L"ChromeProfile::IsUiLocaleOk: %u", (wchar_t*) rslt);
-	in.close();
+	
 	return rslt;
 }
 
@@ -89,11 +97,19 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 	m_prefCacheAcceptLanguage.erase();
 	m_prefCacheSpellLanguage.erase();
 	m_prefCacheIsValid = true;
-	
-	rslt = reader.parse(in, root);
-	if (rslt == false)
+
+	if (in.fail())
 	{
 		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+		return;
+	}
+	
+	rslt = reader.parse(in, root);
+	in.close();
+
+	if (rslt == false)
+	{
+		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot parse %s", (wchar_t*) path.c_str());
 		return;
 	}
 
@@ -102,7 +118,6 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 
 	string spellLanguage = root["spellcheck"]["dictionary"].asString();
 	StringConversion::ToWideChar (spellLanguage, m_prefCacheSpellLanguage);
-	in.close();
 }
 
 bool ChromeProfile::WriteUILocale()
@@ -114,20 +129,26 @@ bool ChromeProfile::WriteUILocale()
 	Json::FastWriter writer;
 	string langcode;
 	bool rslt;
-
-	rslt = reader.parse(in, root);
-	if (rslt == false)
+	
+	if (in.fail())
 	{
 		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for reading %s", (wchar_t*) path.c_str());
 		return false;
 	}
+	rslt = reader.parse(in, root);
 	in.close();
+
+	if (rslt == false)
+	{
+		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot parse %s", (wchar_t*) path.c_str());
+		return false;
+	}
 
 	root["intl"]["app_locale"] = CHROMEAPP_LANGUAGECODE_STR;
 
 	std::ofstream out(path.c_str());
 
-	if (out.fail() == true)
+	if (out.fail())
 	{
 		g_log.Log(L"ChromeProfile::WriteUILocale. Cannot open for writing %s", (wchar_t*) path.c_str());
 		return false;
@@ -150,13 +171,19 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 	wstring wLang;
 	bool rslt;
 
-	rslt = reader.parse(in, root);
-	if (rslt == false)
+	if (in.fail())
 	{
 		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+	}
+
+	rslt = reader.parse(in, root);
+	in.close();
+
+	if (rslt == false)
+	{
+		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot parse %s", (wchar_t*) path.c_str());
 		return false;
 	}
-	in.close();
 
 	if (m_setCatalanAsAcceptLanguage)
 	{	
@@ -175,7 +202,7 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 	}
 
 	std::ofstream out(path.c_str());
-	if (out.fail() == true)
+	if (out.fail())
 	{
 		g_log.Log(L"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) path.c_str());
 		return false;
