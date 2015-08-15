@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2015-07-31T03:00:00</date>
+		<date>2015-08-15T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -388,6 +388,14 @@
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1100_ca_ES.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1100_ca_ES.exe</url_3>
 				<filename>AdbeRdr1100_ca_ES.exe</filename>
+	  		</download>
+			<download>
+	  			<version>DC</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1500720033_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1500720033_ca_ES.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1500720033_ca_ES.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1500720033_ca_ES.exe</url_3>
+				<filename>AcroRdrDC1500720033_ca_ES.exe</filename>
 	  		</download>
 		</action>
 		

@@ -93,7 +93,7 @@ void AdobeReaderAction::_enumVersions(vector <wstring>& versions)
 			if (bKeys)
 			{
 				// Sometimes there are keys like WSZXSGANXFJVAYSXYQGNXKQY. May be broken installers.
-				if (iswdigit(key[0]))
+				if (iswdigit(key[0]) || key == L"DC")
 				{
 					versions.push_back(key);
 				}
