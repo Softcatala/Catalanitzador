@@ -472,7 +472,8 @@
 	  			<max_version>99.99.99</max_version>
 	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi</url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi.xpi</url_2>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi</url_2>
+	  			<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi</url_3>
 				<filename>languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi</filename>
 	  		</download>	  		
 		</action>
