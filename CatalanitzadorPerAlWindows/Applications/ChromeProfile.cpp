@@ -55,7 +55,7 @@ bool ChromeProfile::IsUiLocaleOk()
 
 	if (in.fail())
 	{
-		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+		g_log.Log(L"ChromeProfile::IsUiLocaleOk. Cannot open for reading %s", (wchar_t*) path.c_str());
 		return false;
 	}
 
@@ -100,7 +100,7 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 
 	if (in.fail())
 	{
-		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+		g_log.Log(L"ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences. Cannot open for reading %s", (wchar_t*) path.c_str());
 		return;
 	}
 	
@@ -109,7 +109,7 @@ void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
 
 	if (rslt == false)
 	{
-		g_log.Log(L"ChromeProfile::ReadAcceptLanguages. Cannot parse %s", (wchar_t*) path.c_str());
+		g_log.Log(L"ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences. Cannot parse %s", (wchar_t*) path.c_str());
 		return;
 	}
 
@@ -174,6 +174,7 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 	if (in.fail())
 	{
 		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", (wchar_t*) path.c_str());
+		return false;
 	}
 
 	rslt = reader.parse(in, root);
