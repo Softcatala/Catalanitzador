@@ -76,7 +76,7 @@ bool ChromeAction::_readLanguageCode(string& langcode)
 
 		if (in.fail())
 		{
-			NSLog(@"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", path.c_str());
+			NSLog(@"ChromeAction::_readLanguageCode. Cannot open for reading %s", path.c_str());
 			return false;
 		}
 		
@@ -85,7 +85,7 @@ bool ChromeAction::_readLanguageCode(string& langcode)
 		
 		if (rslt == false)
 		{
-			NSLog(@"ChromeProfile::ReadAcceptLanguages. Cannot parse %s", path.c_str());
+			NSLog(@"ChromeAction::_readLanguageCode. Cannot parse %s", path.c_str());
 			return false;
 		}
 		
@@ -113,7 +113,7 @@ bool ChromeAction::_writeAcceptLanguageCode(string langcode)
 
 	if (in.fail())
 	{
-		NSLog(@"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", path.c_str());
+		NSLog(@"ChromeAction::_writeAcceptLanguageCode. Cannot open for reading %s", path.c_str());
 		return false;
 	}
 	
@@ -122,7 +122,7 @@ bool ChromeAction::_writeAcceptLanguageCode(string langcode)
 	
 	if (rslt == false)
 	{
-		NSLog(@"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot parse %s", path.c_str());
+		NSLog(@"ChromeAction::_writeAcceptLanguageCode. Cannot parse %s", path.c_str());
 		return false;
 	}
 	
@@ -131,7 +131,7 @@ bool ChromeAction::_writeAcceptLanguageCode(string langcode)
 	std::ofstream out(path.c_str());
 	if (out.fail())
 	{
-		NSLog(@"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", path.c_str());
+		NSLog(@"ChromeAction::_writeAcceptLanguageCode. Cannot open for writing %s", path.c_str());
 		return false;
 	}
 	
