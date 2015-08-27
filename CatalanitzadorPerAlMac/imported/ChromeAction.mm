@@ -20,14 +20,10 @@
 #include "ChromeAction.h"
 #include <string>
 #include <fstream>
+#include "json/json.h"
 
 using namespace std;
 
-
-enum JSONChromeState { NoState, InIntl, InIntlSemicolon,
-	InIntlBlock, InAcceptedKey, InAcceptedSemicolon,
-	InAcceptedValue, InAppLocaleKey, InAppLocaleSemicolon,
-	InAppLocaleValue, EndParsing };
 
 ChromeAction::ChromeAction() : Action()
 {
@@ -60,84 +56,6 @@ bool ChromeAction::IsApplicationRunning()
 	return foundApp;
 }
 
-bool ChromeAction::_findIntl(string line, int & pos)
-{
-	if(pos == string::npos) pos = 0;
-	
-	pos = line.find("\"intl\"",pos);
-	
-	return pos != string::npos;
-}
-
-bool ChromeAction::_findSemicolon(string line, int & pos)
-{
-	if(pos == string::npos) pos = 0;
-	
-	pos = line.find(":",pos);
-	
-	return pos != string::npos;
-}
-
-bool ChromeAction::_findStartBlock(string line, int & pos)
-{
-	if(pos == string::npos) pos = 0;
-	
-	pos = line.find("{",pos);
-	
-	return pos != string::npos;
-}
-
-bool ChromeAction::_findAcceptedKey(string line, int & pos)
-{
-	if(pos == string::npos) pos = 0;
-	
-	pos = line.find("\"accept_languages\"",pos);
-	
-	return pos != string::npos;
-}
-
-bool ChromeAction::_findAppLocaleKey(string line, int & pos)
-{
-	if(pos == string::npos) pos = 0;
-	
-	pos = line.find("\"app_locale\"",pos);
-	
-	return pos != string::npos;
-}
-
-bool ChromeAction::_findLanguageString(string line,int & pos,string & langcode)
-{
-	string tempLang;
-	
-	if(pos == string::npos) pos = 0;
-	
-	wchar_t prev = L'0';
-	bool reading = false;
-	bool found = false;
-	
-	for(unsigned int i = pos; i < line.length() && found == false; ++i) {
-		if(line[i] == '"' && prev != '\\') {
-			if(reading == false) {
-				// we start parsing the langcode
-				reading = true;
-				pos = i+1;
-			} else {
-				// all langcode string parsed
-				langcode = tempLang;
-				found = true;
-			}
-		} else {
-			if(reading) {
-				tempLang.push_back(line[i]);
-			}
-		}
-		
-		prev = line[i];
-	}
-	
-	return found;
-}
-
 #define LANGUAGECODE "ca"
 
 bool ChromeAction::_readLanguageCode(string& langcode)
@@ -148,53 +66,32 @@ bool ChromeAction::_readLanguageCode(string& langcode)
 	
 	if(path_t.empty() == false)
 	{
-		fstream reader;
-		string line;
 		string path = "/Default/Preferences";
 		path = path_t + path;
-		reader.open(path.c_str());
 		
-		if(reader.is_open())
+		Json::Value root;
+		std::ifstream in(path.c_str());
+		Json::Reader reader;
+		bool rslt;
+
+		if (in.fail())
 		{
-			int currentState = NoState;
-			int pos = 0;
-			
-			while(!(getline(reader,line)).eof() && ret == false)
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-				
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-				
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-				
-				if(currentState == InIntlBlock) {
-					if(_findAcceptedKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-				
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,langcode))
-						ret = true;
-				}
-				
-				pos = string::npos;
-			}
-			reader.close();
+			NSLog(@"ChromeProfile::ReadAcceptLanguages. Cannot open for reading %s", path.c_str());
+			return false;
 		}
+		
+		rslt = reader.parse(in, root);
+		in.close();
+		
+		if (rslt == false)
+		{
+			NSLog(@"ChromeProfile::ReadAcceptLanguages. Cannot parse %s", path.c_str());
+			return false;
+		}
+		
+		langcode = root["intl"]["accept_languages"].asString();
+		ret = langcode.empty() == false;
+		
 	}
 	NSLog(@"ChromeAction::_readLanguageCode. Result %u, lang %s", ret, langcode.c_str());
 	return ret;
@@ -202,99 +99,46 @@ bool ChromeAction::_readLanguageCode(string& langcode)
 
 bool ChromeAction::_writeAcceptLanguageCode(string langcode)
 {
-	bool ret = false;
-	string path_t;
-	_readInstallLocation(path_t);
+	Json::Value root;
+	Json::Reader reader;
+	Json::FastWriter writer;
+	string acceptLanguages;
+	wstring wLang;
+	bool rslt;
 	
-	if(path_t.empty() == false)
+	string path;
+	_readInstallLocation(path);
+	path += "/Default/Preferences";
+	std::ifstream in(path.c_str());
+
+	if (in.fail())
 	{
-		fstream reader;
-		ofstream writer;
-		string line;
-		string pathr = "/Default/Preferences";
-		string pathw = "/Default/Preferences.new";
-		pathr = path_t + pathr;
-		pathw = path_t + pathw;
-		reader.open(pathr.c_str());
-		writer.open(pathw.c_str());
-		
-		if(reader.is_open() && writer.is_open())
-		{
-			int currentState = NoState;
-			
-			int pos = 0;
-			string oldLang;
-			string lastLine = "";
-			
-			while(!(getline(reader,line)).eof())
-			{
-				if(currentState == NoState) {
-					if(_findIntl(line,pos))
-						currentState = InIntl;
-				}
-				
-				if(currentState == InIntl) {
-					if(_findSemicolon(line,pos))
-						currentState = InIntlSemicolon;
-				}
-				
-				if(currentState == InIntlSemicolon) {
-					if(_findStartBlock(line,pos))
-						currentState = InIntlBlock;
-				}
-				
-				if(currentState == InIntlBlock) {
-					if(_findAcceptedKey(line,pos))
-						currentState = InAcceptedKey;
-				}
-				
-				if(currentState == InAcceptedKey) {
-					if(_findSemicolon(line,pos))
-						currentState = InAcceptedSemicolon;
-				}
-				
-				if(currentState == InAcceptedSemicolon) {
-					if(_findLanguageString(line,pos,oldLang)) {
-						currentState = EndParsing;
-						line.replace(pos,oldLang.length(),langcode);
-						ret = true;
-					}
-				}
-				
-				pos = string::npos;
-				
-				writer << lastLine << "\n";
-				lastLine = line;
-			}
-			
-			if(ret == false) {
-				writer << "\t,\"intl\":{\"accept_languages\":\"ca\"}\n";
-				ret = true;
-				
-			}
-			writer << lastLine << "\n";
-		}
-		
-		if(reader.is_open())
-			reader.close();
-		
-		if(writer.is_open())
-			writer.close();
-		
-		if(ret) {
-			rename(pathw.c_str(),pathr.c_str());
-			//ret = MoveFileEx(pathw.c_str(),pathr.c_str(),MOVEFILE_REPLACE_EXISTING) != 0;
-		}
+		NSLog(@"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for reading %s", path.c_str());
+		return false;
 	}
 	
-	if(ret) {
-		status = Successful;
-		
-	} else {
-		status = FinishedWithError;
+	rslt = reader.parse(in, root);
+	in.close();
+	
+	if (rslt == false)
+	{
+		NSLog(@"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot parse %s", path.c_str());
+		return false;
 	}
 	
-	return ret;
+	root["intl"]["accept_languages"] = langcode;
+	
+	std::ofstream out(path.c_str());
+	if (out.fail())
+	{
+		NSLog(@"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", path.c_str());
+		return false;
+	}
+	
+	std::string jsonMessage = writer.write(root);
+	out << jsonMessage;
+	out.close();
+	return true;
 }
 
 void ChromeAction::_getFirstLanguage(string& jsonvalue)

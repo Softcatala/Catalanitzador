@@ -60,14 +60,6 @@ private:
 	bool _writeAcceptLanguageCode(string langcode);
 	bool _isAcceptLanguagesOk();
 	
-	bool _findIntl(string,int&);
-	bool _findSemicolon(string,int&);
-	bool _findStartBlock(string,int&);
-	bool _findAcceptedKey(string,int&);
-	bool _findAcceptedValue(string,int&);
-	bool _findLanguageString(string,int &,string &);
-	bool _findAppLocaleKey(string line, int & pos);
-	
 	string m_version;
 	vector <string> m_languages;
 	ActionStatus uiStatus;

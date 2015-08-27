@@ -74,6 +74,10 @@ license you like.
 #error "Compile with -I PATH_TO_JSON_DIRECTORY"
 #endif
 
+// This actually for OS X
+#ifndef _WIN32
+#define __cplusplus 201101L
+#endif
 
 // //////////////////////////////////////////////////////////////////////
 // Beginning of content of file: src/lib_json/json_tool.h

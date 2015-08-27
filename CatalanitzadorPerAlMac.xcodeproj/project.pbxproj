@@ -17,6 +17,7 @@
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
 		8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36316BD23CB00653AE7 /* Credits.rtf */; };
 		8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36916BD23CB00653AE7 /* MainMenu.xib */; };
+		8D77074F1B8BAF0C00F0ABBD /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8D77074E1B8BAF0C00F0ABBD /* jsoncpp.cpp */; };
 		8D94658916CF9CA2009BBA39 /* ChromeAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D94658616CF9CA2009BBA39 /* ChromeAction.mm */; };
 		8D94658A16CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D94658816CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm */; };
 		8D9465AA16D00FBD009BBA39 /* Action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8D9465A916D00FBD009BBA39 /* Action.cpp */; };
@@ -53,6 +54,7 @@
 		8D50D36616BD23CB00653AE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D50D36A16BD23CB00653AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8D77074E1B8BAF0C00F0ABBD /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsoncpp.cpp; path = libs/jsoncpp/jsoncpp.cpp; sourceTree = SOURCE_ROOT; };
 		8D7DBD9E16EE62AD00113095 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlatformDefinitions.h; path = CommonCode/PlatformDefinitions.h; sourceTree = SOURCE_ROOT; };
 		8D7DBD9F16EE62AD00113095 /* RemoteURLs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteURLs.h; path = CommonCode/RemoteURLs.h; sourceTree = SOURCE_ROOT; };
 		8D94658316CF9CA2009BBA39 /* Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Action.h; path = imported/Action.h; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 		8D50D35A16BD23CB00653AE7 /* CatalanitzadorPerAlMac */ = {
 			isa = PBXGroup;
 			children = (
+				8D77074D1B8BAE7B00F0ABBD /* jsoncpp */,
 				8D9465B516D133F9009BBA39 /* Application */,
 				8D9465AF16D019FF009BBA39 /* Core */,
 				8D9465AB16D01197009BBA39 /* OS */,
@@ -160,6 +163,14 @@
 				8D50D36316BD23CB00653AE7 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8D77074D1B8BAE7B00F0ABBD /* jsoncpp */ = {
+			isa = PBXGroup;
+			children = (
+				8D77074E1B8BAF0C00F0ABBD /* jsoncpp.cpp */,
+			);
+			name = jsoncpp;
 			sourceTree = "<group>";
 		};
 		8D9465AB16D01197009BBA39 /* OS */ = {
@@ -308,6 +319,7 @@
 				8D9465AE16D011A6009BBA39 /* OSVersion.mm in Sources */,
 				8D9465B416D01A3A009BBA39 /* Serializer.mm in Sources */,
 				8DE8843016D40C53002F2349 /* HttpFormInet.mm in Sources */,
+				8D77074F1B8BAF0C00F0ABBD /* jsoncpp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,9 +356,9 @@
 		8D50D38016BD23CB00653AE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -356,7 +368,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Associacio Softcatala";
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -369,6 +381,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					libs/jsoncpp/,
+				);
 				"INFOPLIST_PREFIX_HEADER[sdk=*]" = CommonCode/Version.h;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -381,9 +398,9 @@
 		8D50D38116BD23CB00653AE7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -394,12 +411,17 @@
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Associacio Softcatala";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					libs/jsoncpp/,
+				);
 				"INFOPLIST_PREFIX_HEADER[sdk=*]" = CommonCode/Version.h;
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
