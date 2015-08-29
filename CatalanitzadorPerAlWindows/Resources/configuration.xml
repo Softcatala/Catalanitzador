@@ -133,7 +133,7 @@
       			</download>
 			<download>
       				<version>Win10_ca_32</version>
-      				<url_1><![CDATA[http://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
       				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab</url_3>
@@ -141,7 +141,7 @@
       			</download>
 			<download>
       				<version>Win10_ca_64</version>
-      				<url_1><![CDATA[http://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
       				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab</url_3>
@@ -149,7 +149,7 @@
       			</download>
 			<download>
       				<version>Win10_va_32</version>
-      				<url_1><![CDATA[http://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
       				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab</url_3>
@@ -157,7 +157,7 @@
       			</download>
       			<download>
       				<version>Win10_va_64</version>
-      				<url_1><![CDATA[http://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
       				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab</url_3>
