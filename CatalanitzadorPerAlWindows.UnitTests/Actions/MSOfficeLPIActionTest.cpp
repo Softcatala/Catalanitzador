@@ -73,7 +73,7 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_2010_NoLangPack)
 	EXPECT_TRUE(officeAction.IsNeed());
 }
 
-TEST(MSOfficeLPIActionTest, _IsNeeded_201064_NoLangPack)
+TEST(MSOfficeLPIActionTest, _IsNeeded_2010_64_NoLangPack)
 {
 	CreateMSOfficeAction;
 
@@ -84,7 +84,7 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_201064_NoLangPack)
 	EXPECT_TRUE(officeAction.IsNeed());
 }
 
-TEST(MSOfficeLPIActionTest, _IsNeeded_201364_LangPackAndnODefaultLang)
+TEST(MSOfficeLPIActionTest, _IsNeeded_2013_64_LangPackAndnOnDefaultLang)
 {
 	CreateMSOfficeAction;
 	bool FollowSystemUIOff = true;
@@ -97,13 +97,13 @@ TEST(MSOfficeLPIActionTest, _IsNeeded_201364_LangPackAndnODefaultLang)
 	EXPECT_TRUE(officeAction.IsNeed());
 }
 
-TEST(MSOfficeLPIActionTest, _IsNeeded_201364_LangPackAndDefaultLang)
+TEST(MSOfficeLPIActionTest, _IsNeeded_2013_64_LangPackAndDefaultLang)
 {
 	CreateMSOfficeAction;
 	bool FollowSystemUIOff = true;
 
 	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
-	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);	
+	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);
 	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, CATALAN_LCID);
 
 	officeAction.CheckPrerequirements(NULL);

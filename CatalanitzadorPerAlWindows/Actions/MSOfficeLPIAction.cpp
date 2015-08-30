@@ -267,7 +267,7 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 	bool alreadyApplied = true;
 	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
-		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. MSOfficce %s application installed", (wchar_t *) m_MSOffices[i].GetVersion());
+		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. MSOffice %s application installed", (wchar_t *) m_MSOffices[i].GetVersion());
 		if (m_MSOffices[i].IsLangPackInstalled() == false || m_MSOffices[i].IsDefaultLanguage() == false)
 		{
 			alreadyApplied = false;
