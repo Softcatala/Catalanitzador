@@ -84,7 +84,7 @@ bool FirefoxLangPackAction::Download(ProgressStatus progress, void *data)
 	
 	downloadVersion = _getMozillaServer()->GetConfigurationFileActionDownload();
 
-	if (downloadVersion.IsEmpty())
+	if (downloadVersion.IsUsable() == false)
 	{
 		g_log.Log(L"FirefoxLangPackAction::Download. ConfigurationFileActionDownload empty");
 		return true;
@@ -168,7 +168,7 @@ void FirefoxLangPackAction::CheckPrerequirements(Action * action)
 		return;
 	}
 
-	if (_getMozillaServer()->GetConfigurationFileActionDownload().IsEmpty())
+	if (_getMozillaServer()->GetConfigurationFileActionDownload().IsUsable() == false)
 	{
 		g_log.Log(L"FirefoxLangPackAction::CheckPrerequirements. Version with no download");
 		SetStatus(CannotBeApplied);

@@ -241,7 +241,7 @@ bool WindowsLiveAction::_isDownloadAvailable()
 	swprintf_s(version, L"%u", _getMajorVersion());
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(version));
 
-	return downloadVersion.IsEmpty() == false;
+	return downloadVersion.IsUsable();
 }
 
 void WindowsLiveAction::CheckPrerequirements(Action * action)

@@ -556,7 +556,7 @@ void Windows8LPIAction::CheckPrerequirements(Action * action)
 	ConfigurationFileActionDownload downloadVersion;	
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
-	if (downloadVersion.IsEmpty())
+	if (downloadVersion.IsUsable() == false)
 	{
 		_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
 		g_log.Log(L"Windows8LPIAction::CheckPrerequirements. Version not supported");

@@ -435,7 +435,7 @@ bool WindowsLPIAction::_isDownloadAvailable()
 
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
 
-	return downloadVersion.IsEmpty() == false;
+	return downloadVersion.IsUsable();
 }
 
 bool WindowsLPIAction::_isWindowsValidated()

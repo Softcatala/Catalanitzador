@@ -61,10 +61,10 @@ TEST(ConfigurationFileActionDownloadsTest, GetFileDownloadForVersion_Empty)
 
 	fileActionDownloadResult = fileActionDownloads.GetFileDownloadForVersion(ApplicationVersion(DOWN1_MAX_EMPTY1));
 
-	EXPECT_TRUE(fileActionDownloadResult.IsEmpty());
+	EXPECT_TRUE(fileActionDownloadResult.GetUrls().size() == 0);
 }
 
-#define DOWN1_MACH  L"1.2.2"
+#define DOWN1_MATCH  L"1.2.2"
 
 TEST(ConfigurationFileActionDownloadsTest, GetFileDownloadForVersion_Match)
 {
@@ -75,8 +75,8 @@ TEST(ConfigurationFileActionDownloadsTest, GetFileDownloadForVersion_Match)
 	fileActionDownload.SetMaxVersion(ApplicationVersion(DOWN1_MAX_VERSION));
 	fileActionDownloads.AddFileActionDownload(fileActionDownload);
 
-	fileActionDownloadResult = fileActionDownloads.GetFileDownloadForVersion(ApplicationVersion(DOWN1_MACH));
-	EXPECT_FALSE(fileActionDownloadResult.IsEmpty());
+	fileActionDownloadResult = fileActionDownloads.GetFileDownloadForVersion(ApplicationVersion(DOWN1_MATCH));
+	EXPECT_TRUE(fileActionDownloadResult.GetUrls().size() == 0);
 	EXPECT_TRUE(fileActionDownloadResult.GetMaxVersion() == fileActionDownload.GetMaxVersion());
 }
 

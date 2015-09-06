@@ -89,11 +89,27 @@ TEST(ConfigurationFileActionDownloadTest, SetUrl)
 	EXPECT_THAT(fileActionDownload.GetUrls()[0], StrCaseEq(LATEST_URL2));
 }
 
-TEST(ConfigurationFileActionDownloadTest, IsEmpty)
+TEST(ConfigurationFileActionDownloadTest, IsUsable_Yes_ConcreteVersion)
+{
+	ConfigurationFileActionDownload fileActionDownload;
+	fileActionDownload.AddUrl(LATEST_URL1);
+	fileActionDownload.SetVersion(L"concret_version");
+	EXPECT_TRUE(fileActionDownload.IsUsable());
+}
+
+TEST(ConfigurationFileActionDownloadTest, IsUsable_Yes_MaxMinVersion)
 {	
 	ConfigurationFileActionDownload fileActionDownload;
-	
-	EXPECT_TRUE(fileActionDownload.IsEmpty());
+	fileActionDownload.AddUrl(LATEST_URL1);
+	fileActionDownload.SetMinVersion(ApplicationVersion(MIN_VERSION));
+	fileActionDownload.SetMaxVersion(ApplicationVersion(MAX_VERSION));
+	EXPECT_TRUE(fileActionDownload.IsUsable());
+}
+
+TEST(ConfigurationFileActionDownloadTest, IsUsable_No)
+{	
+	ConfigurationFileActionDownload fileActionDownload;
+	EXPECT_FALSE(fileActionDownload.IsUsable());
 }
 
 #define FILENAME_TEST L"file.bin"

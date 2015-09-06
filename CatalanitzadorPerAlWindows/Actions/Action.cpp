@@ -97,7 +97,7 @@ bool Action::_doesDownloadExist()
 {
 	ConfigurationFileActionDownload downloadVersion;
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), ApplicationVersion(GetVersion()));
-	return downloadVersion.IsEmpty() == false;	
+	return downloadVersion.IsUsable();
 }
 
 void Action::SetStatus(ActionStatus value) 
