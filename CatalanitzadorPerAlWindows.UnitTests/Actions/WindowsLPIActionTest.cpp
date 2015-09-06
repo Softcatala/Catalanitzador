@@ -42,18 +42,23 @@ using ::testing::HasSubstr;
 #define FRENCH_LOCALE 0x040c
 #define US_LOCALE 0x0409
 
-
-class WindowsLPIActionTest : public WindowsLPIAction
+class WindowsLPIActionTest : public testing::Test
 {
 public:
 	
-	WindowsLPIActionTest::WindowsLPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
-		: WindowsLPIAction(OSVersion, registry, win32I18N, runner, downloadManager) {};
+		virtual void TearDown()
+		{
+			ConfigurationInstance::Reset();
+		}
+};
 
-	virtual void TearDown()
-	{
-		ConfigurationInstance::Reset();
-	}
+
+class WindowsLPIActionForTest : public WindowsLPIAction
+{
+public:
+	
+	WindowsLPIActionForTest::WindowsLPIActionForTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
+		: WindowsLPIAction(OSVersion, registry, win32I18N, runner, downloadManager) {};
 
 	public: using WindowsLPIAction::_isLangPackInstalled;
 	public: using WindowsLPIAction::_isDefaultLanguage;
@@ -65,12 +70,12 @@ public:
 	bool virtual _isWindowsValidated()	{ return true;}
 };
 
-class WindowsLPIActionTestDefaultLanguage : public WindowsLPIActionTest
+class WindowsLPIActionTestDefaultLanguage : public WindowsLPIActionForTest
 {
 public:
 
 	WindowsLPIActionTestDefaultLanguage::WindowsLPIActionTestDefaultLanguage(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
-		: WindowsLPIActionTest(OSVersion, registry, win32I18N, runner, downloadManager) {};
+		: WindowsLPIActionForTest(OSVersion, registry, win32I18N, runner, downloadManager) {};
 	
 	virtual bool _isValidOperatingSystem() { return true; }
 	virtual bool _isASupportedSystemLanguage() { return true; }
@@ -82,7 +87,7 @@ public:
 	Win32I18NMock win32I18NMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	WindowsLPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
+	WindowsLPIActionForTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
 
 #define CreateWindowsLPIActionTestDefaultLanguage \
 	RegistryMock registryMockobj; \
@@ -91,7 +96,7 @@ public:
 	RunnerMock runnerMock; \
 	WindowsLPIActionTestDefaultLanguage lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
 
-TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
+TEST_F(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 {
 	CreateWindowsLIPAction;
 
@@ -102,7 +107,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsSpanish)
 	EXPECT_TRUE(lipAction._isASupportedSystemLanguage());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsXPFrench)
+TEST_F(WindowsLPIActionTest, CheckPrerequirements_WindowsXPFrench)
 {
 	CreateWindowsLIPAction;
 
@@ -113,7 +118,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsXPFrench)
 	EXPECT_FALSE(lipAction._isASupportedSystemLanguage());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirements_Windows7French)
+TEST_F(WindowsLPIActionTest, CheckPrerequirements_Windows7French)
 {
 	CreateWindowsLIPAction;
 	vector <LANGID> ids;
@@ -127,7 +132,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_Windows7French)
 	EXPECT_TRUE(lipAction._isASupportedSystemLanguage());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsEnglish)
+TEST_F(WindowsLPIActionTest, CheckPrerequirements_WindowsEnglish)
 {
 	CreateWindowsLIPAction;
 
@@ -138,7 +143,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirements_WindowsEnglish)
 	EXPECT_FALSE(lipAction._isASupportedSystemLanguage());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirementsWindows2008)
+TEST_F(WindowsLPIActionTest, CheckPrerequirementsWindows2008)
 {
 	CreateWindowsLIPAction;
 
@@ -148,7 +153,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirementsWindows2008)
 	EXPECT_FALSE(lipAction._isValidOperatingSystem());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_32bits)
+TEST_F(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_32bits)
 {
 	CreateWindowsLIPAction;
 
@@ -158,7 +163,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_32bits)
 	EXPECT_TRUE(lipAction._isValidOperatingSystem());
 }
 
-TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_64bits)
+TEST_F(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_64bits)
 {
 	CreateWindowsLIPAction;
 
@@ -168,7 +173,7 @@ TEST(WindowsLPIActionTest, CheckPrerequirementsWindowsXP_64bits)
 	EXPECT_FALSE(lipAction._isValidOperatingSystem());
 }
 
-TEST(WindowsLPIActionTest, _isLangPackInstalled_XPFalse)
+TEST_F(WindowsLPIActionTest, _isLangPackInstalled_XPFalse)
 {	
 	CreateWindowsLIPAction;
 
@@ -179,7 +184,7 @@ TEST(WindowsLPIActionTest, _isLangPackInstalled_XPFalse)
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
 
-TEST(WindowsLPIActionTest, _isLangPackInstalled_XPTrue)
+TEST_F(WindowsLPIActionTest, _isLangPackInstalled_XPTrue)
 {
 	CreateWindowsLIPAction;
 
@@ -191,7 +196,7 @@ TEST(WindowsLPIActionTest, _isLangPackInstalled_XPTrue)
 	EXPECT_TRUE(lipAction._isLangPackInstalled());
 }
 
-TEST(WindowsLPIActionTest, _isLangPackInstalled_7True)
+TEST_F(WindowsLPIActionTest, _isLangPackInstalled_7True)
 {	
 	CreateWindowsLIPAction;
 	
@@ -201,7 +206,7 @@ TEST(WindowsLPIActionTest, _isLangPackInstalled_7True)
 	EXPECT_TRUE(lipAction._isLangPackInstalled());
 }
 
-TEST(WindowsLPIActionTest, _isLangPackInstalledPending_7True)
+TEST_F(WindowsLPIActionTest, _isLangPackInstalledPending_7True)
 {	
 	CreateWindowsLIPAction;
 	
@@ -212,7 +217,7 @@ TEST(WindowsLPIActionTest, _isLangPackInstalledPending_7True)
 	EXPECT_TRUE(lipAction._isLangPackInstalled());
 }
 
-TEST(WindowsLPIActionTest, _isLangPackInstalled_7False)
+TEST_F(WindowsLPIActionTest, _isLangPackInstalled_7False)
 {	
 	CreateWindowsLIPAction;
 
@@ -223,7 +228,7 @@ TEST(WindowsLPIActionTest, _isLangPackInstalled_7False)
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
 
-TEST(WindowsLPIActionTest, ExecuteWindowsXP)
+TEST_F(WindowsLPIActionTest, ExecuteWindowsXP)
 {	
 	CreateWindowsLIPAction;
 
@@ -235,7 +240,7 @@ TEST(WindowsLPIActionTest, ExecuteWindowsXP)
 	lipAction.Execute();
 }
 
-TEST(WindowsLPIActionTest, ExecuteWindows7)
+TEST_F(WindowsLPIActionTest, ExecuteWindows7)
 {	
 	CreateWindowsLIPAction;
 		
@@ -249,7 +254,7 @@ TEST(WindowsLPIActionTest, ExecuteWindows7)
 	lipAction.Execute();
 }
 
-TEST(WindowsLPIActionTest, GetDownloadID7)
+TEST_F(WindowsLPIActionTest, GetDownloadID7)
 {	
 	CreateWindowsLIPAction;
 
@@ -258,7 +263,7 @@ TEST(WindowsLPIActionTest, GetDownloadID7)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win7_32"));
 }
 
-TEST(WindowsLPIActionTest, GetDownloadIDVista)
+TEST_F(WindowsLPIActionTest, GetDownloadIDVista)
 {	
 	CreateWindowsLIPAction;
 
@@ -268,7 +273,7 @@ TEST(WindowsLPIActionTest, GetDownloadIDVista)
 
 #define WINDOWS_SP_MAJORNUM_SP1 1
 
-TEST(WindowsLPIActionTest, GetDownloadIDXPSP1)
+TEST_F(WindowsLPIActionTest, GetDownloadIDXPSP1)
 {	
 	CreateWindowsLIPAction;
 
@@ -279,7 +284,7 @@ TEST(WindowsLPIActionTest, GetDownloadIDXPSP1)
 
 #define WINDOWS_SP_MAJORNUM_SP2 2
 
-TEST(WindowsLPIActionTest, GetDownloadIDXPSP2)
+TEST_F(WindowsLPIActionTest, GetDownloadIDXPSP2)
 {	
 	CreateWindowsLIPAction;
 
@@ -288,7 +293,7 @@ TEST(WindowsLPIActionTest, GetDownloadIDXPSP2)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"XP2"));
 }
 
-TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesYes)
+TEST_F(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesYes)
 {	
 	CreateWindowsLIPAction;
 	
@@ -305,7 +310,7 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesYes)
 	EXPECT_TRUE(lipAction._isDefaultLanguage());
 }
 
-TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesPendingYes)
+TEST_F(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesPendingYes)
 {	
 	CreateWindowsLIPAction;
 	
@@ -322,7 +327,7 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_PreferredUILanguagesPendingYes)
 	EXPECT_TRUE(lipAction._isDefaultLanguage());
 }
 
-TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_No)
+TEST_F(WindowsLPIActionTest, _isDefaultLanguage_W7_No)
 {	
 	CreateWindowsLIPAction;
 	
@@ -339,7 +344,7 @@ TEST(WindowsLPIActionTest, _isDefaultLanguage_W7_No)
 	EXPECT_FALSE(lipAction._isDefaultLanguage());
 }
 
-TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageNo)
+TEST_F(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageNo)
 {	
 	CreateWindowsLIPAction;
 
@@ -359,7 +364,7 @@ TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageNo)
 	EXPECT_FALSE(lipAction.IsDownloadNeed());
 }
 
-TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYes)
+TEST_F(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYes)
 {	
 	CreateWindowsLPIActionTestDefaultLanguage;
 
@@ -380,7 +385,7 @@ TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYes)
 	EXPECT_FALSE(lipAction.IsNeed());
 }
 
-TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYesMachine)
+TEST_F(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYesMachine)
 {	
 	CreateWindowsLPIActionTestDefaultLanguage;
 
@@ -403,7 +408,7 @@ TEST(WindowsLPIActionTest, IsNeed_isLangPackInstalledYes_isDefaultLanguageYesMac
 	EXPECT_EQ(AlreadyApplied, lipAction.GetStatus());
 }
 
-TEST(WindowsLPIActionTest, _isDownloadAvailable_No)
+TEST_F(WindowsLPIActionTest, _isDownloadAvailable_No)
 {	
 	CreateWindowsLIPAction;
 	ConfigurationRemote remote;
@@ -415,7 +420,7 @@ TEST(WindowsLPIActionTest, _isDownloadAvailable_No)
 	EXPECT_FALSE(lipAction._isDownloadAvailable());
 }
 
-TEST(WindowsLPIActionTest, _isDownloadAvailable_Yes)
+TEST_F(WindowsLPIActionTest, _isDownloadAvailable_Yes)
 {
 	CreateWindowsLIPAction;
 	ConfigurationRemote remote;

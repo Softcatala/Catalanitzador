@@ -29,18 +29,24 @@ using ::testing::ReturnRef;
 using ::testing::AnyNumber;
 using ::testing::DoAll;
 
-class WindowsLiveActionTest : public WindowsLiveAction
+class WindowsLiveActionTest : public testing::Test
 {
 public:
 	
-	WindowsLiveActionTest::WindowsLiveActionTest(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager)
+		virtual void TearDown()
+		{
+			ConfigurationInstance::Reset();
+		}
+};
+
+
+class WindowsLiveActionForTest : public WindowsLiveAction
+{
+public:
+	
+	WindowsLiveActionForTest::WindowsLiveActionForTest(IRegistry* registry, IRunner* runner, IFileVersionInfo* fileVersionInfo, DownloadManager* downloadManager)
 		: WindowsLiveAction(registry, runner, fileVersionInfo, downloadManager) {};
 
-	virtual void TearDown()
-	{
-		ConfigurationInstance::Reset();
-	}
-	
 	public: using WindowsLiveAction::_getMajorVersion;
 	public: using WindowsLiveAction::_isLangSelected;
 	public: using WindowsLiveAction::IsPreRebootRequired;
@@ -51,7 +57,7 @@ public:
 	RegistryMock registryMockobj; \
 	RunnerMock runnerMockobj; \
 	FileVersionInfoMock fileVersionInfoMockobj; \
-	WindowsLiveActionTest lipAction(&registryMockobj, &runnerMockobj, &fileVersionInfoMockobj, &DownloadManager());
+	WindowsLiveActionForTest lipAction(&registryMockobj, &runnerMockobj, &fileVersionInfoMockobj, &DownloadManager());
 
 void SetGetMajorVersion(FileVersionInfoMock &fileVersionInfoMockobj, wstring& versionString, int version)
 {
@@ -61,7 +67,7 @@ void SetGetMajorVersion(FileVersionInfoMock &fileVersionInfoMockobj, wstring& ve
 	EXPECT_CALL(fileVersionInfoMockobj, GetLanguageCode()).WillRepeatedly(Return(0));
 }
 
-TEST(WindowsLiveActionTest, GetVersion)
+TEST_F(WindowsLiveActionTest, GetVersion)
 {
 	wstring VERSION_STRING = L"15.0.1";
 	const int VERSION = 15;
@@ -73,7 +79,7 @@ TEST(WindowsLiveActionTest, GetVersion)
 	EXPECT_THAT(lipAction._getMajorVersion(), VERSION);
 }
 
-TEST(WindowsLiveActionTest, _isLangSelected_2011_Yes)
+TEST_F(WindowsLiveActionTest, _isLangSelected_2011_Yes)
 {
 	const wchar_t* CATALAN_LANG = L"CA";
 	wstring VERSION_STRING = L"15.0.1";
@@ -88,7 +94,7 @@ TEST(WindowsLiveActionTest, _isLangSelected_2011_Yes)
 	EXPECT_TRUE(lipAction._isLangSelected());
 }
 
-TEST(WindowsLiveActionTest, _isLangSelected_2011_No)
+TEST_F(WindowsLiveActionTest, _isLangSelected_2011_No)
 {
 	wstring VERSION_STRING = L"15.0.1";
 	const int VERSION = 15;
@@ -102,7 +108,7 @@ TEST(WindowsLiveActionTest, _isLangSelected_2011_No)
 	EXPECT_FALSE(lipAction._isLangSelected());
 }
 
-TEST(WindowsLiveActionTest, _isLangSelected_2009_Yes)
+TEST_F(WindowsLiveActionTest, _isLangSelected_2009_Yes)
 {
 	wstring VERSION_STRING = L"14.0.1.4";
 	const int VERSION = 14;
@@ -115,7 +121,7 @@ TEST(WindowsLiveActionTest, _isLangSelected_2009_Yes)
 	EXPECT_TRUE(lipAction._isLangSelected());
 }
 
-TEST(WindowsLiveActionTest, _isLangSelected_2009_No)
+TEST_F(WindowsLiveActionTest, _isLangSelected_2009_No)
 {	
 	wstring VERSION_STRING = L"14.0.1.4";
 	const int VERSION = 14;
@@ -126,7 +132,7 @@ TEST(WindowsLiveActionTest, _isLangSelected_2009_No)
 	EXPECT_FALSE(lipAction._isLangSelected());
 }
 
-TEST(WindowsLiveActionTest, _isRebootRequired_Live2009_No)
+TEST_F(WindowsLiveActionTest, _isRebootRequired_Live2009_No)
 {
 	const int VERSION = 14;
 	wstring VERSION_STRING = L"14.0";
@@ -138,7 +144,7 @@ TEST(WindowsLiveActionTest, _isRebootRequired_Live2009_No)
 	EXPECT_FALSE(lipAction.IsPreRebootRequired());
 }
 
-TEST(WindowsLiveActionTest, _isRebootRequired_Live2011_Yes)
+TEST_F(WindowsLiveActionTest, _isRebootRequired_Live2011_Yes)
 {
 	const int VERSION = 15;
 	wstring VERSION_STRING = L"15.0";
@@ -150,7 +156,7 @@ TEST(WindowsLiveActionTest, _isRebootRequired_Live2011_Yes)
 	EXPECT_TRUE(lipAction.IsPreRebootRequired());
 }
 
-TEST(WindowsLiveActionTest, _isRebootRequired_Live2012_Yes)
+TEST_F(WindowsLiveActionTest, _isRebootRequired_Live2012_Yes)
 {
 	const int VERSION = 16;
 	wstring VERSION_STRING = L"16.0";
@@ -162,7 +168,7 @@ TEST(WindowsLiveActionTest, _isRebootRequired_Live2012_Yes)
 	EXPECT_TRUE(lipAction.IsPreRebootRequired());
 }
 
-TEST(WindowsLiveActionTest, _isDownloadAvailable_No)
+TEST_F(WindowsLiveActionTest, _isDownloadAvailable_No)
 {
 	wstring VERSION_STRING = L"15.0.1";
 	const int VERSION = 15;
@@ -175,7 +181,7 @@ TEST(WindowsLiveActionTest, _isDownloadAvailable_No)
 	EXPECT_FALSE(lipAction._isDownloadAvailable());
 }
 
-TEST(WindowsLiveActionTest, _isDownloadAvailable_Yes)
+TEST_F(WindowsLiveActionTest, _isDownloadAvailable_Yes)
 {
 	wstring VERSION_STRING = L"15.0.1";
 	const int VERSION = 15;
