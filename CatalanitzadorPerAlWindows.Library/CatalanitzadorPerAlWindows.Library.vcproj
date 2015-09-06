@@ -1043,6 +1043,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Applications\IFirefoxChannel.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\IOpenOffice.h"
 				>
 			</File>

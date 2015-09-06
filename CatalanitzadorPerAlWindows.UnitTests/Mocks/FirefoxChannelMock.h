@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2015 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,21 +16,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
-
+ 
 #pragma once
 
-#include "FirefoxPreferencesFile.h"
 #include "IFirefoxChannel.h"
 
-class FirefoxChannel : FirefoxPreferencesFile, public IFirefoxChannel
+class FirefoxChannelMock : public IFirefoxChannel
 {
 public:
-		FirefoxChannel(wstring path);
-		virtual wstring GetChannel();
 
-private:
-
-		wstring m_path;
-		wstring m_channel;		
+		MOCK_METHOD0(GetChannel, wstring());
 };
-

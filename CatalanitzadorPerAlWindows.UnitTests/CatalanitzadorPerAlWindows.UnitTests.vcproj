@@ -292,6 +292,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mocks\FirefoxChannelMock.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Mocks\HttpFormInetMock.h"
 				>
 			</File>
@@ -345,6 +349,10 @@
 			</File>
 			<File
 				RelativePath=".\Actions\FirefoxActionTest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Actions\FirefoxLangPackActionTest.cpp"
 				>
 			</File>
 			<File

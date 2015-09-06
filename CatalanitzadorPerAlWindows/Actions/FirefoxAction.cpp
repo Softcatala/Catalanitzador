@@ -27,6 +27,7 @@ m_firefox(registry)
 	m_runner = runner;
 	m_firefoxLangPackAction = NULL;
 	m_firefoxAcceptLanguagesAction = NULL;
+	m_firefoxChannel = NULL;
 	m_doFirefoxLangPackAction = false;
 	m_doFirefoxAcceptLanguagesAction = false;
 
@@ -40,6 +41,9 @@ FirefoxAction::~FirefoxAction()
 
 	if (m_firefoxAcceptLanguagesAction)
 		delete m_firefoxAcceptLanguagesAction;
+
+	if (m_firefoxChannel)
+		delete m_firefoxChannel;
 }
 
 wchar_t* FirefoxAction::GetName()
@@ -70,7 +74,8 @@ FirefoxLangPackAction * FirefoxAction::_getLangPackAction()
 		wstring path;
 
 		path = m_firefox.GetInstallPath();
-		m_firefoxLangPackAction = new FirefoxLangPackAction(m_runner, path, m_firefox.GetLocale(), GetVersion(), m_downloadManager);
+		m_firefoxChannel = new FirefoxChannel(path);
+		m_firefoxLangPackAction = new FirefoxLangPackAction(m_runner, m_firefoxChannel, m_firefox.GetLocale(), GetVersion(), m_downloadManager);
 	}
 	return m_firefoxLangPackAction;
 }

@@ -22,14 +22,14 @@
 #include "FirefoxMozillaServer.h"
 #include "FirefoxChannel.h"
 
-FirefoxLangPackAction::FirefoxLangPackAction(IRunner* runner, wstring installPath, wstring locale, wstring version, DownloadManager* downloadManager) : Action(downloadManager)
+FirefoxLangPackAction::FirefoxLangPackAction(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, DownloadManager* downloadManager) : Action(downloadManager)
 {	
 	m_runner = runner;
+	m_firefoxChannel = firefoxChannel;
 	m_locale = locale;
 	m_version = version;
-	m_installPath = installPath;
 	m_mozillaServer = NULL;
-	m_szFilename[0] = NULL;	
+	m_szFilename[0] = NULL;
 }
 
 FirefoxLangPackAction::~FirefoxLangPackAction()
@@ -141,11 +141,7 @@ void FirefoxLangPackAction::SetLocaleAndUpdateStatus(wstring locale)
 
 bool FirefoxLangPackAction::_isSupportedChannel()
 {
-	bool supported;
-
-	FirefoxChannel channel(m_installPath);
-	supported = channel.GetChannel() == L"release";
-	return supported;
+	return m_firefoxChannel->GetChannel() == L"release";
 }
 
 bool FirefoxLangPackAction::_isLocaleInstalled()

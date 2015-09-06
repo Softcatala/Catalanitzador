@@ -26,6 +26,7 @@
 #include "FirefoxLangPackAction.h"
 #include "FirefoxAcceptLanguagesAction.h"
 #include "Firefox.h"
+#include "FirefoxChannel.h"
 
 using namespace std;
 
@@ -64,6 +65,7 @@ private:
 		wstring m_version;
 		FirefoxLangPackAction* m_firefoxLangPackAction;
 		FirefoxAcceptLanguagesAction* m_firefoxAcceptLanguagesAction;
+		FirefoxChannel* m_firefoxChannel;
 		Firefox m_firefox;
 		bool m_doFirefoxLangPackAction;
 		bool m_doFirefoxAcceptLanguagesAction;

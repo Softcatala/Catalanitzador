@@ -22,13 +22,14 @@
 #include "Action.h"
 #include "IRunner.h"
 #include "FirefoxMozillaServer.h"
+#include "IFirefoxChannel.h"
 
 using namespace std;
 
 class FirefoxLangPackAction : public Action
 {
 public:
-		FirefoxLangPackAction(IRunner* runner, wstring installPath, wstring locale, wstring version, DownloadManager* downloadManager);
+		FirefoxLangPackAction(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, DownloadManager* downloadManager);
 		~FirefoxLangPackAction();
 
 		virtual wchar_t* GetName() {return L""; }
@@ -38,25 +39,30 @@ public:
 		virtual bool IsDownloadNeed();
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
-		virtual void Execute();				
+		virtual void Execute();
 		virtual void CheckPrerequirements(Action * action);
 		virtual bool IsVisible() {return false; }
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion() {return m_version.c_str();}
 		void SetLocaleAndUpdateStatus(wstring locale);
 
+protected:
+		
+		bool _isLocaleInstalled();
+		bool _isSupportedChannel();
+
 private:
 
-		bool _isSupportedChannel();
+		
 		wstring _getVersionAndLocaleFromRegistry();
-		bool _isLocaleInstalled();
 		void _extractLocaleAndVersion(wstring version);
 		FirefoxMozillaServer * _getMozillaServer();
 		
 		IRunner* m_runner;
 		wstring m_locale;
 		wstring m_version;
-		wstring m_installPath;		
+		wstring m_installPath;
 		FirefoxMozillaServer* m_mozillaServer;
+		IFirefoxChannel *m_firefoxChannel;
 		wchar_t m_szFilename[MAX_PATH];
 };

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2015 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,18 +19,9 @@
 
 #pragma once
 
-#include "FirefoxPreferencesFile.h"
-#include "IFirefoxChannel.h"
-
-class FirefoxChannel : FirefoxPreferencesFile, public IFirefoxChannel
+class IFirefoxChannel
 {
 public:
-		FirefoxChannel(wstring path);
-		virtual wstring GetChannel();
-
-private:
-
-		wstring m_path;
-		wstring m_channel;		
+		virtual wstring GetChannel() = 0;
 };
 
