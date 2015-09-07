@@ -106,6 +106,28 @@ TEST(ConfigurationFileActionDownloadTest, IsUsable_Yes_MaxMinVersion)
 	EXPECT_TRUE(fileActionDownload.IsUsable());
 }
 
+TEST(ConfigurationFileActionDownloadTest, IsUsable_No_MaxMinVersionOnly)
+{
+	ConfigurationFileActionDownload fileActionDownload;
+	fileActionDownload.SetMinVersion(ApplicationVersion(MIN_VERSION));
+	fileActionDownload.SetMaxVersion(ApplicationVersion(MAX_VERSION));
+	EXPECT_FALSE(fileActionDownload.IsUsable());
+}
+
+TEST(ConfigurationFileActionDownloadTest, IsUsable_ConcreteVersion)
+{
+	ConfigurationFileActionDownload fileActionDownload;
+	fileActionDownload.SetVersion(L"concret_version");
+	EXPECT_FALSE(fileActionDownload.IsUsable());
+}
+
+TEST(ConfigurationFileActionDownloadTest, IsUsable_No_UrlOnly)
+{
+	ConfigurationFileActionDownload fileActionDownload;
+	fileActionDownload.AddUrl(LATEST_URL1);
+	EXPECT_FALSE(fileActionDownload.IsUsable());
+}
+
 TEST(ConfigurationFileActionDownloadTest, IsUsable_No)
 {	
 	ConfigurationFileActionDownload fileActionDownload;

@@ -35,7 +35,7 @@ class ConfigurationFileActionDownload
 
 			bool IsUsable()
 			{
-				return m_urls.size() > 0 ||
+				return m_urls.size() > 0 &&
 					((m_maxVersion.GetString().empty() == false && m_minVersion.GetString().empty() == false) || m_version.empty() == false);
 			}
 
