@@ -58,10 +58,16 @@ void MockOfficeInstalled(OSVersionMock& osVersionMock, RegistryMock& registryMoc
 	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\InstallRoot"), false)).
 		WillRepeatedly(Return(version == MSOffice2013_64));
 
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\16.0\\Word\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2016));
+	
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\16.0\\Word\\InstallRoot"), false)).
+		WillRepeatedly(Return(version == MSOffice2016_64));
+
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
 		WillRepeatedly(DoAll(SetArgCharStringPar2(L"SomePath"), Return(true)));
 
-	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(version == MSOffice2013_64 || MSOffice2010_64));
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(version == MSOffice2013_64 || MSOffice2010_64 || MSOffice2016_64));
 }
 
 TEST(MSOfficeFactoryTest, _isVersionInstalled_2003)
@@ -107,6 +113,24 @@ TEST(MSOfficeFactoryTest, _isVersionInstalled_2013_64)
 	
 	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
 	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2013_64));
+}
+
+TEST(MSOfficeFactoryTest, _isVersionInstalled_2016)
+{
+	RegistryMock registryMockobj;
+	OSVersionMock osVersionMock;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2016);
+	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2016));
+}
+
+TEST(MSOfficeFactoryTest, _isVersionInstalled_2016_64)
+{
+	RegistryMock registryMockobj;
+	OSVersionMock osVersionMock;
+	
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2016_64);
+	EXPECT_TRUE(MSOfficeFactory::_isVersionInstalled(&osVersionMock, &registryMockobj, MSOffice2016_64));
 }
 
 TEST(MSOfficeFactoryTest, GetInstalledOfficeInstances_2013_64_2010_64)

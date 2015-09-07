@@ -20,6 +20,11 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "MSOffice.h"
+#include "ConfigurationRemote.h"
+#include "ConfigurationInstance.h"
+#include "ConfigurationFileActionDownload.h"
+#include "ConfigurationFileActionDownloads.h"
+
 
 using ::testing::Return;
 using ::testing::_;
@@ -36,12 +41,27 @@ DWORD VALENCIAN_LCID = _wtoi(VALENCIAN_LANGUAGE_CODE);
 DWORD NOFOLLOWSYSTEMOFF_FALSE_LCID_2003 = 0;
 DWORD SPANISH_LCID = 1034;
 
-class MSOfficeTest : public MSOffice
+class MSOfficeTest: public testing::Test
+{
+protected:
+
+	virtual void TearDown()
+	{
+		ConfigurationInstance::Reset();
+	}
+};
+
+class MSOfficeForTest : public MSOffice
 {
 public:
 
-	MSOfficeTest::MSOfficeTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version)
+	MSOfficeForTest::MSOfficeForTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version)
 		: MSOffice(OSVersion, registry, win32I18N, runner, version) {};
+	
+	virtual void TearDown()
+	{
+		ConfigurationInstance::Reset();
+	}
 
 	void _setPackageCodeToSet(wstring packageCodeToSet)
 	{
@@ -61,7 +81,7 @@ public:
 	RunnerMock runnerMock; \
 	OSVersionMock osVersionMock; \
 	Win32I18NMock win32I18NMockobj; \
-	MSOfficeTest office(&osVersionMock, &registryMockobj, &win32I18NMockobj, &runnerMock, version);
+	MSOfficeForTest office(&osVersionMock, &registryMockobj, &win32I18NMockobj, &runnerMock, version);
 
 extern void MockOfficeInstalled(RegistryMock& registryMockobj, MSOfficeVersion version);
 
@@ -97,6 +117,12 @@ void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion versio
 	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\15.0\\Common\\LanguageResources\\InstalledUIs"), false)).
 		WillRepeatedly(Return(version == MSOffice2013_64));
 
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\LanguageResources\\InstalledUIs"), false)).
+		WillRepeatedly(Return(version == MSOffice2016));
+
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\LanguageResources\\InstalledUIs"), false)).
+		WillRepeatedly(Return(version == MSOffice2016_64));
+
 	if (version == MSOffice2003)
 	{
 		EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(langCode),_)).WillRepeatedly(Return(true));
@@ -120,7 +146,21 @@ void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion versio
 	SetLangPacksInstalled(registryMockobj, version, CATALAN_LANGUAGE_CODE);
 }
 
-TEST(MSOfficeTest, SetDefaultLanguage_2003)
+void setMSOfficeMockActionDownload(wstring version)
+{
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads fileActionDownloads;
+	ConfigurationFileActionDownload fileActionDownload;
+
+	fileActionDownload.AddUrl(L"http://url");
+	fileActionDownload.SetVersion(version);
+	fileActionDownloads.SetActionID(MSOfficeLPIActionID);
+	fileActionDownloads.AddFileActionDownload(fileActionDownload);
+	remote.AddFileActionDownloads(fileActionDownloads);
+	ConfigurationInstance::Get().SetRemote(remote);
+}
+
+TEST_F(MSOfficeTest, SetDefaultLanguage_2003)
 {
 	CreateMSoffice(MSOffice2003);
 	
@@ -131,7 +171,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2003)
 	office.SetDefaultLanguage();
 }
 
-TEST(MSOfficeTest, SetDefaultLanguage_2007)
+TEST_F(MSOfficeTest, SetDefaultLanguage_2007)
 {
 	CreateMSoffice(MSOffice2007);
 	
@@ -142,7 +182,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2007)
 	office.SetDefaultLanguage();
 }
 
-TEST(MSOfficeTest, SetDefaultLanguage_2010)
+TEST_F(MSOfficeTest, SetDefaultLanguage_2010)
 {
 	CreateMSoffice(MSOffice2010);
 
@@ -153,7 +193,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2010)
 	office.SetDefaultLanguage();
 }
 
-TEST(MSOfficeTest, SetDefaultLanguage_2010_64)
+TEST_F(MSOfficeTest, SetDefaultLanguage_2010_64)
 {
 	CreateMSoffice(MSOffice2010_64);
 
@@ -164,7 +204,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2010_64)
 	office.SetDefaultLanguage();
 }
 
-TEST(MSOfficeTest, SetDefaultLanguage_2013)
+TEST_F(MSOfficeTest, SetDefaultLanguage_2013)
 {
 	CreateMSoffice(MSOffice2013);
 
@@ -175,7 +215,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2013)
 	office.SetDefaultLanguage();
 }
 
-TEST(MSOfficeTest, SetDefaultLanguage_2013_64)
+TEST_F(MSOfficeTest, SetDefaultLanguage_2013_64)
 {
 	CreateMSoffice(MSOffice2013_64);
 
@@ -186,7 +226,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_2013_64)
 	office.SetDefaultLanguage();
 }
 
-TEST(MSOfficeTest, SetDefaultLanguage_SetLanguageOnly_Valencian)
+TEST_F(MSOfficeTest, SetDefaultLanguage_SetLanguageOnly_Valencian)
 {
 	CreateMSoffice(MSOffice2013);
 	
@@ -197,7 +237,7 @@ TEST(MSOfficeTest, SetDefaultLanguage_SetLanguageOnly_Valencian)
 	office.SetDefaultLanguage();
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_True_YesFollowOffAndUiCatalan)
+TEST_F(MSOfficeTest, IsDefaultLanguage_True_YesFollowOffAndUiCatalan)
 {
 	CreateMSoffice(MSOffice2013);
 
@@ -206,19 +246,19 @@ TEST(MSOfficeTest, IsDefaultLanguage_True_YesFollowOffAndUiCatalan)
 	EXPECT_TRUE(office.IsDefaultLanguage());
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_False_YesFollowOffAndUiSpanish)
+TEST_F(MSOfficeTest, IsDefaultLanguage_False_YesFollowOffAndUiSpanish)
 {
 	CreateMSoffice(MSOffice2013);
 
 	bool FollowSystemUIOff = true;	
-	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, SPANISH_LCID);	
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, SPANISH_LCID);
 	EXPECT_FALSE(office.IsDefaultLanguage());
 }
 
 #define SPANISH_PRIMARY_LANG 0xc
 #define CATALAN_PRIMARY_LANG 0x3
 
-TEST(MSOfficeTest, IsDefaultLanguage_False_NoFollowOffAndUiCatalanSysSpanish)
+TEST_F(MSOfficeTest, IsDefaultLanguage_False_NoFollowOffAndUiCatalanSysSpanish)
 {
 	CreateMSoffice(MSOffice2013);
 
@@ -229,7 +269,7 @@ TEST(MSOfficeTest, IsDefaultLanguage_False_NoFollowOffAndUiCatalanSysSpanish)
 	EXPECT_FALSE(office.IsDefaultLanguage());
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_True_NoFollowOffAndUiSpanishSysCatalan)
+TEST_F(MSOfficeTest, IsDefaultLanguage_True_NoFollowOffAndUiSpanishSysCatalan)
 {
 	CreateMSoffice(MSOffice2013);
 
@@ -240,7 +280,7 @@ TEST(MSOfficeTest, IsDefaultLanguage_True_NoFollowOffAndUiSpanishSysCatalan)
 	EXPECT_TRUE(office.IsDefaultLanguage());
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_False_MSOffice2003_NoFollowOnAndUiCatalanSysSpanish)
+TEST_F(MSOfficeTest, IsDefaultLanguage_False_MSOffice2003_NoFollowOnAndUiCatalanSysSpanish)
 {
 	CreateMSoffice(MSOffice2003);
 
@@ -251,7 +291,7 @@ TEST(MSOfficeTest, IsDefaultLanguage_False_MSOffice2003_NoFollowOnAndUiCatalanSy
 	EXPECT_FALSE(office.IsDefaultLanguage());
 }
 
-TEST(MSOfficeTest, IsDefaultLanguage_True_MSOffice2003_NoFollowOnAndUiCatalanSysSpanish)
+TEST_F(MSOfficeTest, IsDefaultLanguage_True_MSOffice2003_NoFollowOnAndUiCatalanSysSpanish)
 {
 	CreateMSoffice(MSOffice2003);
 
@@ -263,55 +303,56 @@ TEST(MSOfficeTest, IsDefaultLanguage_True_MSOffice2003_NoFollowOnAndUiCatalanSys
 }
 
 
-TEST(MSOfficeTest, _getDownloadID_MSOffice2003)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2003)
 {
 	CreateMSoffice(MSOffice2003);	
 	EXPECT_EQ(office._getDownloadID(), L"2003");
 }
 
-TEST(MSOfficeTest, _getDownloadID_MSOffice2007)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2007)
 {
 	CreateMSoffice(MSOffice2007);	
 	EXPECT_EQ(office._getDownloadID(), L"2007");
 }
 
-TEST(MSOfficeTest, _getDownloadID_MSOffice2010_32)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2010_32)
 {
 	CreateMSoffice(MSOffice2010);	
 	EXPECT_EQ(office._getDownloadID(), L"2010_32");
 }
-TEST(MSOfficeTest, _getDownloadID_MSOffice2010_64)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2010_64)
 {
 	CreateMSoffice(MSOffice2010_64);	
 	EXPECT_EQ(office._getDownloadID(), L"2010_64");
 }
 
-TEST(MSOfficeTest, _getDownloadID_MSOffice2013_32)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_32)
 {
 	CreateMSoffice(MSOffice2013);	
 	EXPECT_EQ(office._getDownloadID(), L"2013_ca_32");
 }
-TEST(MSOfficeTest, _getDownloadID_MSOffice2013_64)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_64)
 {
 	CreateMSoffice(MSOffice2013_64);	
 	EXPECT_EQ(office._getDownloadID(), L"2013_ca_64");
 }
 
-TEST(MSOfficeTest, _getDownloadID_MSOffice2013_32_va)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_32_va)
 {
 	CreateMSoffice(MSOffice2013);	
 	office.SetUseDialectalVariant(true);
 	EXPECT_EQ(office._getDownloadID(), L"2013_va_32");
 }
 
-TEST(MSOfficeTest, _getDownloadID_MSOffice2013_64_va)
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_64_va)
 {
 	CreateMSoffice(MSOffice2013_64);	
 	office.SetUseDialectalVariant(true);
 	EXPECT_EQ(office._getDownloadID(), L"2013_va_64");
 }
 
-TEST(MSOfficeTest, IsLangPackInstalled_2003)
+
+TEST_F(MSOfficeTest, IsLangPackInstalled_2003)
 {
 	CreateMSoffice(MSOffice2003);
 	
@@ -319,7 +360,7 @@ TEST(MSOfficeTest, IsLangPackInstalled_2003)
 	EXPECT_TRUE(office.IsLangPackInstalled());
 }
 
-TEST(MSOfficeTest, IsLangPackInstalled_2007)
+TEST_F(MSOfficeTest, IsLangPackInstalled_2007)
 {
 	CreateMSoffice(MSOffice2007);
 	
@@ -327,26 +368,44 @@ TEST(MSOfficeTest, IsLangPackInstalled_2007)
 	EXPECT_TRUE(office.IsLangPackInstalled());
 }
 
-TEST(MSOfficeTest, IsLangPackInstalled_2010)
+TEST_F(MSOfficeTest, IsLangPackInstalled_2010)
 {
 	CreateMSoffice(MSOffice2010);
 
-	SetLangPacksInstalled(registryMockobj, MSOffice2010);	
+	SetLangPacksInstalled(registryMockobj, MSOffice2010);
 	EXPECT_TRUE(office.IsLangPackInstalled());
 }
 
-TEST(MSOfficeTest, IsLangPackInstalled_2013)
+TEST_F(MSOfficeTest, IsLangPackInstalled_2013)
 {
 	CreateMSoffice(MSOffice2013);
 
-	SetLangPacksInstalled(registryMockobj, MSOffice2013);	
+	SetLangPacksInstalled(registryMockobj, MSOffice2013);
 	EXPECT_TRUE(office.IsLangPackInstalled());
 }
 
-TEST(MSOfficeTest, IsLangPackInstalled_2013_64)
+TEST_F(MSOfficeTest, IsLangPackInstalled_2013_64)
 {
 	CreateMSoffice(MSOffice2013_64);
 	
 	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);
 	EXPECT_TRUE(office.IsLangPackInstalled());
 }
+
+TEST_F(MSOfficeTest, IsLangPackAvailable_No)
+{
+	CreateMSoffice(MSOffice2010_64);
+	
+	ConfigurationRemote remote;	
+	ConfigurationInstance::Get().SetRemote(remote);	
+	EXPECT_FALSE(office.IsLangPackAvailable());
+}
+
+TEST_F(MSOfficeTest, IsLangPackAvailable_Yes)
+{
+	CreateMSoffice(MSOffice2010_64);	
+
+	setMSOfficeMockActionDownload(L"2010_64");	
+	EXPECT_TRUE(office.IsLangPackAvailable());
+}
+

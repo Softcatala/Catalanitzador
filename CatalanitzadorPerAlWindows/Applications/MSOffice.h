@@ -35,7 +35,9 @@ enum MSOfficeVersion
 	MSOffice2010,
 	MSOffice2010_64,
 	MSOffice2013,
-	MSOffice2013_64
+	MSOffice2013_64,
+	MSOffice2016,
+	MSOffice2016_64,
 };
 
 class MSOffice
@@ -50,6 +52,7 @@ public:
 		void Execute();		
 		void SetDefaultLanguage();
 		bool IsLangPackInstalled();
+		bool IsLangPackAvailable();
 		bool IsDefaultLanguage();
 		const wchar_t* GetVersion();
 		void AddDownloads(MultipleDownloads& multipleDownloads);
@@ -77,6 +80,7 @@ private:
 		static RegKeyVersion RegKeys2007;
 		static RegKeyVersion RegKeys2010;
 		static RegKeyVersion RegKeys2013;
+		static RegKeyVersion RegKeys2016;
 
 		ActionID _getID() const { return MSOfficeLPIActionID;};
 		bool _extractCabFile(wchar_t * file, wchar_t * path);

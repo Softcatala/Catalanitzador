@@ -59,6 +59,13 @@ MSOffice::RegKeyVersion MSOffice::RegKeys2013 =
 	false
 };
 
+MSOffice::RegKeyVersion MSOffice::RegKeys2016 =
+{
+	L"16.0",
+	L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\LanguageResources\\InstalledUIs",
+	false
+};
+
 MSOffice::MSOffice(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version)
 {
 	m_registry = registry;
@@ -106,6 +113,10 @@ const wchar_t* MSOffice::GetVersion()
 			return L"2013";
 		case MSOffice2013_64:
 			return L"2013_64bits";
+		case MSOffice2016:
+			return L"2016";
+		case MSOffice2016_64:
+			return L"2016_64bits";
 		default:
 			return L"";
 	}
@@ -141,7 +152,7 @@ bool MSOffice::IsLangPackInstalled()
 {	
 	bool isInstalled = false;
 	RegKeyVersion regkeys = _getRegKeys();
-	bool b64bits = (m_MSVersion == MSOffice2010_64 || m_MSVersion == MSOffice2013_64);
+	bool b64bits = (m_MSVersion == MSOffice2010_64 || m_MSVersion == MSOffice2013_64 || m_MSVersion == MSOffice2016_64);
 
 	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false) :
 		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
@@ -308,8 +319,11 @@ MSOffice::RegKeyVersion MSOffice::_getRegKeys()
 			return RegKeys2010;
 		case MSOffice2013:
 		case MSOffice2013_64:
-		default:
 			return RegKeys2013;
+		case MSOffice2016:		
+		case MSOffice2016_64:
+		default:
+			return RegKeys2016;
 	}
 }
 
@@ -466,3 +480,17 @@ void MSOffice::DumpLogOnError()
 	logExtractor.ExtractLogFragmentForKeyword(KEYWORD_TOSEARCH);
 	logExtractor.DumpLines();	
 }
+
+bool MSOffice::IsLangPackAvailable()
+{
+	ConfigurationFileActionDownload downloadVersion;
+
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(_getID(),
+		wstring(_getDownloadID()));
+
+	return downloadVersion.IsUsable();
+}
+
+
+
+

@@ -112,7 +112,7 @@ bool MSOfficeLPIAction::Download(ProgressStatus progress, void *data)
 		// When download is requested the user has started the installation, let's set the dialect at this point
 		m_MSOffices.at(i).SetUseDialectalVariant(GetUseDialectalVariant());
 	
-		if (m_MSOffices[i].IsLangPackInstalled() == false)
+		if (m_MSOffices[i].IsLangPackInstalled() == false && m_MSOffices[i].IsLangPackAvailable())
 			m_MSOffices.at(i).AddDownloads(m_multipleDownloads);
 	}
 
@@ -142,7 +142,7 @@ void MSOfficeLPIAction::Execute()
 
 	if (m_executionStepIndex < m_MSOffices.size())
 	{
-		if (m_MSOffices[m_executionStepIndex].IsLangPackInstalled() == false)
+		if (m_MSOffices[m_executionStepIndex].IsLangPackInstalled() == false && m_MSOffices[m_executionStepIndex].IsLangPackAvailable())
 		{
 			m_MSOffices[m_executionStepIndex].Execute();
 		}
@@ -265,12 +265,18 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 	}
 
 	bool alreadyApplied = true;
+	bool AtLeastOnecanBeApplied = false;
 	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
 		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. MSOffice %s application installed", (wchar_t *) m_MSOffices[i].GetVersion());
 		if (m_MSOffices[i].IsLangPackInstalled() == false || m_MSOffices[i].IsDefaultLanguage() == false)
 		{
 			alreadyApplied = false;
+		}
+
+		if (m_MSOffices[i].IsLangPackAvailable())
+		{
+			AtLeastOnecanBeApplied = true;
 		}
 	}
 

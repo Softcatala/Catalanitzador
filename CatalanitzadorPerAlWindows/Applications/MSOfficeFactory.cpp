@@ -28,6 +28,8 @@ struct
 
 } installedVersions[] = 
 {
+	{ MSOffice2016,		L"16.0", false},
+	{ MSOffice2016_64,	L"16.0", true},
 	{ MSOffice2013,		L"15.0", false},
 	{ MSOffice2013_64,	L"15.0", true},
 	{ MSOffice2010,		L"14.0", false},
@@ -55,8 +57,17 @@ bool MSOfficeFactory::_isVersionInstalled(IOSVersion* OSVersion,IRegistry* regis
 	// In 32 bits, we know that you cannot install Office 64 bits
 	if (installedVersions[index].is64bits && OSVersion->IsWindows64Bits() == false)
 		return false;
+
+	if (installedVersions[index].version == MSOffice2016 || installedVersions[index].version == MSOffice2016_64)
+	{
+		//Office 2016 seems not to use the Common entry to indicate path
+		swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Word\\InstallRoot", installedVersions[index].regkey);
+	}
+	else
+	{
+		swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", installedVersions[index].regkey);
+	}	
 	
-	swprintf_s(szKey, L"SOFTWARE\\Microsoft\\Office\\%s\\Common\\InstallRoot", installedVersions[index].regkey);
 	if (installedVersions[index].is64bits ? registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, szKey, false) :
 		registry->OpenKey(HKEY_LOCAL_MACHINE, szKey, false))
 	{	
