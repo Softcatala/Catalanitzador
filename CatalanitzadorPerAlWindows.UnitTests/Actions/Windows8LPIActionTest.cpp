@@ -24,6 +24,7 @@
 #include "RegistryMock.h"
 #include "OSVersionMock.h"
 #include "RunnerMock.h"
+#include "ConfigurationInstance.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -36,11 +37,21 @@ using ::testing::DoAll;
 #define US_LOCALE 0x0409
 #define PT_LOCALE 0x0816
 
-class Windows8LPIActionTest : public Windows8LPIAction
+class Windows8LPIActionTest: public testing::Test
+{
+protected:
+
+	virtual void TearDown()
+	{
+		ConfigurationInstance::Reset();
+	}
+};
+
+class Windows8LPIActionForTest : public Windows8LPIAction
 {
 public:
 	
-	Windows8LPIActionTest::Windows8LPIActionTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
+	Windows8LPIActionForTest::Windows8LPIActionForTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
 		: Windows8LPIAction(OSVersion, registry, win32I18N, runner, downloadManager) {};
 
 	public:
@@ -56,7 +67,7 @@ public:
 	Win32I18NMock win32I18NMockobj; \
 	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
-	Windows8LPIActionTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
+	Windows8LPIActionForTest lipAction(&osVersionExMock, &registryMockobj, &win32I18NMockobj, &runnerMock, &DownloadManager());
 
 void SetLangPackInstalled(RegistryMock& registryMockobj, bool enabled)
 {
@@ -72,7 +83,21 @@ void SetPanelLanguage(RegistryMock& registryMockobj, const wchar_t* language)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Languages"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(false)));
 }
 
-TEST(Windows8LPIActionTest, _isLangPackInstalled_True)
+void setWindowsMockActionDownload(wstring version)
+{
+	ConfigurationRemote remote;
+	ConfigurationFileActionDownloads fileActionDownloads;
+	ConfigurationFileActionDownload fileActionDownload;
+
+	fileActionDownload.AddUrl(L"http://url");
+	fileActionDownload.SetVersion(version);
+	fileActionDownloads.SetActionID(WindowsLPIActionID);
+	fileActionDownloads.AddFileActionDownload(fileActionDownload);
+	remote.AddFileActionDownloads(fileActionDownloads);
+	ConfigurationInstance::Get().SetRemote(remote);
+}
+
+TEST_F(Windows8LPIActionTest, _isLangPackInstalled_True)
 {	
 	CreateWindowsLIPAction;
 	
@@ -83,7 +108,7 @@ TEST(Windows8LPIActionTest, _isLangPackInstalled_True)
 	EXPECT_TRUE(lipAction._isLangPackInstalled());
 }
 
-TEST(Windows8LPIActionTest, _isLangPackInstalledPending_True)
+TEST_F(Windows8LPIActionTest, _isLangPackInstalledPending_True)
 {	
 	CreateWindowsLIPAction;
 	
@@ -94,7 +119,7 @@ TEST(Windows8LPIActionTest, _isLangPackInstalledPending_True)
 	EXPECT_TRUE(lipAction._isLangPackInstalled());
 }
 
-TEST(Windows8LPIActionTest, _isLangPackInstalled_False)
+TEST_F(Windows8LPIActionTest, _isLangPackInstalled_False)
 {
 	CreateWindowsLIPAction;
 
@@ -107,7 +132,7 @@ TEST(Windows8LPIActionTest, _isLangPackInstalled_False)
 	EXPECT_FALSE(lipAction._isLangPackInstalled());
 }
 
-TEST(Windows8LPIActionTest, ExecuteWindows_Win81_CA)
+TEST_F(Windows8LPIActionTest, ExecuteWindows_Win81_CA)
 {	
 	CreateWindowsLIPAction;
 
@@ -122,7 +147,7 @@ TEST(Windows8LPIActionTest, ExecuteWindows_Win81_CA)
 	lipAction.Execute();
 }
 
-TEST(Windows8LPIActionTest, ExecuteWindows_Win81_VA)
+TEST_F(Windows8LPIActionTest, ExecuteWindows_Win81_VA)
 {	
 	CreateWindowsLIPAction;
 
@@ -138,7 +163,7 @@ TEST(Windows8LPIActionTest, ExecuteWindows_Win81_VA)
 	lipAction.Execute();
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win80_ca_32)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win80_ca_32)
 {	
 	CreateWindowsLIPAction;
 
@@ -147,7 +172,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win80_ca_32)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_ca_32"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win80_ca_64)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win80_ca_64)
 {	
 	CreateWindowsLIPAction;
 
@@ -156,7 +181,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win80_ca_64)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_ca_64"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win80_va_32)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win80_va_32)
 {	
 	CreateWindowsLIPAction;
 
@@ -166,7 +191,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win80_va_32)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_va_32"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win80_va_64)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win80_va_64)
 {	
 	CreateWindowsLIPAction;
 
@@ -176,7 +201,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win80_va_64)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win8_va_64"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win81_ca_32)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win81_ca_32)
 {	
 	CreateWindowsLIPAction;
 
@@ -185,7 +210,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win81_ca_32)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_32"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win81_ca_64)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win81_ca_64)
 {	
 	CreateWindowsLIPAction;
 
@@ -194,7 +219,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win81_ca_64)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_ca_64"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_32)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win81_va_32)
 {	
 	CreateWindowsLIPAction;
 
@@ -204,7 +229,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_32)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_va_32"));
 }
 
-TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_64)
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win81_va_64)
 {	
 	CreateWindowsLIPAction;
 
@@ -214,7 +239,7 @@ TEST(Windows8LPIActionTest, _getDownloadID_Win81_va_64)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_va_64"));
 }
 
-TEST(Windows8LPIActionTest, _setLanguagePanel_Catalan)
+TEST_F(Windows8LPIActionTest, _setLanguagePanel_Catalan)
 {
 	CreateWindowsLIPAction;
 	string content;
@@ -229,7 +254,7 @@ TEST(Windows8LPIActionTest, _setLanguagePanel_Catalan)
 	EXPECT_THAT(content, HasSubstr("New-WinUserLanguageList ca"));
 }
 
-TEST(Windows8LPIActionTest, _setLanguagePanel_Valencian)
+TEST_F(Windows8LPIActionTest, _setLanguagePanel_Valencian)
 {
 	CreateWindowsLIPAction;
 	string content;
@@ -246,7 +271,7 @@ TEST(Windows8LPIActionTest, _setLanguagePanel_Valencian)
 	EXPECT_THAT(content, HasSubstr("$1 += \"ca\""));
 }
 
-TEST(Windows8LPIActionTest, CheckPrerequirements_French)
+TEST_F(Windows8LPIActionTest, CheckPrerequirements_French)
 {
 	CreateWindowsLIPAction;
 	vector <LANGID> ids;
@@ -256,12 +281,13 @@ TEST(Windows8LPIActionTest, CheckPrerequirements_French)
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
 	EXPECT_CALL(win32I18NMockobj, EnumUILanguages()).Times(1).WillRepeatedly(Return(ids));
+	setWindowsMockActionDownload(L"Win8_ca_32");
 	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_NE(CannotBeApplied, lipAction.GetStatus());
 }
 
-TEST(Windows8LPIActionTest, CheckPrerequirements_Portuguese)
+TEST_F(Windows8LPIActionTest, CheckPrerequirements_Portuguese)
 {
 	CreateWindowsLIPAction;
 	vector <LANGID> ids;
@@ -269,13 +295,13 @@ TEST(Windows8LPIActionTest, CheckPrerequirements_Portuguese)
 	ids.push_back(PT_LOCALE);
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows8));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	EXPECT_CALL(win32I18NMockobj, EnumUILanguages()).Times(1).WillRepeatedly(Return(ids));
+	EXPECT_CALL(win32I18NMockobj, EnumUILanguages()).Times(1).WillRepeatedly(Return(ids));	
 	
 	lipAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(CannotBeApplied, lipAction.GetStatus());
 }
 
-TEST(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Catalan)
+TEST_F(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Catalan)
 {
 	CreateWindowsLIPAction;
 	const wchar_t* LANGUAGE_CODE = L"ca";
@@ -284,7 +310,7 @@ TEST(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Catalan)
 	EXPECT_TRUE(lipAction._isLanguagePanelFirstForLanguage(LANGUAGE_CODE));
 }
 
-TEST(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Spanish)
+TEST_F(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Spanish)
 {
 	CreateWindowsLIPAction;	
 
