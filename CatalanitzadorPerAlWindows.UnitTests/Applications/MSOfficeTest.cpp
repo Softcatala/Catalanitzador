@@ -392,6 +392,7 @@ TEST_F(MSOfficeTest, IsLangPackInstalled_2013_64)
 	EXPECT_TRUE(office.IsLangPackInstalled());
 }
 
+
 TEST_F(MSOfficeTest, IsLangPackAvailable_No)
 {
 	CreateMSoffice(MSOffice2010_64);
@@ -408,4 +409,3 @@ TEST_F(MSOfficeTest, IsLangPackAvailable_Yes)
 	setMSOfficeMockActionDownload(L"2010_64");	
 	EXPECT_TRUE(office.IsLangPackAvailable());
 }
-

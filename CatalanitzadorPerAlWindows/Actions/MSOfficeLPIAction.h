@@ -45,7 +45,6 @@ public:
 		virtual LPCWSTR GetLicenseID();
 		virtual void CheckPrerequirements(Action * action);
 		virtual void Serialize(ostream* stream);
-
 private:
 
 		OutLookHotmailConnector* _getOutLookHotmailConnector();
@@ -67,5 +66,6 @@ private:
 		MultipleDownloads m_multipleDownloads;
 		OutLookHotmailConnector* m_OutLookHotmailConnector;
 		vector <MSOffice> m_MSOffices;
+		vector <bool> m_MSOfficesSelected;
 };
 

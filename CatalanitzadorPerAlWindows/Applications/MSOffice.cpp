@@ -366,7 +366,7 @@ wchar_t*  MSOffice::_getDownloadID()
 				return L"2013_ca_64";
 			}
 		default:
-			return NULL;
+			return L"";
 	}
 }
 
@@ -483,14 +483,13 @@ void MSOffice::DumpLogOnError()
 
 bool MSOffice::IsLangPackAvailable()
 {
+	bool isLangPackAvailable;
 	ConfigurationFileActionDownload downloadVersion;
 
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(_getID(),
 		wstring(_getDownloadID()));
 
-	return downloadVersion.IsUsable();
+	isLangPackAvailable = downloadVersion.IsUsable();
+	g_log.Log(L"MSOffice::IsLangPackAvailable (%s) available %u", (wchar_t *) GetVersion(), (wchar_t *)isLangPackAvailable);
+	return isLangPackAvailable;
 }
-
-
-
-

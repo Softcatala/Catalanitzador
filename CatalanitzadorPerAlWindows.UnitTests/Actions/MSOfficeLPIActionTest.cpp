@@ -20,6 +20,8 @@
 #include "stdafx.h"
 #include "Defines.h"
 #include "MSOfficeLPIAction.h"
+#include "ConfigurationInstance.h"
+#include "ConfigurationRemote.h"
 
 using ::testing::Return;
 using ::testing::_;
@@ -149,3 +151,27 @@ TEST(MSOfficeLPIActionTest, Serialize_None)
 	EXPECT_THAT(stream.str(), HasSubstr("<action id='2' version='' result='7'/>"));
 }
 
+
+TEST(MSOfficeLPIActionTest, _CheckPrerequirements_NotInstalled)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, NoMSOffice);
+	officeAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(officeAction.GetStatus(), NotInstalled);
+}
+
+
+TEST(MSOfficeLPIActionTest, _CheckPrerequirements_CannotBeApplied)
+{
+	CreateMSOfficeAction;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013);
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
+
+	ConfigurationRemote remote;	
+	ConfigurationInstance::Get().SetRemote(remote);
+	officeAction.CheckPrerequirements(NULL);
+
+	EXPECT_THAT(officeAction.GetStatus(), CannotBeApplied);
+}

@@ -218,11 +218,13 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 			{
 				m_MSOffices.at(i).SetDefaultLanguage();
 			}
-			else
+			
+			if (m_MSOffices.at(i).IsLangPackAvailable() && m_MSOffices.at(i).IsLangPackInstalled() == false)
 			{
 				versionStatus = allStatus = FinishedWithError;
 				m_MSOffices.at(i).DumpLogOnError();
-			}		
+			}
+
 			g_log.Log(L"MSOfficeLPIAction::GetStatus (%s) is '%s'", (wchar_t *) m_MSOffices.at(i).GetVersion(),
 				versionStatus == Successful ? L"Successful" : L"FinishedWithError");
 		}
@@ -265,7 +267,7 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 	}
 
 	bool alreadyApplied = true;
-	bool AtLeastOnecanBeApplied = false;
+	bool atLeastOnecanBeApplied = false;
 	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
 		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. MSOffice %s application installed", (wchar_t *) m_MSOffices[i].GetVersion());
@@ -276,8 +278,16 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 
 		if (m_MSOffices[i].IsLangPackAvailable())
 		{
-			AtLeastOnecanBeApplied = true;
+			atLeastOnecanBeApplied = true;
 		}
+	}
+
+	if (atLeastOnecanBeApplied == false)
+	{
+		_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
+		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. Version not supported");
+		SetStatus(CannotBeApplied);
+		return;
 	}
 
 	if (alreadyApplied)
