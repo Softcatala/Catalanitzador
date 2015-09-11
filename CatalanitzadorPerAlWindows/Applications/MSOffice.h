@@ -25,6 +25,7 @@
 #include "MultipleDownloads.h"
 #include "IOSVersion.h"
 #include "IWin32I18N.h"
+#include "Action.h"
 
 enum MSOfficeVersion
 {
@@ -40,16 +41,22 @@ enum MSOfficeVersion
 	MSOffice2016_64,
 };
 
-class MSOffice
+class MSOffice : public Action
 {
 public:
 		MSOffice(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version);
 		~MSOffice();
 
+		virtual wchar_t* GetName() {return L""; }
+		virtual wchar_t* GetDescription() {return L""; }
+		virtual ActionID GetID() const { return MSOfficeLPIActionID;}
+		virtual bool IsNeed();
+		virtual void CheckPrerequirements(Action * action);
+
 		bool GetUseDialectalVariant() { return m_dialectalVariant; }
 		void SetUseDialectalVariant(bool dialectalVariant) {m_dialectalVariant = dialectalVariant;}
 		MSOfficeVersion GetVersionEnum() { return m_MSVersion; }
-		void Execute();		
+		void Execute();
 		void SetDefaultLanguage();
 		bool IsLangPackInstalled();
 		bool IsLangPackAvailable();
@@ -58,6 +65,7 @@ public:
 		void AddDownloads(MultipleDownloads& multipleDownloads);
 		void DumpLogOnError();
 		bool DoesRequiereInstallLangPack() { return m_installedLangPackCode.size() == 0; }
+		void Complete();
 
 protected:
 

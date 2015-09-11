@@ -58,11 +58,6 @@ public:
 	MSOfficeForTest::MSOfficeForTest(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version)
 		: MSOffice(OSVersion, registry, win32I18N, runner, version) {};
 	
-	virtual void TearDown()
-	{
-		ConfigurationInstance::Reset();
-	}
-
 	void _setPackageCodeToSet(wstring packageCodeToSet)
 	{
 		m_packageCodeToSet = packageCodeToSet;		
@@ -302,7 +297,6 @@ TEST_F(MSOfficeTest, IsDefaultLanguage_True_MSOffice2003_NoFollowOnAndUiCatalanS
 	EXPECT_TRUE(office.IsDefaultLanguage());
 }
 
-
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2003)
 {
 	CreateMSoffice(MSOffice2003);	
@@ -406,6 +400,28 @@ TEST_F(MSOfficeTest, IsLangPackAvailable_Yes)
 {
 	CreateMSoffice(MSOffice2010_64);	
 
-	setMSOfficeMockActionDownload(L"2010_64");	
+	setMSOfficeMockActionDownload(L"2010_64");
 	EXPECT_TRUE(office.IsLangPackAvailable());
+}
+
+TEST_F(MSOfficeTest, _CheckPrerequirements_AlreadyApplied)
+{
+	bool FollowSystemUIOff = true;
+	CreateMSoffice(MSOffice2013);
+
+	SetLangPacksInstalled(registryMockobj, MSOffice2013);	
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, CATALAN_LCID, L"15.0");
+	office.CheckPrerequirements(NULL);
+	EXPECT_THAT(office.GetStatus(), AlreadyApplied);
+}
+
+TEST_F(MSOfficeTest, _CheckPrerequirements_CannotBeApplied)
+{
+	CreateMSoffice(MSOffice2013);
+
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
+	setMSOfficeMockActionDownload(L"2013");
+
+	office.CheckPrerequirements(NULL);
+	EXPECT_THAT(office.GetStatus(), CannotBeApplied);
 }

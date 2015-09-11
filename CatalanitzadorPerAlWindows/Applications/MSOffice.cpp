@@ -450,6 +450,7 @@ void MSOffice::Execute()
 
 	g_log.Log(L"MSOffice::Execute (%s) '%s' with params '%s'", (wchar_t*) GetVersion(), szApp, szParams);
 	m_runner->Execute(szApp, szParams);
+	SetStatus(InProgress);
 }
 
 void MSOffice::AddDownloads(MultipleDownloads& multipleDownloads)
@@ -492,4 +493,49 @@ bool MSOffice::IsLangPackAvailable()
 	isLangPackAvailable = downloadVersion.IsUsable();
 	g_log.Log(L"MSOffice::IsLangPackAvailable (%s) available %u", (wchar_t *) GetVersion(), (wchar_t *)isLangPackAvailable);
 	return isLangPackAvailable;
+}
+
+bool MSOffice::IsNeed()
+{
+	assert(false);
+	return false;
+}
+
+void MSOffice::Complete()
+{	
+	if (IsLangPackInstalled())
+	{
+		SetDefaultLanguage();
+		SetStatus(Successful);
+	}
+
+	if (IsLangPackAvailable() && IsLangPackInstalled() == false)
+	{
+		SetStatus(FinishedWithError);
+		DumpLogOnError();
+	}
+
+	g_log.Log(L"MSOffice::Complete. (%s) is '%s'", (wchar_t *)GetVersion(),	GetStatus() == Successful ? L"Successful" : L"FinishedWithError");
+}
+
+void MSOffice::CheckPrerequirements(Action * action)
+{
+	if (IsLangPackInstalled())
+	{
+		if (IsDefaultLanguage())
+		{
+			SetStatus(AlreadyApplied);
+		}
+	}
+	else
+	{
+		if (IsLangPackAvailable() == false)
+		{
+			SetStatus(CannotBeApplied);
+			return;
+		}
+	}
+
+	SetStatus(status);
+	g_log.Log(L"MSOffice::CheckPrerequirements. (%s) status '%u'", (wchar_t *)GetVersion(), (wchar_t *) GetStatus());
 }

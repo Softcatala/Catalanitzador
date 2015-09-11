@@ -40,6 +40,8 @@ public:
 		virtual bool Download(ProgressStatus progress, void *data);
 		virtual bool IsNeed();
 		virtual void Execute();
+		// The status in this action is used to control flow Selected/NotSelected -> Executed -> Sucesfull
+		// The real result of every action is in its own MSOffice object
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion();
 		virtual LPCWSTR GetLicenseID();

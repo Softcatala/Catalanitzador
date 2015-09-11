@@ -141,8 +141,8 @@ void MSOfficeLPIAction::Execute()
 	}
 
 	if (m_executionStepIndex < m_MSOffices.size())
-	{
-		if (m_MSOffices[m_executionStepIndex].IsLangPackInstalled() == false && m_MSOffices[m_executionStepIndex].IsLangPackAvailable())
+	{		
+		if (m_MSOffices[m_executionStepIndex].GetStatus() == Selected)
 		{
 			m_MSOffices[m_executionStepIndex].Execute();
 		}
@@ -167,14 +167,14 @@ void MSOfficeLPIAction::Serialize(ostream* stream)
 
 			StringConversion::ToMultiByte(wstring(m_MSOffices.at(i).GetVersion()), version);
 			sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n",
-				GetID(), version.c_str(), status);
+				GetID(), version.c_str(), m_MSOffices.at(i).GetStatus());
 
 			*stream << szText;
 		}
 	}
 	else
 	{
-		sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n", GetID(), "", status);
+		sprintf_s(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n", GetID(), "", NotInstalled);
 		*stream << szText;
 	}
 }
@@ -209,25 +209,20 @@ ActionStatus MSOfficeLPIAction::GetStatus()
 				assert(false);
 				break;
 		}
-
-		ActionStatus allStatus = Successful;		
+		
+		ActionStatus allStatus = Successful;
 		for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 		{
-			ActionStatus versionStatus = Successful;
-			if (m_MSOffices.at(i).IsLangPackInstalled())
+			if (m_MSOffices.at(i).GetStatus() == InProgress)
 			{
-				m_MSOffices.at(i).SetDefaultLanguage();
-			}
-			
-			if (m_MSOffices.at(i).IsLangPackAvailable() && m_MSOffices.at(i).IsLangPackInstalled() == false)
-			{
-				versionStatus = allStatus = FinishedWithError;
-				m_MSOffices.at(i).DumpLogOnError();
-			}
-
-			g_log.Log(L"MSOfficeLPIAction::GetStatus (%s) is '%s'", (wchar_t *) m_MSOffices.at(i).GetVersion(),
-				versionStatus == Successful ? L"Successful" : L"FinishedWithError");
+				m_MSOffices.at(i).Complete();
+				if (m_MSOffices.at(i).GetStatus() == FinishedWithError)
+				{
+					allStatus = FinishedWithError;
+				}
+			}			
 		}
+		// All status is used by the wizard to determine is an error has occurred
 		SetStatus(allStatus);
 	}
 	return status;
@@ -270,15 +265,16 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 	bool atLeastOnecanBeApplied = false;
 	for (unsigned int i = 0; i < m_MSOffices.size(); i++)
 	{
-		g_log.Log(L"MSOfficeLPIAction::CheckPrerequirements. MSOffice %s application installed", (wchar_t *) m_MSOffices[i].GetVersion());
-		if (m_MSOffices[i].IsLangPackInstalled() == false || m_MSOffices[i].IsDefaultLanguage() == false)
+		m_MSOffices[i].CheckPrerequirements(action);
+		if (m_MSOffices[i].GetStatus() != AlreadyApplied)
 		{
 			alreadyApplied = false;
 		}
 
-		if (m_MSOffices[i].IsLangPackAvailable())
+		if (m_MSOffices[i].GetStatus() == NotSelected)
 		{
 			atLeastOnecanBeApplied = true;
+			m_MSOffices[i].SetStatus(Selected);
 		}
 	}
 
