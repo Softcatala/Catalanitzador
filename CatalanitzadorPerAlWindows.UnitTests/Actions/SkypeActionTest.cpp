@@ -71,7 +71,7 @@ void SetFileVersion(FileVersionInfoMock &fileVersionInfoMockobj, wstring& versio
 	EXPECT_CALL(fileVersionInfoMockobj, GetLanguageCode()).WillRepeatedly(Return(0));
 }
 
-TEST(AdobeReaderActionTest, _isDefaultInstallLanguage_Yes)
+TEST(SkypeActionTest, _isDefaultInstallLanguage_Yes)
 {
 	const wchar_t* LANGUAGE = L"ca";
 
@@ -81,7 +81,7 @@ TEST(AdobeReaderActionTest, _isDefaultInstallLanguage_Yes)
 	EXPECT_TRUE(skypeAction._isDefaultInstallLanguage());
 }
 
-TEST(AdobeReaderActionTest, _isDefaultInstallLanguage_No)
+TEST(SkypeActionTest, _isDefaultInstallLanguage_No)
 {
 	const wchar_t* LANGUAGE = L"es";
 
@@ -91,19 +91,20 @@ TEST(AdobeReaderActionTest, _isDefaultInstallLanguage_No)
 	EXPECT_FALSE(skypeAction._isDefaultInstallLanguage());
 }
 
-TEST(AdobeReaderActionTest, CheckPrerequirements_NotInstalled)
+TEST(SkypeActionTest, CheckPrerequirements_NotInstalled)
 {
 	wstring VERSION_STRING = L"";
 	const int VERSION = 0;
 
 	CreateSkypeAction;
 
+	_setProgramLocation(registryMockobj, L"None");
 	SetFileVersion(fileVersionInfoMock, VERSION_STRING, VERSION);
 	skypeAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(skypeAction.GetStatus(), NotInstalled);
 }
 
-TEST(AdobeReaderActionTest, _getProgramLocation)
+TEST(SkypeActionTest, _getProgramLocation)
 {
 	wstring PATH = L"/location/file.exe";
 	wstring location;
@@ -115,7 +116,7 @@ TEST(AdobeReaderActionTest, _getProgramLocation)
 	EXPECT_TRUE(location == PATH);
 }
 
-TEST(AdobeReaderActionTest, CheckPrerequirements_NotSelected)
+TEST(SkypeActionTest, CheckPrerequirements_NotSelected)
 {
 	wstring VERSION_STRING = L"6.0.0.0";
 	const int VERSION = 6;
@@ -128,7 +129,7 @@ TEST(AdobeReaderActionTest, CheckPrerequirements_NotSelected)
 	EXPECT_FALSE(skypeAction.GetStatus() == CannotBeApplied);
 }
 
-TEST(AdobeReaderActionTest, CheckPrerequirements_CannotBeApplied)
+TEST(SkypeActionTest, CheckPrerequirements_CannotBeApplied)
 {
 	wstring VERSION_STRING = L"5.0.0.0";
 	const int VERSION = 5;
