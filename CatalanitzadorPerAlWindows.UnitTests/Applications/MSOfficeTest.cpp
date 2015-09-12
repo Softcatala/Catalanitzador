@@ -420,8 +420,20 @@ TEST_F(MSOfficeTest, _CheckPrerequirements_CannotBeApplied)
 	CreateMSoffice(MSOffice2013);
 
 	SetLangPacksInstalled(registryMockobj, NoMSOffice);
-	setMSOfficeMockActionDownload(L"2013");
+	ConfigurationRemote remote;
+	ConfigurationInstance::Get().SetRemote(remote);
 
 	office.CheckPrerequirements(NULL);
 	EXPECT_THAT(office.GetStatus(), CannotBeApplied);
+}
+
+TEST_F(MSOfficeTest, _CheckPrerequirements_Ok)
+{
+	CreateMSoffice(MSOffice2013);
+
+	SetLangPacksInstalled(registryMockobj, NoMSOffice);
+	setMSOfficeMockActionDownload(L"2013_ca_32");
+
+	office.CheckPrerequirements(NULL);
+	EXPECT_THAT(office.GetStatus(), NotSelected);
 }
