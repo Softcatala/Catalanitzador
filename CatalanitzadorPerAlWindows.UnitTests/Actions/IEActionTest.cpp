@@ -78,7 +78,6 @@ TEST(IEActionTest, CheckPrerequirements_Status)
 		_setMockCheckPrerequirements(LPIActionMock, acceptLanguagesMock);
 
 		action.CheckPrerequirements(NULL);
-		ActionStatus s = action.GetStatus();
 		EXPECT_THAT(action.GetStatus(), actionStatuses.expectedStatus);
 	}
 }

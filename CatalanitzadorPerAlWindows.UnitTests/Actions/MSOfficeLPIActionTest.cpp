@@ -141,7 +141,6 @@ TEST(MSOfficeLPIActionTest, Serialize_None)
 {
 	CreateMSOfficeAction;
 	ostringstream stream;
-	bool FollowSystemUIOff = true;
 
 	MockOfficeInstalled(osVersionMock, registryMockobj, NoMSOffice);
 	SetLangPacksInstalled(registryMockobj, NoMSOffice);

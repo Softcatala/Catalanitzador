@@ -68,6 +68,5 @@ private:
 		MultipleDownloads m_multipleDownloads;
 		OutLookHotmailConnector* m_OutLookHotmailConnector;
 		vector <MSOffice> m_MSOffices;
-		vector <bool> m_MSOfficesSelected;
 };
 
