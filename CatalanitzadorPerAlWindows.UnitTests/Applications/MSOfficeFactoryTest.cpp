@@ -171,3 +171,21 @@ TEST(MSOfficeFactoryTest, GetInstalledOfficeInstances_2013_64_2003)
 	EXPECT_FALSE(_containsOfficeVersion(instances, MSOffice2003));
 }
 
+TEST(MSOfficeFactoryTest, GetInstalledOfficeInstances_2003_2007)
+{
+	RegistryMock registryMockobj;
+	OSVersionMock osVersionMock;
+	RunnerMock runnerMock;
+	Win32I18NMock win32I18NMock;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2003);
+
+	//MSOffice2007
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Microsoft\\Office\\12.0\\Common\\InstallRoot"), false)).
+		WillRepeatedly(Return(true));
+
+	vector <MSOffice> instances = MSOfficeFactory::GetInstalledOfficeInstances(&osVersionMock, &registryMockobj, &win32I18NMock, &runnerMock);
+
+	EXPECT_TRUE(_containsOfficeVersion(instances, MSOffice2007));
+	EXPECT_FALSE(_containsOfficeVersion(instances, MSOffice2003));
+}
