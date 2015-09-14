@@ -71,15 +71,18 @@ bool ChromeProfile::IsUiLocaleOk()
 	langcode = root["intl"]["app_locale"].asString();
 	rslt = langcode.compare(CHROMEAPP_LANGUAGECODE_STR) == 0;
 	g_log.Log(L"ChromeProfile::IsUiLocaleOk: %u", (wchar_t*) rslt);
-	
 	return rslt;
 }
 
 bool ChromeProfile::ReadAcceptLanguages(wstring& langcode)
-{	
-	_readAcceptAndSpellLanguagesFromPreferences();	
+{
+	bool rslt;
+
+	_readAcceptAndSpellLanguagesFromPreferences();
 	langcode = m_prefCacheAcceptLanguage;
-	return m_prefCacheAcceptLanguage.empty() == false;
+	rslt = m_prefCacheAcceptLanguage.empty() == false;
+	g_log.Log(L"ChromeProfile::ReadAcceptLanguages: '%s', returns %u", (wchar_t*) m_prefCacheAcceptLanguage.c_str(), (wchar_t*) rslt);
+	return rslt;
 }
 
 void ChromeProfile::_readAcceptAndSpellLanguagesFromPreferences()
@@ -227,7 +230,7 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 	wstring langcode, firstlang;
 
 	bRslt = false;
-	acceptLanguagesFound = ReadAcceptLanguages(langcode);	
+	acceptLanguagesFound = ReadAcceptLanguages(langcode);
 
 	if (acceptLanguagesFound)
 	{
