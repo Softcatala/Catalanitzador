@@ -153,9 +153,10 @@ bool iTunesAction::_isDefaultLanguage()
 
 	defaultUser = _isDefaultLanguageForUser();
 
-	if (defaultUser.IsUndefined()) 
-	{		
-		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ITUNES_REGKEY, false))
+	if (defaultUser.IsUndefined())
+	{
+		if (m_OSVersion->IsWindows64Bits() && m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, ITUNES_REGKEY, false) ||
+			m_registry->OpenKey(HKEY_LOCAL_MACHINE, ITUNES_REGKEY, false))
 		{
 			if (m_registry->GetString(L"InstalledLangID", szLang, sizeof(szLang)))
 			{

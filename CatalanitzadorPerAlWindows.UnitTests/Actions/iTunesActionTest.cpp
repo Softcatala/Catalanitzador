@@ -82,10 +82,11 @@ void _setMockForUserLanguageFalse(RegistryMock& registryMockobj)
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"LangID"),_ ,_)).WillRepeatedly(Return(false));
 }
 
-void _setMockForMachineLanguage(RegistryMock& registryMockobj, const wchar_t* language)
+void _setMockForMachineLanguage(RegistryMock& registryMockobj, OSVersionMock& osVersionMock, const wchar_t* language, bool is64bits)
 {
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(ITUNES_REGKEY), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"InstalledLangID"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(true)));
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(is64bits));
 }
 
 void _setMockForProgramFolder32bits(RegistryMock& registryMockobj, OSVersionMock& osVersionMockobj, const wchar_t* folder)
@@ -115,6 +116,13 @@ void _setFileVersion(FileVersionInfoMock &fileVersionInfoMockobj, wstring& versi
 	EXPECT_CALL(fileVersionInfoMockobj, GetVersion()).WillRepeatedly(ReturnRef(versionString));	
 }
 
+void _setMockNotInstalled(RegistryMock& registryMockobj, OSVersionMock& osVersionMockobj, bool is64bits)
+{
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(ITUNES_REGKEY), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(ITUNES_REGKEY), false)).WillRepeatedly(Return(false));
+	EXPECT_CALL(osVersionMockobj, IsWindows64Bits()).WillRepeatedly(Return(is64bits));
+}
+
 TEST(iTunesActionTest, _isDefaultLanguageForUser_True)
 {
 	CreateiTunesAction;
@@ -131,34 +139,61 @@ TEST(iTunesActionTest, _isDefaultLanguageForUser_False)
 	EXPECT_FALSE(iTunes._isDefaultLanguageForUser() == true);
 }
 
-TEST(iTunesActionTest, _isDefaultLanguage_MachineSpanish_UserCatalan_True)
+TEST(iTunesActionTest, _isDefaultLanguage_MachineSpanish_UserCatalan_True_32AndOld64bits)
 {
 	CreateiTunesAction;
 
-	_setMockForMachineLanguage(registryMockobj, SPANISH_LANGCODE);
+	_setMockForMachineLanguage(registryMockobj, osVersionMock, SPANISH_LANGCODE, false);
 	_setMockForUserLanguage(registryMockobj, CATALAN_LANGCODE);
 	EXPECT_TRUE(iTunes._isDefaultLanguage());
 }
 
-TEST(iTunesActionTest, _isDefaultLanguage_MachineCatalan_UserSpanish_False)
+TEST(iTunesActionTest, _isDefaultLanguage_MachineCatalan_UserSpanish_False_32AndOld64bits)
 {
 	CreateiTunesAction;
 
-	_setMockForMachineLanguage(registryMockobj, CATALAN_LANGCODE);
+	_setMockForMachineLanguage(registryMockobj, osVersionMock, CATALAN_LANGCODE, false);
 	_setMockForUserLanguage(registryMockobj, SPANISH_LANGCODE);
 	EXPECT_FALSE(iTunes._isDefaultLanguage());
 }
 
-TEST(iTunesActionTest, _isDefaultLanguage_MachineCatalan_UserNone_True)
+TEST(iTunesActionTest, _isDefaultLanguage_MachineCatalan_UserNone_True_32AndOld64bits)
 {
 	CreateiTunesAction;
 
-	_setMockForMachineLanguage(registryMockobj, CATALAN_LANGCODE);
+	_setMockForMachineLanguage(registryMockobj, osVersionMock, CATALAN_LANGCODE, false);
 	_setMockForUserLanguageFalse(registryMockobj);
 	EXPECT_TRUE(iTunes._isDefaultLanguage());
 }
 
-TEST(iTunesActionTest, CheckPrerequirements_OldVersion_False)
+TEST(iTunesActionTest, _isDefaultLanguage_MachineSpanish_UserCatalan_True_New64bits)
+{
+	CreateiTunesAction;
+
+	_setMockForMachineLanguage(registryMockobj, osVersionMock, SPANISH_LANGCODE, true);
+	_setMockForUserLanguage(registryMockobj, CATALAN_LANGCODE);
+	EXPECT_TRUE(iTunes._isDefaultLanguage());
+}
+
+TEST(iTunesActionTest, _isDefaultLanguage_MachineCatalan_UserSpanish_False_New64bits)
+{
+	CreateiTunesAction;
+
+	_setMockForMachineLanguage(registryMockobj, osVersionMock, CATALAN_LANGCODE, true);
+	_setMockForUserLanguage(registryMockobj, SPANISH_LANGCODE);
+	EXPECT_FALSE(iTunes._isDefaultLanguage());
+}
+
+TEST(iTunesActionTest, _isDefaultLanguage_MachineCatalan_UserNone_True_New64bits)
+{
+	CreateiTunesAction;
+
+	_setMockForMachineLanguage(registryMockobj, osVersionMock, CATALAN_LANGCODE, true);
+	_setMockForUserLanguageFalse(registryMockobj);
+	EXPECT_TRUE(iTunes._isDefaultLanguage());
+}
+
+TEST(iTunesActionTest, CheckPrerequirements_OldVersion_CannotBeApplied)
 {
 	CreateiTunesAction;
 	wstring VERSION = L"10.6.2.0";
@@ -169,6 +204,40 @@ TEST(iTunesActionTest, CheckPrerequirements_OldVersion_False)
 
 	iTunes.CheckPrerequirements(NULL);
 	EXPECT_THAT(iTunes.GetStatus(), CannotBeApplied);
+}
+
+TEST(iTunesActionTest, CheckPrerequirements_32bits_NotInstalled)
+{
+	CreateiTunesAction;
+
+	_setMockNotInstalled(registryMockobj,osVersionMock, false);	
+	iTunes.CheckPrerequirements(NULL);
+	EXPECT_THAT(iTunes.GetStatus(), NotInstalled);
+}
+
+TEST(iTunesActionTest, CheckPrerequirements_64bits_NotInstalled)
+{
+	CreateiTunesAction;
+	
+	_setMockNotInstalled(registryMockobj,osVersionMock, true);
+	iTunes.CheckPrerequirements(NULL);
+	EXPECT_THAT(iTunes.GetStatus(), NotInstalled);
+}
+
+TEST(iTunesActionTest, CheckPrerequirements_AlreadyInstalled)
+{
+	CreateiTunesAction;
+	wstring VERSION = L"12.1.1.1";
+
+	_setMockForProgramFolder32bits(registryMockobj, osVersionMock,  L"folder\\");
+	_setiTunesVersion(fileVersionInfoMock, VERSION.c_str());
+	_setFileVersion(fileVersionInfoMock, VERSION);
+
+	_setMockForMachineLanguage(registryMockobj, osVersionMock, SPANISH_LANGCODE, false);
+	_setMockForUserLanguage(registryMockobj, CATALAN_LANGCODE);
+
+	iTunes.CheckPrerequirements(NULL);
+	EXPECT_THAT(iTunes.GetStatus(), AlreadyApplied);
 }
 
 TEST(iTunesActionTest, _setDefaultLanguageForUser)
