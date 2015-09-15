@@ -250,7 +250,18 @@ TEST(ChomeProfileTest, CaAcceptLangLocaleFirst_IsAcceptLanguagesOk)
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\SpanishUI_AcceptLanguage_ca\\User Data\\";
-	chromeProfile.SetPath(location);	
+	chromeProfile.SetPath(location);
+	EXPECT_TRUE(chromeProfile.IsAcceptLanguagesOk());
+}
+
+TEST(ChomeProfileTest, CaEsAcceptLangLocaleFirst_IsAcceptLanguagesOk)
+{
+	wstring location, langcode;
+	ChomeProfileTest chromeProfile;
+
+	Application::GetExecutionLocation(location);
+	location += L"Chrome\\SpanishUI_AcceptLanguage_ca-es\\User Data\\";
+	chromeProfile.SetPath(location);
 	EXPECT_TRUE(chromeProfile.IsAcceptLanguagesOk());
 }
 

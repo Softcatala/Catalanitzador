@@ -23,7 +23,8 @@
 #include "StringConversion.h"
 #include "json/json.h"
 
-#define CHROME_ACCEPT_LANGUAGECODE L"ca"
+#define CHROME_ACCEPT_LANGUAGECODE_1 L"ca"
+#define CHROME_ACCEPT_LANGUAGECODE_2 L"ca-es"
 
 #define CHROMEAPP_LANGUAGECODE L"ca"
 #define CHROMEAPP_LANGUAGECODE_STR "ca"
@@ -236,8 +237,10 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 	{
 		AcceptLanguagePropertyValue propertyValue(langcode);
 		firstlang = propertyValue.GetFirstLanguage();
+		std::transform(firstlang.begin(), firstlang.end(), firstlang.begin(), ::tolower);
 		
-		if (firstlang.compare(CHROME_ACCEPT_LANGUAGECODE) == 0)
+		if (firstlang.compare(CHROME_ACCEPT_LANGUAGECODE_1) == 0
+			|| firstlang.compare(CHROME_ACCEPT_LANGUAGECODE_2)  == 0)
 		{
 			bRslt = true;
 		}
