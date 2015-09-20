@@ -272,7 +272,7 @@ ol ol li:last-child {margin-bottom:0;}
 /*Compatdor*/
 a { text-decoration: none;}
 div.a_stats { display: block; margin-top: -55px; }
-div#comptador { position: relative;  color: #FFFFFF; font-size: 40px; left: 59px; position: relative; text-decoration: none !important; top: 95px }
+div#comptador { position: relative;  color: #FFFFFF; font-size: 40px; left: 35px; position: relative; text-decoration: none !important; top: 95px }
 
 ul.llistat_programes { width:400px !important; }
 

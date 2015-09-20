@@ -5,7 +5,7 @@
 <div class="center">
     <div class="container">
         <div class="logo_right">
-            <a title="Catalanitzador de Softcatalà" href="<?php echo $globals['base_domain'] ?>" class="left" style="margin-top: -5px;"><img alt="Logo catalanitzador" src="/dev-catalanitzador/images/logo_catalanitzador.png"></a>
+            <a title="Catalanitzador de Softcatalà" href="<?php echo $globals['base_domain'] ?>" class="left" style="margin-top: -5px;"><img alt="Logo catalanitzador" src="/catalanitzador/images/logo_catalanitzador.png"></a>
         </div>
         <h1>Catalanitzador <span class="so">de Softcatalà</span></h1>
         <h2>Catalanitzeu el vostre ordinador o dispositiu mòbil</h2>
@@ -61,14 +61,15 @@
             La versió per Windows posarà en català:
             <br class="p"/>
             <ul class="llistat_programes">
-                <li>Windows XP, Vista, 7, 8 i 8.1</li>
+                <li>Windows XP, Vista, 7, 8, 8.1 i Windows 10</li>
                 <li>Microsoft Office 2003, 2007, 2010 i 2013 (32 i 64 bits)</li>
                 <li>Internet Explorer 6, 7, 8, 9, 10 i 11</li>
                 <li>OpenOffice.org 3.2 i 3.3</li>
-                <li>Adobe Reader 9, 10 i 11 (lector PDF)</li>
+                <li>Adobe Reader 9, 10 , 11 i DC (lector PDF)</li>
                 <li>Windows Live Essentials 2009, 2011, 2012</li>
                 <li>iTunes 10.6.3 o superior</li>
                 <li>Skype 6.0 o superior</li>
+				<li>Corrector gramatical LanguageTool 3.0 per al Libreoffice i Firefox</li>
             </ul>
             <br class="p"/>
             Característiques de la versió per Mac 
@@ -101,7 +102,8 @@
 </div>
 
 <?php include('footer.html'); ?>
-<!--# include virtual="/ssi/footer-g.html" -->
+<?php include('footer_sc.php'); ?>
+
 
 
 
