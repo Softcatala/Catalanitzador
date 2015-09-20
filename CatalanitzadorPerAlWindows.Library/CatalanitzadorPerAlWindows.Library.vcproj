@@ -791,14 +791,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\OpenOfficeAction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\OpenOfficeAction.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.cpp"
 				>
 			</File>

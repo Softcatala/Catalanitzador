@@ -31,7 +31,6 @@
 #include "FirefoxAction.h"
 #include "Win32I18N.h"
 #include "Registry.h"
-#include "OpenOfficeAction.h"
 #include "AdobeReaderAction.h"
 #include "WindowsLiveAction.h"
 #include "FileVersionInfo.h"
@@ -167,7 +166,6 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 	m_actions.push_back(new ChromeAction( _getNewRegistry()));
 	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new OpenOfficeAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 
 	IRegistry* langToolLibreOfficeRegistry = _getNewRegistry();
 	m_actions.push_back(new LangToolLibreOfficeAction(langToolLibreOfficeRegistry, _getNewRunner(),

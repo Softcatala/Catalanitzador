@@ -380,10 +380,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Actions\OpenOfficeActionTest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Actions\SkypeActionTest.cpp"
 				>
 			</File>
