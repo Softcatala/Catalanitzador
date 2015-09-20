@@ -22,6 +22,9 @@
 #include <fstream>
 #include "json/json.h"
 
+#define CHROME_ACCEPT_LANGUAGECODE_1 "ca"
+#define CHROME_ACCEPT_LANGUAGECODE_2 "ca-es"
+
 using namespace std;
 
 
@@ -301,7 +304,11 @@ bool ChromeAction::_isAcceptLanguagesOk()
 	_readLanguageCode(langcode);
 	ParseLanguage(langcode);
 	_getFirstLanguage(firstlang);
-	return firstlang.compare("ca") == 0;
+
+	std::transform(firstlang.begin(), firstlang.end(), firstlang.begin(), ::tolower);
+	
+	return (firstlang.compare(CHROME_ACCEPT_LANGUAGECODE_1) == 0
+			|| firstlang.compare(CHROME_ACCEPT_LANGUAGECODE_2)  == 0);
 }
 
 void ChromeAction::CheckPrerequirements(Action * action)
