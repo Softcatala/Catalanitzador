@@ -24,6 +24,9 @@
 #include "OpenOfficeTest.h"
 
 using ::testing::StrCaseEq;
+using ::testing::Return;
+using ::testing::_;
+using ::testing::DoAll;
 
 #define APACHEOPENOFFICE_REGKEY L"SOFTWARE\\OpenOffice\\OpenOffice"
 
@@ -34,16 +37,26 @@ public:
 	ApacheOpenOfficeTest::ApacheOpenOfficeTest(IRegistry* registry)
 		: ApacheOpenOffice(registry) {};
 
-
 	virtual wstring _getAppDataDir() {return L"\\directory"; }
 	using ApacheOpenOffice::_getPreferencesDirectory;
-
+	using ApacheOpenOffice::_getInstallationPath;
 };
 
 
 #define CreateApacheOpenOffice \
 	RegistryMock registryMockobj; \
-	ApacheOpenOfficeTest OpenOffice(&registryMockobj);
+	ApacheOpenOfficeTest apacheOpenOffice(&registryMockobj);
+
+void SetApacheOpenOfficeInstallPath(RegistryMock& registryMockobj, wstring version, const wchar_t* path)
+{
+	wstring key = L"SOFTWARE\\OpenOffice\\OpenOffice\\" + version;
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).
+		WillRepeatedly(Return(true));
+
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Path"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(path), Return(true)));
+}
 
 TEST(ApacheOpenOfficeTest, _getPreferencesFile_Version34)
 {
@@ -51,6 +64,18 @@ TEST(ApacheOpenOfficeTest, _getPreferencesFile_Version34)
 	CreateApacheOpenOffice;
 	
 	SetOpenOfficeAppVersion(registryMockobj, APACHEOPENOFFICE_REGKEY, APACHE_VERSION);
-	wstring path = OpenOffice._getPreferencesDirectory();
+	wstring path = apacheOpenOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice\\3\\user\\"));
+}
+
+TEST(ApacheOpenOfficeTest, _getInstallationPath)
+{
+	const wchar_t* APACHEOPENOFFICE_VERSION = L"4.1";
+	CreateApacheOpenOffice;
+	
+	SetOpenOfficeAppVersion(registryMockobj, APACHEOPENOFFICE_REGKEY, APACHEOPENOFFICE_VERSION);
+	SetApacheOpenOfficeInstallPath(registryMockobj, APACHEOPENOFFICE_VERSION, L"\\somepath\\bin.exe");
+	
+	wstring path = apacheOpenOffice._getInstallationPath();
+	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\somepath\\"));
 }

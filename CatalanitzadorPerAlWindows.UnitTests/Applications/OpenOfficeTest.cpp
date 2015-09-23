@@ -51,7 +51,7 @@ public:
 
 #define CreateOpenOffice \
 	RegistryMock registryMockobj; \
-	OpenOfficeTest OpenOffice(&registryMockobj);
+	OpenOfficeTest openOffice(&registryMockobj);
 
 void SetOpenOfficeAppVersion(RegistryMock& registryMockobj, wstring key, wstring version)
 {
@@ -71,26 +71,25 @@ void SetOpenOfficeInstallPath(RegistryMock& registryMockobj, wstring version, co
 		WillRepeatedly(DoAll(SetArgCharStringPar2(path), Return(true)));
 }
 
-TEST(OpenOfficeTest, _readOpenOfficeVersionInstalled)
+TEST(OpenOfficeTest, _getVersion)
 {
 	const wchar_t* OPENOFFICE_VERSION = L"3.3";
 	CreateOpenOffice;
 	
 	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);	
-	OpenOffice._readVersionInstalled();
-	EXPECT_THAT(OpenOffice.GetVersion(), StrCaseEq(OPENOFFICE_VERSION));
+	openOffice._readVersionInstalled();
+	EXPECT_THAT(openOffice.GetVersion(), StrCaseEq(OPENOFFICE_VERSION));
 }
 
-TEST(OpenOfficeTest, _readOpenOfficeInstallPath)
+TEST(OpenOfficeTest, _getInstallationPath)
 {
 	const wchar_t* OPENOFFICE_VERSION = L"4.1";
 	CreateOpenOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);	
+	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
 	SetOpenOfficeInstallPath(registryMockobj, OPENOFFICE_VERSION, L"\\somepath\\bin.exe");
 
-	OpenOffice._readInstallPath();
-	wstring path = OpenOffice._getInstallationPath();
+	wstring path = openOffice._getInstallationPath();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\somepath\\"));
 }
 
@@ -100,7 +99,7 @@ TEST(OpenOfficeTest, _getPreferencesFile_Version4)
 	CreateOpenOffice;
 	
 	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
-	wstring path = OpenOffice._getPreferencesDirectory();
+	wstring path = openOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice.org\\4\\user\\"));
 }
 
@@ -110,6 +109,6 @@ TEST(OpenOfficeTest, _getPreferencesFile_Version34)
 	CreateOpenOffice;
 	
 	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
-	wstring path = OpenOffice._getPreferencesDirectory();
+	wstring path = openOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice.org\\3\\user\\"));
 }
