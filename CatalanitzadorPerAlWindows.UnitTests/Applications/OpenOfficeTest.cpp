@@ -48,6 +48,7 @@ public:
 		using OpenOffice::_readInstallPath;
 		using OpenOffice::_getPreferencesDirectory;
 		using OpenOffice::_getInstallationPath;
+		using OpenOffice::GetVersion;
 };
 
 
