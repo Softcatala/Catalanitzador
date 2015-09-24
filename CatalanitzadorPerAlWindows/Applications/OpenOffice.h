@@ -26,26 +26,25 @@
 #include "OpenOfficeJavaConfiguration.h"
 
 //
-// This class contains the logic for the OpenOffice.org (OOo) project that was discontinued in April 2011
-// This class is used as base class for supporting derivated suites like Apache OpenOffice and LibreOffice
+// This class is used as base class for supporting derivated suites from OpenOffice.org (OOo) like Apache OpenOffice and LibreOffice
+// OpenOffice.org (OOo) project that was discontinued in April 2011 and we do not supported per se
 //
-// The class OpenOfficeAction contains logic that we may consider porting here
+// TODO: The class OpenOfficeAction contains logic that we may consider porting here
+//
 class OpenOffice : public IOpenOffice
 {
-public:
+protected:
 
 		OpenOffice(IRegistry* registry);
 		
-		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"; }
-		virtual wchar_t * GetUserDirectory() { return L"\\OpenOffice.org\\%u\\user\\"; }
+		virtual wchar_t * GetMachineRegistryKey() = 0;
+		virtual wchar_t * GetUserDirectory() = 0;
 
 		virtual bool IsInstalled();
 		virtual wstring GetVersion();
 		virtual bool IsExtensionInstalled(wstring extension);
 		virtual void InstallExtension(IRunner* runner, wstring file);
 		virtual wstring GetJavaConfiguredVersion();
-
-protected:
 
 		bool _readVersionInstalled();
 		void _readInstallPath();

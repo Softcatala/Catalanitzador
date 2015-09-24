@@ -41,6 +41,8 @@ public:
 	public:
 
 		virtual wstring _getAppDataDir() {return L"\\directory"; }
+		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"; }
+		virtual wchar_t * GetUserDirectory() { return L"\\OpenOffice.org\\%u\\user\\"; }
 
 		using OpenOffice::_readVersionInstalled;
 		using OpenOffice::_readInstallPath;
