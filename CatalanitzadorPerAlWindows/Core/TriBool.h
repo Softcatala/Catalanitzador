@@ -30,14 +30,14 @@ private:
 		Undefined
 	};
 
-	_triBool value;
+	_triBool m_value;
 
 public:
 
-	TriBool() {value = Undefined;}
+	TriBool() {m_value = Undefined;}
 	
-	bool IsUndefined() const { return value == Undefined;}
-	void SetUndefined() { value = Undefined;}
+	bool IsUndefined() const { return m_value == Undefined;}
+	void SetUndefined() { m_value = Undefined;}
 	bool operator == (bool other);
 	void operator = (bool other);
 	bool operator != (bool other);

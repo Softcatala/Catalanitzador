@@ -21,10 +21,10 @@
  
 bool TriBool::operator== (bool other)
 {
-	if (other == true && value == True)
+	if (other == true && m_value == True)
 		return true;
 
-	if (other == false && value == False)
+	if (other == false && m_value == False)
 		return true;
 
 	return false;		
@@ -33,20 +33,20 @@ bool TriBool::operator== (bool other)
 void TriBool::operator= (bool other)
 {
 	if (other == true)
-		value = True;
+		m_value = True;
 	else
 		if (other == false)
-			value = False;
+			m_value = False;
 		else
-			value = Undefined;
+			m_value = Undefined;
 }
 
 bool TriBool::operator != (bool other)
 {
-	if (other == true && value != True)
+	if (other == true && m_value != True)
 		return true;
 
-	if (other == false && value != False)
+	if (other == false && m_value != False)
 		return true;
 
 	return false;		
@@ -54,7 +54,7 @@ bool TriBool::operator != (bool other)
 
 wchar_t* TriBool::ToString()
 {
-	switch(value)
+	switch(m_value)
 	{
 		case True:
 			return L"true";
