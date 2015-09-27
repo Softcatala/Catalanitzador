@@ -39,7 +39,11 @@ bool Registry::OpenKey(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 }
 
 // Used to be able to read the 64 bits registry without been redirected to the Win32 version
-// E.g.: to read 64 bits apps version settings
+// E.g.: to read 64 bits apps version settings from this APP that is 32 bits
+// Behavior:
+//	1. If called from a 32-bits OS ignores  KEY_WOW64_64KEY and reads the key from the 32-bits registry
+//	2. If called from a 64-bits OS reads the key from the 64-bits registry. If it is not possible, fails
+//
 bool Registry::OpenKeyNoWOWRedirect(HKEY hBaseKey, wchar_t* sSubKey, bool bWriteAccess)
 {
 	assert(hKey == NULL);
