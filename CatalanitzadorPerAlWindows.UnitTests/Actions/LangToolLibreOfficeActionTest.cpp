@@ -30,12 +30,14 @@ using ::testing::DoAll;
 #define EXTENSION_NAME L"org.languagetool.openoffice.Main"
 
 #define CreateLTOOAction \
-	OSVersionMock osVersionExMock; \
 	RunnerMock runnerMock; \
 	RegistryMock registryMock; \
 	OpenOfficeMock libreOfficeMock; \
 	OpenOfficeMock apacheOpenOfficeMock; \
 	LangToolLibreOfficeActionTest action(&registryMock, &runnerMock, &libreOfficeMock, &apacheOpenOfficeMock, &DownloadManager());
+
+extern void _setMockForJava(RegistryMock& registryMockobj, const wchar_t* version);
+extern void _setMockForNoJava(RegistryMock& registryMockobj);
 
 
 class LangToolLibreOfficeActionTest : public LangToolLibreOfficeAction
@@ -49,21 +51,9 @@ public:
 
 		void _setInstallingOpenOffice(IOpenOffice* openOffice) {m_installingOffice = openOffice; }
 
-		using LangToolLibreOfficeAction::_shouldInstallJava;
 		using LangToolLibreOfficeAction::_doesJavaNeedsConfiguration;
-	
 };
 
-void _setMockForJava(RegistryMock& registryMockobj, const wchar_t* version)
-{	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(version), Return(true)));
-}
-
-void _setMockForNoJava(RegistryMock& registryMockobj)
-{
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(false));	
-}
 
 TEST(LangToolLibreOfficeActionTest, CheckPrerequirements_NotInstalled)
 {
@@ -102,22 +92,6 @@ TEST(LangToolLibreOfficeActionTest, CheckPrerequirements_OpenOffice_AlreadyAppli
 
 	action.CheckPrerequirements(NULL);
 	EXPECT_THAT(action.GetStatus(), AlreadyApplied);
-}
-
-TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_Yes)
-{
-	CreateLTOOAction;
-
-	_setMockForJava(registryMock, L"1.6");
-	EXPECT_TRUE(action._shouldInstallJava());
-}
-
-TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_No)
-{
-	CreateLTOOAction;
-
-	_setMockForJava(registryMock, L"1.7");
-	EXPECT_FALSE(action._shouldInstallJava());
 }
 
 TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_NoJava_NoJavaConfig)

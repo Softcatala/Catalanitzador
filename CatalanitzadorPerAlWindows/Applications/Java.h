@@ -1,6 +1,6 @@
-/*
- * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
-  *  
+/* 
+ * Copyright (C) 2015 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -17,26 +17,30 @@
  * 02111-1307, USA.
  */
 
-#include "stdafx.h"
-#include "JavaRuntimeInspector.h"
-#include "Java.h"
+#pragma once
 
-JavaRuntimeInspector::JavaRuntimeInspector(IRegistry* registry)
+#include "IRegistry.h"
+#include "IWin32I18N.h"
+#include "IOSVersion.h"
+#include "Runner.h"
+
+
+class Java
 {
-	m_registry = registry;
-}
+public:
 
-void JavaRuntimeInspector::Execute()
-{
-	_readVersion();
-}
+		Java(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
 
-void JavaRuntimeInspector::_readVersion()
-{
-	Java java(NULL, m_registry, NULL);
-	m_version = java.GetVersion();
+		bool ShouldInstall(wstring minVersion);
+		void Install(wstring installer);
+		wstring GetVersion();
 
-	g_log.Log(L"JavaRuntimeInspector::_readVersion version %s", (wchar_t*) m_version.c_str());
-	m_KeyValues.push_back(InspectorKeyValue(L"version", m_version.c_str()));
-}
+private:
+
+		bool _readVersion(wstring& version);
+	
+		IRegistry* m_registry;
+		IOSVersion* m_OSVersion;
+		IRunner* m_runner;
+};
 

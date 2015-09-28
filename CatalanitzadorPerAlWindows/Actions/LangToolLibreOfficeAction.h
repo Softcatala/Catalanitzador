@@ -25,6 +25,7 @@
 #include "IOpenOffice.h"
 #include "MultipleDownloads.h"
 #include "ActionExecution.h"
+#include "Java.h"
 
 class LangToolLibreOfficeAction : public Action, public ActionExecution
 {
@@ -47,15 +48,12 @@ public:
 
 protected:
 
-		bool _shouldInstallJava();
 		bool _doesJavaNeedsConfiguration();
 		IOpenOffice* m_installingOffice;
 
 private:
-
-		bool _readJavaVersion(wstring& version);
+		
 		bool _isOpenOfficeInstalled(bool& bLibreInstalled, bool& bApacheInstalled);
-		void _installJava();
 	
 		enum ExecutionStep
 		{
@@ -75,6 +73,7 @@ private:
 		wstring m_version;
 		ExecutionStep m_executionStep;
 		MultipleDownloads m_multipleDownloads;
+		Java m_java;
 		
 		bool m_shouldInstallJava;
 		bool m_shouldConfigureJava;

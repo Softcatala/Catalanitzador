@@ -568,6 +568,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Applications\JavaTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Applications\LibreOfficeTest.cpp"
 				>
 			</File>

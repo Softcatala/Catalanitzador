@@ -20,17 +20,18 @@
 #include "stdafx.h"
 #include "ConfigurationInstance.h"
 #include "LangToolLibreOfficeAction.h"
+#include "OSVersion.h"
 
 #define LISTENER_WINDOWCLASS    L"SO Listener Class"
 #define KILLTRAY_MESSAGE        L"SO KillTray"
 #define SOFFICE_PROCESSNAME		L"soffice.bin"
 
-ApplicationVersion g_javaMinVersion (L"1.7");
+#define JAVA_MIN_VERSION L"1.7"
 #define EXTENSION_NAME L"org.languagetool.openoffice.Main"
 
 
 LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager) :
-Action(downloadManager), m_multipleDownloads(downloadManager)
+Action(downloadManager), m_multipleDownloads(downloadManager), m_java(new OSVersion(), registry, runner)
 {
 	m_registry = registry;
 	m_runner = runner;
@@ -136,17 +137,6 @@ bool LangToolLibreOfficeAction::IsNeed()
 	return bNeed;
 }
 
-void LangToolLibreOfficeAction::_installJava()
-{
-	wstring app, params;	
-
-	app = m_szFilenameJava;
-	params = L" /s";
-
-	g_log.Log(L"LangToolLibreOfficeAction::_installJava. '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
-	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());	
-}
-
 void LangToolLibreOfficeAction::Execute()
 {
 	SetStatus(InProgress);
@@ -176,25 +166,6 @@ bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 }
 
 
-#define JAVA_REGKEY L"SOFTWARE\\JavaSoft\\Java Runtime Environment"
-
-bool LangToolLibreOfficeAction::_readJavaVersion(wstring& version)
-{
-	version.erase();
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, JAVA_REGKEY, false))
-	{
-		wchar_t szVersion[1024];
-	
-		if (m_registry->GetString(L"CurrentVersion", szVersion, sizeof(szVersion)))
-		{
-			version = szVersion;
-		}
-		m_registry->Close();
-	}
-
-	return version.empty() == false;
-}
-
 ActionStatus LangToolLibreOfficeAction::GetStatus()
 {
 	if (status == InProgress)
@@ -216,7 +187,7 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 			{
 				if (m_shouldInstallJava)
 				{
-					_installJava();
+					m_java.Install(m_szFilenameJava);
 				}
 				
 				m_executionStep = ExecutionStepInstallExtension;
@@ -228,7 +199,7 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 
 				if (m_shouldInstallJava)
 				{
-					bool successfullyInstalled = _shouldInstallJava() == false;					
+					bool successfullyInstalled = m_java.ShouldInstall(JAVA_MIN_VERSION) == false;
 					shouldInstall = successfullyInstalled;
 					g_log.Log(L"LangToolLibreOfficeAction::GetStatus. Java installed successfully %u", (wchar_t*) successfullyInstalled);
 				}
@@ -251,7 +222,7 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 			// Has to do with the fact that the first execution creates directories than then the second can use			
 			case ExecutionStepRetryInstallExtension:
 			{
-				if (m_shouldInstallJava && _shouldInstallJava()) // Was not able to install Java
+				if (m_shouldInstallJava && m_java.ShouldInstall(JAVA_MIN_VERSION)) // Was not able to install Java
 					break;
 
 				if (m_installingOffice->IsExtensionInstalled(EXTENSION_NAME) == false)
@@ -294,19 +265,6 @@ bool LangToolLibreOfficeAction::_isOpenOfficeInstalled(bool& bLibreInstalled, bo
 	return bLibreInstalled || bApacheInstalled;
 }
 
-bool LangToolLibreOfficeAction::_shouldInstallJava()
-{
-	wstring javaStrVersion;
-	bool bShouldInstallJava;
-
-	_readJavaVersion(javaStrVersion);
-	bShouldInstallJava = ApplicationVersion(javaStrVersion) < g_javaMinVersion;
-	
-	g_log.Log(L"LangToolLibreOfficeAction::_shouldInstallJava. Java version %s, should install %u",
-		(wchar_t*) javaStrVersion.c_str(), (wchar_t*) bShouldInstallJava);
-
-	return bShouldInstallJava;
-}
 
 // If there is only one version of Java OpenOffice can figure it iself
 // It is not, you need to selected manually 
@@ -315,9 +273,9 @@ bool LangToolLibreOfficeAction::_doesJavaNeedsConfiguration()
 	bool bShouldConfigureJava, bNoJavaInstalled, bShouldInstallJava;
 	wstring javaConfigured, javaStrVersion;
 	
-	_readJavaVersion(javaStrVersion);
+	javaStrVersion = m_java.GetVersion();
 	javaConfigured = m_installingOffice->GetJavaConfiguredVersion();
-	bShouldInstallJava = ApplicationVersion(javaStrVersion) < g_javaMinVersion;
+	bShouldInstallJava = ApplicationVersion(javaStrVersion) < ApplicationVersion(JAVA_MIN_VERSION);
 	bNoJavaInstalled = javaStrVersion.length() == 0;	
 	
 	// If Java is not installed we are OK if it is not configured in OpenOffice
@@ -345,7 +303,7 @@ bool LangToolLibreOfficeAction::_doesJavaNeedsConfiguration()
 			else
 			{
 				// If Java is installed, then you should have picked up the right version
-				bShouldConfigureJava =  ApplicationVersion(javaConfigured) < g_javaMinVersion;
+				bShouldConfigureJava =  ApplicationVersion(javaConfigured) < ApplicationVersion(JAVA_MIN_VERSION);
 			}
 		}
 	}
@@ -380,7 +338,7 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		return;
 	}
 	
-	m_shouldInstallJava = _shouldInstallJava();
+	m_shouldInstallJava = m_java.ShouldInstall(JAVA_MIN_VERSION);
 	m_shouldConfigureJava = _doesJavaNeedsConfiguration();
 
 	// Configuring the right JRE for OpenOffice if really complex. OpenOffice does not do it iself.
