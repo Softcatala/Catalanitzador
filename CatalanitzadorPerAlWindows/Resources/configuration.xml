@@ -448,7 +448,7 @@
 	 		<id>18</id>
 	 		<download>
 	  			<version>LanguageTool</version>
-	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.0.oxt</url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.1.oxt&id=7379&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.0.oxt.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.0.oxt</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.0.oxt</url_3>
@@ -478,7 +478,7 @@
 	 		<download>
 	  			<min_version>19.0</min_version>
 	  			<max_version>99.99.99</max_version>
-	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi</url_1>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi&id=7378&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi</url_2>
 	  			<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.6.2-fx.xpi</url_3>
