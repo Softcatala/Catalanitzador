@@ -20,15 +20,23 @@
 #pragma once
 
 #include "OpenOffice.h"
+#include "IOSVersion.h"
 
 class LibreOffice : public OpenOffice
 {
 public:
 
-		LibreOffice(IRegistry* registry);
+		LibreOffice(IOSVersion* OSVersion, IRegistry* registry);
 
 		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\LibreOffice\\LibreOffice"; }
 		virtual wchar_t * GetUserDirectory() { return L"\\LibreOffice\\%u\\user\\"; }
 		virtual wstring _getPreferencesDirectory();
+		virtual bool _openRegistryMachineKey(wchar_t* key);
+		virtual bool Is64Bits() { return m_is64bits == true;}
+
+private:
+		void _setIs64bits(bool is64bits);
+		TriBool m_is64bits;
+		IOSVersion* m_OSVersion;
 };
 

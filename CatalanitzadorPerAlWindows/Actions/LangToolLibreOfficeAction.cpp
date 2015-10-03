@@ -30,15 +30,14 @@
 #define EXTENSION_NAME L"org.languagetool.openoffice.Main"
 
 
-LangToolLibreOfficeAction::LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager) :
-Action(downloadManager), m_multipleDownloads(downloadManager), m_java(new OSVersion(), registry, runner)
+LangToolLibreOfficeAction::LangToolLibreOfficeAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager) :
+Action(downloadManager), m_multipleDownloads(downloadManager), m_java(OSVersion, registry, runner)
 {
 	m_registry = registry;
 	m_runner = runner;
 	m_libreOffice = libreOffice;
 	m_apacheOpenOffice = apacheOpenOffice;
 	m_szFilename[0] = NULL;
-	m_szFilenameJava[0] = NULL;
 	m_executionStep = ExecutionStepNone;
 	m_shouldInstallJava = false;
 	m_shouldConfigureJava = false;
@@ -52,11 +51,6 @@ LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
 	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_szFilename);
-	}
-
-	if (m_szFilenameJava[0] != NULL  && GetFileAttributes(m_szFilenameJava) != INVALID_FILE_ATTRIBUTES)
-	{
-		DeleteFile(m_szFilenameJava);
 	}
 }
 
@@ -109,6 +103,11 @@ const wchar_t* LangToolLibreOfficeAction::GetVersion()
 		if (m_libreOffice->IsInstalled())
 		{
 			m_version = L"LOO " + m_libreOffice->GetVersion();
+			
+			if (m_libreOffice->Is64Bits())
+			{
+				m_version += L" (64 bits)";
+			} 
 		}
 		else if (m_apacheOpenOffice->IsInstalled())
 		{
@@ -150,12 +149,10 @@ bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 	ConfigurationFileActionDownload downloadVersion;
 
 	m_multipleDownloads.EmptyList();
+
 	if (m_shouldInstallJava)
 	{
-		downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"Java");
-		GetTempPath(MAX_PATH, m_szFilenameJava);
-		wcscat_s(m_szFilenameJava, downloadVersion.GetFilename().c_str());
-		m_multipleDownloads.AddDownload(downloadVersion, m_szFilenameJava);		
+		m_java.AddDownload(m_multipleDownloads);
 	}
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), L"LanguageTool");
@@ -187,7 +184,7 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 			{
 				if (m_shouldInstallJava)
 				{
-					m_java.Install(m_szFilenameJava);
+					m_java.Install();
 				}
 				
 				m_executionStep = ExecutionStepInstallExtension;
@@ -276,7 +273,7 @@ bool LangToolLibreOfficeAction::_doesJavaNeedsConfiguration()
 	javaStrVersion = m_java.GetVersion();
 	javaConfigured = m_installingOffice->GetJavaConfiguredVersion();
 	bShouldInstallJava = ApplicationVersion(javaStrVersion) < ApplicationVersion(JAVA_MIN_VERSION);
-	bNoJavaInstalled = javaStrVersion.length() == 0;	
+	bNoJavaInstalled = javaStrVersion.length() == 0;
 	
 	// If Java is not installed we are OK if it is not configured in OpenOffice
 	if (bNoJavaInstalled)

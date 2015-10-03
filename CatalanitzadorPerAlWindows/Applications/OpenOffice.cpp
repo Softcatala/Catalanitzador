@@ -66,6 +66,11 @@ wstring OpenOffice::_getInstallationPath()
 	return m_installationPath;
 }
 
+bool OpenOffice::_openRegistryMachineKey(wchar_t* key)
+{
+	return m_registry->OpenKey(HKEY_LOCAL_MACHINE, key, false);
+}
+
 void OpenOffice::_readInstallPath()
 {
 	if (m_installationPathRead)
@@ -80,7 +85,7 @@ void OpenOffice::_readInstallPath()
 	key += GetVersion();
 
 	m_installationPath.erase();
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
+	if (_openRegistryMachineKey((wchar_t *)key.c_str()))
 	{
 		wchar_t szFileName[MAX_PATH];
 
@@ -103,7 +108,7 @@ bool OpenOffice::_readVersionInstalled()
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 	
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, GetMachineRegistryKey(), false))
+	if (_openRegistryMachineKey(GetMachineRegistryKey()))
 	{
 		while (bKeys)
 		{
@@ -210,8 +215,8 @@ void OpenOffice::InstallExtension(IRunner* runner, wstring file)
 	params = L" add ";
 	params += file;	
 	
-	g_log.Log(L"OpenOffice::InstallExtension '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
-	runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());
+	g_log.Log(L"OpenOffice::InstallExtension '%s' with params '%s' 64 bits '%u'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str(), (wchar_t*) Is64Bits());
+	runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str(), Is64Bits());
 }
 
 wstring OpenOffice::GetJavaConfiguredVersion() 

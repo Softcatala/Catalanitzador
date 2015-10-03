@@ -24,6 +24,7 @@
 OpenOfficeJavaConfiguration::OpenOfficeJavaConfiguration()
 {	
 	m_javaEnabled = false;
+	m_is64bits = false;
 }
 
 wstring OpenOfficeJavaConfiguration::_getSettingFile() 
@@ -33,7 +34,8 @@ wstring OpenOfficeJavaConfiguration::_getSettingFile()
 	assert(m_userDirectory.empty() == false);
 
 	file = m_userDirectory;
-	file += L"config\\javasettings_Windows_x86.xml";
+	file += L"config\\";
+	file += m_is64bits ? L"javasettings_Windows_x86_64.xml" : L"javasettings_Windows_x86.xml";
 	return file;
 }
 

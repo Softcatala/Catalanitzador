@@ -20,6 +20,7 @@
 #include "stdafx.h"
 #include "JavaRuntimeInspector.h"
 #include "Java.h"
+#include "OSVersion.h"
 
 JavaRuntimeInspector::JavaRuntimeInspector(IRegistry* registry)
 {
@@ -33,7 +34,8 @@ void JavaRuntimeInspector::Execute()
 
 void JavaRuntimeInspector::_readVersion()
 {
-	Java java(NULL, m_registry, NULL);
+	OSVersion OSversion;
+	Java java(&OSversion, m_registry, NULL);
 	m_version = java.GetVersion();
 
 	g_log.Log(L"JavaRuntimeInspector::_readVersion version %s", (wchar_t*) m_version.c_str());

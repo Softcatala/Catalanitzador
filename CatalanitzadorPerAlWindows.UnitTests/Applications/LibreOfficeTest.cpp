@@ -22,8 +22,10 @@
 #include "RegistryMock.h"
 #include "LibreOffice.h"
 #include "OpenOfficeTest.h"
+#include "OSVersionMock.h"
 
 using ::testing::StrCaseEq;
+using ::testing::Return;
 
 #define LibreOffice_REGKEY L"SOFTWARE\\LibreOffice\\LibreOffice"
 
@@ -31,27 +33,30 @@ class LibreOfficeTest : public LibreOffice
 {
 public:	
 	
-	LibreOfficeTest::LibreOfficeTest(IRegistry* registry)
-		: LibreOffice(registry) {};
+	LibreOfficeTest::LibreOfficeTest(IOSVersion* OSVersion, IRegistry* registry)
+		: LibreOffice(OSVersion, registry) {};
 	
 	public:
 
 		virtual wstring _getAppDataDir() {return L"\\directory"; }
 		using LibreOffice::_getPreferencesDirectory;
+		using LibreOffice::_readVersionInstalled;
 };
 
 
 #define CreateLibreOffice \
 	RegistryMock registryMockobj; \
-	LibreOfficeTest OpenOffice(&registryMockobj);
+	OSVersionMock osVersionMock; \
+	LibreOfficeTest libreOffice(&osVersionMock, &registryMockobj);
 
 TEST(LibreOfficeTest, _getPreferencesFile_Version34)
 {
 	const wchar_t* LOO_VERSION = L"3.4";
 	CreateLibreOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION);
-	wstring path = OpenOffice._getPreferencesDirectory();
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION, false);
+	wstring path = libreOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\3\\user\\"));
 }
 
@@ -60,8 +65,9 @@ TEST(LibreOfficeTest, _getPreferencesFile_Version40)
 	const wchar_t* LOO_VERSION = L"4.0";
 	CreateLibreOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION);
-	wstring path = OpenOffice._getPreferencesDirectory();
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION, false);
+	wstring path = libreOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\4\\user\\"));
 }
 
@@ -69,8 +75,35 @@ TEST(LibreOfficeTest, _getPreferencesFile_Version50)
 {
 	const wchar_t* LOO_VERSION = L"5.0";
 	CreateLibreOffice;
-	
-	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION);
-	wstring path = OpenOffice._getPreferencesDirectory();
+
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION, false);
+	wstring path = libreOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\4\\user\\"));
 }
+
+TEST(LibreOfficeTest, is64Bits_True)
+{
+	const wchar_t* LOO_VERSION = L"5.0";
+	CreateLibreOffice;
+
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION, true);
+	libreOffice._readVersionInstalled();
+	EXPECT_TRUE(libreOffice.Is64Bits());
+}
+
+
+TEST(LibreOfficeTest, is64Bits_False)
+{
+	const wchar_t* LOO_VERSION = L"5.0";
+	CreateLibreOffice;
+
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION, true);
+	libreOffice._readVersionInstalled();
+	EXPECT_FALSE(libreOffice.Is64Bits());
+}
+
+
+

@@ -53,7 +53,7 @@ class Actions
 		IRunner* _getNewRunner();
 		IWin32I18N* _getNewWin32I18N();
 		IFileVersionInfo* _getFileVersionInfo();
-		IOpenOffice* _getLibreOffice(IRegistry* registry);
+		IOpenOffice* _getLibreOffice(IOSVersion* OSVersion, IRegistry* registry);
 		IOpenOffice* _getApacheOpenOffice(IRegistry* registry);
 		IEAcceptLanguagesAction* _getIEAcceptLanguagesAction();
 

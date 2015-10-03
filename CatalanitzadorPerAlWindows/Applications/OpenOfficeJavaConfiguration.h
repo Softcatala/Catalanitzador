@@ -34,6 +34,7 @@ public:
 
 		OpenOfficeJavaConfiguration();
 
+		void SetIs64bits(bool is64bits) { m_is64bits = is64bits;}
 		void SetUserDirectory(wstring userDirectory) { m_userDirectory = userDirectory;}
 		wstring GetDefaultJavaVersion();
 		bool IsJavaEnabled() { return  m_javaEnabled;}
@@ -50,6 +51,7 @@ private:
 		wstring m_userDirectory;
 		bool m_javaEnabled;
 		wstring m_javaVersion;
+		bool m_is64bits;
 		bool m_javaInfoParserBlock;
 };
 

@@ -30,5 +30,5 @@ class OpenOfficeMock : public IOpenOffice
 	MOCK_METHOD1(IsExtensionInstalled, bool(wstring));
 	MOCK_METHOD2(InstallExtension, void(IRunner*, wstring));
 	MOCK_METHOD0(GetJavaConfiguredVersion, wstring());
-	
+	MOCK_METHOD0(Is64Bits, bool());
 };

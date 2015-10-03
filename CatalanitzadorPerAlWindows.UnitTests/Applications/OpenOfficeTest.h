@@ -19,4 +19,4 @@
 
 #include "OpenOffice.h"
 
-void SetOpenOfficeAppVersion(RegistryMock& registryMockobj, wstring key, wstring version);
+void SetOpenOfficeAppVersion(RegistryMock& registryMockobj, wstring key, wstring version, bool is64bits);

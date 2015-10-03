@@ -20,14 +20,26 @@
 #include "stdafx.h"
 #include "Java.h"
 #include "ApplicationVersion.h"
+#include "ConfigurationInstance.h"
 
 #define JAVA_REGKEY L"SOFTWARE\\JavaSoft\\Java Runtime Environment"
+#define JAVA_CONFIGURTION_XML_ACTION_ID LangToolLibreOfficeActionID
 
 Java::Java(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner)
 {
 	m_registry = registry;
 	m_OSVersion = OSVersion;
-	m_runner = runner;	
+	m_runner = runner;
+	m_szFilenameJava[0] = NULL;
+	m_is64bits = false;
+}
+
+Java::~Java()
+{
+	if (m_szFilenameJava[0] != NULL  && GetFileAttributes(m_szFilenameJava) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_szFilenameJava);
+	}
 }
 
 bool Java::ShouldInstall(wstring minVersion)
@@ -45,21 +57,35 @@ bool Java::ShouldInstall(wstring minVersion)
 	return bShouldInstallJava;
 }
 
-void Java::Install(wstring installer)
+void Java::Install()
 {
 	wstring app, params;	
 
-	app = installer;
+	app = m_szFilenameJava;
 	params = L" /s";
 
-	g_log.Log(L"Java::Install. '%s' with params '%s'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str());
-	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str());	
+	m_runner->Execute((wchar_t*) app.c_str(), (wchar_t*) params.c_str(), m_is64bits);
+	g_log.Log(L"Java::Install. '%s' with params '%s' 64 bits '%u'", (wchar_t*) app.c_str(), (wchar_t*) params.c_str(), (wchar_t*) m_is64bits);
 }
 
 bool Java::_readVersion(wstring& version)
 {
 	version.erase();
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, JAVA_REGKEY, false))
+
+	bool rslt = false;
+
+	if (m_OSVersion->IsWindows64Bits())
+	{
+		rslt = m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, JAVA_REGKEY, false);
+		m_is64bits = rslt;
+	}
+
+	if (rslt == false)
+	{
+		rslt = m_registry->OpenKey(HKEY_LOCAL_MACHINE, JAVA_REGKEY, false);
+	}
+
+	if (rslt)
 	{
 		wchar_t szVersion[1024];
 	
@@ -80,4 +106,17 @@ wstring Java::GetVersion()
 	_readVersion(version);
 	return version;
 }
+
+
+void Java::AddDownload(MultipleDownloads& multipleDownloads)
+{
+	ConfigurationFileActionDownload downloadVersion;
+
+	wstring downloadID = m_OSVersion->IsWindows64Bits() ? L"Java64bits" : L"Java";
+	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(JAVA_CONFIGURTION_XML_ACTION_ID, downloadID);
+	GetTempPath(MAX_PATH, m_szFilenameJava);
+	wcscat_s(m_szFilenameJava, downloadVersion.GetFilename().c_str());
+	multipleDownloads.AddDownload(downloadVersion, m_szFilenameJava);
+}
+
 

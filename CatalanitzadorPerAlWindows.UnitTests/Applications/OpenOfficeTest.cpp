@@ -43,6 +43,7 @@ public:
 		virtual wstring _getAppDataDir() {return L"\\directory"; }
 		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\OpenOffice.org\\OpenOffice.org"; }
 		virtual wchar_t * GetUserDirectory() { return L"\\OpenOffice.org\\%u\\user\\"; }
+		virtual bool Is64Bits() { return false;}
 
 		using OpenOffice::_readVersionInstalled;
 		using OpenOffice::_readInstallPath;
@@ -56,9 +57,17 @@ public:
 	RegistryMock registryMockobj; \
 	OpenOfficeTest openOffice(&registryMockobj);
 
-void SetOpenOfficeAppVersion(RegistryMock& registryMockobj, wstring key, wstring version)
+void SetOpenOfficeAppVersion(RegistryMock& registryMockobj, wstring key, wstring version, bool is64bits)
 {
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).WillRepeatedly(Return(true));
+	if (is64bits)
+	{
+		EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).WillRepeatedly(Return(true));
+	}
+	else
+	{
+		EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).WillRepeatedly(Return(true));
+	}
+	
 	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(version), Return(true)));
 	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
 }
@@ -79,7 +88,7 @@ TEST(OpenOfficeTest, _getVersion)
 	const wchar_t* OPENOFFICE_VERSION = L"3.3";
 	CreateOpenOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);	
+	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION, false);
 	openOffice._readVersionInstalled();
 	EXPECT_THAT(openOffice.GetVersion(), StrCaseEq(OPENOFFICE_VERSION));
 }
@@ -89,7 +98,7 @@ TEST(OpenOfficeTest, _getInstallationPath)
 	const wchar_t* OPENOFFICE_VERSION = L"4.1";
 	CreateOpenOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
+	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION, false);
 	SetOpenOfficeInstallPath(registryMockobj, OPENOFFICE_VERSION, L"\\somepath\\bin.exe");
 
 	wstring path = openOffice._getInstallationPath();
@@ -101,7 +110,7 @@ TEST(OpenOfficeTest, _getPreferencesFile_Version4)
 	const wchar_t* OPENOFFICE_VERSION = L"4.1";
 	CreateOpenOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
+	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION, false);
 	wstring path = openOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice.org\\4\\user\\"));
 }
@@ -111,7 +120,7 @@ TEST(OpenOfficeTest, _getPreferencesFile_Version34)
 	const wchar_t* OPENOFFICE_VERSION = L"3.4";
 	CreateOpenOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION);
+	SetOpenOfficeAppVersion(registryMockobj, OPENOFFICE_REGKEY, OPENOFFICE_VERSION, false);
 	wstring path = openOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice.org\\3\\user\\"));
 }

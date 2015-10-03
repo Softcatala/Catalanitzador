@@ -29,5 +29,6 @@ public:
 		virtual bool IsExtensionInstalled(wstring extension) = 0;
 		virtual void InstallExtension(IRunner* runner, wstring file) = 0;
 		virtual wstring GetJavaConfiguredVersion() = 0;
+		virtual bool Is64Bits() = 0;
 };
 

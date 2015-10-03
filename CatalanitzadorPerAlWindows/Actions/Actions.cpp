@@ -117,10 +117,10 @@ IFileVersionInfo* Actions::_getFileVersionInfo()
 	return fileVersionInfo;
 }
 
-IOpenOffice* Actions::_getLibreOffice(IRegistry* registry)
+IOpenOffice* Actions::_getLibreOffice(IOSVersion* OSVersion, IRegistry* registry)
 {
 	IOpenOffice* openOffice;
-	openOffice = (IOpenOffice *)new LibreOffice(registry);
+	openOffice = (IOpenOffice *)new LibreOffice(OSVersion, registry);
 	m_objectsToDelete.push_back(openOffice);
 	return openOffice;
 }
@@ -168,8 +168,10 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 	m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 
 	IRegistry* langToolLibreOfficeRegistry = _getNewRegistry();
-	m_actions.push_back(new LangToolLibreOfficeAction(langToolLibreOfficeRegistry, _getNewRunner(),
-		_getLibreOffice(langToolLibreOfficeRegistry), _getApacheOpenOffice(langToolLibreOfficeRegistry), m_pDownloadManager));
+	IOSVersion* osVersion = _getNewOSVersion();
+
+	m_actions.push_back(new LangToolLibreOfficeAction(osVersion, langToolLibreOfficeRegistry, _getNewRunner(),
+		_getLibreOffice(osVersion, langToolLibreOfficeRegistry), _getApacheOpenOffice(langToolLibreOfficeRegistry), m_pDownloadManager));
 
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));

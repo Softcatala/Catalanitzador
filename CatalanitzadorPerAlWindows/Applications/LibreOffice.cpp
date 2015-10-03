@@ -20,10 +20,12 @@
 #include "stdafx.h"
 #include "LibreOffice.h"
 #include "ApplicationVersion.h"
+#include "OSVersion.h"
 
-LibreOffice::LibreOffice(IRegistry* registry) : OpenOffice(registry)
+LibreOffice::LibreOffice(IOSVersion* OSVersion, IRegistry* registry) : OpenOffice(registry)
 {
-
+	m_OSVersion = OSVersion;
+	_setIs64bits(false);
 }
 
 wstring LibreOffice::_getPreferencesDirectory()
@@ -50,4 +52,31 @@ wstring LibreOffice::_getPreferencesDirectory()
 	swprintf_s(directory, GetUserDirectory(), subdir_num);
 	location += directory;
 	return location;
+}
+
+void LibreOffice::_setIs64bits(bool is64bits)
+{
+	m_is64bits = is64bits;
+	m_javaConfiguration.SetIs64bits(is64bits);
+}
+
+bool LibreOffice::_openRegistryMachineKey(wchar_t* key)
+{
+	bool rslt = false;
+
+	if (m_OSVersion->IsWindows64Bits())
+	{
+		rslt =  m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, key, false);
+		g_log.Log(L"LibreOffice::_openRegistryMachineKey. OpenKeyNoWOWRedirect '%s', result %u", key, (wchar_t*) rslt);
+		_setIs64bits(rslt);		
+	}
+
+	if (rslt == false)
+	{
+		rslt = m_registry->OpenKey(HKEY_LOCAL_MACHINE, key, false);
+		g_log.Log(L"LibreOffice::_openRegistryMachineKey. OpenKey '%s', result %u", key, (wchar_t*) rslt);
+	}
+
+	g_log.Log(L"LibreOffice::_openRegistryMachineKey. Returns %u, 64 bits %s", (wchar_t*) rslt, m_is64bits.ToString());
+	return rslt;
 }

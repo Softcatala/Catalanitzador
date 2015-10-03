@@ -30,7 +30,7 @@
 class LangToolLibreOfficeAction : public Action, public ActionExecution
 {
 public:
-		LangToolLibreOfficeAction(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager);
+		LangToolLibreOfficeAction(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager);
 		~LangToolLibreOfficeAction();
 
 		virtual wchar_t* GetName();
@@ -68,8 +68,8 @@ private:
 		IOpenOffice* m_apacheOpenOffice;
 		IRegistry* m_registry;
 		IRunner* m_runner;
+
 		wchar_t m_szFilename[MAX_PATH];
-		wchar_t m_szFilenameJava[MAX_PATH];
 		wstring m_version;
 		ExecutionStep m_executionStep;
 		MultipleDownloads m_multipleDownloads;

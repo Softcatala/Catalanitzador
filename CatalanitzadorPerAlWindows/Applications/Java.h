@@ -23,6 +23,8 @@
 #include "IWin32I18N.h"
 #include "IOSVersion.h"
 #include "Runner.h"
+#include "ConfigurationFileActionDownload.h"
+#include "MultipleDownloads.h"
 
 
 class Java
@@ -30,10 +32,13 @@ class Java
 public:
 
 		Java(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner);
+		~Java();
 
 		bool ShouldInstall(wstring minVersion);
-		void Install(wstring installer);
+		void Install();
 		wstring GetVersion();
+		void AddDownload(MultipleDownloads& multipleDownloads);
+		bool Is64Bits() { return m_is64bits;}
 
 private:
 
@@ -42,5 +47,7 @@ private:
 		IRegistry* m_registry;
 		IOSVersion* m_OSVersion;
 		IRunner* m_runner;
+		bool m_is64bits;
+		wchar_t m_szFilenameJava[MAX_PATH];
 };
 

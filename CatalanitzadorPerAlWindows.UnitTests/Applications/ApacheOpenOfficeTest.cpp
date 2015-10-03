@@ -63,7 +63,7 @@ TEST(ApacheOpenOfficeTest, _getPreferencesFile_Version34)
 	const wchar_t* APACHE_VERSION = L"3.4";
 	CreateApacheOpenOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, APACHEOPENOFFICE_REGKEY, APACHE_VERSION);
+	SetOpenOfficeAppVersion(registryMockobj, APACHEOPENOFFICE_REGKEY, APACHE_VERSION, false);
 	wstring path = apacheOpenOffice._getPreferencesDirectory();
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\OpenOffice\\3\\user\\"));
 }
@@ -73,7 +73,7 @@ TEST(ApacheOpenOfficeTest, _getInstallationPath)
 	const wchar_t* APACHEOPENOFFICE_VERSION = L"4.1";
 	CreateApacheOpenOffice;
 	
-	SetOpenOfficeAppVersion(registryMockobj, APACHEOPENOFFICE_REGKEY, APACHEOPENOFFICE_VERSION);
+	SetOpenOfficeAppVersion(registryMockobj, APACHEOPENOFFICE_REGKEY, APACHEOPENOFFICE_VERSION, false);
 	SetApacheOpenOfficeInstallPath(registryMockobj, APACHEOPENOFFICE_VERSION, L"\\somepath\\bin.exe");
 	
 	wstring path = apacheOpenOffice._getInstallationPath();

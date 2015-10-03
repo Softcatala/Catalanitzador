@@ -33,6 +33,9 @@ public:
 
 		virtual wchar_t * GetMachineRegistryKey() { return L"SOFTWARE\\OpenOffice\\OpenOffice"; }
 		virtual wchar_t * GetUserDirectory() { return L"\\OpenOffice\\%u\\user\\"; }
+
+		// There is no AOO 64 bits
+		virtual bool Is64Bits() { return false;}
 };
 
 

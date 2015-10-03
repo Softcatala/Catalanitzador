@@ -51,7 +51,11 @@ protected:
 		virtual wstring _getAppDataDir();
 		virtual wstring _getPreferencesDirectory();
 		virtual wstring _getExtensionsFile();
+		virtual bool _openRegistryMachineKey(wchar_t* key);
 		wstring _getInstallationPath();
+
+		IRegistry* m_registry;
+		OpenOfficeJavaConfiguration m_javaConfiguration;
 
 private:
 
@@ -62,8 +66,6 @@ private:
 		TriBool m_isInstalled;
 		wstring m_version;
 		wstring m_installationPath;
-		bool m_installationPathRead;
-		IRegistry* m_registry;
-		OpenOfficeJavaConfiguration m_javaConfiguration;
+		bool m_installationPathRead;		
 };
 

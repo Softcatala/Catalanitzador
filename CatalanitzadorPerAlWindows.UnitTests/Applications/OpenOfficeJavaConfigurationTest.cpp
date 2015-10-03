@@ -26,7 +26,7 @@ using ::testing::StrCaseEq;
 class OpenOfficeJavaConfigurationTest : public OpenOfficeJavaConfiguration
 {
 public:
-		
+	
 		void _setSettingFile(wstring settingsFile)
 		{
 			m_settingsFile = settingsFile;

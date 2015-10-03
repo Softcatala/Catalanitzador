@@ -30,11 +30,12 @@ using ::testing::DoAll;
 #define EXTENSION_NAME L"org.languagetool.openoffice.Main"
 
 #define CreateLTOOAction \
+	OSVersionMock osVersionMock; \
 	RunnerMock runnerMock; \
 	RegistryMock registryMock; \
 	OpenOfficeMock libreOfficeMock; \
 	OpenOfficeMock apacheOpenOfficeMock; \
-	LangToolLibreOfficeActionTest action(&registryMock, &runnerMock, &libreOfficeMock, &apacheOpenOfficeMock, &DownloadManager());
+	LangToolLibreOfficeActionTest action(&osVersionMock, &registryMock, &runnerMock, &libreOfficeMock, &apacheOpenOfficeMock, &DownloadManager());
 
 extern void _setMockForJava(RegistryMock& registryMockobj, const wchar_t* version);
 extern void _setMockForNoJava(RegistryMock& registryMockobj);
@@ -44,8 +45,8 @@ class LangToolLibreOfficeActionTest : public LangToolLibreOfficeAction
 {
 public:
 	
-	LangToolLibreOfficeActionTest(IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager)
-		: LangToolLibreOfficeAction(registry, runner, libreOffice, apacheOpenOffice, downloadManager){};
+	LangToolLibreOfficeActionTest(IOSVersion* OSVersion, IRegistry* registry, IRunner* runner, IOpenOffice* libreOffice, IOpenOffice* apacheOpenOffice, DownloadManager* downloadManager)
+		: LangToolLibreOfficeAction(OSVersion, registry, runner, libreOffice, apacheOpenOffice, downloadManager){};
 
 	public:
 
