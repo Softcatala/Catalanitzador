@@ -464,11 +464,11 @@
 	  		</download>
 	  		<download>
 	  			<version>Java64bits</version>
-	  			<url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe</url_1>
-	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe</url_3>
-				<filename>jre-8u60-windows-x64.exe</filename>
+	  			<url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe</url_1>
+	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe</url_3>
+				<filename>jre-7u80-windows-x64.exe</filename>
 	  		</download>
 		</action>
 		
