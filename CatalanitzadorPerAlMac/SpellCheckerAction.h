@@ -48,6 +48,7 @@ private:
 	NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
 	bool _copyfile(NSString* src, NSString* trg);
 	bool _isDictionaryInstalled();
+	void _createDirectoryIfDoesNotExists(NSString* directory);
 	
 	string m_version;
 	AuthorizationRef m_authorizationRef;

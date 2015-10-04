@@ -107,6 +107,24 @@ const char* SpellCheckerAction::GetVersion()
 	return m_version.c_str();
 }
 
+void SpellCheckerAction::_createDirectoryIfDoesNotExists(NSString* directory)
+{
+	if([[NSFileManager defaultManager] fileExistsAtPath:directory])
+		return;
+	
+	NSString * trkitMoveUtilityPath = @"/bin/mkdir";
+	OSStatus status;
+	
+	char * args[2] = {
+		[0] = (char *)[[directory stringByStandardizingPath] UTF8String],
+		[1] = NULL
+	};
+	
+	// Using mkdir instead of createDirectoryAtPath:directory to change how we request permissions
+	status = AuthorizationExecuteWithPrivileges(m_authorizationRef,
+												[[trkitMoveUtilityPath stringByStandardizingPath] UTF8String],
+												0, args, NULL);
+}
 
 void SpellCheckerAction::Execute()
 {
@@ -115,6 +133,9 @@ void SpellCheckerAction::Execute()
 	
 	requestPermissions();
 
+	// Starting in OS X Capitan the directory is not created
+	_createDirectoryIfDoesNotExists(@"/Library/Spelling");
+	
 	// NOTE: do not use special chars (like accents) in the target file name
 	// We were not able to reproduce it but users reported problems with the dictionary
 	srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
