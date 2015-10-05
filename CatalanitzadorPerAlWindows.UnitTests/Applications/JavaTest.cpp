@@ -26,44 +26,57 @@ using ::testing::StrCaseEq;
 using ::testing::DoAll;
 
 #define CreateJava \
-	OSVersionMock osVersionExMock; \
+	OSVersionMock osVersionMock; \
 	RunnerMock runnerMock; \
 	RegistryMock registryMock; \
-	Java java(&osVersionExMock, &registryMock, &runnerMock);
+	Java java(&osVersionMock, &registryMock, &runnerMock);
 
-void _setMockForNoJava(RegistryMock& registryMockobj)
+void _setMockForNoJava(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, bool is64bits)
 {
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(is64bits));
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(false));	
 }
 
-void _setMockForJava(RegistryMock& registryMockobj, const wchar_t* version)
-{	
-	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(true));
+void _setMockForJava(OSVersionMock& osVersionMock, RegistryMock& registryMockobj, const wchar_t* version, bool is64bits)
+{
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(is64bits));
+	
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(is64bits));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\JavaSoft\\Java Runtime Environment"), false)).WillRepeatedly(Return(!is64bits));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(version), Return(true)));
 }
 
-TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_Yes)
+TEST(JavaTest, _shouldInstallJava_Yes)
 {
 	CreateJava;
 
-	_setMockForJava(registryMock, L"1.6");
+	_setMockForJava(osVersionMock, registryMock, L"1.6", false);
 	EXPECT_TRUE(java.ShouldInstall(L"1.7"));
 }
 
-TEST(LangToolLibreOfficeActionTest, _shouldInstallJava_No)
+TEST(JavaTest, _shouldInstallJava_No)
 {
 	CreateJava;
 
-	_setMockForJava(registryMock, L"1.7");
+	_setMockForJava(osVersionMock, registryMock, L"1.7", false);
 	EXPECT_FALSE(java.ShouldInstall(L"1.7"));
 }
 
-TEST(LangToolLibreOfficeActionTest, _readVersion)
+TEST(JavaTest, _readVersion)
 {
 	CreateJava;
 	const wchar_t* VERSION = L"1.7";
 
-	_setMockForJava(registryMock, VERSION);
+	_setMockForJava(osVersionMock, registryMock, VERSION, false);
+	EXPECT_THAT(java.GetVersion(), StrCaseEq(VERSION));
+}
+
+TEST(JavaTest, _readVersion_64bits)
+{
+	CreateJava;
+	const wchar_t* VERSION = L"1.7";
+
+	_setMockForJava(osVersionMock, registryMock, VERSION, true);
 	EXPECT_THAT(java.GetVersion(), StrCaseEq(VERSION));
 }
 

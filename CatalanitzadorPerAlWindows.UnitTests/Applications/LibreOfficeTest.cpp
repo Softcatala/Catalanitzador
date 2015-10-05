@@ -104,6 +104,3 @@ TEST(LibreOfficeTest, is64Bits_False)
 	libreOffice._readVersionInstalled();
 	EXPECT_FALSE(libreOffice.Is64Bits());
 }
-
-
-

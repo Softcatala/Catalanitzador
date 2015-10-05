@@ -59,15 +59,8 @@ public:
 
 void SetOpenOfficeAppVersion(RegistryMock& registryMockobj, wstring key, wstring version, bool is64bits)
 {
-	if (is64bits)
-	{
-		EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).WillRepeatedly(Return(true));
-	}
-	else
-	{
-		EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).WillRepeatedly(Return(true));
-	}
-	
+	EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).WillRepeatedly(Return(is64bits));
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(key.c_str()), false)).WillRepeatedly(Return(!is64bits));	
 	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX0,_)).WillRepeatedly(DoAll(SetArgWStringPar2(version), Return(true)));
 	EXPECT_CALL(registryMockobj, RegEnumKey(ENUM_REG_INDEX1,_)).WillRepeatedly(Return(false));
 }
