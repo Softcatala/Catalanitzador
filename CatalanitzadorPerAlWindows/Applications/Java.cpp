@@ -107,7 +107,6 @@ wstring Java::GetVersion()
 	return version;
 }
 
-
 void Java::AddDownload(MultipleDownloads& multipleDownloads)
 {
 	ConfigurationFileActionDownload downloadVersion;
