@@ -59,9 +59,29 @@ TEST(OpenOfficeJavaConfigurationTest, _getSettingFile)
 
 TEST(OpenOfficeJavaConfigurationTest, GetDefaultJavaVersion_Enabled16)
 {	
-	OpenOfficeJavaConfigurationTest openOfficeJava;	
+	OpenOfficeJavaConfigurationTest openOfficeJava;
 	
 	openOfficeJava._setSettingFile(L"javasettings_Windows_x86-EnabledJava16.xml");
 	EXPECT_THAT(openOfficeJava.GetDefaultJavaVersion(), StrCaseEq(L"1.6.0"));
 	EXPECT_TRUE(openOfficeJava.IsJavaEnabled());
 }
+
+
+TEST(OpenOfficeJavaConfigurationTest, _getSettingFile_32bits)
+{	
+	OpenOfficeJavaConfigurationTest openOfficeJava;
+
+	openOfficeJava.SetUserDirectory(L"directory\\");
+	openOfficeJava.SetIs64bits(false);
+	EXPECT_THAT(openOfficeJava._getSettingFile(), StrCaseEq(L"directory\\config\\javasettings_Windows_x86.xml"));
+}
+
+TEST(OpenOfficeJavaConfigurationTest, _getSettingFile_64bits)
+{	
+	OpenOfficeJavaConfigurationTest openOfficeJava;
+
+	openOfficeJava.SetUserDirectory(L"directory\\");
+	openOfficeJava.SetIs64bits(true);
+	EXPECT_THAT(openOfficeJava._getSettingFile(), StrCaseEq(L"directory\\config\\javasettings_Windows_x86_64.xml"));
+}
+
