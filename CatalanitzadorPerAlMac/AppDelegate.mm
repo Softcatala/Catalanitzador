@@ -30,6 +30,10 @@
 #include "Reboot.h"
 #include "DictationAction.h"
 
+// Dictation action is still in development. Enable this define to enable it
+//#define DICTATION_ACTION 1
+
+
 @implementation AppDelegate
 
 vector <Action *> actions;
@@ -37,7 +41,11 @@ SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
 ChromeAction chromeAction;
+
+#if DICTATION_ACTION
 DictationAction dictationAction;
+#endif
+
 
 NSString *statsFilename = nil;
 NSString *alertTitle = @"Catalanitzador per al Mac";
@@ -269,7 +277,7 @@ void _upload(Serializer& serializer)
 	actions.push_back(&spellCheckerAction);
 	actions.push_back(&chromeAction);
 	
-#if DEVELOPMENT_VERSION
+#if DICTATION_ACTION
 	actions.push_back(&dictationAction);
 #endif
 	
