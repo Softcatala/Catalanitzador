@@ -37,7 +37,7 @@ SpellCheckerAction::~SpellCheckerAction()
 	}
 }
 
-bool SpellCheckerAction::requestPermissions()
+bool SpellCheckerAction::_requestPermissions()
 {
 	OSStatus status;
  
@@ -45,7 +45,7 @@ bool SpellCheckerAction::requestPermissions()
 	
 	if (status != errAuthorizationSuccess)
 	{
-		NSLog(@"SpellCheckerAction::requestPermissions. AuthorizationCreate failed: %d", status);
+		NSLog(@"SpellCheckerAction::_requestPermissions. AuthorizationCreate failed: %d", status);
 		return false;
 	}
 	
@@ -57,7 +57,7 @@ bool SpellCheckerAction::requestPermissions()
 	status = AuthorizationCopyRights(m_authorizationRef, &rights, NULL, flags, NULL);
 	if (status != errAuthorizationSuccess)
 	{
-		NSLog(@"SpellCheckerAction::requestPermissions. AuthorizationCopyRights failed: %d", status);
+		NSLog(@"SpellCheckerAction::_requestPermissions. AuthorizationCopyRights failed: %d", status);
 		return false;
 	}
 	
@@ -131,22 +131,29 @@ void SpellCheckerAction::Execute()
 	NSString* srcFile;
 	bool isOk;
 	
-	requestPermissions();
-
-	// Starting in OS X Capitan the directory is not created
-	_createDirectoryIfDoesNotExists(@"/Library/Spelling");
+	if (_requestPermissions())
+	{
+		// Starting in OS X Capitan the directory is not created
+		_createDirectoryIfDoesNotExists(@"/Library/Spelling");
 	
-	// NOTE: do not use special chars (like accents) in the target file name
-	// We were not able to reproduce it but users reported problems with the dictionary
-	srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
-	_copyfile(srcFile, @"/Library/Spelling/Catala.aff");
+		// NOTE: do not use special chars (like accents) in the target file name
+		// We were not able to reproduce it but users reported problems with the dictionary
+		srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
+		_copyfile(srcFile, @"/Library/Spelling/Catala.aff");
 	
-	srcFile = _getBundlePath(CFSTR("Català"), CFSTR("dic"));
-	_copyfile(srcFile, @"/Library/Spelling/Catala.dic");
+		srcFile = _getBundlePath(CFSTR("Català"), CFSTR("dic"));
+		_copyfile(srcFile, @"/Library/Spelling/Catala.dic");
 	
-	isOk = _isDictionaryInstalled();
-	SetStatus(isOk ? Successful : FinishedWithError);
-	
+		isOk = _isDictionaryInstalled();
+		SetStatus(isOk ? Successful : FinishedWithError);
+	}
+	else
+	{
+		// If the user has not authorized the action we assume that reported as not selected since he does not want to do it
+		SetStatus(NotSelected);
+		isOk = false;
+	}
+		
 	NSLog(@"SpellCheckerAction::Execute. Result %u", isOk);
 }
 

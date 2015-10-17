@@ -347,7 +347,7 @@ void _upload(Serializer& serializer)
 		if (action->IsNeed() && action->GetStatus() == Selected)
 		{
 			action->Execute();
-			if (action->GetStatus() != Successful)
+			if (action->GetStatus() == FinishedWithError)
 				correct = false;
 		}
 	}

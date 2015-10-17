@@ -44,7 +44,7 @@ public:
 	
 private:
 	
-	bool requestPermissions();
+	bool _requestPermissions();
 	NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
 	bool _copyfile(NSString* src, NSString* trg);
 	bool _isDictionaryInstalled();
