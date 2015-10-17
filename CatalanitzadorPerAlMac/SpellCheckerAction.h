@@ -34,7 +34,7 @@ public:
 	
 	virtual const char* GetDescription()  {return "Afegeix el corretor ortogràfic de Softcatalà al sistema en aplicacions com ara Mail i Pages.";}
 	
-	virtual ActionID GetID() const {return MacSystemActionActionID;}
+	virtual ActionID GetID() const {return MacSpellCheckerActionID;}
 	
 	virtual bool IsNeed();
 	virtual void Execute();

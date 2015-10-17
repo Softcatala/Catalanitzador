@@ -38,7 +38,7 @@ enum ActionID
 	CatalanitzadorUpdateActionID = 12,
 	SkypeActionID = 13,
 	iTunesActionID = 14,
-    MacSystemActionActionID = 15,
+    MacSystemLanguageActionID = 15,
     MacSpellCheckerActionID = 16,
 	FirefoxLangPackActionID = 17,
 	LangToolLibreOfficeActionID = 18,
