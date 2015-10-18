@@ -22,6 +22,20 @@
 #include "Inspector.h"
 #include "IRegistry.h"
 #include "XmlParser.h"
+#include "LibreOffice.h"
+#include "OSVersion.h"
+
+
+class LibreOfficeConfiguration : public LibreOffice
+{
+public:
+
+	LibreOfficeConfiguration(IOSVersion* OSVersion, IRegistry* registry) : LibreOffice(OSVersion, registry) {}
+
+	using LibreOffice::GetVersion;
+	using LibreOffice::_getInstallationPath;
+};
+
 
 class LibreOfficeInspector : public Inspector
 {
@@ -42,4 +56,6 @@ private:
 
 		IRegistry* m_registry;
 		wstring m_version;
+		LibreOfficeConfiguration m_LibreOffice;
+		OSVersion m_OSVersion;
 };

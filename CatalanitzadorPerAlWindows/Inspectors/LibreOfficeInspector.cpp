@@ -22,38 +22,19 @@
 #include "LibreOfficeInspector.h"
 
 
-LibreOfficeInspector::LibreOfficeInspector(IRegistry* registry)
+LibreOfficeInspector::LibreOfficeInspector(IRegistry* registry) : m_LibreOffice(&m_OSVersion, registry)
 {
 	m_registry = registry;
 }
-
-#define PROGRAM_REGKEY L"SOFTWARE\\LibreOffice\\LibreOffice"
 
 void LibreOfficeInspector::_readVersionInstalled()
 {
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
-	{
-		while (bKeys)
-		{
-			wstring key;
-
-			bKeys = m_registry->RegEnumKey(dwIndex, key);
-			dwIndex++;
-
-			if (bKeys)
-			{
-				m_version = key;
-				break;
-			}
-		}
-		m_registry->Close();
-	}
+	m_version = m_LibreOffice.GetVersion();
 	g_log.Log(L"LibreOfficeInspector::_readVersionInstalled '%s'", (wchar_t *) m_version.c_str());
-
-	m_KeyValues.push_back(InspectorKeyValue(L"version",m_version));
+	m_KeyValues.push_back(InspectorKeyValue(L"version", m_version));
 }
 
 void LibreOfficeInspector::Execute()
@@ -66,18 +47,11 @@ void LibreOfficeInspector::Execute()
 
 void LibreOfficeInspector::_getPreferencesFile(wstring& location)
 {
-	wchar_t szPath[MAX_PATH];
-	wstring Version=m_version;
-	if(Version.size() > 0)
+	if (m_version.size() > 0)
 	{
-		Version = Version.erase(Version.find(L"."));
-		SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE,  NULL, 0, szPath);
-		location = szPath;
-		location += L"\\LibreOffice\\";
-		location += Version;
-		location += L"\\user\\registrymodifications.xcu";
+		location = m_LibreOffice._getPreferencesDirectory();
+		location += L"registrymodifications.xcu";
 	}
-	
 }
 
 enum LanguageParsingState
@@ -197,37 +171,28 @@ void LibreOfficeInspector::_readLocale()
 }
 
 void LibreOfficeInspector::_getUIFilesInstalled()
-{
-	wstring key;
+{	
 	wchar_t szUIFound[20]=L"";
+	wstring path = m_LibreOffice._getInstallationPath();
 
-	key = PROGRAM_REGKEY;
-	key += L"\\";
-	key += m_version;
-
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
+	if (path.empty() == false)
 	{
 		wchar_t szFileName[MAX_PATH];
+		int i;
 
-		if (m_registry->GetString(L"path", szFileName, sizeof(szFileName)))
-		{
-			int i;
+		wcscpy_s(szFileName, path.c_str());
+		for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
+		
+		szFileName[i + 1] = NULL;
+		wcscat_s(szFileName, L"resource\\svxca.res");
 
-			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
-			
-			szFileName[i + 1] = NULL;
-			wcscat_s(szFileName, L"resource\\svxca.res");
+		if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szUIFound, L"ca");
 
-			if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szUIFound, L"ca");
-
-			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '.' ; i--);
-			szFileName[i] = NULL;
-			wcscat_s(szFileName, L"-XV.res");
-			if(wcslen(szUIFound) > 1) wcscat_s(szUIFound, L";");
-			if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szUIFound, L"ca-XV");
-
-		}
-		m_registry->Close();
+		for (i = wcslen(szFileName); i > 0 && szFileName[i] != '.' ; i--);
+		szFileName[i] = NULL;
+		wcscat_s(szFileName, L"-XV.res");
+		if(wcslen(szUIFound) > 1) wcscat_s(szUIFound, L";");
+		if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szUIFound, L"ca-XV");	
 	}
 	g_log.Log(L"LibreOfficeInspector::_getUIFilesInstalled '%s'", (wchar_t *) szUIFound);
 
@@ -236,30 +201,22 @@ void LibreOfficeInspector::_getUIFilesInstalled()
 
 void LibreOfficeInspector::_getDictInstalled()
 {
-	wstring key;
 	wchar_t szDictFound[10]=L"";
 
-	key = PROGRAM_REGKEY;
-	key += L"\\";
-	key += m_version;
-
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false))
+	wstring path = m_LibreOffice._getInstallationPath();
+	if (path.empty() == false)
 	{
 		wchar_t szFileName[MAX_PATH];
+		int i;
 
-		if (m_registry->GetString(L"path", szFileName, sizeof(szFileName)))
-		{
-			int i;
+		wcscpy_s(szFileName, path.c_str());
+		for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
+		if (i>0) i--;
+		for (; i > 0 && szFileName[i] != '\\' ; i--);
+		szFileName[i + 1] = NULL;
+		wcscat_s(szFileName, L"share\\extensions\\dict-ca\\nul");
 
-			for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
-			if (i>0) i--;
-			for (; i > 0 && szFileName[i] != '\\' ; i--);
-			szFileName[i + 1] = NULL;
-			wcscat_s(szFileName, L"share\\extensions\\dict-ca\\nul");
-
-			if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szDictFound, L"ca");
-		}
-		m_registry->Close();
+		if(GetFileAttributes(szFileName) != INVALID_FILE_ATTRIBUTES) wcscat_s(szDictFound, L"ca");
 	}
 	g_log.Log(L"LibreOfficeInspector::_getDictInstalled '%s'", (wchar_t *) szDictFound);
 
