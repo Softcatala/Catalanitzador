@@ -26,13 +26,15 @@ PDFCreatorInspector::PDFCreatorInspector(IRegistry* registry)
 	m_registry = registry;
 }
 
-#define PROGRAM_REGKEY L"Software\\PDFCreator\\Program"
+#define PROGRAM_REGKEY L"Software\\PDFCreator.net\\Program"
+#define PROGRAM_REGKEY_OLDKEY L"Software\\PDFCreator\\Program"
+#define PROGRAM_REGKEY_USER L"Software\\PDFCreator\\Program"
 
 void PDFCreatorInspector::_readLangInstalled()
 {
 	wchar_t szLanguage[1024] = L"";
 
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, PROGRAM_REGKEY, false))
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, PROGRAM_REGKEY_USER, false))
 	{
 		m_registry->GetString(L"Language", szLanguage, sizeof(szLanguage));
 		m_registry->Close();
@@ -54,12 +56,14 @@ void PDFCreatorInspector::_readVersion()
 	wchar_t szVersion[1024] = L"";
 
 	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false) ||
-     m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false))
+		m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY, false) ||
+		m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY_OLDKEY, false) ||
+		m_registry->OpenKey(HKEY_LOCAL_MACHINE, PROGRAM_REGKEY_OLDKEY, false))
 	{
 		m_registry->GetString(L"ApplicationVersion", szVersion, sizeof(szVersion));
 		m_registry->Close();
 	}
 
-	g_log.Log(L"PDFCreator::_readVersionInstalled '%s'", szVersion);
+	g_log.Log(L"PDFCreator::_readVersion '%s'", szVersion);
 	m_KeyValues.push_back(InspectorKeyValue(L"version", szVersion));
 }
