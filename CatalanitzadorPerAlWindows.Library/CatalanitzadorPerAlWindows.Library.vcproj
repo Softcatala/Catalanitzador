@@ -331,6 +331,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\OS\TempFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\OS\TempFile.h"
 				>
 			</File>

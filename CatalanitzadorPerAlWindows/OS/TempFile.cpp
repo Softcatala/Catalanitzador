@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012-2015 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,24 +17,43 @@
  * 02111-1307, USA.
  */
 
-#pragma once
+#include "stdafx.h"
+#include "TempFile.h"
 
-#include <string>
-using namespace std;
+ TempFile::TempFile()
+ {	
+	m_created = false;
+ }
 
-class TempFile
+TempFile::~TempFile()
 {
- public:
+	if (GetFileAttributes(m_filename.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_filename.c_str());
+	}
+}
 
-	 TempFile();	 
-	 ~TempFile();
-	 
-	 wstring GetFileName();
-	 
-private:
+wstring TempFile::GetFileName() 
+{
+	 _createfileIfNeeded();
+	return m_filename;
+}
 
-	void _createfileIfNeeded();
 
-	wstring m_filename;
-	bool m_created;
-};
+void TempFile::_createfileIfNeeded()
+{
+	if (m_created)
+	{
+		return;
+	}
+
+	wchar_t szTempPath[MAX_PATH];
+	wchar_t szFile[MAX_PATH];
+
+	GetTempPath(MAX_PATH, szTempPath);
+	GetTempFileName(szTempPath, L"CAT", 0, szFile);
+	DeleteFile(szFile);
+	m_filename = szFile;
+	m_created = true;
+}
+
