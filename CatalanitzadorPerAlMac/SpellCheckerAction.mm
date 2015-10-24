@@ -139,10 +139,10 @@ void SpellCheckerAction::Execute()
 		// NOTE: do not use special chars (like accents) in the target file name
 		// We were not able to reproduce it but users reported problems with the dictionary
 		srcFile = _getBundlePath(CFSTR("Català"), CFSTR("aff"));
-		_copyfile(srcFile, @"/Library/Spelling/Catala.aff");
+		_copyfile(srcFile, @"/Library/Spelling/ca.aff");
 	
 		srcFile = _getBundlePath(CFSTR("Català"), CFSTR("dic"));
-		_copyfile(srcFile, @"/Library/Spelling/Catala.dic");
+		_copyfile(srcFile, @"/Library/Spelling/ca.dic");
 	
 		isOk = _isDictionaryInstalled();
 		SetStatus(isOk ? Successful : FinishedWithError);
@@ -161,10 +161,16 @@ bool SpellCheckerAction::_isDictionaryInstalled()
 {
 	bool installed;
 	NSString* DICTIONARY_FILE_MANUAL(@"/Library/Spelling/catala.aff");
-	NSString* DICTIONARY_FILE(@"/Library/Spelling/Català.aff");
+	NSString* DICTIONARY_FILE_OLD(@"/Library/Spelling/Català.aff");
+	NSString* DICTIONARY_FILE(@"/Library/Spelling/ca.aff");
 	
 	installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE];
-	
+
+	if (installed == false)
+	{
+		installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE_OLD];
+	}
+
 	if (installed == false)
 	{
 		installed = [[NSFileManager defaultManager] fileExistsAtPath:DICTIONARY_FILE_MANUAL];
