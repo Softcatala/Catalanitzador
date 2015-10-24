@@ -20,6 +20,7 @@
 #pragma once
 
 #include "ExecutionProcess.h"
+#include "x64BitsProcess.h"
 
 #include <vector>
 
@@ -41,9 +42,10 @@ public:
 protected:
 
 		void _addExecutionProcess(ExecutionProcess process);
-		vector <DWORD> _getProcessIDs(wstring processName);		
+		vector <DWORD> _getProcessIDs(wstring processName, bool canBe64Bits);
 
 private:
 		vector <ExecutionProcess> m_processes;
 		ExecutionProcess m_processEmpty;
+		x64BitsProcess m_x64BitsProcess;
 };

@@ -42,8 +42,7 @@ Action(downloadManager), m_multipleDownloads(downloadManager), m_java(OSVersion,
 	m_shouldInstallJava = false;
 	m_shouldConfigureJava = false;
 	m_installingOffice = NULL;
-
-	_addExecutionProcess(ExecutionProcess(SOFFICE_PROCESSNAME, L"", false));
+	m_addedExecutionProcess = false;	
 }
 
 LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
@@ -347,5 +346,13 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		g_log.Log(L"LangToolLibreOfficeAction::CheckPrerequirements. Cannot configure automatically");		
 		SetStatus(CannotBeApplied);
 		return;
+	}
+
+	if (m_addedExecutionProcess == false)
+	{
+		ExecutionProcess executionProcess(SOFFICE_PROCESSNAME, L"", false);
+		executionProcess.SetIs64Bits(m_installingOffice->Is64Bits());
+		_addExecutionProcess(executionProcess);
+		m_addedExecutionProcess = true;
 	}
 }

@@ -34,11 +34,14 @@ class ExecutionProcess
 			m_name = name;
 			m_printableName = printableName;
 			m_canClose = canClose;
+			m_is64Bits = false;
 		}
 
 		wstring GetPrintableName() { return m_printableName;}
 		wstring GetName() { return m_name;}
-		bool CanClose() { return m_canClose;} 
+		bool CanClose() { return m_canClose;}
+		bool Is64Bits() { return m_is64Bits;}
+		void SetIs64Bits(bool is64Bits) { m_is64Bits = is64Bits;}
 
 		bool IsEmpty()
 		{
@@ -49,4 +52,5 @@ class ExecutionProcess
 		wstring m_name;
 		wstring m_printableName;
 		bool m_canClose;
+		bool m_is64Bits;
 };

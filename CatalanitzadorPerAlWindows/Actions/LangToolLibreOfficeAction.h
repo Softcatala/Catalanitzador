@@ -77,5 +77,6 @@ private:
 		
 		bool m_shouldInstallJava;
 		bool m_shouldConfigureJava;
+		bool m_addedExecutionProcess;
 };
 

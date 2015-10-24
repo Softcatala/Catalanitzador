@@ -223,3 +223,4 @@ bool Runner::TerminateProcessID(DWORD dwProcessId)
     CloseHandle(hProcess);
     return result == TRUE;
 }
+

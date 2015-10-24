@@ -50,7 +50,7 @@ bool Resources::DumpResource(LPCWSTR type, LPCWSTR resource, wchar_t* file)
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
-		g_log.Log(L"Resources::_dumpResource. Failed to dump to '%s'", file);
+		g_log.Log(L"Resources::DumpResource. Failed to dump to '%s'", file);
 		return false;
 	}
 	else

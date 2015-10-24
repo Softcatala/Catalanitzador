@@ -50,10 +50,10 @@ wchar_t* ChromeAction::GetDescription()
 
 void ChromeAction::FinishExecution(ExecutionProcess process)
 {
-	if (_getProcessIDs(process.GetName()).size() > 0)
+	if (_getProcessIDs(process.GetName(), false).size() > 0)
 	{
 		Runner runner;
-		runner.RequestCloseToProcessID(_getProcessIDs(process.GetName()).at(0), true);
+		runner.RequestCloseToProcessID(_getProcessIDs(process.GetName(), false).at(0), true);
 	}
 }
 

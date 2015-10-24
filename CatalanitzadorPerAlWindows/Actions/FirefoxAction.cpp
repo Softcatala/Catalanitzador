@@ -58,7 +58,7 @@ wchar_t* FirefoxAction::GetDescription()
 
 void FirefoxAction::FinishExecution(ExecutionProcess process)
 {
-	vector <DWORD> processIDs = _getProcessIDs(process.GetName());
+	vector <DWORD> processIDs = _getProcessIDs(process.GetName(), false);
 
 	if (processIDs.size() > 0)
 	{

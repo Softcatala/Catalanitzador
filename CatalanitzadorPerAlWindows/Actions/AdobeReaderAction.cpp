@@ -166,7 +166,7 @@ void AdobeReaderAction::_readUninstallGUID()
 void AdobeReaderAction::FinishExecution(ExecutionProcess process)
 {	
 	Runner runner;
-	vector <DWORD> processIDs = _getProcessIDs(process.GetName());
+	vector <DWORD> processIDs = _getProcessIDs(process.GetName(), false);
 
 	for (unsigned int i = 0; i < processIDs.size(); i++)
 	{

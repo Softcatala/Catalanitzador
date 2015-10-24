@@ -20,13 +20,14 @@
 #include "stdafx.h"
 #include "ActionExecution.h"
 #include "Runner.h"
+#include <algorithm>
 
 void ActionExecution::_addExecutionProcess(ExecutionProcess process)
 {
 	m_processes.push_back(process);
 }
 
-vector <DWORD> ActionExecution::_getProcessIDs(wstring processName)
+vector <DWORD> ActionExecution::_getProcessIDs(wstring processName, bool is64Bits)
 {
 	Runner runner;
 	return runner.GetProcessID(processName);
@@ -37,9 +38,28 @@ ExecutionProcess ActionExecution::GetExecutingProcess()
 	for (unsigned int i = 0; i < m_processes.size(); i++)
 	{
 		ExecutionProcess process = m_processes.at(i);
+		
+		if (process.Is64Bits())
+		{
+			wstring name = process.GetName();
+			std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 
-		if (_getProcessIDs(process.GetName()).size() != 0)
-			return process;
+			vector <wstring> names = m_x64BitsProcess.GetRunningProcessesNames();
+			for (unsigned int i = 0; i < names.size(); i++)
+			{
+				wstring current = names[i];
+				std::transform(current.begin(), current.end(), current.begin(), ::tolower);				
+				if (current.compare(name) == 0)
+				{
+					return process;
+				}
+			}
+		}
+		else
+		{
+			if (_getProcessIDs(process.GetName(), process.Is64Bits()).size() != 0)
+				return process;
+		}
 	}
 
 	return m_processEmpty;

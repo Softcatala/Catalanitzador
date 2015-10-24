@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2012 Jordi Mas i Hern�ndez <jmas@softcatala.org>
+﻿/* 
+ * Copyright (C) 2012-2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,56 +16,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
  * 02111-1307, USA.
  */
-
+ 
 #pragma once
 
-#include <string>
-#include <windows.h>
+#include "TempFile.h"
+#include <vector>
 using namespace std;
 
-class TempFile
+
+class x64BitsProcess
 {
- public:
-
-	 TempFile()
-	 {
-		_createfile();
-		m_created = false;
-	 }
-
-	 ~TempFile()
-	 {
-		if (GetFileAttributes(m_filename.c_str()) != INVALID_FILE_ATTRIBUTES)
-		{
-			DeleteFile(m_filename.c_str());
-		}
-	 }
-
-	 wstring GetFileName() 
-	 {
-		 _createfile();
-		 return m_filename;
-	 }
-
+public:
+		x64BitsProcess();
+		vector <wstring> GetRunningProcessesNames();
+		
 private:
 
-	void _createfile()
-	{
-		if (m_created)
-		{
-			return;
-		}
-
-		wchar_t szTempPath[MAX_PATH];
-		wchar_t szFile[MAX_PATH];
-
-		GetTempPath(MAX_PATH, szTempPath);
-		GetTempFileName(szTempPath, L"CAT", 0, szFile);
-		DeleteFile(szFile);
-		m_filename = szFile;
-		m_created = true;
-	}
-
-	wstring m_filename;
-	bool m_created;
+		void _extractExecutable();
+		bool _execute(wchar_t* program, wchar_t* params);
+	
+		TempFile m_executable;
+		bool m_extracted;
 };
