@@ -308,7 +308,18 @@ bool LangToolLibreOfficeAction::_doesJavaNeedsConfiguration()
 	return bShouldConfigureJava;
 }
 
-void LangToolLibreOfficeAction::CheckPrerequirements(Action * action) 
+void LangToolLibreOfficeAction::_detect32Or64bitsProcess()
+{
+	if (m_addedExecutionProcess == false)
+	{
+		ExecutionProcess executionProcess(SOFFICE_PROCESSNAME, L"", false);
+		executionProcess.SetIs64Bits(m_installingOffice->Is64Bits());
+		_addExecutionProcess(executionProcess);
+		m_addedExecutionProcess = true;
+	}
+}
+
+void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 {
 	bool bLibreInstalled, bApacheInstalled;
 
@@ -348,11 +359,5 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		return;
 	}
 
-	if (m_addedExecutionProcess == false)
-	{
-		ExecutionProcess executionProcess(SOFFICE_PROCESSNAME, L"", false);
-		executionProcess.SetIs64Bits(m_installingOffice->Is64Bits());
-		_addExecutionProcess(executionProcess);
-		m_addedExecutionProcess = true;
-	}
+	_detect32Or64bitsProcess();
 }

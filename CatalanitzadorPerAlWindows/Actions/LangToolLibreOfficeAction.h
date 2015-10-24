@@ -54,6 +54,7 @@ protected:
 private:
 		
 		bool _isOpenOfficeInstalled(bool& bLibreInstalled, bool& bApacheInstalled);
+		void _detect32Or64bitsProcess();
 	
 		enum ExecutionStep
 		{
