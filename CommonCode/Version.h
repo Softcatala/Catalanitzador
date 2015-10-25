@@ -23,10 +23,10 @@
 
 #define APP_MAJOR_VERSION		2
 #define APP_MINOR_VERSION		6
-#define APP_REVISION			3
+#define APP_REVISION			4
 
-#define STRING_VERSION				_STR("2.6.3")
-#define STRING_VERSION_RESOURCES	"2.6.3.0"
+#define STRING_VERSION				_STR("2.6.4")
+#define STRING_VERSION_RESOURCES	"2.6.4.0"
 
-#define DEVELOPMENT_VERSION 1 // Comment for release version
+//#define DEVELOPMENT_VERSION 1 // Comment for release version
 
