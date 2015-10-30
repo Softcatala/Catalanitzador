@@ -29,7 +29,7 @@
     });
     </script><br /><br />
     <h2>Logs</h2>
-    <form action="/stats/?show=logs" method="post">
+    <form action="?show=logs" method="post">
         <label for="from">Data inicial:</label>
         <input type="text" id="from" name="from" value="<?=$_POST['from']?>"/><br />
         <label for="to">Data final:</label>
