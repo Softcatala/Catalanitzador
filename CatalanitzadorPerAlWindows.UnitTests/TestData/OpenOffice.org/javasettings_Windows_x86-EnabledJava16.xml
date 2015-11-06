@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This is a generated file. Do not alter this file!-->
+<java xmlns="http://openoffice.org/2004/java/framework/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<enabled xsi:nil="false">true</enabled>
+<userClassPath xsi:nil="true"/>
+<vmParameters xsi:nil="true"/>
+<jreLocations xsi:nil="true"/>
+<javaInfo xsi:nil="false" vendorUpdate="2013-05-02" autoSelect="false">
+<vendor>Sun Microsystems Inc.</vendor>
+<location>file:///C:/Program%20Files/Java/jre6</location>
+<version>1.6.0_34</version>
+<features>0</features>
+<requirements>0</requirements>
+<vendorData>660069006C0065003A002F002F002F0043003A002F00500072006F006700720061006D00250032003000460069006C00650073002F004A006100760061002F006A007200650036002F00620069006E002F0063006C00690065006E0074002F006A0076006D002E0064006C006C00</vendorData>
+</javaInfo>
+</java>
