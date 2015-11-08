@@ -30,3 +30,18 @@
 
 //#define DEVELOPMENT_VERSION 1 // Comment for release version
 
+#if (APP_REVISION % 2 == 0) 
+	#ifdef DEVELOPMENT_VERSION 
+		#error "Development versions should have an odd revision number"
+	#endif
+#endif
+
+#if (APP_REVISION % 2 > 0) 
+	#ifndef DEVELOPMENT_VERSION 
+		#error "Odd versions should be development versions"
+	#endif
+#endif
+
+   
+
+   
