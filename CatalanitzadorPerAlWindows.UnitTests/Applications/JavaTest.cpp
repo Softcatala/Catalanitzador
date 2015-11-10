@@ -81,7 +81,7 @@ void _configureJavaDownloadFile(wstring version)
 	ConfigurationInstance::Get().SetRemote(remote);
 }
 
-TEST_F(JavaTest, _shouldInstallJava_Yes)
+TEST_F(JavaTest, Java16_32BitsInstalled_shouldInstallJava17_32bits_Yes)
 {
 	CreateJava;
 
@@ -89,12 +89,31 @@ TEST_F(JavaTest, _shouldInstallJava_Yes)
 	EXPECT_TRUE(java.ShouldInstall(L"1.7"));
 }
 
-TEST_F(JavaTest, _shouldInstallJava_No)
+TEST_F(JavaTest, Java17_32BitsInstalled_shouldInstallJava17_32bits_No)
 {
 	CreateJava;
 
 	_setMockForJava(osVersionMock, registryMock, L"1.7", false);
 	EXPECT_FALSE(java.ShouldInstall(L"1.7"));
+}
+
+TEST_F(JavaTest, Java17_32BitsInstalled_shouldInstallJava17_64bits_Yes)
+{
+	CreateJava;
+
+	_setMockForJava(osVersionMock, registryMock, L"1.7", false);
+	java.Set64Bits(true);
+	EXPECT_TRUE(java.ShouldInstall(L"1.7"));
+}
+
+
+TEST_F(JavaTest, Java16_32BitsInstalled_shouldInstallJava17_64bits_Yes)
+{
+	CreateJava;
+
+	_setMockForJava(osVersionMock, registryMock, L"1.6", false);
+	java.Set64Bits(true);
+	EXPECT_TRUE(java.ShouldInstall(L"1.7"));
 }
 
 TEST_F(JavaTest, _readVersion)
@@ -111,6 +130,7 @@ TEST_F(JavaTest, _readVersion_64bits)
 	CreateJava;
 	const wchar_t* VERSION = L"1.7";
 
+	java.Set64Bits(true);
 	_setMockForJava(osVersionMock, registryMock, VERSION, true);
 	EXPECT_THAT(java.GetVersion(), StrCaseEq(VERSION));
 }
@@ -136,6 +156,22 @@ TEST_F(JavaTest, _AddDownload_64bits)
 	MultipleDownloadsJavaTest multipleDownloads;
 
 	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	java.Set64Bits(true);
+	_configureJavaDownloadFile(VERSION);
+	java.AddDownload(multipleDownloads);
+
+	EXPECT_THAT(multipleDownloads.GetDownloads().size(), 1);
+	EXPECT_THAT(multipleDownloads.GetDownloads().at(0).configuration.GetVersion(), StrCaseEq(VERSION));	
+}
+
+TEST_F(JavaTest, _AddDownload_32bits_in64bitsOS)
+{
+	CreateJava;
+	const wchar_t* VERSION = L"Java";
+	MultipleDownloadsJavaTest multipleDownloads;
+
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	java.Set64Bits(false);
 	_configureJavaDownloadFile(VERSION);
 	java.AddDownload(multipleDownloads);
 

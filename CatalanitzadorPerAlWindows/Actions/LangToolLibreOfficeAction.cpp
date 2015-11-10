@@ -35,6 +35,7 @@ Action(downloadManager), m_multipleDownloads(downloadManager), m_java(OSVersion,
 {
 	m_registry = registry;
 	m_runner = runner;
+	m_OSVersion = OSVersion;
 	m_libreOffice = libreOffice;
 	m_apacheOpenOffice = apacheOpenOffice;
 	m_szFilename[0] = NULL;
@@ -42,7 +43,7 @@ Action(downloadManager), m_multipleDownloads(downloadManager), m_java(OSVersion,
 	m_shouldInstallJava = false;
 	m_shouldConfigureJava = false;
 	m_installingOffice = NULL;
-	m_addedExecutionProcess = false;	
+	m_addedExecutionProcess = false;
 }
 
 LangToolLibreOfficeAction::~LangToolLibreOfficeAction()
@@ -344,11 +345,12 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		SetStatus(AlreadyApplied);
 		return;
 	}
-	
+
+	m_java.Set64Bits(m_installingOffice->Is64Bits());	
 	m_shouldInstallJava = m_java.ShouldInstall(JAVA_MIN_VERSION);
 	m_shouldConfigureJava = _doesJavaNeedsConfiguration();
 
-	// Configuring the right JRE for OpenOffice if really complex. OpenOffice does not do it iself.
+	// Configuring the right JRE for OpenOffice is really complex. OpenOffice does not do it iself.
 	// It includes determining the correct JRE, vendor, version, etc. It also may affect other installed extensions
 	// See: http://cgit.freedesktop.org/libreoffice/core/tree/jvmfwk/source/javasettings_template.xml
 	if (m_shouldConfigureJava)
@@ -357,6 +359,36 @@ void LangToolLibreOfficeAction::CheckPrerequirements(Action * action)
 		g_log.Log(L"LangToolLibreOfficeAction::CheckPrerequirements. Cannot configure automatically");		
 		SetStatus(CannotBeApplied);
 		return;
+	}
+	
+	// Windows 64 bits with LibreOffice 32 bits with Java de 64 bits installed
+	if (m_installingOffice->Is64Bits() == false)
+	{
+		Java java(m_OSVersion, m_registry, m_runner);
+		java.Set64Bits(true);
+
+		if (java.GetVersion().empty() == false)
+		{
+			_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_CANNOTAUTOMATEINSTALL, szCannotBeApplied);
+			g_log.Log(L"LangToolLibreOfficeAction::CheckPrerequirements. LibreOffice 32 bits with Java de 64 bits installed");
+			SetStatus(CannotBeApplied);
+			return;
+		}		
+	}
+
+	// Windows 64 bits with LibreOffice 64 bits with Java de 32 bits installed
+	if (m_installingOffice->Is64Bits() == true)
+	{
+		Java java(m_OSVersion, m_registry, m_runner);
+		java.Set64Bits(false);
+
+		if (java.GetVersion().empty() == false)
+		{
+			_getStringFromResourceIDName(IDS_LANGUAGETOOL_LO_CANNOTAUTOMATEINSTALL, szCannotBeApplied);
+			g_log.Log(L"LangToolLibreOfficeAction::CheckPrerequirements. LibreOffice 64 bits with Java de 32 bits installed");
+			SetStatus(CannotBeApplied);
+			return;
+		}
 	}
 
 	_detect32Or64bitsProcess();

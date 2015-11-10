@@ -69,6 +69,7 @@ private:
 		IOpenOffice* m_apacheOpenOffice;
 		IRegistry* m_registry;
 		IRunner* m_runner;
+		IOSVersion* m_OSVersion;
 
 		wchar_t m_szFilename[MAX_PATH];
 		wstring m_version;

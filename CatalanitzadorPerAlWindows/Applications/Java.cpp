@@ -47,12 +47,12 @@ bool Java::ShouldInstall(wstring minVersion)
 	wstring javaStrVersion;
 	bool bShouldInstallJava;
 
-	ApplicationVersion appMinVersion(minVersion);
-	javaStrVersion = GetVersion();
-	bShouldInstallJava = ApplicationVersion(javaStrVersion) < appMinVersion;
+	ApplicationVersion appMinVersion(minVersion);	
+	bool is64Bits = _readVersion(javaStrVersion);
+	bShouldInstallJava = (is64Bits != m_is64bits || ApplicationVersion(javaStrVersion) < appMinVersion);
 
-	g_log.Log(L"Java::ShouldInstall. Java version %s, should install %u",
-		(wchar_t*) javaStrVersion.c_str(), (wchar_t*) bShouldInstallJava);
+	g_log.Log(L"Java::ShouldInstall. Java version '%s' 64bits %u, should install %u",
+		(wchar_t*) javaStrVersion.c_str(), (wchar_t*) m_is64bits, (wchar_t*) bShouldInstallJava);
 
 	return bShouldInstallJava;
 }
@@ -71,13 +71,13 @@ void Java::Install()
 bool Java::_readVersion(wstring& version)
 {
 	version.erase();
-
+	bool is64Bits = false;
 	bool rslt = false;
 
-	if (m_OSVersion->IsWindows64Bits())
+	if (m_is64bits && m_OSVersion->IsWindows64Bits())
 	{
 		rslt = m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, JAVA_REGKEY, false);
-		m_is64bits = rslt;
+		is64Bits = rslt;
 	}
 
 	if (rslt == false)
@@ -96,7 +96,7 @@ bool Java::_readVersion(wstring& version)
 		m_registry->Close();
 	}
 
-	return version.empty() == false;
+	return is64Bits;
 }
 
 wstring Java::GetVersion()
@@ -111,7 +111,7 @@ void Java::AddDownload(MultipleDownloads& multipleDownloads)
 {
 	ConfigurationFileActionDownload downloadVersion;
 
-	wstring downloadID = m_OSVersion->IsWindows64Bits() ? L"Java64bits" : L"Java";
+	wstring downloadID = m_is64bits ? L"Java64bits" : L"Java";
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(JAVA_CONFIGURTION_XML_ACTION_ID, downloadID);
 	GetTempPath(MAX_PATH, m_szFilenameJava);
 	wcscat_s(m_szFilenameJava, downloadVersion.GetFilename().c_str());

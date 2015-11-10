@@ -39,6 +39,7 @@ public:
 		wstring GetVersion();
 		void AddDownload(MultipleDownloads& multipleDownloads);
 		bool Is64Bits() { return m_is64bits;}
+		void Set64Bits(bool is64Bits) { m_is64bits = is64Bits;}
 
 private:
 
