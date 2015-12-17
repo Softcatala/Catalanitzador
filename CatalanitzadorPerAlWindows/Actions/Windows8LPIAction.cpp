@@ -81,6 +81,10 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 	return (wchar_t*) m_packageDownloadId.c_str();
 }
 
+
+//Windows 10's November 2015 upgrade, build 10586
+#define BUILD_10586 10586
+
 void Windows8LPIAction::_selectLanguagePackage()
 {
 	OperatingVersion version = m_OSVersion->GetVersion();	
@@ -89,32 +93,68 @@ void Windows8LPIAction::_selectLanguagePackage()
 	{
 		case Windows10:
 		{
-			if (m_OSVersion->IsWindows64Bits())
+			DWORD buildNumber = m_OSVersion->GetBuildNumber();
+
+			if (buildNumber < BUILD_10586)
 			{
-				if (GetUseDialectalVariant())
+				if (m_OSVersion->IsWindows64Bits())
 				{
-					m_packageDownloadId = L"Win10_va_64";
-					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+					if (GetUseDialectalVariant())
+					{
+						m_packageDownloadId = L"Win10_va_64";
+						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+					}
+					else
+					{
+						m_packageDownloadId = L"Win10_ca_64";
+						m_packageLanguageCode = CATALAN_LANGPACKCODE;
+					}
 				}
 				else
 				{
-					m_packageDownloadId = L"Win10_ca_64";
-					m_packageLanguageCode = CATALAN_LANGPACKCODE;
+					if (GetUseDialectalVariant())
+					{
+						m_packageDownloadId = L"Win10_va_32";
+						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+					}
+					else
+					{
+						m_packageDownloadId = L"Win10_ca_32";
+						m_packageLanguageCode = CATALAN_LANGPACKCODE;
+					}
 				}
 			}
-			else
+
+			if (buildNumber >= BUILD_10586)
 			{
-				if (GetUseDialectalVariant())
+				if (m_OSVersion->IsWindows64Bits())
 				{
-					m_packageDownloadId = L"Win10_va_32";
-					m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+					if (GetUseDialectalVariant())
+					{
+						m_packageDownloadId = L"";
+						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+					}
+					else
+					{
+						m_packageDownloadId = L"Win10_10586_ca_64";
+						m_packageLanguageCode = CATALAN_LANGPACKCODE;
+					}
 				}
 				else
 				{
-					m_packageDownloadId = L"Win10_ca_32";
-					m_packageLanguageCode = CATALAN_LANGPACKCODE;
-				}
+					if (GetUseDialectalVariant())
+					{
+						m_packageDownloadId = L"";
+						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+					}
+					else
+					{
+						m_packageDownloadId = L"Win10_10586_ca_32";
+						m_packageLanguageCode = CATALAN_LANGPACKCODE;
+					}
+				}				
 			}
+
 			break;
 		}
 
@@ -148,6 +188,7 @@ void Windows8LPIAction::_selectLanguagePackage()
 			}
 			break;
 		}
+
 		case Windows8:
 		{
 			if (m_OSVersion->IsWindows64Bits())

@@ -52,4 +52,5 @@ public:
 		virtual void GetLogInfo(wchar_t * szString, int size) = 0;
 		virtual void Serialize(ostream* stream) = 0;
 		virtual DWORD GetServicePackVersion() = 0;
+		virtual DWORD GetBuildNumber() = 0;
 };

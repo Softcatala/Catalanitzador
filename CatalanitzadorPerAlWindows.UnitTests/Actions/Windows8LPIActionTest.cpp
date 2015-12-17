@@ -239,6 +239,73 @@ TEST_F(Windows8LPIActionTest, _getDownloadID_Win81_va_64)
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win81_va_64"));
 }
 
+#define WINDOWS_10_BUILD 10500
+
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_ca_32)
+{
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_ca_32"));
+}
+
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_ca_64)
+{
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_ca_64"));
+}
+
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_va_32)
+{
+	CreateWindowsLIPAction;
+	
+	lipAction.SetUseDialectalVariant(true);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_va_32"));
+}
+
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_va_64)
+{
+	CreateWindowsLIPAction;
+
+	lipAction.SetUseDialectalVariant(true);
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_va_64"));
+}
+
+
+#define WINDOWS_10_NOV2015_BUILD 10586
+
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_10586_ca_32)
+{
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_10586_ca_32"));
+}
+
+TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_10586_ca_64)
+{
+	CreateWindowsLIPAction;
+	
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_10586_ca_64"));
+}
+
 TEST_F(Windows8LPIActionTest, _setLanguagePanel_Catalan)
 {
 	CreateWindowsLIPAction;

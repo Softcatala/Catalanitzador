@@ -133,6 +133,17 @@ void OSVersion::GetLogInfo(wchar_t * szString, int size)
 		GetVersionText(GetVersion()));
 }
 
+ DWORD OSVersion::GetBuildNumber()
+ {	
+	OSVERSIONINFOEX osvi;
+	
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	GetVersionEx((OSVERSIONINFO*) &osvi);
+	return osvi.dwBuildNumber;
+ }
+
+ 
  DWORD OSVersion::GetServicePackVersion()
  {	
 	OSVERSIONINFOEX osvi;	

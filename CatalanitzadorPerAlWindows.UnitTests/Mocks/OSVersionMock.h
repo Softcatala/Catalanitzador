@@ -31,4 +31,5 @@ class OSVersionMock : public IOSVersion
 		MOCK_METHOD2(GetLogInfo, void(wchar_t *, int));
 		MOCK_METHOD1(Serialize, void(ostream*));
 		MOCK_METHOD0(GetServicePackVersion, DWORD());
+		MOCK_METHOD0(GetBuildNumber, DWORD());
 };

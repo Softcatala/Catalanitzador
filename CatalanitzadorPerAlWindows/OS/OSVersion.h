@@ -35,6 +35,7 @@ public:
 		virtual void GetLogInfo(wchar_t * szString, int size);
 		virtual void Serialize(ostream* stream);
 		virtual DWORD GetServicePackVersion();
+		virtual DWORD GetBuildNumber();
 
 private:
 		static OperatingVersion _processVistaAnd7(OSVERSIONINFOEX osvi);
