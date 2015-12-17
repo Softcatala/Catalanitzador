@@ -127,31 +127,16 @@ void Windows8LPIAction::_selectLanguagePackage()
 
 			if (buildNumber >= BUILD_10586)
 			{
+				// TODO: Add Valencian langpacks when they are published
 				if (m_OSVersion->IsWindows64Bits())
 				{
-					if (GetUseDialectalVariant())
-					{
-						m_packageDownloadId = L"";
-						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
-					}
-					else
-					{
-						m_packageDownloadId = L"Win10_10586_ca_64";
-						m_packageLanguageCode = CATALAN_LANGPACKCODE;
-					}
+					m_packageDownloadId = L"Win10_10586_ca_64";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;					
 				}
 				else
 				{
-					if (GetUseDialectalVariant())
-					{
-						m_packageDownloadId = L"";
-						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
-					}
-					else
-					{
-						m_packageDownloadId = L"Win10_10586_ca_32";
-						m_packageLanguageCode = CATALAN_LANGPACKCODE;
-					}
+					m_packageDownloadId = L"Win10_10586_ca_32";
+					m_packageLanguageCode = CATALAN_LANGPACKCODE;					
 				}				
 			}
 
