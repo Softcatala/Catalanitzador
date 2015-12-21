@@ -292,7 +292,7 @@ TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_10586_ca_32)
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
-	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_NOV2015_BUILD));
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_10586_ca_32"));
 }
 
@@ -302,7 +302,7 @@ TEST_F(Windows8LPIActionTest, _getDownloadID_Win10_10586_ca_64)
 	
 	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
 	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(true));
-	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_BUILD));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WINDOWS_10_NOV2015_BUILD));
 	EXPECT_THAT(lipAction._getDownloadID(), StrCaseEq(L"Win10_10586_ca_64"));
 }
 
