@@ -76,12 +76,17 @@ bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDown
 		bRslt = m_inetAcccess->GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
 		g_log.Log(L"DownloadManager::GetFileAndVerifyAssociatedSha1 '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
 
-		if (bRslt == false)
+		// This is only used by Mozilla, temporary disabled SHA1SUM check since they have 
+		// changed location
+		if (bRslt == true)
+			return true;
+
+		/*if (bRslt == false)
 			continue;
 		
 		sha1_computed.ComputeforFile();
 		if (sha1_computed == sha1_read)
-			return true;
+			return true;*/
 	}
 	return false;
 }
