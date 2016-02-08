@@ -76,6 +76,7 @@ bool FirefoxLangPackAction::IsDownloadNeed()
 	return _isLocaleInstalled() == false;
 }
 
+
 bool FirefoxLangPackAction::Download(ProgressStatus progress, void *data)
 {
 	wstring sha1;
@@ -95,7 +96,7 @@ bool FirefoxLangPackAction::Download(ProgressStatus progress, void *data)
 	
 	GetTempPath(MAX_PATH, m_szFilename);
 	wcscat_s(m_szFilename, downloadVersion.GetFilename().c_str());
-	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, sha1sum, progress, data);
+	return m_downloadManager->GetFileAndVerifyAssociatedSha1ForFirefox(downloadVersion, m_szFilename, sha1sum, progress, data);
 }
 
 void FirefoxLangPackAction::Execute()

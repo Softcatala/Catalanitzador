@@ -560,6 +560,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Applications\FirefoxMozillaServerTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Applications\FirefoxTest .h"
 				>
 			</File>

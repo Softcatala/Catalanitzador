@@ -63,7 +63,7 @@ int DownloadManager::GetFileSize(ConfigurationFileActionDownload configuration) 
 	return size;
 }
 
-bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, Sha1Sum sha1_read, ProgressStatus progress, void *data)
+bool DownloadManager::GetFileAndVerifyAssociatedSha1ForFirefox(ConfigurationFileActionDownload configuration, wstring file, Sha1Sum sha1read, ProgressStatus progress, void *data)
 {
 	DownloadInet inetacccess;
 	Sha1Sum sha1_computed(file);
@@ -76,17 +76,13 @@ bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDown
 		bRslt = m_inetAcccess->GetFile((wchar_t *)url.c_str(), (wchar_t *)file.c_str(), progress, data);
 		g_log.Log(L"DownloadManager::GetFileAndVerifyAssociatedSha1 '%s' is %u", (wchar_t *) url.c_str(), (wchar_t *) bRslt);
 
-		// This is only used by Mozilla, temporary disabled SHA1SUM check since they have 
-		// changed location
-		if (bRslt == true)
-			return true;
-
-		/*if (bRslt == false)
+		if (bRslt == false)
 			continue;
 		
+		sha1_computed.SetAlgorithm(sha1read.GetAlgorithm());
 		sha1_computed.ComputeforFile();
-		if (sha1_computed == sha1_read)
-			return true;*/
+		if (sha1_computed == sha1read)
+			return true;
 	}
 	return false;
 }
@@ -95,7 +91,7 @@ bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDown
 bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDownload configuration, wstring file, ProgressStatus progress, void *data)
 {
 	DownloadInet inetacccess;
-	Sha1Sum sha1_computed(file), sha1_read;
+	Sha1Sum sha1_computed(file), sha1read;
 	wstring url, sha1_url;
 	bool bRslt;
 
@@ -110,11 +106,11 @@ bool DownloadManager::GetFileAndVerifyAssociatedSha1(ConfigurationFileActionDown
 			continue;
 
 		// If cannot get the sha1 file, we cannot verify the download and report it as incorrect
-		if (_getAssociatedFileSha1Sum(sha1_url, (wchar_t *)file.c_str(), sha1_read) == false)
+		if (_getAssociatedFileSha1Sum(sha1_url, (wchar_t *)file.c_str(), sha1read) == false)
 			continue;
 		
 		sha1_computed.ComputeforFile();
-		if (sha1_computed == sha1_read)
+		if (sha1_computed == sha1read)
 			return true;
 	}
 	return false;

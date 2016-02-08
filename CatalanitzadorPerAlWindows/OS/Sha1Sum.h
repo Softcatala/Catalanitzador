@@ -26,22 +26,32 @@ using namespace std;
 #define BUFSIZE 4096
 #define SHA1LEN 40
 
+enum SHA1Algorithm
+{
+	SHA1 = 0,
+	SHA_512 = 1
+};
+
 class Sha1Sum
 {
 	public:	
 		    Sha1Sum(){}
 			Sha1Sum(wstring file);
 			void SetFile(wstring file) { m_file = file;}
-			void SetFromString(wstring sum) { m_sum = sum;}
+			void SetFromString(wstring sum);
+			void SetAlgorithm(SHA1Algorithm algorithm) { m_algorithm = algorithm;}
+			SHA1Algorithm GetAlgorithm() { return m_algorithm;}
 			wstring GetSum() const { return m_sum;}
 			wstring ComputeforFile();
 			wstring ReadFromFile();
 			
 			bool operator== (Sha1Sum& other);
 			bool operator!= (Sha1Sum& other) {return !(*this == other);};
-						
+
 	private:
+			SHA1Algorithm _getAlgorithmFromString(wstring sha1);
 			void _compute();
 			wstring m_sum;
 			wstring m_file;
+			SHA1Algorithm m_algorithm;
 };

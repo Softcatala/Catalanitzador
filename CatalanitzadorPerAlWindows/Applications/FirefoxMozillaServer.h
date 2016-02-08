@@ -30,10 +30,13 @@ public:
 		ConfigurationFileActionDownload GetConfigurationFileActionDownload();
 		wstring GetSha1FileSignature(ConfigurationFileActionDownload downloadVersion);
 
+protected:
+		wstring _getSha1SignatureForFilename(wstring sha1file, wstring filename);
+		void _replaceString(wstring& string, wstring search, wstring replace);
+
 private:
 
 		wstring _readSha1FileSignature(wstring url, wstring sha1file);
-		void _replaceString(wstring& string, wstring search, wstring replace);
 
 		wstring m_version;
 		DownloadManager* m_downloadManager;

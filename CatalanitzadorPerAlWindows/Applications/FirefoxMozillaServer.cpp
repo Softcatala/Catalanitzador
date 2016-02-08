@@ -21,7 +21,6 @@
 #include "FirefoxMozillaServer.h"
 #include "ConfigurationInstance.h"
 
-#define SHA1LEN 40
 #define VERSION_TAG L"[version]"
 #define URL_WIN32PATH L"/win32"
 
@@ -48,16 +47,21 @@ void FirefoxMozillaServer::_replaceString(wstring& string, wstring search, wstri
 
 wstring FirefoxMozillaServer::_readSha1FileSignature(wstring url, wstring sha1file)
 {
-	wstring line, search;
-	wifstream reader;
+	wstring filename;
 	wstring win32path(URL_WIN32PATH);
 	int pos;
 	
 	_replaceString(url, L"%20", L" ");	// Poor's man URL decoder
 
 	pos = url.find(win32path.c_str(), win32path.size());	
-	search = url.substr(pos + 1);
+	filename = url.substr(pos + 1);
+	return _getSha1SignatureForFilename(sha1file, filename);
+}
 
+wstring FirefoxMozillaServer::_getSha1SignatureForFilename(wstring sha1file, wstring filename)
+{
+	wstring line;	
+	wifstream reader;
 	reader.open(sha1file.c_str());
 
 	if (!reader.is_open())	
@@ -65,14 +69,25 @@ wstring FirefoxMozillaServer::_readSha1FileSignature(wstring url, wstring sha1fi
 
 	while(!(getline(reader, line)).eof())
 	{
-		if (line.find(search) != string::npos)
-		{		
-			return line.substr(0, SHA1LEN);
+		if (line.find(filename) != string::npos)
+		{
+			int end = 0;
+			for (unsigned int i = 0; i < line.length(); i ++)
+			{
+				if (isalnum(line[i]))
+					continue;
+				
+				end = i;
+				break;
+			}
+
+			return line.substr(0, end);
 		}
 	}
 
 	return wstring();
 }
+
 
 wstring FirefoxMozillaServer::GetSha1FileSignature(ConfigurationFileActionDownload downloadVersion)
 {

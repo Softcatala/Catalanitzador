@@ -24,6 +24,7 @@
 Sha1Sum::Sha1Sum(wstring file)
 {
 	m_file = file;
+	m_algorithm = SHA1;
 }
 
 wstring Sha1Sum::ComputeforFile()
@@ -31,6 +32,29 @@ wstring Sha1Sum::ComputeforFile()
 	_compute();
 	g_log.Log(L"Sha1Sum::ComputeforFile for %s returns %s", (wchar_t *) m_file.c_str(), (wchar_t *) m_sum.c_str());
 	return m_sum;
+}
+
+#define SHA512LEN 128
+
+SHA1Algorithm Sha1Sum::_getAlgorithmFromString(wstring sha1)
+{
+	int len = sha1.length();
+
+	switch (len){
+		case SHA1LEN:
+			return SHA1;
+		case SHA512LEN:
+			return SHA_512;
+		default:
+			assert(false);
+			return SHA1;
+	}
+}
+
+void Sha1Sum::SetFromString(wstring sum) 
+{ 
+	m_sum = sum;
+	m_algorithm = _getAlgorithmFromString(sum);
 }
 
 wstring Sha1Sum::ReadFromFile()
@@ -72,7 +96,7 @@ void Sha1Sum::_compute()
     HANDLE hFile;
     BYTE buffer[BUFSIZE];
     DWORD cbRead = 0;
-    BYTE rgbHash[SHA1LEN];    
+    BYTE rgbHash[BUFSIZE];
     wchar_t digits[] = L"0123456789abcdef";
     
 	m_sum.erase();
@@ -82,13 +106,15 @@ void Sha1Sum::_compute()
     if (INVALID_HANDLE_VALUE == hFile)
         return;
     
-    if (!CryptAcquireContext(&hProv, NULL,  NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
+	DWORD provider = m_algorithm == SHA1 ? PROV_RSA_FULL : PROV_RSA_AES;
+    if (!CryptAcquireContext(&hProv, NULL,  NULL, provider, CRYPT_VERIFYCONTEXT))
     {
         CloseHandle(hFile);
         return;
     }
 
-    if (!CryptCreateHash(hProv, CALG_SHA1, 0, 0, &hHash))
+	ALG_ID algID = m_algorithm == SHA1 ? CALG_SHA1 : CALG_SHA_512;
+    if (!CryptCreateHash(hProv, algID, 0, 0, &hHash))
     {
         CloseHandle(hFile);
         CryptReleaseContext(hProv, 0);
@@ -116,7 +142,7 @@ void Sha1Sum::_compute()
         CloseHandle(hFile);     
     }
 
-    cbRead = SHA1LEN;
+    cbRead = BUFSIZE;
     if (CryptGetHashParam(hHash, HP_HASHVAL, rgbHash, &cbRead, 0))
     {
         for (DWORD i = 0; i < cbRead; i++)

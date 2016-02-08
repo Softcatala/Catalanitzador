@@ -34,7 +34,7 @@ void _createFile(TempFile& file)
 }
 
 // Creates a file a computes the sha1 (the file contains actually another sha1, but this is not rellevant)
-TEST(Sha1SumTest, ComputeforFile)
+TEST(Sha1SumTest, ComputeforFile_SHA1)
 {
 	wstring computed;
 	TempFile file;
@@ -46,6 +46,21 @@ TEST(Sha1SumTest, ComputeforFile)
 
 	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(L"bcb3c3873226eb348b25ad779acaefcd8b4bf0e9"));
 }
+
+TEST(Sha1SumTest, ComputeforFile_SHA512)
+{
+	wstring computed;
+	TempFile file;
+
+	_createFile(file);
+
+	Sha1Sum sha1sum(file.GetFileName());
+	sha1sum.SetAlgorithm(SHA_512);
+	sha1sum.ComputeforFile();
+
+	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(L"69ce89a29083250b57133e85d4f8a1f4f36c11404912b2a65d033a0bd029a0c8015fcd4eae0bba23fa85ba4754f57fe7d8883e0b1ba42ba6cd25b27aedff0a3e"));
+}
+
 
 // Creates a file that contains a SHA1 signature and reads it
 TEST(Sha1SumTest, ReadFromFile)
@@ -105,10 +120,21 @@ TEST(Sha1SumTest, EmptyFile)
 
 TEST(Sha1SumTest, SetFromString)
 {
-	const wchar_t * MD5 = L"ce4b01c1d705f33204d352dfdfc2d7ab97134c9";
+	const wchar_t * SHA = L"c1c48125426c8c5896c39d7a0d9b7f0ad8bf7bd5";
+	Sha1Sum sha1sum;
+	sha1sum.SetFromString(SHA);
+
+	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(SHA));
+	EXPECT_THAT(sha1sum.GetAlgorithm(), SHA1);
+}
+
+TEST(Sha1SumTest, SetFromString512)
+{
+	const wchar_t * SHA = L"70c2f3d6906579a910bdfbf268e1f17cb973b87636d05f2b91f07ac7775b6835f1562c07e0abe32f17e47b97c6d071e96047e47145654e03f41ae176d014d836";
 
 	Sha1Sum sha1sum;
-	sha1sum.SetFromString(MD5);
+	sha1sum.SetFromString(SHA);
 
-	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(MD5));
+	EXPECT_THAT(sha1sum.GetSum(), StrCaseEq(SHA));
+	EXPECT_THAT(sha1sum.GetAlgorithm(), SHA_512);
 }
