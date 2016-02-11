@@ -50,6 +50,8 @@ protected:
 
 		bool _doesJavaNeedsConfiguration();
 		IOpenOffice* m_installingOffice;
+		void _refreshPathEnviromentVariable(bool is64Bits);
+		bool m_shouldInstallJava;
 
 private:
 		
@@ -77,7 +79,6 @@ private:
 		MultipleDownloads m_multipleDownloads;
 		Java m_java;
 		
-		bool m_shouldInstallJava;
 		bool m_shouldConfigureJava;
 		bool m_addedExecutionProcess;
 };

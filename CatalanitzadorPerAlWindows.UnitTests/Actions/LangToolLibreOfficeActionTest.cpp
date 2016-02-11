@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2014-2016 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,9 +50,11 @@ public:
 
 	public:
 
-		void _setInstallingOpenOffice(IOpenOffice* openOffice) {m_installingOffice = openOffice; }
+		void SetInstallingOpenOffice(IOpenOffice* openOffice) {m_installingOffice = openOffice; }
+		void SetShouldInstallJava(bool houldInstallJava) {m_shouldInstallJava = houldInstallJava; }
 
 		using LangToolLibreOfficeAction::_doesJavaNeedsConfiguration;
+		using LangToolLibreOfficeAction::_refreshPathEnviromentVariable;
 };
 
 
@@ -151,27 +153,27 @@ TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_NoJava_NoJavaCon
 
 	_setMockForNoJava(osVersionMock, registryMock, false);	
 	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L""));
-	action._setInstallingOpenOffice(&libreOfficeMock);
+	action.SetInstallingOpenOffice(&libreOfficeMock);
 	EXPECT_FALSE(action._doesJavaNeedsConfiguration());
 }
 
-TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java17_NoJavaConfig)
+TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java18_NoJavaConfig)
 {
 	CreateLTOOAction;
 
-	_setMockForJava(osVersionMock, registryMock, L"1.7", false);
+	_setMockForJava(osVersionMock, registryMock, L"1.8", false);
 	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L""));
-	action._setInstallingOpenOffice(&libreOfficeMock);
+	action.SetInstallingOpenOffice(&libreOfficeMock);
 	EXPECT_FALSE(action._doesJavaNeedsConfiguration());
 }
 
-TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java17_Java17Config)
+TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java18_Java17Config)
 {
 	CreateLTOOAction;
 
-	_setMockForJava(osVersionMock, registryMock, L"1.7", false);
-	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L"1.7"));
-	action._setInstallingOpenOffice(&libreOfficeMock);
+	_setMockForJava(osVersionMock, registryMock, L"1.8", false);
+	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L"1.8"));
+	action.SetInstallingOpenOffice(&libreOfficeMock);
 	EXPECT_FALSE(action._doesJavaNeedsConfiguration());
 }
 
@@ -181,9 +183,46 @@ TEST(LangToolLibreOfficeActionTest, _doesJavaNeedsConfiguration_Java17_Java16Con
 
 	_setMockForJava(osVersionMock, registryMock, L"1.7", false);
 	EXPECT_CALL(libreOfficeMock, GetJavaConfiguredVersion()).WillRepeatedly(Return(L"1.6"));
-	action._setInstallingOpenOffice(&libreOfficeMock);
+	action.SetInstallingOpenOffice(&libreOfficeMock);
 	EXPECT_TRUE(action._doesJavaNeedsConfiguration());
 }
 
+#define ENVIRONMENT_KEY L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment"
 
+TEST(LangToolLibreOfficeActionTest, __refreshPathEnviromentVariable_64bits)
+{
+	CreateLTOOAction;
+	wchar_t* PATH = L"TestPath";
+	wchar_t szPreviousPath[4096], szResult[4096];
+	wchar_t* VARIABLE_NAME = L"Path";
 
+	GetEnvironmentVariable(VARIABLE_NAME, szPreviousPath, sizeof(szPreviousPath) * sizeof(wchar_t));
+	EXPECT_CALL(registryMock, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(ENVIRONMENT_KEY), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMock, GetString(StrCaseEq(L"Path"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(PATH), Return(true)));
+	
+	action.SetShouldInstallJava(true);
+	action._refreshPathEnviromentVariable(true);
+
+	GetEnvironmentVariable(VARIABLE_NAME, szResult, sizeof(szResult) * sizeof(wchar_t));
+	SetEnvironmentVariable(VARIABLE_NAME, szPreviousPath);	
+	EXPECT_THAT(szResult, StrCaseEq(PATH));
+}
+
+TEST(LangToolLibreOfficeActionTest, __refreshPathEnviromentVariable_32bits)
+{
+	CreateLTOOAction;
+	wchar_t* PATH = L"TestPath";
+	wchar_t szPreviousPath[4096], szResult[4096];
+	wchar_t* VARIABLE_NAME = L"Path";
+
+	GetEnvironmentVariable(VARIABLE_NAME, szPreviousPath, sizeof(szPreviousPath) * sizeof(wchar_t));
+	EXPECT_CALL(registryMock, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(ENVIRONMENT_KEY), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMock, GetString(StrCaseEq(L"Path"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(PATH), Return(true)));
+	
+	action.SetShouldInstallJava(true);
+	action._refreshPathEnviromentVariable(false);
+
+	GetEnvironmentVariable(VARIABLE_NAME, szResult, sizeof(szResult) * sizeof(wchar_t));
+	SetEnvironmentVariable(VARIABLE_NAME, szPreviousPath);	
+	EXPECT_THAT(szResult, StrCaseEq(PATH));
+}

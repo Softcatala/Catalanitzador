@@ -472,27 +472,27 @@
 	 		<id>18</id>
 	 		<download>
 	  			<version>LanguageTool</version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.1.oxt&id=7379&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.1.oxt.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.1.oxt</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.1.oxt</url_3>
-				<filename>LanguageTool-3.1.oxt</filename>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.2.oxt&id=7379&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.2.oxt.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.2.oxt</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-3.2.oxt</url_3>
+				<filename>LanguageTool-3.2.oxt</filename>
 	  		</download>
 	  		<download>
 	  			<version>Java</version>
-	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe</url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u45-windows-i586.exe</url_3>
-				<filename>jre-7u45-windows-i586.exe</filename>
+	  			<url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-i586.exe</url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-i586.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-i586.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-i586.exe</url_3>
+				<filename>jre-8u60-windows-i586.exe</filename>
 	  		</download>
 	  		<download>
 	  			<version>Java64bits</version>
-	  			<url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe</url_1>
-	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/jre-7u80-windows-x64.exe</url_3>
-				<filename>jre-7u80-windows-x64.exe</filename>
+	  			<url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe</url_1>
+	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/jre-8u60-windows-x64.exe</url_3>
+				<filename>jre-8u60-windows-x64.exe</filename>
 	  		</download>
 		</action>
 		

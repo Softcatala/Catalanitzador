@@ -26,7 +26,7 @@
 #define KILLTRAY_MESSAGE        L"SO KillTray"
 #define SOFFICE_PROCESSNAME		L"soffice.bin"
 
-#define JAVA_MIN_VERSION L"1.7"
+#define JAVA_MIN_VERSION L"1.8"
 #define EXTENSION_NAME L"org.languagetool.openoffice.Main"
 
 
@@ -162,6 +162,41 @@ bool LangToolLibreOfficeAction::Download(ProgressStatus progress, void *data)
 	return m_multipleDownloads.Download(progress, data);
 }
 
+#define ENVIRONMENT_KEY L"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment"
+
+// When Java is installed it changes the PATH enviroment. However, this updated PATH is not available in child processes that
+// inherit the variables from the parent. We have to refresh the variable to make it available to parent and child processes
+// We do not restore the previous value because it 
+void LangToolLibreOfficeAction::_refreshPathEnviromentVariable(bool is64Bits)
+{
+	if (m_shouldInstallJava == false)
+	{
+		g_log.Log(L"LangToolLibreOfficeAction::_refreshPathEnviromentVariable. Not needed");
+		return;
+	}
+
+	wchar_t szPath[4096] = L"";
+
+	if ((is64Bits && m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, ENVIRONMENT_KEY, false)) ||
+		m_registry->OpenKey(HKEY_LOCAL_MACHINE, ENVIRONMENT_KEY, false))
+	{
+		// Since type is REG_EXPAND_SZ instead of REG_SZ this returns error even if reads the text
+		m_registry->GetString(L"Path", szPath, sizeof(szPath));
+
+		if (wcslen(szPath) > 0)
+		{
+			DWORD rslt = SetEnvironmentVariable(L"Path", szPath);
+			g_log.Log(L"LangToolLibreOfficeAction::_refreshPathEnviromentVariable. SetEnvironmentVariable returned %x", (wchar_t *)rslt);
+		}
+		m_registry->Close();
+	}
+	else
+	{
+		g_log.Log(L"LangToolLibreOfficeAction::_refreshPathEnviromentVariable. Cannot open registry key");
+		return;
+	}
+}
+
 
 ActionStatus LangToolLibreOfficeAction::GetStatus()
 {
@@ -203,10 +238,11 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 				else
 				{
 					shouldInstall = true;
-				}				
+				}
 
 				if (shouldInstall)
 				{
+					_refreshPathEnviromentVariable(m_java.Is64Bits());
 					m_installingOffice->InstallExtension(m_runner, m_szFilename);
 					m_executionStep = ExecutionStepRetryInstallExtension;
 					return InProgress;
@@ -223,7 +259,8 @@ ActionStatus LangToolLibreOfficeAction::GetStatus()
 					break;
 
 				if (m_installingOffice->IsExtensionInstalled(EXTENSION_NAME) == false)
-				{					
+				{
+					_refreshPathEnviromentVariable(m_java.Is64Bits());
 					m_installingOffice->InstallExtension(m_runner, m_szFilename);
 					m_executionStep = ExecutionStepFinished;
 					return InProgress;					
