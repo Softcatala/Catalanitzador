@@ -70,6 +70,7 @@ public:
 protected:
 
 		wchar_t* _getDownloadID();
+		bool _isOffice2016LangAccesoryPackInstalled();
 		wstring m_packageCodeToSet;
 		wstring m_installedLangPackCode;		
 		

@@ -291,7 +291,7 @@ TEST_F(MSOfficeTest, IsDefaultLanguage_True_MSOffice2003_NoFollowOnAndUiCatalanS
 	CreateMSoffice(MSOffice2003);
 
 	// No follow in 2003 is driven by LCID
-	bool FollowSystemUIOff = true;	
+	bool FollowSystemUIOff = true;
 	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, NOFOLLOWSYSTEMOFF_FALSE_LCID_2003, L"11.0");
 	EXPECT_CALL(win32I18NMockobj, GetUserDefaultUILanguage()).Times(1).WillRepeatedly(Return(CATALAN_PRIMARY_LANG));
 	EXPECT_TRUE(office.IsDefaultLanguage());
@@ -299,52 +299,65 @@ TEST_F(MSOfficeTest, IsDefaultLanguage_True_MSOffice2003_NoFollowOnAndUiCatalanS
 
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2003)
 {
-	CreateMSoffice(MSOffice2003);	
+	CreateMSoffice(MSOffice2003);
 	EXPECT_EQ(office._getDownloadID(), L"2003");
 }
 
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2007)
 {
-	CreateMSoffice(MSOffice2007);	
+	CreateMSoffice(MSOffice2007);
 	EXPECT_EQ(office._getDownloadID(), L"2007");
 }
 
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2010_32)
 {
-	CreateMSoffice(MSOffice2010);	
+	CreateMSoffice(MSOffice2010);
 	EXPECT_EQ(office._getDownloadID(), L"2010_32");
 }
+
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2010_64)
 {
-	CreateMSoffice(MSOffice2010_64);	
+	CreateMSoffice(MSOffice2010_64);
 	EXPECT_EQ(office._getDownloadID(), L"2010_64");
 }
 
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_32)
 {
-	CreateMSoffice(MSOffice2013);	
+	CreateMSoffice(MSOffice2013);
 	EXPECT_EQ(office._getDownloadID(), L"2013_ca_32");
 }
+
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_64)
 {
-	CreateMSoffice(MSOffice2013_64);	
+	CreateMSoffice(MSOffice2013_64);
 	EXPECT_EQ(office._getDownloadID(), L"2013_ca_64");
 }
 
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_32_va)
 {
-	CreateMSoffice(MSOffice2013);	
+	CreateMSoffice(MSOffice2013);
 	office.SetUseDialectalVariant(true);
 	EXPECT_EQ(office._getDownloadID(), L"2013_va_32");
 }
 
 TEST_F(MSOfficeTest, _getDownloadID_MSOffice2013_64_va)
 {
-	CreateMSoffice(MSOffice2013_64);	
+	CreateMSoffice(MSOffice2013_64);
 	office.SetUseDialectalVariant(true);
 	EXPECT_EQ(office._getDownloadID(), L"2013_va_64");
 }
 
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2016_32)
+{
+	CreateMSoffice(MSOffice2016);
+	EXPECT_EQ(office._getDownloadID(), L"2016_ca_32");
+}
+
+TEST_F(MSOfficeTest, _getDownloadID_MSOffice2016_64)
+{
+	CreateMSoffice(MSOffice2016_64);
+	EXPECT_EQ(office._getDownloadID(), L"2016_ca_64");
+}
 
 TEST_F(MSOfficeTest, IsLangPackInstalled_2003)
 {

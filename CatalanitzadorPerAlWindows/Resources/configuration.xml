@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2016-02-08T03:00:00</date>
+		<date>2016-02-14T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -185,6 +185,24 @@
 		<!-- Microsoft Office -->
 		<action>
 	 		<id>2</id>
+	 		
+	 		<download>
+	  			<version>2016_ca_64</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=7351&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe</url_3>
+				<filename>languageinterfacepack_ca-es_64bit.exe</filename>
+	  		</download>
+	 		<download>
+	  			<version>2016_ca_32</version>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=7351&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe</url_3>
+				<filename>languageinterfacepack_ca-es_32bit.exe</filename>
+	  		</download>
+	 		
 	 		<download>
 	  			<version>2013_va_64</version>
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=6457&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe]]></url_1>

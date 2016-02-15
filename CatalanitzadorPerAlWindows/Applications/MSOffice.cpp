@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2014-2016 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,6 @@
 #define CATALAN_LCID L"1027" // 0x403
 #define VALENCIAN_LCID L"2051" // 0x803
 #define CATALAN_PRIMARY_LCID 0x03
-
 
 MSOffice::RegKeyVersion MSOffice::RegKeys2003 =
 {
@@ -148,11 +147,41 @@ void MSOffice::_removeOffice2003TempFiles()
 	RemoveDirectory(m_szTempPath2003);
 }
 
+#define OFFICE2016_LAPKEY L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\LanguageResources"
+
+bool MSOffice::_isOffice2016LangAccesoryPackInstalled()
+{
+	if (m_MSVersion != MSOffice2016_64 && m_MSVersion != MSOffice2016)
+	{
+		return false;
+	}
+
+	bool bFound = false;
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, OFFICE2016_LAPKEY, false))
+	{
+		wchar_t szValue[1024];
+		if (m_registry->GetString(L"UISnapshotLanguages", szValue, sizeof (szValue)))
+		{			
+			wstring langs = szValue;
+			bFound = langs.find(L"ca-ES") != string::npos;
+			g_log.Log(L"MSOffice::_isOffice2016LangAccesoryPackInstalled. Languages: %s", (wchar_t *) szValue);
+		}
+	}
+
+	g_log.Log(L"MSOffice::_isOffice2016LangAccesoryPackInstalled. Found: %u", (wchar_t *) bFound);
+	return bFound;
+}
+
 bool MSOffice::IsLangPackInstalled()
 {	
 	bool isInstalled = false;
 	RegKeyVersion regkeys = _getRegKeys();
 	bool b64bits = (m_MSVersion == MSOffice2010_64 || m_MSVersion == MSOffice2013_64 || m_MSVersion == MSOffice2016_64);
+
+	if (_isOffice2016LangAccesoryPackInstalled())
+	{
+		return true;
+	}
 
 	if (b64bits ? m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false) :
 		m_registry->OpenKey(HKEY_LOCAL_MACHINE, regkeys.InstalledLangMapKey, false))
@@ -222,6 +251,19 @@ void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& f
 				isCatalanSetAsDefaultLanguage = true;
 		}
 
+		if ((m_MSVersion == MSOffice2016 || m_MSVersion == MSOffice2016_64) && (isCatalanSetAsDefaultLanguage))
+		{
+			wstring value;
+			wchar_t szValue[2048] = L"";
+			if (m_registry->GetString(L"UILanguageTag", szValue, sizeof(szValue)))
+			{
+				value = szValue;
+				std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+				isCatalanSetAsDefaultLanguage = value.compare(L"ca-es") == 0;
+				g_log.Log(L"MSOffice::_readDefaultLanguage. UILanguageTag: %s, default %u", (wchar_t* )szValue, (wchar_t* )isCatalanSetAsDefaultLanguage);
+			}
+		}
+
 		// If FollowSystemUI is true Office uses Windows's language pack language to decide which language to use		
 		if (m_MSVersion == MSOffice2003)
 		{
@@ -278,11 +320,10 @@ void MSOffice::SetDefaultLanguage()
 
 	swprintf_s(szKeyName, L"Software\\Microsoft\\Office\\%s\\Common\\LanguageResources", _getRegKeys().VersionNumber);
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, szKeyName, true))
-	{		
-
+	{
 		// Always set the language to match the installed langpack
 		// GetUseDialectalVariant is only used as guidance when installing a language pack, when setting the language
-		// of already existing installation we use the already exisitng language pack (ca or va) indepedenly of what
+		// of already existing installation we use the already existing language pack (ca or va) independely of what
 		// the user has selected
 		if (m_packageCodeToSet.size() > 0)
 		{
@@ -295,11 +336,21 @@ void MSOffice::SetDefaultLanguage()
 
 		bSetKey = m_registry->SetDWORD(L"UILanguage", lcid);
 
+		if (m_MSVersion == MSOffice2016 || m_MSVersion == MSOffice2016_64)
+		{
+			m_registry->SetString(L"UILanguageTag", L"ca-es");
+		}
+
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
 		if (m_MSVersion != MSOffice2003)
 		{
 			m_registry->SetString(L"FollowSystemUI", L"Off");
+
+			if (m_MSVersion == MSOffice2016 || m_MSVersion == MSOffice2016_64)
+			{
+				m_registry->SetDWORD(L"FollowSystemUILanguage", 0);
+			}
 		}		
 		m_registry->Close();
 	}
@@ -365,6 +416,12 @@ wchar_t*  MSOffice::_getDownloadID()
 				m_packageCodeToSet = CATALAN_LCID;
 				return L"2013_ca_64";
 			}
+		case MSOffice2016:
+			m_packageCodeToSet = CATALAN_LCID;
+			return L"2016_ca_32";			
+		case MSOffice2016_64:
+			m_packageCodeToSet = CATALAN_LCID;
+			return L"2016_ca_64";			
 		default:
 			return L"";
 	}
@@ -393,10 +450,12 @@ void MSOffice::Execute()
 
 	switch (m_MSVersion)
 	{
+		case MSOffice2016_64:
+		case MSOffice2016:
 		case MSOffice2013_64:
 		case MSOffice2013:
 		case MSOffice2010_64:
-		case MSOffice2010:		
+		case MSOffice2010:
 		{
 			wchar_t logFile[MAX_PATH];
 
