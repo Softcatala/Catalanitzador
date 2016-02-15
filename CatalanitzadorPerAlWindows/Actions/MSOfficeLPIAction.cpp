@@ -67,9 +67,10 @@ LPCWSTR MSOfficeLPIAction::GetLicenseID()
 					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2010);
 				case MSOffice2013:
 				case MSOffice2013_64:
+					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2013);
 				case MSOffice2016:
 				case MSOffice2016_64:
-					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2013);
+					return MAKEINTRESOURCE(IDR_LICENSE_OFFICE2016);					
 				default:
 					break;
 			}
