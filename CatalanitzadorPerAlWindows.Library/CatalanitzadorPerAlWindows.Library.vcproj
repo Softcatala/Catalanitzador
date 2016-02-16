@@ -467,6 +467,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\LanguageList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CatalanitzadorPerAlWindows\Core\LanguageList.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Core\LogExtractor.cpp"
 				>
 			</File>

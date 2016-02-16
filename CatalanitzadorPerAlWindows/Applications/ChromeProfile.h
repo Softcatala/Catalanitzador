@@ -24,24 +24,6 @@
 
 using namespace std;
 
-class AcceptLanguagePropertyValue
-{
-
-public:
-
-	AcceptLanguagePropertyValue(wstring value);
-	wstring GetWithCatalanAdded();
-	wstring GetFirstLanguage();
-
-private:
-
-	wstring _createJSONString(vector<wstring> languages);
-	void _addCatalanToArrayAndRemoveOldIfExists(vector<wstring>& languages);
-	vector<wstring> _getLanguagesFromAcceptString(wstring value);
-
-	wstring value;
-};
-
 class ChromeProfile
 {
 public:

@@ -21,6 +21,7 @@
 #include "StdAfx.h"
 #include "ChromeProfile.h"
 #include "StringConversion.h"
+#include "LanguageList.h"
 #include "json/json.h"
 
 #define CHROME_ACCEPT_LANGUAGECODE_1 L"ca"
@@ -195,7 +196,7 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 		acceptLanguages = root["intl"]["accept_languages"].asString();
 		StringConversion::ToWideChar(acceptLanguages, wLang);
 
-		AcceptLanguagePropertyValue propertyValue(wLang);
+		LanguageList propertyValue(wLang);
 		wLang = propertyValue.GetWithCatalanAdded();
 		StringConversion::ToMultiByte(wLang, acceptLanguages);
 		root["intl"]["accept_languages"] = acceptLanguages;
@@ -235,7 +236,7 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 
 	if (acceptLanguagesFound)
 	{
-		AcceptLanguagePropertyValue propertyValue(langcode);
+		LanguageList propertyValue(langcode);
 		firstlang = propertyValue.GetFirstLanguage();
 		std::transform(firstlang.begin(), firstlang.end(), firstlang.begin(), ::tolower);
 		
@@ -287,96 +288,3 @@ void ChromeProfile::SetCatalanAsSpellCheckerLanguage()
 	m_setCatalanAsSpellLanguage = true;	
 }
 
-//
-// AcceptLanguagePropertyValue
-// 
-
-AcceptLanguagePropertyValue::AcceptLanguagePropertyValue(wstring _value)
-{
-	value = _value;
-}
-
-wstring AcceptLanguagePropertyValue::GetWithCatalanAdded()
-{
-	vector<wstring> languages;
-	
-	languages = _getLanguagesFromAcceptString(value);
-	_addCatalanToArrayAndRemoveOldIfExists(languages);
-	return _createJSONString(languages);
-}
-
-wstring AcceptLanguagePropertyValue::_createJSONString(vector<wstring> languages)
-{	
-	if (languages.size() == 1)
-	{
-		return languages.at(0);
-	}
-
-	wstring jsonvalue;
-	jsonvalue = languages.at(0);
-		
-	for (unsigned int i = 1; i < languages.size(); i++)
-	{
-		jsonvalue += L"," + languages.at(i);
-	}
-	return jsonvalue;
-}
-
-vector<wstring> AcceptLanguagePropertyValue::_getLanguagesFromAcceptString(wstring value)
-{
-	wstring language;
-	vector<wstring> languages;	
-	
-	for (unsigned int i = 0; i < value.size (); i++)
-	{
-		if (value[i] == L',')
-		{
-			languages.push_back(language);
-			language.clear();
-		} else {
-			language += value[i];
-		}
-	}
-
-	if (language.empty() == false)
-	{
-		languages.push_back(language);
-	}
-	return languages;
-}
-
-wstring AcceptLanguagePropertyValue::GetFirstLanguage()
-{
-	wstring jsonvalue;
-	vector<wstring> languages;
-
-	languages = _getLanguagesFromAcceptString(value);
-
-	if(languages.size() > 0)
-		jsonvalue = languages[0];	
-
-	return jsonvalue;
-}
-
-void AcceptLanguagePropertyValue::_addCatalanToArrayAndRemoveOldIfExists(vector<wstring>& languages)
-{	
-	wstring regvalue;	
-	vector<wstring>::iterator it;
-
-	// Delete previous occurrences of Catalan locale that were not first
-	for (it = languages.begin(); it != languages.end(); ++it)
-	{
-		wstring element = *it;
-		std::transform(element.begin(), element.end(), element.begin(), ::tolower);
-
-		if (element.compare(L"ca") == 0)
-		{
-			languages.erase(it);
-			break;
-		}
-	}
-
-	wstring str(L"ca");
-	it = languages.begin();
-	languages.insert(it, str);
-}

@@ -420,6 +420,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Core\LanguageListTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Core\LogExtractorTest.cpp"
 				>
 			</File>
