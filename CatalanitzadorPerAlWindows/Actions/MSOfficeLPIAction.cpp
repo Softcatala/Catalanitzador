@@ -281,6 +281,12 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 		}
 	}
 
+	if (alreadyApplied)
+	{
+		SetStatus(AlreadyApplied);
+		return;
+	}
+
 	if (atLeastOnecanBeApplied == false)
 	{
 		_getStringFromResourceIDName(IDS_NOTSUPPORTEDVERSION, szCannotBeApplied);
@@ -289,8 +295,4 @@ void MSOfficeLPIAction::CheckPrerequirements(Action * action)
 		return;
 	}
 
-	if (alreadyApplied)
-	{
-		SetStatus(AlreadyApplied);
-	}
 }

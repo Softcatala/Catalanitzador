@@ -197,3 +197,16 @@ TEST(MSOfficeLPIActionTest, _CheckPrerequirements_CannotBeApplied)
 
 	EXPECT_THAT(officeAction.GetStatus(), CannotBeApplied);
 }
+
+TEST(MSOfficeLPIActionTest, _CheckPrerequirements_Already)
+{
+	CreateMSOfficeAction;
+	bool FollowSystemUIOff = true;
+
+	MockOfficeInstalled(osVersionMock, registryMockobj, MSOffice2013_64);
+	SetLangPacksInstalled(registryMockobj, MSOffice2013_64);
+	SetLocaleMockForIsDefaultLanguage(registryMockobj, FollowSystemUIOff, CATALAN_LCID);
+
+	officeAction.CheckPrerequirements(NULL);
+	EXPECT_THAT(officeAction.GetStatus(), AlreadyApplied);
+}
