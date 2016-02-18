@@ -118,8 +118,8 @@ void SetDefaultLanguageForOffice2016LAP(RegistryMock& registryMockobj)
 	const int DISABLED = 0;
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(OFFICE2016_LAPKEY), true)).WillRepeatedly(Return(true));
-	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"UILanguageTag"), StrCaseEq(L"ca-es"))).Times(0);
-	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(DISABLED) )).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"UILanguageTag"), StrCaseEq(L"ca-es"))).Times(1).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"FollowSystemUILanguage"), Eq(DISABLED))).Times(1).WillRepeatedly(Return(true));
 }
 
 void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version, const wchar_t* langCode)
