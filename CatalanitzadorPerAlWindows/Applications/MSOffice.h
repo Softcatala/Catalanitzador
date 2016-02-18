@@ -72,7 +72,10 @@ protected:
 		wchar_t* _getDownloadID();
 		bool _isOffice2016LangAccesoryPackInstalled();
 		wstring m_packageCodeToSet;
-		wstring m_installedLangPackCode;		
+		wstring m_installedLangPackCode;
+		void _readDefaultLanguageForOffice2016LangAccesoryPack(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
+		void _setDefaultLanguageForOffice2016LangAccesoryPack();
+		void _setDefaultLanguage();
 		
 private:
 		
@@ -103,6 +106,7 @@ private:
 		bool m_dialectalVariant;
 		MSOfficeVersion m_MSVersion;
 		wstring m_msiexecLog;
+		bool m_Office2016LangAccesoryPack;
 
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];

@@ -29,6 +29,8 @@
 #define CATALAN_LCID L"1027" // 0x403
 #define VALENCIAN_LCID L"2051" // 0x803
 #define CATALAN_PRIMARY_LCID 0x03
+#define OFFICE2016_LAP_LANG L"ca-ES"
+#define OFFICE2016_LAPKEY L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\LanguageResources"
 
 MSOffice::RegKeyVersion MSOffice::RegKeys2003 =
 {
@@ -79,6 +81,7 @@ MSOffice::MSOffice(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32
 	m_szTempPath2003[0] = NULL;
 	m_szFilename[0] = NULL;	
 	GetTempPath(MAX_PATH, m_szTempPath);
+	m_Office2016LangAccesoryPack = false;
 }
 
 MSOffice::~MSOffice()
@@ -147,8 +150,6 @@ void MSOffice::_removeOffice2003TempFiles()
 	RemoveDirectory(m_szTempPath2003);
 }
 
-#define OFFICE2016_LAPKEY L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\LanguageResources"
-
 bool MSOffice::_isOffice2016LangAccesoryPackInstalled()
 {
 	if (m_MSVersion != MSOffice2016_64 && m_MSVersion != MSOffice2016)
@@ -157,18 +158,19 @@ bool MSOffice::_isOffice2016LangAccesoryPackInstalled()
 	}
 
 	bool bFound = false;
+	wstring langs;
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, OFFICE2016_LAPKEY, false))
 	{
 		wchar_t szValue[1024];
 		if (m_registry->GetString(L"UISnapshotLanguages", szValue, sizeof (szValue)))
-		{			
-			wstring langs = szValue;
-			bFound = langs.find(L"ca-ES") != string::npos;
-			g_log.Log(L"MSOffice::_isOffice2016LangAccesoryPackInstalled. Languages: %s", (wchar_t *) szValue);
+		{
+			langs = szValue;
+			std::transform(langs.begin(), langs.end(), langs.begin(), ::tolower);
+			bFound = langs.find(L"ca-es") != string::npos;
 		}
 	}
 
-	g_log.Log(L"MSOffice::_isOffice2016LangAccesoryPackInstalled. Found: %u", (wchar_t *) bFound);
+	g_log.Log(L"MSOffice::_isOffice2016LangAccesoryPackInstalled. Languages %s, found: %u", (wchar_t *) langs.c_str(), (wchar_t *) bFound);
 	return bFound;
 }
 
@@ -180,6 +182,7 @@ bool MSOffice::IsLangPackInstalled()
 
 	if (_isOffice2016LangAccesoryPackInstalled())
 	{
+		m_Office2016LangAccesoryPack = true;
 		return true;
 	}
 
@@ -237,6 +240,38 @@ bool MSOffice::IsLangPackInstalled()
 
 #define UNDEFINED_LCID -1
 
+void MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
+{
+	isCatalanSetAsDefaultLanguage = false;
+	followSystemUIOff = false;
+
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, OFFICE2016_LAPKEY, false))
+	{
+		wstring value;
+		wchar_t szValue[2048] = L"";
+		if (m_registry->GetString(L"UILanguageTag", szValue, sizeof(szValue)))
+		{
+			value = szValue;
+			std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+			isCatalanSetAsDefaultLanguage = value.compare(L"ca-es") == 0;
+			g_log.Log(L"MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack. UILanguageTag: %s, default %u", (wchar_t* )szValue, (wchar_t* )isCatalanSetAsDefaultLanguage);
+		}
+
+		// If FollowSystemUI is true Office uses Windows's language pack language to decide which language to use
+		DWORD follow = -1;
+		if (m_registry->GetDWORD(L"FollowSystemUILanguage", &follow))
+		{
+			if (follow == 0)
+			{
+				followSystemUIOff = true;
+			}
+		}
+		m_registry->Close();
+	}
+	g_log.Log(L"MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack. isCatalanSetAsDefaultLanguage: %x, FollowSystemUIOff %u",
+		(wchar_t* )isCatalanSetAsDefaultLanguage, (wchar_t* )followSystemUIOff);
+}
+
 void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
 {
 	wchar_t szKeyName [1024];
@@ -250,20 +285,7 @@ void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& f
 			if (lcid == _wtoi(VALENCIAN_LCID) || lcid == _wtoi(CATALAN_LCID))
 				isCatalanSetAsDefaultLanguage = true;
 		}
-
-		if ((m_MSVersion == MSOffice2016 || m_MSVersion == MSOffice2016_64) && (isCatalanSetAsDefaultLanguage))
-		{
-			wstring value;
-			wchar_t szValue[2048] = L"";
-			if (m_registry->GetString(L"UILanguageTag", szValue, sizeof(szValue)))
-			{
-				value = szValue;
-				std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-				isCatalanSetAsDefaultLanguage = value.compare(L"ca-es") == 0;
-				g_log.Log(L"MSOffice::_readDefaultLanguage. UILanguageTag: %s, default %u", (wchar_t* )szValue, (wchar_t* )isCatalanSetAsDefaultLanguage);
-			}
-		}
-
+		
 		// If FollowSystemUI is true Office uses Windows's language pack language to decide which language to use		
 		if (m_MSVersion == MSOffice2003)
 		{
@@ -283,7 +305,7 @@ void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& f
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"MSOffice::_readDefaultLanguage. isCatalanSetAsDefaultLanguage: %x, FollowSystemUI %u",
+	g_log.Log(L"MSOffice::_readDefaultLanguage. isCatalanSetAsDefaultLanguage: %x, FollowSystemUIOff %u",
 		(wchar_t* )isCatalanSetAsDefaultLanguage, (wchar_t* )followSystemUIOff);
 }
 
@@ -294,8 +316,15 @@ bool MSOffice::IsDefaultLanguage()
 	bool isDefaultLanguage = false;
 	bool isCatalanSetAsDefaultLanguage = false;
 	bool followSystemUIOff = false;
-	
-	_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);
+
+	if (m_Office2016LangAccesoryPack)
+	{
+		_readDefaultLanguageForOffice2016LangAccesoryPack(isCatalanSetAsDefaultLanguage, followSystemUIOff);
+	}
+	else
+	{	
+		_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);
+	}
 	
 	if (followSystemUIOff)
 	{
@@ -313,6 +342,36 @@ bool MSOffice::IsDefaultLanguage()
 }
 
 void MSOffice::SetDefaultLanguage()
+{
+	if (m_Office2016LangAccesoryPack)
+	{
+		_setDefaultLanguageForOffice2016LangAccesoryPack();
+	}
+	else
+	{	
+		_setDefaultLanguage();
+	}
+}
+
+// We install the LIP instead of the LAP then if we call this function is the case
+// that the LAP was installed but the language was not selected
+void MSOffice::_setDefaultLanguageForOffice2016LangAccesoryPack()
+{
+	BOOL bSetKey = FALSE;
+	
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, OFFICE2016_LAPKEY, true))
+	{
+		bSetKey = m_registry->SetString(L"UILanguageTag", L"ca-es");
+
+		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
+		// and use the specified language instead
+		m_registry->SetDWORD(L"FollowSystemUILanguage", 0);
+		m_registry->Close();
+	}
+	g_log.Log(L"MSOffice::_setDefaultLanguageForOffice2016LangAccesoryPack (%s), set UILanguage %u", (wchar_t*) GetVersion(), (wchar_t *) bSetKey);
+}
+
+void MSOffice::_setDefaultLanguage()
 {
 	BOOL bSetKey = FALSE;
 	wchar_t szKeyName [1024];
@@ -336,22 +395,12 @@ void MSOffice::SetDefaultLanguage()
 
 		bSetKey = m_registry->SetDWORD(L"UILanguage", lcid);
 
-		if (m_MSVersion == MSOffice2016 || m_MSVersion == MSOffice2016_64)
-		{
-			m_registry->SetString(L"UILanguageTag", L"ca-es");
-		}
-
 		// This key setting tells Office do not use the same language that the Windows UI to determine the Office Language
 		// and use the specified language instead
 		if (m_MSVersion != MSOffice2003)
 		{
 			m_registry->SetString(L"FollowSystemUI", L"Off");
-
-			if (m_MSVersion == MSOffice2016 || m_MSVersion == MSOffice2016_64)
-			{
-				m_registry->SetDWORD(L"FollowSystemUILanguage", 0);
-			}
-		}		
+		}
 		m_registry->Close();
 	}
 	g_log.Log(L"MSOffice::SetDefaultLanguage (%s), set UILanguage %u, lcid %u", (wchar_t*) GetVersion(), (wchar_t *) bSetKey, (wchar_t *) lcid);

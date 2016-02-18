@@ -36,10 +36,13 @@ using ::testing::StrCaseNe;
 
 #define CATALAN_LANGUAGE_CODE L"1027"
 #define VALENCIAN_LANGUAGE_CODE L"2051"
+#define OFFICE2016_LAPKEY L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\LanguageResources"
+
 DWORD CATALAN_LCID  = _wtoi(CATALAN_LANGUAGE_CODE);
 DWORD VALENCIAN_LCID = _wtoi(VALENCIAN_LANGUAGE_CODE);
 DWORD NOFOLLOWSYSTEMOFF_FALSE_LCID_2003 = 0;
 DWORD SPANISH_LCID = 1034;
+
 
 class MSOfficeTest: public testing::Test
 {
@@ -69,6 +72,9 @@ public:
 	}
 
 	using MSOffice::_getDownloadID;	
+	using MSOffice::_isOffice2016LangAccesoryPackInstalled;
+	using MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack;
+	using MSOffice::_setDefaultLanguageForOffice2016LangAccesoryPack;
 };
 
 #define CreateMSoffice(version) \
@@ -87,9 +93,33 @@ void SetLocaleMockForIsDefaultLanguage(RegistryMock& registryMockobj, bool Follo
 
 	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(szKeyName), false)).WillRepeatedly(Return(true));
 	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"FollowSystemUI"),_ ,_)).
-			WillRepeatedly(DoAll(SetArgCharStringPar2(FollowSystemUIOff ? L"Off" : L"On"), Return(true)));	
+		WillRepeatedly(DoAll(SetArgCharStringPar2(FollowSystemUIOff ? L"Off" : L"On"), Return(true)));
 	EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(L"UILanguage"),_)).
 		WillRepeatedly(DoAll(SetArgPointee<1>(language), Return(true)));
+}
+
+void SetLocaleMockForIsDefaultLanguageForLAP(RegistryMock& registryMockobj, bool FollowSystemUIOff, const wchar_t* language)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(OFFICE2016_LAPKEY), false)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, GetDWORD(StrCaseEq(L"FollowSystemUILanguage"),_)).
+		WillRepeatedly(DoAll(SetArgPointee<1>(FollowSystemUIOff ? 0 : 1), Return(true)));
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UILanguageTag"),_ ,_)).
+		WillRepeatedly(DoAll(SetArgCharStringPar2(language), Return(true)));
+}
+
+void SetLocaleMockForLAP2016(RegistryMock& registryMockobj, const wchar_t* languages)
+{
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(OFFICE2016_LAPKEY), false)).WillRepeatedly(Return(true));			
+	EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"UISnapshotLanguages"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(languages), Return(true)));
+}
+
+void SetDefaultLanguageForOffice2016LAP(RegistryMock& registryMockobj)
+{
+	const int DISABLED = 0;
+
+	EXPECT_CALL(registryMockobj, OpenKey(HKEY_CURRENT_USER, StrCaseEq(OFFICE2016_LAPKEY), true)).WillRepeatedly(Return(true));
+	EXPECT_CALL(registryMockobj, SetString(StrCaseEq(L"UILanguageTag"), StrCaseEq(L"ca-es"))).Times(0);
+	EXPECT_CALL(registryMockobj, SetDWORD(StrCaseEq(L"UILanguage"), Eq(DISABLED) )).Times(1).WillRepeatedly(Return(true));
 }
 
 void SetLangPacksInstalled(RegistryMock& registryMockobj, MSOfficeVersion version, const wchar_t* langCode)
@@ -450,3 +480,52 @@ TEST_F(MSOfficeTest, _CheckPrerequirements_Ok)
 	office.CheckPrerequirements(NULL);
 	EXPECT_THAT(office.GetStatus(), NotSelected);
 }
+
+TEST_F(MSOfficeTest, _isOffice2016LangAccesoryPackInstalled_Yes)
+{
+	CreateMSoffice(MSOffice2016);
+
+	SetLocaleMockForLAP2016(registryMockobj, L"es-ES; ca-ES");	
+	EXPECT_TRUE(office._isOffice2016LangAccesoryPackInstalled());
+}
+
+TEST_F(MSOfficeTest, _isOffice2016LangAccesoryPackInstalled_No)
+{
+	CreateMSoffice(MSOffice2016);
+
+	SetLocaleMockForLAP2016(registryMockobj, L"es-ES");
+	EXPECT_FALSE(office._isOffice2016LangAccesoryPackInstalled());
+}
+
+TEST_F(MSOfficeTest, _readDefaultLanguageForOffice2016LangAccesoryPack_followSystemUIOff_LangCat)
+{
+	CreateMSoffice(MSOffice2016);
+	bool isCatalanSetAsDefaultLanguage = false;
+	bool followSystemUIOff = false;
+	
+	SetLocaleMockForIsDefaultLanguageForLAP(registryMockobj, true, L"ca-ES");
+	office._readDefaultLanguageForOffice2016LangAccesoryPack(isCatalanSetAsDefaultLanguage, followSystemUIOff);
+	EXPECT_TRUE(followSystemUIOff);
+	EXPECT_TRUE(isCatalanSetAsDefaultLanguage);
+}
+
+TEST_F(MSOfficeTest, _readDefaultLanguageForOffice2016LangAccesoryPack_followSystemUIOn_Spanish)
+{
+	CreateMSoffice(MSOffice2016);
+	bool isCatalanSetAsDefaultLanguage = false;
+	bool followSystemUIOff = false;
+	
+	SetLocaleMockForIsDefaultLanguageForLAP(registryMockobj, true, L"es-ES");
+	office._readDefaultLanguageForOffice2016LangAccesoryPack(isCatalanSetAsDefaultLanguage, followSystemUIOff);
+	EXPECT_TRUE(followSystemUIOff);
+	EXPECT_FALSE(isCatalanSetAsDefaultLanguage);
+}
+
+TEST_F(MSOfficeTest, _setDefaultLanguageForOffice2016LangAccesoryPack_Catalan)
+{
+	CreateMSoffice(MSOffice2016);
+	
+	SetDefaultLanguageForOffice2016LAP(registryMockobj);
+	office._setDefaultLanguageForOffice2016LangAccesoryPack();	
+}
+
