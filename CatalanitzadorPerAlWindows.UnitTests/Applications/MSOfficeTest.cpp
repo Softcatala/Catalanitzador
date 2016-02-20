@@ -509,6 +509,18 @@ TEST_F(MSOfficeTest, _readDefaultLanguageForOffice2016LangAccesoryPack_followSys
 	EXPECT_TRUE(isCatalanSetAsDefaultLanguage);
 }
 
+TEST_F(MSOfficeTest, _readDefaultLanguageForOffice2016LangAccesoryPack_followSystemUIOff_LangCatVal)
+{
+	CreateMSoffice(MSOffice2016);
+	bool isCatalanSetAsDefaultLanguage = false;
+	bool followSystemUIOff = false;
+
+	SetLocaleMockForIsDefaultLanguageForLAP(registryMockobj, true, L"ca-ES-valencia");
+	office._readDefaultLanguageForOffice2016LangAccesoryPack(isCatalanSetAsDefaultLanguage, followSystemUIOff);
+	EXPECT_TRUE(followSystemUIOff);
+	EXPECT_TRUE(isCatalanSetAsDefaultLanguage);
+}
+
 TEST_F(MSOfficeTest, _readDefaultLanguageForOffice2016LangAccesoryPack_followSystemUIOn_Spanish)
 {
 	CreateMSoffice(MSOffice2016);

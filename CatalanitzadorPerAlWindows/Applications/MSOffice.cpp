@@ -253,7 +253,7 @@ void MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack(bool& isCatalan
 		{
 			value = szValue;
 			std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-			isCatalanSetAsDefaultLanguage = value.compare(L"ca-es") == 0;
+			isCatalanSetAsDefaultLanguage = (value.compare(L"ca-es") == 0 || value.compare(L"ca-es-valencia") == 0);
 			g_log.Log(L"MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack. UILanguageTag: %s, default %u", (wchar_t* )szValue, (wchar_t* )isCatalanSetAsDefaultLanguage);
 		}
 
