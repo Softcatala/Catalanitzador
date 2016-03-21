@@ -517,7 +517,6 @@
 		<!-- LanguageTool Firefox -->
 		<action>
 	 		<id>19</id>
-	 		<status>0</status>
 	 		<download>
 	  			<min_version>19.0</min_version>
 	  			<max_version>99.99.99</max_version>
