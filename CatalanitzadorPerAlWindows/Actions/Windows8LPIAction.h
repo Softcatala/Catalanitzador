@@ -75,6 +75,7 @@ private:
 		bool _isLangPackInstalledForLanguage(wstring langcode);
 		bool _isDefaultLanguageForLanguage(wstring langcode);
 		void _selectLanguagePackage();
+		void _selectLanguagePackageW10();
 		
 		wstring m_filename;
 		wstring m_scriptfile;

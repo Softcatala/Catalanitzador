@@ -85,6 +85,56 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 //Windows 10's November 2015 upgrade, build 10586
 #define BUILD_10586 10586
 
+void Windows8LPIAction::_selectLanguagePackageW10()
+{
+	DWORD buildNumber = m_OSVersion->GetBuildNumber();
+
+	if (buildNumber < BUILD_10586)
+	{
+		if (m_OSVersion->IsWindows64Bits())
+		{
+			if (GetUseDialectalVariant())
+			{
+				m_packageDownloadId = L"Win10_va_64";
+				m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+			}
+			else
+			{
+				m_packageDownloadId = L"Win10_ca_64";
+				m_packageLanguageCode = CATALAN_LANGPACKCODE;
+			}
+		}
+		else
+		{
+			if (GetUseDialectalVariant())
+			{
+				m_packageDownloadId = L"Win10_va_32";
+				m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
+			}
+			else
+			{
+				m_packageDownloadId = L"Win10_ca_32";
+				m_packageLanguageCode = CATALAN_LANGPACKCODE;
+			}
+		}
+	}
+
+	if (buildNumber >= BUILD_10586)
+	{
+		// TODO: Add Valencian langpacks when they are published
+		if (m_OSVersion->IsWindows64Bits())
+		{
+			m_packageDownloadId = L"Win10_10586_ca_64";
+			m_packageLanguageCode = CATALAN_LANGPACKCODE;
+		}
+		else
+		{
+			m_packageDownloadId = L"Win10_10586_ca_32";
+			m_packageLanguageCode = CATALAN_LANGPACKCODE;
+		}
+	}
+}
+
 void Windows8LPIAction::_selectLanguagePackage()
 {
 	OperatingVersion version = m_OSVersion->GetVersion();	
@@ -93,53 +143,7 @@ void Windows8LPIAction::_selectLanguagePackage()
 	{
 		case Windows10:
 		{
-			DWORD buildNumber = m_OSVersion->GetBuildNumber();
-
-			if (buildNumber < BUILD_10586)
-			{
-				if (m_OSVersion->IsWindows64Bits())
-				{
-					if (GetUseDialectalVariant())
-					{
-						m_packageDownloadId = L"Win10_va_64";
-						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
-					}
-					else
-					{
-						m_packageDownloadId = L"Win10_ca_64";
-						m_packageLanguageCode = CATALAN_LANGPACKCODE;
-					}
-				}
-				else
-				{
-					if (GetUseDialectalVariant())
-					{
-						m_packageDownloadId = L"Win10_va_32";
-						m_packageLanguageCode = VALENCIAN_LANGPACKCODE;
-					}
-					else
-					{
-						m_packageDownloadId = L"Win10_ca_32";
-						m_packageLanguageCode = CATALAN_LANGPACKCODE;
-					}
-				}
-			}
-
-			if (buildNumber >= BUILD_10586)
-			{
-				// TODO: Add Valencian langpacks when they are published
-				if (m_OSVersion->IsWindows64Bits())
-				{
-					m_packageDownloadId = L"Win10_10586_ca_64";
-					m_packageLanguageCode = CATALAN_LANGPACKCODE;					
-				}
-				else
-				{
-					m_packageDownloadId = L"Win10_10586_ca_32";
-					m_packageLanguageCode = CATALAN_LANGPACKCODE;					
-				}				
-			}
-
+			_selectLanguagePackageW10();	
 			break;
 		}
 
@@ -579,7 +583,7 @@ void Windows8LPIAction::CheckPrerequirements(Action * action)
 		return;
 	}
 
-	ConfigurationFileActionDownload downloadVersion;	
+	ConfigurationFileActionDownload downloadVersion;
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
 	if (downloadVersion.IsUsable() == false)
