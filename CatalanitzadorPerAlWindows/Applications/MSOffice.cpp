@@ -168,6 +168,7 @@ bool MSOffice::_isOffice2016LangAccesoryPackInstalled()
 			std::transform(langs.begin(), langs.end(), langs.begin(), ::tolower);
 			bFound = langs.find(L"ca-es") != string::npos;
 		}
+		m_registry->Close();
 	}
 
 	g_log.Log(L"MSOffice::_isOffice2016LangAccesoryPackInstalled. Languages %s, found: %u", (wchar_t *) langs.c_str(), (wchar_t *) bFound);
