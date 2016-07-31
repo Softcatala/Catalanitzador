@@ -82,8 +82,8 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 }
 
 
-//Windows 10's November 2015 upgrade, build 10586
-#define BUILD_10586 10586
+#define BUILD_10586 10586 //Windows 10's November 2015 upgrade, build 10586
+#define BUILD_14393 14393 //Windows 10's August 2016, aniversary edition edition
 
 void Windows8LPIAction::_selectLanguagePackageW10()
 {
@@ -119,9 +119,8 @@ void Windows8LPIAction::_selectLanguagePackageW10()
 		}
 	}
 
-	if (buildNumber >= BUILD_10586)
+	if (buildNumber == BUILD_10586)
 	{
-		// TODO: Add Valencian langpacks when they are published
 		if (m_OSVersion->IsWindows64Bits())
 		{
 			m_packageDownloadId = L"Win10_10586_ca_64";
@@ -130,6 +129,20 @@ void Windows8LPIAction::_selectLanguagePackageW10()
 		else
 		{
 			m_packageDownloadId = L"Win10_10586_ca_32";
+			m_packageLanguageCode = CATALAN_LANGPACKCODE;
+		}
+	}
+
+	if (buildNumber == BUILD_14393)
+	{		
+		if (m_OSVersion->IsWindows64Bits())
+		{
+			m_packageDownloadId = L"Win10_14393_ca_64";
+			m_packageLanguageCode = CATALAN_LANGPACKCODE;
+		}
+		else
+		{
+			m_packageDownloadId = L"Win10_14393_ca_32";
 			m_packageLanguageCode = CATALAN_LANGPACKCODE;
 		}
 	}

@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2016-02-21T03:00:00</date>
+		<date>2016-07-30T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -180,6 +180,24 @@
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_11.cab</url_3>
       				<filename>ca_windows_10_language_interface_pack_x64_2015_11.cab</filename>
       			</download>
+      			
+      			<download>
+      				<version>Win10_14393_ca_32</version>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab]]></url_1>
+      				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab</url_3>
+      				<filename>ca_windows_10_language_interface_pack_x86_2016_08.cab</filename>
+      			</download>
+      			<download>
+      				<version>Win10_14393_ca_64</version>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab]]></url_1>
+      				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab</url_3>
+      				<filename>ca_windows_10_language_interface_pack_x64_2016_08.cab</filename>
+      			</download>
+      			
 		</action>
 		
 		<!-- Microsoft Office -->
