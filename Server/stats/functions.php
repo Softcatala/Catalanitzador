@@ -232,10 +232,24 @@ function print_office_data() {
     }
 }
 
+$action_cache = array();
+
 /**** ACTIONS DATA ****/
 function get_actions_data($action_id) {
-    global $db;
+	
+	global $action_stats;
+	
+	if (!array_key_exists($action_id, $action_stats)) {
+		preload_action_data();
+	}
+	
+	return $action_stats[$action_id];
+}
+
+function preload_action_data() {
+	global $db;
     global $Catalanitzador;
+	global $action_stats;
 
     $v = $Catalanitzador->get_version_selected();
 
@@ -253,8 +267,17 @@ function get_actions_data($action_id) {
         $p = '';
         }
 
-    $results = $db->get_results("select ActionID, Result, count(*) as total from actions a inner join sessions on a.SessionID = sessions.ID inner join operatings on operatings.ID = sessions.OperatingsID where a.SessionID = sessions.ID and operatings.ID = sessions.OperatingsID and ActionID = $action_id $p $v group by a.ActionID , Result order by Result asc");
+    $results = $db->get_results("select ActionID, Result, count(*) as total from actions a inner join sessions on a.SessionID = sessions.ID inner join operatings on operatings.ID = sessions.OperatingsID where a.SessionID = sessions.ID and operatings.ID = sessions.OperatingsID $p $v group by a.ActionID , Result order by Result asc");
     
+	foreach($results as $k => $result) {
+		
+		if (!is_array($action_stats[$result->ActionID])) {
+			$action_stats[$result->ActionID] = array();
+		}
+		
+		$action_stats[$result->ActionID][] = $result;
+	}
+	
     return $results;
 }
 
