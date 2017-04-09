@@ -135,6 +135,16 @@ TEST_F(JavaTest, _readVersion_64bits)
 	EXPECT_THAT(java.GetVersion(), StrCaseEq(VERSION));
 }
 
+TEST_F(JavaTest, _readVersion_64bits_In32OS_NotPossible)
+{
+	CreateJava;
+	const wchar_t* VERSION = L"1.7";
+
+	java.Set64Bits(true);
+	_setMockForJava(osVersionMock, registryMock, VERSION, true);
+	EXPECT_THAT(java.GetVersion(), "");
+}
+
 TEST_F(JavaTest, _AddDownload_32bits)
 {
 	CreateJava;

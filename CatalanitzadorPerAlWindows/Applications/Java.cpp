@@ -74,6 +74,11 @@ bool Java::_readVersion(wstring& version)
 	bool is64Bits = false;
 	bool rslt = false;
 
+	if (m_is64bits && !m_OSVersion->IsWindows64Bits())
+	{
+		return false;
+	}
+
 	if (m_is64bits && m_OSVersion->IsWindows64Bits())
 	{
 		rslt = m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, JAVA_REGKEY, false);
