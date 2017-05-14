@@ -1,0 +1,37 @@
+@charset "UTF-8";
+@namespace d url(http://www.apple.com/DTDs/DictionaryService-1.0.rng);
+
+d|entry {
+}
+
+h1 {
+  font-size: 150%;
+  display: inline-block;
+}
+h1 sup {
+  font-weight: normal;
+  font-size: small;
+}
+span.nobold {
+  font-weight: normal;
+}
+.text {
+  padding-left: 25px;
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+.categoria {
+  margin-left: 15px;
+}
+.instruccions {
+  margin-bottom: 12px;
+  font-size: 0.9em;
+}
+.marca {
+  margin-left: 15px;
+  font-size: 0.7em;
+  text-transform: uppercase;
+}
+.fem {
+  color: #666;
+}

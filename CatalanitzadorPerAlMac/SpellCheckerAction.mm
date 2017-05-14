@@ -25,44 +25,14 @@ using namespace std;
 
 SpellCheckerAction::SpellCheckerAction() : Action()
 {
-	m_authorizationRef = NULL;
+
 }
 
 SpellCheckerAction::~SpellCheckerAction()
 {
-	if (m_authorizationRef)
-	{
-		AuthorizationFree(m_authorizationRef, kAuthorizationFlagDestroyRights);
-		m_authorizationRef = NULL;
-	}
+	
 }
 
-bool SpellCheckerAction::_requestPermissions()
-{
-	OSStatus status;
- 
-	status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &m_authorizationRef);
-	
-	if (status != errAuthorizationSuccess)
-	{
-		NSLog(@"SpellCheckerAction::_requestPermissions. AuthorizationCreate failed: %d", status);
-		return false;
-	}
-	
-	AuthorizationItem right = {kAuthorizationRightExecute, 0, NULL, 0};
-	AuthorizationRights rights = {1, &right};
-	AuthorizationFlags flags = kAuthorizationFlagDefaults | kAuthorizationFlagInteractionAllowed |
-	kAuthorizationFlagPreAuthorize | kAuthorizationFlagExtendRights;
-	
-	status = AuthorizationCopyRights(m_authorizationRef, &rights, NULL, flags, NULL);
-	if (status != errAuthorizationSuccess)
-	{
-		NSLog(@"SpellCheckerAction::_requestPermissions. AuthorizationCopyRights failed: %d", status);
-		return false;
-	}
-	
-	return true;
-}
 
 NSString* SpellCheckerAction::_getBundlePath(CFStringRef file, CFStringRef extension)
 {
@@ -77,7 +47,7 @@ NSString* SpellCheckerAction::_getBundlePath(CFStringRef file, CFStringRef exten
 
 bool SpellCheckerAction::_copyfile(NSString* src, NSString* trg)
 {
-	NSString * trkitMoveUtilityPath = @"/bin/cp";
+	NSString * cpUtilityPath = @"/bin/cp";
 	OSStatus status;
 	
 	char * args[3] = {
@@ -86,10 +56,7 @@ bool SpellCheckerAction::_copyfile(NSString* src, NSString* trg)
 		[2] = NULL
 	};
 	
-	status = AuthorizationExecuteWithPrivileges(m_authorizationRef,
-												[[trkitMoveUtilityPath stringByStandardizingPath] UTF8String],
-												0, args, NULL);
-	return status == errAuthorizationSuccess;
+	return m_authorizationExecute.RunAsRoot([[cpUtilityPath stringByStandardizingPath] UTF8String], args);
 }
 
 
@@ -112,7 +79,7 @@ void SpellCheckerAction::_createDirectoryIfDoesNotExists(NSString* directory)
 	if([[NSFileManager defaultManager] fileExistsAtPath:directory])
 		return;
 	
-	NSString * trkitMoveUtilityPath = @"/bin/mkdir";
+	NSString * mkdirUtilityPath = @"/bin/mkdir";
 	OSStatus status;
 	
 	char * args[2] = {
@@ -121,9 +88,7 @@ void SpellCheckerAction::_createDirectoryIfDoesNotExists(NSString* directory)
 	};
 	
 	// Using mkdir instead of createDirectoryAtPath:directory to change how we request permissions
-	status = AuthorizationExecuteWithPrivileges(m_authorizationRef,
-												[[trkitMoveUtilityPath stringByStandardizingPath] UTF8String],
-												0, args, NULL);
+	m_authorizationExecute.RunAsRoot([[mkdirUtilityPath stringByStandardizingPath] UTF8String], args);
 }
 
 void SpellCheckerAction::Execute()
@@ -131,7 +96,7 @@ void SpellCheckerAction::Execute()
 	NSString* srcFile;
 	bool isOk;
 	
-	if (_requestPermissions())
+	if (m_authorizationExecute.RequestPermissions())
 	{
 		// Starting in OS X Capitan the directory is not created
 		_createDirectoryIfDoesNotExists(@"/Library/Spelling");

@@ -29,6 +29,7 @@
 #include "RemoteURLs.h"
 #include "Reboot.h"
 #include "DictationAction.h"
+#include "DictSynonymsAction.h"
 
 // Dictation action is still in development. Enable this define to enable it
 //#define DICTATION_ACTION 1
@@ -41,6 +42,7 @@ SystemLanguageAction systemLanguageAction;
 FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
 ChromeAction chromeAction;
+DictSynonymsAction dictSynonymsAction;
 
 #if DICTATION_ACTION
 DictationAction dictationAction;
@@ -276,6 +278,7 @@ void _upload(Serializer& serializer)
 	actions.push_back(&firefoxAction);
 	actions.push_back(&spellCheckerAction);
 	actions.push_back(&chromeAction);
+	actions.push_back(&dictSynonymsAction);
 	
 #if DICTATION_ACTION
 	actions.push_back(&dictationAction);

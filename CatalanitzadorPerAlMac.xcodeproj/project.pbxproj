@@ -17,6 +17,9 @@
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
 		8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36316BD23CB00653AE7 /* Credits.rtf */; };
 		8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36916BD23CB00653AE7 /* MainMenu.xib */; };
+		8D6B5B171EC3A2C3005B8AA4 /* DictSynonymsAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B5B161EC3A2C3005B8AA4 /* DictSynonymsAction.mm */; };
+		8D6B5B191EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary in Resources */ = {isa = PBXBuildFile; fileRef = 8D6B5B181EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary */; };
+		8D6E30A41EC64241003F6119 /* AuthorizationExecute.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E30A31EC64241003F6119 /* AuthorizationExecute.mm */; };
 		8D77074F1B8BAF0C00F0ABBD /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8D77074E1B8BAF0C00F0ABBD /* jsoncpp.cpp */; };
 		8D94658916CF9CA2009BBA39 /* ChromeAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D94658616CF9CA2009BBA39 /* ChromeAction.mm */; };
 		8D94658A16CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D94658816CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm */; };
@@ -54,6 +57,11 @@
 		8D50D36616BD23CB00653AE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D50D36A16BD23CB00653AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8D6B5B151EC3A2C3005B8AA4 /* DictSynonymsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictSynonymsAction.h; sourceTree = "<group>"; };
+		8D6B5B161EC3A2C3005B8AA4 /* DictSynonymsAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DictSynonymsAction.mm; sourceTree = "<group>"; };
+		8D6B5B181EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Diccionari de sinònims - Albert Jané.dictionary"; path = "synonyms/Diccionari de sinònims - Albert Jané.dictionary"; sourceTree = "<group>"; };
+		8D6E30A21EC64241003F6119 /* AuthorizationExecute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AuthorizationExecute.h; path = OS/AuthorizationExecute.h; sourceTree = "<group>"; };
+		8D6E30A31EC64241003F6119 /* AuthorizationExecute.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AuthorizationExecute.mm; path = OS/AuthorizationExecute.mm; sourceTree = "<group>"; };
 		8D77074E1B8BAF0C00F0ABBD /* jsoncpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = jsoncpp.cpp; path = libs/jsoncpp/jsoncpp.cpp; sourceTree = SOURCE_ROOT; };
 		8D7DBD9E16EE62AD00113095 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlatformDefinitions.h; path = CommonCode/PlatformDefinitions.h; sourceTree = SOURCE_ROOT; };
 		8D7DBD9F16EE62AD00113095 /* RemoteURLs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteURLs.h; path = CommonCode/RemoteURLs.h; sourceTree = SOURCE_ROOT; };
@@ -140,6 +148,7 @@
 		8D50D35A16BD23CB00653AE7 /* CatalanitzadorPerAlMac */ = {
 			isa = PBXGroup;
 			children = (
+				8D6B5B181EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary */,
 				8D77074D1B8BAE7B00F0ABBD /* jsoncpp */,
 				8D9465B516D133F9009BBA39 /* Application */,
 				8D9465AF16D019FF009BBA39 /* Core */,
@@ -176,6 +185,8 @@
 		8D9465AB16D01197009BBA39 /* OS */ = {
 			isa = PBXGroup;
 			children = (
+				8D6E30A21EC64241003F6119 /* AuthorizationExecute.h */,
+				8D6E30A31EC64241003F6119 /* AuthorizationExecute.mm */,
 				8D367A9619C9584600932920 /* Reboot.h */,
 				8D367A9719C9584600932920 /* Reboot.mm */,
 				8D9465AC16D011A6009BBA39 /* OSVersion.h */,
@@ -219,6 +230,8 @@
 			isa = PBXGroup;
 			children = (
 				8D4E3A7219FE27F50050810D /* DictationAction.h */,
+				8D6B5B151EC3A2C3005B8AA4 /* DictSynonymsAction.h */,
+				8D6B5B161EC3A2C3005B8AA4 /* DictSynonymsAction.mm */,
 				8D4E3A7319FE27F50050810D /* DictationAction.mm */,
 				8D9465A916D00FBD009BBA39 /* Action.cpp */,
 				8D94658C16CF9D0F009BBA39 /* ActionID.h */,
@@ -295,6 +308,7 @@
 				8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */,
 				8D15274C16C169F7007786D9 /* app-icon.icns in Resources */,
 				8D00EADC16C545C100939FA5 /* Català.aff in Resources */,
+				8D6B5B191EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary in Resources */,
 				8D00EADD16C545C100939FA5 /* Català.dic in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,12 +323,14 @@
 				8DE32D9416C00FF700764125 /* main.mm in Sources */,
 				8DE32D9716C0101500764125 /* AppDelegate.mm in Sources */,
 				8DE32D9C16C01C4800764125 /* SystemLanguageAction.mm in Sources */,
+				8D6E30A41EC64241003F6119 /* AuthorizationExecute.mm in Sources */,
 				8D4E3A7419FE27F50050810D /* DictationAction.mm in Sources */,
 				8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */,
 				8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */,
 				8D94658916CF9CA2009BBA39 /* ChromeAction.mm in Sources */,
 				8D94658A16CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm in Sources */,
 				8D9465AA16D00FBD009BBA39 /* Action.cpp in Sources */,
+				8D6B5B171EC3A2C3005B8AA4 /* DictSynonymsAction.mm in Sources */,
 				8D367A9819C9584600932920 /* Reboot.mm in Sources */,
 				8D9465AE16D011A6009BBA39 /* OSVersion.mm in Sources */,
 				8D9465B416D01A3A009BBA39 /* Serializer.mm in Sources */,

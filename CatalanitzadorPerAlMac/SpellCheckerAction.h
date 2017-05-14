@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include <iostream>
 #import <Cocoa/Cocoa.h>
 #include "Action.h"
+#include <AuthorizationExecute.h>
 
 class SpellCheckerAction: public Action
 {
@@ -43,14 +43,13 @@ public:
 	virtual bool IsRebootNeed() const;
 	
 private:
-	
-	bool _requestPermissions();
+
 	NSString* _getBundlePath(CFStringRef file, CFStringRef extension);
 	bool _copyfile(NSString* src, NSString* trg);
 	bool _isDictionaryInstalled();
 	void _createDirectoryIfDoesNotExists(NSString* directory);
 	
 	string m_version;
-	AuthorizationRef m_authorizationRef;
+	AuthorizationExecute m_authorizationExecute;
 };
 
