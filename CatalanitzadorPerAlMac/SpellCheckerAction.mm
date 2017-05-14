@@ -48,7 +48,6 @@ NSString* SpellCheckerAction::_getBundlePath(CFStringRef file, CFStringRef exten
 bool SpellCheckerAction::_copyfile(NSString* src, NSString* trg)
 {
 	NSString * cpUtilityPath = @"/bin/cp";
-	OSStatus status;
 	
 	char * args[3] = {
 		[0] = (char *)[[src stringByStandardizingPath] UTF8String],
@@ -80,7 +79,6 @@ void SpellCheckerAction::_createDirectoryIfDoesNotExists(NSString* directory)
 		return;
 	
 	NSString * mkdirUtilityPath = @"/bin/mkdir";
-	OSStatus status;
 	
 	char * args[2] = {
 		[0] = (char *)[[directory stringByStandardizingPath] UTF8String],

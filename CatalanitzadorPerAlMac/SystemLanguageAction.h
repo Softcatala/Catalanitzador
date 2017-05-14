@@ -45,6 +45,11 @@ private:
 	NSArray* _getCurrentLanguages();
 	void _setLocale();
 	bool _isCurrentLocaleOk();
+	bool _isCatalanLanguageCode(NSString* language);
+	NSString* _getLanguageCodeToSet();
+	void _setRegion();
+	bool _isSierraOrHigher();
+
 	string m_version;
 };
 

@@ -30,12 +30,52 @@ NSArray* SystemLanguageAction::_getCurrentLanguages()
 	return languages;
 }
 
+bool SystemLanguageAction::_isSierraOrHigher()
+{
+	OSVersion version;
+	
+	return (version.GetMajorVersion() > 10 ||
+			(version.GetMajorVersion() == 10 && version.GetMinorVersion() >= 12));
+}
+
+NSString*  SystemLanguageAction::_getLanguageCodeToSet()
+{
+	// Starting macOS 10.12 "Sierra" Apple uses ca-ES instead of just ca
+	if (_isSierraOrHigher())
+	{
+		return @"ca-ES";
+	}
+	else
+	{
+		return @"ca";
+	}
+}
+
+void SystemLanguageAction::_setRegion()
+{
+	// Starting mac OS 10.12 "Sierra" you need to change the Region for the date/time to be show in Catalan
+	if (_isSierraOrHigher() == false)
+	{
+		return;
+	}
+	
+	NSTask* task = [[NSTask alloc] init];
+	NSArray* arguments = [NSArray arrayWithObjects: @"write", @"NSGlobalDomain",
+						  @"AppleLocale", @"-string",  @"ca_ES", nil];
+	
+	[task setLaunchPath:@"/usr/bin/defaults"];
+	[task setArguments: arguments];
+	[task launch];
+	[task waitUntilExit];
+}
+
+
 void SystemLanguageAction::_setLocale()
 {
 	NSTask* task = [[NSTask alloc] init];
 	NSArray* prevLanguages = _getCurrentLanguages();
 	NSArray* arguments = [NSArray arrayWithObjects: @"write", @"NSGlobalDomain",
-						  @"AppleLanguages", @"-array", @"ca" , nil];
+						  @"AppleLanguages", @"-array",  _getLanguageCodeToSet(), nil];
 	
 	unsigned long cnt = [prevLanguages count] + [arguments count];
 	NSMutableArray *myArray = [NSMutableArray arrayWithCapacity:cnt];
@@ -45,7 +85,7 @@ void SystemLanguageAction::_setLocale()
 	// Copy all previous languages except Catalan that is already first one
 	for (NSString* language in prevLanguages)
 	{
-		if ([language isEqualToString:@"ca"] ==false)
+		if  (_isCatalanLanguageCode(language) == false)
 			[myArray addObject:language];
 	}
 	
@@ -55,12 +95,17 @@ void SystemLanguageAction::_setLocale()
 	[task waitUntilExit];
 }
 
+bool SystemLanguageAction::_isCatalanLanguageCode(NSString* language)
+{
+	return ([language isEqualToString:@"ca"] || [language isEqualToString:@"ca-ES"]);
+}
+
 bool SystemLanguageAction::_isCurrentLocaleOk()
 {
 	NSArray* languages = _getCurrentLanguages();
 	NSString* language = [languages objectAtIndex:0];
 	
-	if ([language isEqualToString:@"ca"])
+	if  (_isCatalanLanguageCode(language))
 		return true;
 	else
 		return false;
@@ -86,6 +131,7 @@ void SystemLanguageAction::Execute()
 	
 	_setLocale();
 	isOk = _isCurrentLocaleOk();
+	_setRegion();
 	SetStatus(isOk ? Successful : FinishedWithError);
 	
 	NSLog(@"SystemLanguageAction::Execute. Result %u", isOk);
