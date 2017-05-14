@@ -20,9 +20,9 @@
         16 => 'MacSpellChecker',
         17 => 'FirefoxLangPack',
         18 => 'LangToolLibreOffice',
-        19 => 'LangToolFirefox'
+        19 => 'LangToolFirefox',
+        20 => 'DictSynonymsActionID'
     );
-
 
     $subversions = array(4, 7, 8);
 
