@@ -827,14 +827,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLiveAction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLiveAction.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.cpp"
 				>
 			</File>
@@ -919,14 +911,6 @@
 			Name="Inspectors"
 			>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\CCleanerInspector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\CCleanerInspector.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\Inspector.cpp"
 				>
 			</File>
@@ -960,30 +944,6 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\LibreOfficeInspector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\PDFCreatorInspector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\PDFCreatorInspector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ThunderbirdInspector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\ThunderbirdInspector.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\WinRARInspector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Inspectors\WinRARInspector.h"
 				>
 			</File>
 		</Filter>

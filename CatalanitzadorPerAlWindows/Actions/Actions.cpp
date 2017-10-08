@@ -32,7 +32,6 @@
 #include "Win32I18N.h"
 #include "Registry.h"
 #include "AdobeReaderAction.h"
-#include "WindowsLiveAction.h"
 #include "FileVersionInfo.h"
 #include "CatalanitzadorUpdateAction.h"
 #include "iTunesAction.h"
@@ -174,8 +173,7 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 		_getLibreOffice(osVersion, langToolLibreOfficeRegistry), _getApacheOpenOffice(langToolLibreOfficeRegistry), m_pDownloadManager));
 
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new WindowsLiveAction(_getNewRegistry(), _getNewRunner(), _getFileVersionInfo(), m_pDownloadManager));
+	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));	
 	m_actions.push_back(new iTunesAction(_getNewRegistry(), _getFileVersionInfo(), _getNewOSVersion()));
 	m_actions.push_back(new SkypeAction(_getNewRegistry(), _getFileVersionInfo()));
 }

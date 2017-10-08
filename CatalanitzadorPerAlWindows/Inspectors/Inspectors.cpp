@@ -22,10 +22,6 @@
 #include "IRegistry.h"
 #include "Registry.h"
 #include "LibreOfficeInspector.h"
-#include "PDFCreatorInspector.h"
-#include "WinRARInspector.h"
-#include "ThunderbirdInspector.h"
-#include "CCleanerInspector.h"
 #include "JavaRuntimeInspector.h"
 
 Inspectors::Inspectors()
@@ -59,10 +55,6 @@ IRegistry* Inspectors::_getNewRegistry()
 void Inspectors::_buildListOfInspectors()
 {
 	m_Inspectors.push_back(new LibreOfficeInspector(_getNewRegistry()));
-	m_Inspectors.push_back(new PDFCreatorInspector(_getNewRegistry()));
-	m_Inspectors.push_back(new WinRARInspector(_getNewRegistry()));
-	m_Inspectors.push_back(new ThunderbirdInspector(_getNewRegistry()));
-	m_Inspectors.push_back(new CCleanerInspector(_getNewRegistry()));
 	m_Inspectors.push_back(new JavaRuntimeInspector(_getNewRegistry()));	
 }
 
