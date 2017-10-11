@@ -275,10 +275,10 @@ void _upload(Serializer& serializer)
 	_initLog();
 	
 	actions.push_back(&systemLanguageAction);
-	actions.push_back(&firefoxAction);
 	actions.push_back(&spellCheckerAction);
-	actions.push_back(&chromeAction);
 	actions.push_back(&dictSynonymsAction);
+	actions.push_back(&chromeAction);
+	actions.push_back(&firefoxAction);
 	
 #if DICTATION_ACTION
 	actions.push_back(&dictationAction);
