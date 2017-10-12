@@ -19,13 +19,14 @@
 
 #pragma once
 
+#include "IOSVersion.h"
 #include "IRegistry.h"
 
 class Firefox
 {
 public:
 
-		Firefox(IRegistry* registry);
+		Firefox(IRegistry* registry, IOSVersion* OSVersion);
 
 		wstring GetVersion(); 
 		wstring GetLocale();
@@ -47,5 +48,6 @@ private:
 		wstring m_installPath;
 		bool m_cachedValues;
 		IRegistry* m_registry;
+		IOSVersion* m_OSVersion;
 };
 

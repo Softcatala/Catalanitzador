@@ -53,5 +53,6 @@ private:
 		Firefox m_firefox;
 		FirefoxAddOn m_firefoxAddOn;
 		wstring m_manualSteps;
+		OSVersion m_OSversion;
 };
 

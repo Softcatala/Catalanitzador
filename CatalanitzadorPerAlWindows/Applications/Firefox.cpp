@@ -19,13 +19,15 @@
 
 #include "stdafx.h"
 #include "Firefox.h"
+#include "OSVersion.h"
 
 #define FIREFOX_REGKEY L"SOFTWARE\\Mozilla\\Mozilla Firefox"
 
-Firefox::Firefox(IRegistry* registry) 
+Firefox::Firefox(IRegistry* registry, IOSVersion* OSVersion)
 {	
 	m_registry = registry;
 	m_cachedValues = false;
+	m_OSVersion = OSVersion;
 }
 
 wstring Firefox::GetVersion()
@@ -89,9 +91,10 @@ void Firefox::_extractLocaleAndVersion(wstring versionWithLocale)
 
 wstring Firefox::_getVersionAndLocaleFromRegistry()
 {
-	wstring version;
+	wstring version;	
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false) == false)
+	if (((m_OSVersion->IsWindows64Bits() && m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false)) == false)
+	 && (m_registry->OpenKey(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false) == false))
 	{
 		g_log.Log(L"Firefox::_getVersionAndLocaleFromRegistry. Cannot open registry key");
 		return version;

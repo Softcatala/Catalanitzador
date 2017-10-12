@@ -19,9 +19,10 @@
 
 #include "stdafx.h"
 #include "FirefoxAction.h"
+#include "OSVersion.h"
 
 FirefoxAction::FirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager), 
-m_firefox(registry)
+m_firefox(registry, &m_OSversion)
 {
 	m_registry = registry;
 	m_runner = runner;

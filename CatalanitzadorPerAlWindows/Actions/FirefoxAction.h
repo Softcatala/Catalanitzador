@@ -27,6 +27,7 @@
 #include "FirefoxAcceptLanguagesAction.h"
 #include "Firefox.h"
 #include "FirefoxChannel.h"
+#include "OSVersion.h"
 
 using namespace std;
 
@@ -69,4 +70,5 @@ private:
 		Firefox m_firefox;
 		bool m_doFirefoxLangPackAction;
 		bool m_doFirefoxAcceptLanguagesAction;
+		OSVersion m_OSversion;
 };

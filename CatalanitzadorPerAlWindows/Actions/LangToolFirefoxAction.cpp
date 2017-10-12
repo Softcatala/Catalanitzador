@@ -24,7 +24,7 @@
 const wchar_t* APPLICATION_ID_GUID = L"jid1-j3KiX1n7UXrjxQ@jetpack";
 
 LangToolFirefoxAction::LangToolFirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : 
-Action(downloadManager), m_firefox(registry), m_firefoxAddOn(m_firefox.GetUserDataDirectory(), m_firefox.GetProfileRootDir())
+Action(downloadManager), m_firefox(registry, &m_OSversion), m_firefoxAddOn(m_firefox.GetUserDataDirectory(), m_firefox.GetProfileRootDir())
 {
 	m_registry = registry;
 	m_runner = runner;

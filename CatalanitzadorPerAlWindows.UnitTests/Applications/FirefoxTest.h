@@ -32,7 +32,7 @@ class FirefoxTest : public Firefox
 {
 	public:
 
-		FirefoxTest(IRegistry* registry) : Firefox(registry)
+		FirefoxTest(IRegistry* registry, IOSVersion* OSVersion) : Firefox(registry, OSVersion)
 		{
 			
 		}
@@ -51,6 +51,13 @@ class FirefoxTest : public Firefox
 		static void _setMockForLocale(RegistryMock& registryMockobj, const wchar_t* locale)
 		{
 			EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(true));
+			EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).	WillRepeatedly(DoAll(SetArgCharStringPar2(locale), Return(true)));
+		}
+
+		static void _setMockForLocale64(RegistryMock& registryMockobj, const wchar_t* locale)
+		{
+			EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(false));
+			EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(true));
 			EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).	WillRepeatedly(DoAll(SetArgCharStringPar2(locale), Return(true)));
 		}
 };
