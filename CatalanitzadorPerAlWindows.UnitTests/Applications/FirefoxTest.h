@@ -48,6 +48,15 @@ class FirefoxTest : public Firefox
 			EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Install Directory"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(installdir), Return(true)));
 		}
 
+		static void _setMockForInstalldir64(RegistryMock& registryMockobj, const wchar_t* locale, const wchar_t* installdir)
+		{
+			wchar_t szKeyName[2048];
+
+			swprintf_s(szKeyName, L"SOFTWARE\\Mozilla\\Mozilla Firefox\\%s\\Main", locale);
+			EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(szKeyName), false)).WillRepeatedly(Return(true));
+			EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"Install Directory"),_ ,_)).WillRepeatedly(DoAll(SetArgCharStringPar2(installdir), Return(true)));
+		}
+
 		static void _setMockForLocale(RegistryMock& registryMockobj, const wchar_t* locale)
 		{
 			EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(true));
@@ -56,7 +65,6 @@ class FirefoxTest : public Firefox
 
 		static void _setMockForLocale64(RegistryMock& registryMockobj, const wchar_t* locale)
 		{
-			EXPECT_CALL(registryMockobj, OpenKey(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(false));
 			EXPECT_CALL(registryMockobj, OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, StrCaseEq(L"SOFTWARE\\Mozilla\\Mozilla Firefox"), false)).WillRepeatedly(Return(true));
 			EXPECT_CALL(registryMockobj, GetString(StrCaseEq(L"CurrentVersion"),_ ,_)).	WillRepeatedly(DoAll(SetArgCharStringPar2(locale), Return(true)));
 		}

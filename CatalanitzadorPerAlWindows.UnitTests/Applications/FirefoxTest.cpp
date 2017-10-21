@@ -64,7 +64,7 @@ TEST(FirefoxTest, _readVersionAndLocale_empty)
 	EXPECT_THAT(firefox.GetLocale(), StrCaseEq(L""));
 }
 
-TEST(FirefoxTest, _readInstallPath)
+TEST(FirefoxTest, _readInstallPath_32bits)
 {
 	CreateFirefoxAction;
 	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
@@ -78,11 +78,25 @@ TEST(FirefoxTest, _readInstallPath)
 	EXPECT_THAT(firefox.GetInstallPath(), StrCaseEq(PATH));
 }
 
+TEST(FirefoxTest, _readInstallPath_64bits)
+{
+	CreateFirefoxAction;
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	const wchar_t* PATH = L"MyPath";
+	const wchar_t* VERSION = L"12.0 (ca)";
+	wstring path;
+
+	firefox._setMockForLocale64(registryMockobj, VERSION);
+	firefox._setMockForInstalldir64(registryMockobj, VERSION, PATH);
+
+	EXPECT_THAT(firefox.GetInstallPath(), StrCaseEq(PATH));
+}
+
 TEST(FirefoxTest, _readVersionAndLocale_with64bits)
 {
 	CreateFirefoxAction;
 	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
-	firefox._setMockForLocale64(registryMockobj, L"31.0 (x86 ca)");
+	firefox._setMockForLocale64(registryMockobj, L"31.0 (x64 ca)");
 
 	firefox._readVersionAndLocale();
 	EXPECT_THAT(firefox.GetVersion(), StrCaseEq(L"31.0"));

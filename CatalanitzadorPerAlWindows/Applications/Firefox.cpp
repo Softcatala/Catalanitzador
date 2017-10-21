@@ -133,7 +133,8 @@ void Firefox::_readInstallPath()
 	wstring key(FIREFOX_REGKEY);
 	key += L"\\" + version + L"\\Main";
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false) == false)
+	if (((m_OSVersion->IsWindows64Bits() && m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false)) == false) &&
+		((m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*) key.c_str(), false)) == false))
 	{
 		g_log.Log(L"Firefox::_readInstallPath. Cannot open registry key");
 		return;
