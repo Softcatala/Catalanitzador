@@ -34,6 +34,7 @@ public:
 		void InvalidateCache() {m_cachedValues = false; }
 		wstring GetUserDataDirectory();
 		wstring GetProfileRootDir();
+		bool Is64Bits() { return m_is64bits;}
 		
 protected:
 
@@ -47,6 +48,7 @@ private:
 		wstring m_locale;
 		wstring m_installPath;
 		bool m_cachedValues;
+		bool m_is64bits;
 		IRegistry* m_registry;
 		IOSVersion* m_OSVersion;
 };

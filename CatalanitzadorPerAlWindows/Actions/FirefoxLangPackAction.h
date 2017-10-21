@@ -29,7 +29,7 @@ using namespace std;
 class FirefoxLangPackAction : public Action
 {
 public:
-		FirefoxLangPackAction(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, DownloadManager* downloadManager);
+		FirefoxLangPackAction(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, bool is64Bits, DownloadManager* downloadManager);
 		~FirefoxLangPackAction();
 
 		virtual wchar_t* GetName() {return L""; }
@@ -61,6 +61,7 @@ private:
 		IRunner* m_runner;
 		wstring m_locale;
 		wstring m_version;
+		bool m_is64Bits;
 		wstring m_installPath;
 		FirefoxMozillaServer* m_mozillaServer;
 		IFirefoxChannel *m_firefoxChannel;

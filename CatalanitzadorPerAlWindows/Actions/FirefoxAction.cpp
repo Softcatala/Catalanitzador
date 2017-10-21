@@ -76,7 +76,7 @@ FirefoxLangPackAction * FirefoxAction::_getLangPackAction()
 
 		path = m_firefox.GetInstallPath();
 		m_firefoxChannel = new FirefoxChannel(path);
-		m_firefoxLangPackAction = new FirefoxLangPackAction(m_runner, m_firefoxChannel, m_firefox.GetLocale(), GetVersion(), m_downloadManager);
+		m_firefoxLangPackAction = new FirefoxLangPackAction(m_runner, m_firefoxChannel, m_firefox.GetLocale(), GetVersion(), m_firefox.Is64Bits(), m_downloadManager);
 	}
 	return m_firefoxLangPackAction;
 }

@@ -28,6 +28,7 @@ Firefox::Firefox(IRegistry* registry, IOSVersion* OSVersion)
 	m_registry = registry;
 	m_cachedValues = false;
 	m_OSVersion = OSVersion;
+	m_is64bits = false;
 }
 
 wstring Firefox::GetVersion()
@@ -93,8 +94,15 @@ wstring Firefox::_getVersionAndLocaleFromRegistry()
 {
 	wstring version;	
 
-	if (((m_OSVersion->IsWindows64Bits() && m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false)) == false)
-	 && (m_registry->OpenKey(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false) == false))
+	if (m_OSVersion->IsWindows64Bits() && m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false))
+	{
+		m_is64bits = true;
+	}
+	else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, FIREFOX_REGKEY, false))
+	{
+		m_is64bits = false;
+	}
+	else
 	{
 		g_log.Log(L"Firefox::_getVersionAndLocaleFromRegistry. Cannot open registry key");
 		return version;

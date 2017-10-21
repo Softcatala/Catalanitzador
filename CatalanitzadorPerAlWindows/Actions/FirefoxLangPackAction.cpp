@@ -22,7 +22,8 @@
 #include "FirefoxMozillaServer.h"
 #include "FirefoxChannel.h"
 
-FirefoxLangPackAction::FirefoxLangPackAction(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, DownloadManager* downloadManager) : Action(downloadManager)
+FirefoxLangPackAction::FirefoxLangPackAction(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, bool is64Bits,
+											 DownloadManager* downloadManager) : Action(downloadManager)
 {	
 	m_runner = runner;
 	m_firefoxChannel = firefoxChannel;
@@ -30,6 +31,7 @@ FirefoxLangPackAction::FirefoxLangPackAction(IRunner* runner, IFirefoxChannel* f
 	m_version = version;
 	m_mozillaServer = NULL;
 	m_szFilename[0] = NULL;
+	m_is64Bits = is64Bits;
 }
 
 FirefoxLangPackAction::~FirefoxLangPackAction()

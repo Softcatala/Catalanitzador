@@ -38,6 +38,7 @@ TEST(FirefoxTest, _readVersionAndLocale)
 	firefox._readVersionAndLocale();
 	EXPECT_THAT(firefox.GetVersion(), StrCaseEq(L"12.0"));
 	EXPECT_THAT(firefox.GetLocale(), StrCaseEq(L"ca"));
+	EXPECT_FALSE(firefox.Is64Bits());
 }
 
 TEST(FirefoxTest, _readVersionAndLocale_x86)
@@ -86,4 +87,5 @@ TEST(FirefoxTest, _readVersionAndLocale_with64bits)
 	firefox._readVersionAndLocale();
 	EXPECT_THAT(firefox.GetVersion(), StrCaseEq(L"31.0"));
 	EXPECT_THAT(firefox.GetLocale(), StrCaseEq(L"ca"));
+	EXPECT_TRUE(firefox.Is64Bits());
 }

@@ -40,8 +40,8 @@ class FirefoxLangPackActionForTest : public FirefoxLangPackAction
 {
 public:
 		
-	FirefoxLangPackActionForTest::FirefoxLangPackActionForTest(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, DownloadManager* downloadManager)
-		: FirefoxLangPackAction(runner, firefoxChannel, locale, version, downloadManager) {};
+	FirefoxLangPackActionForTest::FirefoxLangPackActionForTest(IRunner* runner, IFirefoxChannel* firefoxChannel, wstring locale, wstring version, bool is64Bits, DownloadManager* downloadManager)
+		: FirefoxLangPackAction(runner, firefoxChannel, locale, version, is64Bits, downloadManager) {};
 
 	public:
 			using FirefoxLangPackAction::_isLocaleInstalled;
@@ -50,27 +50,27 @@ public:
 
 #define DEFAULT_VERSION L"1.00"
 
-#define CreateFirefoxLangPackAction(LOCALE) \
+#define CreateFirefoxLangPackAction(LOCALE, IS64_BITS) \
 	RunnerMock runnerMock; \
 	FirefoxChannelMock firefoxChannelMock; \
-	FirefoxLangPackActionForTest firefoxLangPackAction(&runnerMock, &firefoxChannelMock, LOCALE, DEFAULT_VERSION, &DownloadManager());
+	FirefoxLangPackActionForTest firefoxLangPackAction(&runnerMock, &firefoxChannelMock, LOCALE, DEFAULT_VERSION, IS64_BITS, &DownloadManager());
 
 	
 TEST_F(FirefoxLangPackActionTest, _isLocaleInstalled_True)
 {	
-	CreateFirefoxLangPackAction(L"ca")
+	CreateFirefoxLangPackAction(L"ca", false)
 	EXPECT_TRUE(firefoxLangPackAction._isLocaleInstalled());
 }
 
 TEST_F(FirefoxLangPackActionTest, _isLocaleInstalled_False)
 {	
-	CreateFirefoxLangPackAction(L"es")
+	CreateFirefoxLangPackAction(L"es", false)
 	EXPECT_FALSE(firefoxLangPackAction._isLocaleInstalled());
 }
 
 TEST_F(FirefoxLangPackActionTest, _isSupportedChannel_True)
 {
-	CreateFirefoxLangPackAction(L"ca")
+	CreateFirefoxLangPackAction(L"ca", false)
 
 	EXPECT_CALL(firefoxChannelMock, GetChannel()).WillRepeatedly(Return(L"release"));
 	EXPECT_TRUE(firefoxLangPackAction._isSupportedChannel());
@@ -78,7 +78,7 @@ TEST_F(FirefoxLangPackActionTest, _isSupportedChannel_True)
 
 TEST_F(FirefoxLangPackActionTest, _isSupportedChannel_Yes)
 {
-	CreateFirefoxLangPackAction(L"ca")
+	CreateFirefoxLangPackAction(L"ca", false)
 
 	EXPECT_CALL(firefoxChannelMock, GetChannel()).WillRepeatedly(Return(L"beta"));
 	EXPECT_FALSE(firefoxLangPackAction._isSupportedChannel());
@@ -86,14 +86,14 @@ TEST_F(FirefoxLangPackActionTest, _isSupportedChannel_Yes)
 
 TEST_F(FirefoxLangPackActionTest, _CheckPrerequirements_AlreadyApplied)
 {
-	CreateFirefoxLangPackAction(L"ca")
+	CreateFirefoxLangPackAction(L"ca", false)
 	firefoxLangPackAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(firefoxLangPackAction.GetStatus(), AlreadyApplied);
 }
 
 TEST_F(FirefoxLangPackActionTest, _CheckPrerequirements_isSupportedChannel_False_CannotBeApplied)
 {
-	CreateFirefoxLangPackAction(L"es")
+	CreateFirefoxLangPackAction(L"es", false)
 	EXPECT_CALL(firefoxChannelMock, GetChannel()).WillRepeatedly(Return(L"beta"));
 
 	firefoxLangPackAction.CheckPrerequirements(NULL);
@@ -102,7 +102,7 @@ TEST_F(FirefoxLangPackActionTest, _CheckPrerequirements_isSupportedChannel_False
 
 TEST_F(FirefoxLangPackActionTest, _CheckPrerequirements_VersionWithNoDownload_CannotBeApplied)
 {
-	CreateFirefoxLangPackAction(L"es")
+	CreateFirefoxLangPackAction(L"es", false)
 	EXPECT_CALL(firefoxChannelMock, GetChannel()).WillRepeatedly(Return(L"release"));
 
 	ConfigurationRemote remote;
@@ -114,7 +114,7 @@ TEST_F(FirefoxLangPackActionTest, _CheckPrerequirements_VersionWithNoDownload_Ca
 
 TEST_F(FirefoxLangPackActionTest, _CheckPrerequirements_Ok)
 {
-	CreateFirefoxLangPackAction(L"es")
+	CreateFirefoxLangPackAction(L"es", false)
 	EXPECT_CALL(firefoxChannelMock, GetChannel()).WillRepeatedly(Return(L"release"));
 
 	ConfigurationRemote remote;
