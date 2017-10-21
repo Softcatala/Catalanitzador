@@ -26,7 +26,7 @@ using namespace std;
 class FirefoxMozillaServer
 {
 public:
-		FirefoxMozillaServer(DownloadManager* downloadManager, wstring version);
+		FirefoxMozillaServer(DownloadManager* downloadManager, wstring version, bool is64Bits);
 		ConfigurationFileActionDownload GetConfigurationFileActionDownload();
 		wstring GetSha1FileSignature(ConfigurationFileActionDownload downloadVersion);
 
@@ -37,7 +37,9 @@ protected:
 private:
 
 		wstring _readSha1FileSignature(wstring url, wstring sha1file);
+		wstring _getPlatformSubdir();
 
 		wstring m_version;
+		bool m_is64Bits;
 		DownloadManager* m_downloadManager;
 };

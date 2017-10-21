@@ -49,7 +49,7 @@ FirefoxMozillaServer * FirefoxLangPackAction::_getMozillaServer()
 {
 	if (m_mozillaServer == NULL)
 	{		
-		m_mozillaServer = new FirefoxMozillaServer(m_downloadManager, GetVersion());
+		m_mozillaServer = new FirefoxMozillaServer(m_downloadManager, GetVersion(), m_is64Bits);
 	}
 	return m_mozillaServer;
 }

@@ -22,12 +22,13 @@
 #include "ConfigurationInstance.h"
 
 #define VERSION_TAG L"[version]"
-#define URL_WIN32PATH L"/win32"
+#define PLATFORM_TAG L"[platform]"
 
-FirefoxMozillaServer::FirefoxMozillaServer(DownloadManager* downloadManager, wstring version)
+FirefoxMozillaServer::FirefoxMozillaServer(DownloadManager* downloadManager, wstring version, bool is64Bits)
 {
 	m_downloadManager = downloadManager;
 	m_version = version;
+	m_is64Bits = is64Bits;
 }
 
 void FirefoxMozillaServer::_replaceString(wstring& string, wstring search, wstring replace)
@@ -48,7 +49,7 @@ void FirefoxMozillaServer::_replaceString(wstring& string, wstring search, wstri
 wstring FirefoxMozillaServer::_readSha1FileSignature(wstring url, wstring sha1file)
 {
 	wstring filename;
-	wstring win32path(URL_WIN32PATH);
+	wstring win32path(_getPlatformSubdir());
 	int pos;
 	
 	_replaceString(url, L"%20", L" ");	// Poor's man URL decoder
@@ -109,10 +110,15 @@ wstring FirefoxMozillaServer::GetSha1FileSignature(ConfigurationFileActionDownlo
 	return sha1_signature;
 }
 
+wstring FirefoxMozillaServer::_getPlatformSubdir()
+{
+	return m_is64Bits ? L"win64" : L"win32";
+}
+
 ConfigurationFileActionDownload FirefoxMozillaServer::GetConfigurationFileActionDownload()
 {
 	ConfigurationFileActionDownload downloadVersion;
-	wstring url, sha1;
+	wstring url;
 	
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(FirefoxActionID, ApplicationVersion(m_version));
 
@@ -120,6 +126,7 @@ ConfigurationFileActionDownload FirefoxMozillaServer::GetConfigurationFileAction
 	{
 		url = downloadVersion.GetUrls().at(0);
 		_replaceString(url, VERSION_TAG, m_version);
+		_replaceString(url, PLATFORM_TAG, _getPlatformSubdir());
 		downloadVersion.SetUrl(0, url);
 	}
 
