@@ -57,6 +57,7 @@ protected:
 		wstring _getProfileRootDir();
 		virtual FirefoxLangPackAction * _getLangPackAction();
 		virtual FirefoxAcceptLanguagesAction * _getAcceptLanguagesAction();
+		void _addExecutionProcess64or32();
 
 private:
 		
@@ -70,5 +71,6 @@ private:
 		Firefox m_firefox;
 		bool m_doFirefoxLangPackAction;
 		bool m_doFirefoxAcceptLanguagesAction;
+		bool m_addedExecutionProcess;
 		OSVersion m_OSversion;
 };

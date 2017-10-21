@@ -31,8 +31,7 @@ m_firefox(registry, &m_OSversion)
 	m_firefoxChannel = NULL;
 	m_doFirefoxLangPackAction = false;
 	m_doFirefoxAcceptLanguagesAction = false;
-
-	_addExecutionProcess(ExecutionProcess(L"firefox.exe", L"", true));
+	m_addedExecutionProcess = false;
 }
 
 FirefoxAction::~FirefoxAction()
@@ -193,6 +192,18 @@ void FirefoxAction::Serialize(ostream* stream)
 	_getAcceptLanguagesAction()->Serialize(stream);
 }
 
+void FirefoxAction::_addExecutionProcess64or32()
+{
+	if (m_addedExecutionProcess == false)
+	{
+		ExecutionProcess executionProcess = ExecutionProcess(L"firefox.exe", L"", false);
+		executionProcess.SetIs64Bits(m_firefox.Is64Bits());
+		_addExecutionProcess(executionProcess);
+		m_addedExecutionProcess = true;
+	}
+}
+
+
 void FirefoxAction::CheckPrerequirements(Action * action)
 {
 	if (wcslen(GetVersion()) == 0)
@@ -223,4 +234,5 @@ void FirefoxAction::CheckPrerequirements(Action * action)
 			SetStatus(AlreadyApplied);
 			return;
 	}
+	_addExecutionProcess64or32();
 }
