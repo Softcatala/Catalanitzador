@@ -10,13 +10,13 @@ function get_total_sessions() {
     global $db;
 
     global $cache_results;
-    global $Catalanitzador;
+    global $Version, $Catalanitzador;
 
     if(isset($cache_results['get_total_sessions'])) {
         return $cache_results['get_total_sessions'];
     }
 
-    $v = $Catalanitzador->get_version_selected();
+    $v = $Version->get_selected();
 
     if(!empty($v)) {
         $v = " AND ApplicationsID in ($v)";
@@ -44,13 +44,13 @@ function get_unique_sessions() {
 
     global $cache_results;
     
-    global $Catalanitzador;
+    global $Version, $Catalanitzador;
 
     if(isset($cache_results['get_unique_sessions'])) {
         return $cache_results['get_unique_sessions'];
     }
 
-    $v = $Catalanitzador->get_version_selected();
+    $v = $Version->get_selected();
 
     if(!empty($v)) {
         $v = " AND ApplicationsID in ($v)";
@@ -88,9 +88,9 @@ function get_unique_sessions_percent() {
 function get_stacked_sessions() {
     
     global $db;
-    global $Catalanitzador;
+    global $Version, $Catalanitzador;
     
-    $v = $Catalanitzador->get_version_selected();
+    $v = $Version->get_selected();
 
     if(!empty($v)) {
         $v = " AND ApplicationsID in ($v)";
@@ -153,9 +153,9 @@ function print_os_data($os_count) {
 
 function get_os_stats() {
     global $db;
-    global $Catalanitzador;
+    global $Version, $Catalanitzador;
     
-    $v = $Catalanitzador->get_version_selected();
+    $v = $Version->get_selected();
 
     if(!empty($v)) {
         $v = " AND ApplicationsID in ($v)";
@@ -248,10 +248,10 @@ function get_actions_data($action_id) {
 
 function preload_action_data() {
 	global $db;
-    global $Catalanitzador;
+    global $Version, $Catalanitzador;
 	global $action_stats;
 
-    $v = $Catalanitzador->get_version_selected();
+    $v = $Version->get_selected();
 
     if(!empty($v)) {
         $v = " AND ApplicationsID in ($v)";
@@ -386,7 +386,7 @@ function get_action_stats($action_id) {
     if(!(gettype($action_data_cache[$action_id])=='array')) {
 	    global $db;
 	    global $subversions;
-	    global $Catalanitzador;
+	    global $Version, $Catalanitzador;
 
 	    $total_action = 0;
 	    $action_count = array();
@@ -397,7 +397,7 @@ function get_action_stats($action_id) {
 		$tversion = "Version";
 	    }
 
-	    $v = $Catalanitzador->get_version_selected();
+	    $v = $Version->get_selected();
 
 	    if(!empty($v)) {
 		$v = " AND ApplicationsID in ($v)";
@@ -460,11 +460,11 @@ function get_inspectors_data($id) {
     if(!is_int($id)) return array();
     
     global $db;
-    global $Catalanitzador;
+    global $Version, $Catalanitzador;
     
     $_data = array();
 
-    $v = $Catalanitzador->get_version_selected();	    
+    $v = $Version->get_selected();
 
     if(!empty($v)) {
         $v = " AND ApplicationsID in ($v)";

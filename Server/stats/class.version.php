@@ -6,17 +6,15 @@ class Version
     private $db;
     private $v;
 
-    public function __construct($v)
+    public function __construct($db, $v)
     {
-        global $db;
-
         $this->sql = false;
 
         $this->db = $db;
         $this->v = $v;
     }
 
-    public function get_sql()
+    public function get_selected()
     {
 
         if ($this->sql === false) {
@@ -57,6 +55,7 @@ class Version
             . " where MajorVersion = $this->v[0] and MinorVersion = $this->v[1]");
 
         $firstVersion = true;
+        $this->sql = '';
         foreach ($version as $oneVersion) {
             if ($firstVersion) {
                 $firstVersion = false;
@@ -73,6 +72,7 @@ class Version
         $version = $this->db->get_results("select ID from applications where MajorVersion = $this->v[0]");
 
         $firstVersion = true;
+        $this->sql = '';
         foreach ($version as $oneVersion) {
             if ($firstVersion) {
                 $firstVersion = false;

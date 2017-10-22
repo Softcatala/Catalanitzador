@@ -153,11 +153,6 @@ class Catalanitzador {
         return $this->_platforms;
     }
 
-
-    public function get_version_selected() {
-        return $this->_version->get_sql();
-    }
-
     public function get_platform_selected() {
         if (!$this->is_platform_selected()) {
             return '';

@@ -6,7 +6,8 @@
     require_once 'class.catalanitzador.php';
 
     global $db;
-    $Catalanitzador = new Catalanitzador($db);
+    $Version = new Version($db, $_GET['v']);
+    $Catalanitzador = new Catalanitzador($db, $Version);
     
     require_once 'functions.php';
     require_once 'constants.php';
