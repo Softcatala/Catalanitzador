@@ -33,19 +33,26 @@ class ChromeActionTest : public ChromeAction
 {
 public:
 
-	ChromeActionTest(IRegistry* registry) : ChromeAction(registry) {};
+	ChromeActionTest(IRegistry* registry, IOSVersion* OSVersion) : ChromeAction(registry, OSVersion) {};
 
 	public:
+
+		vector <ExecutionProcess> GetExecutionProcesses()
+		{
+			return m_processes;
+		}
 
 		using ChromeAction::_readVersion;
 		using ChromeAction::_isInstalled;
 		using ChromeAction::_readLanguageCode;
+		using ChromeAction::_addExecutionProcess64OrAnd32;
 };
 
 
 #define CreateChromeAction \
 	RegistryMock registryMockobj; \
-	ChromeActionTest chromeAction(&registryMockobj);
+	OSVersionMock osVersionMock; \
+	ChromeActionTest chromeAction(&registryMockobj, &osVersionMock);
 
 void SetLocation(RegistryMock& registryMockobj, const wchar_t* location)
 {
@@ -160,4 +167,27 @@ TEST(ChromeActionTest, CheckPrerequirements_AcceptLanguagesNotApplied)
 	chromeAction.CheckPrerequirements(NULL);
 	EXPECT_THAT(chromeAction.GetStatus(), NotSelected);
 	EXPECT_THAT(chromeAction.IsNeed(), true);
+}
+
+TEST(ChromeActionTest, addExecutionProcess64OrAnd32_32bits)
+{
+	CreateChromeAction;
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	chromeAction._addExecutionProcess64OrAnd32();
+
+	vector <ExecutionProcess> executionProcesses = chromeAction.GetExecutionProcesses();
+	EXPECT_THAT(executionProcesses.size(), 1);
+	EXPECT_THAT(executionProcesses[0].Is64Bits(), false);
+}
+
+TEST(ChromeActionTest, addExecutionProcess64OrAnd32_64bits)
+{
+	CreateChromeAction;
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(true));
+	chromeAction._addExecutionProcess64OrAnd32();
+
+	vector <ExecutionProcess> executionProcesses = chromeAction.GetExecutionProcesses();
+	EXPECT_THAT(executionProcesses.size(), 2);
+	EXPECT_THAT(executionProcesses[0].Is64Bits(), false);
+	EXPECT_THAT(executionProcesses[1].Is64Bits(), true);
 }

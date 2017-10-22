@@ -24,7 +24,7 @@
 #include "TriBool.h"
 #include "ActionExecution.h"
 #include "ChromeProfile.h"
-
+#include "OSVersion.h"
 
 using namespace std;
 
@@ -33,7 +33,7 @@ using namespace std;
 class ChromeAction : public Action, public ActionExecution
 {
 public:
-		ChromeAction(IRegistry* registry);
+		ChromeAction(IRegistry* registry, IOSVersion* OSVersion);
 		~ChromeAction();
 
 		virtual wchar_t* GetName();
@@ -52,8 +52,9 @@ protected:
 		void _readVersion();
 		bool _isInstalled();
 		bool _readLanguageCode(wstring& langcode);
+		void _addExecutionProcess64OrAnd32();
 
-private:		
+private:
 		void _readInstallLocation(wstring& path);
 		bool _findUserInstallation(wstring &);
 		bool _findSystemInstallation(wstring &);
@@ -61,10 +62,12 @@ private:
 
 		ChromeProfile* m_chromeProfile;
 		bool m_allocatedProfile;
+		bool m_addedExecutionProcess;
 
 		wstring m_version;
 		IRegistry* m_registry;
 		TriBool m_isInstalled;
 		ActionStatus uiStatus;
+		IOSVersion* m_OSVersion;
 };
 

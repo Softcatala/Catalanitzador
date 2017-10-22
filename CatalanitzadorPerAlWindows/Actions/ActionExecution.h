@@ -43,9 +43,9 @@ protected:
 
 		void _addExecutionProcess(ExecutionProcess process);
 		vector <DWORD> _getProcessIDs(wstring processName, bool canBe64Bits);
+		vector <ExecutionProcess> m_processes;
 
 private:
-		vector <ExecutionProcess> m_processes;
 		ExecutionProcess m_processEmpty;
 		x64BitsProcess m_x64BitsProcess;
 };

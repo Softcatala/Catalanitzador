@@ -21,16 +21,15 @@
 #include "ChromeAction.h"
 #include "Runner.h"
 
-ChromeAction::ChromeAction(IRegistry* registry)
+ChromeAction::ChromeAction(IRegistry* registry, IOSVersion* OSVersion)
 {
 	m_chromeProfile = NULL;
 	m_registry = registry;
-
-	_addExecutionProcess(ExecutionProcess(L"chrome.exe", L"", true));
-	
-	SetChromeProfile(new ChromeProfile());
+	m_addedExecutionProcess = false;
 	m_allocatedProfile = true;
-	
+	m_OSVersion = OSVersion;
+
+	SetChromeProfile(new ChromeProfile());
 }
 
 ChromeAction::~ChromeAction()
@@ -241,6 +240,26 @@ const wchar_t* ChromeAction::GetVersion()
 	return m_version.c_str();
 }
 
+
+void ChromeAction::_addExecutionProcess64OrAnd32()
+{
+	if (m_addedExecutionProcess == false)
+	{
+		_addExecutionProcess(ExecutionProcess(L"chrome.exe", L"", true));
+
+		// We really cannot know if Chrome 32 or 64 bits is installed
+		// We look for both before continuing if the user is in 64 bits
+		if (m_OSVersion->IsWindows64Bits())
+		{
+			ExecutionProcess executionProcess = ExecutionProcess(L"chrome.exe", L"", false);
+			executionProcess.SetIs64Bits(true);
+			_addExecutionProcess(executionProcess);
+		}
+
+		m_addedExecutionProcess = true;
+	}
+}
+
 void ChromeAction::CheckPrerequirements(Action * action)
 {	
 	bool acceptLanguagesOk, localeOk, spellCheckLanguageOk;
@@ -261,4 +280,6 @@ void ChromeAction::CheckPrerequirements(Action * action)
 	} else {
 		_setStatusNotInstalled();
 	}
+
+	_addExecutionProcess64OrAnd32();
 }

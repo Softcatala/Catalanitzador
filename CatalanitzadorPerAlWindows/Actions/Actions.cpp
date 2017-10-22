@@ -162,7 +162,7 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 		m_actions.push_back(new ConfigureDefaultLanguageAction(_getNewOSVersion(), _getNewRegistry(), _getNewRunner()));
 	}
 
-	m_actions.push_back(new ChromeAction( _getNewRegistry()));
+	m_actions.push_back(new ChromeAction( _getNewRegistry(), _getNewOSVersion()));
 	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 	m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 
