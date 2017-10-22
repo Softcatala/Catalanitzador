@@ -11,6 +11,7 @@ class Catalanitzador {
     private $_sql_pselected;
     private $_date_from;
     private $_date_to;
+    private $_version;
 
     public function __construct($db) {
         $this->_db = $db;
@@ -21,6 +22,7 @@ class Catalanitzador {
         $this->_sql_vselected = '';
         $this->_date_from = '';
         $this->_date_to = '';
+        $this->_version = new Version($db, $_GET['v']);
     }
 
     public function is_version_selected() {
@@ -153,52 +155,7 @@ class Catalanitzador {
 
 
     public function get_version_selected() {
-        if (!$this->is_version_selected()) {
-            return '';
-        }
-        
-        if (empty($this->_sql_vselected)) {
-            $v = $_GET['v'];
-            if (empty($v) || strlen($v) != 3)
-                return;
-
-            if (is_numeric($v)) {
-                $version = $this->_db->get_results("select ID from applications "
-                        . " where MajorVersion = $v[0] and MinorVersion = $v[1] and "
-                        . " Revision = $v[2] ");
-                $this->_sql_vselected = $version[0]->ID;
-            } else if ($v[2] == 'x' && is_numeric(substr($v, 0, 2))) {
-                $version = $this->_db->get_results("select ID from applications "
-                        . " where MajorVersion = $v[0] and MinorVersion = $v[1]");
-
-                $firstVersion = true;
-                foreach ($version as $oneVersion) {
-                    if ($firstVersion) {
-                        $firstVersion = false;
-                    } else {
-                        $this->_sql_vselected .= ',';
-                    }
-
-                    $this->_sql_vselected .= $oneVersion->ID;
-                }
-            } else if (($v[2] == 'x' && $v[1] == 'x') && is_numeric(substr($v, 0, 1))) {
-                $version = $this->_db->get_results("select ID from applications where MajorVersion = $v[0]");
-
-                $firstVersion = true;
-                foreach ($version as $oneVersion) {
-                    if ($firstVersion) {
-                        $firstVersion = false;
-                    } else {
-                        $this->_sql_vselected .= ',';
-                    }
-
-                    $this->_sql_vselected .= $oneVersion->ID;
-                }
-
-            }
-        }
-
-    return $this->_sql_vselected;
+        return $this->_version->get_sql();
     }
 
     public function get_platform_selected() {
@@ -397,7 +354,7 @@ class Catalanitzador {
                 })(jQuery);
                 </script>
                 <form action="#">
-                    <strong>Filtra per dates</span><br />
+                    <strong>Filtra per dates</strong><br />
                     <label for="from">Data inicial:</label>
                     <input type="text" id="from" name="from" value="<?=$this->get_date_from(TRUE)?>"/> 
                     <label for="to">Data final:</label>

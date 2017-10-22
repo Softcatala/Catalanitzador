@@ -2,6 +2,7 @@
     require_once '../lib/db_stats.php';
     require_once 'class.utils.php';
     require_once 'class.menu.php';
+    require_once 'class.version.php';
     require_once 'class.catalanitzador.php';
 
     global $db;
@@ -30,13 +31,14 @@
 <?php
     if(!Menu::is_active('logs')) {
 ?>    
-        <div id="totals" style="witdh:800px;margin:0 auto"> <div>
-            <h2>Versions del Catalanitzador</h2>
-            <?php $Catalanitzador->print_platforms_table(); ?>
-            <?php $Catalanitzador->print_versions_table(); ?>
-            <?php $Catalanitzador->print_date_selector(); ?>
-        </div>
-        <br />
+        <div id="totals" style="witdh:800px;margin:0 auto">
+            <div>
+                <h2>Versions del Catalanitzador</h2>
+                <?php $Catalanitzador->print_platforms_table(); ?>
+                <?php $Catalanitzador->print_versions_table(); ?>
+                <?php $Catalanitzador->print_date_selector(); ?>
+            </div>
+            <br />
 <?php
     }
     
