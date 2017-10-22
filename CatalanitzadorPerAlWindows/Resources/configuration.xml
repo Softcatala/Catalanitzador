@@ -215,6 +215,22 @@
       				<filename>ca_windows_10_language_interface_pack_x64_2017_04.cab</filename>
       			</download>
       			
+      			<download>
+      				<version>Win10_16299_ca_32</version>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab]]></url_1>
+      				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab</url_3>
+      				<filename>ca_windows_10_language_interface_pack_x86_2017_10.cab</filename>
+      			</download>
+      			<download>
+      				<version>Win10_16299_ca_64</version>
+      				<url_1><![CDATA[http://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab]]></url_1>
+      				<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab</url_3>
+      				<filename>ca_windows_10_language_interface_pack_x64_2017_10.cab</filename>
+      			</download>      			
 		</action>
 		
 		<!-- Microsoft Office -->
