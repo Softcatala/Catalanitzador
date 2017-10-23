@@ -35,11 +35,21 @@ class SkypeActionTest : public SkypeAction
 public:	
 	
 	SkypeActionTest::SkypeActionTest(IRegistry* registry, IFileVersionInfo* fileVersionInfo)
-		: SkypeAction(registry, fileVersionInfo) {};
+		: SkypeAction(registry, fileVersionInfo)
+	{
+		m_defaultLanguage = false;
+	}
+
+	bool _isDefaultLanguage()
+	{
+		return m_defaultLanguage;
+	}
 	
 	public: 
 			using SkypeAction::_isDefaultInstallLanguage;
 			using SkypeAction::_getProgramLocation;
+			bool m_defaultLanguage;
+
 };
 
 
@@ -126,7 +136,7 @@ TEST(SkypeActionTest, CheckPrerequirements_NotSelected)
 	SetFileVersion(fileVersionInfoMock, VERSION_STRING, VERSION);
 	skypeAction.CheckPrerequirements(NULL);
 
-	EXPECT_FALSE(skypeAction.GetStatus() == CannotBeApplied);
+	EXPECT_TRUE(skypeAction.GetStatus() == NotSelected);
 }
 
 TEST(SkypeActionTest, CheckPrerequirements_CannotBeApplied)
@@ -140,5 +150,19 @@ TEST(SkypeActionTest, CheckPrerequirements_CannotBeApplied)
 	skypeAction.CheckPrerequirements(NULL);
 	
 	EXPECT_THAT(skypeAction.GetStatus(), CannotBeApplied);
+}
+
+TEST(SkypeActionTest, CheckPrerequirements_AlreadyApplied)
+{
+	wstring VERSION_STRING = L"6.0.0.0";
+	const int VERSION = 6;
+
+	CreateSkypeAction;
+	_setProgramLocation(registryMockobj, L"None");
+	SetFileVersion(fileVersionInfoMock, VERSION_STRING, VERSION);
+	skypeAction.m_defaultLanguage = true;
+	skypeAction.CheckPrerequirements(NULL);
+
+	EXPECT_TRUE(skypeAction.GetStatus() == AlreadyApplied);
 }
 

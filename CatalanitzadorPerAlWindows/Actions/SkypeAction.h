@@ -43,7 +43,7 @@ public:
 protected:
 		
 		bool _isDefaultInstallLanguage();
-		bool _isDefaultLanguage();
+		virtual bool _isDefaultLanguage();
 		void _setDefaultLanguage();
 		void _getProgramLocation(wstring& location);
 
