@@ -238,8 +238,8 @@ $action_cache = array();
 function get_actions_data($action_id) {
 	
 	global $action_stats;
-	
-	if (!array_key_exists($action_id, $action_stats)) {
+
+	if (empty($action_stats)) {
 		preload_action_data();
 	}
 	
