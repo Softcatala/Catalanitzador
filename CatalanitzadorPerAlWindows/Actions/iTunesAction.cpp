@@ -109,7 +109,7 @@ void iTunesAction::_getProgramLocation(wstring& location)
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"iTunesAction::_getProgramLocation. Returns %s", (wchar_t *) location.c_str());
+	g_log.Log(L"iTunesAction::_getProgramLocation. Returns '%s'", (wchar_t *) location.c_str());
 }
 
 const wchar_t* iTunesAction::GetVersion()
