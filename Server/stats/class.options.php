@@ -5,8 +5,9 @@ class StatsOptions {
     private $_optionNames;
     private $_db;
     private $_catalanitzador;
-    
-    public function __construct($db, $catalanitzador)
+    private $_versio;
+
+    public function __construct($db, $catalanitzador, $versio)
     {
         $this->_optionNames = array (
             0 => "OptionSystemRestore", 
@@ -21,11 +22,12 @@ class StatsOptions {
         
         $this->_db = $db;
         $this->_catalanitzador = $catalanitzador;
+        $this->_versio = $versio;
     }
     
     public function GetOptions() {
         
-        $v = $this->_catalanitzador->get_version_selected();
+        $v = $this->_versio->get_selected();
         $p = $this->_catalanitzador->get_platform_selected();  
 
         if(!empty($v) && !empty($p)) {
@@ -66,7 +68,7 @@ class StatsOptions {
         
         if(!isset($id) || (empty($id) && !is_int($id))) { return $optionValues; }
         
-        $v = $this->_catalanitzador->get_version_selected();
+        $v = $this->_versio->get_selected();
         $p = $this->_catalanitzador->get_platform_selected();  
         
         if(!empty($v)) {
