@@ -514,13 +514,13 @@
 		<action>
 	 		<id>19</id>
 	 		<download>
-	  			<min_version>19.0</min_version>
+	  			<min_version>51.0.0</min_version>
 	  			<max_version>99.99.99</max_version>
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.7-fx.xpi&id=7378&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.7-fx.xpi.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.7-fx.xpi</url_2>
-	  			<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/languagetoolfx_stil_und_grammatikprufung-0.7-fx.xpi</url_3>
-				<filename>languagetoolfx_stil_und_grammatikprufung-0.7-fx.xpi</filename>
+	  			<url_1><![CDATA[http://baixades.softcatala.org/?url=http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi&id=7378&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi</url_2>
+	  			<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi</url_3>
+				<filename>languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi</filename>
 	  		</download>	  		
 		</action>
 	</actions>

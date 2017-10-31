@@ -42,16 +42,17 @@ public:
 		virtual ActionStatus GetStatus();
 		virtual const wchar_t* GetVersion();		
 		virtual void CheckPrerequirements(Action * action);
-		virtual const wchar_t* GetManualStep();
 
 private:
+
+		FirefoxAddOn* _getFirefoxAddon();
 
 		IRegistry* m_registry;
 		IRunner* m_runner;
 		wchar_t m_szFilename[MAX_PATH];
 		wstring m_version;
 		Firefox m_firefox;
-		FirefoxAddOn m_firefoxAddOn;
+		FirefoxAddOn* m_firefoxAddOn;
 		wstring m_manualSteps;
 		OSVersion m_OSversion;
 };

@@ -21,14 +21,15 @@
 #include "ConfigurationInstance.h"
 #include "LangToolFirefoxAction.h"
 
-const wchar_t* APPLICATION_ID_GUID = L"jid1-j3KiX1n7UXrjxQ@jetpack";
+const wchar_t* APPLICATION_ID_GUID = L"languagetool-webextension@languagetool.org";
 
 LangToolFirefoxAction::LangToolFirefoxAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : 
-Action(downloadManager), m_firefox(registry, &m_OSversion), m_firefoxAddOn(m_firefox.GetUserDataDirectory(), m_firefox.GetProfileRootDir())
+Action(downloadManager), m_firefox(registry, &m_OSversion)
 {
 	m_registry = registry;
 	m_runner = runner;
 	m_szFilename[0] = NULL;
+	m_firefoxAddOn = NULL;
 }
 
 LangToolFirefoxAction::~LangToolFirefoxAction()
@@ -36,6 +37,11 @@ LangToolFirefoxAction::~LangToolFirefoxAction()
 	if (m_szFilename[0] != NULL  && GetFileAttributes(m_szFilename) != INVALID_FILE_ATTRIBUTES)
 	{
 		DeleteFile(m_szFilename);
+	}
+
+	if (m_firefoxAddOn)
+	{
+		delete m_firefoxAddOn;
 	}
 }
 
@@ -49,23 +55,18 @@ wchar_t* LangToolFirefoxAction::GetDescription()
 	return _getStringFromResourceIDName(IDS_LANGUAGETOOL_FIREFOX_DESCRIPTION, szName);
 }
 
+FirefoxAddOn* LangToolFirefoxAction::_getFirefoxAddon()
+{
+	if (!m_firefoxAddOn)
+		m_firefoxAddOn = new FirefoxAddOn(m_firefox.GetUserDataDirectory(), m_firefox.GetProfileRootDir(), m_firefox.GetInstallPath());
+
+	return m_firefoxAddOn;
+}
+
 const wchar_t* LangToolFirefoxAction::GetVersion()
 {
 	m_version = m_firefox.GetVersion();
 	return m_version.c_str();
-}
-
-const wchar_t* LangToolFirefoxAction::GetManualStep()
-{
-	if (m_manualSteps.length() == 0)
-	{
-		wchar_t szMessage [MAX_LOADSTRING];
-		LoadString(GetModuleHandle(NULL), IDS_LANGUAGETOOL_FIREFOX_MANUALSTEP, szMessage, MAX_LOADSTRING);	
-
-		m_manualSteps = szMessage;
-	}
-
-	return m_manualSteps.c_str();
 }
 
 bool LangToolFirefoxAction::IsNeed()
@@ -91,9 +92,9 @@ void LangToolFirefoxAction::Execute()
 {
 	SetStatus(InProgress);
 
-	m_firefoxAddOn.InstallAddOn(APPLICATION_ID_GUID, m_szFilename);
+	wstring location = _getFirefoxAddon()->InstallAddOn(APPLICATION_ID_GUID, m_szFilename);
 
-	if (m_firefoxAddOn.IsAddOnInstalled(APPLICATION_ID_GUID))
+	if (_getFirefoxAddon()->IsAddOnInstalled(APPLICATION_ID_GUID))
 	{
 		SetStatus(Successful);
 	}
@@ -133,9 +134,9 @@ void LangToolFirefoxAction::CheckPrerequirements(Action * action)
 {
 	m_version = m_firefox.GetVersion();
 
-	if (m_version.size() > 0 && m_firefoxAddOn.CanInstallAddOns())
+	if (m_version.size() > 0 && _getFirefoxAddon()->CanInstallAddOns())
 	{
-		if (m_firefoxAddOn.IsAddOnInstalled(APPLICATION_ID_GUID))
+		if (_getFirefoxAddon()->IsAddOnInstalled(APPLICATION_ID_GUID))
 		{
 			SetStatus(AlreadyApplied);
 			return;

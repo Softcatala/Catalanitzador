@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2013-2017 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,22 +31,42 @@ const int STRING_DELIMITER_LEN = wcslen(STRING_DELIMITER);
 // We will be always using Firefox 
 const wchar_t* FIREFOX_EXTENSION_ID_GUID = L"{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
 
-FirefoxAddOn::FirefoxAddOn(wstring userDataDirectory, wstring profileRootDir)
+FirefoxAddOn::FirefoxAddOn(wstring userDataDirectory, wstring profileRootDir, wstring installPath)
 {
 	m_userDataDirectory = userDataDirectory;
 	m_profileRootDir = profileRootDir;
+	m_installPath = installPath;
 }
 
-// There are 3 places where extensions can be installed
-//
-// 1. %PROGRAMFILES%\Mozilla Firefox\browser\extensions
-// 2. %appdata%\Extensions\{ec8030f7-c20a-464f-9b0e-13a3a9e97384}\jid1-j3KiX1n7UXrjxQ@jetpack.xpi
-// 3. %appdata%\Mozilla\Firefox\Profiles\PROFILE_DIR\extensions
-//
-//  Only option 3 allows us to update the extensions after they have been installed
-//
-// https://developer.mozilla.org/en-US/docs/Installing_extensions
-void FirefoxAddOn::InstallAddOn(wstring applicationID, wstring file)
+void FirefoxAddOn::_writeConfigJSFile()
+{
+	char szBuff[] = "pref('general.config.filename', 'mozilla.cfg');\r\npref('general.config.obscure_value', 0);";
+
+	wstring filename = m_installPath + L"\\defaults\\pref\\local.js";
+	ofstream of(filename.c_str());
+	int size = strlen(szBuff);
+	of.write(szBuff, size);
+	of.close();
+
+	g_log.Log(L"FirefoxAddOn::_writeConfigJSFile. Write to '%s'",  (wchar_t *)filename.c_str());
+
+}
+
+void FirefoxAddOn::_writeMozillaCfg()
+{
+	char szBuff[] = "// required empty comment\r\n\r\ndefaultPref(\"extensions.autoDisableScopes\", 0);\r\ndefaultPref(\"extensions.enabledScopes\", 15);";
+
+	wstring filename = m_installPath + L"\\mozilla.cfg";
+	ofstream of(filename.c_str());
+	int size = strlen(szBuff);
+	of.write(szBuff, size);
+	of.close();
+
+	g_log.Log(L"FirefoxAddOn::_writeMozillaCfg. Write to '%s'",  (wchar_t *)filename.c_str());
+}
+
+// https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Alternative_distribution_options/Add-ons_in_the_enterprise
+wstring FirefoxAddOn::InstallAddOn(wstring applicationID, wstring file)
 {
 	wstring extensionsDirectory, targetfile;
 	wchar_t szPath[MAX_PATH];
@@ -66,8 +86,11 @@ void FirefoxAddOn::InstallAddOn(wstring applicationID, wstring file)
 	if (CopyFile(file.c_str(), szPath, false) == FALSE)
 	{
 		g_log.Log(L"FirefoxAddOn::InstallAddOn. Unable to copy extension to '%s'", szPath);
-		return;
+		return wstring();
 	}
+	_writeConfigJSFile();
+	_writeMozillaCfg();
+	return wstring(szPath);
 }
 
 // 

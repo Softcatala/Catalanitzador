@@ -22,15 +22,19 @@
 class FirefoxAddOn
 {
 public:
-		FirefoxAddOn(wstring userDataDirectory, wstring profileRootDir);
+		FirefoxAddOn(wstring userDataDirectory, wstring profileRootDir, wstring installPath);
 
-		void InstallAddOn(wstring applicationID, wstring file);
+		wstring InstallAddOn(wstring applicationID, wstring file);
 		bool IsAddOnInstalled(wstring applicationID);
 		bool CanInstallAddOns();
 
 private:
 
+		void _writeConfigJSFile();
+		void _writeMozillaCfg();
+
 		wstring m_userDataDirectory;
-		wstring m_profileRootDir;		
+		wstring m_profileRootDir;
+		wstring m_installPath;
 };
 
