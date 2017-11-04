@@ -76,7 +76,7 @@ vector <wstring> x64BitsProcess::GetRunningProcessesNames()
 	_extractExecutable();
 
 	wchar_t szParam[MAX_PATH];
-	wcscat_s(szParam, L" ");
+	wcscpy_s(szParam, L" ");
 	wcscat_s(szParam, result.GetFileName().c_str());
 	_execute((wchar_t*)m_executable.GetFileName().c_str(), (wchar_t*)szParam);
 
