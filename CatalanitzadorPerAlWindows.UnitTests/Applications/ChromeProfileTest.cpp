@@ -160,7 +160,7 @@ TEST(ChomeProfileTest, WriteUILocale)
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\SpanishUI_NoAcceptLanguage\\User Data\\";
-	location += L"/../User Data/Local State";
+	location += L"\\..\\User Data\\Local State";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 	
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
@@ -178,7 +178,7 @@ TEST(ChomeProfileTest, NoPrevLanguage_SetAcceptLanguages)
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\SpanishUI_NoAcceptLanguage\\User Data\\";
-	location += L"/../User Data/Default/Preferences";
+	location += L"\\..\\User Data\\Default\\Preferences";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 	
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
@@ -198,7 +198,7 @@ TEST(ChomeProfileTest, PrevLanguage_SetAcceptLanguages)
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\SpanishUI_AcceptLanguage_es_de_br\\User Data\\";
-	location += L"/../User Data/Default/Preferences";
+	location += L"\\..\\User Data\\Default\\Preferences";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 	
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
@@ -308,7 +308,7 @@ TEST(ChomeProfileTest, EsSpellChecker_SetCatalanAsSpellCheckerLanguage)
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\SpanishUI_AcceptLanguage_es_ca\\User Data\\";
-	location += L"/../User Data/Default/Preferences";
+	location += L"\\..\\User Data\\Default\\Preferences";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
@@ -328,7 +328,7 @@ TEST(ChomeProfileTest, OneLineLocalState_ReadUILocale)
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\CatalanUI_OneLineProfile\\User Data\\";
-	location += L"/../User Data/Local State";
+	location += L"\\..\\User Data\\Local State";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
@@ -345,7 +345,7 @@ TEST(ChomeProfileTest, OneLineLocalState_WriteUILocale)
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\SpanishUI_OneLineProfile\\User Data\\";
-	location += L"/../User Data/Local State";
+	location += L"\\..\\User Data\\Local State";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 	
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
@@ -376,7 +376,7 @@ TEST(ChomeProfileTest, OneLinePreferences_EsSpellChecker_SetCatalanAsSpellChecke
 
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\CatalanUI_OneLineProfile\\User Data\\";
-	location += L"/../User Data/Default/Preferences";
+	location += L"\\..\\User Data\\Default\\Preferences";
 	CopyFile(location.c_str(), tempFile.GetFileName().c_str(), false);
 	chromeProfile.SetPath(GetPathFromFullFileName(tempFile.GetFileName()));
 	chromeProfile.SetPreferencesRelPathAndFile(GetFileNameFromFullFileName(tempFile.GetFileName()));
