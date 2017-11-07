@@ -31,6 +31,7 @@ static map <int, HideApplicationWindow*> s_timersIDsToObjs;
 HideApplicationWindow::HideApplicationWindow()
 {
 	m_nTimerID = 0;
+	m_logging = true;
 }
 
 void HideApplicationWindow::Start()
@@ -81,7 +82,10 @@ bool HideApplicationWindow::_findControls(HWND hWnd)
 		{
 			if (m_controlsID.at(i) == id)
 			{
-				g_log.Log(L"HideApplicationWindow::_findControls. Found control '%x',  hwnd '%u'", (wchar_t*) id, (wchar_t*) hWnd);
+				if (m_logging)
+				{
+					g_log.Log(L"HideApplicationWindow::_findControls. Found control '%x',  hwnd '%u'", (wchar_t*) id, (wchar_t*) hWnd);
+				}
 				m_controlsFounds[i] = true;
 				break;
 			}
@@ -117,11 +121,15 @@ VOID CALLBACK HideApplicationWindow::_timerProc(HWND hWndTimer, UINT uMsg, UINT_
 		{
 			wchar_t szText[2048];
 
-			obj->Stop();
 			GetWindowText(hWnd, szText, sizeof(szText));
+			// Once we send the first HIDE we could stop here, by doing  obj->Stop(), however it is necessary continuing sending HIDE in Adobe case
 			ShowWindow(hWnd,SW_HIDE);
-			g_log.Log(L"HideApplicationWindow::_timerProc. Found window title '%s', hwnd '%u', sent WM_SHOWWINDOW message", szText,
-				(wchar_t*) hWnd);
+
+			if (obj->m_logging)
+			{
+				g_log.Log(L"HideApplicationWindow::_timerProc. Found window title '%s', hwnd '%u', sent WM_SHOWWINDOW message", szText, (wchar_t*) hWnd);
+			}
+			obj->m_logging = false;
 		}
 		hWnd = FindWindowEx(NULL, hWnd, MAKEINTATOM(DIALOG_BOX_ATOM), NULL);
 	}

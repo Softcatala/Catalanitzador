@@ -41,4 +41,5 @@ private:
 		int m_nTimerID;		
 		vector <int> m_controlsID;
 		vector <bool> m_controlsFounds;
+		bool m_logging;
 };
