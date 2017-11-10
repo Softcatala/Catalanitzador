@@ -67,14 +67,12 @@ bool LibreOffice::_openRegistryMachineKey(wchar_t* key)
 	if (m_OSVersion->IsWindows64Bits())
 	{
 		rslt =  m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, key, false);
-		g_log.Log(L"LibreOffice::_openRegistryMachineKey. OpenKeyNoWOWRedirect '%s', result %u", key, (wchar_t*) rslt);
-		_setIs64bits(rslt);		
+		_setIs64bits(rslt);
 	}
 
 	if (rslt == false)
 	{
 		rslt = m_registry->OpenKey(HKEY_LOCAL_MACHINE, key, false);
-		g_log.Log(L"LibreOffice::_openRegistryMachineKey. OpenKey '%s', result %u", key, (wchar_t*) rslt);
 	}
 
 	g_log.Log(L"LibreOffice::_openRegistryMachineKey. Returns %u, 64 bits %s", (wchar_t*) rslt, m_is64bits.ToString());
