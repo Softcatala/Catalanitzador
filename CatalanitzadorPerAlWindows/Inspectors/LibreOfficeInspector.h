@@ -58,4 +58,5 @@ private:
 		wstring m_version;
 		LibreOfficeConfiguration m_LibreOffice;
 		OSVersion m_OSVersion;
+		wstring m_installationPath;
 };

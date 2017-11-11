@@ -40,6 +40,12 @@ void LibreOfficeInspector::_readVersionInstalled()
 void LibreOfficeInspector::Execute()
 {	
 	_readVersionInstalled();
+
+	if (m_version.size() > 0)
+	{
+		m_installationPath = m_LibreOffice._getInstallationPath();
+	}
+
 	_readLocale();
 	_getUIFilesInstalled();
 	_getDictInstalled();
@@ -173,14 +179,13 @@ void LibreOfficeInspector::_readLocale()
 void LibreOfficeInspector::_getUIFilesInstalled()
 {	
 	wchar_t szUIFound[20]=L"";
-	wstring path = m_LibreOffice._getInstallationPath();
 
-	if (path.empty() == false)
+	if (m_installationPath.empty() == false)
 	{
 		wchar_t szFileName[MAX_PATH];
 		int i;
 
-		wcscpy_s(szFileName, path.c_str());
+		wcscpy_s(szFileName, m_installationPath.c_str());
 		for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
 		
 		szFileName[i + 1] = NULL;
@@ -203,13 +208,12 @@ void LibreOfficeInspector::_getDictInstalled()
 {
 	wchar_t szDictFound[10]=L"";
 
-	wstring path = m_LibreOffice._getInstallationPath();
-	if (path.empty() == false)
+	if (m_installationPath.empty() == false)
 	{
 		wchar_t szFileName[MAX_PATH];
 		int i;
 
-		wcscpy_s(szFileName, path.c_str());
+		wcscpy_s(szFileName, m_installationPath.c_str());
 		for (i = wcslen(szFileName); i > 0 && szFileName[i] != '\\' ; i--);
 		if (i>0) i--;
 		for (; i > 0 && szFileName[i] != '\\' ; i--);
