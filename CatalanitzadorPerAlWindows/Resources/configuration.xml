@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2017-11-04T03:00:00</date>
+		<date>2017-11-12T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -15,11 +15,9 @@
 	 			<!-- It does not depend on a minimum version -->
 	  			<min_version>0.0.0</min_version>
 	  			<!-- Should be set to the latest version -->
-	  			<max_version>2.6.12</max_version>
+	  			<max_version>2.8.0</max_version>
 	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=5643&mirall=catalanitzador&versio=1.00&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe]]></url_1>
 	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe.sha1</sha1_url_1>
-				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe</url_3>
 				<filename>CatalanitzadorPerAlWindows.exe</filename>
 	  		</download>
 		</action>
