@@ -82,6 +82,17 @@ TEST(LibreOfficeTest, _getPreferencesFile_Version50)
 	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\4\\user\\"));
 }
 
+TEST(LibreOfficeTest, _getPreferencesFile_Version60)
+{
+	const wchar_t* LOO_VERSION = L"6.0";
+	CreateLibreOffice;
+
+	EXPECT_CALL(osVersionMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	SetOpenOfficeAppVersion(registryMockobj, LibreOffice_REGKEY, LOO_VERSION, false);
+	wstring path = libreOffice._getPreferencesDirectory();
+	EXPECT_THAT(path.c_str(), StrCaseEq(L"\\directory\\LibreOffice\\4\\user\\"));
+}
+
 TEST(LibreOfficeTest, is64Bits_True)
 {
 	const wchar_t* LOO_VERSION = L"5.0";

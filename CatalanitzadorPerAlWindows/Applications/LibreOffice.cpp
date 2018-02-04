@@ -38,9 +38,9 @@ wstring LibreOffice::_getPreferencesDirectory()
 	location = _getAppDataDir();
 	major = applicationVersion.GetMajorVersion();
 
-	if (major == 5)
+	if (major >= 5)
 	{
-		// Version 5.00 identifies internally as 4.5 and used /4/ subdirectory
+		// Version 5.00 and 6.00 identifies internally as 4.5 and used /4/ subdirectory
 		subdir_num = 4;
 	}
 	else
