@@ -410,7 +410,7 @@
 	 		<download>
 	  			<min_version>9.0</min_version>
 	  			<max_version>9.5</max_version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe&id=4712&wid=6434&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr950_ca_ES.exe</url_3>
@@ -419,7 +419,7 @@
 	 		<download>
 	  			<min_version>10.0</min_version>
 	  			<max_version>10.0</max_version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe&id=4712&wid=6434&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1010_ca_ES.exe</url_3>
@@ -428,7 +428,7 @@
 	  		<download>
 	  			<min_version>11.0</min_version>
 	  			<max_version>11.0</max_version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1100_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1100_ca_ES.exe&id=4712&wid=6434&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1100_ca_ES.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1100_ca_ES.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AdbeRdr1100_ca_ES.exe</url_3>
@@ -436,7 +436,7 @@
 	  		</download>
 			<download>
 	  			<version>DC</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1701220093_ca_ES.exe&id=4712&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1701220093_ca_ES.exe&id=4712&wid=6434&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1701220093_ca_ES.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1701220093_ca_ES.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/AdobeReader/AcroRdrDC1701220093_ca_ES.exe</url_3>
@@ -468,7 +468,7 @@
 	 		<id>18</id>
 	 		<download>
 	  			<version>LanguageTool</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-4.0.oxt&id=7379&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-4.0.oxt&id=7379&wid=6600&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-4.0.oxt.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-4.0.oxt</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-4.0.oxt</url_3>
@@ -498,7 +498,7 @@
 	 		<download>
 	  			<min_version>51.0.0</min_version>
 	  			<max_version>99.99.99</max_version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi&id=7378&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi&id=7378&wid=6597&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi</url_2>
 	  			<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/languagetool_stil_und_grammatikprufung-1.0.13-windows.xpi</url_3>
