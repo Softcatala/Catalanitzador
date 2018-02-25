@@ -16,7 +16,7 @@
 	  			<min_version>0.0.0</min_version>
 	  			<!-- Should be set to the latest version -->
 	  			<max_version>2.8.0</max_version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5643&mirall=catalanitzador&versio=1.00&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5643&wid=6562&mirall=catalanitzador&versio=1.00&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/CatalanitzadorPerAlWindows.exe.sha1</sha1_url_1>
 				<filename>CatalanitzadorPerAlWindows.exe</filename>
 	  		</download>
@@ -27,7 +27,7 @@
 	 		<id>1</id>
 	  		<download>
 	 			<version>Vista</version>
-	 			<url_1><![CDATA[https://baixades.softcatala.org/?id=3511&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc]]></url_1>
+	 			<url_1><![CDATA[https://baixades.softcatala.org/?id=3511&wid=7327&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc</url_3>
@@ -35,7 +35,7 @@
 	  		</download>
 	  		<download>
 	 			<version>Win7_32</version>
-	 			<url_1><![CDATA[https://baixades.softcatala.org/?id=4932&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
+	 			<url_1><![CDATA[https://baixades.softcatala.org/?id=4932&wid=7316&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-32bit.mlc</url_3>
@@ -43,7 +43,7 @@
 	  		</download>
 	  		<download>
 	 			<version>Win7_64</version>
-	 			<url_1><![CDATA[https://baixades.softcatala.org/?id=4932&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>
+	 			<url_1><![CDATA[https://baixades.softcatala.org/?id=4932&wid=7316&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows7/LIP_ca-ES-64bit.mlc</url_3>
@@ -51,7 +51,7 @@
 	  		</download>
       			<download>
       				<version>Win8_ca_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&wid=7319&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x86_922134.mlc</url_3>
@@ -59,7 +59,7 @@
       			</download>
       			<download>
         			<version>Win8_ca_64</version>
-        			<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc]]></url_1>
+        			<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&wid=7319&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc]]></url_1>
         			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc.sha1</sha1_url_1>
         			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/ca_windows_8_language_interface_pack_x64_922126.mlc</url_3>
@@ -67,7 +67,7 @@
       			</download>
       			<download>
       				<version>Win8_va_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&wid=7319&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x86-val.mlc</url_3>
@@ -75,7 +75,7 @@
       			</download>
       			<download>
       				<version>Win8_va_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=5933&wid=7319&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows8/windows8-kb2607607-x64-val.mlc</url_3>
@@ -83,7 +83,7 @@
       			</download>
       			<download>
       				<version>Win81_ca_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x86_2013_06.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&wid=7323&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x86_2013_06.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x86_2013_06.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x86_2013_06.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x86_2013_06.cab</url_3>
@@ -91,7 +91,7 @@
       			</download>
       			<download>
       				<version>Win81_ca_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x64_2013_06.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&wid=7323&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x64_2013_06.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x64_2013_06.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x64_2013_06.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows81/ca_windows_81_language_interface_pack_x64_2013_06.cab</url_3>
@@ -99,7 +99,7 @@
       			</download>
       			<download>
       				<version>Win81_va_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x86_2013_06.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&wid=7323&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x86_2013_06.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x86_2013_06.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x86_2013_06.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x86_2013_06.cab</url_3>
@@ -107,7 +107,7 @@
       			</download>
       			<download>
       				<version>Win81_va_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x64_2013_06.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=6487&wid=7323&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x64_2013_06.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x64_2013_06.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x64_2013_06.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows81/ca_valencia_windows_81_language_interface_pack_x64_2013_06.cab</url_3>
@@ -115,7 +115,7 @@
       			</download>
 			<download>
       				<version>Win10_ca_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_07.cab</url_3>
@@ -123,7 +123,7 @@
       			</download>
 			<download>
       				<version>Win10_ca_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_07.cab</url_3>
@@ -131,7 +131,7 @@
       			</download>
 			<download>
       				<version>Win10_va_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x86_2015_07.cab</url_3>
@@ -139,7 +139,7 @@
       			</download>
       			<download>
       				<version>Win10_va_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_valencia_windows_10_language_interface_pack_x64_2015_07.cab</url_3>
@@ -148,7 +148,7 @@
       			
       			<download>
       				<version>Win10_10586_ca_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_11.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_11.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_11.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_11.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2015_11.cab</url_3>
@@ -156,7 +156,7 @@
       			</download>
       			<download>
       				<version>Win10_10586_ca_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_11.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_11.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_11.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_11.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2015_11.cab</url_3>
@@ -165,7 +165,7 @@
       			
       			<download>
       				<version>Win10_14393_ca_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2016_08.cab</url_3>
@@ -173,7 +173,7 @@
       			</download>
       			<download>
       				<version>Win10_14393_ca_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2016_08.cab</url_3>
@@ -182,7 +182,7 @@
       			
 			<download>
       				<version>Win10_15063_ca_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_04.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_04.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_04.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_04.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_04.cab</url_3>
@@ -190,7 +190,7 @@
       			</download>
       			<download>
       				<version>Win10_15063_ca_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_04.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_04.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_04.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_04.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_04.cab</url_3>
@@ -199,7 +199,7 @@
       			
       			<download>
       				<version>Win10_16299_ca_32</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x86_2017_10.cab</url_3>
@@ -207,7 +207,7 @@
       			</download>
       			<download>
       				<version>Win10_16299_ca_64</version>
-      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab]]></url_1>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab]]></url_1>
       				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab.sha1</sha1_url_1>
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab</url_3>
@@ -221,7 +221,7 @@
 	 		
 	 		<download>
 	  			<version>2016_ca_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&wid=7285&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe</url_3>
@@ -229,7 +229,7 @@
 	  		</download>
 	 		<download>
 	  			<version>2016_ca_32</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&wid=7285&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe</url_3>
@@ -238,7 +238,7 @@
 	 		
 	 		<download>
 	  			<version>2013_va_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6457&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6457&wid=7224&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es-valencia.exe</url_3>
@@ -246,7 +246,7 @@
 	  		</download>
 	 		<download>
 	  			<version>2013_va_32</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6457&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6457&wid=7224&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x86-ca-es-valencia.exe</url_3>
@@ -254,7 +254,7 @@
 	  		</download>
 	 		<download>
 	  			<version>2013_ca_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6306&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6306&wid=7281&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/languageinterfacepack-x64-ca-es.exe</url_3>
@@ -262,7 +262,7 @@
 	  		</download>
 	 		<download>
 	  			<version>2013_ca_32</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6306&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6306&wid=7281&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2013/office2013-languageinterfacepack-x86-ca-es.exe</url_3>
@@ -270,7 +270,7 @@
 	  		</download>
 	  		<download>
 	  			<version>2010_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5199&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5199&wid=7278&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x64-ca-es.exe</url_3>
@@ -278,7 +278,7 @@
 	  		</download>
 	 		<download>
 	  			<version>2010_32</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5199&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5199&wid=7278&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2010/LanguageInterfacePack-x86-ca-es.exe</url_3>
@@ -286,7 +286,7 @@
 	  		</download>
 	  		<download>
 	  			<version>2007</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=3481&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=3481&wid=7275&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2007/office2007-lip.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2007/office2007-lip.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2007/office2007-lip.exe</url_3>
@@ -294,7 +294,7 @@
 	  		</download>
 	  		<download>
 	  			<version>2003</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=3444&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=3444&wid=7271&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2003/office2003-lip.cab.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2003/office2003-lip.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2003/office2003-lip.cab</url_3>
@@ -302,7 +302,7 @@
 	  		</download>
 	  		<download>
 	  			<version>OutlookHotmailConnector</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5845&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5845&wid=7136&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/OutlookHotmailConnector/OutlookConnector-cat.exe</url_3>
@@ -316,7 +316,7 @@
 	 		<id>5</id>
 	 		<download>
 	  			<version>IE7</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4756&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4756&wid=6917&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/ie7lip-x86-CAT.exe</url_3>
@@ -324,7 +324,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE8_XP</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4755&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4755&wid=6921&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-WindowsXP-x86-CAT.exe</url_3>
@@ -332,7 +332,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE8_VISTA</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4756&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4756&wid=6917&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE8-Windows6.0-LanguagePack-x86-CAT.msu</url_3>
@@ -340,7 +340,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_VISTA</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4756&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=4756&wid=6917&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.0-LanguagePack-x86-cat.msu</url_3>
@@ -348,7 +348,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_7</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&wid=6914&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x86-cat.msu</url_3>
@@ -356,7 +356,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE9_7_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&wid=6914&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE9-Windows6.1-LanguagePack-x64-cat.msu</url_3>
@@ -364,7 +364,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE10_7</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&wid=6914&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x86-ca-es.msu</url_3>
@@ -372,7 +372,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE10_7_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&wid=6914&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE10-Windows6.1-LanguagePack-x64-ca-es.msu</url_3>
@@ -380,7 +380,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE11_7</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x86-ca-es.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&wid=6914&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x86-ca-es.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x86-ca-es.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x86-ca-es.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x86-ca-es.msu</url_3>
@@ -388,7 +388,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE11_7_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x64-ca-es.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=5720&wid=6914&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x64-ca-es.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x64-ca-es.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x64-ca-es.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-Windows6.1-LanguagePack-x64-ca-es.msu</url_3>
@@ -396,7 +396,7 @@
 	  		</download>
 	  		<download>
 	  			<version>IE11_7_SpellChecker</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6935&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu]]></url_1>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=6935&wid=6605&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu]]></url_1>
 	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu.sha1</sha1_url_1>
 	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/InternetExplorer/IE11-w7-Spelling-ca.msu</url_3>
