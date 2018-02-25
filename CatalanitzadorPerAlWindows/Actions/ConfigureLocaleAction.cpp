@@ -111,18 +111,9 @@ void ConfigureLocaleAction::Execute()
 	wcscat_s(szApp, L"\\control.exe ");
 	status = InProgress;
 
-	if (m_OSVersion->GetVersion() == WindowsXP)
-	{
-		//Documentation: http://support.microsoft.com/default.aspx?scid=kb;en-us;289125
-		wcscpy_s(szConfigFileName, L"regopts.txt");
-		resource = (LPCWSTR)IDR_CONFIG_LOCALE_WINXP;
-	}
-	else // Windows Vista and 7
-	{
-		//Documentation: http://blogs.msdn.com/b/michkap/archive/2006/05/30/610505.aspx
-		wcscpy_s(szConfigFileName, L"regopts.xml");
-		resource = (LPCWSTR)IDR_CONFIG_LOCALE_WINVISTA;
-	}
+	//Documentation: http://blogs.msdn.com/b/michkap/archive/2006/05/30/610505.aspx
+	wcscpy_s(szConfigFileName, L"regopts.xml");
+	resource = (LPCWSTR)IDR_CONFIG_LOCALE_WINVISTA;	
 	wcscat_s(m_szCfgFile, szConfigFileName);
 
 	Resources::DumpResource(L"CONFIG_FILES", resource, m_szCfgFile);

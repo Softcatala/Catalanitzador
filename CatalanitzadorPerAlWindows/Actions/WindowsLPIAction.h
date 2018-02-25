@@ -51,8 +51,7 @@ protected:
 		bool _isDefaultLanguage();
 		wchar_t* _getDownloadID();
 		virtual bool _isValidOperatingSystem();
-		virtual bool _isASupportedSystemLanguage();
-		virtual bool _isWindowsValidated();
+		virtual bool _isASupportedSystemLanguage();		
 		virtual bool _isDownloadAvailable();
 
 private:

@@ -21,7 +21,6 @@
 
 #include "WindowsLPIAction.h"
 #include "ConfigurationInstance.h"
-#include "WindowsValidation.h"
 #include "LogExtractor.h"
 
 WindowsLPIAction::WindowsLPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager)
@@ -63,8 +62,6 @@ LPCWSTR WindowsLPIAction::GetLicenseID()
 
 	switch (version)
 	{
-		case WindowsXP:
-			return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSXP);
 		case WindowsVista:
 			return MAKEINTRESOURCE(IDR_LICENSE_WINDOWSVISTA);
 		case Windows7:
@@ -81,23 +78,6 @@ wchar_t* WindowsLPIAction::_getDownloadID()
 
 	switch (version)
 	{
-		case WindowsXP:
-		{
-			WORD majorVersion = HIWORD(m_OSVersion->GetServicePackVersion());
-
-			// The Windows LPI for SP2 or higher checks if the the Windows is validated and fails if is not
-			// If the version of Windows is not validated, we switch back to the old language pack that does not
-			// do any validation
-			if (majorVersion >= 2 && _isWindowsValidated())
-			{
-				return L"XP2";
-			}
-			else
-			{
-				return L"XP";
-			}
-		}
-
 		case WindowsVista:
 			return L"Vista";
 		case Windows7:
@@ -125,9 +105,6 @@ bool WindowsLPIAction::IsDownloadNeed()
 // The langpack may be installed but not selected
 bool WindowsLPIAction::_isDefaultLanguage()
 {
-	if (m_OSVersion->GetVersion() == WindowsXP)
-		return true;
-
 	wchar_t szPreferred[2048] =L"";	
 	wchar_t szPreferredPending[2048] =L"";
 	wchar_t szPreferredMachine[2048] =L"";
@@ -161,36 +138,18 @@ bool WindowsLPIAction::_isDefaultLanguage()
 bool WindowsLPIAction::_isLangPackInstalled()
 {	
 	bool bExists = false;
-	OperatingVersion version = m_OSVersion->GetVersion();
-
-	if (version == WindowsXP)
+	OperatingVersion version = m_OSVersion->GetVersion();	
+	
+	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false))
 	{
-		if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop\\", false))
-		{
-			wchar_t szValue[1024];
-
-			// MultiUILanguageId key is left behind
-			if (m_registry->GetString(L"MUILanguagePending", szValue, sizeof (szValue)))
-			{
-				if (wcsstr(szValue, L"0403") != NULL)
-					bExists = true;
-			}
-			m_registry->Close();
-		}
+		bExists = true;
+		m_registry->Close();
 	}
-	else  //(version == WindowsVista) or 7
+	// If you install updates without rebooting, and then the language pack it gets registered in PendingInstall and not in the UILanguages key
+	else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES", false))
 	{
-		if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\UILanguages\\ca-ES", false))
-		{
-			bExists = true;
-			m_registry->Close();
-		}
-		// If you install updates without rebooting, and then the language pack it gets registered in PendingInstall and not in the UILanguages key
-		else if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Control\\MUI\\PendingInstall\\ca-ES", false))
-		{
-			bExists = true;
-			m_registry->Close();
-		}
+		bExists = true;
+		m_registry->Close();
 	}
 	
 	g_log.Log (L"WindowsLPIAction::_isLangPackInstalled returns %u", (wchar_t*) bExists);
@@ -239,36 +198,14 @@ void WindowsLPIAction::Execute()
 		status = _isLangPackInstalled() ? Successful : FinishedWithError;
 		g_log.Log(L"WindowsLPIAction::Execute. Setting default language only was '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
 		return;
-	}
+	}	
 
-	OperatingVersion version = m_OSVersion->GetVersion();
+	// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
+	wcscpy_s(szParams, L" /i ca-ES /r /s /p ");
+	wcscat_s(szParams, m_szFilename);
 
-	if (version == WindowsXP)
-	{
-		wchar_t logFile[MAX_PATH];
-
-		GetSystemDirectory(lpkapp, MAX_PATH);
-		wcscat_s(lpkapp, L"\\msiexec.exe ");
-
-		wcscpy_s(szParams, L" /i ");
-		wcscat_s(szParams, m_szFilename); // full path to 'lip_ca-es.msi'
-		wcscat_s(szParams, L" /qn");
-
-		GetTempPath(MAX_PATH, logFile);
-		wcscat_s(logFile, L"msiexec.log");
-		wcscat_s(szParams, L" /le ");
-		wcscat_s(szParams, logFile);
-		m_msiexecLog = logFile;
-	}
-	else // Windows Vista and 7
-	{	
-		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
-		wcscpy_s(szParams, L" /i ca-ES /r /s /p ");
-		wcscat_s(szParams, m_szFilename);
-	
-		GetSystemDirectory(lpkapp, MAX_PATH);
-		wcscat_s(lpkapp, L"\\lpksetup.exe");
-	}
+	GetSystemDirectory(lpkapp, MAX_PATH);
+	wcscat_s(lpkapp, L"\\lpksetup.exe");	
 
 	status = InProgress;
 	g_log.Log(L"WindowsLPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
@@ -278,10 +215,7 @@ void WindowsLPIAction::Execute()
 // After the language package is installed we need to set Catalan as default language
 // The key PreferredUILanguagesPending did not work as expected
 void WindowsLPIAction::_setDefaultLanguage()
-{
-	if (m_OSVersion->GetVersion() == WindowsXP)
-		return;
-	
+{	
 	// Sets the language for the default user
 	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"Control Panel\\Desktop", true) == TRUE)
 	{
@@ -313,20 +247,8 @@ ActionStatus WindowsLPIAction::GetStatus()
 		}
 		else
 		{
-			SetStatus(FinishedWithError);
-			
-			if (m_OSVersion->GetVersion() == WindowsXP)
-			{
-				#define LINES_TODUMP 7
-
-				LogExtractor logExtractor(m_msiexecLog, LINES_TODUMP);
-				logExtractor.ExtractLines();
-				logExtractor.DumpLines();			
-			}
-			else
-			{
-				_dumpLpkSetupErrors();
-			}
+			SetStatus(FinishedWithError);			
+			_dumpLpkSetupErrors();
 		}
 		
 		g_log.Log(L"WindowsLPIAction::GetStatus is '%s'", status == Successful ? L"Successful" : L"FinishedWithError");
@@ -345,32 +267,17 @@ bool WindowsLPIAction::IsRebootNeed() const
 bool WindowsLPIAction::_isASupportedSystemLanguage()
 {
 	bool bLangOk = false;
+	vector <LANGID> langIDs;
+	langIDs = m_win32I18N->EnumUILanguages();
 
-	if (m_OSVersion->GetVersion() == WindowsXP)
+	for (unsigned int i = 0; i < langIDs.size(); i++)
 	{
-		LANGID langid;
-		WORD primary;
-
-		langid = m_win32I18N->GetSystemDefaultUILanguage();
-		primary = PRIMARYLANGID(langid);
-
-		bLangOk = (primary == PRIMARYLANGID(SPANISH_LOCALEID));
-		g_log.Log(L"WindowsLPIAction::_isASupportedSystemLanguage. Language ID: %x", (wchar_t* )langid);
-	}
-	else
-	{
-		vector <LANGID> langIDs;
-		langIDs = m_win32I18N->EnumUILanguages();
-
-		for (unsigned int i = 0; i < langIDs.size(); i++)
-		{
-			if (langIDs.at(i) == SPANISH_LOCALEID || langIDs.at(i) == FRENCH_LOCALEID)
-			{				
-				bLangOk = true;
-			}
-			g_log.Log(L"WindowsLPIAction::_isASupportedSystemLanguage. Language ID: %x", (wchar_t* )langIDs.at(i));
+		if (langIDs.at(i) == SPANISH_LOCALEID || langIDs.at(i) == FRENCH_LOCALEID)
+		{				
+			bLangOk = true;
 		}
-	}
+		g_log.Log(L"WindowsLPIAction::_isASupportedSystemLanguage. Language ID: %x", (wchar_t* )langIDs.at(i));
+	}	
 	return bLangOk;
 }
 
@@ -378,8 +285,7 @@ bool WindowsLPIAction::_isValidOperatingSystem()
 {
 	if (m_OSVersion->IsWindows64Bits() == false)
 	{
-		if (m_OSVersion->GetVersion() != WindowsXP
-			&& m_OSVersion->GetVersion() != WindowsVista
+		if (m_OSVersion->GetVersion() != WindowsVista
 			&& m_OSVersion->GetVersion() != Windows7)
 		{
 			return false;
@@ -436,27 +342,4 @@ bool WindowsLPIAction::_isDownloadAvailable()
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(GetID(), wstring(_getDownloadID()));
 
 	return downloadVersion.IsUsable();
-}
-
-bool WindowsLPIAction::_isWindowsValidated()
-{
-	if (m_OSVersion->GetVersion() == WindowsXP)
-	{
-		DWORD dwservicePack;
-
-		dwservicePack = m_OSVersion->GetServicePackVersion();
-	
-		if (HIWORD(dwservicePack) < 2)
-		{
-			g_log.Log(L"IsWindowsValidated::IsWindowsValidated. Old XP");
-			return true;
-		}
-		 
-		return WindowsValidation::IsWindowsValidated();
-	}
-	else
-	{
-		g_log.Log(L"IsWindowsValidated::IsWindowsValidated. No XP");
-		return true;
-	}
 }

@@ -79,16 +79,6 @@ TEST(ConfigureLocaleActionTest, IsCatalanLocaleActive_No_Spanish)
 	EXPECT_FALSE(configureLocaleAction.IsCatalanLocaleActive());
 }
 
-TEST(ConfigureLocaleActionTest, Execute_WindowsXP)
-{
-	CreateConfigureLocaleAction;
-
-	EXPECT_CALL(osVersionMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"\\control.exe"), HasSubstr(L"regopts.txt"), false)).Times(1).WillRepeatedly(Return(true));
-
-	configureLocaleAction.Execute();
-}
-
 TEST(ConfigureLocaleActionTest, Execute_Windows7)
 {
 	CreateConfigureLocaleAction;
@@ -99,17 +89,6 @@ TEST(ConfigureLocaleActionTest, Execute_Windows7)
 	configureLocaleAction.Execute();
 }
 
-TEST(ConfigureLocaleActionTest, _userLocaleFromLanguageProfileOptOut_WXP)
-{
-	CreateConfigureLocaleAction;
-	bool rslt = false;
-
-	EXPECT_CALL(osVersionMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-	SetUserLocaleFromLanguageProfileOptOutMock(registryMockobj, rslt);
-	configureLocaleAction._userLocaleFromLanguageProfileOptOut();
-
-	EXPECT_FALSE(rslt);
-}
 
 TEST(ConfigureLocaleActionTest, _userLocaleFromLanguageProfileOptOut_W8)
 {

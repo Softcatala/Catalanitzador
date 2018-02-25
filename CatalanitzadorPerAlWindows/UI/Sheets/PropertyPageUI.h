@@ -47,7 +47,7 @@ public:
 	PropertyPageUI();
 	~PropertyPageUI();
 	
-	void 						createPage(HINSTANCE hInstance, WORD wRscID, WORD wRscIDAero, LPWSTR pTitle);	
+	void 						createPage(HINSTANCE hInstance, WORD wRscIDAero, LPWSTR pTitle);	
 	PROPSHEETPAGE*				getStruct(){return &m_page;}
 	HWND						getHandle(){return m_hWnd;}
 	PropertySheetUI*			getParent(){return m_sheet;}

@@ -75,10 +75,7 @@ int PropertySheetUI::runModal(HINSTANCE hInstance, HWND hParent, LPWSTR pCaption
 	memset (&m_psh, 0, sizeof(PROPSHEETHEADER));
 	m_psh.dwSize = sizeof(PROPSHEETHEADER);
 	m_psh.dwFlags = PSH_PROPSHEETPAGE | PSH_WIZARD;
-
-	if (ConfigurationInstance::Get().GetAeroEnabled())
-		m_psh.dwFlags |= PSH_AEROWIZARD;
-
+	m_psh.dwFlags |= PSH_AEROWIZARD;
 	m_psh.hwndParent = hParent;
 	m_psh.hInstance = hInstance;
 	m_psh.hIcon = NULL;

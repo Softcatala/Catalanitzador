@@ -109,8 +109,6 @@ wchar_t* IELPIAction::_getDownloadIDIE8()
 {
 	switch (m_OSVersion->GetVersion())
 	{
-		case WindowsXP:
-			return L"IE8_XP";
 		case WindowsVista:
 			return L"IE8_VISTA";
 		default:
@@ -311,18 +309,11 @@ void IELPIAction::Execute()
 			break;
 		}
 	case InternetExplorerVersion::IE8:
-		if (m_OSVersion->GetVersion() == WindowsXP)
-		{
-			wcscpy_s(szParams, m_filename);
-			wcscat_s(szParams, L" /quiet /norestart /update-no");
-		}
-		else
-		{
-			GetSystemDirectory(szParams, MAX_PATH);
-			wcscat_s(szParams, L"\\wusa.exe ");
-			wcscat_s(szParams, m_filename);
-			wcscat_s(szParams, L" /quiet /norestart");
-		}
+		GetSystemDirectory(szParams, MAX_PATH);
+		wcscat_s(szParams, L"\\wusa.exe ");
+		wcscat_s(szParams, m_filename);
+		wcscat_s(szParams, L" /quiet /norestart");
+		
 		break;
 	case InternetExplorerVersion::IE9:
 	case InternetExplorerVersion::IE10:
@@ -348,7 +339,7 @@ ActionStatus IELPIAction::GetStatus()
 		if (m_runner->IsRunning())
 			return InProgress;
 
-		if (_wasInstalled()) 
+		if (_isLangPackInstalled()) 
 		{
 			_installSpellChecker();
 			SetStatus(Successful);
@@ -364,16 +355,6 @@ ActionStatus IELPIAction::GetStatus()
 	return status;
 }
 
-bool IELPIAction::_wasInstalled()
-{
-	// Could not find a way to tell if it went well
-	if (_getIEVersion() == InternetExplorerVersion::IE8 && m_OSVersion->GetVersion() == WindowsXP)
-	{
-		return true;
-	}
-
-	return _isLangPackInstalled();
-}
 
 IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action * action)
 {
@@ -382,22 +363,6 @@ IELPIAction::Prerequirements IELPIAction::_checkPrerequirementsDependand(Action 
 
 	switch (m_OSVersion->GetVersion())
 	{
-		case WindowsXP: // Includes IE 6
-			switch (_getIEVersion())
-			{
-				case InternetExplorerVersion::IE6:
-					return AppliedInWinLPI;
-				case InternetExplorerVersion::IE7:
-				case InternetExplorerVersion::IE8:
-					if (WindowsLPISelected == false)
-					{
-						return NeedsWinLPI;
-					}
-					break;
-				default:
-					break;
-			}
-			break;
 		case WindowsVista: // Includes IE 7
 			switch (_getIEVersion())
 			{

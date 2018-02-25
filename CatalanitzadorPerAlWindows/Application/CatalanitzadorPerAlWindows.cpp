@@ -138,6 +138,7 @@ bool CatalanitzadorPerAWindows::_supportedOS()
 	version = m_osVersion.GetVersion();
 
 	if (version == Windows2000 ||
+		version == WindowsXP ||
 		version == WindowsXP64_2003 ||
 		version == Windows2012 ||
 		version == Windows2016)

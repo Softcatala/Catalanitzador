@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2018-02-02T03:00:00</date>
+		<date>2018-02-24T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -25,22 +25,6 @@
 		<!-- Windows LPI -->
 		<action>
 	 		<id>1</id>
-	 		<download>
-	 			<version>XP</version>	  			
-	  			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi]]></url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsXP/Build2006Professional/LIPsetup.msi</url_3>
-				<filename>LIPsetup.msi</filename>
-	  		</download>
-	  		<download>
-	 			<version>XP2</version>
-	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3468&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi]]></url_1>
-	  			<sha1_url_1>http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/WindowsXP/XP2orlater/LIPsetup.msi</url_3>
-				<filename>LIPsetup.msi</filename>
-	  		</download>
 	  		<download>
 	 			<version>Vista</version>
 	 			<url_1><![CDATA[http://baixades.softcatala.org/?id=3511&mirall=catalanitzador&versio=1.0&so=win32&url=http://www.softcatala.org/pub/softcatala/catalanitzador/WindowsVista/lip_ca-es.mlc]]></url_1>

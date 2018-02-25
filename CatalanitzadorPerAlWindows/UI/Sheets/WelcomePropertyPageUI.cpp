@@ -68,13 +68,6 @@ void WelcomePropertyPageUI::_initPropertySheet()
 
 void WelcomePropertyPageUI::_onInitDialog()
 {
-	if (ConfigurationInstance::Get().GetAeroEnabled() == false)
-	{
-		HWND hWnd = GetDlgItem(getHandle(), IDC_WELCOME_TOAPP);
-		m_hFont = Window::CreateBoldFont(hWnd);
-		SendMessage(hWnd, WM_SETFONT, (WPARAM) m_hFont, TRUE);
-	}
-
 	BOOL sendStats = m_model->GetSendStats() ? TRUE: FALSE;
 	CheckDlgButton(getHandle(), IDC_SENDRESULTS, sendStats);
 	_setTransparentBitmaps();

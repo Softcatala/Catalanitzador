@@ -73,7 +73,6 @@ private:
 		bool _isLangPackInstalled();
 		bool _is64BitsPackage();
 		bool _createTempDirectory();
-		bool _wasInstalled();
 
 		wchar_t m_filename[MAX_PATH];
 		wchar_t m_filenameSpellChecker[MAX_PATH];

@@ -48,11 +48,11 @@ void UIInstallation::Run(HINSTANCE  hInstance, ApplicationExecutor& applicationE
 		
 	welcome.setParent(&sheet);
 	welcome.setPageButtons(NextButton);
-	welcome.createPage(hInstance, IDD_WELCOME, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
+	welcome.createPage(hInstance, IDD_WELCOME_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_WELCOME));
 	sheet.addPage(&welcome);
 	
 	applicationModel.SetView((IApplicationsPropertyPageUI *)&applications);	
-	applications.createPage(hInstance, IDD_APPLICATIONS, IDD_APPLICATIONS_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_APPLICATIONS));
+	applications.createPage(hInstance, IDD_APPLICATIONS_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_APPLICATIONS));
 	applications.setParent(&sheet);
 	applications.setPageButtons(NextBackButtons);
 	sheet.addPage(&applications);
@@ -60,12 +60,12 @@ void UIInstallation::Run(HINSTANCE  hInstance, ApplicationExecutor& applicationE
 	install.setParent(&sheet);
 	install.setPageButtons(CancelButtonOnly);
 	install.StartSlideShowUnpack();
-	install.createPage(hInstance, IDD_INSTALL, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
+	install.createPage(hInstance, IDD_INSTALL_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_INSTALL));
 	sheet.addPage(&install);
 
 	finish.setParent(&sheet);
 	finish.setPageButtons(FinishButtonOnly);
-	finish.createPage(hInstance, IDD_FINISH, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));
+	finish.createPage(hInstance, IDD_FINISH_AERO, MAKEINTRESOURCE(IDS_WIZARD_HEADER_FINISH));
 	sheet.addPage(&finish);
 
 	sheet.runModal(hInstance, NULL, (LPWSTR)IDS_WIZARD_TITLE);

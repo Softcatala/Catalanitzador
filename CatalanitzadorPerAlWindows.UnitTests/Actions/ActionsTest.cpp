@@ -27,19 +27,6 @@
 using ::testing::Return;
 
 
-TEST(ActionsTest, _buildListOfActions_WIN_XP)
-{
-	OSVersionMock osVersionExMock;
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
-
-	Actions actions(NULL, &osVersionExMock);	
-	WindowsLPIAction* windowsAction = dynamic_cast<WindowsLPIAction*>(actions.GetActionFromID(WindowsLPIActionID));
-	ConfigureDefaultLanguageAction* configureDefaultLanguageAction = dynamic_cast<ConfigureDefaultLanguageAction*>(actions.GetActionFromID(ConfigureDefaultLanguageActionID));
-	
-	EXPECT_TRUE(windowsAction != NULL);
-	EXPECT_TRUE(configureDefaultLanguageAction != NULL);
-}
-
 TEST(ActionsTest, _buildListOfActions_WIN_VISTA)
 {
 	OSVersionMock osVersionExMock;

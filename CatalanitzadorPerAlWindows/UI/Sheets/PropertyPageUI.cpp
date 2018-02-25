@@ -141,9 +141,9 @@ int CALLBACK PropertyPageUI::s_pageWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 	return 0;
 }
 
-void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscID, WORD wRscIDAero, LPWSTR pTitle)
+void PropertyPageUI::createPage(HINSTANCE hInstance, WORD wRscIDAero, LPWSTR pTitle)
 {	
-	LPCTSTR lpTemplate = ConfigurationInstance::Get().GetAeroEnabled() ? MAKEINTRESOURCE(wRscIDAero) : MAKEINTRESOURCE(wRscID);
+	LPCTSTR lpTemplate = MAKEINTRESOURCE(wRscIDAero);
 		
 	m_page.dwSize = sizeof(PROPSHEETPAGE);
 	m_page.dwFlags = PSP_DEFAULT;

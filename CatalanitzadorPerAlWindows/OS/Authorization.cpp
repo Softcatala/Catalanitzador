@@ -103,8 +103,7 @@ bool Authorization::IsRunningElevatedWithOtherUser(IOSVersion* osVersion)
 	bool result = false;
 	
 	// Support only for operaring systems major version > 5
-	if (osVersion->GetVersion() == WindowsXP ||
-		osVersion->GetVersion() == WindowsXP64_2003 ||
+	if (osVersion->GetVersion() == WindowsXP64_2003 ||
 		osVersion->GetVersion() == Windows2000)
 		return false;
 

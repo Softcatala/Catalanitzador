@@ -100,18 +100,9 @@ void ConfigureDefaultLanguageAction::Execute()
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s(szApp, L"\\control.exe ");
 
-	if (m_OSVersion->GetVersion() == WindowsXP)
-	{
-		//Documentation: http://support.microsoft.com/default.aspx?scid=kb;en-us;289125
-		wcscpy_s(szConfigFileName, L"regopts.txt");
-		resource = (LPCWSTR)IDR_CONFIG_DEFLANGUAGE_WINXP;
-	}
-	else // Windows Vista and 7
-	{
-		//Documentation: http://blogs.msdn.com/b/michkap/archive/2006/05/30/610505.aspx
-		wcscpy_s(szConfigFileName, L"regopts.xml");
-		resource = (LPCWSTR)IDR_CONFIG_DEFLANGUAGE_WINVISTA;
-	}
+	//Documentation: http://blogs.msdn.com/b/michkap/archive/2006/05/30/610505.aspx
+	wcscpy_s(szConfigFileName, L"regopts.xml");
+	resource = (LPCWSTR)IDR_CONFIG_DEFLANGUAGE_WINVISTA;	
 	wcscat_s(szCfgFile, szConfigFileName);
 
 	Resources::DumpResource(L"CONFIG_FILES", resource, szCfgFile);	
@@ -169,12 +160,6 @@ void ConfigureDefaultLanguageAction::CheckPrerequirements(Action * action)
 
 bool ConfigureDefaultLanguageAction::IsRebootNeed() const
 {
-	// Default language in Windows XP only changes after reboot
-	if (m_OSVersion->GetVersion() == WindowsXP)
-	{
-		if (status == Successful)
-			return true;
-	}
 	return false;
 }
 
@@ -226,14 +211,6 @@ ActionStatus ConfigureDefaultLanguageAction::GetStatus()
 	{
 		if (m_runner->IsRunning())
 			return InProgress;
-
-		if (m_OSVersion->GetVersion() == WindowsXP)
-		{
-			if (_isCatalanKeyboardActive() == false)
-			{
-				_makeCatalanActiveKeyboard();
-			}
-		}
 
 		if (_isCatalanKeyboardActive())
 		{

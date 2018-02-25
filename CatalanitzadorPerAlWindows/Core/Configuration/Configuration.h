@@ -27,8 +27,6 @@
 #include "RemoteURLs.h"
 #include "ApplicationVersion.h"
 
-#define MIN_VRESOLUTION_FOR_AERO 768
-
 class Configuration
 {
 	public:
@@ -47,26 +45,7 @@ class Configuration
 			}
 
 			ConfigurationRemote& GetRemote() { return m_remote; }
-			void SetRemote(ConfigurationRemote remote) {m_remote = remote;}
-
-			// Application Configuration	
-			void SetAeroEnabled(bool bUseAero) 
-			{ 
-				m_useAero = bUseAero; 
-			}
-
-			bool GetAeroEnabled()
-			{
-				if (m_useAero.IsUndefined())
-				{
-					if (m_OSVersion->GetVersion() == WindowsXP)
-					{
-						return false;
-					}					
-					return GetSystemMetricsYScreen() >= MIN_VRESOLUTION_FOR_AERO;
-				}
-				return m_useAero == true;
-			}
+			void SetRemote(ConfigurationRemote remote) {m_remote = remote;}					
 
 			ApplicationVersion& GetVersion()
 			{
@@ -104,8 +83,7 @@ class Configuration
 
 	private:
 
-			ConfigurationRemote m_remote;
-			TriBool m_useAero;
+			ConfigurationRemote m_remote;			
 			IOSVersion* m_OSVersion;
 			ApplicationVersion m_version;
 			bool m_downloadConfiguration;

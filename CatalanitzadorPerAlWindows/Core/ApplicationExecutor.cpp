@@ -19,7 +19,6 @@
 
 #include "stdafx.h"
 #include "ApplicationExecutor.h"
-#include "WindowsXPDialogCanceler.h"
 #include "Inspectors.h"
 #include "ConfigurationInstance.h"
 
@@ -185,10 +184,7 @@ void ApplicationExecutor::Start(NotifyExecutionStarts notifyExecutionStarts,
 						 void* data)
 {	
 	Action* action;
-	WindowsXPDialogCanceler dialogCanceler;
-
 	_systemRestoreStarts(notifyExecutionCompleted, data);
-	dialogCanceler.Start();	
 	m_serializer->StartAction();
 
 	for (unsigned int i = 0; i < GetActions()->size(); i++)
@@ -222,7 +218,6 @@ void ApplicationExecutor::Start(NotifyExecutionStarts notifyExecutionStarts,
 
 	m_errors = _calculateHasErrors();
 
-	dialogCanceler.Stop();
 	m_serializer->EndAction();
 	_serializeInspectors();	
 	_systemRestoreEnds();

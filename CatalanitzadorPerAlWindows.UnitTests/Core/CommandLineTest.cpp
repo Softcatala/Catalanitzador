@@ -38,24 +38,6 @@ TEST(CommandLineTest, _Version)
 	EXPECT_THAT(ConfigurationInstance::Get().GetVersion().GetString(), StrCaseEq(FORCED_VERSION));
 }
 
-TEST(CommandLineTest, _UseAeroLook)
-{	
-	wstring parameters(L"/UseAeroLook");
-	
-	CommandLine commandLine(NULL);
-	commandLine.Process(parameters);
-	EXPECT_TRUE(ConfigurationInstance::Get().GetAeroEnabled());
-}
-
-TEST(CommandLineTest, _UseClassicLook)
-{	
-	wstring parameters(L"/UseClassicLook");
-	
-	CommandLine commandLine(NULL);
-	commandLine.Process(parameters);
-	EXPECT_FALSE(ConfigurationInstance::Get().GetAeroEnabled());
-}
-
 TEST(CommandLineTest, _RunningCheck)
 {	
 	wstring parameters(L"/norunningcheck");	

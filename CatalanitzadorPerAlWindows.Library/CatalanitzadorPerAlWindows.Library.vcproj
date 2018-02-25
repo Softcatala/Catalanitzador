@@ -363,14 +363,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\OS\WindowsValidation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\OS\WindowsValidation.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\OS\Wow64.cpp"
 				>
 			</File>
@@ -1084,14 +1076,6 @@
 			</File>
 			<File
 				RelativePath="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Applications\WindowsXPDialogCanceler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CatalanitzadorPerAlWindows\Applications\WindowsXPDialogCanceler.h"
 				>
 			</File>
 		</Filter>

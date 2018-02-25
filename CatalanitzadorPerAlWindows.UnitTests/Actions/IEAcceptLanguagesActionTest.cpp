@@ -78,7 +78,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanOnly)
 
 	SetAcceptLanguage(registryMockobj, L"ca-ES");
 	SetInternetExplorerVersion(fileversionInfo, L"8.0");
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
 
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(IEAction.IsNeed());
@@ -90,7 +90,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_CatalanAndSpanish)
 
 	SetAcceptLanguage(registryMockobj, L"ca-ES,es-ES;q=0.5");
 	SetInternetExplorerVersion(fileversionInfo, L"8.0");
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
 
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_FALSE(IEAction.IsNeed());
@@ -102,7 +102,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_EnglishSpanishCatalan)
 
 	SetAcceptLanguage(registryMockobj, L"en-US,es-ES;q=0.7,ca-ES;q=0.3");
 	SetInternetExplorerVersion(fileversionInfo, L"8.0");
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
 
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(IEAction.IsNeed());
@@ -114,7 +114,7 @@ TEST(IEAcceptLanguagesActionTest, IsNeeded_SpanishOnly)
 
 	SetAcceptLanguage(registryMockobj, L"es-ES");
 	SetInternetExplorerVersion(fileversionInfo, L"8.0");
-	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsXP));
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(WindowsVista));
 
 	IEAction.CheckPrerequirements(NULL);
 	EXPECT_TRUE(IEAction.IsNeed());
