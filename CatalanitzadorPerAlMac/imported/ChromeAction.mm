@@ -258,7 +258,7 @@ void ChromeAction::_readInstallLocation(string & path)
 
 void ChromeAction::CreateJSONString(string &jsonvalue)
 {
-	int languages = m_languages.size();
+	unsigned long languages = m_languages.size();
 	
 	if (languages == 1)
 	{

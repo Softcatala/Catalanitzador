@@ -165,7 +165,7 @@ bool FirefoxAcceptLanguages::ReadLanguageCode()
 	
 	if (reader.is_open())
 	{
-		int start, end;
+		unsigned long start, end;
 		
 		while(!reader.eof())
 		{
@@ -224,7 +224,7 @@ void FirefoxAcceptLanguages::_addCatalanToArrayAndRemoveOldIfExists()
 
 void FirefoxAcceptLanguages::_createPrefsString(string& string)
 {
-	int languages = m_languages.size();
+	unsigned long languages = m_languages.size();
 	
 	if (languages == 1)
 	{
