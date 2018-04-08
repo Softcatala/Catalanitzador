@@ -23,12 +23,12 @@
 
 #define APP_MAJOR_VERSION		2
 #define APP_MINOR_VERSION		8
-#define APP_REVISION			0
+#define APP_REVISION			1
 
-#define STRING_VERSION				_STR("2.8.0")
-#define STRING_VERSION_RESOURCES	"2.8.0.0"
+#define STRING_VERSION				_STR("2.8.1")
+#define STRING_VERSION_RESOURCES	"2.8.1.0"
 
-//#define DEVELOPMENT_VERSION 1 // Comment for release version
+#define DEVELOPMENT_VERSION 1 // Comment for release version
 
 #if (APP_REVISION % 2 == 0) 
 	#ifdef DEVELOPMENT_VERSION 
@@ -44,4 +44,4 @@
 
    
 
-   
+  
