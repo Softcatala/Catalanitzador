@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
@@ -43,5 +43,6 @@ enum ActionID
 	FirefoxLangPackActionID = 17,
 	LangToolLibreOfficeActionID = 18,
 	LangToolFirefoxActionID = 19,
-	DictSynonymsActionID = 20
+	DictSynonymsActionID = 20,
+	LibreOfficeActionID = 21,
 };

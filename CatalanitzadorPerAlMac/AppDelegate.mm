@@ -30,6 +30,7 @@
 #include "Reboot.h"
 #include "DictationAction.h"
 #include "DictSynonymsAction.h"
+#include "LibreOfficeAction.h"
 
 // Dictation action is still in development. Enable this define to enable it
 //#define DICTATION_ACTION 1
@@ -43,6 +44,7 @@ FirefoxAction firefoxAction;
 SpellCheckerAction spellCheckerAction;
 ChromeAction chromeAction;
 DictSynonymsAction dictSynonymsAction;
+LibreOfficeAction libreOfficeAction;
 
 #if DICTATION_ACTION
 DictationAction dictationAction;
@@ -279,6 +281,7 @@ void _upload(Serializer& serializer)
 	actions.push_back(&dictSynonymsAction);
 	actions.push_back(&chromeAction);
 	actions.push_back(&firefoxAction);
+	actions.push_back(&libreOfficeAction);
 	
 #if DICTATION_ACTION
 	actions.push_back(&dictationAction);
@@ -335,6 +338,15 @@ void _upload(Serializer& serializer)
 		}
 	}
 	
+	if (libreOfficeAction.IsNeed() && libreOfficeAction.GetStatus() == Selected)
+	{
+		if (libreOfficeAction.IsApplicationRunning())
+		{
+			_showDialogBox(alertTitle,
+						   @"Cal que tanqueu el LibreOffice abans de continuar. No es pot instal·lar el paquet d'idioma si està obert.");
+			return true;
+		}
+	}
 	return false;
 }
 

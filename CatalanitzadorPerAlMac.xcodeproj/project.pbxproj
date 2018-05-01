@@ -33,6 +33,7 @@
 		8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DEEBCEE16C3F9C2002BD942 /* SpellCheckerAction.mm */; };
 		8DEEBCF116C3FBBC002BD942 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DEEBCF016C3FBBC002BD942 /* Security.framework */; };
 		8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */; };
+		8DFEFF6220755E5F0064CA28 /* LibreOfficeAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8DFEFF6120755E5F0064CA28 /* LibreOfficeAction.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +90,8 @@
 		8DEEBCF016C3FBBC002BD942 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8DF8C73E16C0F09B001AE9DA /* FirefoxAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirefoxAction.h; sourceTree = "<group>"; };
 		8DF8C74016C0F530001AE9DA /* FirefoxAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirefoxAction.mm; sourceTree = "<group>"; };
+		8DFEFF6120755E5F0064CA28 /* LibreOfficeAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LibreOfficeAction.mm; sourceTree = "<group>"; };
+		8DFEFF63207563910064CA28 /* LibreOfficeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibreOfficeAction.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +232,8 @@
 		8DEEBCF216C3FBEE002BD942 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8DFEFF63207563910064CA28 /* LibreOfficeAction.h */,
+				8DFEFF6120755E5F0064CA28 /* LibreOfficeAction.mm */,
 				8D4E3A7219FE27F50050810D /* DictationAction.h */,
 				8D6B5B151EC3A2C3005B8AA4 /* DictSynonymsAction.h */,
 				8D6B5B161EC3A2C3005B8AA4 /* DictSynonymsAction.mm */,
@@ -334,6 +339,7 @@
 				8DF8C74116C0F530001AE9DA /* FirefoxAction.mm in Sources */,
 				8DEEBCEF16C3F9C2002BD942 /* SpellCheckerAction.mm in Sources */,
 				8D94658916CF9CA2009BBA39 /* ChromeAction.mm in Sources */,
+				8DFEFF6220755E5F0064CA28 /* LibreOfficeAction.mm in Sources */,
 				8D94658A16CF9CA2009BBA39 /* FirefoxAcceptLanguages.mm in Sources */,
 				8D9465AA16D00FBD009BBA39 /* Action.cpp in Sources */,
 				8D6B5B171EC3A2C3005B8AA4 /* DictSynonymsAction.mm in Sources */,
