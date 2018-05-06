@@ -36,6 +36,8 @@ using ::testing::DoAll;
 #define FRENCH_LOCALE 0x040c
 #define US_LOCALE 0x0409
 #define PT_LOCALE 0x0816
+#define WIN10_APRIL_2018 17134
+#define SCRIPT_ADDPACKAGE L"add-package.ps1"
 
 class Windows8LPIActionTest: public testing::Test
 {
@@ -58,7 +60,7 @@ public:
 			using Windows8LPIAction::_isLangPackInstalled;
 			using Windows8LPIAction::_getDownloadID;
 			using Windows8LPIAction::_setLanguagePanel;
-			using Windows8LPIAction::_getScriptFile;
+			using Windows8LPIAction::_getScriptSetLang;
 			using Windows8LPIAction::_isLanguagePanelFirstForLanguage;
 };
 
@@ -314,7 +316,7 @@ TEST_F(Windows8LPIActionTest, _setLanguagePanel_Catalan)
 	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"powershell.exe"), HasSubstr(L"-ExecutionPolicy remotesigned"), false)).Times(1).WillRepeatedly(Return(true));
 	lipAction._setLanguagePanel();
 	
-	ifstream reader(lipAction._getScriptFile().c_str());
+	ifstream reader(lipAction._getScriptSetLang().c_str());
 	content = string((std::istreambuf_iterator<char>(reader)), std::istreambuf_iterator<char>());
 	reader.close();
 
@@ -330,7 +332,7 @@ TEST_F(Windows8LPIActionTest, _setLanguagePanel_Valencian)
 	lipAction.SetUseDialectalVariant(true);
 	lipAction._setLanguagePanel();
 
-	ifstream reader(lipAction._getScriptFile().c_str());
+	ifstream reader(lipAction._getScriptSetLang().c_str());
 	content = string((std::istreambuf_iterator<char>(reader)), std::istreambuf_iterator<char>());
 	reader.close();
 
@@ -383,4 +385,21 @@ TEST_F(Windows8LPIActionTest, _isLanguagePanelFirstForLanguage_Spanish)
 
 	SetPanelLanguage(registryMockobj, L"es");
 	EXPECT_FALSE(lipAction._isLanguagePanelFirstForLanguage(L"ca"));
+}
+
+TEST_F(Windows8LPIActionTest, ExecuteWindows_Win10_17134)
+{	
+	CreateWindowsLIPAction;
+
+	EXPECT_CALL(osVersionExMock, GetVersion()).WillRepeatedly(Return(Windows10));
+	EXPECT_CALL(osVersionExMock, GetBuildNumber()).WillRepeatedly(Return(WIN10_APRIL_2018));	
+
+	EXPECT_CALL(osVersionExMock, IsWindows64Bits()).WillRepeatedly(Return(false));
+	SetLangPackInstalled(registryMockobj, false);
+	
+	lipAction._getDownloadID();
+	lipAction.SetStatus(Selected);
+	EXPECT_CALL(runnerMock, Execute(HasSubstr(L"powershell.exe"), HasSubstr(SCRIPT_ADDPACKAGE), false)).Times(1).WillRepeatedly(Return(true));
+
+	lipAction.Execute();
 }

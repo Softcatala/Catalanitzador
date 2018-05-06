@@ -51,9 +51,10 @@ protected:
 		bool _isLangPackInstalled();
 		wchar_t* _getDownloadID();
 		void _setLanguagePanel();
-		const wstring _getScriptFile() {return m_scriptfile;}
+		const wstring _getScriptSetLang() {return m_scriptSetLang;}
 		bool _isASupportedSystemLanguage();
 		bool _isLanguagePanelFirstForLanguage(wstring langcode);
+		void _runAppxPackage(const wstring appxFilename);
 		
 private:
 
@@ -71,14 +72,15 @@ private:
 		void _readPanelLanguageCode(wstring& language);
 		bool _isAlreadyApplied();
 		void _buildLanguagePanelPowerShellScript(const wstring primaryCode, const wstring secondaryCode, string& script);
-		void _runLanguagePanelPowerShellScript(const string script);
+		void _runPowerShellScript(const wstring scriptfile);
 		bool _isLangPackInstalledForLanguage(wstring langcode);
 		bool _isDefaultLanguageForLanguage(wstring langcode);
 		void _selectLanguagePackage();
 		void _selectLanguagePackageW10();
 		
 		wstring m_filename;
-		wstring m_scriptfile;
+		wstring m_scriptSetLang;
+		wstring m_scriptAddPackage;
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		IWin32I18N* m_win32I18N;

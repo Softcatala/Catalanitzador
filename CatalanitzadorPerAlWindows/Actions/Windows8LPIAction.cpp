@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012-2013 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012-2018 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +31,8 @@
 #define CATALAN_LANGPACKCODE L"ca-ES"
 
 #define LANGUAGE_CODE L"ca-ES"
-#define SCRIPT_NAME L"lang.ps1"
+#define SCRIPT_SETLANG L"set-lang.ps1"
+#define SCRIPT_ADDPACKAGE L"add-package.ps1"
 
 Windows8LPIAction::Windows8LPIAction(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, DownloadManager* downloadManager):
 WindowsLPIBaseAction(downloadManager)
@@ -50,9 +51,14 @@ Windows8LPIAction::~Windows8LPIAction()
 		DeleteFile(m_filename.c_str());
 	}
 
-	if (m_scriptfile.empty() == false  && GetFileAttributes(m_scriptfile.c_str()) != INVALID_FILE_ATTRIBUTES)
+	if (m_scriptSetLang.empty() == false  && GetFileAttributes(m_scriptSetLang.c_str()) != INVALID_FILE_ATTRIBUTES)
 	{
-		DeleteFile(m_scriptfile.c_str());
+		DeleteFile(m_scriptSetLang.c_str());
+	}
+
+	if (m_scriptAddPackage.empty() == false  && GetFileAttributes(m_scriptAddPackage.c_str()) != INVALID_FILE_ATTRIBUTES)
+	{
+		DeleteFile(m_scriptAddPackage.c_str());
 	}
 }
 
@@ -86,6 +92,8 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 #define BUILD_14393 14393 //Windows 10's August 2016, aniversary edition
 #define BUILD_15063 15063 //Windows 10's April 2017, creator's edition
 #define BUILD_16299 16299 //Windows 10's October 2017, creator's fall edition
+#define BUILD_17134 17134 //Windows 10's April 2018, April's update
+
 
 void Windows8LPIAction::_selectLanguagePackageW10()
 {
@@ -175,6 +183,12 @@ void Windows8LPIAction::_selectLanguagePackageW10()
 			m_packageDownloadId = L"Win10_16299_ca_32";
 			m_packageLanguageCode = CATALAN_LANGPACKCODE;
 		}
+	}
+
+	if (buildNumber == BUILD_17134)
+	{
+		m_packageDownloadId = L"Win10_17134";
+		m_packageLanguageCode = CATALAN_LANGPACKCODE;		
 	}
 }
 
@@ -337,18 +351,26 @@ void Windows8LPIAction::Execute()
 
 	if (_isLangPackInstalled() == false)
 	{
-		// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
-		wcscpy_s(szParams, L" /i ");
-		wcscat_s(szParams, m_packageLanguageCode.c_str());
-		wcscat_s(szParams, L" /r /s /p ");
+		DWORD buildNumber = m_OSVersion->GetBuildNumber();
+		if (buildNumber < BUILD_17134)
+		{
+			// Documentation: http://technet.microsoft.com/en-us/library/cc766010%28WS.10%29.aspx
+			wcscpy_s(szParams, L" /i ");
+			wcscat_s(szParams, m_packageLanguageCode.c_str());
+			wcscat_s(szParams, L" /r /s /p ");
 
-		wcscat_s(szParams, m_filename.c_str());
+			wcscat_s(szParams, m_filename.c_str());
 
-		GetSystemDirectory(lpkapp, MAX_PATH);
-		wcscat_s(lpkapp, L"\\lpksetup.exe");
-		
-		g_log.Log(L"Windows8LPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
-		m_runner->Execute(lpkapp, szParams, m_OSVersion->IsWindows64Bits());
+			GetSystemDirectory(lpkapp, MAX_PATH);
+			wcscat_s(lpkapp, L"\\lpksetup.exe");
+
+			g_log.Log(L"Windows8LPIAction::Execute '%s' with params '%s'", lpkapp, szParams);
+			m_runner->Execute(lpkapp, szParams, m_OSVersion->IsWindows64Bits());
+		}
+		else
+		{
+			_runAppxPackage(m_filename);
+		}
 	}
 
 	m_executionStep = ExecutionStepProgram;
@@ -377,21 +399,21 @@ void Windows8LPIAction::_buildLanguagePanelPowerShellScript(const wstring primar
 	script += "Set-WinUserLanguageList $1 -Force\r\n";
 }
 
-void Windows8LPIAction::_runLanguagePanelPowerShellScript(const string script)
+void Windows8LPIAction::_runPowerShellScript(const wstring scriptfile)
 {
 	Runner runner;
 	wstring params;
 	wchar_t szTool[MAX_PATH];
 
-	assert(m_scriptfile.size() > 0);
+	assert(scriptfile.size() > 0);
 	
 	GetSystemDirectory(szTool, MAX_PATH);
 	wcscat_s(szTool, L"\\WindowsPowerShell\\v1.0\\powershell.exe");
 
 	params = L" -ExecutionPolicy remotesigned ";
-	params+= m_scriptfile.c_str();
+	params+= scriptfile.c_str();
 	
-	g_log.Log(L"Windows8LPIAction::_runLanguagePanelPowerShellScript '%s' with params '%s'", szTool, (wchar_t *)params.c_str());
+	g_log.Log(L"Windows8LPIAction::_runPowerShellScript '%s' with params '%s'", szTool, (wchar_t *)params.c_str());
 	m_runner->Execute(szTool, (wchar_t *)params.c_str(), m_OSVersion->IsWindows64Bits());
 }
 
@@ -401,8 +423,8 @@ void Windows8LPIAction::_setLanguagePanelLanguages(const wstring primaryCode, co
 	string script;
 
 	GetTempPath(MAX_PATH, szScript);
-	wcscat_s(szScript, SCRIPT_NAME);
-	m_scriptfile = szScript;
+	wcscat_s(szScript, SCRIPT_SETLANG);
+	m_scriptSetLang = szScript;
 
 	_buildLanguagePanelPowerShellScript(primaryCode, secondaryCode, script);
 
@@ -410,10 +432,34 @@ void Windows8LPIAction::_setLanguagePanelLanguages(const wstring primaryCode, co
 	of.write(script.c_str(), script.size());
 	of.close();
 	
-	_runLanguagePanelPowerShellScript(script);
+	_runPowerShellScript(m_scriptSetLang);
 
 	g_log.Log(L"Windows8LPIAction::_setLanguagePanelLanguages. Langs: '%s', '%s'", (wchar_t *) primaryCode.c_str(),
 		(wchar_t *) secondaryCode.c_str());
+}
+
+void Windows8LPIAction::_runAppxPackage(const wstring appxFilename)
+{
+	wchar_t szScript[MAX_PATH];
+	string script;
+	wstring scriptfile;
+
+	GetTempPath(MAX_PATH, szScript);
+	wcscat_s(szScript, SCRIPT_ADDPACKAGE);
+	scriptfile = szScript;
+	m_scriptAddPackage = szScript;
+	
+	string filename;
+	StringConversion::ToMultiByte(appxFilename, filename);	
+	script = "Add-AppxPackage -Path '" + filename + "'\r\n";
+
+	ofstream of(szScript);
+	of.write(script.c_str(), script.size());
+	of.close();
+	
+	_runPowerShellScript(scriptfile);
+
+	g_log.Log(L"Windows8LPIAction::_runAppxPackage. Script: '%s'", (wchar_t *) appxFilename.c_str());
 }
 
 void Windows8LPIAction::_setLanguagePanel()

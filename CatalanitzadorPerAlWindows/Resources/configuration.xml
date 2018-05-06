@@ -212,7 +212,17 @@
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/ca_windows_10_language_interface_pack_x64_2017_10.cab</url_3>
       				<filename>ca_windows_10_language_interface_pack_x64_2017_10.cab</filename>
-      			</download>      			
+      			</download>
+      			
+      			<download>
+      				<version>Win10_17134</version>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-es_17132.1.1.0_neutral__8wekyb3d8bbwe.Appx]]></url_1>
+      				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-es_17132.1.1.0_neutral__8wekyb3d8bbwe.Appx.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-es_17132.1.1.0_neutral__8wekyb3d8bbwe.Appx</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-es_17132.1.1.0_neutral__8wekyb3d8bbwe.Appx</url_3>
+      				<filename>Microsoft.LanguageExperiencePackca-es_17132.1.1.0_neutral__8wekyb3d8bbwe.Appx</filename>
+      			</download>
+      			
 		</action>
 		
 		<!-- Microsoft Office -->
