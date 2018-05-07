@@ -28,7 +28,7 @@
 #define STRING_VERSION				_STR("2.8.2")
 #define STRING_VERSION_RESOURCES	"2.8.2.0"
 
-#define DEVELOPMENT_VERSION 1 // Comment for release version
+//#define DEVELOPMENT_VERSION 1 // Comment for release version
 
 #if (APP_REVISION % 2 == 0) 
 	#ifdef DEVELOPMENT_VERSION 
