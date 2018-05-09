@@ -21,7 +21,8 @@
         17 => 'FirefoxLangPack',
         18 => 'LangToolLibreOffice',
         19 => 'LangToolFirefox',
-        20 => 'DictSynonymsActionID'
+        20 => 'DictSynonymsActionID',
+        21 => 'LibreOfficeActionID'
     );
 
     $subversions = array(4, 7, 8);
