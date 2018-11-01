@@ -70,11 +70,11 @@ public:
 protected:
 
 		wchar_t* _getDownloadID();
-		bool _isOffice2016LangAccesoryPackInstalled();
+		bool _isOffice2016LangAccessoryPackInstalled();
 		wstring m_packageCodeToSet;
 		wstring m_installedLangPackCode;
-		void _readDefaultLanguageForOffice2016LangAccesoryPack(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
-		void _setDefaultLanguageForOffice2016LangAccesoryPack();
+		void _readDefaultLanguageForOffice2016LangAccessoryPack(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
+		void _setDefaultLanguageForOffice2016LangAccessoryPack();
 		void _setDefaultLanguage();
 		
 private:
@@ -98,6 +98,11 @@ private:
 		bool _extractCabFile(wchar_t * file, wchar_t * path);
 		void _removeOffice2003TempFiles();
 		void _readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff);
+		static VOID CALLBACK _timerProc(HWND hwnd, UINT uMsg,  UINT_PTR idEvent, DWORD dwTime);
+		void _startTimer();
+		void _stopTimer();
+		void _getSHGetFolderPath(wstring& folder);
+		void _logBuildNumberForOffice2016();
 		
 		IRunner* m_runner;
 		IRegistry* m_registry;
@@ -106,12 +111,12 @@ private:
 		bool m_dialectalVariant;
 		MSOfficeVersion m_MSVersion;
 		wstring m_msiexecLog;
-		bool m_Office2016LangAccesoryPack;
 
 		wchar_t m_szFullFilename[MAX_PATH];
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
 		wchar_t m_szTempPath2003[MAX_PATH];
+		int m_nTimerID;
 };
 
 

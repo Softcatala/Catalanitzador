@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014-2016 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2014-2018 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +25,14 @@
 #include "LogExtractor.h"
 
 #include <algorithm>
+
+
+#include <map>
+using namespace std;
+
+#define TIMER_ID 2016
+ 
+static map <int, MSOffice*> s_timersIDsToObjs;
 
 #define CATALAN_LCID L"1027" // 0x403
 #define VALENCIAN_LCID L"2051" // 0x803
@@ -67,6 +75,7 @@ MSOffice::RegKeyVersion MSOffice::RegKeys2016 =
 	false
 };
 
+
 MSOffice::MSOffice(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32I18N, IRunner* runner, MSOfficeVersion version)
 {
 	m_registry = registry;
@@ -81,7 +90,7 @@ MSOffice::MSOffice(IOSVersion* OSVersion, IRegistry* registry, IWin32I18N* win32
 	m_szTempPath2003[0] = NULL;
 	m_szFilename[0] = NULL;	
 	GetTempPath(MAX_PATH, m_szTempPath);
-	m_Office2016LangAccesoryPack = false;
+	m_nTimerID = 0;
 }
 
 MSOffice::~MSOffice()
@@ -97,6 +106,7 @@ MSOffice::~MSOffice()
 	}
 
 	_removeOffice2003TempFiles();
+	_stopTimer();
 }
 
 const wchar_t* MSOffice::GetVersion()
@@ -150,30 +160,56 @@ void MSOffice::_removeOffice2003TempFiles()
 	RemoveDirectory(m_szTempPath2003);
 }
 
-bool MSOffice::_isOffice2016LangAccesoryPackInstalled()
+bool MSOffice::_isOffice2016LangAccessoryPackInstalled()
 {
 	if (m_MSVersion != MSOffice2016_64 && m_MSVersion != MSOffice2016)
 	{
 		return false;
 	}
-
-	bool bFound = false;
-	wstring langs;
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, OFFICE2016_LAPKEY, false))
-	{
-		wchar_t szValue[1024];
-		if (m_registry->GetString(L"UISnapshotLanguages", szValue, sizeof (szValue)))
-		{
-			langs = szValue;
-			std::transform(langs.begin(), langs.end(), langs.begin(), ::tolower);
-			bFound = langs.find(L"ca-es") != string::npos;
-		}
-		m_registry->Close();
-	}
-
-	g_log.Log(L"MSOffice::_isOffice2016LangAccesoryPackInstalled. Languages %s, found: %u", (wchar_t *) langs.c_str(), (wchar_t *) bFound);
+	
+	wstring location;
+	_getSHGetFolderPath(location);
+	location += L"\\Microsoft Office\\root\\Office16\\1027\\WWINTL.DLL";
+	
+	bool bFound = GetFileAttributes(location.c_str()) != INVALID_FILE_ATTRIBUTES;
+	g_log.Log(L"MSOffice::_isOffice2016LangAccessoryPackInstalled. Found: %u", (wchar_t *) bFound);
 	return bFound;
 }
+
+void MSOffice::_getSHGetFolderPath(wstring& folder)
+{
+	wchar_t szProgFolder[MAX_PATH];
+	if (m_MSVersion == MSOffice2016_64)
+	{
+		// Due to WOW all calls always report the "Program Files (x86)" path. Need to look to this environment variable
+		ExpandEnvironmentStrings(L"%ProgramW6432%", szProgFolder, ARRAYSIZE(szProgFolder));
+	}
+	else
+	{
+		SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES|CSIDL_FLAG_CREATE,  NULL, 0, szProgFolder);
+	}
+	folder = szProgFolder;
+}
+
+void MSOffice::_logBuildNumberForOffice2016()
+{
+	if (m_MSVersion != MSOffice2016_64 && m_MSVersion != MSOffice2016)
+	{
+		return;
+	}
+
+	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\Roaming", false))
+	{
+		wstring value;
+		wchar_t szValue[2048] = L"";
+		if (m_registry->GetString(L"BuildProvisioned", szValue, sizeof(szValue)))
+		{
+			value = szValue;
+			g_log.Log(L"MSOffice::_logBuildNumberForOffice2016: %s", (wchar_t* )szValue);
+		}
+	}
+}
+
 
 bool MSOffice::IsLangPackInstalled()
 {	
@@ -181,9 +217,10 @@ bool MSOffice::IsLangPackInstalled()
 	RegKeyVersion regkeys = _getRegKeys();
 	bool b64bits = (m_MSVersion == MSOffice2010_64 || m_MSVersion == MSOffice2013_64 || m_MSVersion == MSOffice2016_64);
 
-	if (_isOffice2016LangAccesoryPackInstalled())
-	{
-		m_Office2016LangAccesoryPack = true;
+	if (_isOffice2016LangAccessoryPackInstalled())
+	{		
+		g_log.Log(L"MSOffice::IsLangPackInstalled(Accessory) (%s) 64 bits %u, installed 1", (wchar_t *) GetVersion(),
+			(wchar_t*) b64bits);
 		return true;
 	}
 
@@ -241,7 +278,7 @@ bool MSOffice::IsLangPackInstalled()
 
 #define UNDEFINED_LCID -1
 
-void MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
+void MSOffice::_readDefaultLanguageForOffice2016LangAccessoryPack(bool& isCatalanSetAsDefaultLanguage, bool& followSystemUIOff)
 {
 	isCatalanSetAsDefaultLanguage = false;
 	followSystemUIOff = false;
@@ -255,7 +292,7 @@ void MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack(bool& isCatalan
 			value = szValue;
 			std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 			isCatalanSetAsDefaultLanguage = (value.compare(L"ca-es") == 0 || value.compare(L"ca-es-valencia") == 0);
-			g_log.Log(L"MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack. UILanguageTag: %s, default %u", (wchar_t* )szValue, (wchar_t* )isCatalanSetAsDefaultLanguage);
+			g_log.Log(L"MSOffice::_readDefaultLanguageForOffice2016LangAccessoryPack. UILanguageTag: %s, default %u", (wchar_t* )szValue, (wchar_t* )isCatalanSetAsDefaultLanguage);
 		}
 
 		// If FollowSystemUI is true Office uses Windows's language pack language to decide which language to use
@@ -269,7 +306,7 @@ void MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack(bool& isCatalan
 		}
 		m_registry->Close();
 	}
-	g_log.Log(L"MSOffice::_readDefaultLanguageForOffice2016LangAccesoryPack. isCatalanSetAsDefaultLanguage: %x, FollowSystemUIOff %u",
+	g_log.Log(L"MSOffice::_readDefaultLanguageForOffice2016LangAccessoryPack. isCatalanSetAsDefaultLanguage: %x, FollowSystemUIOff %u",
 		(wchar_t* )isCatalanSetAsDefaultLanguage, (wchar_t* )followSystemUIOff);
 }
 
@@ -313,19 +350,19 @@ void MSOffice::_readDefaultLanguage(bool& isCatalanSetAsDefaultLanguage, bool& f
 
 bool MSOffice::IsDefaultLanguage()
 {
+	// TODO: No language detection for Office 2016
+	if (m_MSVersion == MSOffice2016_64 || m_MSVersion == MSOffice2016)
+	{
+		g_log.Log(L"MSOffice::SetDefaultLanguage. No changes in Office 2016");
+		return true;
+	}
+
 	ConfigureLocaleAction configureLocaleAction((IOSVersion*) NULL, m_registry, (IRunner*)NULL);
 	bool isDefaultLanguage = false;
 	bool isCatalanSetAsDefaultLanguage = false;
 	bool followSystemUIOff = false;
 
-	if (m_Office2016LangAccesoryPack)
-	{
-		_readDefaultLanguageForOffice2016LangAccesoryPack(isCatalanSetAsDefaultLanguage, followSystemUIOff);
-	}
-	else
-	{	
-		_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);
-	}
+	_readDefaultLanguage(isCatalanSetAsDefaultLanguage, followSystemUIOff);	
 	
 	if (followSystemUIOff)
 	{
@@ -344,19 +381,19 @@ bool MSOffice::IsDefaultLanguage()
 
 void MSOffice::SetDefaultLanguage()
 {
-	if (m_Office2016LangAccesoryPack)
+	// TODO: No language setting for Office 2016
+	if (m_MSVersion == MSOffice2016_64 || m_MSVersion == MSOffice2016)
 	{
-		_setDefaultLanguageForOffice2016LangAccesoryPack();
+		g_log.Log(L"MSOffice::SetDefaultLanguage. No changes in Office 2016");
+		return;
 	}
-	else
-	{	
-		_setDefaultLanguage();
-	}
+
+	_setDefaultLanguage();	
 }
 
 // We install the LIP instead of the LAP then if we call this function is the case
 // that the LAP was installed but the language was not selected
-void MSOffice::_setDefaultLanguageForOffice2016LangAccesoryPack()
+void MSOffice::_setDefaultLanguageForOffice2016LangAccessoryPack()
 {
 	BOOL bSetKey = FALSE;
 	
@@ -369,7 +406,7 @@ void MSOffice::_setDefaultLanguageForOffice2016LangAccesoryPack()
 		m_registry->SetDWORD(L"FollowSystemUILanguage", 0);
 		m_registry->Close();
 	}
-	g_log.Log(L"MSOffice::_setDefaultLanguageForOffice2016LangAccesoryPack (%s), set UILanguage %u", (wchar_t*) GetVersion(), (wchar_t *) bSetKey);
+	g_log.Log(L"MSOffice::_setDefaultLanguageForOffice2016LangAccessoryPack (%s), set UILanguage %u", (wchar_t*) GetVersion(), (wchar_t *) bSetKey);
 }
 
 void MSOffice::_setDefaultLanguage()
@@ -493,6 +530,68 @@ bool MSOffice::_extractCabFile(wchar_t * file, wchar_t * path)
 	return true;
 }
 
+void MSOffice::_startTimer()
+{
+	m_nTimerID = SetTimer(NULL, TIMER_ID, 500, _timerProc);
+	s_timersIDsToObjs[m_nTimerID] = this;
+	g_log.Log(L"MSOffice::startTimer");
+}
+
+void MSOffice::_stopTimer()
+{
+	if (m_nTimerID == 0)
+		return;
+
+	KillTimer(NULL, m_nTimerID);
+	s_timersIDsToObjs.erase(m_nTimerID);
+	m_nTimerID = 0;
+	g_log.Log(L"MSOffice::stopTimer");
+}
+
+VOID CALLBACK MSOffice::_timerProc(HWND hWndTimer, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+	HWND hWnd;
+	map<int, MSOffice*>::iterator it;
+	MSOffice* obj;
+
+	it = s_timersIDsToObjs.find(idEvent);
+
+	if (it == s_timersIDsToObjs.end())
+		return;
+
+	obj = it->second;
+
+	// Splash screen
+	hWnd = FindWindowEx(NULL, NULL, L"Click2RunSplashScreen", NULL);
+
+	while (hWnd)
+	{
+		wchar_t szText[2048];
+
+		GetWindowText(hWnd, szText, sizeof(szText));
+		// Once we send the first HIDE we could stop here, by doing  obj->Stop(), however it is necessary continuing sending HIDE in Adobe case
+		ShowWindow(hWnd, SW_HIDE);
+
+		hWnd = FindWindowEx(NULL, hWnd, L"Click2RunSplashScreen", NULL);
+	}	
+
+	// installer screen
+	hWnd = FindWindowEx(NULL, NULL, L"Click2RunSetupUIClass", NULL);
+
+	while (hWnd)
+	{
+		wchar_t szText[2048];
+
+		GetWindowText(hWnd, szText, sizeof(szText));
+		// Once we send the first HIDE we could stop here, by doing  obj->Stop(), however it is necessary continuing sending HIDE in Adobe case
+		ShowWindow(hWnd, SW_HIDE);
+
+		hWnd = FindWindowEx(NULL, hWnd, L"Click2RunSetupUIClass", NULL);
+	}
+}
+
+
+
 void MSOffice::Execute()
 {
 	wchar_t szParams[MAX_PATH] = L"";
@@ -502,6 +601,9 @@ void MSOffice::Execute()
 	{
 		case MSOffice2016_64:
 		case MSOffice2016:
+			wcscpy_s(szApp, m_szFullFilename);
+			_startTimer();
+			break;
 		case MSOffice2013_64:
 		case MSOffice2013:
 		case MSOffice2010_64:
@@ -563,7 +665,7 @@ void MSOffice::Execute()
 }
 
 void MSOffice::AddDownloads(MultipleDownloads& multipleDownloads)
-{	
+{
 	ConfigurationFileActionDownload downloadVersion;
 
 	downloadVersion = ConfigurationInstance::Get().GetRemote().GetDownloadForActionID(_getID(),
@@ -611,7 +713,7 @@ bool MSOffice::IsNeed()
 }
 
 void MSOffice::Complete()
-{	
+{
 	if (IsLangPackInstalled())
 	{
 		SetDefaultLanguage();
@@ -647,4 +749,5 @@ void MSOffice::CheckPrerequirements(Action * action)
 
 	SetStatus(status);
 	g_log.Log(L"MSOffice::CheckPrerequirements. (%s) status '%u'", (wchar_t *)GetVersion(), (wchar_t *) GetStatus());
+	_logBuildNumberForOffice2016();
 }

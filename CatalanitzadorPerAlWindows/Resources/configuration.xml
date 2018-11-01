@@ -231,19 +231,19 @@
 	 		
 	 		<download>
 	  			<version>2016_ca_64</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&wid=7285&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe]]></url_1>
-	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_64bit.exe</url_3>
-				<filename>languageinterfacepack_ca-es_64bit.exe</filename>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&wid=7285&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x64.ca-es_.exe]]></url_1>
+	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x64.ca-es_.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x64.ca-es_.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x64.ca-es_.exe</url_3>
+				<filename>setuplanguagepack.x64.ca-es_.exe</filename>
 	  		</download>
 	 		<download>
 	  			<version>2016_ca_32</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&wid=7285&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe]]></url_1>
-	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe</url_2>
-				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/languageinterfacepack_ca-es_32bit.exe</url_3>
-				<filename>languageinterfacepack_ca-es_32bit.exe</filename>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?id=7351&wid=7285&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x86.ca-es_.exe]]></url_1>
+	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x86.ca-es_.exe.sha1</sha1_url_1>
+	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x86.ca-es_.exe</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/office2016/setuplanguagepack.x86.ca-es_.exe</url_3>
+				<filename>setuplanguagepack.x86.ca-es_.exe</filename>
 	  		</download>
 	 		
 	 		<download>
