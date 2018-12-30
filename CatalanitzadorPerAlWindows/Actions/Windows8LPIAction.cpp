@@ -87,12 +87,13 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 	return (wchar_t*) m_packageDownloadId.c_str();
 }
 
-
+//See: https://en.wikipedia.org/wiki/Windows_10_version_history
 #define BUILD_10586 10586 //Windows 10's November 2015 upgrade, build 10586
 #define BUILD_14393 14393 //Windows 10's August 2016, aniversary edition
 #define BUILD_15063 15063 //Windows 10's April 2017, creator's edition
 #define BUILD_16299 16299 //Windows 10's October 2017, creator's fall edition
 #define BUILD_17134 17134 //Windows 10's April 2018, April's update
+#define BUILD_17763 17763 //Windows 10's October 2018, October's update
 
 
 void Windows8LPIAction::_selectLanguagePackageW10()
@@ -190,6 +191,13 @@ void Windows8LPIAction::_selectLanguagePackageW10()
 		m_packageDownloadId = L"Win10_17134";
 		m_packageLanguageCode = CATALAN_LANGPACKCODE;		
 	}
+
+	if (buildNumber == BUILD_17763)
+	{
+		m_packageDownloadId = L"Win10_17763";
+		m_packageLanguageCode = CATALAN_LANGPACKCODE;
+	}
+
 }
 
 void Windows8LPIAction::_selectLanguagePackage()
