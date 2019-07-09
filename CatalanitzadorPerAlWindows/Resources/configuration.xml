@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2018-12-29T03:00:00</date>
+		<date>2019-9-7T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -230,7 +230,16 @@
       				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_17763.3.6.0_neutral__8wekyb3d8bbwe.Appx</url_2>
 				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_17763.3.6.0_neutral__8wekyb3d8bbwe.Appx</url_3>
       				<filename>Microsoft.LanguageExperiencePackca-ES_17763.3.6.0_neutral__8wekyb3d8bbwe.Appx</filename>
-      			</download>      			
+      			</download>
+
+			<download>
+      				<version>Win10_18362</version>
+      				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_18362.5.9.0_neutral__8wekyb3d8bbwe.Appx]]></url_1>
+      				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_18362.5.9.0_neutral__8wekyb3d8bbwe.Appx.sha1</sha1_url_1>
+      				<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_18362.5.9.0_neutral__8wekyb3d8bbwe.Appx</url_2>
+				<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_18362.5.9.0_neutral__8wekyb3d8bbwe.Appx</url_3>
+      				<filename>Microsoft.LanguageExperiencePackca-ES_18362.5.9.0_neutral__8wekyb3d8bbwe.Appx</filename>
+      			</download>
 		</action>
 		
 		<!-- Microsoft Office -->
