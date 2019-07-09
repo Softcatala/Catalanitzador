@@ -11,164 +11,174 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{92531C32-0349-44DA-A029-5B7E429E8BBB}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{A6EB9C02-ED55-4432-95A8-799C0E9BC143}</ProjectGuid>
     <RootNamespace>CatalanitzadorPerAlWindows</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v90</PlatformToolset>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v90</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Application;$(ProjectDir)Resources;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Application;$(ProjectDir)Resources;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)Core\Options;$(ProjectDir)Core\Configuration;$(ProjectDir)UI\Sheets;$(ProjectDir)UI\Sheets\Views;$(ProjectDir)UI\Sheets\Models;$(ProjectDir)UI\;$(ProjectDir)UI\Dialogs;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(SolutionDir)\CommonCode;$(ProjectDir)OS;$(ProjectDir)Applications\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Resources;$(ProjectDir)Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;wininet.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wininet.lib;version.lib;comctl32.lib;psapi.lib;Rpcrt4.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)CatalanitzadorPerAlWindows.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EnableUAC>true</EnableUAC>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(ProjectDir)OS;$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)Core\Options;$(ProjectDir)Core\Configuration;$(ProjectDir)UI\Sheets;$(ProjectDir)UI\Sheets\Views;$(ProjectDir)UI\Sheets\Models;$(ProjectDir)UI\;$(ProjectDir)UI\Dialogs;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(SolutionDir)\CommonCode;$(ProjectDir)Applications\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Actions;$(ProjectDir)Core;$(ProjectDir)UI;$(ProjectDir)Resources;$(ProjectDir)Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;wininet.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wininet.lib;version.lib;comctl32.lib;psapi.lib;Rpcrt4.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)CatalanitzadorPerAlWindows.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EnableUAC>true</EnableUAC>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="Resources\config_locale_winvista.bin" />
-    <None Include="Resources\CatalanitzadorPerAlWindows.ico" />
-    <None Include="Resources\config_locale_winxp.bin" />
-    <None Include="Resources\facebook_32px.bmp" />
-    <None Include="Resources\twitter_32px.bmp" />
-    <None Include="graphics\vertical-logo.bmp" />
-    <None Include="Resources\vertical-logo.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Resources\resource.h" />
-    <ClInclude Include="UI\AboutBoxDlgUI.h" />
-    <ClInclude Include="Actions\Action.h" />
-    <ClInclude Include="Actions\ActionID.h" />
-    <ClInclude Include="Actions\ActionStatus.h" />
-    <ClInclude Include="Actions\Actions.h" />
-    <ClInclude Include="UI\ApplicationSheetUI.h" />
-    <ClInclude Include="UI\ApplicationsPropertyPageUI.h" />
-    <ClInclude Include="Application\CatalanitzadorPerAlWindows.h" />
-    <ClInclude Include="UI\CheckedListView.h" />
-    <ClInclude Include="Actions\ConfigureLocaleAction.h" />
-    <ClInclude Include="UI\FinishPropertyPageUI.h" />
-    <ClInclude Include="Actions\IEAcceptLanguagesAction.h" />
-    <ClInclude Include="Actions\IELPIAction.h" />
-    <ClInclude Include="UI\InstallPropertyPageUI.h" />
-    <ClInclude Include="Core\InternetAccess.h" />
-    <ClInclude Include="Core\LogFile.h" />
-    <ClInclude Include="Actions\MSOfficeAction.h" />
-    <ClInclude Include="Core\OSVersion.h" />
-    <ClInclude Include="Core\ProgressStatus.h" />
-    <ClInclude Include="UI\PropertyPageUI.h" />
-    <ClInclude Include="UI\PropertySheetUI.h" />
-    <ClInclude Include="Core\Registry.h" />
-    <ClInclude Include="Application\RemoteURLs.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="Core\Runner.h" />
-    <ClInclude Include="Core\Serializable.h" />
-    <ClInclude Include="Core\Serializer.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Core\UploadStatistics.h" />
-    <ClInclude Include="Core\Url.h" />
-    <ClInclude Include="Application\Version.h" />
-    <ClInclude Include="UI\WelcomePropertyPageUI.h" />
-    <ClInclude Include="Core\Window.h" />
-    <ClInclude Include="Actions\WindowsLPIAction.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="UI\AboutBoxDlgUI.cpp" />
-    <ClCompile Include="Actions\Action.cpp" />
-    <ClCompile Include="Actions\Actions.cpp" />
-    <ClCompile Include="UI\ApplicationSheetUI.cpp" />
-    <ClCompile Include="UI\ApplicationsPropertyPageUI.cpp" />
-    <ClCompile Include="Application\CatalanitzadorPerAlWindows.cpp" />
-    <ClCompile Include="UI\CheckedListView.cpp" />
-    <ClCompile Include="Actions\ConfigureLocaleAction.cpp" />
-    <ClCompile Include="UI\FinishPropertyPageUI.cpp" />
-    <ClCompile Include="Actions\IEAcceptLanguagesAction.cpp" />
-    <ClCompile Include="Actions\IELPIAction.cpp" />
-    <ClCompile Include="UI\InstallPropertyPageUI.cpp" />
-    <ClCompile Include="Core\InternetAccess.cpp" />
-    <ClCompile Include="Core\LogFile.cpp" />
-    <ClCompile Include="Application\Main.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Actions\MSOfficeAction.cpp" />
-    <ClCompile Include="Core\OSVersion.cpp" />
-    <ClCompile Include="UI\PropertyPageUI.cpp" />
-    <ClCompile Include="UI\PropertySheetUI.cpp" />
-    <ClCompile Include="Core\Registry.cpp" />
-    <ClCompile Include="Core\Runner.cpp" />
-    <ClCompile Include="Core\Serializer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Core\UploadStatistics.cpp" />
-    <ClCompile Include="Core\Url.cpp" />
-    <ClCompile Include="UI\WelcomePropertyPageUI.cpp" />
-    <ClCompile Include="Core\Window.cpp" />
-    <ClCompile Include="Actions\WindowsLPIAction.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Resources\CatalanitzadorPerAlWindows.rc" />
-    <ResourceCompile Include="Resources\Version.rc" />
+    <ClCompile Include="UI\Dialogs\AboutBoxDlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\AppRunningDlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\DlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\DownloadErrorDlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\DownloadNewVersionDlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\ExtraSecTermsDlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\ShowLicensesDlgUI.cpp" />
+    <ClCompile Include="UI\Controls\ActiveX.cpp" />
+    <ClCompile Include="UI\Controls\CheckedListView.cpp" />
+    <ClCompile Include="UI\Sheets\ApplicationSheetUI.cpp" />
+    <ClCompile Include="UI\Sheets\InstallPropertyPageUI.cpp" />
+    <ClCompile Include="UI\Sheets\PropertyPageUI.cpp" />
+    <ClCompile Include="UI\Sheets\PropertySheetUI.cpp" />
+    <ClCompile Include="UI\Sheets\WelcomePropertyPageUI.cpp" />
+    <ClCompile Include="UI\Sheets\Views\ApplicationsPropertyPageUI.cpp" />
+    <ClCompile Include="UI\Sheets\Views\FinishPropertyPageUI.cpp" />
+    <ClCompile Include="Application\CatalanitzadorPerAlWindows.cpp" />
+    <ClCompile Include="Application\Main.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Application\UIInstallation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Resources\CatalanitzadorPerAlWindows.exe.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CatalanitzadorPerAlWindows.ico" />
+    <None Include="Resources\config_locale_winvista.bin" />
+    <None Include="Resources\config_locale_winxp.bin" />
+    <None Include="Resources\facebook_32px.bmp" />
+    <None Include="Resources\twitter_32px.bmp" />
+    <None Include="Resources\vertical-logo.bmp" />
+    <None Include="..\CODING_STANDARDS" />
+    <None Include="..\README" />
+    <None Include="..\RELEASE_PROCESS" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\CatalanitzadorPerAlWindows.rc" />
+    <ResourceCompile Include="Resources\SlideShow.rc" />
+    <ResourceCompile Include="Resources\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resources\resource.h" />
+    <ClInclude Include="UI\Dialogs\AboutBoxDlgUI.h" />
+    <ClInclude Include="UI\Dialogs\AppRunningDlgUI.h" />
+    <ClInclude Include="UI\Dialogs\DlgUI.h" />
+    <ClInclude Include="UI\Dialogs\DownloadErrorDlgUI.h" />
+    <ClInclude Include="UI\Dialogs\DownloadNewVersionDlgUI.h" />
+    <ClInclude Include="UI\Dialogs\ExtraSecTermsDlgUI.h" />
+    <ClInclude Include="UI\Dialogs\ShowLicensesDlgUI.h" />
+    <ClInclude Include="UI\Controls\ActiveX.h" />
+    <ClInclude Include="UI\Controls\CheckedListView.h" />
+    <ClInclude Include="UI\Sheets\ApplicationSheetUI.h" />
+    <ClInclude Include="UI\Sheets\InstallPropertyPageUI.h" />
+    <ClInclude Include="UI\Sheets\PropertyPageUI.h" />
+    <ClInclude Include="UI\Sheets\PropertySheetUI.h" />
+    <ClInclude Include="UI\Sheets\WelcomePropertyPageUI.h" />
+    <ClInclude Include="UI\Sheets\Views\ApplicationsPropertyPageUI.h" />
+    <ClInclude Include="UI\Sheets\Views\FinishPropertyPageUI.h" />
+    <ClInclude Include="UI\Sheets\Views\IApplicationsPropertyPageUI.h" />
+    <ClInclude Include="Application\CatalanitzadorPerAlWindows.h" />
+    <ClInclude Include="..\CommonCode\PlatformDefinitions.h" />
+    <ClInclude Include="..\CommonCode\RemoteURLs.h" />
+    <ClInclude Include="Application\UIInstallation.h" />
+    <ClInclude Include="..\CommonCode\Version.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CatalanitzadorPerAlWindows.Library\CatalanitzadorPerAlWindows.Library.vcxproj">
+      <Project>{20f814ac-9b22-4889-880f-8e4b32530bb7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

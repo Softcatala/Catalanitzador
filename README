@@ -2,18 +2,15 @@
 
 A Microsoft Windows & Mac OS program that makes your system Catalan language friendly by installing language packages and changing configuration settings.
 
-Project: http://www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows
+Project: https://www.softcatala.org/projectes/catalanitzador-de-softcatala/
 
 -- Development
 
 Windows requirements:
 
-- Microsoft Visual Studio 2008 SP1  Express Edition
+- Microsoft Visual Studio 2010 Express Edition
 - Google Test 1.6 (http://code.google.com/p/googletest/)
 - Google Mocks 1.6 (http://code.google.com/p/googlemock/)
-
-Visual Studio 2008 SP 1 is used to generate binaries that can run in Windows SP previous to SP 2.
-See: http://support.microsoft.com/kb/2005279
 
 Download and unzip Google Mocks 1.6 at libs/gmock and Google Test 1.6 at libs/gtest
 

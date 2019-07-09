@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{20F814AC-9B22-4889-880F-8E4B32530BB7}</ProjectGuid>
+    <RootNamespace>CatalanitzadorPerAlWindowsLibrary</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\CommonCode;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls;$(SolutionDir)CatalanitzadorPerAlWindows\UI;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration;$(SolutionDir)CatalanitzadorPerAlWindows\Applications;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications;$(SolutionDir)CatalanitzadorPerAlWindows\Inspectors;$(SolutionDir)libs\jsoncpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)\CommonCode;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options;$(SolutionDir)CatalanitzadorPerAlWindows\Applications;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications;$(SolutionDir)CatalanitzadorPerAlWindows\Inspectors;$(SolutionDir)libs\jsoncpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Authorization.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\DirectoryListing.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\DownloadInet.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\FileVersionInfo.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\FtpDownloadInet.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\HttpDownloadInet.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Inet.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\InternetExplorerVersion.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\OSVersion.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Registry.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Resources.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Runner.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Sha1Sum.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\SystemRestore.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\TempFile.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Thread.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Win32I18N.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Window.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\Wow64.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\x64BitsProcess.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\XmlNode.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\OS\XmlParser.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\ApplicationExecutor.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\ApplicationVersion.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\CommandLine.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\DownloadManager.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Guid.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\HttpFormInet.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\LanguageList.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\LogExtractor.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\LogFile.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\MultipleDownloads.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Serializer.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\SilentInstallation.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\SlideshowThread.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\StringConversion.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\SystemRestoreThread.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\TriBool.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\UploadStatisticsThread.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Url.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationDownloadThread.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationFileActionDownloads.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationInstance.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemote.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteEmbedded.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteXmlParser.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Core\Options\Options.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\Action.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\ActionExecution.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\Actions.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\AdobeReaderAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\CatalanitzadorUpdateAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\ChromeAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\ConfigureDefaultLanguageAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\ConfigureLocaleAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguagesAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\FirefoxAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\FirefoxLangPackAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IEAcceptLanguagesAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IEAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\LangToolFirefoxAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\LangToolLibreOfficeAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\Windows8LPIAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIBaseAction.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\UI\HideApplicationWindow.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationsModel.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\FinishModel.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\WelcomeModel.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Inspectors\Inspector.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Inspectors\Inspectors.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Inspectors\JavaRuntimeInspector.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Inspectors\LibreOfficeInspector.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\ApacheOpenOffice.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\ChromeProfile.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\Firefox.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAcceptLanguages.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAddOn.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxChannel.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxMozillaServer.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxPreferencesFile.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\Java.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\LibreOffice.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\MSOffice.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\MSOfficeFactory.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\OpenOffice.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\OpenOfficeJavaConfiguration.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\OutLookHotmailConnector.cpp" />
+    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.cpp" />
+    <ClCompile Include="..\libs\jsoncpp\jsoncpp.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Authorization.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\DirectoryListing.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\DownloadInet.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\FileVersionInfo.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\FtpDownloadInet.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\HttpDownloadInet.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\IDownloadInet.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\IFileVersionInfo.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Inet.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\InternetExplorerVersion.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\IOSVersion.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\IRegistry.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\IRunner.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\IWin32I18N.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\OSVersion.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Registry.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Resources.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Runner.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Sha1Sum.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\SystemRestore.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\TempFile.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Thread.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Win32I18N.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Window.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\Wow64.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\x64BitsProcess.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\XmlAttribute.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\XmlNode.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\OS\XmlParser.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\ApplicationExecutor.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\ApplicationVersion.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\CommandLine.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Defines.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\DownloadManager.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Guid.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\HttpFormInet.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\IHttpFormInet.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\LanguageList.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\LogExtractor.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\LogFile.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\MultipleDownloads.h" />
+    <ClInclude Include="..\CommonCode\Serializable.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Serializer.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\SilentInstallation.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\SlideshowThread.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\StringConversion.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\SystemRestoreThread.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\TriBool.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\UploadStatisticsThread.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Url.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\Configuration.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationDownloadThread.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationFileActionDownload.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationFileActionDownloads.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationInstance.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemote.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteEmbedded.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Configuration\ConfigurationRemoteXmlParser.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Options\Option.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Options\OptionID.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Core\Options\Options.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\Action.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\ActionExecution.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\ActionGroup.h" />
+    <ClInclude Include="..\CommonCode\ActionID.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\Actions.h" />
+    <ClInclude Include="..\CommonCode\ActionStatus.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\AdobeReaderAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\CatalanitzadorUpdateAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\ChromeAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\ConfigureDefaultLanguageAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\ConfigureLocaleAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\ExecutionProcess.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\FirefoxAcceptLanguagesAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\FirefoxAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\FirefoxLangPackAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IEAcceptLanguagesAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IEAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\LangToolFirefoxAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\LangToolLibreOfficeAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\Windows8LPIAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIBaseAction.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\HideApplicationWindow.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationItem.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationLegendItem.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\ApplicationsModel.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\FinishModel.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\InstallModel.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\Sheets\Models\WelcomeModel.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\UI\Controls\ImageIndex.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Inspectors\Inspector.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Inspectors\InspectorID.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Inspectors\Inspectors.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Inspectors\JavaRuntimeInspector.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Inspectors\LibreOfficeInspector.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\ApacheOpenOffice.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\ChromeProfile.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\Firefox.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAcceptLanguages.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAddOn.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxChannel.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxMozillaServer.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxPreferencesFile.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\IFirefoxChannel.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\IOpenOffice.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\Java.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\LibreOffice.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\MSOffice.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\MSOfficeFactory.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\OpenOffice.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\OpenOfficeJavaConfiguration.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\OutLookHotmailConnector.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

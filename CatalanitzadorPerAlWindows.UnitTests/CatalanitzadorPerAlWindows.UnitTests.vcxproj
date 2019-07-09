@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6C32442F-7862-453E-A69A-DB37ECEC17AB}</ProjectGuid>
+    <RootNamespace>CatalanitzadorPerAlWindowsUnitTests</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\CommonCode;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls;$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Models\;$(SolutionDir)CatalanitzadorPerAlWindows\Applications;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>wininet.lib;version.lib;Rpcrt4.lib;psapi.lib;gtestd.lib;gmock.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)CatalanitzadorPerAlWindows.UnitTests.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(SolutionDir)\libs\gtest\msvc\gtest-md\Debug;$(SolutionDir)\libs\gmock\msvc\2005\Debug;$(SolutionDir)Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copy unit test data for tests</Message>
+      <Command>xcopy /y /s "$(ProjectDir)TestData\*" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\CommonCode;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Views;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Controls;$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\OS;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Support;$(SolutionDir)CatalanitzadorPerAlWindows\UI\Sheets\Models\;$(SolutionDir)CatalanitzadorPerAlWindows\UI;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Configuration;$(SolutionDir)CatalanitzadorPerAlWindows\Core\Options;$(SolutionDir)CatalanitzadorPerAlWindows\Applications;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Applications;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)\libs\gtest\include\;$(SolutionDir)\libs\gmock\include;$(SolutionDir)CatalanitzadorPerAlWindows\Core;$(SolutionDir)CatalanitzadorPerAlWindows\Actions;$(SolutionDir)CatalanitzadorPerAlWindows\Resources;$(SolutionDir)CatalanitzadorPerAlWindows\Application;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Actions;$(SolutionDir)CatalanitzadorPerAlWindows.UnitTests\Mocks;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>wininet.lib;version.lib;Rpcrt4.lib;psapi.lib;gtest.lib;gmock.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)CatalanitzadorPerAlwindows.UnitTests.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(SolutionDir)\libs\gtest\msvc\gtest-md\Release;$(SolutionDir)\libs\gmock\msvc\2005\Release;$(SolutionDir)Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Message>Copy unit test data for tests</Message>
+      <Command>xcopy /y /s $(ProjectDir)TestData\* $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CatalanitzadorPerAlWindows.UnitTests.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Actions\ActionsTest.cpp" />
+    <ClCompile Include="Actions\AdobeReaderActionTest.cpp" />
+    <ClCompile Include="Actions\CatalanitzadorUpdateActionTest.cpp" />
+    <ClCompile Include="Actions\ChromeActionTest.cpp" />
+    <ClCompile Include="Actions\ConfigureDefaultLanguageActionTest.cpp" />
+    <ClCompile Include="Actions\ConfigureLocaleActionTest.cpp" />
+    <ClCompile Include="Actions\FirefoxActionTest.cpp" />
+    <ClCompile Include="Actions\FirefoxLangPackActionTest.cpp" />
+    <ClCompile Include="Actions\IEAcceptLanguagesActionTest.cpp" />
+    <ClCompile Include="Actions\IEActionTest.cpp" />
+    <ClCompile Include="Actions\IELPIActionTest.cpp" />
+    <ClCompile Include="Actions\iTunesActionTest.cpp" />
+    <ClCompile Include="Actions\LangToolLibreOfficeActionTest.cpp" />
+    <ClCompile Include="Actions\MSOfficeLPIActionTest.cpp" />
+    <ClCompile Include="Actions\SkypeActionTest.cpp" />
+    <ClCompile Include="Actions\Windows8LPIActionTest.cpp" />
+    <ClCompile Include="Actions\WindowsLPIActionTest.cpp" />
+    <ClCompile Include="Core\ApplicationVersionTest.cpp" />
+    <ClCompile Include="Core\CommandLineTest.cpp" />
+    <ClCompile Include="Core\DownloadManagerTest.cpp" />
+    <ClCompile Include="Core\GuidTest.cpp" />
+    <ClCompile Include="Core\HttpFormInetTest.cpp" />
+    <ClCompile Include="Core\LanguageListTest.cpp" />
+    <ClCompile Include="Core\LogExtractorTest.cpp" />
+    <ClCompile Include="Core\MultipleDownloadsTest.cpp" />
+    <ClCompile Include="Core\SerializerTest.cpp" />
+    <ClCompile Include="Core\SilentInstallationTest.cpp" />
+    <ClCompile Include="Core\StringConversionTest.cpp" />
+    <ClCompile Include="Core\TriBoolTest.cpp" />
+    <ClCompile Include="Core\UploadStatisticsThreadTest.cpp" />
+    <ClCompile Include="Core\UrlTest.cpp" />
+    <ClCompile Include="Core\Configuration\ConfigurationFileActionDownloadsTest.cpp" />
+    <ClCompile Include="Core\Configuration\ConfigurationFileActionDownloadTest.cpp" />
+    <ClCompile Include="Core\Configuration\ConfigurationRemoteTest.cpp" />
+    <ClCompile Include="Core\Configuration\ConfigurationRemoteXmlParserTest.cpp" />
+    <ClCompile Include="Core\Configuration\ConfigurationTest.cpp" />
+    <ClCompile Include="Core\Options\OptionsTest.cpp" />
+    <ClCompile Include="Core\Options\OptionTest.cpp" />
+    <ClCompile Include="OS\FileVersionInfoTest.cpp" />
+    <ClCompile Include="OS\InternetExplorerVersionTest.cpp" />
+    <ClCompile Include="OS\Sha1SumTest.cpp" />
+    <ClCompile Include="OS\ThreadTest.cpp" />
+    <ClCompile Include="OS\XmlParserTest.cpp" />
+    <ClCompile Include="UI\Sheets\Models\ApplicationsModelTest.cpp" />
+    <ClCompile Include="UI\Sheets\Models\FinishModelTest.cpp" />
+    <ClCompile Include="Applications\ApacheOpenOfficeTest.cpp" />
+    <ClCompile Include="Applications\ChromeProfileTest.cpp" />
+    <ClCompile Include="Applications\FirefoxAcceptLanguagesTest.cpp" />
+    <ClCompile Include="Applications\FirefoxMozillaServerTest.cpp" />
+    <ClCompile Include="Applications\FirefoxTest.cpp" />
+    <ClCompile Include="Applications\JavaTest.cpp" />
+    <ClCompile Include="Applications\LibreOfficeTest.cpp" />
+    <ClCompile Include="Applications\MSOfficeFactoryTest.cpp" />
+    <ClCompile Include="Applications\MSOfficeTest.cpp" />
+    <ClCompile Include="Applications\OpenOfficeJavaConfigurationTest.cpp" />
+    <ClCompile Include="Applications\OpenOfficeTest.cpp" />
+    <ClCompile Include="Applications\OutLookHotmailConnectorTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="..\CatalanitzadorPerAlWindows\Resources\resource.h" />
+    <ClInclude Include="Mocks\ActionExecutionMock.h" />
+    <ClInclude Include="Mocks\ActionMock.h" />
+    <ClInclude Include="Mocks\ChromeProfileMock.h" />
+    <ClInclude Include="Mocks\DownloadInternetMock.h" />
+    <ClInclude Include="Mocks\FileVersionInfoMock.h" />
+    <ClInclude Include="Mocks\FirefoxChannelMock.h" />
+    <ClInclude Include="Mocks\HttpFormInetMock.h" />
+    <ClInclude Include="Mocks\OpenOfficeMock.h" />
+    <ClInclude Include="Mocks\OSVersionMock.h" />
+    <ClInclude Include="Mocks\RegistryMock.h" />
+    <ClInclude Include="Mocks\RunnerMock.h" />
+    <ClInclude Include="Mocks\Win32I18NMock.h" />
+    <ClInclude Include="Support\ActionTest.h" />
+    <ClInclude Include="Support\Application.h" />
+    <ClInclude Include="Applications\FirefoxTest .h" />
+    <ClInclude Include="Applications\OpenOfficeTest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="..\CatalanitzadorPerAlWindows\Resources\CatalanitzadorPerAlWindows.exe.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CatalanitzadorPerAlWindows\Resources\CatalanitzadorPerAlWindows.ico" />
+    <None Include="..\CatalanitzadorPerAlWindows\Resources\config_locale_winvista.bin" />
+    <None Include="..\CatalanitzadorPerAlWindows\Resources\config_locale_winxp.bin" />
+    <None Include="..\CatalanitzadorPerAlWindows\Resources\facebook_32px.bmp" />
+    <None Include="..\CatalanitzadorPerAlWindows\Resources\twitter_32px.bmp" />
+    <None Include="..\CatalanitzadorPerAlWindows\Resources\vertical-logo.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\CatalanitzadorPerAlWindows\Resources\CatalanitzadorPerAlWindows.rc" />
+    <ResourceCompile Include="..\CatalanitzadorPerAlWindows\Resources\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CatalanitzadorPerAlWindows.Library\CatalanitzadorPerAlWindows.Library.vcxproj">
+      <Project>{20f814ac-9b22-4889-880f-8e4b32530bb7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
