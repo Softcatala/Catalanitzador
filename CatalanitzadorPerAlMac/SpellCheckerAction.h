@@ -22,7 +22,7 @@
 
 #import <Cocoa/Cocoa.h>
 #include "Action.h"
-#include <AuthorizationExecute.h>
+#include "AuthorizationExecute.h"
 
 class SpellCheckerAction: public Action
 {
