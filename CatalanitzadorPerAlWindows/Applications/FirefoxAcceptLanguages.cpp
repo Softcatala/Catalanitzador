@@ -48,13 +48,14 @@ bool FirefoxAcceptLanguages::IsNeed()
 {
 	if (ReadLanguageCode())
 	{
+		wstring LOCALES_PREFIX (L"ca-");
 		if (_getLanguages()->size() == 0)
 		{
-			return m_locale != L"ca";
+			return m_locale != L"ca" && m_locale.compare(0, LOCALES_PREFIX.size(), LOCALES_PREFIX) != 0;
 		}
 		else
 		{
-			wstring LOCALES_PREFIX (L"ca-");
+
 			wstring firstlang;
 
 			_getFirstLanguage(firstlang);

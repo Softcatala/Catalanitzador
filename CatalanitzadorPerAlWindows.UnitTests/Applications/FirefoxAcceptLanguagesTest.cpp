@@ -95,6 +95,15 @@ void CreateAcceptLanguage(wstring lang, wstring& accept)
 	accept+= L"\");";
 }
 
+TEST(FirefoxAcceptLanguagesTest, IsNeed_CatalanValencianLocale_EmptyAccept)
+{
+	FirefoxAcceptLanguagesTest acceptLanguages(_getProfileRootDir(), L"ca-valencia");
+	GeneratePrefsJS(wstring());
+
+	EXPECT_FALSE(acceptLanguages.IsNeed());
+}
+
+
 TEST(FirefoxAcceptLanguagesTest, IsNeed_CatalanLocale_EmptyAccept)
 {
 	FirefoxAcceptLanguagesTest acceptLanguages(_getProfileRootDir(), L"ca");
@@ -223,3 +232,4 @@ TEST(FirefoxAcceptLanguagesTest, Execute_SpanishLocale_English)
 	EXPECT_THAT(languages->at(0), StrCaseEq(L"ca"));
 	EXPECT_THAT(languages->at(1), StrCaseEq(L"en"));	
 }
+
