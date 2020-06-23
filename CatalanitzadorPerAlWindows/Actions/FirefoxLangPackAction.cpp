@@ -151,7 +151,7 @@ bool FirefoxLangPackAction::_isLocaleInstalled()
 {
 	bool isInstalled;
 
-	isInstalled = m_locale == L"ca";	
+	isInstalled = m_locale == L"ca" || m_locale == L"ca-valencia";
 	g_log.Log(L"FirefoxLangPackAction::_isLocaleInstalled: %u", (wchar_t*) isInstalled);
 	return isInstalled;
 }

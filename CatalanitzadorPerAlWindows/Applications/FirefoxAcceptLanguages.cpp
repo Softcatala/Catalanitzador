@@ -55,7 +55,6 @@ bool FirefoxAcceptLanguages::IsNeed()
 		}
 		else
 		{
-
 			wstring firstlang;
 
 			_getFirstLanguage(firstlang);
