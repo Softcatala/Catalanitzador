@@ -57,8 +57,14 @@ public:
 
 	
 TEST_F(FirefoxLangPackActionTest, _isLocaleInstalled_True)
-{	
+{
 	CreateFirefoxLangPackAction(L"ca", false)
+	EXPECT_TRUE(firefoxLangPackAction._isLocaleInstalled());
+}
+
+TEST_F(FirefoxLangPackActionTest, _isLocaleInstalledValencia_True)
+{
+	CreateFirefoxLangPackAction(L"ca-valencia", false)
 	EXPECT_TRUE(firefoxLangPackAction._isLocaleInstalled());
 }
 
