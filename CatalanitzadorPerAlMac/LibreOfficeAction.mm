@@ -125,9 +125,8 @@ bool LibreOfficeAction::_download()
 	
 	if (version.size() == 0)
 		return false;
-	
-	// Downloading directly from an https mirror since https://download.documentfoundation.org/ does redirect to an HTTP
-	NSString* url = [NSString stringWithFormat:@"https://mirror.uni-konstanz.de/tdf/libreoffice/stable/%s/mac/x86_64/LibreOffice_%s_MacOS_x86-64_langpack_ca.dmg", version.c_str(),version.c_str()];
+
+	NSString* url = [NSString stringWithFormat:@"https://download.documentfoundation.org/libreoffice/stable/%s/mac/x86_64/LibreOffice_%s_MacOS_x86-64_langpack_ca.dmg", version.c_str(),version.c_str()];
 	
 	NSLog(@"LibreOfficeAction. URL: %@", url);
 
