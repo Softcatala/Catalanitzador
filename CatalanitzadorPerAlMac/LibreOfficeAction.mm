@@ -141,6 +141,7 @@ bool LibreOfficeAction::_download()
 		NSInteger errorCode = [((NSHTTPURLResponse *)response) statusCode];
 		NSLog(@"LibreOfficeAction. Download Status :%d", (int) errorCode);
 		NSLog(@"LibreOfficeAction. Download Error :%@", error);
+		return false;	
 	}
 	
 	// find Documents directory and append your local filename
@@ -191,18 +192,19 @@ void LibreOfficeAction::_deattach()
 
 void LibreOfficeAction::Execute()
 {
-	_download();
-	_attach();
-	_tar();
-	_deattach();
-	
-	NSError* error = nil;
-	[[NSFileManager defaultManager] removeItemAtPath:m_filename error:&error];
-	NSLog(@"LibreOfficeAction. Deleting %@", m_filename);
-	if (error) {
-		NSLog(@"LibreOfficeAction. Error deleting file:%@", error);
+	if (_download())
+	{
+		_attach();
+		_tar();
+		_deattach();
+
+		NSError* error = nil;
+		[[NSFileManager defaultManager] removeItemAtPath:m_filename error:&error];
+		NSLog(@"LibreOfficeAction. Deleting %@", m_filename);
+		if (error) {
+			NSLog(@"LibreOfficeAction. Error deleting file:%@", error);
+		}
 	}
-	
 	SetStatus(_isLanguagePackInstalled() ? Successful : FinishedWithError);
 }
 
