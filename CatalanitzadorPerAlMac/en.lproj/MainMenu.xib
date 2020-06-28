@@ -18,7 +18,7 @@
                 <menuItem title="Catalanitzador per al Mac" id="56">
                     <menu key="submenu" title="Catalanitzador per al Mac" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="En quant el Catalanitzador per al Mac" id="58">
+                            <menuItem title="Quant al Catalanitzador per al Mac" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
@@ -27,7 +27,7 @@
                             <menuItem isSeparatorItem="YES" id="236">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Ocultar Catalanitzador per al Mac" keyEquivalent="h" id="134">
+                            <menuItem title="Ocultar el Catalanitzador per al Mac" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-1" id="367"/>
                                 </connections>
@@ -99,7 +99,7 @@
                     <textField verticalHuggingPriority="750" id="577">
                         <rect key="frame" x="32" y="275" width="653" height="47"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="El Catalanitzador suggerirà els canvis necessaris perquè pugueu treballar en català amb el vostre ordinador. " id="578">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="El Catalanitzador suggerirà els canvis necessaris perquè pugueu treballar en català amb el vostre ordinador." id="578">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
