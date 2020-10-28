@@ -62,8 +62,9 @@ using the file.
 
 ** Mac OS X **
 
-- Go to Xcode, Product->Archive
-- When the 'Organizer - Archives' dialog is shown, select 'Export' and then 'Export Developer ID'
+- Go to Xcode, Product->Archive->Distribute App
+- When the 'Organizer - Archives' dialog is shown, select 'Developer ID' (distribution method) and then 
+'Upload' (to notary service) 
 - Select your digital signature
 - Create a zip file of the output 'zip -r CatalanitzadorPerAlMac.zip CatalanitzadorPerAlMac.app/'
 

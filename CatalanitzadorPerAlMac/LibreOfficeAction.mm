@@ -25,6 +25,7 @@
 NSString* LIBREOFFICE_APP = @"/Applications/LibreOffice.app";
 NSString* LIBREOFFICE_VANILLA_APP = @"/Applications/LibreOffice Vanilla.app";
 NSString* LANGPACK_VOLUME = @"/Volumes/LibreOffice Language Pack/";
+NSString* LANGPACK_VOLUME2 = @"/Volumes/LibreOffice ca Language Pack/";
 
 // References
 //	https://github.com/caskroom/homebrew-cask/blob/master/Casks/libreoffice-language-pack.rb
@@ -45,8 +46,17 @@ const char* LibreOfficeAction::GetVersion()
 	if (m_version.empty())
 	{
 		NSBundle *bundle = [NSBundle bundleWithPath:LIBREOFFICE_APP];
-		NSString *version = [bundle objectForInfoDictionaryKey:@"CFBundleGetInfoString"];
-		m_version = version.UTF8String;
+		if (bundle != nil)
+		{
+			NSString *version;
+			
+			version = [bundle objectForInfoDictionaryKey:@"CFBundleGetInfoString"];
+			if (version == nil)
+				version = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+			
+			if (version != nil)
+				m_version = version.UTF8String;
+		}
 	}
 	return m_version.c_str();
 }
@@ -175,6 +185,20 @@ void LibreOfficeAction::_tar()
 {
 	NSString* program = @"/usr/bin/tar";
 	NSString* tarball = [LANGPACK_VOLUME stringByAppendingString:@"LibreOffice Language Pack.app/Contents/tarball.tar.bz2"];
+	
+	bool exists = [[NSFileManager defaultManager] fileExistsAtPath:tarball];
+	
+	if (exists == true)
+	{
+		m_volume = LANGPACK_VOLUME;
+	}
+	else
+	{
+		tarball = [LANGPACK_VOLUME2 stringByAppendingString:@"LibreOffice Language Pack.app/Contents/tarball.tar.bz2"];
+		m_volume = LANGPACK_VOLUME2;
+	}
+	
+	
 	NSArray* arguments = [NSArray arrayWithObjects: @"-xjf", tarball, @"-C", @"/Applications/LibreOffice.app", nil];
 	
 	_executeProgram(program, arguments);
@@ -184,7 +208,7 @@ void LibreOfficeAction::_tar()
 void LibreOfficeAction::_deattach()
 {
 	NSString* program = @"/usr/bin/hdiutil";
-	NSArray* arguments = [NSArray arrayWithObjects: @"detach", LANGPACK_VOLUME, nil];
+	NSArray* arguments = [NSArray arrayWithObjects: @"detach", m_volume, nil];
 	_executeProgram(program, arguments);
 	NSLog(@"LibreOfficeAction hdiutil detach executed");
 }
