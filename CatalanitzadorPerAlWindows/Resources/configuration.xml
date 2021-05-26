@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2020-11-10T03:00:00</date>
+		<date>2021-05-26T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -259,6 +259,12 @@
 				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-es_17132.1.1.0_neutral__8wekyb3d8bbwe.Appx]]></url_1>
 				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-es_17132.1.1.0_neutral__8wekyb3d8bbwe.Appx.sha1</sha1_url_1>
 				<filename>Microsoft.LanguageExperiencePackca-ES_19041.1.5.0_neutral__8wekyb3d8bbwe.Appx</filename>
+			</download>
+			<download>
+				<version>Win10_19043</version>
+				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_19041.13.42.0_neutral__8wekyb3d8bbwe.Appx]]></url_1>
+				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_19041.13.42.0_neutral__8wekyb3d8bbwe.Appx.sha1</sha1_url_1>
+				<filename>Microsoft.LanguageExperiencePackca-ES_19041.13.42.0_neutral__8wekyb3d8bbwe.Appx</filename>
 			</download>
 		</action>
 		

@@ -98,6 +98,7 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 #define BUILD_18363 18363 //Windows 10's March 2020 update
 #define BUILD_19041 19041 //Windows 10's May 2020 update
 #define BUILD_19042 19042 //Windows 10's October 2020 update
+#define BUILD_19043 19043 //Windows 10's October 2020 update
 
 void Windows8LPIAction::_selectLanguagePackageW10()
 {
@@ -222,6 +223,12 @@ void Windows8LPIAction::_selectLanguagePackageW10()
 	if (buildNumber == BUILD_19042)
 	{
 		m_packageDownloadId = L"Win10_19042";
+		m_packageLanguageCode = CATALAN_LANGPACKCODE;
+	}
+	
+	if (buildNumber == BUILD_19043)
+	{
+		m_packageDownloadId = L"Win10_19043";
 		m_packageLanguageCode = CATALAN_LANGPACKCODE;
 	}
 }
