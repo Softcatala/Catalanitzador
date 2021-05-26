@@ -551,11 +551,9 @@
 	 		<download>
 	  			<min_version>51.0.0</min_version>
 	  			<max_version>99.99.99</max_version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/grammatik_und_rechtschreibprufung_languagetool-3.1.1-fx.xpi&id=7378&wid=6597&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
-	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/grammatik_und_rechtschreibprufung_languagetool-3.1.1-fx.xpi.sha1</sha1_url_1>
-	  			<url_2>ftp://ftp.udl.es/pub/softcatala/catalanitzador/LanguageTool/grammatik_und_rechtschreibprufung_languagetool-3.1.1-fx.xpi</url_2>
-	  			<url_3>ftp://ftp.urv.es/pub/softcatala/catalanitzador/LanguageTool/grammatik_und_rechtschreibprufung_languagetool-3.1.1-fx.xpi</url_3>
-				<filename>grammatik_und_rechtschreibprufung_languagetool-3.1.1-fx.xpi</filename>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/grammatik_und_rechtschreibprufung_languagetool-4.0.1-fx.xpi&id=7378&wid=6597&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/grammatik_und_rechtschreibprufung_languagetool-4.0.1-fx.xpi.sha1</sha1_url_1>
+				<filename>grammatik_und_rechtschreibprufung_languagetool-4.0.1-fx.xpi</filename>
 	  		</download>	  		
 		</action>
 	</actions>
