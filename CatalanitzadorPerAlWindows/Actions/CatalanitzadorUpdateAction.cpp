@@ -82,7 +82,16 @@ void CatalanitzadorUpdateAction::Execute()
 		application += PARAMETER_NOCHECK;
 		application += GetVersion();
 	}
-	g_log.Log(L"CatalanitzadorUpdateAction::Execute '%s'", (wchar_t *)application.c_str());
+	else
+	{
+		if (m_commandline.empty() == false)
+		{
+			application += L" ";
+			application += m_commandline;
+		}
+	}
+
+	g_log.Log(L"CatalanitzadorUpdateAction::Execute ei '%s'", (wchar_t *)application.c_str());
 	m_runner->Execute(NULL, (wchar_t *)application.c_str(), false);
 }
 

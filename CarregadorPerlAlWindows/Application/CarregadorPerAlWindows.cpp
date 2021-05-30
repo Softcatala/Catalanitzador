@@ -73,6 +73,7 @@ int CarregadorPerAlWindows::Run(wstring commandLine)
 	Actions actions(&downloadManager);
 	CatalanitzadorUpdateAction* catalanitzadorAction = (CatalanitzadorUpdateAction *)actions.GetActionFromID(CatalanitzadorUpdateActionID);	
 	catalanitzadorAction->SetNoRunningCheck();
+	catalanitzadorAction->SetCommandLine(commandLine);
 	_updateCatalanitzadorAction(catalanitzadorAction);
 	return TRUE;
 }

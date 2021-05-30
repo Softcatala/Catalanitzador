@@ -40,6 +40,7 @@ public:
 		virtual void SetNoRunningCheck() {m_noRunningCheck = true; }
 
 		void SetVersion(wstring version) {m_version = version;}
+		void SetCommandLine(wstring commandline) {m_commandline = commandline;}
 		
 private:
 
@@ -48,6 +49,7 @@ private:
 		IRunner* m_runner;
 		wstring m_filename;
 		wstring m_version;
+		wstring m_commandline;
 		bool m_noRunningCheck;
 };
 
