@@ -37,6 +37,7 @@ public:
 		virtual const wchar_t* GetVersion();
 		virtual void CheckPrerequirements(Action * action);
 		virtual bool IsVisible() {return false; }
+		virtual void SetNoRunningCheck() {m_noRunningCheck = true; }
 
 		void SetVersion(wstring version) {m_version = version;}
 		
@@ -47,5 +48,6 @@ private:
 		IRunner* m_runner;
 		wstring m_filename;
 		wstring m_version;
+		bool m_noRunningCheck;
 };
 

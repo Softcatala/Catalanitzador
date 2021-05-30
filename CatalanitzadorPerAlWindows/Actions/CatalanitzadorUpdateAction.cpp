@@ -26,6 +26,7 @@ CatalanitzadorUpdateAction::CatalanitzadorUpdateAction(IRunner* runner, Download
 	m_runner = runner;
 	wcscpy_s(szName, L"Catalanitzador");
 	szDescription[0] = NULL;
+	m_noRunningCheck = false;
 }
 
 wchar_t* CatalanitzadorUpdateAction::GetName()
@@ -75,9 +76,12 @@ void CatalanitzadorUpdateAction::Execute()
 {
 	wstring application(m_filename);
 
-	application += L" ";
-	application += PARAMETER_NOCHECK;
-	application += GetVersion();
+	if (m_noRunningCheck == false)
+	{
+		application += L" ";
+		application += PARAMETER_NOCHECK;
+		application += GetVersion();
+	}
 	g_log.Log(L"CatalanitzadorUpdateAction::Execute '%s'", (wchar_t *)application.c_str());
 	m_runner->Execute(NULL, (wchar_t *)application.c_str(), false);
 }

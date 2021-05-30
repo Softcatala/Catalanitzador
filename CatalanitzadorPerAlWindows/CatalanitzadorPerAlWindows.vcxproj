@@ -61,7 +61,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>wininet.lib;version.lib;comctl32.lib;psapi.lib;Rpcrt4.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)CatalanitzadorPerAlWindows.exe</OutputFile>
+      <OutputFile>$(OutDir)Catalanitzador.exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>true</EnableUAC>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
@@ -87,7 +87,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>wininet.lib;version.lib;comctl32.lib;psapi.lib;Rpcrt4.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)CatalanitzadorPerAlWindows.exe</OutputFile>
+      <OutputFile>$(OutDir)Catalanitzador.exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EnableUAC>true</EnableUAC>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
