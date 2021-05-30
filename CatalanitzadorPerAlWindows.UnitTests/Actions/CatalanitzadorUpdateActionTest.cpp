@@ -83,6 +83,20 @@ TEST_F(CatalanitzadorUpdateActionTest, Execute)
 	catalanitzadorAction.Execute();
 }
 
+
+TEST_F(CatalanitzadorUpdateActionTest, ExecuteWithParameters)
+{
+	CreateCatalanitzadorUpdate;
+
+	catalanitzadorAction.SetCommandLine(L"/help");
+	catalanitzadorAction.SetNoRunningCheck();
+
+	EXPECT_CALL(runnerMock, Execute(_, HasSubstr(L"/help"), false)).
+		Times(1).WillRepeatedly(Return(true));
+
+	catalanitzadorAction.Execute();
+}
+
 TEST_F(CatalanitzadorUpdateActionTest, CheckPrerequirements_AlreadyApplied)
 {
 	const wchar_t* VERSION_REQ = L"1.2.3";
