@@ -86,7 +86,7 @@ void ApplicationExecutor::_systemRestoreEnds()
 
 #define SLEEP_TIME 50 // miliseconds
 #define TIME_TO_READ_COUNTER 10 * 1000 / SLEEP_TIME // 10 seconds
-#define MAX_WAIT_TIME 30 * 60 // 30 minutes
+#define MAX_WAIT_TIME 20 * 60 // 20 minutes
 
 void ApplicationExecutor::_waitExecutionComplete(Action* action)
 {
