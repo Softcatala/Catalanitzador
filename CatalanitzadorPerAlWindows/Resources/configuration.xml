@@ -5,7 +5,7 @@
 		<!-- Minimum Catalanitzador's version required to process this file --> 
 		<version>1.0.0</version>
 		<!-- Last time that the file was edited -->
-		<date>2021-05-26T03:00:00</date>
+		<date>2021-12-02T03:00:00</date>
 	</compatibility>
 	<actions>
 		<!-- Catalanitzador's latest version -->
@@ -265,6 +265,12 @@
 				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_19041.13.42.0_neutral__8wekyb3d8bbwe.Appx]]></url_1>
 				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows10/Microsoft.LanguageExperiencePackca-ES_19041.13.42.0_neutral__8wekyb3d8bbwe.Appx.sha1</sha1_url_1>
 				<filename>Microsoft.LanguageExperiencePackca-ES_19041.13.42.0_neutral__8wekyb3d8bbwe.Appx</filename>
+			</download>
+			<download>
+				<version>Win11_22000</version>
+				<url_1><![CDATA[https://baixades.softcatala.org/?id=7350&wid=7312&mirall=catalanitzador&versio=1.0&so=win32&url=https://www.softcatala.org/pub/softcatala/catalanitzador/Windows11/Microsoft.LanguageExperiencePackca-ES_22000.Appx]]></url_1>
+				<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/Windows11/Microsoft.LanguageExperiencePackca-ES_22000.Appx.sha1</sha1_url_1>
+				<filename>Microsoft.LanguageExperiencePackca-ES_22000.Appx</filename>
 			</download>
 		</action>
 		
