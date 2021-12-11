@@ -191,25 +191,6 @@ void MSOffice::_getSHGetFolderPath(wstring& folder)
 	folder = szProgFolder;
 }
 
-void MSOffice::_logBuildNumberForOffice2016()
-{
-	if (m_MSVersion != MSOffice2016_64 && m_MSVersion != MSOffice2016)
-	{
-		return;
-	}
-
-	if (m_registry->OpenKey(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Office\\16.0\\Common\\Roaming", false))
-	{
-		wstring value;
-		wchar_t szValue[2048] = L"";
-		if (m_registry->GetString(L"BuildProvisioned", szValue, sizeof(szValue)))
-		{
-			value = szValue;
-			g_log.Log(L"MSOffice::_logBuildNumberForOffice2016: %s", (wchar_t* )szValue);
-		}
-	}
-}
-
 
 bool MSOffice::IsLangPackInstalled()
 {	
@@ -749,5 +730,4 @@ void MSOffice::CheckPrerequirements(Action * action)
 
 	SetStatus(status);
 	g_log.Log(L"MSOffice::CheckPrerequirements. (%s) status '%u'", (wchar_t *)GetVersion(), (wchar_t *) GetStatus());
-	_logBuildNumberForOffice2016();
 }

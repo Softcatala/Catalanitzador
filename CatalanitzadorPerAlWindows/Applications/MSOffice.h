@@ -102,7 +102,6 @@ private:
 		void _startTimer();
 		void _stopTimer();
 		void _getSHGetFolderPath(wstring& folder);
-		void _logBuildNumberForOffice2016();
 		
 		IRunner* m_runner;
 		IRegistry* m_registry;
