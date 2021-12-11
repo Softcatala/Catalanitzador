@@ -533,9 +533,9 @@
 	 		<id>18</id>
 	 		<download>
 	  			<version>LanguageTool</version>
-	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-5.3.oxt&id=7379&wid=6600&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
-	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-5.3.oxt.sha1</sha1_url_1>
-				<filename>LanguageTool-5.3.oxt</filename>
+	  			<url_1><![CDATA[https://baixades.softcatala.org/?url=https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-5.5.oxt&id=7379&wid=6600&mirall=catalanitzador&so=win32&versio=1.0]]></url_1>
+	  			<sha1_url_1>https://www.softcatala.org/pub/softcatala/catalanitzador/LanguageTool/LanguageTool-5.5.oxt.sha1</sha1_url_1>
+				<filename>LanguageTool-5.5.oxt</filename>
 	  		</download>
 	  		<download>
 	  			<version>Java</version>
