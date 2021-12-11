@@ -37,7 +37,6 @@
 #include "iTunesAction.h"
 #include "SkypeAction.h"
 #include "LangToolLibreOfficeAction.h"
-#include "LangToolFirefoxAction.h"
 #include "LibreOffice.h"
 #include "ApacheOpenOffice.h"
 
@@ -164,9 +163,6 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 
 	m_actions.push_back(new ChromeAction( _getNewRegistry(), _getNewOSVersion()));
 	m_actions.push_back(new FirefoxAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-
-	//Starting Firefox 73 installing sideloaded extensions is no longer possible
-	//m_actions.push_back(new LangToolFirefoxAction(_getNewRegistry(), _getNewRunner(), m_pDownloadManager));
 
 	IRegistry* langToolLibreOfficeRegistry = _getNewRegistry();
 	IOSVersion* osVersion = _getNewOSVersion();

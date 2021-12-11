@@ -135,7 +135,6 @@
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IEAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.cpp" />
-    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\LangToolFirefoxAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\LangToolLibreOfficeAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.cpp" />
@@ -154,7 +153,6 @@
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\ChromeProfile.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\Firefox.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAcceptLanguages.cpp" />
-    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAddOn.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxChannel.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxMozillaServer.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxPreferencesFile.cpp" />
@@ -256,7 +254,6 @@
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IEAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.h" />
-    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\LangToolFirefoxAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\LangToolLibreOfficeAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.h" />
@@ -280,7 +277,6 @@
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\ChromeProfile.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\Firefox.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAcceptLanguages.h" />
-    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxAddOn.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxChannel.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxMozillaServer.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\FirefoxPreferencesFile.h" />
