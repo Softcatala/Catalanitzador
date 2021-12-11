@@ -119,10 +119,8 @@
     <ClCompile Include="Actions\IEAcceptLanguagesActionTest.cpp" />
     <ClCompile Include="Actions\IEActionTest.cpp" />
     <ClCompile Include="Actions\IELPIActionTest.cpp" />
-    <ClCompile Include="Actions\iTunesActionTest.cpp" />
     <ClCompile Include="Actions\LangToolLibreOfficeActionTest.cpp" />
     <ClCompile Include="Actions\MSOfficeLPIActionTest.cpp" />
-    <ClCompile Include="Actions\SkypeActionTest.cpp" />
     <ClCompile Include="Actions\Windows8LPIActionTest.cpp" />
     <ClCompile Include="Actions\WindowsLPIActionTest.cpp" />
     <ClCompile Include="Core\ApplicationVersionTest.cpp" />

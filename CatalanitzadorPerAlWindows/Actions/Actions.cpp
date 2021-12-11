@@ -34,8 +34,6 @@
 #include "AdobeReaderAction.h"
 #include "FileVersionInfo.h"
 #include "CatalanitzadorUpdateAction.h"
-#include "iTunesAction.h"
-#include "SkypeAction.h"
 #include "LangToolLibreOfficeAction.h"
 #include "LibreOffice.h"
 #include "ApacheOpenOffice.h"
@@ -171,9 +169,7 @@ void Actions::_buildListOfActions(IOSVersion* pOSversion)
 		_getLibreOffice(osVersion, langToolLibreOfficeRegistry), _getApacheOpenOffice(langToolLibreOfficeRegistry), m_pDownloadManager));
 
 	m_actions.push_back(new AdobeReaderAction( _getNewRegistry(), _getNewRunner(), m_pDownloadManager));
-	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));	
-	m_actions.push_back(new iTunesAction(_getNewRegistry(), _getFileVersionInfo(), _getNewOSVersion()));
-	m_actions.push_back(new SkypeAction(_getNewRegistry(), _getFileVersionInfo()));
+	m_actions.push_back(new CatalanitzadorUpdateAction(_getNewRunner(), m_pDownloadManager));
 }
 
 Action * Actions::GetActionFromID(ActionID actionID)

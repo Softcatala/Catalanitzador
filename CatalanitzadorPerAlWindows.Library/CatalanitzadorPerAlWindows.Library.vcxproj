@@ -134,10 +134,8 @@
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IEAcceptLanguagesAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IEAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.cpp" />
-    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\LangToolLibreOfficeAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.cpp" />
-    <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\Windows8LPIAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIBaseAction.cpp" />
@@ -163,7 +161,6 @@
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\OpenOffice.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\OpenOfficeJavaConfiguration.cpp" />
     <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\OutLookHotmailConnector.cpp" />
-    <ClCompile Include="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.cpp" />
     <ClCompile Include="..\libs\jsoncpp\jsoncpp.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
@@ -253,10 +250,8 @@
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IEAcceptLanguagesAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IEAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\IELPIAction.h" />
-    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\iTunesAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\LangToolLibreOfficeAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\MSOfficeLPIAction.h" />
-    <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\SkypeAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\Windows8LPIAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIAction.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Actions\WindowsLPIBaseAction.h" />
@@ -289,7 +284,6 @@
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\OpenOffice.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\OpenOfficeJavaConfiguration.h" />
     <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\OutLookHotmailConnector.h" />
-    <ClInclude Include="..\CatalanitzadorPerAlWindows\Applications\SkypeProfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
