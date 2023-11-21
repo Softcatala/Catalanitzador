@@ -435,7 +435,7 @@
 				);
 				"INFOPLIST_PREFIX_HEADER[sdk=*]" = CommonCode/Version.h;
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
@@ -488,7 +488,7 @@
 				);
 				"INFOPLIST_PREFIX_HEADER[sdk=*]" = CommonCode/Version.h;
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
@@ -507,7 +507,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Prefix.pch";
 				INFOPLIST_FILE = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "softcatala.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -529,7 +529,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Prefix.pch";
 				INFOPLIST_FILE = "CatalanitzadorPerAlMac/CatalanitzadorPerAlMac-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "softcatala.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
