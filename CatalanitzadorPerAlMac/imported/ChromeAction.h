@@ -52,6 +52,7 @@ protected:
 	
 	bool _isInstalled();
 	bool _readLanguageCode(string& langcode);
+	bool _getActiveProfileFullPath(string& path);
 	
 private:
 	

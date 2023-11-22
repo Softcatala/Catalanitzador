@@ -61,17 +61,45 @@ bool ChromeAction::IsApplicationRunning()
 
 #define LANGUAGECODE "ca"
 
+bool ChromeAction::_getActiveProfileFullPath(string& path)
+{
+	string path_t, local_state;
+	_readInstallLocation(path_t);
+	local_state = path_t + "/Local State";
+
+	Json::Value root;
+	std::ifstream in(local_state.c_str());
+	Json::Reader reader;
+	bool rslt;
+
+	if (in.fail())
+	{
+		NSLog(@"ChromeAction::_getActiveProfilePath. Cannot open for reading %s", path.c_str());
+		return false;
+	}
+	rslt = reader.parse(in, root);
+	in.close();
+	
+	if (rslt == false)
+	{
+		NSLog(@"ChromeAction::_getActiveProfilePath. Cannot parse %s", path.c_str());
+		return false;
+	}
+		
+	string pre_dir;
+	_readInstallLocation(pre_dir);
+	string subdir = root["profile"]["last_used"].asString();
+	path = pre_dir + "/" + subdir + "/Preferences";
+	return true;
+}
+
 bool ChromeAction::_readLanguageCode(string& langcode)
 {
 	bool ret = false;
-	string path_t;
-	_readInstallLocation(path_t);
-	
-	if(path_t.empty() == false)
+
+	string path;
+	if(_getActiveProfileFullPath(path))
 	{
-		string path = "/Default/Preferences";
-		path = path_t + path;
-		
 		Json::Value root;
 		std::ifstream in(path.c_str());
 		Json::Reader reader;
@@ -108,10 +136,9 @@ bool ChromeAction::_writeAcceptLanguageCode(string langcode)
 	string acceptLanguages;
 	wstring wLang;
 	bool rslt;
-	
+
 	string path;
-	_readInstallLocation(path);
-	path += "/Default/Preferences";
+	_getActiveProfileFullPath(path);
 	std::ifstream in(path.c_str());
 
 	if (in.fail())
@@ -130,6 +157,7 @@ bool ChromeAction::_writeAcceptLanguageCode(string langcode)
 	}
 	
 	root["intl"]["accept_languages"] = langcode;
+	root["intl"]["selected_languages"] = langcode;
 	
 	std::ofstream out(path.c_str());
 	if (out.fail())
