@@ -47,7 +47,7 @@ void FirefoxAcceptLanguages::_getFirstLanguage(string& regvalue)
 
 bool FirefoxAcceptLanguages::_getProfileLocationFromProfilesIni(string file, string &profileLocation)
 {
-	string PATHKEY = "Path=";
+	string PATHKEY = "Default=";
 	fstream reader;
 	string line;
 	unsigned long pos = 0;
@@ -63,7 +63,11 @@ bool FirefoxAcceptLanguages::_getProfileLocationFromProfilesIni(string file, str
 		if (pos == string::npos)
 			continue;
 		
-		profileLocation = _getProfileRootDir() + line.substr(pos + PATHKEY.size());
+		string path = line.substr(pos + PATHKEY.size());
+		if (path.size() < 2)
+			continue;
+
+		profileLocation = _getProfileRootDir() + path;
 		return true;
 	}
 	
