@@ -59,17 +59,10 @@ bool FirefoxAction::IsApplicationRunning()
 
 bool FirefoxAction::_isInstalled()
 {
-	string APP_FILE = "/Applications/Firefox.app/Contents/MacOS/firefox";
-	bool installed = false;
-	fstream reader;
-	
-	reader.open(APP_FILE.c_str());
-	
-	if (reader.is_open())
-	{
-		reader.close();
-		installed = true;
-	}
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *APP_FILE = @"/Applications/Firefox.app/Contents/MacOS/firefox";
+
+	bool installed = [fileManager fileExistsAtPath:APP_FILE];
 	
 	NSLog(@"FirefoxAction::_isInstalled. Installed %u", installed);
 	return installed;
@@ -77,15 +70,14 @@ bool FirefoxAction::_isInstalled()
 
 string FirefoxAction::_getInstalledLang()
 {
-	string CATALAN_RESOURCE_FILE = "/Applications/Firefox.app/Contents/Resources/ca.lproj/InfoPlist.strings";
 	string language;
-	fstream reader;
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *CATALAN_RESOURCE_FILE = @"/Applications/Firefox.app/Contents/Resources/ca.lproj/InfoPlist.strings";
+
+	bool installed = [fileManager fileExistsAtPath:CATALAN_RESOURCE_FILE];
 	
-	reader.open(CATALAN_RESOURCE_FILE.c_str());
-	
-	if (reader.is_open())
+	if (installed)
 	{
-		reader.close();
 		language = "ca";
 	}
 	else
