@@ -158,7 +158,7 @@ bool ChromeAction::_isInstalled()
 	fstream reader;
 	
 	_readInstallLocation(path_t);
-	string path = "/Default/Preferences";
+	string path = "/Local State";
 	path = path_t + path;
 	
 	reader.open(path.c_str());
