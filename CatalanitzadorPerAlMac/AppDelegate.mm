@@ -157,13 +157,18 @@ void _showDialogBox(NSString* title, NSString* text)
 	return YES;
 }
 
-void redirectNSLogToDocumentFolder()
+void redirectNSLogToApplicationSupportFolder()
 {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
+	NSError *error;
+	NSFileManager *manager = [NSFileManager defaultManager];
+	NSURL *applicationSupport = [manager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:false error:&error];
+	NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
+	NSURL *folder = [applicationSupport URLByAppendingPathComponent:identifier];
+	[manager createDirectoryAtURL:folder withIntermediateDirectories:true attributes:nil error:&error];
+
 	NSString *fileName = @"CatalanitzadorPerAlMac.log";
-	NSString *logFilePath = [documentsDirectory stringByAppendingPathComponent:fileName];
-	
+	NSURL *url = [folder URLByAppendingPathComponent:fileName];
+	NSString *logFilePath = [url path];
 	freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
@@ -273,7 +278,7 @@ void _upload(Serializer& serializer)
 {
 	bool anyAction = false;
 	
-	redirectNSLogToDocumentFolder();
+	redirectNSLogToApplicationSupportFolder();
 	_initLog();
 	
 	actions.push_back(&systemLanguageAction);
