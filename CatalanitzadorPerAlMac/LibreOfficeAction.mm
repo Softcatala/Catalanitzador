@@ -181,7 +181,8 @@ void LibreOfficeAction::_attach()
 void LibreOfficeAction::_tar()
 {
 	NSString* program = @"/usr/bin/tar";
-	NSString* tarball = [LANGPACK_VOLUME stringByAppendingString:@"LibreOffice Language Pack.app/Contents/tarball.tar.bz2"];
+	NSString* path = @"LibreOffice Language Pack.app/Contents/Resources/tarball.tar.bz2";
+	NSString* tarball = [LANGPACK_VOLUME stringByAppendingString:path];
 	
 	bool exists = [[NSFileManager defaultManager] fileExistsAtPath:tarball];
 	
@@ -191,13 +192,17 @@ void LibreOfficeAction::_tar()
 	}
 	else
 	{
-		tarball = [LANGPACK_VOLUME2 stringByAppendingString:@"LibreOffice Language Pack.app/Contents/tarball.tar.bz2"];
+		tarball = [LANGPACK_VOLUME2 stringByAppendingString:path];
+		exists = [[NSFileManager defaultManager] fileExistsAtPath:tarball];
+		if (!exists)
+		{
+			NSLog(@"LibreOfficeAction could not find '%s'", [tarball UTF8String]);
+			return;
+		}
 		m_volume = LANGPACK_VOLUME2;
 	}
-	
-	
+
 	NSArray* arguments = [NSArray arrayWithObjects: @"-xjf", tarball, @"-C", @"/Applications/LibreOffice.app", nil];
-	
 	_executeProgram(program, arguments);
 	NSLog(@"LibreOfficeAction tar executed");
 }
