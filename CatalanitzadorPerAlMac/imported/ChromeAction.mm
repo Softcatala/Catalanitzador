@@ -33,31 +33,29 @@ ChromeAction::ChromeAction() : Action()
 	
 }
 
+#import <Cocoa/Cocoa.h>
+
 bool ChromeAction::IsApplicationRunning()
 {
-	NSDictionary *info;
+	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+	NSArray *runningApps = [workspace runningApplications];
+	NSString *bundleIdentifierToFind = @"com.google.Chrome";
 	bool foundApp = false;
-	OSErr err;
-	ProcessSerialNumber psn = {0, kNoProcess};
-	
-	while (!foundApp)
+
+	for (NSRunningApplication *app in runningApps)
 	{
-		err = GetNextProcess(&psn);
-		
-		if (!err)
+		NSString * bundleIdentifier = app.bundleIdentifier;
+		if ([bundleIdentifierToFind isEqualToString:bundleIdentifier])
 		{
-			info = (NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
-			foundApp = [@"com.google.Chrome" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
-		}
-		else
-		{
-			break;
+		    foundApp = true;
+		    break;
 		}
 	}
-	
+
 	NSLog(@"ChromeAction::IsApplicationRunning. Result %u", foundApp);
 	return foundApp;
 }
+
 
 #define LANGUAGECODE "ca"
 

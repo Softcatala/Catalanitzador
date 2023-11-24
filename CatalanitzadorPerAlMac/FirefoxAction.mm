@@ -33,26 +33,21 @@ FirefoxAction::~FirefoxAction()
 
 bool FirefoxAction::IsApplicationRunning()
 {
-	NSDictionary *info;
+	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+	NSArray *runningApps = [workspace runningApplications];
+	NSString *bundleIdentifierToFind = @"org.mozilla.firefox";
 	bool foundApp = false;
-	OSErr err;
-	ProcessSerialNumber psn = {0, kNoProcess};
-	
-	while (!foundApp)
+
+	for (NSRunningApplication *app in runningApps)
 	{
-		err = GetNextProcess(&psn);
-		
-		if (!err)
+		NSString * bundleIdentifier = app.bundleIdentifier;
+		if ([bundleIdentifierToFind isEqualToString:bundleIdentifier])
 		{
-			info = (NSDictionary *)ProcessInformationCopyDictionary(&psn,   kProcessDictionaryIncludeAllInformationMask);
-			foundApp = [@"org.mozilla.firefox" isEqual:[info objectForKey:(NSString *)kCFBundleIdentifierKey]];
-		}
-		else
-		{
-			break;
+		    foundApp = true;
+		    break;
 		}
 	}
-	
+
 	NSLog(@"FirefoxAction::IsApplicationRunning. Result %u", foundApp);
 	return foundApp;
 }
