@@ -66,7 +66,7 @@ const char* SpellCheckerAction::GetVersion()
 		char szVersion[1024];
 		OSVersion version;
 		
-		sprintf(szVersion, "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
+		snprintf(szVersion, sizeof(szVersion), "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
 		m_version = szVersion;
 	}
 	

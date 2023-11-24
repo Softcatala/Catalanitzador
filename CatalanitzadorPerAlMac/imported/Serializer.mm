@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ void Serializer::_application()
 {	
 	char szText [1024];
 
-	sprintf(szText, "\t<application MajorVersion='%u' MinorVersion='%u' Revision='%u' />\n",
+	snprintf(szText, sizeof(szText), "\t<application MajorVersion='%u' MinorVersion='%u' Revision='%u' />\n",
 		APP_MAJOR_VERSION, APP_MINOR_VERSION, APP_REVISION);
 	*m_stream << szText;
 }

@@ -41,8 +41,8 @@ void OSVersion::Serialize(ostream* stream)
     char szText[2048];
     char szAsciiName[2048];
     
-    sprintf(szAsciiName, "Mac OS %u.%u.%u", m_major, m_minor, m_bugfix);
-    sprintf(szText, "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s' System='%u'/>\r\n",
+    snprintf(szAsciiName, sizeof(szAsciiName), "Mac OS %u.%u.%u", m_major, m_minor, m_bugfix);
+    snprintf(szText, sizeof(szText), "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s' System='%u'/>\r\n",
             m_major,
             m_minor,
             m_bugfix,

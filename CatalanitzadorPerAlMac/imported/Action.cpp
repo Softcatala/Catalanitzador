@@ -29,7 +29,7 @@ void Action::Serialize(ostream* stream)
 	char szText[1024];
 	string version;
 
-	sprintf(szText, "\t\t<action id='%u' version='%s' result='%u'/>\n",
+	snprintf(szText, sizeof(szText), "\t\t<action id='%u' version='%s' result='%u'/>\n",
 		GetID(), GetVersion(), status);
 
 	*stream << szText;
