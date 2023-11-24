@@ -87,6 +87,9 @@ bool ChromeAction::_getActiveProfileFullPath(string& path)
 	string pre_dir;
 	_readInstallLocation(pre_dir);
 	string subdir = root["profile"]["last_used"].asString();
+	if (subdir.size() == 0)
+		subdir = "Default";
+
 	path = pre_dir + "/" + subdir + "/Preferences";
 	return true;
 }
