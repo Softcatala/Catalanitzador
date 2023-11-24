@@ -142,8 +142,9 @@ bool LibreOfficeAction::_download()
 	NSURLResponse *response = nil;
 	NSError *error = nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	if (data == nil) {
-		NSInteger errorCode = [((NSHTTPURLResponse *)response) statusCode];
+	NSInteger errorCode = [((NSHTTPURLResponse *)response) statusCode];
+	const int HTTP_OK = 200;
+	if (errorCode != HTTP_OK) {
 		NSLog(@"LibreOfficeAction. Download Status :%d", (int) errorCode);
 		NSLog(@"LibreOfficeAction. Download Error :%@", error);
 		return false;	
