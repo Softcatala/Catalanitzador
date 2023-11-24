@@ -235,7 +235,7 @@ void _upload(Serializer& serializer)
 
 - (void)sendStatistics
 {
-	if ([_SendStats state] != NSOffState)
+	if ([_SendStats state] == NSControlStateValueOn)
 	{
 		Serializer serializer;
 		_serialize(serializer);
