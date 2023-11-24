@@ -33,7 +33,7 @@ public:
 	
 	virtual const char* GetName() {return "Configura la llengua de navegació del Chrome";}
 	
-	virtual const char* GetDescription()  {return "La llengua de navegació dóna a conèixer la nostra preferència lingüística al món. Quan un lloc web està disponible en diverses llengües, la llengua de navegació determina en quina llengua es presentarà a l'usuari.";}
+	virtual const char* GetDescription()  {return "La llengua de navegació dona a conèixer la nostra preferència lingüística al món. Quan un lloc web està disponible en diverses llengües, la llengua de navegació determina en quina llengua es presentarà a l'usuari.";}
 	
 	virtual ActionID GetID() const {return ChromeActionID;}
 	
