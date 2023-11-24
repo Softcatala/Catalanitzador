@@ -157,7 +157,7 @@ void _showDialogBox(NSString* title, NSString* text)
 	return YES;
 }
 
-void redirectNSLogToApplicationSupportFolder()
+NSString * _getApplicationSupportFolderForFile(NSString *fileName)
 {
 	NSError *error;
 	NSFileManager *manager = [NSFileManager defaultManager];
@@ -166,9 +166,14 @@ void redirectNSLogToApplicationSupportFolder()
 	NSURL *folder = [applicationSupport URLByAppendingPathComponent:identifier];
 	[manager createDirectoryAtURL:folder withIntermediateDirectories:true attributes:nil error:&error];
 
-	NSString *fileName = @"CatalanitzadorPerAlMac.log";
 	NSURL *url = [folder URLByAppendingPathComponent:fileName];
 	NSString *logFilePath = [url path];
+	return logFilePath;
+}
+
+void redirectNSLogToApplicationSupportFolder()
+{
+	NSString * logFilePath = _getApplicationSupportFolderForFile(@"CatalanitzadorPerAlMac.log");
 	freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
 }
 
@@ -200,11 +205,7 @@ void _serialize(Serializer& serializer)
 	serializer.EndAction();
 	serializer.CloseHeader();
 	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *fileName = @"statistics.xml";
-	statsFilename = [documentsDirectory stringByAppendingPathComponent:fileName];
-	statsFilename = [statsFilename copy];
+	NSString * statsFilename = _getApplicationSupportFolderForFile(@"statistics.xml");
 	serializer.SaveToFile([statsFilename UTF8String]);
 }
 
