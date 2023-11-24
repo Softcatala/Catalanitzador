@@ -189,7 +189,7 @@ void _initLog()
 	OSVersion version;
 	
 	NSLog(@"Catalanitzador per al Mac version %s built on: %s, %s", STRING_VERSION_RESOURCES,  __DATE__, __TIME__);
-	NSLog(@"Mac OS version: %u.%u.%u", version.GetMajorVersion(),
+	NSLog(@"Mac OS version: %lu.%lu.%lu", version.GetMajorVersion(),
 		  version.GetMinorVersion(), version.GetBugFix());
 }
 

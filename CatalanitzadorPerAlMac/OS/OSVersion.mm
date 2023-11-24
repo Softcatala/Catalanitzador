@@ -28,9 +28,10 @@ OSVersion::OSVersion()
 // See: http://cocoadev.com/wiki/DeterminingOSVersion
 void OSVersion::_readVersions()
 {
-    Gestalt(gestaltSystemVersionMajor, &m_major);
-    Gestalt(gestaltSystemVersionMinor, &m_minor);
-    Gestalt(gestaltSystemVersionBugFix, &m_bugfix);
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    m_major = version.majorVersion;
+    m_minor = version.minorVersion;
+    m_bugfix = version.patchVersion;
 }
 
 #define MAC_SYSTEM 1
@@ -41,8 +42,8 @@ void OSVersion::Serialize(ostream* stream)
     char szText[2048];
     char szAsciiName[2048];
     
-    snprintf(szAsciiName, sizeof(szAsciiName), "Mac OS %u.%u.%u", m_major, m_minor, m_bugfix);
-    snprintf(szText, sizeof(szText), "\t<operating OSMajorVersion='%u' OSMinorVersion='%u' SPMajorVersion='%u' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s' System='%u'/>\r\n",
+    snprintf(szAsciiName, sizeof(szAsciiName), "Mac OS %lu.%lu.%lu", m_major, m_minor, m_bugfix);
+    snprintf(szText, sizeof(szText), "\t<operating OSMajorVersion='%lu' OSMinorVersion='%lu' SPMajorVersion='%lu' SPMinorVersion='%u' SuiteMask='%u' ProductType='%u' Bits='%u' Name='%s' System='%u'/>\r\n",
             m_major,
             m_minor,
             m_bugfix,

@@ -42,7 +42,7 @@ const char* DictationAction::GetVersion()
 		char szVersion[1024];
 		OSVersion version;
 		
-		snprintf(szVersion, sizeof(szVersion), "%u.%u.%u", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
+		snprintf(szVersion, sizeof(szVersion), "%lu.%lu.%lu", version.GetMajorVersion(), version.GetMinorVersion(), version.GetBugFix());
 		m_version = szVersion;
 	}
 	
