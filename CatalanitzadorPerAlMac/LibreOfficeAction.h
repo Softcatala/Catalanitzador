@@ -64,6 +64,7 @@ private:
 	bool _isLanguagePackInstalled();
 	LibreOfficeType _getLibreOfficeType();
 	NSString* _getInstallDirectory();
+	NSURL * _getApplicationSupportFolderForFile(NSString *fileName);
 	NSString* m_volume;
 };
 

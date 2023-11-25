@@ -125,6 +125,19 @@ string LibreOfficeAction::_getVersionForDownload()
 	return versionForDownload;
 }
 
+NSURL * LibreOfficeAction::_getApplicationSupportFolderForFile(NSString *fileName)
+{
+	NSError *error;
+	NSFileManager *manager = [NSFileManager defaultManager];
+	NSURL *applicationSupport = [manager URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:false error:&error];
+	NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
+	NSURL *folder = [applicationSupport URLByAppendingPathComponent:identifier];
+	[manager createDirectoryAtURL:folder withIntermediateDirectories:true attributes:nil error:&error];
+
+	NSURL *url = [folder URLByAppendingPathComponent:fileName];
+	return url;
+}
+
 bool LibreOfficeAction::_download()
 {
 	string version = _getVersionForDownload();
@@ -150,9 +163,7 @@ bool LibreOfficeAction::_download()
 		return false;	
 	}
 	
-	// find Documents directory and append your local filename
-	NSURL *documentsURL = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-	documentsURL = [documentsURL URLByAppendingPathComponent:@"LibreOffice_MacOS_x86-64_langpack_ca.dmg"];
+	NSURL *documentsURL = _getApplicationSupportFolderForFile(@"LibreOffice_MacOS_x86-64_langpack_ca.dmg");
 	m_filename = documentsURL.path;
 	[data writeToURL:documentsURL atomically:YES];
 	NSLog(@"LibreOfficeAction. Download completed");
