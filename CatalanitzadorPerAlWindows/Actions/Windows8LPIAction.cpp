@@ -101,6 +101,8 @@ wchar_t* Windows8LPIAction::_getDownloadID()
 #define BUILD_19043 19043 //Windows 10's October 2020 update
 #define BUILD_19044 19044 //Windows 10's November 2021 update
 #define BUILD_22000 22000 //Windows 11 21H2 October 2021
+#define BUILD_22621 22621 //Windows 11 22H2 October 2022
+#define BUILD_22631 22631 //Windows 11 23H2 October 2023
 
 void Windows8LPIAction::_selectLanguagePackageW10()
 {
@@ -243,6 +245,12 @@ void Windows8LPIAction::_selectLanguagePackageW10()
 	if (buildNumber == BUILD_22000)
 	{
 		m_packageDownloadId = L"Win11_22000";
+		m_packageLanguageCode = CATALAN_LANGPACKCODE;
+	}
+
+	if (buildNumber == BUILD_22621 || buildNumber == BUILD_22631)
+	{
+		m_packageDownloadId = L"Win11_22621";
 		m_packageLanguageCode = CATALAN_LANGPACKCODE;
 	}
 }
