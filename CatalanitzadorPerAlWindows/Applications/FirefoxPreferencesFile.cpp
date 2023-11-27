@@ -27,7 +27,7 @@ FirefoxPreferencesFile::FirefoxPreferencesFile(wstring profileRootDir)
 	m_profileRootDir = profileRootDir;	
 }
 
-#define	PATHKEY L"Path="
+#define	PATHKEY L"Default="
 
 bool FirefoxPreferencesFile::_getProfileDirectoryFromProfilesIni(wstring file, wstring &profileLocation)
 {
@@ -46,6 +46,10 @@ bool FirefoxPreferencesFile::_getProfileDirectoryFromProfilesIni(wstring file, w
 	while(!(getline(reader, line)).eof())
 	{
 		if (_wcsnicmp(line.c_str(), PATHKEY, pathLen) != 0)
+			continue;
+
+		wstring path = line.substr(pathLen);
+		if (path.size() < 2)
 			continue;
 
 		profileLocation = _getProfileRootDir() + (wchar_t *)&line[pathLen];
