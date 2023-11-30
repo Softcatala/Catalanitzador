@@ -200,6 +200,7 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 		wLang = propertyValue.GetWithCatalanAdded();
 		StringConversion::ToMultiByte(wLang, acceptLanguages);
 		root["intl"]["accept_languages"] = acceptLanguages;
+		root["intl"]["selected_languages"] = acceptLanguages;
 	}
 
 	if (m_setCatalanAsSpellLanguage)
@@ -242,13 +243,6 @@ bool ChromeProfile::IsAcceptLanguagesOk()
 		
 		if (firstlang.compare(CHROME_ACCEPT_LANGUAGECODE_1) == 0
 			|| firstlang.compare(CHROME_ACCEPT_LANGUAGECODE_2)  == 0)
-		{
-			bRslt = true;
-		}
-	}
-	else
-	{
-		if (IsUiLocaleOk())
 		{
 			bRslt = true;
 		}

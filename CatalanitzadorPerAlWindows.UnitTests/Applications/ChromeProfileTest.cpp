@@ -229,7 +229,7 @@ TEST(ChomeProfileTest, NonCaAcceptLangLocaleLocaleUIOk_IsAcceptLanguagesOk)
 	Application::GetExecutionLocation(location);
 	location += L"Chrome\\CatalanUI_NoAcceptLanguage\\User Data\\";
 	chromeProfile.SetPath(location);	
-	EXPECT_TRUE(chromeProfile.IsAcceptLanguagesOk());
+	EXPECT_FALSE(chromeProfile.IsAcceptLanguagesOk());
 }
 
 TEST(ChomeProfileTest, NonCaAcceptLangLocaleLocaleUINonOk_IsAcceptLanguagesOk)
