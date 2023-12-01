@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>APP_MAJOR_VERSION APP_MINOR_VERSION APP_REVISION</string>
+	<string>APP_MAJOR_VERSION APP_MINOR_VERSION APP_REVISION - __DATE__</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
