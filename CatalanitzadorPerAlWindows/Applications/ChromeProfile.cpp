@@ -211,7 +211,7 @@ bool ChromeProfile::WriteSpellAndAcceptLanguages()
 	std::ofstream out(path.c_str());
 	if (out.fail())
 	{
-		g_log.Log(L"ChromeProfile::WriteAcceptLanguageCode. Cannot open for writing %s", (wchar_t*) path.c_str());
+		g_log.Log(L"ChromeProfile::WriteSpellAndAcceptLanguages. Cannot open for writing %s", (wchar_t*) path.c_str());
 		return false;
 	}
 
