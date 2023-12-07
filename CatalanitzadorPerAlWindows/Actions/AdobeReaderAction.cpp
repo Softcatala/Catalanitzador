@@ -22,6 +22,7 @@
 #include "Runner.h"
 #include "ConfigurationInstance.h"
 #include "LogExtractor.h"
+#include "Registry.h"
 
 AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner, DownloadManager* downloadManager) : Action(downloadManager)
 {
@@ -74,14 +75,65 @@ bool AdobeReaderAction::Download(ProgressStatus progress, void *data)
 	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, progress, data);
 }
 
-#define ACROBAT_REGKEY L"Software\\Adobe\\Acrobat Reader"
+#define ACROBAT_REGKEY L"Software\\Adobe\\Adobe Acrobat"
 
+// 32-bits
+// //
+//HKEY_CLASSES_ROOT\Installer\Products\68AB67CA7DA74301B744CAF070E41400
+//HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 7AD7 - 1034 - 7B44 - AC0F074E4100}
+
+// 64-bits
+//HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 1034 - 1033 - 7760 - BC15014EA700}
+// MsiExec.exe /I{AC76BA86-1034-1033-7760-BC15014EA700}
+
+//Catalan - 32bits?
+//SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 7AD7 - 1027 - 7B44 - AC0F074E4100}
+
+// NEW
+// 64 bits
+// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 1034 - 1033 - 7760 - BC15014EA700}
+// Uninstall string MsiExec.exe /I{AC76BA86-1034-1033-7760-BC15014EA700}
+// uninstall can be done by MsiExec.exe / x{ AC76BA86 - 1034 - 1033 - 7760 - BC15014EA700 } / quiet / passive
+
+// 32bits
+//HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 7AD7 - 1034 - 7B44 - AC0F074E4100}
+// uninstall: MsiExec.exe /I{AC76BA86-7AD7-1034-7B44-AC0F074E4100}
+
+#define UNINSTALL_REGKEY L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+
+
+bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name)
+{
+	bool found = false;
+	wstring key = path;
+
+	IRegistry* registry;
+	registry = (IRegistry*)new Registry();
+
+	if (registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
+	{
+		wchar_t szDisplayName[2048];
+		wstring value;
+
+		if (registry->GetString(L"DisplayName", szDisplayName, sizeof(szDisplayName)))
+		{
+			registry->Close();
+
+			value = szDisplayName;
+			if (value == name)
+				found = true;
+		}
+
+	}
+	delete registry;
+	return found;
+}
 void AdobeReaderAction::_enumVersions(vector <wstring>& versions)
 {
 	bool bKeys = true;
 	DWORD dwIndex = 0;
 
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, ACROBAT_REGKEY, false))
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, UNINSTALL_REGKEY, false))
 	{
 		while (bKeys)
 		{
@@ -90,14 +142,12 @@ void AdobeReaderAction::_enumVersions(vector <wstring>& versions)
 			bKeys = m_registry->RegEnumKey(dwIndex, key);
 			dwIndex++;
 
-			if (bKeys)
-			{
-				// Sometimes there are keys like WSZXSGANXFJVAYSXYQGNXKQY. May be broken installers.
-				if (iswdigit(key[0]) || key == L"DC")
-				{
-					versions.push_back(key);
-				}
-			}
+			wstring fullkey = UNINSTALL_REGKEY;
+			fullkey += L"\\";
+			fullkey += key;
+			
+			if (_isdisplayNameFound(fullkey, L"Adobe Acrobat (64-bit)"))
+				versions.push_back(fullkey);
 		}
 		m_registry->Close();
 	}
@@ -112,7 +162,7 @@ void AdobeReaderAction::_readInstalledLang(wstring version)
 	key+=version;
 	key+=L"\\";
 	key+=L"Language";
-
+	
 	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
 	{
 		wchar_t szLang[2048];

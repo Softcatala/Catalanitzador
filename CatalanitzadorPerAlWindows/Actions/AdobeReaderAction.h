@@ -47,7 +47,7 @@ protected:
 
 		void _enumVersions(vector <wstring>& versions);
 		void _readInstalledLang(wstring version);
-
+		bool _isdisplayNameFound(wstring path, wstring name);
 		wstring m_lang;
 
 private:
