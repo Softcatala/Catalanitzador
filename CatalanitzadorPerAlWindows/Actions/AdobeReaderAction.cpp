@@ -34,7 +34,6 @@ AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner, Downl
 
 	GetTempPath(MAX_PATH, m_szTempPath);
 	_initProcessNames();
-	//m_version = L"DC";
 }
 
 void AdobeReaderAction::_initProcessNames()
@@ -285,7 +284,8 @@ ActionStatus AdobeReaderAction::GetStatus()
 				break;
 		}
 
-		_readInstalledLang(m_version);
+		//_readInstalledLang(m_version);
+		_readVersionInstalled();
 
 		if (_isLangPackInstalled())
 		{
