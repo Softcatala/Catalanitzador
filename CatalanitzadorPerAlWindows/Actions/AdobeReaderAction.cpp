@@ -80,15 +80,21 @@ bool AdobeReaderAction::Download(ProgressStatus progress, void *data)
 #define UNINSTALL_REGKEY L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
 
 
-bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name)
+bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name, bool is64bits)
 {
 	bool found = false;
 	wstring key = path;
 
 	IRegistry* registry;
 	registry = (IRegistry*)new Registry();
+	bool result;
 
-	if (registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
+	if (is64bits)
+		result = registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false);
+	else
+		result = registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false);
+
+	if (result)
 	{
 		wchar_t szDisplayName[2048];
 		wstring value;
@@ -98,7 +104,9 @@ bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name)
 			registry->Close();
 
 			value = szDisplayName;
-			//if (value == name)
+
+			g_log.Log(L"AdobeReaderAction::_isdisplayNameFound: name: '%s'", szDisplayName);
+
 			if (value.compare(0, name.length(), name) == 0)
 				found = true;
 		}
@@ -106,12 +114,34 @@ bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name)
 	delete registry;
 	return found;
 }
-void AdobeReaderAction::_getInstallRegKey(wstring& _key)
+
+void AdobeReaderAction::_getInstallRegKey(wstring& key)
+{
+	key = L"";
+
+	_getInstallRegKey_internal(key, true);
+	if (key.size() > 0)
+	{
+		m_is64Bits = true;
+		return;
+	}
+	
+	_getInstallRegKey_internal(key, false);
+	m_is64Bits = false;
+}
+
+void AdobeReaderAction::_getInstallRegKey_internal(wstring& _key, bool is64bits)
 {
 	bool bKeys = true;
 	DWORD dwIndex = 0;
+	bool result;
 
-	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, UNINSTALL_REGKEY, false))
+	if (is64bits)
+		result = m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, UNINSTALL_REGKEY, false);
+	else
+		result = m_registry->OpenKey(HKEY_LOCAL_MACHINE, UNINSTALL_REGKEY, false);
+
+	if (result)
 	{
 		while (bKeys)
 		{
@@ -124,7 +154,7 @@ void AdobeReaderAction::_getInstallRegKey(wstring& _key)
 			fullkey += L"\\";
 			fullkey += key;
 			
-			if (_isdisplayNameFound(fullkey, L"Adobe Acrobat"))
+			if (_isdisplayNameFound(fullkey, L"Adobe Acrobat", is64bits))
 			{ 
 				_key = fullkey;
 				break;
@@ -136,7 +166,14 @@ void AdobeReaderAction::_getInstallRegKey(wstring& _key)
 
 void AdobeReaderAction::_readInstalledLang(wstring key)
 {
-	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
+	bool result;
+
+	if (m_is64Bits)
+		result = m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false);
+	else
+		result = m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false);
+
+	if (result)
 	{
 		DWORD dwLang;
 
@@ -165,7 +202,14 @@ void AdobeReaderAction::_readVersionInstalled()
 
 void AdobeReaderAction::_readUninstallGUID(wstring key)
 {	
-	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
+	bool result;
+
+	if (m_is64Bits)
+		result = m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false);
+	else
+		result = m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false);
+
+	if (result)
 	{
 		wstring uninstall;
 		wchar_t szUninstall[2048] = L"";

@@ -46,8 +46,9 @@ public:
 protected:
 
 		void _getInstallRegKey(wstring& key);
+		void _getInstallRegKey_internal(wstring& key, bool is64bits);
 		void _readInstalledLang(wstring key);
-		bool _isdisplayNameFound(wstring path, wstring name);
+		bool _isdisplayNameFound(wstring path, wstring name, bool is64bits);
 		DWORD m_lang;
 
 private:
