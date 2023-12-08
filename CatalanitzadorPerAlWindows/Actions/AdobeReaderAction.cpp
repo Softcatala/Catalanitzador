@@ -34,6 +34,7 @@ AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner, Downl
 
 	GetTempPath(MAX_PATH, m_szTempPath);
 	_initProcessNames();
+	m_is64Bits = false;
 }
 
 void AdobeReaderAction::_initProcessNames()
@@ -97,7 +98,8 @@ bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name)
 			registry->Close();
 
 			value = szDisplayName;
-			if (value == name)
+			//if (value == name)
+			if (value.compare(0, name.length(), name) == 0)
 				found = true;
 		}
 	}
@@ -122,7 +124,7 @@ void AdobeReaderAction::_getInstallRegKey(wstring& _key)
 			fullkey += L"\\";
 			fullkey += key;
 			
-			if (_isdisplayNameFound(fullkey, L"Adobe Acrobat (64-bit)"))
+			if (_isdisplayNameFound(fullkey, L"Adobe Acrobat"))
 			{ 
 				_key = fullkey;
 				break;

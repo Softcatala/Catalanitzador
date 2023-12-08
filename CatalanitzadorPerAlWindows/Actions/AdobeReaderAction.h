@@ -73,6 +73,7 @@ private:
 		IRunner* m_runner;
 		IRegistry* m_registry;
 		HideApplicationWindow m_hideApplicationWindow;
+		bool m_is64Bits;
 		
 		wchar_t m_szFilename[MAX_PATH];
 		wchar_t m_szTempPath[MAX_PATH];
