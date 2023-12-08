@@ -249,9 +249,9 @@ void AdobeReaderAction::_uninstall()
 	GetSystemDirectory(szApp, MAX_PATH);
 	wcscat_s(szApp, L"\\msiexec.exe ");
 
-	wcscpy_s(szParams, L" /x");
+	wcscpy_s(szParams, L" /x {");
 	wcscat_s(szParams, m_GUID.c_str());
-	wcscat_s(szParams, L" /quiet /passive");
+	wcscat_s(szParams, L"} /quiet /passive");
 	m_executionStep = ExecutionStep1;
 	
 	g_log.Log(L"AdobeReaderAction::_uninstall '%s' with params '%s'", szApp, szParams);
