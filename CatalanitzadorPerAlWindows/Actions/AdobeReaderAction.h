@@ -45,10 +45,10 @@ public:
 
 protected:
 
-		void _enumVersions(vector <wstring>& versions);
-		void _readInstalledLang(wstring version);
+		void _getInstallRegKey(wstring& key);
+		void _readInstalledLang(wstring key);
 		bool _isdisplayNameFound(wstring path, wstring name);
-		wstring m_lang;
+		DWORD m_lang;
 
 private:
 
@@ -60,7 +60,7 @@ private:
 		};
 		
 		bool _isLangPackInstalled();
-		void _readUninstallGUID();
+		void _readUninstallGUID(wstring key);
 		void _uninstall();
 		void _installVersion();
 		void _readVersionInstalled();

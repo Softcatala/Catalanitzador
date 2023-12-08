@@ -18,6 +18,7 @@
  */
 
 #include "stdafx.h"
+#include <regex>
 #include "AdobeReaderAction.h"
 #include "Runner.h"
 #include "ConfigurationInstance.h"
@@ -123,12 +124,11 @@ bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name)
 			if (value == name)
 				found = true;
 		}
-
 	}
 	delete registry;
 	return found;
 }
-void AdobeReaderAction::_enumVersions(vector <wstring>& versions)
+void AdobeReaderAction::_getInstallRegKey(wstring& _key)
 {
 	bool bKeys = true;
 	DWORD dwIndex = 0;
@@ -147,29 +147,24 @@ void AdobeReaderAction::_enumVersions(vector <wstring>& versions)
 			fullkey += key;
 			
 			if (_isdisplayNameFound(fullkey, L"Adobe Acrobat (64-bit)"))
-				versions.push_back(fullkey);
+			{ 
+				_key = fullkey;
+				break;
+			}
 		}
 		m_registry->Close();
 	}
 }
 
-void AdobeReaderAction::_readInstalledLang(wstring version)
+void AdobeReaderAction::_readInstalledLang(wstring key)
 {
-	wstring key(ACROBAT_REGKEY);
-
-	// TODO: swprintf
-	key+=L"\\";
-	key+=version;
-	key+=L"\\";
-	key+=L"Language";
-	
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
 	{
-		wchar_t szLang[2048];
+		DWORD dwLang;
 
-		if (m_registry->GetString(L"UI", szLang, sizeof(szLang)))
+		if (m_registry->GetDWORD(L"Language", &dwLang))
 		{
-			m_lang = szLang;
+			m_lang = dwLang;
 		}
 		m_registry->Close();
 	}
@@ -177,36 +172,39 @@ void AdobeReaderAction::_readInstalledLang(wstring version)
 
 void AdobeReaderAction::_readVersionInstalled()
 {
-	vector <wstring> versions;
+	wstring key;
 
-	_enumVersions(versions);
+	_getInstallRegKey(key);
 
-	if (versions.size() > 0)
+	if (key.size() > 0)
 	{
-		m_version = versions[0];
-		_readInstalledLang(m_version);
-		_readUninstallGUID();
+		_readInstalledLang(key);
+		_readUninstallGUID(key);
 	}
-	g_log.Log(L"AdobeReaderAction::_readVersionInstalled: version: '%s', lang: '%s', versions installed: '%u'", 
-		(wchar_t *) m_version.c_str(), (wchar_t *) m_lang.c_str(), (wchar_t *) versions.size());
+	//g_log.Log(L"AdobeReaderAction::_readVersionInstalled: version: '%s', lang: '%s', versions installed: '%u'", 
+	//	(wchar_t *) m_version.c_str(), (wchar_t *) m_lang.c_str(), (wchar_t *) versions.size());
 }
 
-void AdobeReaderAction::_readUninstallGUID()
-{
-	wstring key(ACROBAT_REGKEY);
-	
-	key+=L"\\";
-	key+=m_version;
-	key+=L"\\";
-	key+=L"Installer";
-	
-	if (m_registry->OpenKey(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
+void AdobeReaderAction::_readUninstallGUID(wstring key)
+{	
+	if (m_registry->OpenKeyNoWOWRedirect(HKEY_LOCAL_MACHINE, (wchar_t*)key.c_str(), false))
 	{
-		wchar_t szGUID[2048];
+		wstring uninstall;
+		wchar_t szUninstall[2048] = L"";
+		wstring value;
 
-		if (m_registry->GetString(L"ENU_GUID", szGUID, sizeof(szGUID)))
+		// Since type is REG_EXPAND_SZ instead of REG_SZ this returns error even if reads the text
+		m_registry->GetString(L"UninstallString", szUninstall, sizeof(szUninstall));
+		if (wcslen(szUninstall) > 0)
 		{
-			m_GUID = szGUID;
+			uninstall = szUninstall;
+			std::wregex pattern(L"\\{([^\\}]+)\\}");
+			std::wsmatch matches;
+			if (std::regex_search(uninstall, matches, pattern))
+			{
+				m_GUID = matches[1];
+			}
+		
 		}
 		m_registry->Close();
 	}
@@ -283,7 +281,7 @@ void AdobeReaderAction::Execute()
 
 bool AdobeReaderAction::_isLangPackInstalled()
 {
-	return m_lang.compare(L"CAT") == 0;
+	return m_lang == 0x403;
 }
 
 ActionStatus AdobeReaderAction::GetStatus()
@@ -330,7 +328,7 @@ void AdobeReaderAction::CheckPrerequirements(Action * action)
 {
 	_readVersionInstalled();
 
-	if (m_version.size() > 0)
+	if (m_GUID.size() > 0)
 	{
 		if (_isLangPackInstalled() == true)
 		{
