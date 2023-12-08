@@ -34,6 +34,7 @@ AdobeReaderAction::AdobeReaderAction(IRegistry* registry, IRunner* runner, Downl
 
 	GetTempPath(MAX_PATH, m_szTempPath);
 	_initProcessNames();
+	//m_version = L"DC";
 }
 
 void AdobeReaderAction::_initProcessNames()
@@ -75,30 +76,6 @@ bool AdobeReaderAction::Download(ProgressStatus progress, void *data)
 
 	return m_downloadManager->GetFileAndVerifyAssociatedSha1(downloadVersion, m_szFilename, progress, data);
 }
-
-#define ACROBAT_REGKEY L"Software\\Adobe\\Adobe Acrobat"
-
-// 32-bits
-// //
-//HKEY_CLASSES_ROOT\Installer\Products\68AB67CA7DA74301B744CAF070E41400
-//HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 7AD7 - 1034 - 7B44 - AC0F074E4100}
-
-// 64-bits
-//HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 1034 - 1033 - 7760 - BC15014EA700}
-// MsiExec.exe /I{AC76BA86-1034-1033-7760-BC15014EA700}
-
-//Catalan - 32bits?
-//SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 7AD7 - 1027 - 7B44 - AC0F074E4100}
-
-// NEW
-// 64 bits
-// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 1034 - 1033 - 7760 - BC15014EA700}
-// Uninstall string MsiExec.exe /I{AC76BA86-1034-1033-7760-BC15014EA700}
-// uninstall can be done by MsiExec.exe / x{ AC76BA86 - 1034 - 1033 - 7760 - BC15014EA700 } / quiet / passive
-
-// 32bits
-//HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{AC76BA86 - 7AD7 - 1034 - 7B44 - AC0F074E4100}
-// uninstall: MsiExec.exe /I{AC76BA86-7AD7-1034-7B44-AC0F074E4100}
 
 #define UNINSTALL_REGKEY L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
 
