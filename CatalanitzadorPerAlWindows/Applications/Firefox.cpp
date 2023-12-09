@@ -65,8 +65,8 @@ void Firefox::_extractLocaleAndVersion(wstring versionWithLocale)
 {	
 	int pos, start, end;
 
-	m_version.empty();
-	m_locale.empty();
+	m_version.clear();
+	m_locale.clear();
 	start = versionWithLocale.find(L" ");
 
 	if (start == wstring::npos)
