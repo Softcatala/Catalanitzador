@@ -80,7 +80,7 @@ bool AdobeReaderAction::Download(ProgressStatus progress, void *data)
 #define UNINSTALL_REGKEY L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
 
 
-bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name, bool is64bits)
+bool AdobeReaderAction::_isDisplayNameFound(wstring path, wstring name, bool is64bits)
 {
 	bool found = false;
 	wstring key = path;
@@ -101,15 +101,14 @@ bool AdobeReaderAction::_isdisplayNameFound(wstring path, wstring name, bool is6
 
 		if (registry->GetString(L"DisplayName", szDisplayName, sizeof(szDisplayName)))
 		{
-			registry->Close();
-
 			value = szDisplayName;
-
-			g_log.Log(L"AdobeReaderAction::_isdisplayNameFound: name: '%s'", szDisplayName);
-
 			if (value.compare(0, name.length(), name) == 0)
+			{
+				g_log.Log(L"AdobeReaderAction::_isdisplayNameFound: name: '%s'", szDisplayName);
 				found = true;
+			}
 		}
+		registry->Close();
 	}
 	delete registry;
 	return found;
@@ -154,7 +153,7 @@ void AdobeReaderAction::_getInstallRegKey_internal(wstring& _key, bool is64bits)
 			fullkey += L"\\";
 			fullkey += key;
 			
-			if (_isdisplayNameFound(fullkey, L"Adobe Acrobat", is64bits))
+			if (_isDisplayNameFound(fullkey, L"Adobe Acrobat", is64bits))
 			{ 
 				_key = fullkey;
 				break;
