@@ -324,7 +324,7 @@ void AdobeReaderAction::_restoreOpenBrowser()
 
 	if (m_registry->SetString(DEFAULT_KEY, (wchar_t*)m_ProgIDCommand.c_str()))
 	{
-		g_log.Log(L"AdobeReaderAction::_disableOpenBrowser. Restored ProgID '%s' command '%s'", (wchar_t*)m_ProgID.c_str(), (wchar_t*)m_ProgIDCommand.c_str());
+		g_log.Log(L"AdobeReaderAction::_restoreOpenBrowser. Restored ProgID '%s' command '%s'", (wchar_t*)m_ProgID.c_str(), (wchar_t*)m_ProgIDCommand.c_str());
 	}
 	m_registry->Close();
 }
