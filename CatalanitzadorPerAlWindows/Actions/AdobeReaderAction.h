@@ -67,9 +67,15 @@ private:
 		void _readVersionInstalled();
 		void _initProcessNames();
 		void _dumpInstallerErrors();
+		void _disableOpenBrowser();
+		void _restoreOpenBrowser();
+		void _readDefaultBrowserProgramID();
+		void _storeAndEmptyProgID();
 
 		wstring m_version;
 		wstring m_GUID;
+		wstring m_ProgID;
+		wstring m_ProgIDCommand;
 		ExecutionStep m_executionStep;
 		IRunner* m_runner;
 		IRegistry* m_registry;

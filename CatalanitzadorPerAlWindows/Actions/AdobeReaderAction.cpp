@@ -1,5 +1,5 @@
 ﻿/* 
- * Copyright (C) 2012-2023 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2012, 2023 Jordi Mas i Hernàndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -263,6 +263,73 @@ bool AdobeReaderAction::IsNeed()
 	return bNeed;
 }
 
+#define DEFAULT_HTTPS_OPENER L"Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\https\\UserChoice"
+
+void AdobeReaderAction::_readDefaultBrowserProgramID()
+{
+	if (!m_registry->OpenKey(HKEY_CURRENT_USER, DEFAULT_HTTPS_OPENER, false))
+		return;
+
+	wchar_t szProgID[2048];
+
+	if (m_registry->GetString(L"ProgID", szProgID, sizeof(szProgID)))
+	{
+		m_ProgID = szProgID;
+	}
+
+	m_registry->Close();
+}
+
+//"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --single-argument %1
+#define DEFAULT_KEY  L""
+void AdobeReaderAction::_storeAndEmptyProgID()
+{
+	if (m_ProgID.size() == 0)
+		return;
+
+	wstring key = m_ProgID + L"\\shell\\open\\command";
+
+	if (!m_registry->OpenKey(HKEY_CLASSES_ROOT, (wchar_t*)key.c_str(), true))
+		return;
+
+	wchar_t szCommand[2048];
+	wchar_t szNoCommand[2048] = L"";
+
+	if (m_registry->GetString(DEFAULT_KEY, szCommand, sizeof(szCommand)))
+	{
+		if (m_registry->SetString(DEFAULT_KEY, szNoCommand))
+		{
+			m_ProgIDCommand = szCommand;
+			g_log.Log(L"AdobeReaderAction::_storeAndEmptyProgID. ProgID '%s' command '%s'", (wchar_t*)m_ProgID.c_str(), (wchar_t*)m_ProgIDCommand.c_str());
+		}
+	}
+
+	m_registry->Close();
+}
+
+void AdobeReaderAction::_disableOpenBrowser()
+{
+	_readDefaultBrowserProgramID();
+	_storeAndEmptyProgID();
+}
+
+void AdobeReaderAction::_restoreOpenBrowser()
+{
+	if (m_ProgID.size() == 0 || m_ProgIDCommand.size() == 0)
+		return;
+
+	wstring key = m_ProgID + L"\\shell\\open\\command";
+
+	if (!m_registry->OpenKey(HKEY_CLASSES_ROOT, (wchar_t*)key.c_str(), true))
+		return;
+
+	if (m_registry->SetString(DEFAULT_KEY, (wchar_t*)m_ProgIDCommand.c_str()))
+	{
+		g_log.Log(L"AdobeReaderAction::_disableOpenBrowser. Restored ProgID '%s' command '%s'", (wchar_t*)m_ProgID.c_str(), (wchar_t*)m_ProgIDCommand.c_str());
+	}
+	m_registry->Close();
+}
+
 void AdobeReaderAction::_uninstall()
 {
 	wchar_t szParams[MAX_PATH] = L"";
@@ -276,6 +343,7 @@ void AdobeReaderAction::_uninstall()
 	wcscat_s(szParams, L"} /quiet /passive");
 	m_executionStep = ExecutionStep1;
 	
+	_disableOpenBrowser();
 	g_log.Log(L"AdobeReaderAction::_uninstall '%s' with params '%s'", szApp, szParams);
 	m_hideApplicationWindow.Start();
 	m_runner->Execute(szApp, szParams);
@@ -319,6 +387,7 @@ ActionStatus AdobeReaderAction::GetStatus()
 				break;
 			case ExecutionStep1:
 			{
+				_restoreOpenBrowser();
 				m_hideApplicationWindow.Stop();
 				_installVersion();
 				return InProgress;
