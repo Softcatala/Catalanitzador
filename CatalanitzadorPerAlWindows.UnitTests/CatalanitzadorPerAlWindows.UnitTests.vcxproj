@@ -109,7 +109,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Actions\ActionsTest.cpp" />
-    <ClCompile Include="Actions\AdobeReaderActionTest.cpp" />
     <ClCompile Include="Actions\CatalanitzadorUpdateActionTest.cpp" />
     <ClCompile Include="Actions\ChromeActionTest.cpp" />
     <ClCompile Include="Actions\ConfigureDefaultLanguageActionTest.cpp" />
