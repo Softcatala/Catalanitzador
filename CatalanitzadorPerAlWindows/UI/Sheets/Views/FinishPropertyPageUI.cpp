@@ -49,9 +49,6 @@ void FinishPropertyPageUI::_onCommand(HWND hWnd, WPARAM wParam, LPARAM lParam)
 		case IDC_FACEBOOK_BUTTON:
 			m_model->OpenFacebook();
 			break;
-		case IDC_GOOGLEPLUS_BUTTON:
-			m_model->OpenGooglePlus();
-			break;
 		default:
 			break;
 	}
