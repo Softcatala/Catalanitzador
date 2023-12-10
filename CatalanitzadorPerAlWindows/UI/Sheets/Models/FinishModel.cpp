@@ -149,7 +149,7 @@ void FinishModel::OpenTwitter()
 	swprintf_s(szText, szString, APPLICATON_WEBSITE);
 	
 	Url::EncodeParameter(wstring(szText), parameter);
-	wcscpy_s(szURL, L"http://twitter.com/share?text=");
+	wcscpy_s(szURL, L"https://twitter.com/share?text=");
 	wcscat_s(szURL, parameter.c_str());
 	_shellExecuteURL(szURL);
 	m_openTwitter = true;
@@ -159,8 +159,8 @@ void FinishModel::OpenFacebook()
 {
 	wchar_t szURL[1024];	
 
-	// See: http://developers.facebook.com/docs/share/
-	swprintf_s(szURL, L"http://ca-es.facebook.com/sharer.php?u=%s", APPLICATON_WEBSITE);
+	// See: https://developers.facebook.com/docs/share/
+	swprintf_s(szURL, L"https://ca-es.facebook.com/sharer.php?u=%s", APPLICATON_WEBSITE);
 	_shellExecuteURL(szURL);
 	m_openFacebook = true;
 }
