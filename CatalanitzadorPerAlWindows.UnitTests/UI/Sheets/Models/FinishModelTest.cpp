@@ -40,7 +40,6 @@ public:
 
 	bool GetOpenTwitter() { return m_openTwitter; }
 	bool GetOpenFacebook() { return m_openFacebook; }
-	bool GetOpenGooglePlus() { return m_openGooglePlus; }
 
 private:
 
@@ -139,23 +138,6 @@ TEST(FinishModelTest, OpenFacebook)
 	
 	EXPECT_THAT(url, StrCaseEq(expectedUrl.c_str()));
 	EXPECT_TRUE(finishModel.GetOpenFacebook());
-}
-
-TEST(FinishModelTest, OpenGooglePlus)
-{
-	#define EXPECTED_PLUS_URL_HEAD L"https://plus.google.com/share?url="
-
-	wstring expectedUrl;
-	
-	expectedUrl = EXPECTED_PLUS_URL_HEAD;
-	expectedUrl += APPLICATON_WEBSITE;	
-		
-	FinishModelTest finishModel;
-	finishModel.OpenGooglePlus();
-	wstring url = finishModel.GetURL();
-	
-	EXPECT_THAT(url, StrCaseEq(expectedUrl.c_str()));
-	EXPECT_TRUE(finishModel.GetOpenGooglePlus());
 }
 
 TEST(FinishModelTest, OpenMailTo)

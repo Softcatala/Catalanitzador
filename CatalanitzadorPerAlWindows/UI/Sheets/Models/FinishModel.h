@@ -46,7 +46,6 @@ public:
 		void Reboot();
 		void OpenTwitter();
 		void OpenFacebook();
-		void OpenGooglePlus();
 		void OpenMailTo();
 
 protected:
@@ -54,7 +53,6 @@ protected:
 
 		bool m_openTwitter;
 		bool m_openFacebook;
-		bool m_openGooglePlus;
 
 private:
 

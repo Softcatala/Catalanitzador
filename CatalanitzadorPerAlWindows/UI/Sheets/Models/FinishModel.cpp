@@ -45,7 +45,6 @@ void FinishModel::_commonConstructor()
 	m_completionPercentage = -1;
 	m_openTwitter = false;
 	m_openFacebook = false;
-	m_openGooglePlus = false;
 	m_actionsForUT = NULL;
 }
 
@@ -165,16 +164,6 @@ void FinishModel::OpenFacebook()
 	m_openFacebook = true;
 }
 
-void FinishModel::OpenGooglePlus()
-{
-	wchar_t szURL[1024];
-	
-	// See: https://developers.google.com/+/plugins/+1button/		
-	swprintf_s(szURL, L"https://plus.google.com/share?url=%s", APPLICATON_WEBSITE);
-	_shellExecuteURL(szURL);
-	m_openGooglePlus = true;
-}
-
 void FinishModel::OpenMailTo()
 {
 	_shellExecuteURL(CONTACT_EMAIL);
@@ -190,7 +179,6 @@ void FinishModel::_setSocialOptions()
 {
 	m_applicationExecutor->SetOption(Option(OptionShareTwitter, m_openTwitter));
 	m_applicationExecutor->SetOption(Option(OptionShareFacebook, m_openFacebook));
-	m_applicationExecutor->SetOption(Option(OptionShareGooglePlus, m_openGooglePlus));
 }
 
 
