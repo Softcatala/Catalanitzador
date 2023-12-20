@@ -17,6 +17,7 @@
 		8D50D35F16BD23CB00653AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D35D16BD23CB00653AE7 /* InfoPlist.strings */; };
 		8D50D36516BD23CB00653AE7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36316BD23CB00653AE7 /* Credits.rtf */; };
 		8D50D36B16BD23CB00653AE7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D50D36916BD23CB00653AE7 /* MainMenu.xib */; };
+		8D63C6B52B335C32004106A9 /* SClogo.svg in Resources */ = {isa = PBXBuildFile; fileRef = 8D63C6B32B335C32004106A9 /* SClogo.svg */; };
 		8D6B5B171EC3A2C3005B8AA4 /* DictSynonymsAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B5B161EC3A2C3005B8AA4 /* DictSynonymsAction.mm */; };
 		8D6B5B191EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary in Resources */ = {isa = PBXBuildFile; fileRef = 8D6B5B181EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary */; };
 		8D6E30A41EC64241003F6119 /* AuthorizationExecute.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E30A31EC64241003F6119 /* AuthorizationExecute.mm */; };
@@ -58,6 +59,7 @@
 		8D50D36616BD23CB00653AE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8D50D36A16BD23CB00653AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8D50D37216BD23CB00653AE7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8D63C6B42B335C32004106A9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = en; path = CatalanitzadorPerAlMac/en.lproj/SClogo.svg; sourceTree = "<group>"; };
 		8D6B5B151EC3A2C3005B8AA4 /* DictSynonymsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictSynonymsAction.h; sourceTree = "<group>"; };
 		8D6B5B161EC3A2C3005B8AA4 /* DictSynonymsAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DictSynonymsAction.mm; sourceTree = "<group>"; };
 		8D6B5B181EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Diccionari de sinònims - Albert Jané.dictionary"; path = "synonyms/Diccionari de sinònims - Albert Jané.dictionary"; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 		8D50D34816BD23CB00653AE7 = {
 			isa = PBXGroup;
 			children = (
+				8D63C6B32B335C32004106A9 /* SClogo.svg */,
 				8DEEBCF016C3FBBC002BD942 /* Security.framework */,
 				8D15274B16C169F7007786D9 /* app-icon.icns */,
 				8D50D35A16BD23CB00653AE7 /* CatalanitzadorPerAlMac */,
@@ -322,6 +325,7 @@
 				8D00EADC16C545C100939FA5 /* Català.aff in Resources */,
 				8D6B5B191EC3A4FA005B8AA4 /* Diccionari de sinònims - Albert Jané.dictionary in Resources */,
 				8D00EADD16C545C100939FA5 /* Català.dic in Resources */,
+				8D63C6B52B335C32004106A9 /* SClogo.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +381,14 @@
 				8D50D36A16BD23CB00653AE7 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		8D63C6B32B335C32004106A9 /* SClogo.svg */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8D63C6B42B335C32004106A9 /* en */,
+			);
+			name = SClogo.svg;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -36,7 +36,7 @@ public:
 	LibreOfficeAction();
 	~LibreOfficeAction();
 	
-	virtual const char* GetName() {return "Instal·la paquet d'idioma i diccionaris al LibreOffice";}
+	virtual const char* GetName() {return "Instal·la idioma i diccionaris al LibreOffice";}
 	
 	virtual const char* GetDescription()  {return "Paquet d'idioma i diccionaris en català per al LibreOffice";}
 	
