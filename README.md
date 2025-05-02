@@ -46,5 +46,4 @@ The `architecture.odt` file (OpenOffice.org Write format) contains a high-level 
 
 # Contact Information
 
-**Jesús Corrius**
-[jesus@softcatala.org](mailto:jesus@softcatala.org)
+Jesús Corrius [jesus@softcatala.org](mailto:jesus@softcatala.org)
