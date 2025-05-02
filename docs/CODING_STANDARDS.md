@@ -40,12 +40,12 @@
 
   **Example**:
   ```cpp
-  #define APPLICATON_WEBSITE L"http://catalanitzador.softcatala.org"
+  #define APPLICATON_WEBSITE L"https://catalanitzador.softcatala.org"
   ```
 
 ---
 
-## Declaring and Initializing
+## Declaring and initializing
 
 - Declare constants and macros at the beginning of `.cpp` files.
 - Always initialize arrays, especially `char` and `wchar_t` arrays, to `0`.
@@ -92,7 +92,7 @@
 
 - Especially **avoid `using namespace` in header files**.
 
-### Preferred Alternatives
+### Preferred alternatives
 
 - Use **explicit symbol imports**:
   ```cpp
