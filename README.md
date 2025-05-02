@@ -26,11 +26,11 @@ For gtest, this should be the default configuration. If it isn't, repeat the sam
 
 To build gtest, use the `gtest-md.sln` solution.
 
-## Mac Requirements
+## Mac requirements
 
 - Code X 
 
-# Git Configuration for Contributing
+# Git configuration for contributing
 
 Git should be set up to use Unix line endings:
 
