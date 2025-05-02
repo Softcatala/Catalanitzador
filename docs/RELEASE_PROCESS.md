@@ -48,7 +48,7 @@
 
 - Update the `<date>` field with the date of the modifications.
   > Catalanitzador only uses the remote file if its date is newer than the embedded version.
-  
+
 - Run `DownloadFilesChecker` to verify correctness.
 
 - If you've made breaking changes to the XML and all users use this URL, update the `<version>` tag in the compatibility section to the most recent version to prevent older clients from using the file.

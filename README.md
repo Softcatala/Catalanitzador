@@ -41,7 +41,6 @@ $ git config --global core.autocrlf input
 # Project technical documentation
 
 All technical documentation is in the [docs](docs/) directory
----
 
 # Contact Information
 
