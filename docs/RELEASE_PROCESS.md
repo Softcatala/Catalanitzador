@@ -17,19 +17,11 @@
   ```
   ftp://ftp.softcatala.org/pub/softcatala/catalanitzador/
   ```
-- Upload release notes to:
+- Make sure that the versions and links are correct in the download page:
   ```
-  www.softcatala.org/wiki/Projectes/Catalanitzador_per_al_Windows/Versio_X.Y
+  https://www.softcatala.org/catalanitzador/
   ```
-- Make it public at:
-  ```
-  http://www.softcatala.org/wiki/Rebost:Catalanitzador_per_al_Windows
-  ```
-- Upload the binary to:
-  ```
-  https://github.com/Softcatala/CatalanitzadorPerAWindows-binaries/tree/master/releases
-  ```
-- Notify the new version to the development mailing list.
+- Notify the new version to the Telegram channel.
 
 - Tag the release in Git:
   ```bash

@@ -38,10 +38,9 @@ Git should be set up to use Unix line endings:
 $ git config --global core.autocrlf input
 ```
 
-# High-Level Overview of the System Architecture
+# Project technical documentation
 
-The `architecture.odt` file (OpenOffice.org Write format) contains a high-level description of the system architecture.
-
+All technical documentation is in the [docs](docs/) directory
 ---
 
 # Contact Information
