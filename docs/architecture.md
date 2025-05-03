@@ -13,7 +13,7 @@ These are some design decisions:
 - A single binary for all architectures (32 and 64 bits)
 - The client is written in C++ since the application need to run in all Windows operating systems starting from Windows XP
 - The ability to use unit tests was one of the early principles that drove several architectural decisions
-- The application should easy extensible by third parties. Just by implementing a new class the whole system (user interface, serialization, etc) should support a new action
+- The application should be easily extensible by third parties. Just by implementing a new class the whole system (user interface, serialization, etc) should support a new action
 
 # Windows client architecture
 
