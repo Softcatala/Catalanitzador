@@ -28,7 +28,7 @@ To build gtest, use the `gtest-md.sln` solution.
 
 ## Mac requirements
 
-- Code X 
+- Xcode 
 
 # Git configuration for contributing
 
