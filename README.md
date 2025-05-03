@@ -30,14 +30,6 @@ To build gtest, use the `gtest-md.sln` solution.
 
 - Xcode 
 
-# Git configuration for contributing
-
-Git should be set up to use Unix line endings:
-
-```bash
-$ git config --global core.autocrlf input
-```
-
 # Project technical documentation
 
 All technical documentation is in the [docs](docs/) directory
