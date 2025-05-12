@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{20A9EBCB-9607-42CF-A3C0-A9822476A981}</ProjectGuid>
+    <RootNamespace>CarregadorPerAlWindows</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>17.0.35913.81</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Options;$(ProjectDir);$(SolutionDir)\CatalanitzadorPerAlWindows\Actions;$(SolutionDir)\CatalanitzadorPerAlWindows\Core;$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Configuration;$(ProjectDir)UI\Sheets;$(ProjectDir)UI\Sheets\Views;$(ProjectDir)UI\Sheets\Models;$(ProjectDir)UI\;$(ProjectDir)UI\Dialogs;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(SolutionDir)\CatalanitzadorPerAlWindows\OS;$(SolutionDir)\CommonCode;$(SolutionDir)\CatalanitzadorPerAlWindows\Applications\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)\CatalanitzadorPerAlWindows\Actions;$(SolutionDir)\CatalanitzadorPerAlWindows\Core;$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Options;$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Configuration;$(ProjectDir)UI\;$(ProjectDir)UI\Dialogs;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(SolutionDir)\CommonCode;$(SolutionDir)\CatalanitzadorPerAlWindows\OS;$(SolutionDir)\CatalanitzadorPerAlWindows\Applications\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>wininet.lib;version.lib;comctl32.lib;psapi.lib;Rpcrt4.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)CarregadorPerAlWindows.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EnableUAC>true</EnableUAC>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Options;$(ProjectDir);$(SolutionDir)\CatalanitzadorPerAlWindows\Actions;$(SolutionDir)\CatalanitzadorPerAlWindows\Core;$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Configuration;$(ProjectDir)UI\Sheets;$(ProjectDir)UI\Sheets\Views;$(ProjectDir)UI\Sheets\Models;$(ProjectDir)UI\;$(ProjectDir)UI\Dialogs;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(SolutionDir)\CatalanitzadorPerAlWindows\OS;$(SolutionDir)\CommonCode;$(SolutionDir)\CatalanitzadorPerAlWindows\Applications\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)\CatalanitzadorPerAlWindows\Actions;$(SolutionDir)\CatalanitzadorPerAlWindows\Core;$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Options;$(SolutionDir)\CatalanitzadorPerAlWindows\Core\Configuration;$(ProjectDir)UI\;$(ProjectDir)UI\Dialogs;$(ProjectDir)UI\Controls;$(ProjectDir)Resources;$(ProjectDir)Application;$(ProjectDir)Inspectors;$(SolutionDir)\CommonCode;$(SolutionDir)\CatalanitzadorPerAlWindows\OS;$(SolutionDir)\CatalanitzadorPerAlWindows\Applications\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>wininet.lib;version.lib;comctl32.lib;psapi.lib;Rpcrt4.lib;CatalanitzadorPerAlWindows.Library.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)CarregadorPerAlWindows.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EnableUAC>true</EnableUAC>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Application\CarregadorPerAlWindows.cpp" />
+    <ClCompile Include="Application\Main.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UI\Dialogs\DlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\DownloadErrorDlgUI.cpp" />
+    <ClCompile Include="UI\Dialogs\DownloadNewVersionDlgUI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Resources\CatalanitzadorPerAlWindows.exe.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\CatalanitzadorPerAlWindows.ico" />
+    <Image Include="Resources\vertical-logo.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\CatalanitzadorPerAlWindows.rc" />
+    <ResourceCompile Include="Resources\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CommonCode\PlatformDefinitions.h" />
+    <ClInclude Include="Application\CarregadorPerAlWindows.h" />
+    <ClInclude Include="RemoteURLs.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="UI\Dialogs\DlgUI.h" />
+    <ClInclude Include="UI\Dialogs\DownloadErrorDlgUI.h" />
+    <ClInclude Include="UI\Dialogs\DownloadNewVersionDlgUI.h" />
+    <ClInclude Include="Version.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

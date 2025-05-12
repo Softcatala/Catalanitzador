@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{36248217-f036-4983-98fa-b31df100be96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{2c039e90-f2f1-4198-b1bd-3c8d31b17dc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Dialogs">
+      <UniqueIdentifier>{8a01df9d-e776-4683-bb12-17047e0d178c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{8e203465-e958-4a0a-aa22-ea1125d203a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Support Header Files">
+      <UniqueIdentifier>{80293f3d-3611-4935-8bb2-9046c3675954}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Dialogs\DlgUI.cpp">
+      <Filter>UI\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Dialogs\DownloadErrorDlgUI.cpp">
+      <Filter>UI\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Dialogs\DownloadNewVersionDlgUI.cpp">
+      <Filter>UI\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CarregadorPerAlWindows.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Main.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Resources\CatalanitzadorPerAlWindows.exe.manifest">
+      <Filter>Resources</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\CatalanitzadorPerAlWindows.ico">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\vertical-logo.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\CatalanitzadorPerAlWindows.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="Resources\Version.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="UI\Dialogs\DlgUI.h">
+      <Filter>UI\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Dialogs\DownloadErrorDlgUI.h">
+      <Filter>UI\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Dialogs\DownloadNewVersionDlgUI.h">
+      <Filter>UI\Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CarregadorPerAlWindows.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonCode\PlatformDefinitions.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteURLs.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Support Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Support Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
