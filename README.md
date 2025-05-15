@@ -11,7 +11,7 @@ A Microsoft Windows & Mac OS program that makes your system Catalan language fri
 
 ## Windows Requirements
 
-- Microsoft Visual Studio 2022 Express Edition
+- Microsoft Visual Studio 2022
 - Google Test 1.6 ([Google Test](https://code.google.com/p/googletest/))
 - Google Mocks 1.6 ([Google Mocks](https://code.google.com/p/googlemock/))
 
