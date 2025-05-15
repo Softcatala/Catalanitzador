@@ -1,0 +1,20 @@
+name: PR MacOS
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+
+      - name: Install xcpretty
+        run: gem install xcpretty
+
+      - name: Build project
+        run: |
+          xcodebuild -project CatalanitzadorPerAlMac.xcodeproj -sdk macosx -configuration Release build | xcpretty
