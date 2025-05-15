@@ -101,7 +101,9 @@ void XmlParser::Parse(NodeCallback callback, void *data)
 	MSXML2::IXMLDOMNode *pIDOMNode = NULL;
 	BSTR bstrNodeType;
 
+#ifdef _DEBUG
 	assert(m_domDocument != NULL);
+#endif // _DEBUG
 
 	NodeListPtr = m_domDocument->getElementsByTagName(strFindText);	
 
