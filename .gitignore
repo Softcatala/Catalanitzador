@@ -400,6 +400,10 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+# MacOS
+.DS_Store
+build
+
 **/*.xcuserstate
 UserInterfaceState.xcuserstate
 UserInterfaceState\.xcuserstate
