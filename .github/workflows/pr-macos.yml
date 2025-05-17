@@ -20,4 +20,4 @@ jobs:
 
       - name: Build project
         run: |
-          xcodebuild -project CatalanitzadorPerAlMac.xcodeproj -sdk macosx -configuration Release build | xcpretty
+          xcodebuild -scheme CatalanitzadorPerAlMac -project CatalanitzadorPerAlMac.xcodeproj -sdk macosx -configuration Debug build | xcpretty
