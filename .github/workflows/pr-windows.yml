@@ -1,0 +1,17 @@
+name: PR Windows
+permissions:
+  contents: read
+  pull-requests: write
+on:
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      
+
+      
