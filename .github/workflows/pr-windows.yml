@@ -1,4 +1,4 @@
-name: PR Windows
+name: Build on Windows
 permissions:
   contents: read
   pull-requests: write
@@ -11,7 +11,5 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      
 
       
