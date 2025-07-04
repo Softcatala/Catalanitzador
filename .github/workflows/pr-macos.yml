@@ -1,4 +1,4 @@
-name: PR MacOS
+name: Build on MacOS
 permissions:
   contents: read
   pull-requests: write
