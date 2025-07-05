@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011 Jordi Mas i Hernï¿½ndez <jmas@softcatala.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,6 +58,6 @@ void UploadStatisticsThread::OnStart()
 	// Send file
 	HttpFormInet access;
 	bool rslt = m_httpFormInet->PostForm(UPLOAD_URL, variables, values);
-	g_log.Log(L"UploadStatisticsThread::OnStart to %s, result %u", (wchar_t*) UPLOAD_URL, (wchar_t *)rslt);
+	g_log.Log(L"UploadStatisticsThread::OnStart to %s, result %u", UPLOAD_URL, rslt);
 }
 

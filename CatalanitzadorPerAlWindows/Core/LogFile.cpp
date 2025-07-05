@@ -100,7 +100,7 @@ wstring LogFile::GetContent()
 	ss << reader.rdbuf() << '\0';
 	reader.close();
 	
-	content = wstring((wchar_t *)ss.str().c_str());
+	StringConversion::ToWideChar(ss.str(), content);
 	return content.substr(UNICODE_MARK_LEN, content.size() - UNICODE_MARK_LEN);
 }
 
